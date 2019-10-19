@@ -1,0 +1,47 @@
+<div class="siimple-content siimple-content--extra-small">
+    <div class="siimple--px-5 siimple--py-5">
+        <div class="siimple-h2 siimple--text-bold siimple--mb-1" align="center">
+            sukuwatto<br>
+            スクワット 
+        </div>
+        <div class="siimple-paragraph siimple-paragraph--lead" align="center">
+            Sign in to use the website
+        </div>
+        <div>
+            <app-alert></app-alert>
+        </div>
+        <form class="siimple-card" #loginForm="ngForm" (submit)="login()">
+            <div class="siimple-card-body">
+                <div class="siimple-field">
+                    <label class="siimple-field-label" for="username">Username</label>
+                    <input name="username" id="username" [(ngModel)]="user.username" #username="ngModel" type="text"
+                        required class="siimple-input siimple-input--fluid" autofocus>
+
+                    <div *ngIf="username.invalid && (username.dirty || triedToLogin)">
+                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    </div>
+                </div>
+                <div class="siimple-field">
+                    <label class="siimple-field-label" for="password">Password</label>
+                    <input name="password" id="password" [(ngModel)]="user.password" type="password" #password="ngModel"
+                        required class="siimple-input siimple-input--fluid">
+
+                    <div *ngIf="password.invalid && (password.dirty || triedToLogin)">
+                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    </div>
+                </div>
+
+                <button name="login" type="submit" [disabled]="loggingIn" [class.siimple-btn--disabled]="loggingIn"
+                    class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--text-bold">
+                    {{ signInText }}
+                </button>
+            </div>
+        </form>
+
+        <div class="siimple-card" align="center">
+            <div class="siimple-card-body">
+                Don't have an account? <a class="siimple-link" routerLink="/signup/">Create an account</a>.
+            </div>
+        </div>
+    </div>
+</div>

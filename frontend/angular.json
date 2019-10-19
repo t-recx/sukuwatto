@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/siimple/dist/siimple.min.css",
               "src/styles.css"
             ],
             "scripts": []
