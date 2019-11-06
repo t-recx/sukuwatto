@@ -1,0 +1,20 @@
+<h1 class="siimple-h1">Plans</h1>
+
+<ul class="">
+  <li class="siimple-card" *ngFor="let plan of plans">
+    <div class="siimple-card-header">
+      {{plan.name}}
+    </div>
+    <div class="siimple-card-body">
+      {{plan.description}}
+    </div>
+    <div class="siimple-card-footer ">
+      <div class="">
+        <button class="siimple-btn siimple-btn--primary siimple--mr-2" routerLink="../plan/{{plan.id}}">View</button>
+        <button class="siimple-btn siimple-btn--error" (click)="deletePlan(plan)">Remove</button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<button class="siimple-btn siimple-btn--primary" routerLink="../plan/">New plan</button>

@@ -14,7 +14,7 @@ export class LandingGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.authService.isLoggedIn())
       {
-        this.router.navigate(['/user']);
+        this.router.navigate([`/users/${this.authService.getUsername()}`]);
 
         return false;
       }

@@ -1,0 +1,25 @@
+<div *ngIf="planSession">
+    <div class="siimple-form-field">
+        <div class="siimple-form-field-label">Session Name</div>
+        <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
+            [(ngModel)]="planSession.name" #name="ngModel">
+        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+        </div>
+
+        <div class="siimple-grid siimple--mt-4">
+            <div class="siimple-grid-row" *ngFor="let exercise of planSession.exercises">
+                <app-plan-session-exercise [planSessionExercise]=exercise [exercises]=exercises [triedToSave]=triedToSave>
+                </app-plan-session-exercise>
+
+                <div class="siimple-grid-col siimple-grid-col--1 siimple-grid-col--sm-3 siimple--py-0">
+                    <div class="siimple-form-field-label">&nbsp;</div>
+                    <button class="siimple-btn siimple-btn--error" type="button" (click)="removeExercise(exercise)">
+                        <fa-icon [icon]="faTimesCircle"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="siimple-btn siimple-btn--primary" type="button" (click)="newExercise()">New Exercise</button>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+.with-separator {
+    border-right-color: rgb(135, 154, 171);
+    border-right-style: solid;
+    border-right-width: 2px;
+    margin-right: 1px !important;
+}

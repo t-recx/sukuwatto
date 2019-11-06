@@ -1,0 +1,29 @@
+<div class="siimple-navbar siimple-navbar--primary siimple-navbar--large">
+    <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
+    <ng-template #loggedTitle>
+        <a class="siimple-navbar-title" [routerLink]="['/users', authService.username, 'home']">
+            sukuwatto
+        </a>
+    </ng-template>
+    <ng-template #notLoggedTitle>
+        <a class="siimple-navbar-title" routerLink="/">
+            sukuwatto
+        </a>
+    </ng-template>
+    <div class="siimple--float-right">
+        <app-user-info></app-user-info>
+    </div>
+</div>
+<div>
+    <app-alert></app-alert>
+</div>
+<div class="siimple-content siimple-content--large">
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none">
+            <app-menu></app-menu>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

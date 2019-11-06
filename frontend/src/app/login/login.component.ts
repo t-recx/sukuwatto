@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       .subscribe(token => {
         if (this.authService.isLoggedIn()) {
           let redirect = this.authService.redirectUrl ? 
-            this.router.parseUrl(this.authService.redirectUrl) : '/user/home';
+            this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}`; 
 
           this.router.navigateByUrl(redirect);
         }

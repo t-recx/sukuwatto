@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { IndexComponent } from './index/index.component';
@@ -12,15 +12,19 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LandingGuard] }, 
   { path: 'signup', component: SignupComponent, canActivate: [LandingGuard] }, 
   {
-    path: 'user',
-    loadChildren: () => import('./guarded/guarded.module').then(mod => mod.GuardedModule),
-    canActivate: [AuthGuard]
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule),
+    canActivate: []
   },
   { path: '**', component: PageNotFoundComponent }
 ];
 
+export const routingConfiguration: ExtraOptions = {
+  paramsInheritanceStrategy: 'always'
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routingConfiguration)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -47,7 +47,7 @@ class Exercise(models.Model):
     def __str__(self):
         return self.name
 
-class WorkoutPlanTemplate(models.Model):
+class Plan(models.Model):
     # Example: PPL, SS, SL
     short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)')
     name = models.CharField(max_length=200, help_text='Enter the workout plan template''s name (ex: Push Pull Legs, Starting Strength)')
@@ -57,41 +57,23 @@ class WorkoutPlanTemplate(models.Model):
     def __str__(self):
         return f'{self.short_name} - {self.name}'
 
-class WorkoutPlanSessionTemplate(models.Model):
+class PlanSession(models.Model):
     # A plan session template details how a workout would be done 
     # (ex: Push, Pull, Legs, Upper, Lower, A, B)
     name = models.CharField(max_length=200, help_text='Enter the workout plan session template''s name (ex: Push, Pull, Legs, Upper, Lower, A, B)')
-    workout_plan_template = models.ForeignKey(WorkoutPlanTemplate, on_delete=models.CASCADE)
+    plan = models.ForeignKey(Plan, related_name="sessions", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
-class WorkoutPlanSessionTemplateSchedule(models.Model):
-    # same order used in two records means they'll alternate
-    order = models.PositiveIntegerField()
-
-    workout_plan_template = models.ForeignKey(WorkoutPlanTemplate, on_delete=models.CASCADE)
-    # a null in the session template indicates a resting day
-    workout_plan_session_template = models.ForeignKey(WorkoutPlanSessionTemplate, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        description_str = self.order
-
-        if self.workout_plan_session_template:
-            description_str += f' {self.workout_plan_session_template.name}'
-        else:
-            description_str += f' Rest';
-
-        return description_str
-
-class WorkoutPlanSessionExerciseTemplate(models.Model):
+class PlanSessionExercise(models.Model):
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     number_of_sets = models.PositiveIntegerField()
     number_of_repetitions = models.PositiveIntegerField()
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
-    workout_plan_session_template = models.ForeignKey(WorkoutPlanSessionTemplate, on_delete=models.CASCADE)
+    plan_session = models.ForeignKey(PlanSession, related_name="exercises", on_delete=models.CASCADE)
 
     def __str__(self):
         description_str =  f'{self.number_of_sets}x{self.number_of_repetitions}'

@@ -1,0 +1,10 @@
+<div class="user-menu">
+    <div class="siimple-menu">
+        <a class="siimple-menu-item" routerLinkActive="siimple-menu-item--selected" [routerLink]="['/users', authService.username, 'home']">Home</a>
+        <a class="siimple-menu-item" routerLinkActive="siimple-menu-item--selected">Friends</a>
+        <a class="siimple-menu-item" routerLinkActive="siimple-menu-item--selected">Profile</a>
+        <a class="siimple-menu-item" routerLinkActive="siimple-menu-item--selected">Workouts</a>
+        <a class="siimple-menu-item" routerLinkActive="siimple-menu-item--selected" [routerLink]="['/users', authService.username, 'exercises']">Exercises</a>
+        <a class="siimple-menu-item" routerLinkActive="siimple-menu-item--selected" [routerLink]="['/users', authService.username, 'plans']">Plans</a>
+    </div>
+</div>
