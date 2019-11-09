@@ -15,10 +15,10 @@
         <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises" 
             [routerLink]="['/users', authService.username, 'exercise', exercise.id]">
             <td class="siimple-table-cell">{{exercise.name}}</td>
-            <td class="siimple-table-cell">{{exercise.section}}</td>
-            <td class="siimple-table-cell">{{exercise.modality}}</td>
-            <td class="siimple-table-cell">{{exercise.force}}</td>
-            <td class="siimple-table-cell">{{exercise.mechanics}}</td>
+            <td class="siimple-table-cell">{{getSectionLabel(exercise.section)}}</td>
+            <td class="siimple-table-cell">{{getModalityLabel(exercise.modality)}}</td>
+            <td class="siimple-table-cell">{{getForceLabel(exercise.force)}}</td>
+            <td class="siimple-table-cell">{{getMechanicsLabel(exercise.mechanics)}}</td>
         </tr>
     </tbody>
 </table>
