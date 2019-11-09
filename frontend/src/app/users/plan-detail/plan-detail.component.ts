@@ -6,7 +6,8 @@ import { faCalendarPlus, faTimesCircle } from '@fortawesome/free-solid-svg-icons
 import { PlanSession } from '../plan-session';
 import { Exercise } from '../exercise';
 import { ExercisesService } from '../exercises.service';
-import { PlanSessionExercise } from '../plan-session-exercise';
+import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
+import { PlanSessionGroup } from '../plan-session-group';
 
 @Component({
   selector: 'app-plan-detail',
@@ -120,7 +121,19 @@ export class PlanDetailComponent implements OnInit {
     if (!session.name || 0 == session.name.trim().length)
       return false;
 
-    for (let exercise of session.exercises) {
+    for (let group of session.groups) {
+      if (!this.validGroup(group))
+        return false;
+    }
+
+    return true;
+  }
+
+  validGroup(group: PlanSessionGroup): boolean {
+    if (!group.name || 0 == group.name.trim().length)
+      return false;
+
+    for (let exercise of group.exercises) {
       if (!this.validExercise(exercise))
         return false;
     }
@@ -128,7 +141,7 @@ export class PlanDetailComponent implements OnInit {
     return true;
   }
 
-  validExercise(exercise: PlanSessionExercise): boolean {
+  validExercise(exercise: PlanSessionGroupExercise): boolean {
     if (!exercise.order)
       return false;
       

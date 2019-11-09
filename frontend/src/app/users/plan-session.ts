@@ -1,12 +1,12 @@
-import { PlanSessionExercise } from './plan-session-exercise';
+import { PlanSessionGroup } from './plan-session-group';
 
 export class PlanSession {
   id: number;
   name: string;
-  plan: string;
-  exercises: PlanSessionExercise[];
+  plan: number;
+  groups: PlanSessionGroup[];
 
   constructor() {
-    this.exercises = [];
+    this.groups = [];
   }
 }

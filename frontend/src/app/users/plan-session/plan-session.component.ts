@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PlanSession } from '../plan-session';
-import { PlanSessionExercise } from '../plan-session-exercise';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { PlanSessionGroup } from '../plan-session-group';
 import { Exercise } from '../exercise';
 
 @Component({
@@ -21,16 +21,17 @@ export class PlanSessionComponent implements OnInit {
   ngOnInit() {
   }
 
-  newExercise() {
-    let newExercise = new PlanSessionExercise();
+  newGroup() {
+    let newGroup = new PlanSessionGroup();
+    newGroup.name= "New Group";
 
-    this.planSession.exercises.push(newExercise);
+    this.planSession.groups.push(newGroup);
   }
 
-  removeExercise(exercise) {
-    const index = this.planSession.exercises.indexOf(exercise, 0);
+  removeGroup(group) {
+    const index = this.planSession.groups.indexOf(group, 0);
     if (index > -1) {
-      this.planSession.exercises.splice(index, 1);
+      this.planSession.groups.splice(index, 1);
     }
   }
 }

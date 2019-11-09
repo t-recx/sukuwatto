@@ -1,0 +1,68 @@
+<div class="siimple-card-body" *ngIf="planSessionGroupExercise">
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">#</div>
+                <input type="number" class="siimple-input siimple-input--fluid" required name="order" id="order"
+                    [(ngModel)]="planSessionGroupExercise.order" #order="ngModel" placeholder="Order">
+
+                <div *ngIf="order.invalid && (order.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--9 siimple-grid-col--sm-12 siimple--py-0">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">Exercise</div>
+                <select type="number" class="siimple-select siimple-select--fluid" required name="exercise"
+                    id="exercise" [(ngModel)]="planSessionGroupExercise.exercise" #exercise="ngModel">
+                    <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>{{exerciseModel.name}}
+                    </option>
+                </select>
+                <div *ngIf="exercise.invalid && (exercise.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">Sets</div>
+                <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_sets"
+                    id="number_of_sets" [(ngModel)]="planSessionGroupExercise.number_of_sets" #number_of_sets="ngModel"
+                    placeholder="Sets">
+
+                <div *ngIf="number_of_sets.invalid && (number_of_sets.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">Reps</div>
+                <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_repetitions"
+                    id="number_of_repetitions" [(ngModel)]="planSessionGroupExercise.number_of_repetitions"
+                    #number_of_repetitions="ngModel" placeholder="Reps">
+
+                <div *ngIf="number_of_repetitions.invalid && (number_of_repetitions.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">Up to</div>
+                <input type="number" class="siimple-input siimple-input--fluid" name="number_of_repetitions_up_to"
+                    id="number_of_repetitions_up_to" [(ngModel)]="planSessionGroupExercise.number_of_repetitions_up_to"
+                    #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">Working Weight (%)</div>
+                <input type="number" class="siimple-input siimple-input--fluid" name="working_weight_percentage"
+                    id="working_weight_percentage" [(ngModel)]="planSessionGroupExercise.working_weight_percentage"
+                    #working_weight_percentage="ngModel" placeholder="Wkng wgt %">
+            </div>
+        </div>
+    </div>
+</div>

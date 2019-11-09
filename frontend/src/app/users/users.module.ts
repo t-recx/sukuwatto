@@ -14,7 +14,8 @@ import { AlertModule } from '../alert/alert.module';
 import { PlanDetailComponent } from './plan-detail/plan-detail.component';
 import { FormsModule } from '@angular/forms';
 import { PlanSessionComponent } from './plan-session/plan-session.component';
-import { PlanSessionExerciseComponent } from './plan-session-exercise/plan-session-exercise.component';
+import { PlanSessionGroupComponent } from './plan-session-group/plan-session-group.component';
+import { PlanSessionGroupExerciseComponent } from './plan-session-group-exercise/plan-session-group-exercise.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.component';
 import { WorkoutsComponent } from './workouts/workouts.component';
@@ -23,7 +24,7 @@ import { WorkoutSetComponent } from './workout-set/workout-set.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent],
   imports: [
     AlertModule,
     CommonModule,

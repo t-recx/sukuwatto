@@ -83,14 +83,25 @@ class PlanSession(models.Model):
     def __str__(self):
         return self.name
 
-class PlanSessionExercise(models.Model):
+class PlanSessionGroup(models.Model):
+    # same order used in two records means they'll alternate
+    order = models.PositiveIntegerField()
+    name = models.CharField(max_length=200)
+    plan_session = models.ForeignKey(PlanSession, related_name="groups", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class PlanSessionGroupExercise(models.Model):
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     number_of_sets = models.PositiveIntegerField()
     number_of_repetitions = models.PositiveIntegerField()
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
-    plan_session = models.ForeignKey(PlanSession, related_name="exercises", on_delete=models.CASCADE)
+    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="exercises", on_delete=models.CASCADE)
+    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+    is_warmup = models.BooleanField(default=False)
 
     def __str__(self):
         description_str =  f'{self.number_of_sets}x{self.number_of_repetitions}'

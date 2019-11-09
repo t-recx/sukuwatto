@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .serializers import ExerciseSerializer, PlanSerializer, PlanSessionSerializer, PlanSessionExerciseSerializer, UnitSerializer, UnitConversionSerializer, WorkoutSerializer
-from .models import Exercise, Plan, PlanSession, PlanSessionExercise, Unit, UnitConversion, Workout
+from .serializers import ExerciseSerializer, PlanSerializer, UnitSerializer, UnitConversionSerializer, WorkoutSerializer
+from .models import Exercise, Plan, Unit, UnitConversion, Workout
 
 class ExercisesViewSet(viewsets.ModelViewSet):
     """

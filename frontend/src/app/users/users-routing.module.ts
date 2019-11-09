@@ -8,6 +8,8 @@ import { PlansComponent } from './plans/plans.component';
 import { PlanDetailComponent } from './plan-detail/plan-detail.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.component';
+import { WorkoutsComponent } from './workouts/workouts.component';
+import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
 
 const routes: Routes = [
   { 
@@ -39,6 +41,21 @@ const routes: Routes = [
         path: 'plan',
         canActivateChild: [],
         component: PlanDetailComponent,
+      },
+      {
+        path: 'workouts',
+        canActivateChild: [],
+        component: WorkoutsComponent,
+      },
+      {
+        path: 'workout/:id',
+        canActivateChild: [],
+        component: WorkoutDetailComponent,
+      },
+      {
+        path: 'workout',
+        canActivateChild: [],
+        component: WorkoutDetailComponent,
       },
       {
         path: 'exercises',

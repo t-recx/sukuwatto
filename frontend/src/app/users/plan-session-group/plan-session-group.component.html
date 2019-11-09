@@ -1,0 +1,45 @@
+<div *ngIf="planSessionGroup">
+    <div class="siimple-card-body">
+        <div class="siimple-form-field">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--5 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Order</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" autofocus required
+                                name="order" id="order" [(ngModel)]="planSessionGroup.order" #order="ngModel">
+
+                            <div *ngIf="order.invalid && (order.dirty || triedToSave)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--9 siimple-grid-col-sm--7 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Group Name</div>
+                            <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
+                                [(ngModel)]="planSessionGroup.name" #name="ngModel">
+
+                            <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="siimple-grid">
+                <div class="siimple-card" *ngFor="let exercise of planSessionGroup.exercises">
+                    <div class="close-top-right" (click)="removeExercise(exercise)">
+                        <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+                    </div>
+            
+                    <app-plan-session-group-exercise [planSessionGroupExercise]=exercise [exercises]=exercises
+                        [triedToSave]=triedToSave>
+                    </app-plan-session-group-exercise>
+                </div>
+            </div>
+            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newExercise()">New Exercise</button>
+        </div>
+    </div>
+</div>

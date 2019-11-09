@@ -7,19 +7,16 @@
             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
         </div>
 
-        <div class="siimple-grid siimple--mt-4">
-            <div class="siimple-grid-row" *ngFor="let exercise of planSession.exercises">
-                <app-plan-session-exercise [planSessionExercise]=exercise [exercises]=exercises [triedToSave]=triedToSave>
-                </app-plan-session-exercise>
-
-                <div class="siimple-grid-col siimple-grid-col--1 siimple-grid-col--sm-3 siimple--py-0">
-                    <div class="siimple-form-field-label">&nbsp;</div>
-                    <button class="siimple-btn siimple-btn--error" type="button" (click)="removeExercise(exercise)">
-                        <fa-icon [icon]="faTimesCircle"></fa-icon>
-                    </button>
+        <div class="siimple-grid">
+            <div class="siimple-card" *ngFor="let group of planSession.groups">
+                <div class="close-top-right" (click)="removeGroup(group)">
+                    <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
                 </div>
+
+                <app-plan-session-group [planSessionGroup]=group [exercises]=exercises [triedToSave]=triedToSave>
+                </app-plan-session-group>
             </div>
         </div>
-        <button class="siimple-btn siimple-btn--primary" type="button" (click)="newExercise()">New Exercise</button>
+        <button class="siimple-btn siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
     </div>
 </div>
