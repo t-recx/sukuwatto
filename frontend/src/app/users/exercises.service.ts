@@ -5,13 +5,13 @@ import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
 import { Exercise } from './exercise';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExercisesService {
-  private apiUrl = 'http://localhost:8000/api';
-  private exercisesUrl= `${this.apiUrl}/exercises/`;
+  private exercisesUrl= `${environment.apiUrl}/exercises/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -5,14 +5,12 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  private apiUrl = 'http://localhost:8000/api';
-  
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -23,7 +21,7 @@ export class UserService {
     private alertService: AlertService) { }
 
   create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/users/`, user, this.httpOptions)
+    return this.http.post<User>(`${environment.apiUrl}/users/`, user, this.httpOptions)
     .pipe(
       tap((newUser: User) => { }),
       catchError(this.errorService.handleError<User>('create', (e: any) => 

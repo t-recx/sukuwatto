@@ -17,10 +17,13 @@ import { PlanSessionComponent } from './plan-session/plan-session.component';
 import { PlanSessionExerciseComponent } from './plan-session-exercise/plan-session-exercise.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.component';
+import { WorkoutsComponent } from './workouts/workouts.component';
+import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
+import { WorkoutSetComponent } from './workout-set/workout-set.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionExerciseComponent, ExercisesComponent, ExerciseDetailComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent],
   imports: [
     AlertModule,
     CommonModule,

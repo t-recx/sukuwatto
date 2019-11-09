@@ -7,14 +7,13 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   redirectUrl: string;
-
-  private apiUrl = 'http://localhost:8000/api';
 
   username: string;
 
@@ -31,7 +30,7 @@ export class AuthService {
   }
 
   login(user: User): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}/token/`, user, this.httpOptions)
+    return this.http.post<Token>(`${environment.apiUrl}/token/`, user, this.httpOptions)
       .pipe(
         tap((newToken: Token) => {
           this.setSession(user, newToken);
@@ -54,7 +53,7 @@ export class AuthService {
   }
 
   refresh(): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}/refresh/`, { refresh: this.getTokenRefresh() }, this.httpOptions)
+    return this.http.post<Token>(`${environment.apiUrl}/refresh/`, { refresh: this.getTokenRefresh() }, this.httpOptions)
       .pipe(
         tap((newToken: Token) => this.setTokenAccess(newToken.access)),
         catchError(this.errorService.handleError<Token>('refresh'))

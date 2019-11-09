@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import { Plan } from './plan';
 import { tap, catchError } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlansService {
-  private apiUrl = 'http://localhost:8000/api';
-  private plansUrl= `${this.apiUrl}/plans/`;
+  private plansUrl= `${environment.apiUrl}/plans/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
