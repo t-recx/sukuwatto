@@ -1,4 +1,5 @@
 import { PlanSession } from './plan-session';
+import { PlanProgressionStrategy } from './plan-progression-strategy';
 
 export class Plan {
   id: number;
@@ -7,8 +8,10 @@ export class Plan {
   description: string;
   owner: string;
   sessions: PlanSession[];
+  progressions: PlanProgressionStrategy[];
 
   constructor() {
     this.sessions = [];
+    this.progressions = [];
   }
 }

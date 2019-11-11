@@ -14,3 +14,11 @@ box-shadow: none;
 	opacity: .6;
 	transition: opacity .3s;
 }
+
+.tab-content-selected {
+    display: block !important;
+}
+
+.tab-content {
+    display: none;
+}

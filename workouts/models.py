@@ -92,16 +92,17 @@ class PlanSessionGroup(models.Model):
     def __str__(self):
         return self.name
 
-class PlanSessionGroupExercise(models.Model):
+class AbstractGroupActivity(models.Model):
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     number_of_sets = models.PositiveIntegerField()
     number_of_repetitions = models.PositiveIntegerField()
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
-    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="exercises", on_delete=models.CASCADE)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
-    is_warmup = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         description_str =  f'{self.number_of_sets}x{self.number_of_repetitions}'
@@ -112,6 +113,25 @@ class PlanSessionGroupExercise(models.Model):
         description_str += f' {self.exercise.name}'
 
         return description_str
+
+class PlanSessionGroupExercise(AbstractGroupActivity):
+    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="exercises", on_delete=models.CASCADE)
+
+class PlanSessionGroupWarmUp(AbstractGroupActivity):
+    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="warmups", on_delete=models.CASCADE)
+
+class PlanProgressionStrategy(models.Model):
+    plan = models.ForeignKey(Plan, related_name="progressions", on_delete=models.CASCADE)
+    plan_session = models.ForeignKey(PlanSession, related_name="progressions", on_delete=models.CASCADE, null=True)
+    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="progressions", on_delete=models.CASCADE, null=True)
+    exercise = models.ForeignKey(Exercise, related_name="progressions", on_delete=models.CASCADE, null=True)
+    percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
+    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS_CHOICES)
+    force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
+    modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
+    section = models.CharField(max_length=1, null=True, choices=Exercise.SECTIONS)
 
 class Workout(models.Model):
     start = models.DateTimeField()

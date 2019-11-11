@@ -3,6 +3,9 @@ import { Exercise } from '../exercise';
 import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { ActivityType } from '../plan-session-group-activity';
+import { PlanSessionGroupWarmUp } from '../plan-session-group-warmup';
+import { Unit } from '../unit';
 
 @Component({
   selector: 'app-plan-session-group',
@@ -12,13 +15,21 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 export class PlanSessionGroupComponent implements OnInit {
   @Input() planSessionGroup: PlanSessionGroup;
   @Input() exercises: Exercise[];
+  @Input() units: Unit[];
   @Input() triedToSave: boolean;
 
+  activityType = ActivityType;
+
+  selectedActivityType = ActivityType.Exercise;
   faTimesCircle = faTimesCircle;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  selectActivityType(type: ActivityType): void {
+    this.selectedActivityType = type;
   }
 
   newExercise() {
@@ -31,6 +42,19 @@ export class PlanSessionGroupComponent implements OnInit {
     const index = this.planSessionGroup.exercises.indexOf(exercise, 0);
     if (index > -1) {
       this.planSessionGroup.exercises.splice(index, 1);
+    }
+  }
+
+  newWarmUp() {
+    let newWarmUp = new PlanSessionGroupWarmUp();
+
+    this.planSessionGroup.warmups.push(newWarmUp);
+  }
+
+  removeWarmUp(warmup) {
+    const index = this.planSessionGroup.warmups.indexOf(warmup, 0);
+    if (index > -1) {
+      this.planSessionGroup.warmups.splice(index, 1);
     }
   }
 }

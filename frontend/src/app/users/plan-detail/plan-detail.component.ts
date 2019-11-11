@@ -8,6 +8,9 @@ import { Exercise } from '../exercise';
 import { ExercisesService } from '../exercises.service';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
 import { PlanSessionGroup } from '../plan-session-group';
+import { PlanSessionGroupActivity } from '../plan-session-group-activity';
+import { Unit } from '../unit';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-plan-detail',
@@ -21,18 +24,21 @@ export class PlanDetailComponent implements OnInit {
   plan: Plan;
   selectedSession: PlanSession;
   exercises: Exercise[];
+  units: Unit[];
   triedToSave: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private service: PlansService,
     private exercisesService: ExercisesService,
+    private unitsService: UnitsService,
     private router: Router,
   ) { }
 
   ngOnInit() {
     this.triedToSave = false;
     this.loadExercises();
+    this.loadUnits();
     this.loadOrInitializePlan();
   }
 
@@ -55,6 +61,12 @@ export class PlanDetailComponent implements OnInit {
     this.exercisesService.getExercises()
     .subscribe(exercises => 
       this.exercises = exercises.sort((a, b) => a.name.localeCompare(b.name)));
+  }
+
+  private loadUnits() {
+    this.unitsService.getUnits()
+    .subscribe(units => 
+      this.units = units);
   }
 
   addSession() {
@@ -134,24 +146,32 @@ export class PlanDetailComponent implements OnInit {
       return false;
 
     for (let exercise of group.exercises) {
-      if (!this.validExercise(exercise))
+      if (!this.validActivity(exercise))
+        return false;
+    }
+
+    for (let warmup of group.warmups) {
+      if (!this.validActivity(warmup))
         return false;
     }
 
     return true;
   }
 
-  validExercise(exercise: PlanSessionGroupExercise): boolean {
-    if (!exercise.order)
+  validActivity(activity: PlanSessionGroupActivity): boolean {
+    if (!activity.order)
       return false;
       
-    if (!exercise.exercise)
+    if (!activity.exercise)
       return false;
 
-    if (!exercise.number_of_sets || exercise.number_of_sets <= 0)
+    if (!activity.number_of_sets || activity.number_of_sets <= 0)
       return false;
 
-    if (!exercise.number_of_repetitions || exercise.number_of_repetitions <= 0)
+    if (!activity.number_of_repetitions || activity.number_of_repetitions <= 0)
+      return false;
+
+    if (!activity.working_weight_percentage || activity.working_weight_percentage < 0)
       return false;
 
     return true;

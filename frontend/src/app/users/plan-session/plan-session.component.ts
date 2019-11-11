@@ -3,6 +3,7 @@ import { PlanSession } from '../plan-session';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { PlanSessionGroup } from '../plan-session-group';
 import { Exercise } from '../exercise';
+import { Unit } from '../unit';
 
 @Component({
   selector: 'app-plan-session',
@@ -12,6 +13,7 @@ import { Exercise } from '../exercise';
 export class PlanSessionComponent implements OnInit {
   @Input() planSession: PlanSession;
   @Input() exercises: Exercise[];
+  @Input() units: Unit[];
   @Input() triedToSave: boolean;
 
   faTimesCircle = faTimesCircle;

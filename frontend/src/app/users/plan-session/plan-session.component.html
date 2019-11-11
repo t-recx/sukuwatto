@@ -8,15 +8,17 @@
         </div>
 
         <div class="siimple-grid">
-            <div class="siimple-card" *ngFor="let group of planSession.groups">
+            <div class="siimple-card siimple--mb-0" *ngFor="let group of planSession.groups">
                 <div class="close-top-right" (click)="removeGroup(group)">
                     <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
                 </div>
 
-                <app-plan-session-group [planSessionGroup]=group [exercises]=exercises [triedToSave]=triedToSave>
+                <app-plan-session-group [planSessionGroup]=group [exercises]=exercises [units]=units [triedToSave]=triedToSave>
                 </app-plan-session-group>
             </div>
         </div>
-        <button class="siimple-btn siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
+        <app-plan-progression-strategies [progressions]=planSession.progressions [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+        </app-plan-progression-strategies> 
+        <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
     </div>
 </div>

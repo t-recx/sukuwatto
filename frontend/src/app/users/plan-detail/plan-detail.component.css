@@ -1,16 +1,10 @@
-.tab-content-selected {
-    display: block !important;
-}
-
-.tab-content {
-    display: none;
-}
-
 .sessions {
     display: block;
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: 2px solid #eef2f7;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }

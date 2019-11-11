@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanSessionGroupExerciseComponent } from './plan-session-group-exercise.component';
+import { PlanSessionGroupExerciseComponent } from './plan-session-group-activity.component';
 
 describe('PlanSessionExerciseComponent', () => {
   let component: PlanSessionGroupExerciseComponent;

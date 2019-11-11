@@ -1,0 +1,21 @@
+<div class="siimple-card  siimple--mb-0">
+    <div class="siimple-card-header">
+        Progressions
+    </div>
+    <div class="siimple-card-body">
+        <div class="siimple-card siimple--mb-0" *ngFor="let progression of progressions">
+            <div class="close-top-right" (click)="removeProgression(progression)">
+                <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+            </div>
+
+            <div *ngIf="progressions">
+                <app-plan-progression-strategy [progression]=progression [exercises]=exercises [units]=units
+                    [triedToSave]=triedToSave>
+                </app-plan-progression-strategy>
+            </div>
+        </div>
+        <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newProgression()">
+            Add Progression
+        </button>
+    </div>
+</div>
