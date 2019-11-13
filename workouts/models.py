@@ -150,11 +150,25 @@ class Workout(models.Model):
     plan_session = models.ForeignKey(PlanSession, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
-class WorkoutSet(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+class WorkoutGroup(models.Model):
+    order = models.PositiveIntegerField()
+    name = models.CharField(max_length=200)
+    workout = models.ForeignKey(Workout, related_name="groups", on_delete=models.CASCADE)
+
+class AbstractWorkoutActivity(models.Model):
+    order = models.PositiveIntegerField()
     start = models.DateTimeField()
     end = models.DateTimeField()
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     number_of_repetitions = models.PositiveIntegerField()
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
+
+class WorkoutSet(AbstractWorkoutActivity):
+    workout_group = models.ForeignKey(WorkoutGroup, related_name="sets", on_delete=models.CASCADE)
+
+class WorkoutWarmUp(AbstractWorkoutActivity):
+    workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
