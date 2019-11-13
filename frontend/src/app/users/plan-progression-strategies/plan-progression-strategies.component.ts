@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlanProgressionStrategy } from '../plan-progression-strategy';
+import { ProgressionStrategy } from '../plan-progression-strategy';
 import { Exercise } from '../exercise';
 import { Unit } from '../unit';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -10,10 +10,11 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./plan-progression-strategies.component.css']
 })
 export class PlanProgressionStrategiesComponent implements OnInit {
-  @Input() progressions: PlanProgressionStrategy[];
+  @Input() progressions: ProgressionStrategy[];
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
+  @Input() title: string;
 
   faTimesCircle = faTimesCircle;
 
@@ -30,7 +31,7 @@ export class PlanProgressionStrategiesComponent implements OnInit {
   }
 
   newProgression() {
-    let newProgression = new PlanProgressionStrategy();
+    let newProgression = new ProgressionStrategy();
 
     this.progressions.push(newProgression);
   }

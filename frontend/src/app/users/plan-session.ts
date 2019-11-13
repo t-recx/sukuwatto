@@ -1,12 +1,12 @@
 import { PlanSessionGroup } from './plan-session-group';
-import { PlanProgressionStrategy } from './plan-progression-strategy';
+import { ProgressionStrategy } from './plan-progression-strategy';
 
 export class PlanSession {
   id: number;
   name: string;
   plan: number;
   groups: PlanSessionGroup[];
-  progressions: PlanProgressionStrategy[];
+  progressions: ProgressionStrategy[];
 
   constructor() {
     this.groups = [];

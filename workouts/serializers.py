@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, Unit, UnitConversion, Workout, WorkoutSet
-from pprint import pprint
+from .models import Exercise, Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy, Unit, UnitConversion, Workout, WorkoutSet
 
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,17 +42,31 @@ class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
         fields = ['id', 'order', 'exercise', 'number_of_sets', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanProgressionStrategySerializer(serializers.ModelSerializer):
-    id = serializers.ModelField(model_field=PlanSession()._meta.get_field('id'), required=False)
+    id = serializers.ModelField(model_field=PlanProgressionStrategy()._meta.get_field('id'), required=False)
 
     class Meta:
         model = PlanProgressionStrategy
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section']
+
+class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=PlanSessionProgressionStrategy()._meta.get_field('id'), required=False)
+
+    class Meta:
+        model = PlanSessionProgressionStrategy
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section']
+
+class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=PlanSessionGroupProgressionStrategy()._meta.get_field('id'), required=False)
+
+    class Meta:
+        model = PlanSessionGroupProgressionStrategy
         fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section']
 
 class PlanSessionGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroup()._meta.get_field('id'), required=False)
     exercises = PlanSessionGroupExerciseSerializer(many=True, required=False)
     warmups = PlanSessionGroupWarmUpSerializer(many=True, required=False)
-    progressions = PlanProgressionStrategySerializer(many=True, required=False)
+    progressions = PlanSessionGroupProgressionStrategySerializer(many=True, required=False)
 
     class Meta:
         model = PlanSessionGroup
@@ -62,7 +75,7 @@ class PlanSessionGroupSerializer(serializers.ModelSerializer):
 class PlanSessionSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSession()._meta.get_field('id'), required=False)
     groups = PlanSessionGroupSerializer(many=True, required=False)
-    progressions = PlanProgressionStrategySerializer(many=True, required=False)
+    progressions = PlanSessionProgressionStrategySerializer(many=True, required=False)
 
     class Meta:
         model = PlanSession
@@ -93,7 +106,7 @@ class PlanSerializer(serializers.ModelSerializer):
             self.create_sessions(plan, sessions_data)
 
         if progressions_data is not None:
-            self.create_progressions(progressions_data, plan)
+            self.create_plan_progressions(progressions_data, plan)
 
         return plan
 
@@ -114,7 +127,7 @@ class PlanSerializer(serializers.ModelSerializer):
                 self.create_groups(plan_session, groups_data)
 
             if progressions_data is not None:
-                self.create_progressions(progressions_data, plan, plan_session)
+                self.create_plan_session_progressions(progressions_data, plan_session)
 
     def create_groups(self, plan_session, groups_data):
         for group_data in groups_data:
@@ -140,11 +153,19 @@ class PlanSerializer(serializers.ModelSerializer):
                 self.create_group_activities(PlanSessionGroupWarmUp, plan_session_group, warmups_data)
 
             if progressions_data is not None:
-                self.create_progressions(progressions_data, plan_session.plan, plan_session, plan_session_group)
+                self.create_plan_session_group_progressions(progressions_data, plan_session_group)
 
-    def create_progressions(self, progressions_data, plan, plan_session=None, plan_session_group=None):
+    def create_plan_progressions(self, progressions_data, plan):
         for progression_data in progressions_data:
-            PlanProgressionStrategy.objects.create(plan=plan, plan_session=plan_session, plan_session_group=plan_session_group, **progression_data)    
+            PlanProgressionStrategy.objects.create(plan=plan, **progression_data)    
+
+    def create_plan_session_progressions(self, progressions_data, plan_session):
+        for progression_data in progressions_data:
+            PlanSessionProgressionStrategy.objects.create(plan_session=plan_session, **progression_data)    
+
+    def create_plan_session_group_progressions(self, progressions_data, plan_session_group):
+        for progression_data in progressions_data:
+            PlanSessionGroupProgressionStrategy.objects.create(plan_session_group=plan_session_group, **progression_data)    
 
     def create_group_activities(self, model, plan_session_group, exercises_data):
         if exercises_data is not None:
@@ -199,11 +220,11 @@ class PlanSerializer(serializers.ModelSerializer):
             else:
                 groups.delete()
 
-            self.update_progressions_set(session_data, instance.plan, instance)
+            self.update_progressions_set(session_data, PlanSessionProgressionStrategy, plan_session=instance)
 
-    def update_progressions(self, progressions_data):
+    def update_progressions(self, progressions_data, model):
         for progression_data in progressions_data:
-            instances = PlanProgressionStrategy.objects.filter(pk=progression_data.get('id'))
+            instances = model.objects.filter(pk=progression_data.get('id'))
 
             if len(instances) == 0:
                 continue
@@ -243,7 +264,7 @@ class PlanSerializer(serializers.ModelSerializer):
             self.update_group_activity_set(PlanSessionGroupExercise, instance, exercises_data)
             self.update_group_activity_set(PlanSessionGroupWarmUp, instance, warmups_data)
 
-            self.update_progressions_set(group_data, instance.plan_session.plan, instance.plan_session, instance)
+            self.update_progressions_set(group_data, PlanSessionGroupProgressionStrategy, plan_session_group=instance)
 
     def update_group_activity_set(self, model, plan_session_group, exercises_data):
         exercises = model.objects.filter(plan_session_group=plan_session_group)
@@ -286,43 +307,40 @@ class PlanSerializer(serializers.ModelSerializer):
         else:
             sessions.delete()
 
-        self.update_progressions_set(validated_data, instance)
+        self.update_progressions_set(validated_data, PlanProgressionStrategy, plan=instance)
 
         return instance
 
-    def update_progressions_set(self, validated_data, plan, plan_session=None, plan_session_group=None):
+    def update_progressions_set(self, validated_data, model, plan=None, plan_session=None, plan_session_group=None):
         progressions_data = None
 
         if 'progressions' in validated_data:
             progressions_data = validated_data.pop('progressions')
 
-        progressions = PlanProgressionStrategy.objects.filter(plan=plan)
+        if plan is not None:
+            progressions = model.objects.filter(plan=plan)
 
-        if plan_session is None:
-            progressions = progressions.filter(plan_session__isnull=True)
-        else:
-            progressions = progressions.filter(plan_session=plan_session)
+        if plan_session is not None:
+            progressions = model.objects.filter(plan_session=plan_session)
 
-        if plan_session_group is None:
-            progressions = progressions.filter(plan_session_group__isnull=True)
-        else:
-            progressions = progressions.filter(plan_session_group=plan_session_group)
+        if plan_session_group is not None:
+            progressions = model.objects.filter(plan_session_group=plan_session_group)
 
         if progressions_data is not None:
             new_data, updated_data, deleted_ids = self.get_differences(progressions_data, progressions.values())
 
-            pprint(plan)
-            pprint(plan_session)
-            pprint(plan_session_group)
-            pprint(new_data)
-            pprint(updated_data)
-            pprint(deleted_ids)
+            if plan is not None:
+                self.create_plan_progressions(new_data, plan)
 
-            self.create_progressions(new_data, plan, plan_session, plan_session_group)
+            if plan_session is not None:
+                self.create_plan_session_progressions(new_data, plan_session)
 
-            self.update_progressions(updated_data)
+            if plan_session_group is not None:
+                self.create_plan_session_group_progressions(new_data, plan_session_group)
 
-            progressions_to_delete = PlanProgressionStrategy.objects.filter(id__in=deleted_ids)
+            self.update_progressions(updated_data, model)
+
+            progressions_to_delete = model.objects.filter(id__in=deleted_ids)
             progressions_to_delete.delete()
         else:
             progressions.delete()

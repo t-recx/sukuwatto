@@ -1,6 +1,6 @@
 import { Section, Modality, Force, Mechanics } from './exercise';
 
-export class PlanProgressionStrategy {
+export class ProgressionStrategy {
     id: number;
     exercise: number;
     weight_increase: number;

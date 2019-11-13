@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlanProgressionStrategy } from '../plan-progression-strategy';
+import { ProgressionStrategy } from '../plan-progression-strategy';
 import { Exercise, MechanicsLabel, SectionLabel, ForceLabel, ModalityLabel } from '../exercise';
 import { Unit } from '../unit';
 
@@ -9,7 +9,7 @@ import { Unit } from '../unit';
   styleUrls: ['./plan-progression-strategy.component.css']
 })
 export class PlanProgressionStrategyComponent implements OnInit {
-  @Input() progression: PlanProgressionStrategy;
+  @Input() progression: ProgressionStrategy;
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
   @Input() triedToSave: boolean;

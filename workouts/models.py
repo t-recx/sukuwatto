@@ -1,3 +1,5 @@
+# TODO: add 2 new models for progression strategies on session and on group
+# to ease serializing?
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -120,11 +122,8 @@ class PlanSessionGroupExercise(AbstractGroupActivity):
 class PlanSessionGroupWarmUp(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="warmups", on_delete=models.CASCADE)
 
-class PlanProgressionStrategy(models.Model):
-    plan = models.ForeignKey(Plan, related_name="progressions", on_delete=models.CASCADE)
-    plan_session = models.ForeignKey(PlanSession, related_name="progressions", on_delete=models.CASCADE, null=True)
-    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="progressions", on_delete=models.CASCADE, null=True)
-    exercise = models.ForeignKey(Exercise, related_name="progressions", on_delete=models.CASCADE, null=True)
+class AbstractProgressionStrategy(models.Model):
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True)
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
@@ -132,6 +131,18 @@ class PlanProgressionStrategy(models.Model):
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
     modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=Exercise.SECTIONS)
+
+    class Meta:
+        abstract = True
+
+class PlanProgressionStrategy(AbstractProgressionStrategy):
+    plan = models.ForeignKey(Plan, related_name="progressions", on_delete=models.CASCADE)
+
+class PlanSessionProgressionStrategy(AbstractProgressionStrategy):
+    plan_session = models.ForeignKey(PlanSession, related_name="progressions", on_delete=models.CASCADE, null=True)
+
+class PlanSessionGroupProgressionStrategy(AbstractProgressionStrategy):
+    plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="progressions", on_delete=models.CASCADE, null=True)
 
 class Workout(models.Model):
     start = models.DateTimeField()

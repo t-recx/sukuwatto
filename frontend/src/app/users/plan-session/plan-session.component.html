@@ -1,7 +1,7 @@
 <div *ngIf="planSession">
     <div class="siimple-form-field">
         <div class="siimple-form-field-label">Session Name</div>
-        <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
+        <input type="text" class="siimple-input siimple--mb-2 siimple-input--fluid" required name="name" id="name"
             [(ngModel)]="planSession.name" #name="ngModel">
         <div *ngIf="name.invalid && (name.dirty || triedToSave)">
             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
@@ -17,7 +17,7 @@
                 </app-plan-session-group>
             </div>
         </div>
-        <app-plan-progression-strategies [progressions]=planSession.progressions [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+        <app-plan-progression-strategies title="Session" [progressions]=planSession.progressions [exercises]=exercises [units]=units [triedToSave]=triedToSave>
         </app-plan-progression-strategies> 
         <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
     </div>

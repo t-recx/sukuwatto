@@ -105,9 +105,16 @@ export class PlanDetailComponent implements OnInit {
     this.service.savePlan(this.plan).subscribe(plan => {
       this.triedToSave = false;
 
-      this.router.navigate(['../../plans'], {
-        relativeTo: this.route,
-      });
+      if (!this.plan.id || this.plan.id <= 0) {
+        this.router.navigate(['../plans'], {
+          relativeTo: this.route,
+        });
+      }
+      else {
+        this.router.navigate(['../../plans'], {
+          relativeTo: this.route,
+        });
+      }
     });
   }
 
