@@ -95,11 +95,24 @@ class PlanSessionGroup(models.Model):
         return self.name
 
 class AbstractGroupActivity(models.Model):
+    TYPE_STANDARD = 's'
+    TYPE_RANGE = 'r'
+    TYPE_TO_FAILURE = 'f'
+    TYPE_AMRAP = 'a'
+    TYPE_NONE = 'n'
+    TYPES = [
+        (TYPE_STANDARD, 'Standard'),
+        (TYPE_RANGE, 'Range'),
+        (TYPE_TO_FAILURE, 'To Failure'),
+        (TYPE_AMRAP, 'As Many Repetitions As Possible'),
+        (TYPE_NONE, 'None'),
+    ]
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     number_of_sets = models.PositiveIntegerField()
-    number_of_repetitions = models.PositiveIntegerField()
+    repetition_type = models.CharField(max_length=1, null=True, choices=TYPES)
+    number_of_repetitions = models.PositiveIntegerField(null=True)
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
 

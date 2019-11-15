@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {  PlanSessionGroupActivity } from '../plan-session-group-activity';
+import { PlanSessionGroupActivity, RepetitionTypeLabel, RepetitionType } from '../plan-session-group-activity';
 import { Exercise } from '../exercise';
 
 @Component({
@@ -12,9 +12,23 @@ export class PlanSessionGroupExerciseComponent implements OnInit {
   @Input() exercises: Exercise[];
   @Input() triedToSave: boolean;
 
+  repetitionTypeEnum = RepetitionType;
+  repetitionTypeLabel = RepetitionTypeLabel;
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  repetitionTypeChange() {
+    if (this.planSessionGroupExercise.repetition_type != RepetitionType.Range) {
+      this.planSessionGroupExercise.number_of_repetitions_up_to = null;
+    }
+
+    if (this.planSessionGroupExercise.repetition_type != RepetitionType.Range &&
+      this.planSessionGroupExercise.repetition_type != RepetitionType.Standard) {
+      this.planSessionGroupExercise.number_of_repetitions = null;
+      this.planSessionGroupExercise.number_of_repetitions_up_to = null;
+    }
+  }
 }

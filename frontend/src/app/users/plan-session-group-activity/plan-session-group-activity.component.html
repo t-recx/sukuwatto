@@ -40,24 +40,39 @@
             </div>
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Reps</div>
-                    <input type="number" class="siimple-input siimple-input--fluid" required
-                        name="number_of_repetitions" id="number_of_repetitions"
-                        [(ngModel)]="planSessionGroupExercise.number_of_repetitions" #number_of_repetitions="ngModel"
-                        placeholder="Reps">
-
-                    <div *ngIf="number_of_repetitions.invalid && (number_of_repetitions.dirty || triedToSave)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-form-field-label">Repetition Type</div>
+                    <select class="siimple-select siimple-select--fluid" name="repetition_type" id="repetition_type"
+                        [(ngModel)]="planSessionGroupExercise.repetition_type" #repetition_type="ngModel"
+                        (change)="repetitionTypeChange()">
+                        <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
+                            value={{repetition_typeModel.key}}>
+                            {{repetition_typeModel.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div *ngIf="planSessionGroupExercise.repetition_type == repetitionTypeEnum.Standard || planSessionGroupExercise.repetition_type == repetitionTypeEnum.Range ">
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Reps</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_repetitions"
+                            id="number_of_repetitions" [(ngModel)]="planSessionGroupExercise.number_of_repetitions"
+                            #number_of_repetitions="ngModel" placeholder="Reps">
+            
+                        <div *ngIf="number_of_repetitions.invalid && (number_of_repetitions.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
-                <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Up to</div>
-                    <input type="number" class="siimple-input siimple-input--fluid" name="number_of_repetitions_up_to"
-                        id="number_of_repetitions_up_to"
-                        [(ngModel)]="planSessionGroupExercise.number_of_repetitions_up_to"
-                        #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+            <div *ngIf="planSessionGroupExercise.repetition_type == repetitionTypeEnum.Range">
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Up to</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" name="number_of_repetitions_up_to"
+                            id="number_of_repetitions_up_to" [(ngModel)]="planSessionGroupExercise.number_of_repetitions_up_to"
+                            #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+                    </div>
                 </div>
             </div>
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">

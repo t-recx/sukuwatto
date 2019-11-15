@@ -6,13 +6,13 @@ class PlanSessionGroupExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupExercise()._meta.get_field('id'), required=False)
     class Meta:
         model = PlanSessionGroupExercise
-        fields = ['id', 'order', 'exercise', 'number_of_sets', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
+        fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupWarmUp()._meta.get_field('id'), required=False)
     class Meta:
         model = PlanSessionGroupExercise
-        fields = ['id', 'order', 'exercise', 'number_of_sets', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
+        fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanProgressionStrategy()._meta.get_field('id'), required=False)
@@ -156,6 +156,7 @@ class PlanSerializer(serializers.ModelSerializer):
 
             instance.order = exercise_data.get('order', instance.order)
             instance.exercise = exercise_data.get('exercise', instance.exercise)
+            instance.repetition_type = exercise_data.get('repetition_type', instance.repetition_type)
             instance.number_of_sets = exercise_data.get('number_of_sets', instance.number_of_sets)
             instance.number_of_repetitions = exercise_data.get('number_of_repetitions', instance.number_of_repetitions)
             instance.number_of_repetitions_up_to = exercise_data.get('number_of_repetitions_up_to', instance.number_of_repetitions_up_to)
