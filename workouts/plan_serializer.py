@@ -19,21 +19,21 @@ class PlanProgressionStrategySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanProgressionStrategy
-        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section']
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionProgressionStrategy()._meta.get_field('id'), required=False)
 
     class Meta:
         model = PlanSessionProgressionStrategy
-        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section']
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupProgressionStrategy()._meta.get_field('id'), required=False)
 
     class Meta:
         model = PlanSessionGroupProgressionStrategy
-        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section']
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroup()._meta.get_field('id'), required=False)
@@ -211,6 +211,7 @@ class PlanSerializer(serializers.ModelSerializer):
             instance.force = progression_data.get('force', instance.force)
             instance.modality = progression_data.get('modality', instance.modality)
             instance.section = progression_data.get('section', instance.section)
+            instance.progression_type = progression_data.get('progression_type', instance.progression_type)
             instance.save()
 
     def update_groups(self, groups_data):

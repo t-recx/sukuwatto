@@ -123,6 +123,13 @@ class PlanSessionGroupWarmUp(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="warmups", on_delete=models.CASCADE)
 
 class AbstractProgressionStrategy(models.Model):
+    TYPE_EXERCISE = 'e'
+    TYPE_CHARACTERISTICS = 'c'
+    TYPES = [
+        (TYPE_EXERCISE, 'By Exercise'),
+        (TYPE_CHARACTERISTICS, 'By Characteristics'),
+    ]
+
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True)
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
@@ -131,6 +138,7 @@ class AbstractProgressionStrategy(models.Model):
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
     modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=Exercise.SECTIONS)
+    progression_type = models.CharField(max_length=1, null=True, choices=TYPES)
 
     class Meta:
         abstract = True

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProgressionStrategy } from '../plan-progression-strategy';
+import { ProgressionStrategy, ProgressionType } from '../plan-progression-strategy';
 import { Exercise, MechanicsLabel, SectionLabel, ForceLabel, ModalityLabel } from '../exercise';
 import { Unit } from '../unit';
 
@@ -22,5 +22,18 @@ export class PlanProgressionStrategyComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  clearUnusedParameters(): void {
+    if (this.progression.progression_type == ProgressionType.ByExercise) {
+      this.progression.mechanics = null;
+      this.progression.section = null;
+      this.progression.force = null;
+      this.progression.modality = null;
+    }
+
+    if (this.progression.progression_type == ProgressionType.ByCharacteristics) {
+      this.progression.exercise = null;
+    }
   }
 }

@@ -14,7 +14,7 @@ export class PlanProgressionStrategiesComponent implements OnInit {
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
-  @Input() title: string;
+  @Input() type_label: string;
 
   faTimesCircle = faTimesCircle;
 
