@@ -1,5 +1,3 @@
-# TODO: add 2 new models for progression strategies on session and on group
-# to ease serializing?
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -72,6 +70,8 @@ class Plan(models.Model):
     name = models.CharField(max_length=200, help_text='Enter the workout plan template''s name (ex: Push Pull Legs, Starting Strength)')
     description = models.TextField(null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
+    parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    public = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.short_name} - {self.name}'
@@ -168,6 +168,9 @@ class PlanSessionGroupProgressionStrategy(AbstractProgressionStrategy):
 class Workout(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
+    name = models.CharField(max_length=200)
+    notes = models.TextField(null=True)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
     plan_session = models.ForeignKey(PlanSession, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
@@ -181,9 +184,13 @@ class AbstractWorkoutActivity(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    number_of_repetitions = models.PositiveIntegerField()
+    repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TYPES)
+    expected_number_of_repetitions = models.PositiveIntegerField(null=True)
+    expected_number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
+    number_of_repetitions = models.PositiveIntegerField(null=True)
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+    done = models.BooleanField(default=False)
 
     class Meta:
         abstract = True

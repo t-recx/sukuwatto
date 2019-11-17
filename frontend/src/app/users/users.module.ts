@@ -23,10 +23,11 @@ import { WorkoutDetailComponent } from './workout-detail/workout-detail.componen
 import { WorkoutSetComponent } from './workout-set/workout-set.component';
 import { PlanProgressionStrategyComponent } from './plan-progression-strategy/plan-progression-strategy.component';
 import { PlanProgressionStrategiesComponent } from './plan-progression-strategies/plan-progression-strategies.component';
+import { WorkoutGroupComponent } from './workout-group/workout-group.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent],
   imports: [
     AlertModule,
     CommonModule,

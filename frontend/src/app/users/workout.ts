@@ -1,13 +1,16 @@
-import { WorkoutSet } from './workout-set';
+import { WorkoutGroup } from './workout-group';
 
 export class Workout {
     id: number;
     start: Date;
     end: Date;
+    name: string;
+    notes: string;
+    plan: number;
     plan_session: number;
-    sets: WorkoutSet[];
+    groups: WorkoutGroup[];
 
     constructor() {
-        this.sets = [];
+        this.groups = [];
     }
 }

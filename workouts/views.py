@@ -1,7 +1,6 @@
 from rest_framework import viewsets
 from .serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer
-from .models import Exercise, Plan, Unit, UnitConversion, Workout
-from .plan_serializer import PlanSerializer
+from .models import Exercise, Unit, UnitConversion, Workout
 from .workout_serializer import WorkoutSerializer
 
 class ExercisesViewSet(viewsets.ModelViewSet):
@@ -24,12 +23,6 @@ class UnitConversionViewSet(viewsets.ModelViewSet):
     """
     queryset = UnitConversion.objects.all()
     serializer_class = UnitConversionSerializer
-
-class PlanViewSet(viewsets.ModelViewSet):
-    """
-    """
-    queryset = Plan.objects.all()
-    serializer_class = PlanSerializer
 
 class WorkoutViewSet(viewsets.ModelViewSet):
     """

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ProgressionStrategy, ProgressionType } from '../plan-progression-strategy';
 import { Exercise, MechanicsLabel, SectionLabel, ForceLabel, ModalityLabel } from '../exercise';
 import { Unit } from '../unit';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-plan-progression-strategy',
@@ -13,6 +14,10 @@ export class PlanProgressionStrategyComponent implements OnInit {
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
+
+  idExercise = uuid();
+  idCharacteristics = uuid();
+  idGroup = uuid();
 
   modalityLabel = ModalityLabel;
   mechanicsLabel = MechanicsLabel;

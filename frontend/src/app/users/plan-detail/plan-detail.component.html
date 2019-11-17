@@ -29,6 +29,17 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
+                        <label class="siimple-label">Public</label>
+                        <div class="siimple-switch">
+                            <input type="checkbox" name="public" id="public" [(ngModel)]="plan.public" #public="ngModel">
+                            <label for="public"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Description</div>
                         <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" required
                             name="description" id="description" [(ngModel)]="plan.description" #description="ngModel">

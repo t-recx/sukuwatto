@@ -1,1 +1,64 @@
-<p>workout-detail works!</p>
+<div *ngIf="workout">
+    <form class="siimple-card siimple-form" #workoutForm="ngForm" (submit)="save()">
+        <div class="siimple-form-title">Workout detail</div>
+        <div class="siimple-grid">
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Plan</div>
+                        <select class="siimple-select siimple-select--fluid" required name="plan"
+                            id="plan" [(ngModel)]="workout.plan" #plan="ngModel" (change)="planChanged()">
+                        <option *ngFor="let planModel of adoptedPlans" value={{planModel.id}}>
+                            {{planModel.name}}
+                        </option>
+                    </select>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Session</div>
+                        <select class="siimple-select siimple-select--fluid" required name="planSession"
+                            id="planSession" [(ngModel)]="workout.planSession" #planSession="ngModel" (change)="sessionChanged()">
+                        <option *ngFor="let planSessionModel of planSessions" value={{planSessionModel.id}}>
+                            {{planSessionModel.name}}
+                        </option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Name</div>
+                        <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
+                            [(ngModel)]="workout.name" #name="ngModel">
+
+                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row" *ngFor="let group of workout.groups">
+               <app-workout-group [group]=group [exercises]=exercises [triedToSave]=triedToSave>
+               </app-workout-group> 
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Notes</div>
+                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" 
+                            name="notes" id="notes" [(ngModel)]="workout.notes" #notes="ngModel">
+                        </textarea>
+
+                        <div *ngIf="notes.invalid && (notes.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
+        </div>
+        <button class="siimple-btn siimple-btn--success siimple--mt-2" type="submit">Save</button>
+    </form>
+</div>

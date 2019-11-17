@@ -55,15 +55,19 @@ class PlanSessionSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'groups', 'progressions']
 
 class PlanSerializer(serializers.ModelSerializer):
-    # todo: set owner on create and update
     sessions = PlanSessionSerializer(many=True, required=False)
     progressions = PlanProgressionStrategySerializer(many=True, required=False)
     
     class Meta:
         model = Plan
-        fields = ['id', 'short_name', 'name', 'description', 'owner', 'sessions', 'progressions']
+        fields = ['id', 'short_name', 'name', 'description', 'owner', 'parent_plan', 'public', 'sessions', 'progressions']
 
     def create(self, validated_data):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
         sessions_data = None
         progressions_data = None
 
@@ -73,7 +77,7 @@ class PlanSerializer(serializers.ModelSerializer):
         if 'progressions' in validated_data:
             progressions_data = validated_data.pop('progressions')
 
-        plan = Plan.objects.create(**validated_data)
+        plan = Plan.objects.create(owner=user, **validated_data)
 
         if sessions_data is not None:
             self.create_sessions(plan, sessions_data)
@@ -257,10 +261,20 @@ class PlanSerializer(serializers.ModelSerializer):
             exercises.delete()
 
     def update(self, instance, validated_data):
+        """
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        instance.owner = user
+        """
         # update the plan first
         instance.short_name = validated_data.get('short_name', instance.short_name)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
+        instance.parent_plan = validated_data.get('parent_plan', instance.parent_plan)
+        instance.public = validated_data.get('public', instance.public)
         instance.save()
 
         sessions_data = None

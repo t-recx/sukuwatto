@@ -1,0 +1,42 @@
+<div class="siimple-card">
+    <div class="siimple-card-body">
+        <div class="siimple-card-title">{{group.name}}</div>
+
+        <div class="siimple-tabs">
+            <div class="siimple-tabs-item"
+                [class.siimple-tabs-item--selected]="selectedActivityType==activityType.WarmUp"
+                (click)="selectActivityType(activityType.WarmUp)">
+                Warm-Ups
+            </div>
+            <div class="siimple-tabs-item"
+                [class.siimple-tabs-item--selected]="selectedActivityType==activityType.Exercise"
+                (click)="selectActivityType(activityType.Exercise)">
+                Sets
+            </div>
+        </div>
+
+        <div>
+            <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
+                <div class="siimple-list siimple-list--hover">
+                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets">
+                        <app-workout-set [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
+                        </app-workout-set>
+                    </div>
+                </div>
+                <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
+                    (click)="newSet()">New Set</button>
+            </div>
+
+            <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
+                <div class="siimple-list siimple-list--hover">
+                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups">
+                        <app-workout-set [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
+                        </app-workout-set>
+                    </div>
+                </div>
+                <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
+                    (click)="newWarmUp()">New Warm-Up</button>
+            </div>
+        </div>
+    </div>
+</div>

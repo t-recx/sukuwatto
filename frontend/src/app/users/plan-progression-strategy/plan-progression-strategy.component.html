@@ -1,3 +1,4 @@
+<form>
 <div class="siimple-card-body" *ngIf="progression">
     <div class="siimple-grid">
         <div class="siimple-grid-row">
@@ -8,18 +9,18 @@
 
                 <div class="siimple--display-inline-block">
                     <div class="siimple-radio">
-                        <input type="radio" id="by_exercise" name="by_exercise" value="e"
-                            [(ngModel)]="progression.progression_type" (change)="clearUnusedParameters()">
-                        <label for="by_exercise"></label>
+                        <input type="radio" id="{{idExercise}}" value="e" name="{{idGroup}}"
+                            [(ngModel)]="progression.progression_type" #by_exercise="ngModel" (change)="clearUnusedParameters()">
+                        <label for="{{idExercise}}"></label>
                     </div>
                     <label class="siimple-label">By Exercise</label>
                 </div>
 
                 <div class="siimple--display-inline-block">
                     <div class="siimple-radio">
-                        <input type="radio" id="by_characteristics" name="by_characteristics" value="c"
-                            [(ngModel)]="progression.progression_type" (change)="clearUnusedParameters()">
-                        <label for="by_characteristics"></label>
+                        <input type="radio" id="{{idCharacteristics}}" value="c" name="{{idGroup}}"
+                            [(ngModel)]="progression.progression_type" #by_characteristics="ngModel" (change)="clearUnusedParameters()">
+                        <label for="{{idCharacteristics}}"></label>
                     </div>
                     <label class="siimple-label">By Exercise Type</label>
                 </div>
@@ -124,3 +125,4 @@
         </div>
     </div>
 </div>
+</form>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ErrorService } from '../error.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Plan } from './plan';
 import { tap, catchError } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PlansService {
   private plansUrl= `${environment.apiUrl}/plans/`;
+  private adoptPlanUrl= `${environment.apiUrl}/adopt-plan/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -32,6 +33,26 @@ export class PlansService {
         }, []))
       );
   }
+
+  getPublicPlans (): Observable<Plan[]> {
+    return this.http.get<Plan[]>(`${this.plansUrl}?public=true`)
+      .pipe(
+        catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch adopted plans');
+        }, []))
+      );
+  }
+
+  getAdoptedPlans (username: string): Observable<Plan[]> {
+    return this.http.get<Plan[]>(`${this.plansUrl}?owner__username=${username}`)
+      .pipe(
+        catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch adopted plans');
+        }, []))
+      );
+  }
   
   getPlan (id: number | string): Observable<Plan> {
     return this.http.get<Plan>(`${this.plansUrl}${id}/`)
@@ -41,6 +62,17 @@ export class PlansService {
           this.alertService.error('Unable to fetch plan');
         }, new Plan()))
       );
+  }
+
+  adoptPlan(plan: Plan): Observable<Plan> {
+    return this.http.post<Plan>(`${this.adoptPlanUrl}${plan.id}/`, null)
+    .pipe(
+      tap((newPlan: Plan) => { }),
+      catchError(this.errorService.handleError<Plan>('adoptPlan', (e: any) => 
+      {
+        this.alertService.error('Unable to adopt plan, try again later');
+      }, plan))
+    );
   }
 
   savePlan(plan: Plan): Observable<Plan> {

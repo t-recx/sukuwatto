@@ -7,6 +7,8 @@ export class Plan {
   name: string;
   description: string;
   owner: string;
+  public: boolean;
+  parent_plan: number;
   sessions: PlanSession[];
   progressions: ProgressionStrategy[];
 

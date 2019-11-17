@@ -1,1 +1,21 @@
-<p>workouts works!</p>
+<h1 class="siimple-h1">Workouts</h1>
+
+<ul class="">
+  <li class="siimple-card" *ngFor="let workout of workouts">
+    <div class="siimple-card-header">
+      {{workout.name}}
+    </div>
+    <div class="siimple-card-body">
+        <!-- todo: add maybe a summary of exercises here ?-->
+      {{workout.notes}}
+    </div>
+    <div class="siimple-card-footer ">
+      <div class="">
+        <button class="siimple-btn siimple-btn--primary siimple--mr-2" routerLink="../workout/{{workout.id}}">View</button>
+        <button class="siimple-btn siimple-btn--error" (click)="deleteWorkout(workout)">Remove</button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<button class="siimple-btn siimple-btn--primary" routerLink="../workout/">New workout</button>
