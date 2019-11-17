@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
 import { Exercise } from '../exercise';
+import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
+import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-set',
@@ -12,9 +14,37 @@ export class WorkoutSetComponent implements OnInit {
   @Input() triedToSave: boolean;
   @Input() exercises: Exercise[];
 
+  exercise: Exercise;
+  repetitionType = RepetitionType;
+  faCheck = faCheck;
+  faEdit = faEdit;
+  editing: boolean = false;
+  editingRepetitions: boolean = false;
+  repetitionTypeLabel = RepetitionTypeLabel;
+
   constructor() { }
 
   ngOnInit() {
+    this.exercise = this.exercises.filter(x => x.id == this.workoutActivity.exercise)[0];
   }
 
+  toggleEdit() {
+    this.editing = !this.editing;
+  }
+
+  toggleEditRepetitions() {
+    this.editingRepetitions = !this.editingRepetitions;
+  }
+
+  repetitionTypeChange() {
+    if (this.workoutActivity.repetition_type != RepetitionType.Range) {
+      this.workoutActivity.expected_number_of_repetitions_up_to = null;
+    }
+
+    if (this.workoutActivity.repetition_type != RepetitionType.Range &&
+      this.workoutActivity.repetition_type != RepetitionType.Standard) {
+      this.workoutActivity.expected_number_of_repetitions = null;
+      this.workoutActivity.expected_number_of_repetitions_up_to = null;
+    }
+  }
 }

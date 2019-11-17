@@ -18,7 +18,7 @@
         <div>
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
                 <div class="siimple-list siimple-list--hover">
-                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets">
+                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets" (click)="markDone(workoutActivity)">
                         <app-workout-set [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
                         </app-workout-set>
                     </div>
@@ -29,7 +29,7 @@
 
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
                 <div class="siimple-list siimple-list--hover">
-                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups">
+                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups" (click)="markDone(workoutActivity)">
                         <app-workout-set [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
                         </app-workout-set>
                     </div>

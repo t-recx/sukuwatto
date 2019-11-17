@@ -3,6 +3,7 @@ import { WorkoutGroup } from '../workout-group';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
 import { Exercise } from '../exercise';
+import { WorkoutSet } from '../workout-set';
 
 @Component({
   selector: 'app-workout-group',
@@ -35,5 +36,13 @@ export class WorkoutGroupComponent implements OnInit {
 
   newWarmUp(): void {
 
+  }
+
+  toggleDone(workoutActivity: WorkoutSet): void {
+    if (workoutActivity.done == null) {
+      workoutActivity.done = true;
+    }
+    
+    workoutActivity.done = !workoutActivity.done;
   }
 }

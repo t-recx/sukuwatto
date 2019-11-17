@@ -1,1 +1,67 @@
-<p>workout-set works!</p>
+<fa-icon [icon]="faEdit" (click)="toggleEdit()" class="siimple--mr-1"></fa-icon>
+
+<div *ngIf="!editing">
+    {{exercise.name}}
+    <span *ngIf="!editingRepetitions" (click)="toggleEditRepetitions()">
+        <span *ngIf="workoutActivity.repetition_type!=repetitionType.None">
+            x
+        </span>
+        <span *ngIf="workoutActivity.number_of_repetitions">
+            <span>{{workoutActivity.number_of_repetitions}}</span>
+        </span>
+        <span *ngIf="!workoutActivity.number_of_repetitions">
+            <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
+                {{workoutActivity.expected_number_of_repetitions}}
+            </span>
+            <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
+                {{workoutActivity.expected_number_of_repetitions}} -
+                {{workoutActivity.expected_number_of_repetitions_up_to}}
+            </span>
+            <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                F
+            </span>
+            <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                AMRAP
+            </span>
+        </span>
+    </span>
+    <span *ngIf="!editingRepetitions" (click)="toggleEditRepetitions()">
+        <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_repetitions"
+            id="number_of_repetitions" [(ngModel)]="workoutActivity.number_of_repetitions"
+            #number_of_repetitions="ngModel" placeholder="Reps">
+    </span>
+</div>
+
+<div *ngIf="editing">
+    <span>
+        <select class="siimple-select siimple-select--fluid" required name="exercise" id="exercise"
+            [(ngModel)]="workoutActivity.exercise" #exercise="ngModel">
+            <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
+                {{exerciseModel.name}}
+            </option>
+        </select>
+    </span>
+    <span> x </span>
+    <span>
+        <select class="siimple-select siimple-select--fluid" name="repetition_type" id="repetition_type"
+            [(ngModel)]="workoutActivity.repetition_type" #repetition_type="ngModel" (change)="repetitionTypeChange()">
+            <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
+                value={{repetition_typeModel.key}}>
+                {{repetition_typeModel.value}}
+            </option>
+        </select>
+    </span>
+    <span
+        *ngIf="workoutActivity.repetition_type == repetitionTypeEnum.Standard || workoutActivity.repetition_type == repetitionTypeEnum.Range">
+        <input type="number" class="siimple-input siimple-input--fluid" required name="expected_number_of_repetitions"
+            id="expected_number_of_repetitions" [(ngModel)]="workoutActivity.expected_number_of_repetitions"
+            #expected_number_of_repetitions="ngModel" placeholder="Reps">
+    </span>
+    <span *ngIf="workoutActivity.repetition_type == repetitionTypeEnum.Range">
+        <input type="number" class="siimple-input siimple-input--fluid" name="number_of_repetitions_up_to"
+            id="number_of_repetitions_up_to" [(ngModel)]="workoutActivity.number_of_repetitions_up_to"
+            #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+    </span>
+</div>
+
+<fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right"></fa-icon>
