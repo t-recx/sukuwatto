@@ -3,6 +3,7 @@ import { WorkoutSet } from '../workout-set';
 import { Exercise } from '../exercise';
 import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
 import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { WorkoutGroup } from '../workout-group';
 
 @Component({
   selector: 'app-workout-set',
@@ -10,6 +11,7 @@ import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./workout-set.component.css']
 })
 export class WorkoutSetComponent implements OnInit {
+  @Input() sets: WorkoutSet[];
   @Input() workoutActivity: WorkoutSet;
   @Input() triedToSave: boolean;
   @Input() exercises: Exercise[];
@@ -45,6 +47,13 @@ export class WorkoutSetComponent implements OnInit {
       this.workoutActivity.repetition_type != RepetitionType.Standard) {
       this.workoutActivity.expected_number_of_repetitions = null;
       this.workoutActivity.expected_number_of_repetitions_up_to = null;
+    }
+  }
+
+  remove(): void {
+    const index = this.sets.indexOf(this.workoutActivity, 0);
+    if (index > -1) {
+      this.sets.splice(index, 1);
     }
   }
 }

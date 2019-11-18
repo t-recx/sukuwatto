@@ -4,6 +4,7 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
 import { Exercise } from '../exercise';
 import { WorkoutSet } from '../workout-set';
+import { Workout } from '../workout';
 
 @Component({
   selector: 'app-workout-group',
@@ -11,6 +12,7 @@ import { WorkoutSet } from '../workout-set';
   styleUrls: ['./workout-group.component.css']
 })
 export class WorkoutGroupComponent implements OnInit {
+  @Input() workout: Workout;
   @Input() group: WorkoutGroup;
   @Input() triedToSave: boolean;
   @Input() exercises: Exercise[];
@@ -31,11 +33,11 @@ export class WorkoutGroupComponent implements OnInit {
   }
 
   newSet(): void {
-
+    this.group.sets.push(new WorkoutSet());
   }
 
   newWarmUp(): void {
-
+    this.group.warmups.push(new WorkoutSet());
   }
 
   toggleDone(workoutActivity: WorkoutSet): void {
@@ -44,5 +46,12 @@ export class WorkoutGroupComponent implements OnInit {
     }
     
     workoutActivity.done = !workoutActivity.done;
+  }
+
+  remove(): void {
+    const index = this.workout.groups.indexOf(this.group, 0);
+    if (index > -1) {
+      this.workout.groups.splice(index, 1);
+    }
   }
 }

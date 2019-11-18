@@ -30,6 +30,8 @@
             id="number_of_repetitions" [(ngModel)]="workoutActivity.number_of_repetitions"
             #number_of_repetitions="ngModel" placeholder="Reps">
     </span>
+
+    <fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right"></fa-icon>
 </div>
 
 <div *ngIf="editing">
@@ -62,6 +64,7 @@
             id="number_of_repetitions_up_to" [(ngModel)]="workoutActivity.number_of_repetitions_up_to"
             #number_of_repetitions_up_to="ngModel" placeholder="Up to">
     </span>
+    <span>
+        <fa-icon [icon]="faTimesCircle" class="siimple--float-right" (click)="remove()"></fa-icon>
+    </span>
 </div>
-
-<fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right"></fa-icon>

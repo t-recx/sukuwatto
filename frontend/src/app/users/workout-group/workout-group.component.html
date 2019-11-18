@@ -1,6 +1,13 @@
 <div class="siimple-card">
     <div class="siimple-card-body">
-        <div class="siimple-card-title">{{group.name}}</div>
+        <div class="close-top-right" (click)="remove()">
+            <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+        </div>
+
+        <div class="siimple-card-title">
+            <input type="text" class="siimple-input siimple-input--fluid" name="name" id="name"
+                [(ngModel)]="group.name" #name="ngModel">
+        </div>
 
         <div class="siimple-tabs">
             <div class="siimple-tabs-item"
@@ -19,7 +26,7 @@
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
                 <div class="siimple-list siimple-list--hover">
                     <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets" (click)="markDone(workoutActivity)">
-                        <app-workout-set [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
+                        <app-workout-set [sets]=group.sets [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
                         </app-workout-set>
                     </div>
                 </div>
@@ -30,7 +37,7 @@
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
                 <div class="siimple-list siimple-list--hover">
                     <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups" (click)="markDone(workoutActivity)">
-                        <app-workout-set [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
+                        <app-workout-set [sets]=group.warmups [workoutActivity]=workoutActivity [exercises]=exercises [triedToSave]=triedToSave>
                         </app-workout-set>
                     </div>
                 </div>
