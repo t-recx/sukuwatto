@@ -8,6 +8,10 @@ import { PlanSession } from '../plan-session';
 import { ExercisesService } from '../exercises.service';
 import { Exercise } from '../exercise';
 import { WorkoutGroup } from '../workout-group';
+import { Unit } from '../unit';
+import { UnitsService } from '../units.service';
+import { WorkingWeightsService } from '../working-weights.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-workout-detail',
@@ -19,20 +23,26 @@ export class WorkoutDetailComponent implements OnInit {
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
   exercises: Exercise[];
+  units: Unit[];
   triedToSave: boolean;
+  workingWeightsVisible: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutsService,
     private plansService: PlansService,
     private exercisesService: ExercisesService,
+    private unitsService: UnitsService,
     private router: Router,
+    private workingWeightsService: WorkingWeightsService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
     this.triedToSave = false;
     this.loadAdoptedPlans();
     this.loadExercises();
+    this.loadUnits();
     this.loadOrInitializeWorkout();
   }
 
@@ -45,11 +55,17 @@ export class WorkoutDetailComponent implements OnInit {
     }
     else {
       this.workout = new Workout();
+      this.workingWeightsService.getWorkingWeights(this.authService.getUsername(), new Date())
+        .subscribe(workingWeights => this.workout.working_weights = workingWeights);
     }
   }
 
   loadExercises() {
     this.exercisesService.getExercises().subscribe(exercises => this.exercises = exercises);
+  }
+
+  loadUnits() {
+    this.unitsService.getUnits().subscribe(units => this.units = units);
   }
 
   loadAdoptedPlans() {
@@ -62,6 +78,10 @@ export class WorkoutDetailComponent implements OnInit {
     this.planSessions = this.adoptedPlans
       .filter(plan => plan.id == this.workout.plan)
       .map(plan => plan.sessions)[0];
+  }
+
+  showWorkingWeights() {
+    this.workingWeightsVisible = true;    
   }
 
   sessionChanged() {

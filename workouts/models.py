@@ -167,29 +167,29 @@ class PlanSessionGroupProgressionStrategy(AbstractProgressionStrategy):
 
 class Workout(models.Model):
     start = models.DateTimeField()
-    end = models.DateTimeField()
-    name = models.CharField(max_length=200)
+    end = models.DateTimeField(null=True)
+    name = models.CharField(max_length=200, null=True)
     notes = models.TextField(null=True)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
     plan_session = models.ForeignKey(PlanSession, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
 class WorkoutGroup(models.Model):
-    order = models.PositiveIntegerField()
-    name = models.CharField(max_length=200)
+    order = models.PositiveIntegerField(default=1)
+    name = models.CharField(max_length=200, null=True)
     workout = models.ForeignKey(Workout, related_name="groups", on_delete=models.CASCADE)
 
 class AbstractWorkoutActivity(models.Model):
-    order = models.PositiveIntegerField()
+    order = models.PositiveIntegerField(default=1)
     start = models.DateTimeField()
-    end = models.DateTimeField()
+    end = models.DateTimeField(null=True)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TYPES)
     expected_number_of_repetitions = models.PositiveIntegerField(null=True)
     expected_number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
     number_of_repetitions = models.PositiveIntegerField(null=True)
-    weight = models.DecimalField(max_digits=6, decimal_places=2)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     done = models.BooleanField(default=False)
 
     class Meta:
@@ -200,3 +200,9 @@ class WorkoutSet(AbstractWorkoutActivity):
 
 class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
+
+class WorkingWeight(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_weights")
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    weight = models.DecimalField(max_digits=6, decimal_places=2)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)

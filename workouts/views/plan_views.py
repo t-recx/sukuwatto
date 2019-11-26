@@ -1,8 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
 from rest_framework import viewsets, status
 from django_filters.rest_framework import DjangoFilterBackend
-from .plan_serializer import PlanSerializer
-from .models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy
+from workouts.serializers.plan_serializer import PlanSerializer
+from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 

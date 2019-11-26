@@ -27,5 +27,5 @@ export class PlanSessionGroupActivity {
     number_of_repetitions: number;
     number_of_repetitions_up_to: number;
     working_weight_percentage: number;
-    exercise: string;
+    exercise: number;
 }

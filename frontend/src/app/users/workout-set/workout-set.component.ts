@@ -27,7 +27,12 @@ export class WorkoutSetComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.exercise = this.exercises.filter(x => x.id == this.workoutActivity.exercise)[0];
+    if (this.workoutActivity.exercise) {
+      this.exercise = this.exercises.filter(x => x.id == this.workoutActivity.exercise)[0];
+    }
+    else {
+      this.editing = true;
+    }
   }
 
   toggleEdit() {

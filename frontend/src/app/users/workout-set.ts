@@ -12,4 +12,5 @@ export class WorkoutSet {
     weight: number;
     unit: number;
     done: boolean;
+    order: number;
 }

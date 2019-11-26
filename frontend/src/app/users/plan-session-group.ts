@@ -6,7 +6,6 @@ export class PlanSessionGroup {
   id: number;
   order: number;
   name: string;
-  session: number;
   exercises: PlanSessionGroupExercise[];
   warmups: PlanSessionGroupWarmUp[];
   progressions: ProgressionStrategy[];

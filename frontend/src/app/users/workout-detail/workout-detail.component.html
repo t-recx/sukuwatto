@@ -1,9 +1,13 @@
 <div *ngIf="workout">
     <form class="siimple-card siimple-form" #workoutForm="ngForm" (submit)="save()">
+
+        <app-working-weights [workingWeights]=workout.working_weights [visible]=workingWeightsVisible [units]=units [exercises]=exercises [triedToSave]=triedToSave>
+        </app-working-weights>
+
         <div class="siimple-form-title">Workout detail</div>
         <div class="siimple-grid">
             <div class="siimple-grid-row">
-                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Plan</div>
                         <select class="siimple-select siimple-select--fluid" required name="plan"
@@ -14,7 +18,7 @@
                     </select>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Session</div>
                         <select class="siimple-select siimple-select--fluid" required name="planSession"
@@ -24,6 +28,9 @@
                         </option>
                     </select>
                     </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <button class="siimple-btn siimple-btn--primary" type="button" (click)="showWorkingWeights()">Working Weights</button>
                 </div>
             </div>
             <div class="siimple-grid-row">
@@ -43,6 +50,7 @@
                <app-workout-group [workout]=workout [group]=group [exercises]=exercises [triedToSave]=triedToSave>
                </app-workout-group> 
             </div>
+            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
@@ -57,7 +65,6 @@
                     </div>
                 </div>
             </div>
-            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
         </div>
         <button class="siimple-btn siimple-btn--success siimple--mt-2" type="submit">Save</button>
     </form>

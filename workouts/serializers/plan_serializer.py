@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy 
-from .utils import get_differences
+from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy 
+from workouts.utils import get_differences
 
 class PlanSessionGroupExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupExercise()._meta.get_field('id'), required=False)

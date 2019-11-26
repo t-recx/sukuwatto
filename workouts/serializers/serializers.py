@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy, Unit, UnitConversion, Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup
+from workouts.models import Exercise, Unit, UnitConversion
 
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:

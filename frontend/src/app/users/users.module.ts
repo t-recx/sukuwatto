@@ -24,10 +24,12 @@ import { WorkoutSetComponent } from './workout-set/workout-set.component';
 import { PlanProgressionStrategyComponent } from './plan-progression-strategy/plan-progression-strategy.component';
 import { PlanProgressionStrategiesComponent } from './plan-progression-strategies/plan-progression-strategies.component';
 import { WorkoutGroupComponent } from './workout-group/workout-group.component';
+import { WorkingWeightsComponent } from './working-weights/working-weights.component';
+import { WorkingWeightComponent } from './working-weight/working-weight.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent],
   imports: [
     AlertModule,
     CommonModule,
