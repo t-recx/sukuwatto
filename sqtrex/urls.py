@@ -20,5 +20,5 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/adopt-plan/<int:pk>/', plan_views.adopt_plan, name='adopt_plan'),
-    path('api/working-weights/', workout_views.working_weights, name='working_weights'),
+    path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
 ]

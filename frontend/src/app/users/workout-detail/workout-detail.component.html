@@ -1,7 +1,9 @@
 <div *ngIf="workout">
     <form class="siimple-card siimple-form" #workoutForm="ngForm" (submit)="save()">
 
-        <app-working-weights [workingWeights]=workout.working_weights [visible]=workingWeightsVisible [units]=units [exercises]=exercises [triedToSave]=triedToSave>
+        <app-working-weights [workingWeights]=workout.working_weights [visible]=workingWeightsVisible [units]=units 
+            [exercises]=exercises [triedToSave]=triedToSave
+            (closed)="onWorkingWeightsClosed()">
         </app-working-weights>
 
         <div class="siimple-form-title">Workout detail</div>
@@ -34,13 +36,24 @@
                 </div>
             </div>
             <div class="siimple-grid-row">
-                <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col-sm--12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Name</div>
                         <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
                             [(ngModel)]="workout.name" #name="ngModel">
 
                         <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Date</div>
+                        <input type="datetime" class="siimple-input siimple-input--fluid" required name="start" id="start"
+                            [(ngModel)]="workout.start" #start="ngModel">
+
+                        <div *ngIf="start.invalid && (start.dirty || triedToSave)">
                             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                         </div>
                     </div>

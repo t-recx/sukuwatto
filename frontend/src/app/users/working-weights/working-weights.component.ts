@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Exercise } from '../exercise';
 import { WorkingWeight } from '../working-weight';
 import { faTrash, faInfo } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +15,7 @@ export class WorkingWeightsComponent implements OnInit {
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
   @Input() visible: boolean;
+  @Output() closed = new EventEmitter;
 
   faTrash = faTrash;
   faInfo = faInfo;
@@ -30,6 +31,7 @@ export class WorkingWeightsComponent implements OnInit {
 
   hide(): void {
     this.visible = false;
+    this.closed.emit();
   }
 
   remove(workingWeight: WorkingWeight): void {

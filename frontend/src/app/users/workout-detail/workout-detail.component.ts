@@ -10,8 +10,8 @@ import { Exercise } from '../exercise';
 import { WorkoutGroup } from '../workout-group';
 import { Unit } from '../unit';
 import { UnitsService } from '../units.service';
-import { WorkingWeightsService } from '../working-weights.service';
 import { AuthService } from 'src/app/auth.service';
+import { WorkoutGeneratorService } from '../workout-generator.service';
 
 @Component({
   selector: 'app-workout-detail',
@@ -34,8 +34,8 @@ export class WorkoutDetailComponent implements OnInit {
     private exercisesService: ExercisesService,
     private unitsService: UnitsService,
     private router: Router,
-    private workingWeightsService: WorkingWeightsService,
     private authService: AuthService,
+    private workoutGeneratorService: WorkoutGeneratorService,
   ) { }
 
   ngOnInit() {
@@ -55,8 +55,13 @@ export class WorkoutDetailComponent implements OnInit {
     }
     else {
       this.workout = new Workout();
-      this.workingWeightsService.getWorkingWeights(this.authService.getUsername(), new Date())
-        .subscribe(workingWeights => this.workout.working_weights = workingWeights);
+
+      this.service.getLastWorkout(this.authService.getUsername(), null, new Date()).subscribe(w =>
+        {
+          if (w.working_weights) {
+            this.workout.working_weights = w.working_weights;
+          }
+        });
     }
   }
 
@@ -85,12 +90,24 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   sessionChanged() {
-    // todo: fill workout if empty
+    let plan = this.adoptedPlans.filter(x => x.id == this.workout.plan)[0];
+    let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
+
+    if (plan && planSession && (this.workout.id == null || this.workout.id <= 0)) {
+      this.workoutGeneratorService.generate(this.exercises, this.workout.working_weights, plan, planSession)
+      .subscribe(newWorkout => this.workout = newWorkout);
+    }
   }
 
   newGroup() {
     let newGroup = new WorkoutGroup();
-    newGroup.name = "New group";
+
+    if (this.workout.plan_session && this.workout.groups.length > 0) {
+      newGroup.name = "Additional exercises";
+    }
+    else {
+      newGroup.name = "New group";
+    }
 
     this.workout.groups.push(newGroup);
   }
@@ -116,6 +133,10 @@ export class WorkoutDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  onWorkingWeightsClosed() {
+    this.workoutGeneratorService.updateWeights(this.workout, this.workout.working_weights);
   }
 
   valid(workout: Workout): boolean {

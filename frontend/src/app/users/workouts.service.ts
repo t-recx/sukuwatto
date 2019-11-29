@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { Observable } from 'rxjs';
 import { Workout } from './workout';
 import { tap, catchError } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
+import { WorkoutSet } from './workout-set';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutsService {
   private workoutsUrl= `${environment.apiUrl}/workouts/`;
+  private workoutLast= `${environment.apiUrl}/workout-last/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,13 +25,50 @@ export class WorkoutsService {
     private alertService: AlertService
   ) { }
 
-  getWorkouts (): Observable<Workout[]> {
-    return this.http.get<Workout[]>(this.workoutsUrl)
+  getWorkouts (username: string): Observable<Workout[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params.set('user__username', username);
+      options = {params: params};
+    }
+
+    return this.http.get<Workout[]>(`${this.workoutsUrl}`, options)
       .pipe(
         catchError(this.errorService.handleError<Workout[]>('getWorkouts', (e: any) => 
         { 
           this.alertService.error('Unable to fetch workouts');
         }, []))
+      );
+  }
+
+  getLastWorkout(username: string, plan_session: number, date_lte: Date): Observable<Workout> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params.set('username', username);
+    }
+
+    if (plan_session) {
+      params.set('plan_session', plan_session.toString());
+    }
+
+    if (date_lte) {
+      params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (username || plan_session || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<Workout>(`${this.workoutLast}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<Workout>('getLastWorkout', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch last workout');
+        }, new Workout()))
       );
   }
   
