@@ -9,6 +9,7 @@ export const MeasurementSystemLabel = new Map<string, string>([
 ]);
 
 export class Unit {
+    id: number;
     name: string;
     abbreviation: string;
     system: MeasurementSystem;

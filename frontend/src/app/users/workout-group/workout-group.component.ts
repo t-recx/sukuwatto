@@ -5,6 +5,7 @@ import { ActivityType } from '../plan-session-group-activity';
 import { Exercise } from '../exercise';
 import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
+import { Unit } from '../unit';
 
 @Component({
   selector: 'app-workout-group',
@@ -16,6 +17,7 @@ export class WorkoutGroupComponent implements OnInit {
   @Input() group: WorkoutGroup;
   @Input() triedToSave: boolean;
   @Input() exercises: Exercise[];
+  @Input() units: Unit[];
 
   faTimesCircle = faTimesCircle;
 
@@ -38,14 +40,6 @@ export class WorkoutGroupComponent implements OnInit {
 
   newWarmUp(): void {
     this.group.warmups.push(new WorkoutSet());
-  }
-
-  toggleDone(workoutActivity: WorkoutSet): void {
-    if (workoutActivity.done == null) {
-      workoutActivity.done = true;
-    }
-    
-    workoutActivity.done = !workoutActivity.done;
   }
 
   remove(): void {

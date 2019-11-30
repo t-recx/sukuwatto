@@ -24,7 +24,7 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Session</div>
                         <select class="siimple-select siimple-select--fluid" required name="planSession"
-                            id="planSession" [(ngModel)]="workout.planSession" #planSession="ngModel" (change)="sessionChanged()">
+                            id="planSession" [(ngModel)]="workout.plan_session" #planSession="ngModel" (change)="sessionChanged()">
                         <option *ngFor="let planSessionModel of planSessions" value={{planSessionModel.id}}>
                             {{planSessionModel.name}}
                         </option>
@@ -32,7 +32,10 @@
                     </div>
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
-                    <button class="siimple-btn siimple-btn--primary" type="button" (click)="showWorkingWeights()">Working Weights</button>
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">&nbsp;</div>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingWeights()">Working Weights</button>
+                    </div>
                 </div>
             </div>
             <div class="siimple-grid-row">
@@ -50,7 +53,7 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Date</div>
-                        <input type="datetime" class="siimple-input siimple-input--fluid" required name="start" id="start"
+                        <input type="date" class="siimple-input siimple-input--fluid" required name="start" id="start"
                             [(ngModel)]="workout.start" #start="ngModel">
 
                         <div *ngIf="start.invalid && (start.dirty || triedToSave)">
@@ -59,11 +62,6 @@
                     </div>
                 </div>
             </div>
-            <div class="siimple-grid-row" *ngFor="let group of workout.groups">
-               <app-workout-group [workout]=workout [group]=group [exercises]=exercises [triedToSave]=triedToSave>
-               </app-workout-group> 
-            </div>
-            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
@@ -78,6 +76,11 @@
                     </div>
                 </div>
             </div>
+            <div class="siimple-grid-row" *ngFor="let group of workout.groups">
+               <app-workout-group [workout]=workout [group]=group [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+               </app-workout-group> 
+            </div>
+            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
         </div>
         <button class="siimple-btn siimple-btn--success siimple--mt-2" type="submit">Save</button>
     </form>

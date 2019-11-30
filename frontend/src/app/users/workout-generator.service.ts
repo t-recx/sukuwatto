@@ -29,12 +29,16 @@ export class WorkoutGeneratorService {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
+          console.log('generating workout...');
           let workout = new Workout();
 
+          workout.plan = plan.id;
+          workout.plan_session = planSession.id;
           workout.working_weights = workingWeights;
           this.fillOutWorkingWeights(workingWeights, planSession);
 
           if (planSession.groups) {
+
             let sessionOrders = Array.from(new Set(planSession.groups.map(x => x.order))).sort((a, b) => a - b);
             for (let sessionOrder of sessionOrders) {
               var groups = planSession.groups.filter(x => x.order == sessionOrder);
@@ -62,15 +66,19 @@ export class WorkoutGeneratorService {
 
               workoutGroup.warmups = this.getSets(exercises, workingWeights, plan, planSession, planSessionGroup, planSessionGroup.warmups, lastWorkoutGroup ? lastWorkoutGroup.warmups : []);
               workoutGroup.sets = this.getSets(exercises, workingWeights, plan, planSession, planSessionGroup, planSessionGroup.exercises, lastWorkoutGroup ? lastWorkoutGroup.sets : []);
+
+              workout.groups.push(workoutGroup);
             }
           }
 
+          console.log('finished generating workout...');
           x.next(workout);
           x.complete();
         })));
   }
 
   updateWeights(workout: Workout, workingWeights: WorkingWeight[]): void {
+          console.log('updating workout weights...');
     if (workout.groups) {
       for (let group of workout.groups) {
         let sets: WorkoutSet[] = []; 
@@ -93,10 +101,12 @@ export class WorkoutGeneratorService {
         }
       }
     }
+
+          console.log('finished updating workout weights...');
   }
 
   fillOutWorkingWeights(workingWeights: WorkingWeight[], planSession: PlanSession): void {
-    let exercises: number[];
+    let exercises: number[] = [];
     let unit: number = null;
 
     if (workingWeights.length > 0) {
@@ -122,6 +132,8 @@ export class WorkoutGeneratorService {
         if (unit) {
           workingWeight.unit = unit;
         }
+        console.log(workingWeight);
+        workingWeights.push(workingWeight);
       }
     }
   }
@@ -160,11 +172,13 @@ export class WorkoutGeneratorService {
   private updateWorkingWeight(workingWeight: WorkingWeight, progressionStrategy: ProgressionStrategy) {
     workingWeight.previous_weight = workingWeight.weight;
     workingWeight.previous_unit = workingWeight.unit;
-    if (progressionStrategy.weight_increase) {
-      workingWeight.weight += progressionStrategy.weight_increase;
-    }
-    else if (progressionStrategy.percentage_increase) {
-      workingWeight.weight = this.getIncreasedWeightWithPercentage(workingWeight.previous_weight, workingWeight.previous_unit, progressionStrategy.percentage_increase);
+    if (workingWeight.weight) {
+      if (progressionStrategy.weight_increase) {
+        workingWeight.weight += progressionStrategy.weight_increase;
+      }
+      else if (progressionStrategy.percentage_increase) {
+        workingWeight.weight = this.getIncreasedWeightWithPercentage(workingWeight.previous_weight, workingWeight.previous_unit, progressionStrategy.percentage_increase);
+      }
     }
   }
 
@@ -243,7 +257,7 @@ export class WorkoutGeneratorService {
     set.expected_number_of_repetitions_up_to = sessionActivity.number_of_repetitions_up_to;
     set.repetition_type = sessionActivity.repetition_type;
     set.plan_session_group_activity = sessionActivity.id;
-    if (workingWeight) {
+    if (workingWeight && workingWeight.weight) {
       set.weight = workingWeight.weight;
       set.unit = workingWeight.unit;
     }

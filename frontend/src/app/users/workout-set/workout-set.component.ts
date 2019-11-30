@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
 import { Exercise } from '../exercise';
 import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
-import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { WorkoutGroup } from '../workout-group';
+import { faCheck, faEdit, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { Unit } from '../unit';
 
 @Component({
   selector: 'app-workout-set',
@@ -15,11 +15,12 @@ export class WorkoutSetComponent implements OnInit {
   @Input() workoutActivity: WorkoutSet;
   @Input() triedToSave: boolean;
   @Input() exercises: Exercise[];
+  @Input() units: Unit[];
 
-  exercise: Exercise;
   repetitionType = RepetitionType;
   faCheck = faCheck;
   faEdit = faEdit;
+  faTimesCircle = faTimesCircle;
   editing: boolean = false;
   editingRepetitions: boolean = false;
   repetitionTypeLabel = RepetitionTypeLabel;
@@ -27,10 +28,7 @@ export class WorkoutSetComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (this.workoutActivity.exercise) {
-      this.exercise = this.exercises.filter(x => x.id == this.workoutActivity.exercise)[0];
-    }
-    else {
+    if (!this.workoutActivity.exercise) {
       this.editing = true;
     }
   }
@@ -52,6 +50,17 @@ export class WorkoutSetComponent implements OnInit {
       this.workoutActivity.repetition_type != RepetitionType.Standard) {
       this.workoutActivity.expected_number_of_repetitions = null;
       this.workoutActivity.expected_number_of_repetitions_up_to = null;
+    }
+  }
+
+  toggleDone(): void {
+    if (!this.editing) {
+      if (this.workoutActivity.done == null) {
+        this.workoutActivity.done = true;
+      }
+      else {
+        this.workoutActivity.done = !this.workoutActivity.done;
+      }
     }
   }
 

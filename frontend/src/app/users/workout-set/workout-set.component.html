@@ -1,70 +1,86 @@
-<fa-icon [icon]="faEdit" (click)="toggleEdit()" class="siimple--mr-1"></fa-icon>
-
-<div *ngIf="!editing">
-    {{exercise.name}}
-    <span *ngIf="!editingRepetitions" (click)="toggleEditRepetitions()">
+<div class="" >
+    <div *ngIf="!editing" (click)="toggleDone()">
+        <fa-icon [icon]="faEdit" (click)="toggleEdit()" class="siimple--mr-1"></fa-icon>
+        <span *ngFor="let exercise of exercises">
+            <span *ngIf="exercise.id == workoutActivity.exercise">{{exercise.name}}</span>
+        </span>
+        <span *ngIf="workoutActivity.weight">
+            x
+            {{workoutActivity.weight}} 
+        </span>
+        <span *ngFor="let unit of units">
+            <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+        </span>
         <span *ngIf="workoutActivity.repetition_type!=repetitionType.None">
             x
         </span>
-        <span *ngIf="workoutActivity.number_of_repetitions">
-            <span>{{workoutActivity.number_of_repetitions}}</span>
+        <span *ngIf="!editingRepetitions" (click)="toggleEditRepetitions()">
+            <span *ngIf="workoutActivity.number_of_repetitions">
+                <span>{{workoutActivity.number_of_repetitions}}</span>
+            </span>
+            <span *ngIf="!workoutActivity.number_of_repetitions">
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
+                    {{workoutActivity.expected_number_of_repetitions}}
+                </span>
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
+                    {{workoutActivity.expected_number_of_repetitions}} -
+                    {{workoutActivity.expected_number_of_repetitions_up_to}}
+                </span>
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                    F
+                </span>
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                    AMRAP
+                </span>
+            </span>
         </span>
-        <span *ngIf="!workoutActivity.number_of_repetitions">
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
-                {{workoutActivity.expected_number_of_repetitions}}
-            </span>
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
-                {{workoutActivity.expected_number_of_repetitions}} -
-                {{workoutActivity.expected_number_of_repetitions_up_to}}
-            </span>
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
-                F
-            </span>
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
-                AMRAP
-            </span>
+        <span *ngIf="editingRepetitions && workoutActivity.repetition_type!=repetitionType.None">
+            <input type="number" class="siimple-input" required name="number_of_repetitions" id="number_of_repetitions"
+                [(ngModel)]="workoutActivity.number_of_repetitions" #number_of_repetitions="ngModel" placeholder="Reps">
         </span>
-    </span>
-    <span *ngIf="!editingRepetitions" (click)="toggleEditRepetitions()">
-        <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_repetitions"
-            id="number_of_repetitions" [(ngModel)]="workoutActivity.number_of_repetitions"
-            #number_of_repetitions="ngModel" placeholder="Reps">
-    </span>
 
-    <fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right"></fa-icon>
-</div>
+        <fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right"></fa-icon>
+    </div>
 
-<div *ngIf="editing">
-    <span>
-        <select class="siimple-select siimple-select--fluid" required name="exercise" id="exercise"
-            [(ngModel)]="workoutActivity.exercise" #exercise="ngModel">
-            <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
-                {{exerciseModel.name}}
-            </option>
-        </select>
-    </span>
-    <span> x </span>
-    <span>
-        <select class="siimple-select siimple-select--fluid" name="repetition_type" id="repetition_type"
-            [(ngModel)]="workoutActivity.repetition_type" #repetition_type="ngModel" (change)="repetitionTypeChange()">
-            <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
-                value={{repetition_typeModel.key}}>
-                {{repetition_typeModel.value}}
-            </option>
-        </select>
-    </span>
-    <span
-        *ngIf="workoutActivity.repetition_type == repetitionTypeEnum.Standard || workoutActivity.repetition_type == repetitionTypeEnum.Range">
-        <input type="number" class="siimple-input siimple-input--fluid" required name="expected_number_of_repetitions"
-            id="expected_number_of_repetitions" [(ngModel)]="workoutActivity.expected_number_of_repetitions"
-            #expected_number_of_repetitions="ngModel" placeholder="Reps">
-    </span>
-    <span *ngIf="workoutActivity.repetition_type == repetitionTypeEnum.Range">
-        <input type="number" class="siimple-input siimple-input--fluid" name="number_of_repetitions_up_to"
-            id="number_of_repetitions_up_to" [(ngModel)]="workoutActivity.number_of_repetitions_up_to"
-            #number_of_repetitions_up_to="ngModel" placeholder="Up to">
-    </span>
-    <span>
-        <fa-icon [icon]="faTimesCircle" class="siimple--float-right" (click)="remove()"></fa-icon>
-    </span>
+    <div *ngIf="editing" class="siimple-grid">
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col-compact siimple-grid-col-1" style="padding-right: 0px;">
+                <fa-icon [icon]="faEdit" (click)="toggleEdit()" class="siimple--mr-1"></fa-icon>
+            </div>
+            <div class="siimple-grid-col-compact siimple-grid-col--3" style="padding-left: 0px;">
+                <select class="siimple-select siimple-select--fluid" required name="exercise" id="exercise"
+                    [(ngModel)]="workoutActivity.exercise" #exercise="ngModel">
+                    <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
+                        {{exerciseModel.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="siimple-grid-col-compact siimple-grid-col--3">
+                <select class="siimple-select siimple-select--fluid" name="repetition_type" id="repetition_type"
+                    [(ngModel)]="workoutActivity.repetition_type" #repetition_type="ngModel"
+                    (change)="repetitionTypeChange()">
+                    <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
+                        value={{repetition_typeModel.key}}>
+                        {{repetition_typeModel.value}}
+                    </option>
+                </select>
+            </div>
+            <div class="siimple-grid-col-compact siimple-grid-col--2">
+                <input
+                    *ngIf="workoutActivity.repetition_type == repetitionType.Standard || workoutActivity.repetition_type == repetitionType.Range"
+                    type="number" class="siimple-input siimple-input--fluid" required
+                    name="expected_number_of_repetitions" id="expected_number_of_repetitions"
+                    [(ngModel)]="workoutActivity.expected_number_of_repetitions"
+                    #expected_number_of_repetitions="ngModel" placeholder="Reps">
+            </div>
+            <div class="siimple-grid-col-compact siimple-grid-col--2">
+                <input *ngIf="workoutActivity.repetition_type == repetitionType.Range" type="number"
+                    class="siimple-input siimple-input--fluid" name="number_of_repetitions_up_to"
+                    id="number_of_repetitions_up_to" [(ngModel)]="workoutActivity.number_of_repetitions_up_to"
+                    #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+            </div>
+            <fa-icon [icon]="faTimesCircle" class="siimple--float-right" style="padding-right: 12px;"
+                (click)="remove()"></fa-icon>
+        </div>
+    </div>
 </div>

@@ -6,11 +6,11 @@
         </div>
         <div class="siimple-modal-body">
             <div class="siimple-grid">
-                <div class="siimple-grid-row" *ngFor="let working_weight of working_weights">
-                    <app-working-weight [working_weight]=working_weight [exercises]=exercises [units]=units>
+                <div class="siimple-grid-row" *ngFor="let workingWeight of workingWeights">
+                    <app-working-weight [workingWeight]=workingWeight [exercises]=exercises [units]=units>
                     </app-working-weight>
                     <div class="siimple-grid-col siimple-grid-col--1">
-                        <button class="siimple-button" type="button" (click)="remove(working_weight)">
+                        <button class="siimple-btn siimple-btn--error" type="button" (click)="remove(workingWeight)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </div>
@@ -19,8 +19,13 @@
             <button class="siimple-btn siimple-btn--primary" type="button" (click)="newItem()">New Working Weight</button>
         </div>
         <div class="siimple-modal-footer">
-            <fa-icon [icon]="faInfo" class="siimple--ml-1"></fa-icon>
-            <span>Working weights are the weights you use for reps when performing a set</span>
+            <!--
+                <fa-icon [icon]="faInfo" class="siimple--mr-2"></fa-icon>
+            -->
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="hide()">
+                OK
+            </button>
+            <span class="siimple--display-sm-none siimple--ml-4">Working weights are the weights you use for reps when performing a set</span>
         </div>
         <!--
             todo: put an ok button right-aligned here?

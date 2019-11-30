@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkoutsService } from '../workouts.service';
 import { Workout } from '../workout';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-workouts',
@@ -12,6 +13,7 @@ export class WorkoutsComponent implements OnInit {
 
   constructor(
     private workoutsService: WorkoutsService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -19,7 +21,8 @@ export class WorkoutsComponent implements OnInit {
   }
 
   getWorkouts(): void {
-    this.workoutsService.getWorkouts().subscribe(workouts => this.workouts = workouts);
+    this.workoutsService.getWorkouts(this.authService.getUsername())
+    .subscribe(workouts => this.workouts = workouts);
   }
 
   deleteWorkout(workout): void {
