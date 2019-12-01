@@ -178,9 +178,6 @@ export class PlanDetailComponent implements OnInit {
     if (!activity.number_of_repetitions || activity.number_of_repetitions <= 0)
       return false;
 
-    if (!activity.working_weight_percentage || activity.working_weight_percentage < 0)
-      return false;
-
     return true;
   }
 }

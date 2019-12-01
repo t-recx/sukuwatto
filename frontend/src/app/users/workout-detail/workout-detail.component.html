@@ -54,7 +54,9 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Date</div>
                         <input type="date" class="siimple-input siimple-input--fluid" required name="start" id="start"
-                            [(ngModel)]="workout.start" #start="ngModel">
+                            [ngModel]="workout.start | date:'yyyy-MM-dd'" 
+                            (ngModelChange)="item.value=$event"
+                            #start="ngModel">
 
                         <div *ngIf="start.invalid && (start.dirty || triedToSave)">
                             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
@@ -66,7 +68,7 @@
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Notes</div>
-                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" 
+                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
                             name="notes" id="notes" [(ngModel)]="workout.notes" #notes="ngModel">
                         </textarea>
 

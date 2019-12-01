@@ -192,7 +192,7 @@ class AbstractWorkoutActivity(models.Model):
     weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     done = models.BooleanField(default=False)
-    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True

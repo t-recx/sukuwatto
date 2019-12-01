@@ -34,6 +34,8 @@ export class WorkoutGeneratorService {
 
           workout.plan = plan.id;
           workout.plan_session = planSession.id;
+          workout.start = new Date();
+          workout.name = this.get_workout_name(workout.start, plan, planSession);
           workout.working_weights = workingWeights;
           this.fillOutWorkingWeights(workingWeights, planSession);
 
@@ -75,6 +77,20 @@ export class WorkoutGeneratorService {
           x.next(workout);
           x.complete();
         })));
+  }
+
+  get_workout_name(start: Date, plan: Plan, planSession: PlanSession): string {
+    let name: string = "";
+
+    if (start) {
+      name += start.toLocaleDateString('en-us', { weekday: 'long' }) + "";
+    }
+
+    if (planSession) {
+      name += "'s " + planSession.name + " session";
+    }
+
+    return name;
   }
 
   updateWeights(workout: Workout, workingWeights: WorkingWeight[]): void {
@@ -286,6 +302,11 @@ export class WorkoutGeneratorService {
   getIncreasedWeightWithPercentage(weight: number, unit: number, percentage: number): number {
     // todo: round up the weight generated below to normal regular plates' weights accordingly to 
     // unit system type:
-    return weight * (percentage / 100);
+    if (percentage) {
+      return weight * (percentage / 100);
+    }
+
+    // if we don't have a percentage... this could mean we're just using the bar
+    return null;
   }
 }

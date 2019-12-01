@@ -55,6 +55,7 @@ export class WorkoutDetailComponent implements OnInit {
     }
     else {
       this.workout = new Workout();
+      this.workout.start = new Date();
 
       this.service.getLastWorkout(this.authService.getUsername(), null, new Date()).subscribe(w =>
         {
@@ -62,6 +63,7 @@ export class WorkoutDetailComponent implements OnInit {
             this.workout.working_weights = w.working_weights;
           }
         });
+        console.log(this.workout);
     }
   }
 
@@ -83,6 +85,7 @@ export class WorkoutDetailComponent implements OnInit {
     this.planSessions = this.adoptedPlans
       .filter(plan => plan.id == this.workout.plan)
       .map(plan => plan.sessions)[0];
+      console.log(this.workout);
   }
 
   showWorkingWeights() {
