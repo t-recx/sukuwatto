@@ -30,7 +30,7 @@ export class WorkoutsService {
     let params = new HttpParams();
 
     if (username) {
-      params.set('user__username', username);
+      params = params.set('user__username', username);
       options = {params: params};
     }
 
@@ -48,15 +48,15 @@ export class WorkoutsService {
     let params = new HttpParams();
 
     if (username) {
-      params.set('username', username);
+      params = params.set('username', username);
     }
 
     if (plan_session) {
-      params.set('plan_session', plan_session.toString());
+      params = params.set('plan_session', plan_session.toString());
     }
 
     if (date_lte) {
-      params.set('date_lte', date_lte.toISOString());
+      params = params.set('date_lte', date_lte.toISOString());
     }
 
     if (username || plan_session || date_lte) {

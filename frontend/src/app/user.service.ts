@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './user';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -34,5 +34,24 @@ export class UserService {
         }
       }))
     );
+  }
+
+  get(username: string): Observable<User[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    options = {params: params};
+
+    return this.http.get<User[]>(`${environment.apiUrl}/users/`, options)
+      .pipe(
+        catchError(this.errorService.handleError<User[]>('getUser', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch users');
+        }, []))
+      );
   }
 }

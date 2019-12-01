@@ -8,6 +8,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class AuthService {
 
   username: string;
 
+  public user: User;
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -24,6 +27,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
+    private userService: UserService,
     private errorService: ErrorService,
     private alertService: AlertService) {
     this.username = this.getUsername();
@@ -34,6 +38,7 @@ export class AuthService {
       .pipe(
         tap((newToken: Token) => {
           this.setSession(user, newToken);
+          this.loadUser(user.username);
         }),
         catchError(this.errorService.handleError<Token>('login', (e: any) => {
           if (e && e.status && e.status == 401) {
@@ -81,6 +86,13 @@ export class AuthService {
     localStorage.setItem('refresh_token', token.refresh);
     localStorage.setItem('username', user.username);
     this.username = user.username;
+  }
+
+  private loadUser(username: string) {
+    this.userService.get(username).subscribe(users => {
+      if (users.length > 0) { this.user = users[0]; }
+      else { this.user = null; }
+    });
   }
 
   private setTokenAccess(access: string) {

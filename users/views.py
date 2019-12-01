@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -11,6 +12,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = get_user_model().objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['username']
 
     def get_permissions(self):
         if self.action == 'create':

@@ -68,6 +68,7 @@
                             </div>
                         </div>
                         <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Gender</div>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="m" id="male" [checked]="user.gender === 'm'"
                                     [(ngModel)]="user.gender">
@@ -90,7 +91,7 @@
                     </div>
                 </div>
                 <div class="siimple-grid-row">
-                    <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
+                    <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field-label">Month of birth</div>
                         <select class="siimple-select siimple-select--fluid" [(ngModel)]="user.month_birth"
                             name="month_birth">
@@ -109,10 +110,29 @@
                             <option value="12">December</option>
                         </select>
                     </div>
-                    <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
+                    <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field-label">Year of birth</div>
                         <input type="number" class="siimple-input siimple-input--fluid" [(ngModel)]="user.year_birth"
                             name="year_birth">
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <div class="siimple-form-field-label">Measurement units</div>
+                            <div class="siimple-radio">
+                                <input type="radio" name="system" value="m" id="metric" [checked]="user.system === 'm'"
+                                    [(ngModel)]="user.system">
+                                <label for="metric"></label>
+                            </div>
+                            <label class="siimple-label" for="metric">Metric</label>
+                            <div class="siimple-radio">
+                                <input type="radio" name="system" value="i" id="imperial" [checked]="user.system === 'i'"
+                                    [(ngModel)]="user.system">
+                                <label for="imperial"></label>
+                            </div>
+                            <label class="siimple-label" for="imperial">Imperial</label>
+                        </div>
                     </div>
                 </div>
             </div>

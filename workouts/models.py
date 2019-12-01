@@ -9,9 +9,17 @@ class Unit(models.Model):
         (IMPERIAL, 'Imperial'),
     ]
 
+    WEIGHT = 'w'
+    HEIGHT = 'h'
+    MEASUREMENT_TYPE = [
+        (WEIGHT, 'Weight'),
+        (HEIGHT, 'Height'),
+    ]
+
     name = models.CharField(max_length=200)
     abbreviation = models.CharField(max_length=200)
     system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
+    measurement_type = models.CharField(max_length=1, null=True, choices=MEASUREMENT_TYPE)
 
 class UnitConversion(models.Model):
     from_unit = models.ForeignKey(Unit, related_name='from_unit', on_delete=models.CASCADE)
