@@ -8,10 +8,12 @@ import { PlanSession } from '../plan-session';
 import { ExercisesService } from '../exercises.service';
 import { Exercise } from '../exercise';
 import { WorkoutGroup } from '../workout-group';
-import { Unit } from '../unit';
+import { Unit, MeasurementType } from '../unit';
 import { UnitsService } from '../units.service';
 import { AuthService } from 'src/app/auth.service';
 import { WorkoutGeneratorService } from '../workout-generator.service';
+import { WorkoutSet } from '../workout-set';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-workout-detail',
@@ -26,6 +28,8 @@ export class WorkoutDetailComponent implements OnInit {
   units: Unit[];
   triedToSave: boolean;
   workingWeightsVisible: boolean = false;
+
+  activityStatusChangedSubject: Subject<void> = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +61,8 @@ export class WorkoutDetailComponent implements OnInit {
       this.workout = new Workout();
       this.workout.start = new Date();
 
+      this.setNextActivityInProgress();
+
       this.service.getLastWorkout(this.authService.getUsername(), null, new Date()).subscribe(w =>
         {
           if (w.working_weights) {
@@ -72,20 +78,100 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   loadUnits() {
-    this.unitsService.getUnits().subscribe(units => this.units = units);
+    this.unitsService.getUnits().subscribe(units => {
+      this.units = units.filter(u => u.measurement_type == MeasurementType.Weight);
+    });
   }
 
   loadAdoptedPlans() {
     let username = this.route.snapshot.paramMap.get('username');
 
-    this.plansService.getAdoptedPlans(username).subscribe(plans => this.adoptedPlans = plans);
+    this.plansService.getAdoptedPlans(username).subscribe(plans => 
+      {
+        this.adoptedPlans = plans;
+        if (plans && plans.length == 1) {
+          this.workout.plan = plans[0].id;
+          this.planChanged();
+        }
+      });
   }
 
   planChanged() {
-    this.planSessions = this.adoptedPlans
-      .filter(plan => plan.id == this.workout.plan)
-      .map(plan => plan.sessions)[0];
-      console.log(this.workout);
+    if (this.workout.plan) {
+      this.planSessions = this.adoptedPlans
+        .filter(plan => plan.id == this.workout.plan)
+        .map(plan => plan.sessions)[0];
+
+      // todo: autoselect plansession based on previous user plan session
+    }
+  }
+
+  activityStatusChanged(): void {
+    this.resetInProgressForAllActivities();
+    this.setNextActivityInProgress();
+    this.activityStatusChangedSubject.next();
+  }
+
+  resetInProgressForAllActivities(): void {
+    let activities: WorkoutSet[] = [];
+
+    for (let group of this.workout.groups) {
+      activities.push(...group.warmups);
+      activities.push(...group.sets);
+    }
+
+    for (let activity of activities) {
+      activity.in_progress = false;
+    }
+  }
+
+  setNextActivityInProgress(): void {
+    let activities: WorkoutSet[] = [];
+
+    for (let group of this.workout.groups) {
+      activities.push(...group.warmups);
+      activities.push(...group.sets);
+    }
+
+    if (activities.length == 0) {
+      return;
+    }
+
+    if (activities.filter(a => a.in_progress).length > 0) {
+      return;
+    }
+
+    let activitiesWithEndSet = activities.filter(a => a.end);
+
+    if (activitiesWithEndSet.length == 0) {
+      this.setActivityInProgress(activities[0]);
+
+      return;
+    }
+
+    let lastCompletedActivity = 
+      activitiesWithEndSet
+      .filter(a => a.done)
+      .sort((a,b) => (new Date(b.end)).getTime() - (new Date(a.end)).getTime())[0];
+
+    console.log(lastCompletedActivity);
+
+    let setNext = false;
+    for (let activity of activities) {
+      if (!activity.done && setNext) {
+        this.setActivityInProgress(activity);
+        break;
+      }
+
+      if (activity == lastCompletedActivity) {
+        setNext= true;
+      }
+    }
+  }
+
+  setActivityInProgress(activity: WorkoutSet) {
+    activity.in_progress = true;
+    activity.start = new Date();
   }
 
   showWorkingWeights() {
@@ -98,7 +184,11 @@ export class WorkoutDetailComponent implements OnInit {
 
     if (plan && planSession && (this.workout.id == null || this.workout.id <= 0)) {
       this.workoutGeneratorService.generate(this.exercises, this.workout.working_weights, plan, planSession)
-      .subscribe(newWorkout => { this.workout = newWorkout; console.log(this.workout); });
+      .subscribe(newWorkout => { 
+        this.workout = newWorkout; 
+        this.setNextActivityInProgress();
+        console.log(this.workout); 
+      });
     }
   }
 
@@ -139,6 +229,7 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   onWorkingWeightsClosed() {
+    this.workingWeightsVisible = false;
     this.workoutGeneratorService.updateWeights(this.workout, this.workout.working_weights);
   }
 

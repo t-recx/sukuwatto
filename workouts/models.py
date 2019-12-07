@@ -199,6 +199,7 @@ class AbstractWorkoutActivity(models.Model):
     number_of_repetitions = models.PositiveIntegerField(null=True)
     weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
+    in_progress = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 

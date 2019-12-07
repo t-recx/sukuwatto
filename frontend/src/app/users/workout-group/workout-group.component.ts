@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WorkoutGroup } from '../workout-group';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
@@ -6,18 +6,23 @@ import { Exercise } from '../exercise';
 import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
 import { Unit } from '../unit';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout-group',
   templateUrl: './workout-group.component.html',
   styleUrls: ['./workout-group.component.css']
 })
-export class WorkoutGroupComponent implements OnInit {
+export class WorkoutGroupComponent implements OnInit, OnDestroy {
   @Input() workout: Workout;
   @Input() group: WorkoutGroup;
   @Input() triedToSave: boolean;
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
+  @Output() activityStatusChanged = new EventEmitter();
+  @Input() workoutActivityStatusChanged: Observable<void>;
+
+  private workoutActivityStatusChangedSubscription: Subscription;
 
   faTimesCircle = faTimesCircle;
 
@@ -28,7 +33,50 @@ export class WorkoutGroupComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.selectCurrentActivityType(true);
+    this.workoutActivityStatusChangedSubscription = this.workoutActivityStatusChanged
+      .subscribe(() => 
+        this.selectCurrentActivityType(false));
   }
+
+  ngOnDestroy(): void {
+    this.workoutActivityStatusChangedSubscription.unsubscribe();
+  }
+
+  selectCurrentActivityType(init: boolean): void {
+    let numberWarmUpsNotDone = 0; 
+    let numberExercisesDone = 0; 
+    let lastWarmUpDone = false;
+    let activityInProgressInGroup = false;
+
+    if (this.group.warmups) {
+      numberWarmUpsNotDone = this.group.warmups.filter(w => !w.done).length;
+      if (this.group.warmups.length > 0) {
+        lastWarmUpDone = this.group.warmups[this.group.warmups.length - 1].done;
+      }
+
+      if (!activityInProgressInGroup) {
+        activityInProgressInGroup = this.group.warmups.filter(a => a.in_progress).length > 0;
+      }
+    }
+
+    if (this.group.sets) {
+      numberExercisesDone = this.group.sets.filter(w => w.done).length;
+
+      if (!activityInProgressInGroup) {
+        activityInProgressInGroup = this.group.sets.filter(a => a.in_progress).length > 0;
+      }
+    }
+
+    if (init || activityInProgressInGroup) {
+      if (!lastWarmUpDone && numberWarmUpsNotDone > 0 && numberExercisesDone == 0) {
+        this.selectActivityType(ActivityType.WarmUp);
+      }
+      else {
+        this.selectActivityType(ActivityType.Exercise);
+      }
+    }
+  } 
 
   selectActivityType(type: ActivityType): void {
     this.selectedActivityType = type;
@@ -40,6 +88,10 @@ export class WorkoutGroupComponent implements OnInit {
 
   newWarmUp(): void {
     this.group.warmups.push(new WorkoutSet());
+  }
+
+  setStatusChanged() {
+    this.activityStatusChanged.emit();
   }
 
   remove(): void {

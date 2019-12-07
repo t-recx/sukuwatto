@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkingWeight } from '../working-weight';
 import { Exercise } from '../exercise';
-import { Unit } from '../unit';
-
+import { Unit, MeasurementType } from '../unit';
+import { AuthService } from 'src/app/auth.service';
 @Component({
   selector: 'app-working-weight',
   templateUrl: './working-weight.component.html',
@@ -14,9 +14,18 @@ export class WorkingWeightComponent implements OnInit {
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService) { }
 
   ngOnInit() {
+    let unitSystem = this.authService.getUserUnitSystem();
+    if (!this.workingWeight.unit && unitSystem) {
+      let filteredUnits = this.units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Weight);
+
+      if (filteredUnits && filteredUnits.length > 0) {
+        this.workingWeight.unit = filteredUnits[0].id;
+      }
+    }
   }
 
 }

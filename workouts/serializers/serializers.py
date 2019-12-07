@@ -9,7 +9,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unit
-        fields = ['id', 'name', 'abbreviation', 'system']
+        fields = ['id', 'name', 'abbreviation', 'system', 'measurement_type']
 
 class UnitConversionSerializer(serializers.ModelSerializer):
     class Meta:

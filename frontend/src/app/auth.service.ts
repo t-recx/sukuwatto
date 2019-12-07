@@ -18,8 +18,6 @@ export class AuthService {
 
   username: string;
 
-  public user: User;
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -38,7 +36,7 @@ export class AuthService {
       .pipe(
         tap((newToken: Token) => {
           this.setSession(user, newToken);
-          this.loadUser(user.username);
+          this.setUserData(user.username);
         }),
         catchError(this.errorService.handleError<Token>('login', (e: any) => {
           if (e && e.status && e.status == 401) {
@@ -55,6 +53,7 @@ export class AuthService {
     localStorage.removeItem('username');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('unit_system');
   }
 
   refresh(): Observable<Token> {
@@ -81,6 +80,10 @@ export class AuthService {
     return localStorage.getItem('username');
   }
 
+  public getUserUnitSystem(): string {
+    return localStorage.getItem('unit_system');
+  }
+
   private setSession(user: User, token: Token) {
     this.setTokenAccess(token.access);
     localStorage.setItem('refresh_token', token.refresh);
@@ -88,10 +91,11 @@ export class AuthService {
     this.username = user.username;
   }
 
-  private loadUser(username: string) {
+  private setUserData(username: string) {
     this.userService.get(username).subscribe(users => {
-      if (users.length > 0) { this.user = users[0]; }
-      else { this.user = null; }
+      if (users.length > 0) { 
+        localStorage.setItem('unit_system', users[0].system);
+      }
     });
   }
 

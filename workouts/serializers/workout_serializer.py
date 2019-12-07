@@ -14,13 +14,13 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
     class Meta:
         model = WorkoutSet
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutWarmUp()._meta.get_field('id'), required=False)
     class Meta:
         model = WorkoutWarmUp
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
 
 class WorkoutGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutGroup()._meta.get_field('id'), required=False)
@@ -228,6 +228,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.weight = group_data.get('weight', instance.weight)
             instance.unit = group_data.get('unit', instance.unit)
             instance.done = group_data.get('done', instance.done)
+            instance.in_progress = group_data.get('in_progress', instance.in_progress)
             instance.working_weight_percentage = group_data.get('working_weight_percentage', instance.working_weight_percentage)
             instance.plan_session_group_activity = group_data.get('plan_session_group_activity', instance.plan_session_group_activity)
             instance.save()

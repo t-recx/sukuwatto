@@ -1,11 +1,13 @@
-export enum MeasurementSystem {
-    Metric = 'm',
-    Imperial = 'i',
+import { MeasurementSystem } from '../user';
+
+export enum MeasurementType {
+    Weight = 'w',
+    Height = 'h',
 }
 
-export const MeasurementSystemLabel = new Map<string, string>([
-  [MeasurementSystem.Metric, 'Metric'],
-  [MeasurementSystem.Imperial, 'Imperial'],
+export const MeasurementTypeLabel = new Map<string, string>([
+  [MeasurementType.Weight, 'Weight'],
+  [MeasurementType.Height, 'Height'],
 ]);
 
 export class Unit {
@@ -13,4 +15,5 @@ export class Unit {
     name: string;
     abbreviation: string;
     system: MeasurementSystem;
+    measurement_type: MeasurementType;
 }

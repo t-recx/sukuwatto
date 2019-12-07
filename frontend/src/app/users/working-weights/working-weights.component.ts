@@ -15,7 +15,7 @@ export class WorkingWeightsComponent implements OnInit {
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
   @Input() visible: boolean;
-  @Output() closed = new EventEmitter;
+  @Output() closed = new EventEmitter();
 
   faTrash = faTrash;
   faInfo = faInfo;

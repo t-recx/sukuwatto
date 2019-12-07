@@ -1,7 +1,12 @@
-export enum UnitSystem {
+export enum MeasurementSystem {
     Metric = 'm',
     Imperial = 'i',
 }
+
+export const MeasurementSystemLabel = new Map<string, string>([
+  [MeasurementSystem.Metric, 'Metric'],
+  [MeasurementSystem.Imperial, 'Imperial'],
+]);
 
 export enum Gender {
     Male = 'm',
@@ -18,5 +23,5 @@ export class User {
     gender: Gender;
     year_birth: number;
     month_birth: number;
-    system: UnitSystem;
+    system: MeasurementSystem;
 }
