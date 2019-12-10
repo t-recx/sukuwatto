@@ -42,13 +42,15 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'user', 'groups', 'working_weights']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_weights']
 
     def create(self, validated_data):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
+
+        #todo: handle user null here...
 
         groups_data = None
         working_weights_data = None

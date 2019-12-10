@@ -1,0 +1,7 @@
+.timer-box {
+     position: fixed;
+     bottom: 0px;
+     right: 0px;
+     margin-right: 20px;
+     width: 100px;
+}

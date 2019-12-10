@@ -54,6 +54,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('unit_system');
+    localStorage.removeItem('user_id');
   }
 
   refresh(): Observable<Token> {
@@ -80,6 +81,10 @@ export class AuthService {
     return localStorage.getItem('username');
   }
 
+  public getUserId(): string {
+    return localStorage.getItem('user_id');
+  }
+
   public getUserUnitSystem(): string {
     return localStorage.getItem('unit_system');
   }
@@ -95,6 +100,7 @@ export class AuthService {
     this.userService.get(username).subscribe(users => {
       if (users.length > 0) { 
         localStorage.setItem('unit_system', users[0].system);
+        localStorage.setItem('user_id', users[0].id.toString());
       }
     });
   }

@@ -190,7 +190,7 @@ class WorkoutGroup(models.Model):
 
 class AbstractWorkoutActivity(models.Model):
     order = models.PositiveIntegerField(default=1)
-    start = models.DateTimeField()
+    start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TYPES)
@@ -217,7 +217,7 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
 class WorkingWeight(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_weights")
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    weight = models.DecimalField(max_digits=6, decimal_places=2)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
-    previous_weight = models.DecimalField(max_digits=6, decimal_places=2)
-    previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit")
+    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
+    previous_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit", null=True)

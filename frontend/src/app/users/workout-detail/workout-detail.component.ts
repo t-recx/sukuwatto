@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/auth.service';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
 import { Subject } from 'rxjs';
+import { WorkingWeight } from '../working-weight';
 
 @Component({
   selector: 'app-workout-detail',
@@ -234,7 +235,20 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   valid(workout: Workout): boolean {
-    // todo
+    // todo?
+
+    return true;
+  }
+
+  validWorkingWeights(workingWeights: WorkingWeight[]): boolean {
+    if (workingWeights) {
+      for(let workingWeight of workingWeights) {
+        if (!workingWeight.exercise) {
+          return false;
+        }
+      }
+    }
+
     return true;
   }
 }

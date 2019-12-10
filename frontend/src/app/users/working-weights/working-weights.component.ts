@@ -17,20 +17,41 @@ export class WorkingWeightsComponent implements OnInit {
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
 
+  triedToHide: boolean;
   faTrash = faTrash;
   faInfo = faInfo;
 
   constructor() { }
 
   ngOnInit() {
+    this.triedToHide = false;
   }
 
   newItem(): void {
     this.workingWeights.push(new WorkingWeight());
   }
 
+  valid(): boolean {
+    if (this.workingWeights) {
+      for(let workingWeight of this.workingWeights) {
+        if (!workingWeight.exercise) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
   hide(): void {
+    this.triedToHide = true;
+
+    if (!this.valid()) {
+      return;
+    }
+
     this.visible = false;
+    this.triedToHide = false;
     this.closed.emit();
   }
 

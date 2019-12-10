@@ -16,6 +16,7 @@ export class WorkoutSetEditComponent implements OnInit {
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
+  @Input() triedToHide: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
   repetitionType = RepetitionType;
@@ -24,6 +25,7 @@ export class WorkoutSetEditComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.triedToHide= false;
     let unitSystem = this.authService.getUserUnitSystem();
     if (!this.workoutActivity.unit && unitSystem) {
       let filteredUnits = this.units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Weight);
@@ -44,11 +46,27 @@ export class WorkoutSetEditComponent implements OnInit {
       this.workoutActivity.expected_number_of_repetitions = null;
       this.workoutActivity.expected_number_of_repetitions_up_to = null;
     }
+
   }
 
   hide(): void {
+    this.triedToHide = true;
+
+    if (!this.valid()) {
+      return;
+    }
+
     this.visible = false;
+    this.triedToHide = false;
     this.closed.emit();
+  }
+
+  valid(): boolean {
+    if (!this.workoutActivity.exercise) {
+      return false;
+    }
+
+    return true;
   }
 
   remove(): void {

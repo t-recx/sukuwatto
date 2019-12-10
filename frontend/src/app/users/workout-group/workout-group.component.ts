@@ -83,11 +83,29 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
   }
 
   newSet(): void {
-    this.group.sets.push(new WorkoutSet());
+    let newSet = this.getNewSet(this.group.sets);
+
+    this.group.sets.push(newSet);
   }
 
   newWarmUp(): void {
-    this.group.warmups.push(new WorkoutSet());
+    let newSet = this.getNewSet(this.group.warmups);
+
+    this.group.warmups.push(newSet);
+  }
+
+  getNewSet(sets: WorkoutSet[]): WorkoutSet {
+    let newSet = new WorkoutSet();
+    let order: number = 1;
+
+    if (sets && sets.length > 0) {
+      order = Math.max(...sets.map(x => x.order));
+      order += 1;
+    }
+
+    newSet.order = order;
+
+    return newSet;
   }
 
   setStatusChanged() {

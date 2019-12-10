@@ -88,4 +88,8 @@
         </div>
         <button class="siimple-btn siimple-btn--success siimple--mt-2" type="submit">Save</button>
     </form>
+
+    <app-workout-timer  [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" [workout]=workout >
+
+    </app-workout-timer>
 </div>

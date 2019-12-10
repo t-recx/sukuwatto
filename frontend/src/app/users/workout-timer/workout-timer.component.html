@@ -1,0 +1,6 @@
+<div class="siimple-box timer-box" [class.siimple-box--primary]="timerActive" 
+    align="center" *ngIf="visible" (click)="toggleTimer()">
+    <div class="siimple-box-title">
+        {{currentTimerDate | date: 'mm:ss'}}
+    </div>
+</div>

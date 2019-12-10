@@ -13,6 +13,7 @@ export class WorkingWeightComponent implements OnInit {
   @Input() exercises: Exercise[];
   @Input() units: Unit[];
   @Input() triedToSave: boolean;
+  @Input() triedToHide: boolean;
 
   constructor(
     private authService: AuthService) { }

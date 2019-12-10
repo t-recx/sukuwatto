@@ -16,6 +16,9 @@
                                     {{exerciseModel.name}}
                                 </option>
                             </select>
+                            <div *ngIf="exercise.invalid && (exercise.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -23,14 +26,14 @@
                     <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Weight</div>
-                            <input type="number" class="siimple-input siimple-input--fluid" required name="weight" id="weight"
+                            <input type="number" class="siimple-input siimple-input--fluid" name="weight" id="weight"
                                 [(ngModel)]="workoutActivity.weight" #weight="ngModel" placeholder="Weight">
                         </div>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Unit</div>
-                            <select class="siimple-select siimple-select--fluid" required name="unit" id="unit"
+                            <select class="siimple-select siimple-select--fluid" name="unit" id="unit"
                                 [(ngModel)]="workoutActivity.unit" #unit="ngModel">
                                 <option *ngFor="let unitModel of units" value={{unitModel.id}}>
                                     {{unitModel.name}}
@@ -62,7 +65,7 @@
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Repetition number</div>
                             <input
-                                type="number" class="siimple-input siimple-input--fluid" required name="expected_number_of_repetitions"
+                                type="number" class="siimple-input siimple-input--fluid" name="expected_number_of_repetitions"
                                 id="expected_number_of_repetitions" [(ngModel)]="workoutActivity.expected_number_of_repetitions"
                                 #expected_number_of_repetitions="ngModel" placeholder="Repetition number">
                         </div>
