@@ -62,7 +62,18 @@ export class WorkoutsComponent implements OnInit {
     return productiveGroups;
   }
 
-  getResumedActivities(group: WorkoutGroup): WorkoutActivityResumed[] {
+  getResumedActivities(workout: Workout): WorkoutActivityResumed[] {
+    let activities: WorkoutActivityResumed[] = [];
+    let groups = this.getProductiveGroups(workout.groups);
+
+    for (let group of groups) {
+      activities.push(...this.getResumedActivitiesGroup(group));
+    }
+
+    return activities;
+  }
+
+  getResumedActivitiesGroup(group: WorkoutGroup): WorkoutActivityResumed[] {
     let activities: WorkoutActivityResumed[] = [];
     let doneSets = group.sets.filter(s => s.done);
 

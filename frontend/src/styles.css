@@ -22,3 +22,7 @@ box-shadow: none;
 .tab-content {
     display: none;
 }
+
+ul {
+	padding: 0px;
+}

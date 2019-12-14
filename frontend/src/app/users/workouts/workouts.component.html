@@ -8,57 +8,54 @@
     <div class="siimple-card-body">
       <div class="siimple-grid">
         <div class="siimple-grid-row">
-          <div class="siimple-grid-col" *ngFor="let group of getProductiveGroups(workout.groups)">
-            <div class="siimple-card">
-              <div class="siimple-card-header" align="center">
-                {{group.name}}
-              </div>
-              <div class="siimple-card-body">
-                <div class="siimple-list ">
-                  <div class="siimple-list-item" *ngFor="let workoutActivity of getResumedActivities(group)">
-                    <span *ngIf="workoutActivity.number_of_sets">
-                      <span>
-                        <span>{{workoutActivity.number_of_sets}}</span>
-                      </span>
-                      <span>
-                        x
-                      </span>
-                    </span>
-                    <span *ngIf="workoutActivity.number_of_repetitions">
-                      <span>{{workoutActivity.number_of_repetitions}}</span>
-                      <span>
-                        x
-                      </span>
-                    </span>
-                    <span *ngIf="workoutActivity.weight">
-                      <span *ngIf="workoutActivity.weight % 1 == 0">
-                        {{workoutActivity.weight | number: '1.0-0'}}
-                      </span>
-                      <span *ngIf="workoutActivity.weight % 1 != 0">
-                        {{workoutActivity.weight}}
-                      </span>
-                      <span *ngFor="let unit of units">
-                        <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
-                      </span>
-                      <span>
-                        x
-                      </span>
-                    </span>
-                    <span *ngIf="!workoutActivity.weight">
-                      <span>
-                        (bar)
-                      </span>
-                      <span>
-                        x
-                      </span>
-                    </span>
-                    <span *ngFor="let exercise of exercises">
-                      <span *ngIf="exercise.id == workoutActivity.exercise">{{exercise.name}}</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="siimple-grid-col">
+            <table class="siimple-table siimple-table--striped siimple-table--border">
+              <thead class="siimple-table-header">
+                  <tr class="siimple-table-row">
+                      <th class="siimple-table-cell">Exercise</th>
+                      <th class="siimple-table-cell">Weight</th>
+                      <th class="siimple-table-cell">Sets</th>
+                      <th class="siimple-table-cell">Reps</th>
+                  </tr>
+              </thead>
+              <tbody class="siimple-table-body">
+                  <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of getResumedActivities(workout)">
+                      <td class="siimple-table-cell">
+                        <span *ngFor="let exercise of exercises">
+                          <span *ngIf="exercise.id == workoutActivity.exercise">{{exercise.name}}</span>
+                        </span>
+                      </td>
+                      <td class="siimple-table-cell" align="center">
+                        <span *ngIf="workoutActivity.weight">
+                          <span *ngIf="workoutActivity.weight % 1 == 0">
+                            {{workoutActivity.weight | number: '1.0-0'}}
+                          </span>
+                          <span *ngIf="workoutActivity.weight % 1 != 0">
+                            {{workoutActivity.weight}}
+                          </span>
+                          <span *ngFor="let unit of units">
+                            <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+                          </span>
+                        </span>
+                        <span *ngIf="!workoutActivity.weight">
+                          <span>
+                            (bar)
+                          </span>
+                        </span>
+                      </td>
+                      <td class="siimple-table-cell" align="center">
+                        <span *ngIf="workoutActivity.number_of_sets">
+                            <span>{{workoutActivity.number_of_sets}}</span>
+                        </span>
+                      </td>
+                      <td class="siimple-table-cell" align="center">
+                        <span *ngIf="workoutActivity.number_of_repetitions">
+                          <span>{{workoutActivity.number_of_repetitions}}</span>
+                        </span>
+                      </td>
+                  </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

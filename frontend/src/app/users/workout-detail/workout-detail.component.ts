@@ -45,7 +45,25 @@ export class WorkoutDetailComponent implements OnInit {
 
   setWorkoutStartDate(event: any) {
     if (event && this.workout) {
-      this.workout.start = new Date(event);
+      if (this.workout.start) {
+        this.workout.start = new Date(event + " " + new Date(this.workout.start).toTimeString().substring(0, 5));
+      }
+      else {
+        this.workout.start = new Date(event);
+      }
+    }
+  }
+
+  setWorkoutStartTime(event: any) {
+    if (event && this.workout) {
+      if (this.workout.start) {
+        this.workout.start = new Date(
+          new Date(this.workout.start).toISOString().substring(0, 10) + " " + event); 
+      }
+      else {
+        this.workout.start = new Date(
+          (new Date()).toISOString().substring(0, 10) + " " + event); 
+      }
     }
   }
 
