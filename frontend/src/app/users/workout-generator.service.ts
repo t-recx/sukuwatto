@@ -26,7 +26,7 @@ export class WorkoutGeneratorService {
   ) { }
 
   generate(exercises: Exercise[], workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
-    return this.workoutsService.getLastWorkout(this.authService.getUsername(), planSession.id, null).pipe(
+    return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
           console.log('generating workout...');

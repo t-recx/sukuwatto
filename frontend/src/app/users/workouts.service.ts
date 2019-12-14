@@ -43,12 +43,16 @@ export class WorkoutsService {
       );
   }
 
-  getLastWorkout(username: string, plan_session: number, date_lte: Date): Observable<Workout> {
+  getLastWorkout(username: string, plan: number, plan_session: number, date_lte: Date): Observable<Workout> {
     let options = {};
     let params = new HttpParams();
 
     if (username) {
       params = params.set('username', username);
+    }
+
+    if (plan) {
+      params = params.set('plan', plan.toString());
     }
 
     if (plan_session) {
