@@ -35,7 +35,7 @@ export class WorkoutGeneratorService {
           workout.plan = plan.id;
           workout.plan_session = planSession.id;
           workout.start = new Date();
-          workout.name = this.get_workout_name(workout.start, plan, planSession);
+          workout.name = this.getWorkoutName(workout.start, planSession);
           workout.working_weights = workingWeights;
           this.fillOutWorkingWeights(workingWeights, planSession);
 
@@ -79,7 +79,7 @@ export class WorkoutGeneratorService {
         })));
   }
 
-  get_workout_name(start: Date, plan: Plan, planSession: PlanSession): string {
+  getWorkoutName(start: Date, planSession: PlanSession): string {
     let name: string = "";
 
     if (start) {
@@ -163,9 +163,12 @@ export class WorkoutGeneratorService {
     let exerciseModel = exercises.filter(x => x.id == exercise_id);
     workingWeight = workingWeights.filter(ww => ww.exercise == exercise_id)[0];
 
+    console.log('evaluating progression strategy:');
+    console.log(progressionStrategy);
     if (workingWeight) {
       if (progressionStrategy.exercise) {
         if (progressionStrategy.exercise == exercise_id) {
+          console.log('Applying progression strategy because exercise matches');
           this.updateWorkingWeight(workingWeight, progressionStrategy);
         }
       }
@@ -176,11 +179,17 @@ export class WorkoutGeneratorService {
             (progressionStrategy.mechanics == null || x.mechanics == progressionStrategy.mechanics) &&
             (progressionStrategy.section == null || x.section == progressionStrategy.section) &&
             (progressionStrategy.modality == null || x.modality == progressionStrategy.modality)).length > 0) {
+          console.log('Applying progression strategy by characteristic of the exercise');
+          console.log('before:');
+          console.log(workingWeight);
             this.updateWorkingWeight(workingWeight, progressionStrategy);
+          console.log('after:');
+          console.log(workingWeight);
           }
         }
       }
     }
+    console.log('ending evaluating progression strategy');
 
     return false;
   }
@@ -189,7 +198,7 @@ export class WorkoutGeneratorService {
     workingWeight.previous_weight = workingWeight.weight;
     workingWeight.previous_unit = workingWeight.unit;
     if (workingWeight.weight) {
-      if (progressionStrategy.weight_increase) {
+      if (progressionStrategy.weight_increase && progressionStrategy.unit == workingWeight.unit) {
         workingWeight.weight += progressionStrategy.weight_increase;
       }
       else if (progressionStrategy.percentage_increase) {
@@ -242,11 +251,13 @@ export class WorkoutGeneratorService {
           if (plan.progressions) {
             progressionStrategies.push(...plan.progressions);
           }
-
+console.log('progression strategies available:');
+console.log(progressionStrategies);
           for (let progressionStrategy of progressionStrategies) {
             if (this.applyProgressionStrategy(sessionWarmUp.exercise, exercises, 
-              workingWeights, progressionStrategy))
+              workingWeights, progressionStrategy)) {
               break;
+            }
           }
         }
 
@@ -260,7 +271,8 @@ export class WorkoutGeneratorService {
   }
 
   private progressionStrategyAppliedToExercise(exercise_id: number, workingWeights: WorkingWeight[]) {
-    return workingWeights.filter(ww => ww.exercise == exercise_id && ww.previous_weight != ww.weight).length > 0;
+    return workingWeights.filter(ww => ww.exercise == exercise_id && ww.previous_weight != null && 
+      ww.previous_weight != ww.weight).length > 0;
   }
 
   private getSet(workingWeights: WorkingWeight[], sessionActivity: PlanSessionGroupActivity): WorkoutSet {

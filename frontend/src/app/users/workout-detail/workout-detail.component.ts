@@ -23,6 +23,8 @@ import { WorkingWeight } from '../working-weight';
 })
 export class WorkoutDetailComponent implements OnInit {
   workout: Workout;
+  previousWorkout: Workout;
+
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
   exercises: Exercise[];
@@ -51,6 +53,14 @@ export class WorkoutDetailComponent implements OnInit {
       else {
         this.workout.start = new Date(event);
       }
+
+      let planSession: PlanSession = null;
+
+      if (this.workout.plan_session && this.planSessions) {
+        planSession = this.planSessions.filter(s => s.id == this.workout.plan_session)[0];
+      }
+
+      this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, planSession);
     }
   }
 
@@ -88,11 +98,15 @@ export class WorkoutDetailComponent implements OnInit {
 
       this.setNextActivityInProgress();
 
-      this.service.getLastWorkout(this.authService.getUsername(), null, new Date()).subscribe(w =>
+      this.service.getLastWorkout(this.authService.getUsername(), null, null, new Date()).subscribe(w =>
         {
           if (w.working_weights) {
+            for (const workingWeight of w.working_weights) {
+              delete workingWeight.id;
+            }
             this.workout.working_weights = w.working_weights;
           }
+          this.previousWorkout = w;
         });
         console.log(this.workout);
     }
@@ -114,17 +128,60 @@ export class WorkoutDetailComponent implements OnInit {
     this.plansService.getAdoptedPlans(username).subscribe(plans => 
       {
         this.adoptedPlans = plans;
+        if (this.workout && this.workout.plan) {
+          this.planSessions = this.adoptedPlans
+            .filter(plan => plan.id == this.workout.plan)
+            .map(plan => plan.sessions)[0];
+        }
+        else {
+          this.planSessions = this.adoptedPlans
+            .map(plan => plan.sessions)[0];
+        }
       });
   }
 
   planChanged() {
     if (this.workout.plan) {
-      this.planSessions = this.adoptedPlans
-        .filter(plan => plan.id == this.workout.plan)
-        .map(plan => plan.sessions)[0];
+      if (this.adoptedPlans) {
+        this.planSessions = this.adoptedPlans
+          .filter(plan => plan.id == this.workout.plan)
+          .map(plan => plan.sessions)[0];
+      }
 
-      // todo: autoselect plansession based on previous user plan session
+      if (!this.workout.id && this.planSessions && this.planSessions.length > 0) {
+        if (this.previousWorkout && this.previousWorkout.plan == this.workout.plan) {
+          this.selectNextPlanSession(this.previousWorkout);
+        }
+        else {
+          this.service.getLastWorkout(this.authService.getUsername(), this.workout.plan, null, new Date()).subscribe(w => {
+            this.selectNextPlanSession(w);
+          });
+        }
+      }
     }
+  }
+
+  selectNextPlanSession(previousPlanWorkout: Workout): void {
+    let selectNextPlanSession = false;
+
+    for (let ps of this.planSessions) {
+      if (selectNextPlanSession) {
+        this.workout.plan_session = ps.id;
+        selectNextPlanSession = false;
+
+        break;
+      }
+
+      if (ps.id == previousPlanWorkout.plan_session) {
+        selectNextPlanSession = true;
+      }
+    }
+
+    if (selectNextPlanSession) {
+      this.workout.plan_session = this.planSessions[0].id;
+    }
+
+    this.sessionChanged();
   }
 
   activityStatusChanged(): void {

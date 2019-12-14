@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { Observable } from 'rxjs';
 import { Workout } from './workout';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { WorkoutSet } from './workout-set';
@@ -36,6 +36,9 @@ export class WorkoutsService {
 
     return this.http.get<Workout[]>(`${this.workoutsUrl}`, options)
       .pipe(
+        map(response => {
+          return this.getProperlyTypedWorkouts(response);
+        }),
         catchError(this.errorService.handleError<Workout[]>('getWorkouts', (e: any) => 
         { 
           this.alertService.error('Unable to fetch workouts');
@@ -69,6 +72,9 @@ export class WorkoutsService {
 
     return this.http.get<Workout>(`${this.workoutLast}`, options)
       .pipe(
+        map(response => {
+          return this.getProperlyTypedWorkout(response);
+        }),
         catchError(this.errorService.handleError<Workout>('getLastWorkout', (e: any) => 
         { 
           this.alertService.error('Unable to fetch last workout');
@@ -79,11 +85,63 @@ export class WorkoutsService {
   getWorkout (id: number | string): Observable<Workout> {
     return this.http.get<Workout>(`${this.workoutsUrl}${id}/`)
       .pipe(
+        map(response => {
+          return this.getProperlyTypedWorkout(response);
+        }),
         catchError(this.errorService.handleError<Workout>('getWorkout', (e: any) => 
         { 
           this.alertService.error('Unable to fetch workout');
         }, new Workout()))
       );
+  }
+
+  getProperlyTypedWorkouts(workouts: Workout[]): Workout[] {
+    for(let workout of workouts) {
+      workout = this.getProperlyTypedWorkout(workout);
+    }
+
+    return workouts;
+  }
+
+  getProperlyTypedWorkout(workout: Workout): Workout {
+    if (workout.working_weights) {
+      for (let ww of workout.working_weights) {
+        if (ww.weight) {
+          ww.weight = Number(ww.weight);
+        }
+        if (ww.previous_weight) {
+          ww.previous_weight = Number(ww.previous_weight);
+        }
+      }
+    }
+
+    if (workout.groups) {
+      for (let g of workout.groups) {
+        if (g.warmups) {
+          for (let wu of g.warmups) {
+            if (wu.weight) {
+              wu.weight = Number(wu.weight);
+            }
+            if (wu.working_weight_percentage) {
+              wu.working_weight_percentage = Number(wu.working_weight_percentage);
+            }
+          }
+        }
+
+        if (g.sets) {
+          for (let s of g.sets) {
+            if (s.weight) {
+              s.weight = Number(s.weight);
+            }
+            if (s.working_weight_percentage) {
+              s.working_weight_percentage = Number(s.working_weight_percentage);
+            }
+          }
+        }
+      }
+    }
+
+    return workout;
   }
 
   saveWorkout(workout: Workout): Observable<Workout> {

@@ -3,9 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { Observable, of } from 'rxjs';
 import { Plan } from './plan';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
+import { ProgressionStrategy } from './plan-progression-strategy';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class PlansService {
   getPlans (): Observable<Plan[]> {
     return this.http.get<Plan[]>(this.plansUrl)
       .pipe(
+        map(response => this.getProperlyTypedPlans(response)),
         catchError(this.errorService.handleError<Plan[]>('getPlans', (e: any) => 
         { 
           this.alertService.error('Unable to fetch plans');
@@ -37,6 +39,7 @@ export class PlansService {
   getPublicPlans (): Observable<Plan[]> {
     return this.http.get<Plan[]>(`${this.plansUrl}?public=true`)
       .pipe(
+        map(response => this.getProperlyTypedPlans(response)),
         catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 
         { 
           this.alertService.error('Unable to fetch adopted plans');
@@ -47,6 +50,7 @@ export class PlansService {
   getAdoptedPlans (username: string): Observable<Plan[]> {
     return this.http.get<Plan[]>(`${this.plansUrl}?owner__username=${username}`)
       .pipe(
+        map(response => this.getProperlyTypedPlans(response)),
         catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 
         { 
           this.alertService.error('Unable to fetch adopted plans');
@@ -57,11 +61,55 @@ export class PlansService {
   getPlan (id: number | string): Observable<Plan> {
     return this.http.get<Plan>(`${this.plansUrl}${id}/`)
       .pipe(
+        map(response => this.getProperlyTypedPlan(response)),
         catchError(this.errorService.handleError<Plan>('getPlan', (e: any) => 
         { 
           this.alertService.error('Unable to fetch plan');
         }, new Plan()))
       );
+  }
+
+  getProperlyTypedPlans(plans: Plan[]): Plan[] {
+    for (let plan of plans) {
+      plan = this.getProperlyTypedPlan(plan);
+    }
+
+    return plans;
+  }
+
+  getProperlyTypedPlan(plan: Plan): Plan {
+    if (plan.progressions) {
+      plan.progressions = this.getProperlyTypedProgressions(plan.progressions);
+    }
+
+    if (plan.sessions) {
+      for (let session of plan.sessions) {
+        if (session.progressions) {
+          session.progressions = this.getProperlyTypedProgressions(session.progressions);
+
+          if (session.groups) {
+            for (let group of session.groups) {
+              group.progressions = this.getProperlyTypedProgressions(group.progressions);
+            }
+          }
+        }
+      }
+    }
+
+    return plan;
+  }
+
+  getProperlyTypedProgressions(progressions: ProgressionStrategy[]): ProgressionStrategy[] {
+    for (let progression of progressions) {
+      if (progression.weight_increase) {
+        progression.weight_increase = Number(progression.weight_increase);
+      }
+      if (progression.percentage_increase) {
+        progression.percentage_increase = Number(progression.percentage_increase);
+      }
+    }
+
+    return progressions;
   }
 
   adoptPlan(plan: Plan): Observable<Plan> {

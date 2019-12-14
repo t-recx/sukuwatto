@@ -26,3 +26,15 @@ box-shadow: none;
 ul {
 	padding: 0px;
 }
+
+input[type=date] {
+	font-family: Roboto,sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+input[type=time] {
+	font-family: Roboto,sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+}
