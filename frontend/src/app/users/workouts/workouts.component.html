@@ -6,12 +6,67 @@
       {{workout.name}}
     </div>
     <div class="siimple-card-body">
-        <!-- todo: add maybe a summary of exercises here ?-->
-      {{workout.notes}}
+      <div class="siimple-grid">
+        <div class="siimple-grid-row">
+          <div class="siimple-grid-col" *ngFor="let group of getProductiveGroups(workout.groups)">
+            <div class="siimple-card">
+              <div class="siimple-card-header" align="center">
+                {{group.name}}
+              </div>
+              <div class="siimple-card-body">
+                <div class="siimple-list ">
+                  <div class="siimple-list-item" *ngFor="let workoutActivity of getResumedActivities(group)">
+                    <span *ngIf="workoutActivity.number_of_sets">
+                      <span>
+                        <span>{{workoutActivity.number_of_sets}}</span>
+                      </span>
+                      <span>
+                        x
+                      </span>
+                    </span>
+                    <span *ngIf="workoutActivity.number_of_repetitions">
+                      <span>{{workoutActivity.number_of_repetitions}}</span>
+                      <span>
+                        x
+                      </span>
+                    </span>
+                    <span *ngIf="workoutActivity.weight">
+                      <span *ngIf="workoutActivity.weight % 1 == 0">
+                        {{workoutActivity.weight | number: '1.0-0'}}
+                      </span>
+                      <span *ngIf="workoutActivity.weight % 1 != 0">
+                        {{workoutActivity.weight}}
+                      </span>
+                      <span *ngFor="let unit of units">
+                        <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+                      </span>
+                      <span>
+                        x
+                      </span>
+                    </span>
+                    <span *ngIf="!workoutActivity.weight">
+                      <span>
+                        (bar)
+                      </span>
+                      <span>
+                        x
+                      </span>
+                    </span>
+                    <span *ngFor="let exercise of exercises">
+                      <span *ngIf="exercise.id == workoutActivity.exercise">{{exercise.name}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="siimple-card-footer ">
       <div class="">
-        <button class="siimple-btn siimple-btn--primary siimple--mr-2" routerLink="../workout/{{workout.id}}">View</button>
+        <button class="siimple-btn siimple-btn--primary siimple--mr-2"
+          routerLink="../workout/{{workout.id}}">View</button>
         <button class="siimple-btn siimple-btn--error" (click)="deleteWorkout(workout)">Remove</button>
       </div>
     </div>

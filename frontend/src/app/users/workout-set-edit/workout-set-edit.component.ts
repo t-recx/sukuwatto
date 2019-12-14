@@ -65,6 +65,24 @@ export class WorkoutSetEditComponent implements OnInit {
     if (!this.workoutActivity.exercise) {
       return false;
     }
+    if (!this.workoutActivity.weight) {
+      return false;
+    }
+    if (!this.workoutActivity.unit) {
+      return false;
+    }
+    if (!this.workoutActivity.repetition_type) {
+      return false;
+    }
+    if ((this.workoutActivity.repetition_type == RepetitionType.Standard || 
+      this.workoutActivity.repetition_type == RepetitionType.Range) &&
+      !this.workoutActivity.expected_number_of_repetitions) {
+      return false;
+    }
+    if (this.workoutActivity.repetition_type == RepetitionType.Range &&
+      !this.workoutActivity.expected_number_of_repetitions_up_to) {
+      return false;
+    }
 
     return true;
   }

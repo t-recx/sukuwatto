@@ -203,7 +203,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
             if warmups_data is not None:
                 new_data, updated_data, deleted_ids = get_differences(warmups_data, warmups.values())
 
-                self.create_group_activities(WorkoutWarmUp, instance, warmups_data)
+                self.create_group_activities(WorkoutWarmUp, instance, new_data)
 
                 self.update_group_activities(WorkoutWarmUp, updated_data)
 
@@ -219,6 +219,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
                 continue
 
             instance = instances.first()
+
             instance.order = group_data.get('order', instance.order)
             instance.start = group_data.get('start', instance.start)
             instance.end = group_data.get('end', instance.end)

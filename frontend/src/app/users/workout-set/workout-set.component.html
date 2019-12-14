@@ -17,7 +17,12 @@ style="padding: 10px;"
         x
     </span>
     <span *ngIf="workoutActivity.weight">
-        {{workoutActivity.weight}}
+        <span *ngIf="workoutActivity.weight % 1 == 0">
+          {{workoutActivity.weight | number: '1.0-0'}}
+        </span>
+        <span *ngIf="workoutActivity.weight % 1 != 0">
+          {{workoutActivity.weight}}
+        </span>
         <span *ngFor="let unit of units">
             <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
         </span>

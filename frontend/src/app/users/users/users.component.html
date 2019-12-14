@@ -19,11 +19,18 @@
 </div>
 <div class="siimple-content siimple-content--large">
     <div class="siimple-grid-row">
-        <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none">
-            <app-menu></app-menu>
+        <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
+            <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none">
+                <app-menu></app-menu>
+            </div>
+            <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12">
+                <router-outlet></router-outlet>
+            </div>
         </div>
-        <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12">
-            <router-outlet></router-outlet>
-        </div>
+        <ng-template #notLoggedContent>
+            <div class="siimple-grid-col siimple-grid-col--12">
+                <router-outlet></router-outlet>
+            </div>
+        </ng-template>
     </div>
 </div>

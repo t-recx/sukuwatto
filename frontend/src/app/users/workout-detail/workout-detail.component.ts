@@ -43,6 +43,12 @@ export class WorkoutDetailComponent implements OnInit {
     private workoutGeneratorService: WorkoutGeneratorService,
   ) { }
 
+  setWorkoutStartDate(event: any) {
+    if (event && this.workout) {
+      this.workout.start = new Date(event);
+    }
+  }
+
   ngOnInit() {
     this.triedToSave = false;
     this.loadAdoptedPlans();
@@ -90,10 +96,6 @@ export class WorkoutDetailComponent implements OnInit {
     this.plansService.getAdoptedPlans(username).subscribe(plans => 
       {
         this.adoptedPlans = plans;
-        if (plans && plans.length == 1) {
-          this.workout.plan = plans[0].id;
-          this.planChanged();
-        }
       });
   }
 
@@ -235,7 +237,9 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   valid(workout: Workout): boolean {
-    // todo?
+    if (!workout.start) {
+      return false;
+    }
 
     return true;
   }
