@@ -12,6 +12,7 @@ import { RepetitionType } from '../plan-session-group-activity';
 import { WorkoutActivityResumed } from '../workout-activity-resumed';
 import { Paginated } from '../paginated';
 import { Subscription } from 'rxjs';
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workouts',
@@ -24,6 +25,9 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   workouts: Workout[];
   exercises: Exercise[];
   units: Unit[];
+
+  faArrowLeft = faArrowLeft;
+  faArrowRight = faArrowRight;
 
   username: string;
 
