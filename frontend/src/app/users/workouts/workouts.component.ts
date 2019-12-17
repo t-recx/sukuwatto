@@ -26,19 +26,12 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   exercises: Exercise[];
   units: Unit[];
 
-  faArrowLeft = faArrowLeft;
-  faArrowRight = faArrowRight;
-
   username: string;
 
-  previousPage: number;
   currentPage: number;
-  nextPage: number;
 
   pageSize: number = 10;
   repetitionType = RepetitionType;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
 
   constructor(
     private workoutsService: WorkoutsService,
@@ -68,22 +61,6 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     this.getWorkouts();
   }
 
-  getHasPreviousPage(): boolean {
-    if (this.paginatedWorkouts && this.paginatedWorkouts.previous) {
-      return true;
-    }
-
-    return false;
-  }
-  
-  getHasNextPage(): boolean {
-    if (this.paginatedWorkouts && this.paginatedWorkouts.next) {
-      return true;
-    }
-
-    return false;
-  }
-
   getWorkouts(): void {
     let pageParameter: any = this.route.snapshot.paramMap.get('page');
 
@@ -102,11 +79,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
         .subscribe(paginated => {
           this.paginatedWorkouts = paginated;
           this.workouts = paginated.results;
-          this.hasPreviousPage = this.getHasPreviousPage();
-          this.hasNextPage = this.getHasNextPage();
           this.currentPage = Number(pageParameter);
-          this.previousPage = this.currentPage - 1;
-          this.nextPage = this.currentPage + 1;
 
           // todo: scroll to top using a #id ?
         });
