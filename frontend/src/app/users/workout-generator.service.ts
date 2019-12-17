@@ -25,16 +25,16 @@ export class WorkoutGeneratorService {
     private authService: AuthService,
   ) { }
 
-  generate(exercises: Exercise[], workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
+  generate(start: Date, exercises: Exercise[], workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
           console.log('generating workout...');
           let workout = new Workout();
 
+          workout.start = start;
           workout.plan = plan.id;
           workout.plan_session = planSession.id;
-          workout.start = new Date();
           workout.name = this.getWorkoutName(workout.start, planSession);
           workout.working_weights = workingWeights;
           this.fillOutWorkingWeights(workingWeights, planSession);

@@ -261,7 +261,7 @@ export class WorkoutDetailComponent implements OnInit {
     let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
 
     if (plan && planSession && (this.workout.id == null || this.workout.id <= 0)) {
-      this.workoutGeneratorService.generate(this.exercises, this.workout.working_weights, plan, planSession)
+      this.workoutGeneratorService.generate(this.workout.start, this.exercises, this.workout.working_weights, plan, planSession)
       .subscribe(newWorkout => { 
         this.workout = newWorkout; 
         this.setNextActivityInProgress();
