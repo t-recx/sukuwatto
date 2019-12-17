@@ -7,6 +7,7 @@ import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { WorkoutSet } from './workout-set';
+import { Paginated } from './paginated';
 
 @Injectable({
   providedIn: 'root'
@@ -25,24 +26,38 @@ export class WorkoutsService {
     private alertService: AlertService
   ) { }
 
-  getWorkouts (username: string): Observable<Workout[]> {
+  getWorkouts (username: string, page: number, page_size: number): Observable<Paginated<Workout>> {
     let options = {};
     let params = new HttpParams();
 
     if (username) {
       params = params.set('user__username', username);
+    }
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    if (username || page || page_size) {
       options = {params: params};
     }
 
-    return this.http.get<Workout[]>(`${this.workoutsUrl}`, options)
+    return this.http.get<Paginated<Workout>>(`${this.workoutsUrl}`, options)
       .pipe(
         map(response => {
-          return this.getProperlyTypedWorkouts(response);
+          if (response.results) {
+            response.results = this.getProperlyTypedWorkouts(response.results);
+          }
+          return response;
         }),
-        catchError(this.errorService.handleError<Workout[]>('getWorkouts', (e: any) => 
+        catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => 
         { 
           this.alertService.error('Unable to fetch workouts');
-        }, []))
+        }, new Paginated<Workout>()))
       );
   }
 

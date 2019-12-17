@@ -83,12 +83,14 @@ export class WorkoutGeneratorService {
     let name: string = "";
 
     if (start) {
-      name += start.toLocaleDateString('en-us', { weekday: 'long' }) + "";
+      name += start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s";
     }
 
     if (planSession) {
-      name += "'s " + planSession.name + " session";
+      name += " " + planSession.name;
     }
+
+    name += " session";
 
     return name;
   }

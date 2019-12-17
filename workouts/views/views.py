@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer
 from workouts.models import Exercise, Unit, UnitConversion
+from workouts.pagination import StandardResultsSetPagination
 
 class ExercisesViewSet(viewsets.ModelViewSet):
     """

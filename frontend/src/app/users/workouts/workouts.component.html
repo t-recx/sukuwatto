@@ -70,4 +70,18 @@
   </li>
 </ul>
 
-<button class="siimple-btn siimple-btn--primary" routerLink="../workout/">New workout</button>
+<div class="navigation-box" *ngIf="hasPreviousPage || hasNextPage" align="center">
+  <button [class.siimple-btn--disabled]="!hasPreviousPage" class="siimple-btn siimple-btn--primary navigation-previous" [routerLink]="['/users', username, 'workouts', previousPage]">Previous</button>
+  <span class="current-page siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
+    <button *ngIf="currentPage > 3" class="siimple--mr-2 siimple-btn" [routerLink]="['/users', username, 'workouts', 1]">1</button>
+    <span *ngIf="currentPage > 3" class="siimple--rounded siimple--mr-2 siimple--bg-light more-pages-label" align="center">
+      <small class="siimple-small">...</small>
+    </span>
+    <button *ngIf="hasPreviousPage" class="siimple-btn siimple--mr-2" [routerLink]="['/users', username, 'workouts', previousPage]">{{previousPage}}</button>
+    <button class="siimple-btn siimple-btn--primary siimple--mr-2 " [routerLink]="['/users', username, 'workouts', currentPage]">{{currentPage}}</button>
+    <button *ngIf="hasNextPage" class="siimple-btn" [routerLink]="['/users', username, 'workouts', nextPage]">{{nextPage}}</button>
+  </span>
+  <button [class.siimple-btn--disabled]="!hasNextPage" class="siimple-btn siimple-btn--primary navigation-next" [routerLink]="['/users', username, 'workouts', nextPage]">Next</button>
+</div>
+
+<button class="siimple-btn siimple-btn--primary" [routerLink]="['/users', username, 'workout']">New workout</button>

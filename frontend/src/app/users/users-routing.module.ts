@@ -43,6 +43,11 @@ const routes: Routes = [
         component: PlanDetailComponent,
       },
       {
+        path: 'workouts/:page',
+        canActivateChild: [],
+        component: WorkoutsComponent,
+      },
+      {
         path: 'workouts',
         canActivateChild: [],
         component: WorkoutsComponent,
