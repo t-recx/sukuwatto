@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'tokens',
     'workouts',
+    'social',
     'rest_framework',
 ]
 
