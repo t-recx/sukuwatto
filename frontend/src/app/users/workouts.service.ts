@@ -81,7 +81,7 @@ export class WorkoutsService {
       params = params.set('date_lte', date_lte.toISOString());
     }
 
-    if (username || plan_session || date_lte) {
+    if (username || plan || plan_session || date_lte) {
       options = {params: params};
     }
 

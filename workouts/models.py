@@ -26,6 +26,20 @@ class UnitConversion(models.Model):
     to_unit = models.ForeignKey(Unit, related_name='to_unit', on_delete=models.CASCADE)
     ratio = models.DecimalField(max_digits=12, decimal_places=9)
 
+class UserBioData(models.Model):
+    date = models.DateTimeField()
+    weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="weight_unit")
+    height = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    height_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="height_unit")
+    body_fat_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+    water_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+    muscle_mass_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+    bone_mass_weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    bone_mass_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="bone_mass_weight_unit")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    notes = models.TextField(null=True)
+
 class Exercise(models.Model):
     COMPOUND = 'c'
     ISOLATED = 'i'

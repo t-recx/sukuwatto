@@ -1,9 +1,9 @@
 from rest_framework import viewsets
-from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer
-from workouts.models import Exercise, Unit, UnitConversion
+from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer, UserBioDataSerializer
+from workouts.models import Exercise, Unit, UnitConversion, UserBioData
 from workouts.pagination import StandardResultsSetPagination
 
-class ExercisesViewSet(viewsets.ModelViewSet):
+class ExerciseViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows exercises to be viewed or edited.
     """

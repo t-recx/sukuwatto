@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UnitConversion
+from workouts.models import Exercise, Unit, UnitConversion, UserBioData
 
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,3 +15,10 @@ class UnitConversionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UnitConversion
         fields = ['id', 'from_unit', 'to_unit', 'ratio']
+
+class UserBioDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserBioData
+        fields = ['id', 'date', 'weight', 'weight_unit', 'height', 'height_unit', 
+            'body_fat_percentage', 'water_weight_percentage', 'muscle_mass_percentage',
+            'bone_mass_weight', 'bone_mass_weight_unit', 'notes']
