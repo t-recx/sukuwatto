@@ -1,10 +1,17 @@
 <div *ngIf="workout">
     <form class="siimple-card siimple-form" #workoutForm="ngForm" (submit)="save()">
 
-        <app-working-weights [workingWeights]=workout.working_weights [visible]=workingWeightsVisible [units]=units 
+        <app-working-weights [workingWeights]=workout.working_weights 
+        [visible]=workingWeightsVisible [units]=units 
             [exercises]=exercises [triedToSave]=triedToSave
             (closed)="onWorkingWeightsClosed()">
         </app-working-weights>
+
+        <app-user-bio-data-detail [username]=username [start]=workout.start 
+            [visible]=userBioDataVisible [units]=units [heightUnits]=heightUnits
+            (closed)="onUserBioDataClosed()"
+            (okayed)="onUserBioDataOkayed($event)">
+        </app-user-bio-data-detail>
 
         <div class="siimple-form-title">Workout detail</div>
         <div class="siimple-grid">
@@ -67,7 +74,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">User Bio Data</button>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Name</div>
                         <input type="text" class="siimple-input siimple-input--fluid"  name="name" id="name"

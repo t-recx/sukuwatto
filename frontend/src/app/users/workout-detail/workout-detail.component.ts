@@ -10,11 +10,12 @@ import { Exercise } from '../exercise';
 import { WorkoutGroup } from '../workout-group';
 import { Unit, MeasurementType } from '../unit';
 import { UnitsService } from '../units.service';
-import { AuthService } from 'src/app/auth.service';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
 import { Subject } from 'rxjs';
 import { WorkingWeight } from '../working-weight';
+import { UserBioData } from '../user-bio-data';
+import { UserBioDataService } from '../user-bio-data.service';
 
 @Component({
   selector: 'app-workout-detail',
@@ -29,19 +30,23 @@ export class WorkoutDetailComponent implements OnInit {
   planSessions: PlanSession[];
   exercises: Exercise[];
   units: Unit[];
+  heightUnits: Unit[];
   triedToSave: boolean;
   workingWeightsVisible: boolean = false;
+  userBioDataVisible: boolean = false;
+  userBioData: UserBioData = null;
+  username: string;
 
   activityStatusChangedSubject: Subject<void> = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutsService,
+    private userBioDataService: UserBioDataService,
     private plansService: PlansService,
     private exercisesService: ExercisesService,
     private unitsService: UnitsService,
     private router: Router,
-    private authService: AuthService,
     private workoutGeneratorService: WorkoutGeneratorService,
   ) { }
 
@@ -78,7 +83,9 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.username = this.route.snapshot.paramMap.get('username');
     this.triedToSave = false;
+    this.userBioData = null;
     this.loadAdoptedPlans();
     this.loadExercises();
     this.loadUnits();
@@ -98,7 +105,7 @@ export class WorkoutDetailComponent implements OnInit {
 
       this.setNextActivityInProgress();
 
-      this.service.getLastWorkout(this.authService.getUsername(), null, null, new Date()).subscribe(w =>
+      this.service.getLastWorkout(this.username, null, null, new Date()).subscribe(w =>
         {
           if (w.working_weights) {
             for (const workingWeight of w.working_weights) {
@@ -119,13 +126,12 @@ export class WorkoutDetailComponent implements OnInit {
   loadUnits() {
     this.unitsService.getUnits().subscribe(units => {
       this.units = units.filter(u => u.measurement_type == MeasurementType.Weight);
+      this.heightUnits = units.filter(u => u.measurement_type == MeasurementType.Height);
     });
   }
 
   loadAdoptedPlans() {
-    let username = this.route.snapshot.paramMap.get('username');
-
-    this.plansService.getAdoptedPlans(username).subscribe(plans => 
+    this.plansService.getAdoptedPlans(this.username).subscribe(plans => 
       {
         this.adoptedPlans = plans;
         if (this.workout && this.workout.plan) {
@@ -153,7 +159,7 @@ export class WorkoutDetailComponent implements OnInit {
           this.selectNextPlanSession(this.previousWorkout);
         }
         else {
-          this.service.getLastWorkout(this.authService.getUsername(), this.workout.plan, null, new Date()).subscribe(w => {
+          this.service.getLastWorkout(this.username, this.workout.plan, null, new Date()).subscribe(w => {
             this.selectNextPlanSession(w);
           });
         }
@@ -256,6 +262,18 @@ export class WorkoutDetailComponent implements OnInit {
     this.workingWeightsVisible = true;    
   }
 
+  showUserBioData() {
+    this.userBioDataVisible = true;    
+  }
+
+  onUserBioDataClosed() {
+    this.userBioDataVisible = false;
+  }
+
+  onUserBioDataOkayed(event: any) {
+    this.userBioData = event;
+  }
+
   sessionChanged() {
     let plan = this.adoptedPlans.filter(x => x.id == this.workout.plan)[0];
     let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
@@ -288,6 +306,10 @@ export class WorkoutDetailComponent implements OnInit {
 
     if (!this.valid(this.workout)) {
       return;
+    }
+
+    if (this.userBioData) {
+      this.userBioDataService.saveUserBioData(this.userBioData).subscribe();
     }
 
     this.service.saveWorkout(this.workout).subscribe(workout => {

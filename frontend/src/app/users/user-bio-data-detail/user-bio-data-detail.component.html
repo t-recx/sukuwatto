@@ -1,0 +1,170 @@
+<div class="siimple-modal siimple-modal--small" id="workout-set-edit-modal" *ngIf="visible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">User Bio Data</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hide()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Date</div>
+                            <input type="date" class="siimple-input siimple-input--fluid" name="date" id="date"
+                                required
+                                [ngModel]="userBioData.date | date:'yyyy-MM-dd'" 
+                                (ngModelChange)="setUserBioDataDate($event)"
+                                #date="ngModel">
+
+                            <div *ngIf="date.invalid && (date.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Time</div>
+                            <input type="time" class="siimple-input siimple-input--fluid" name="start_time" id="start_time"
+                                required
+                                [ngModel]="userBioData.date | date:'HH:mm'" 
+                                (ngModelChange)="setUserBioDataTime($event)"
+                                #start_time="ngModel">
+
+                            <div *ngIf="date.invalid && (date.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Weight</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" name="weight" id="weight"
+                                [(ngModel)]="userBioData.weight" #weight="ngModel" placeholder="Weight">
+                            <div *ngIf="weight.invalid && (weight.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Unit</div>
+                            <select class="siimple-select siimple-select--fluid" name="weight_unit" id="weight_unit"
+                                [(ngModel)]="userBioData.weight_unit" #weight_unit="ngModel">
+                                <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                    {{unitModel.name}}
+                                </option>
+                            </select>
+                            <div *ngIf="weight_unit_invalid && (weight_unit.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--4">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">% Body Fat</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" name="body_fat_percentage" id="body_fat_percentage"
+                                [(ngModel)]="userBioData.body_fat_percentage" #body_fat_percentage="ngModel" placeholder="">
+                            <div *ngIf="body_fat_percentage.invalid && (body_fat_percentage.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--4">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">% Water</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" name="water_weight_percentage" id="water_weight_percentage"
+                                [(ngModel)]="userBioData.water_weight_percentage" #water_weight_percentage="ngModel" placeholder="">
+                            <div *ngIf="water_weight_percentage.invalid && (water_weight_percentage.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--4">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">% Muscle</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" name="muscle_mass_percentage" id="muscle_mass_percentage"
+                                [(ngModel)]="userBioData.muscle_mass_percentage" #muscle_mass_percentage="ngModel" placeholder="">
+                            <div *ngIf="muscle_mass_percentage.invalid && (muscle_mass_percentage.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Height</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" name="height" id="height"
+                                [(ngModel)]="userBioData.height" #height="ngModel" placeholder="Height">
+                            <div *ngIf="height.invalid && (height.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Unit</div>
+                            <select class="siimple-select siimple-select--fluid" name="height_unit" id="height_unit"
+                                [(ngModel)]="userBioData.height_unit" #height_unit="ngModel">
+                                <option *ngFor="let unitModel of heightUnits" value={{unitModel.id}}>
+                                    {{unitModel.name}}
+                                </option>
+                            </select>
+                            <div *ngIf="height_unit_invalid && (height_unit.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Bone Mass</div>
+                            <input type="number" class="siimple-input siimple-input--fluid" name="bone_mass_weight" id="bone_mass_weight"
+                                [(ngModel)]="userBioData.bone_mass_weight" #bone_mass_weight="ngModel" placeholder="Bone Mass">
+                            <div *ngIf="bone_mass_weight.invalid && (bone_mass_weight.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Unit</div>
+                            <select class="siimple-select siimple-select--fluid" name="bone_mass_weight_unit" id="bone_mass_weight_unit"
+                                [(ngModel)]="userBioData.bone_mass_weight_unit" #bone_mass_weight_unit="ngModel">
+                                <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                    {{unitModel.name}}
+                                </option>
+                            </select>
+                            <div *ngIf="bone_mass_weight_unit_invalid && (bone_mass_weight_unit.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Notes</div>
+                            <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
+                                name="notes" id="notes" [(ngModel)]="userBioDatanotes" #notes="ngModel">
+                            </textarea>
+                            <div *ngIf="notes.invalid && (notes.dirty || triedToHide)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="okay()">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
