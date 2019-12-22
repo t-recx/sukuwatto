@@ -5,6 +5,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .serializers import UserSerializer, GroupSerializer
+from pprint import pprint
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -14,6 +15,8 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['username']
+
+    # todo: limit account creation with a captcha or ip somehow...
 
     def get_permissions(self):
         if self.action == 'create':
@@ -40,5 +43,5 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
             return True
-
+        
         return obj == request.user

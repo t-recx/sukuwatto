@@ -1,6 +1,6 @@
 <div class="siimple--float-right">
     <div *ngIf="authService.isLoggedIn(); else notLoggedBlock" class="siimple-btn-group">
-        <button class="siimple-btn with-separator" [routerLink]="['/users', authService.getUsername(), 'profile']">
+        <button class="siimple-btn with-separator" [routerLink]="['/users', authService.getUsername(), 'account']">
             <fa-icon [icon]="faUserCircle" class="siimple--mr-1"></fa-icon>
             {{authService.getUsername()}}
         </button>

@@ -10,6 +10,7 @@ import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.component';
 import { WorkoutsComponent } from './workouts/workouts.component';
 import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
+import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   { 
@@ -81,6 +82,11 @@ const routes: Routes = [
         path: 'profile',
         canActivateChild: [],
         component: ProfileComponent,
+      },
+      {
+        path: 'account',
+        canActivateChild: [],
+        component: AccountComponent,
       },
     ]
   }, 

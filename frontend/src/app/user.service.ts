@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
+  private usersApiUrl = `${environment.apiUrl}/users/`;
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -21,7 +23,7 @@ export class UserService {
     private alertService: AlertService) { }
 
   create(user: User): Observable<User> {
-    return this.http.post<User>(`${environment.apiUrl}/users/`, user, this.httpOptions)
+    return this.http.post<User>(`${this.usersApiUrl}`, user, this.httpOptions)
     .pipe(
       tap((newUser: User) => { }),
       catchError(this.errorService.handleError<User>('create', (e: any) => 
@@ -36,6 +38,17 @@ export class UserService {
     );
   }
 
+  update(user: User): Observable<User> {
+    return this.http.put<User>(`${this.usersApiUrl}${user.id}/`, user, this.httpOptions)
+    .pipe(
+      tap((newUser: User) => { }),
+      catchError(this.errorService.handleError<User>('update', (e: any) => 
+      {
+        this.alertService.error('Unable to update account, try again later');
+      }))
+    );
+  }
+
   get(username: string): Observable<User[]> {
     let options = {};
     let params = new HttpParams();
@@ -46,7 +59,7 @@ export class UserService {
 
     options = {params: params};
 
-    return this.http.get<User[]>(`${environment.apiUrl}/users/`, options)
+    return this.http.get<User[]>(`${this.usersApiUrl}`, options)
       .pipe(
         catchError(this.errorService.handleError<User[]>('getUser', (e: any) => 
         { 

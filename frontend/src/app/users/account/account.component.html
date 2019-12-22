@@ -1,0 +1,183 @@
+<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Delete Account?</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <p class="siimple-p">
+                This will delete your account and associated data! Are you sure you want to proceed?
+            </p>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
+                Yes
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="siimple-modal siimple-modal-medium" id="password-modal" *ngIf="passwordModalVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Change password?</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hidePasswordModal()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <div class="siimple-form-field"></div>
+            <div class="siimple-form-field-label">Old Password</div>
+            <input type="old_password" class="siimple-input siimple-input--fluid" required name="old_password" id="old_password"
+                [(ngModel)]="user.old_password" type="old_password" #old_password="ngModel" placeholder="Your old_password">
+        
+            <div *ngIf="old_password.invalid && (old_password.dirty || triedToSignUp)">
+                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+            </div>
+            <div class="siimple-form-field-label">New Password</div>
+            <input type="password" class="siimple-input siimple-input--fluid" required name="password" id="password"
+                [(ngModel)]="user.password" type="password" #password="ngModel" placeholder="Your password">
+        
+            <div *ngIf="password.invalid && (password.dirty || triedToSignUp)">
+                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+            </div>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
+                Yes
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hidePasswordModal()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="allowed && user">
+    <h1 class="siimple-h1">@{{user.username}}'s account settings</h1>
+
+    <div class="siimple-grid">
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">First name</div>
+                    <input type="text" class="siimple-input siimple-input--fluid" name="first_name" id="first_name"
+                        [(ngModel)]="user.first_name" #first_name="ngModel" maxlength="30" placeholder="First name"
+                        autofocus>
+                </div>
+            </div>
+            <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">Last name</div>
+                    <input type="text" class="siimple-input siimple-input--fluid" name="last_name" id="last_name"
+                        [(ngModel)]="user.last_name" type="last_name" #last_name="ngModel" maxlength="150"
+                        placeholder="Last name">
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">Location</div>
+                    <input type="text" class="siimple-input siimple-input--fluid" name="location" id="location"
+                        [(ngModel)]="user.location" #location="ngModel" maxlength="30" placeholder="Location">
+                </div>
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">Bio</div>
+                    <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
+                        name="biography" id="biography" [(ngModel)]="user.biography" #biography="ngModel" 
+                        placeholder="Bio">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">Email address</div>
+                    <input type="email" class="siimple-input siimple-input--fluid" required name="email" id="email"
+                        [(ngModel)]="user.email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        [ngModelOptions]="{updateOn: 'blur'}" placeholder="Your email address">
+
+                    <div *ngIf="email.invalid && (email.dirty || triedToSignUp)">
+                        <div *ngIf="email.errors?.required" class="siimple-field-helper siimple--color-error">
+                            This field can't be empty
+                        </div>
+                        <div *ngIf="email.errors?.pattern" class="siimple-field-helper siimple--color-error">
+                            Please insert a valid email
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">Gender</div>
+                    <div class="siimple-radio">
+                        <input type="radio" name="gender" value="m" id="male" [checked]="user.gender === 'm'"
+                            [(ngModel)]="user.gender">
+                        <label for="male"></label>
+                    </div>
+                    <label class="siimple-label" for="male">Male</label>
+                    <div class="siimple-radio">
+                        <input type="radio" name="gender" value="f" id="female" [checked]="user.gender === 'f'"
+                            [(ngModel)]="user.gender">
+                        <label for="female"></label>
+                    </div>
+                    <label class="siimple-label" for="female">Female</label>
+                    <div class="siimple-radio">
+                        <input type="radio" name="gender" value="n" id="nonbinary" [checked]="user.gender === 'n'"
+                            [(ngModel)]="user.gender">
+                        <label for="nonbinary"></label>
+                    </div>
+                    <label class="siimple-label" for="nonbinary">Non-binary</label>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col siimple-grid-col--6">
+                <div class="siimple-form-field-label">Month of birth</div>
+                <select class="siimple-select siimple-select--fluid" [(ngModel)]="user.month_birth" name="month_birth">
+                    <option value="" selected></option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+            <div class="siimple-grid-col siimple-grid-col--6">
+                <div class="siimple-form-field-label">Year of birth</div>
+                <input type="number" class="siimple-input siimple-input--fluid" [(ngModel)]="user.year_birth"
+                    name="year_birth">
+            </div>
+        </div>
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col siimple-grid-col--12">
+                <div class="siimple-form-field siimple--my-0">
+                    <div class="siimple-form-field-label">Measurement units</div>
+                    <div class="siimple-radio">
+                        <input type="radio" name="system" value="m" id="metric" [checked]="user.system === 'm'"
+                            [(ngModel)]="user.system">
+                        <label for="metric"></label>
+                    </div>
+                    <label class="siimple-label" for="metric">Metric</label>
+                    <div class="siimple-radio">
+                        <input type="radio" name="system" value="i" id="imperial" [checked]="user.system === 'i'"
+                            [(ngModel)]="user.system">
+                        <label for="imperial"></label>
+                    </div>
+                    <label class="siimple-label" for="imperial">Imperial</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="siimple-btn siimple-btn--success" (click)="save()">Save</button>
+    <button class="siimple-btn siimple-btn--error siimple--ml-2" (click)="showDeleteModal()">Delete Account</button>
+</div>
