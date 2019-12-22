@@ -1,3 +1,9 @@
+<app-user-bio-data-detail [username]=username [start]=bioDataDate 
+    [visible]=userBioDataVisible [units]=weightUnits [heightUnits]=heightUnits
+    (closed)="onUserBioDataClosed()"
+    (okayed)="onUserBioDataOkayed($event)">
+</app-user-bio-data-detail>
+
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
@@ -59,7 +65,7 @@
 
     <div class="siimple-grid">
         <div class="siimple-grid-row">
-            <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
+            <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-6 siimple--py-0">
                 <div class="siimple-form-field">
                     <div class="siimple-form-field-label">First name</div>
                     <input type="text" class="siimple-input siimple-input--fluid" name="first_name" id="first_name"
@@ -67,12 +73,18 @@
                         autofocus>
                 </div>
             </div>
-            <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
+            <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-6 siimple--py-0">
                 <div class="siimple-form-field">
                     <div class="siimple-form-field-label">Last name</div>
                     <input type="text" class="siimple-input siimple-input--fluid" name="last_name" id="last_name"
                         [(ngModel)]="user.last_name" type="last_name" #last_name="ngModel" maxlength="150"
                         placeholder="Last name">
+                </div>
+            </div>
+            <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-form-field">
+                    <div class="siimple-form-field-label">&nbsp;</div>
+                    <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">User Bio Data</button>
                 </div>
             </div>
         </div>

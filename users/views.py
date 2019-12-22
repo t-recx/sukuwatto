@@ -34,6 +34,8 @@ class UserViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         elif self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsOwnerOrReadOnly]
+        elif self.action == 'destroy':
+            permission_classes = [IsOwnerOrReadOnly|IsAdminUser]
         else:
             permission_classes = [IsAdminUser]
 

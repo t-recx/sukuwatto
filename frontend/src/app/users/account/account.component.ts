@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/user';
 import { AuthService } from 'src/app/auth.service';
 import { UserService } from 'src/app/user.service';
-import { ActivatedRoute } from '@angular/router';
-import { AlertService } from 'src/app/alert/alert.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UnitsService } from '../units.service';
+import { UserBioData } from '../user-bio-data';
+import { Unit, MeasurementType } from '../unit';
+import { UserBioDataService } from '../user-bio-data.service';
+
+// todo: add change password functionality
 
 @Component({
   selector: 'app-account',
@@ -17,15 +22,35 @@ export class AccountComponent implements OnInit {
   triedToSave: boolean;
   deleteModalVisible: boolean;
   passwordModalVisible: boolean;
+  userBioData: UserBioData;
+  bioDataDate: Date;
+  weightUnits: Unit[];
+  heightUnits: Unit[];
+  userBioDataVisible: boolean;
+
+  onUserBioDataClosed() {
+    this.userBioDataVisible = false;
+  }
+
+  onUserBioDataOkayed(event: any) {
+    this.userBioData = event;
+  }
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private alertService: AlertService,
     public route: ActivatedRoute, 
+    private router: Router,
+    private unitsService: UnitsService,
+    private userBioDataService: UserBioDataService,
   ) { }
 
   ngOnInit() {
+    this.userBioData = null;
+    this.bioDataDate = new Date();
+    this.weightUnits = [];
+    this.heightUnits = [];
+    this.loadUnits();
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
     this.username = this.route.snapshot.paramMap.get('username');
@@ -39,6 +64,18 @@ export class AccountComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadUnits(): void {
+    this.unitsService.getUnits().subscribe(units => {
+      this.weightUnits = units.filter(u => u.measurement_type == MeasurementType.Weight);
+      this.heightUnits = units.filter(u => u.measurement_type == MeasurementType.Height);
+    });
+
+  }
+  
+  showUserBioData(): void {
+    this.userBioDataVisible = true;
   }
 
   showDeleteModal(): void {
@@ -67,13 +104,19 @@ export class AccountComponent implements OnInit {
     this.userService.update(this.user)
     .subscribe();
 
-    // todo: add change password functionality
+    if (this.userBioData) {
+      this.userBioDataService.saveUserBioData(this.userBioData).subscribe();
+    }
 
-    // todo: redirect to profile 
+    this.router.navigateByUrl(`/users/${this.user.username}/profile`);
   }
 
   delete(): void {
-    // todo
+    this.userService.delete(this.user).subscribe(x => {
+      this.authService.logout();
+
+      this.router.navigateByUrl('/');
+    });
   }
 
   valid(): boolean {

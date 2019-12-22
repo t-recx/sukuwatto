@@ -49,6 +49,18 @@ export class UserService {
     );
   }
 
+  delete(user: User): Observable<User> {
+    const id = typeof user === 'number' ? user : user.id;
+    const url = `${this.usersApiUrl}${id}/`;
+
+    return this.http.delete<User>(url, this.httpOptions).pipe(
+      catchError(this.errorService.handleError<User>('deleteUser', (e: any) => 
+      {
+        this.alertService.error('Unable to delete user, try again later');
+      }, new User()))
+    );
+  }
+
   get(username: string): Observable<User[]> {
     let options = {};
     let params = new HttpParams();
