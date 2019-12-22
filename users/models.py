@@ -22,6 +22,8 @@ class CustomUser(AbstractUser):
     year_birth = models.IntegerField(null=True)
     month_birth = models.IntegerField(null=True)
     system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
+    location = models.CharField(max_length=200, null=True)
+    biography = models.TextField(null=True)
 
     def __str__(self):
         return self.email
