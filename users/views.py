@@ -5,8 +5,12 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .serializers import UserSerializer, GroupSerializer
+from rest_framework import generics
 from pprint import pprint
+from django.contrib.auth.hashers import make_password
 
+# todo: limit account creation with a captcha or ip somehow...
+# maybe consider changing registration to this: https://github.com/apragacz/django-rest-registration
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -16,7 +20,12 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['username']
 
-    # todo: limit account creation with a captcha or ip somehow...
+    def perform_create(self, serializer):
+        instance = serializer.save()
+
+        instance.set_password(instance.password)
+        
+        instance.save()
 
     def get_permissions(self):
         if self.action == 'create':

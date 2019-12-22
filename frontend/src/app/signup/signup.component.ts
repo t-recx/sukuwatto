@@ -46,7 +46,7 @@ export class SignupComponent implements OnInit {
             .subscribe(token => {
               if (this.authService.isLoggedIn()) {
                 let redirect = this.authService.redirectUrl ?
-                  this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}`;
+                  this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
 
                 this.router.navigateByUrl(redirect);
               }
