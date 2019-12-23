@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
-from .serializers import UserSerializer, GroupSerializer
-from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import FileUploadParser
+from .serializers import UserSerializer, GroupSerializer, FileSerializer
 from pprint import pprint
 from django.contrib.auth.hashers import make_password
 
@@ -38,6 +39,24 @@ class UserViewSet(viewsets.ModelViewSet):
             permission_classes = [IsOwnerOrReadOnly|IsAdminUser]
         else:
             permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
+
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+      file_serializer = FileSerializer(data=request.data)
+
+      if file_serializer.is_valid():
+          file_serializer.save()
+          return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        permission_classes = [AllowAny]
 
         return [permission() for permission in permission_classes]
 

@@ -24,6 +24,13 @@ class CustomUser(AbstractUser):
     system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
     location = models.CharField(max_length=200, null=True)
     biography = models.TextField(null=True)
+    profile_filename = models.CharField(max_length=1024, null=True)
 
     def __str__(self):
         return self.email
+
+class File(models.Model):
+    file = models.FileField(blank=False, null=False)
+
+    def __str__(self):
+        return self.file.name

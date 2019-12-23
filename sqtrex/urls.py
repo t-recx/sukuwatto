@@ -1,10 +1,12 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import include, path, re_path
 from rest_framework import routers
-from users.views import UserViewSet, GroupViewSet
+from users.views import UserViewSet, GroupViewSet, FileUploadView
 from workouts.views.views import ExerciseViewSet, UnitViewSet, UnitConversionViewSet 
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -23,5 +25,10 @@ urlpatterns = [
     path('api/adopt-plan/<int:pk>/', plan_views.adopt_plan, name='adopt_plan'),
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
+    path('api/file-upload/', FileUploadView.as_view()),
     re_path('^activity/', include('actstream.urls')),
 ]
+
+# todo: change this for production:
+if settings.DEBUG: 
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
