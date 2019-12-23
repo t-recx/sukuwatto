@@ -17,6 +17,7 @@ import { UserBioDataService } from '../user-bio-data.service';
 })
 export class AccountComponent implements OnInit {
   user: User;
+  aaa: string;
   username: string;
   allowed: boolean;
   triedToSave: boolean;
@@ -27,6 +28,10 @@ export class AccountComponent implements OnInit {
   weightUnits: Unit[];
   heightUnits: Unit[];
   userBioDataVisible: boolean;
+
+  setProfilePicture(event: any) {
+    this.user.profile_filename = event;
+  }
 
   onUserBioDataClosed() {
     this.userBioDataVisible = false;

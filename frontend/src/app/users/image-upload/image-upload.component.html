@@ -1,0 +1,12 @@
+<div class="siimple-card">
+    <div class="siimple-card-body" align="center">
+        <div class="image-container">
+            <img *ngIf="imageURL" [src]="imageMediaURL" />
+        </div>
+        <input type="file" id="file" class="siimple-input siimple-input--fluid siimple--mt-2"
+            accept="image/*"
+            (change)="onChange($event)" />
+        <label class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--mt-2"
+            for="file">Browse...</label>
+    </div>
+</div>
