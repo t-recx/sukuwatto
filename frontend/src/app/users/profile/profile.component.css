@@ -1,0 +1,23 @@
+.image-container {
+  width: 192px;
+}
+
+.image-container img {
+    max-width: 192px;
+    max-height: 196px;
+    width: auto;
+    height: auto;
+}
+
+.profile-field {
+    margin-bottom: 10px;
+}
+
+.name-field {
+    margin-bottom: 5px;
+}
+
+.username-field {
+    margin-top: 0px;
+    margin-bottom: 30px;
+}

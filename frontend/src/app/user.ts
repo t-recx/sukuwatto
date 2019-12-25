@@ -24,6 +24,7 @@ export class User {
     gender: Gender;
     year_birth: number;
     month_birth: number;
+    biography: string;
     system: MeasurementSystem;
     profile_filename: string;
 }

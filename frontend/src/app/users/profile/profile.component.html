@@ -1,9 +1,29 @@
-<div class="siimple-grid">
+<div class="siimple-grid" *ngIf="user">
     <div class="siimple-grid-row">
-        <div class="siimple-grid-col siimple-grid-col--4  siimple-grid-col--sm--2">
-
+        <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12" align="center">
+            <div class="image-container">
+                <img *ngIf="user.profile_filename" [src]=profileImageURL />
+                <fa-icon *ngIf="!user.profile_filename" [icon]="faUserCircle" 
+                    class="siimple--color-primary" size="6x"></fa-icon> 
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--sm-12">
+            <div *ngIf="user.first_name || user.last_name" class="siimple-h5 name-field">
+                {{user.first_name}} {{user.last_name}}
+            </div>
+            <div class="username-field">@{{user.username}}</div>
+            <div class="profile-field" *ngIf="user.location">
+                <fa-icon [icon]="faMapMarkerAlt" style="width: 14px;display: inline-block;"></fa-icon> 
+                <span class="siimple--pl-1">{{user.location}}</span>
+            </div>
+            <div class="profile-field" *ngIf="birthDate">
+                <fa-icon [icon]="faBirthdayCake"></fa-icon> 
+                <span class="siimple--pl-1">{{birthDate | date:'MMMM, y'}}</span>
+            </div>
+            <div class="profile-field">
+                {{user.biography}}
+            </div>
         </div>
     </div>
 </div>
 
-<p>{{route.snapshot.paramMap.get('username')}}</p>

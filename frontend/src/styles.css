@@ -38,3 +38,7 @@ input[type=time] {
 	font-size: 14px;
 	font-weight: 400;
 }
+
+round-image {
+	border-radius: 50%;
+}

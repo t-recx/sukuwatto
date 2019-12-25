@@ -32,7 +32,10 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             permission_classes = [AllowAny]
         elif self.action == 'list' or self.action == 'retrieve':
-            permission_classes = [IsAuthenticated]
+            # todo: maybe create a special permission here that will only AllowAny if there's a specified 
+            # username filter
+            # todo: also check if user allows a public profile maybe??
+            permission_classes = [AllowAny]
         elif self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsOwnerOrReadOnly]
         elif self.action == 'destroy':
@@ -67,7 +70,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
-     def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
