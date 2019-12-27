@@ -11,7 +11,25 @@
             <div *ngIf="user.first_name || user.last_name" class="siimple-h5 name-field">
                 {{user.first_name}} {{user.last_name}}
             </div>
-            <div class="username-field">@{{user.username}}</div>
+            <div class="action-button-group">
+                <button class="siimple-btn siimple--mr-2" *ngIf="canFollow" (click)="showFollowModal()">
+                    <fa-icon [icon]="faUserPlus"></fa-icon> 
+                    <span class="siimple--ml-1">Follow</span>
+                </button>
+                <button class="siimple-btn siimple--mr-2" *ngIf="canUnfollow" (click)="showUnfollowModal()">
+                    <fa-icon [icon]="faUserMinus"></fa-icon> 
+                    <span class="siimple--ml-1">Unfollow</span>
+                </button>
+                <button class="siimple-btn" *ngIf="canMessage" (click)="showMessageModal()">
+                    <fa-icon [icon]="faEnvelope"></fa-icon> 
+                    <span class="siimple--ml-1">Message</span>
+                </button>
+            </div>
+
+            <div class="profile-field">
+                <fa-icon [icon]="faAt" style="width: 14px;display: inline-block;"></fa-icon> 
+                <span class="siimple--pl-1">{{user.username}}</span>
+            </div>
             <div class="profile-field" *ngIf="user.location">
                 <fa-icon [icon]="faMapMarkerAlt" style="width: 14px;display: inline-block;"></fa-icon> 
                 <span class="siimple--pl-1">{{user.location}}</span>
