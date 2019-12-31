@@ -27,6 +27,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   units: Unit[];
 
   username: string;
+  page: string;
 
   currentPage: number;
 
@@ -40,35 +41,31 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     private exercisesService: ExercisesService,
     private unitsService: UnitsService,
   ) { 
-    this.paramChangedSubscription = route.params.subscribe(val => 
+    this.paramChangedSubscription = route.paramMap.subscribe(val => 
       {
-        this.loadParameterDependentData();
+        this.loadParameterDependentData(val.get('username'), val.get('page'));
       });
   }
 
   ngOnInit() {
     this.loadExercises();
     this.loadUnits();
-    this.loadParameterDependentData();
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
   }
 
-  loadParameterDependentData(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
-    this.getWorkouts();
+  loadParameterDependentData(username: string, page: string): void {
+    this.username = username;
+    this.page = page;
+    this.getWorkouts(username, page);
   }
 
-  getWorkouts(): void {
-    let pageParameter: any = this.route.snapshot.paramMap.get('page');
-
+  getWorkouts(username, pageParameter: any): void {
     if (!pageParameter) {
       pageParameter = 1;
     }
-
-    let username= this.route.snapshot.paramMap.get('username');
 
     if (!username || username.length == 0) {
       username = this.authService.getUsername();
@@ -87,7 +84,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   deleteWorkout(workout): void {
-    this.workoutsService.deleteWorkout(workout).subscribe(_ => this.getWorkouts());
+    this.workoutsService.deleteWorkout(workout).subscribe(_ => this.getWorkouts(this.username, this.page));
   }
 
   getProductiveGroups(groups: WorkoutGroup[]): WorkoutGroup[] {

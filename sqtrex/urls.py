@@ -1,12 +1,13 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import include, path, re_path
 from rest_framework import routers
-from users.views import UserViewSet, GroupViewSet, FileUploadView
-from workouts.views.views import ExerciseViewSet, UnitViewSet, UnitConversionViewSet 
+from users.views import UserViewSet, GroupViewSet, FileUploadView, get_followers, do_follow, do_unfollow
+from workouts.views.views import ExerciseViewSet, UnitViewSet, UnitConversionViewSet
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
 from django.conf.urls.static import static
+from sqtrex.views import ContentTypeList
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -26,7 +27,10 @@ urlpatterns = [
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),
-    re_path('^activity/', include('actstream.urls')),
+    path('api/content-types/', ContentTypeList.as_view()),
+    path('api/followers/', get_followers, name="followers"),
+    path('api/follow/', do_follow, name="follow"),
+    path('api/unfollow/', do_unfollow, name="unfollow"),
 ]
 
 # todo: change this for production:

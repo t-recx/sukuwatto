@@ -1,13 +1,18 @@
+from actstream.models import followers
+from actstream.actions import follow, unfollow
+from django.contrib.contenttypes.models import ContentType
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser
 from .serializers import UserSerializer, GroupSerializer, FileSerializer
 from pprint import pprint
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 
 # todo: limit account creation with a captcha or ip somehow...
@@ -77,3 +82,46 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         
         return obj == request.user
+
+@api_view(['GET'])
+def get_followers(request):
+    if request.method == 'GET':
+        user = None
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            user = get_object_or_404(get_user_model(), username=username)
+
+        if user is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        queryset = followers(user)
+        serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def do_follow(request):
+    if request.method == 'POST':
+        content_type_id = request.data.get('content_type_id', None)
+        object_id = request.data.get('object_id', None)
+        flag = request.data.get('flag', '')
+
+        ctype = get_object_or_404(ContentType, pk=content_type_id)
+        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+
+        follow(request.user, instance, actor_only=True, flag=flag)
+        return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def do_unfollow(request):
+    if request.method == 'POST':
+        content_type_id = request.data.get('content_type_id', None)
+        object_id = request.data.get('object_id', None)
+        flag = request.data.get('flag', '')
+
+        ctype = get_object_or_404(ContentType, pk=content_type_id)
+        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+
+        unfollow(request.user, instance, flag=flag)
+        return Response(status=status.HTTP_204_NO_CONTENT)

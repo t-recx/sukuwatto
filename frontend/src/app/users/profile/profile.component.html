@@ -12,11 +12,11 @@
                 {{user.first_name}} {{user.last_name}}
             </div>
             <div class="action-button-group">
-                <button class="siimple-btn siimple--mr-2" *ngIf="canFollow" (click)="showFollowModal()">
+                <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()">
                     <fa-icon [icon]="faUserPlus"></fa-icon> 
                     <span class="siimple--ml-1">Follow</span>
                 </button>
-                <button class="siimple-btn siimple--mr-2" *ngIf="canUnfollow" (click)="showUnfollowModal()">
+                <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()">
                     <fa-icon [icon]="faUserMinus"></fa-icon> 
                     <span class="siimple--ml-1">Unfollow</span>
                 </button>
