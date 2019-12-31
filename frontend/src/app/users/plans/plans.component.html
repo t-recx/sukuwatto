@@ -12,7 +12,7 @@
       </div>
       <div class="siimple-card-footer ">
         <div class="">
-          <button class="siimple-btn siimple-btn--primary siimple--mr-2" routerLink="../plan/{{plan.id}}">Edit</button>
+          <button class="siimple-btn siimple-btn--primary siimple--mr-2" [routerLink]="['/users', username, 'plan', plan.id]">Edit</button>
           <button class="siimple-btn siimple-btn--error" (click)="deletePlan(plan)">Remove</button>
         </div>
       </div>
@@ -33,7 +33,7 @@
       <div class="siimple-card-footer ">
         <div class="">
           <button class="siimple-btn siimple-btn--primary siimple--mr-2" (click)="adoptPlan(plan)">Adopt</button>
-          <button class="siimple-btn siimple-btn--primary siimple--mr-2" routerLink="../plan/{{plan.id}}">View</button>
+          <button class="siimple-btn siimple-btn--primary siimple--mr-2" [routerLink]="['/users', username, 'plan', plan.id]">View</button>
           <button class="siimple-btn siimple-btn--error" (click)="deletePlan(plan)">Remove</button>
         </div>
       </div>
@@ -41,4 +41,4 @@
   </ul>
 </div>
 
-<button class="siimple-btn siimple-btn--primary" routerLink="../plan/">New plan</button>
+<button class="siimple-btn siimple-btn--primary" [routerLink]="['/users', username, 'plan']">New plan</button>

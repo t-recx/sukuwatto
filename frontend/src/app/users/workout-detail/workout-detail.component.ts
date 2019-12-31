@@ -83,17 +83,22 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username');
     this.triedToSave = false;
     this.userBioData = null;
-    this.loadAdoptedPlans();
     this.loadExercises();
     this.loadUnits();
-    this.loadOrInitializeWorkout();
+
+    this.route.paramMap.subscribe(params => 
+      {
+        this.triedToSave = false;
+        this.userBioData = null;
+        this.username = params.get('username');
+        this.loadAdoptedPlans();
+        this.loadOrInitializeWorkout(params.get('id'));
+      });
   }
 
-  loadOrInitializeWorkout() {
-    const id = this.route.snapshot.paramMap.get('id');
+  loadOrInitializeWorkout(id: string) {
     if (id) {
       this.service.getWorkout(id).subscribe(workout => {
         this.workout = workout;

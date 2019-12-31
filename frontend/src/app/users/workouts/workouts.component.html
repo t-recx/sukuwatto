@@ -63,7 +63,7 @@
     <div class="siimple-card-footer ">
       <div class="">
         <button class="siimple-btn siimple-btn--primary siimple--mr-2"
-          routerLink="../workout/{{workout.id}}">View</button>
+          [routerLink]="['/users', username, 'workout', workout.id]">View</button>
         <button class="siimple-btn siimple-btn--error" (click)="deleteWorkout(workout)">Remove</button>
       </div>
     </div>

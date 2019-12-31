@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from './token';
 import { User } from './user';
@@ -9,6 +8,7 @@ import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,10 @@ export class AuthService {
   redirectUrl: string;
 
   username: string;
+  access_token: string;
+  refresh_token: string;
+  unit_system: string;
+  user_id: string;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +28,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private jwtHelper: JwtHelperService,
+    private jwtHelper: JwtService,
     private userService: UserService,
     private errorService: ErrorService,
     private alertService: AlertService) {
@@ -50,11 +54,11 @@ export class AuthService {
   }
 
   public logout() {
-    localStorage.removeItem('username');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('unit_system');
-    localStorage.removeItem('user_id');
+    this.username = null;
+    this.access_token = null;
+    this.refresh_token = null;
+    this.unit_system = null;
+    this.user_id = null;
   }
 
   refresh(): Observable<Token> {
@@ -65,9 +69,21 @@ export class AuthService {
       );
   }
 
+  public getAccessToken(): string {
+    return this.access_token;
+  }
+
   public isLoggedIn(): boolean {
-    if (this.jwtHelper.tokenGetter()) {
-      return !this.jwtHelper.isTokenExpired(this.jwtHelper.tokenGetter());
+    if (this.getAccessToken()) {
+      return !this.jwtHelper.isTokenExpired(this.getAccessToken());
+    }
+
+    return false;
+  }
+
+  public tokenExpired(): boolean {
+    if (this.getAccessToken()) {
+      return this.jwtHelper.isTokenExpired(this.getAccessToken());
     }
 
     return false;
@@ -78,38 +94,38 @@ export class AuthService {
   }
 
   public getUsername(): string {
-    return localStorage.getItem('username');
+    return this.username;
   }
 
   public getUserId(): string {
-    return localStorage.getItem('user_id');
+    return this.user_id;
   }
 
   public getUserUnitSystem(): string {
-    return localStorage.getItem('unit_system');
+    return this.unit_system;
   }
 
   private setSession(user: User, token: Token) {
     this.setTokenAccess(token.access);
-    localStorage.setItem('refresh_token', token.refresh);
-    localStorage.setItem('username', user.username);
+    this.refresh_token =  token.refresh;
+    this.username = user.username;
     this.username = user.username;
   }
 
   private setUserData(username: string) {
     this.userService.get(username).subscribe(users => {
       if (users.length > 0) { 
-        localStorage.setItem('unit_system', users[0].system);
-        localStorage.setItem('user_id', users[0].id.toString());
+        this.unit_system = users[0].system;
+        this.user_id = users[0].id.toString();
       }
     });
   }
 
   private setTokenAccess(access: string) {
-    localStorage.setItem('access_token', access);
+    this.access_token = access;
   }
 
   private getTokenRefresh(): string {
-    return localStorage.getItem('refresh_token');
+    return this.refresh_token;
   }
 }

@@ -140,7 +140,12 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+from datetime import datetime, timedelta 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1)
+}
 
+# todo: change this on production...
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
 ]

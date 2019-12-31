@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PlansComponent implements OnInit {
   plans: Plan[];
   adoptedPlans: Plan[];
+  username: string;
 
   constructor(
     private plansService: PlansService,
@@ -18,6 +19,8 @@ export class PlansComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.username = this.route.snapshot.paramMap.get('username');
+
     this.loadPlans();
   }
 
@@ -31,9 +34,8 @@ export class PlansComponent implements OnInit {
   }
 
   loadAdoptedPlans(): void {
-    let username = this.route.snapshot.paramMap.get('username');
 
-    this.plansService.getAdoptedPlans(username).subscribe(plans => this.adoptedPlans = plans);
+    this.plansService.getAdoptedPlans(this.username).subscribe(plans => this.adoptedPlans = plans);
   }
 
   adoptPlan(plan): void {

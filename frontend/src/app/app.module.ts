@@ -1,5 +1,4 @@
-import { JwtModule } from '@auth0/angular-jwt';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './alert/alert.module';
+import { TokenInterceptor } from './token.interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -34,18 +34,16 @@ export function tokenGetter() {
     HttpClientModule,
     FormsModule,
     DataTablesModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:8000"],
-        skipWhenExpired: true,
-        blacklistedRoutes: [""]
-      }
-    }),
     UsersModule,
     FontAwesomeModule,
   ],
-  providers: [],
+  providers: [
+     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
