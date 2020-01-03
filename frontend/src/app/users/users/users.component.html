@@ -1,7 +1,7 @@
 <div class="siimple-navbar siimple-navbar--primary siimple-navbar--large">
     <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
     <ng-template #loggedTitle>
-        <a class="siimple-navbar-title" [routerLink]="['/users', authService.username, 'home']">
+        <a class="siimple-navbar-title" [routerLink]="['/users', authService.getUsername(), 'home']">
             sukuwatto
         </a>
     </ng-template>

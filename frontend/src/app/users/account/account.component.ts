@@ -58,7 +58,7 @@ export class AccountComponent implements OnInit {
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
     this.username = this.route.snapshot.paramMap.get('username');
-    this.allowed = this.authService.isLoggedIn() && this.authService.username == this.username;
+    this.allowed = this.authService.isLoggedIn() && this.authService.getUsername() == this.username;
     this.triedToSave = false;
 
     if (this.allowed) {

@@ -23,6 +23,10 @@ box-shadow: none;
     display: none;
 }
 
+.round-image {
+	border-radius: 50%;
+}
+
 ul {
 	padding: 0px;
 }
@@ -37,8 +41,4 @@ input[type=time] {
 	font-family: Roboto,sans-serif;
 	font-size: 14px;
 	font-weight: 400;
-}
-
-round-image {
-	border-radius: 50%;
 }

@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/auth.service';
 import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
 import { MessagesService } from '../messages.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +20,9 @@ export class ProfileComponent implements OnInit {
   username: string;
   profileImageURL: string;
   birthDate: Date;
+
+  profileTab = UserViewProfileTab;
+  selectedTab: UserViewProfileTab;
 
   canFollow: boolean;
   canMessage: boolean;
@@ -39,6 +41,9 @@ export class ProfileComponent implements OnInit {
   faMapMarkerAlt = faMapMarkerAlt;
 
   messageModalVisible: boolean;
+
+  following: User[];
+  showUnfollowButtonOnFollowingList: boolean;
 
   constructor(
     private route: ActivatedRoute, 
@@ -61,6 +66,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserData(username: string) {
+    this.selectedTab = UserViewProfileTab.Followers;
     this.user = null;
     this.profileImageURL = null;
     this.birthDate = null;
@@ -69,6 +75,7 @@ export class ProfileComponent implements OnInit {
     this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
     this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
     this.loadFollowers();
+    this.loadFollowing();
     if (this.username) {
       this.userService.get(this.username).subscribe(users => {
         if (users && users.length == 1) {
@@ -80,6 +87,9 @@ export class ProfileComponent implements OnInit {
         }
       });
     }
+
+    this.showUnfollowButtonOnFollowingList = this.authService.isLoggedIn() && 
+      this.username == this.authService.getUsername();
   }
 
   loadFollowers(): void {
@@ -87,6 +97,13 @@ export class ProfileComponent implements OnInit {
       {
         this.followers = followers;
         this.isFollowed = followers.filter(user => user.username == this.authService.getUsername()).length > 0;
+      });
+  }
+
+  loadFollowing(): void {
+    this.followService.getFollowing(this.username).subscribe(following => 
+      {
+        this.following = following;
       });
   }
 
@@ -99,7 +116,19 @@ export class ProfileComponent implements OnInit {
   }
 
   unfollow(): void {
-    this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x => this.loadFollowers());
+    this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x => this.loadFollowing());
   }
 
+  unfollowUser(user: User): void {
+    this.followService.unfollow(this.userContentTypeID, user.id).subscribe(x => this.loadFollowing());
+  }
+
+  selectTab(tab: UserViewProfileTab): void {
+    this.selectedTab = tab;
+  }
+}
+
+export enum UserViewProfileTab {
+  Followers = 1,
+  Following = 2,
 }

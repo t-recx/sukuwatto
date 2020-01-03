@@ -16,12 +16,6 @@ import { JwtService } from './jwt.service';
 export class AuthService {
   redirectUrl: string;
 
-  username: string;
-  access_token: string;
-  refresh_token: string;
-  unit_system: string;
-  user_id: string;
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -32,7 +26,6 @@ export class AuthService {
     private userService: UserService,
     private errorService: ErrorService,
     private alertService: AlertService) {
-    this.username = this.getUsername();
   }
 
   login(user: User): Observable<Token> {
@@ -54,11 +47,11 @@ export class AuthService {
   }
 
   public logout() {
-    this.username = null;
-    this.access_token = null;
-    this.refresh_token = null;
-    this.unit_system = null;
-    this.user_id = null;
+    this.setUsername(null);
+    this.setTokenAccess(null);
+    this.setTokenRefresh(null);
+    this.setUnitSystem(null);
+    this.setUserID(null);
   }
 
   refresh(): Observable<Token> {
@@ -67,10 +60,6 @@ export class AuthService {
         tap((newToken: Token) => this.setTokenAccess(newToken.access)),
         catchError(this.errorService.handleError<Token>('refresh'))
       );
-  }
-
-  public getAccessToken(): string {
-    return this.access_token;
   }
 
   public isLoggedIn(): boolean {
@@ -93,39 +82,71 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(this.getTokenRefresh());
   }
 
-  public getUsername(): string {
-    return this.username;
-  }
-
-  public getUserId(): string {
-    return this.user_id;
-  }
-
-  public getUserUnitSystem(): string {
-    return this.unit_system;
-  }
-
   private setSession(user: User, token: Token) {
     this.setTokenAccess(token.access);
-    this.refresh_token =  token.refresh;
-    this.username = user.username;
-    this.username = user.username;
+    this.setTokenRefresh(token.refresh);
+    this.setUsername(user.username)
   }
 
   private setUserData(username: string) {
     this.userService.get(username).subscribe(users => {
       if (users.length > 0) { 
-        this.unit_system = users[0].system;
-        this.user_id = users[0].id.toString();
+        this.setUnitSystem(users[0].system);
+        this.setUserID(users[0].id.toString());
       }
     });
   }
 
-  private setTokenAccess(access: string) {
-    this.access_token = access;
+  private getLocalStorageItem(key: string): string {
+    return localStorage.getItem(key);
+  }
+
+  private setLocalStorageItem(key: string, value: string) {
+    if (value) {
+      localStorage.setItem(key, value);
+    }
+    else {
+      localStorage.removeItem(key);
+    }
+  }
+
+  public getAccessToken(): string {
+    return this.getLocalStorageItem('access_token');
+  }
+
+  public getUsername(): string {
+    return this.getLocalStorageItem('username');
+  }
+
+  public getUserId(): string {
+    return this.getLocalStorageItem('user_id');
+  }
+
+  public getUserUnitSystem(): string {
+    return this.getLocalStorageItem('unit_system');
   }
 
   private getTokenRefresh(): string {
-    return this.refresh_token;
+    return this.getLocalStorageItem('refresh_token');
+  }
+
+  private setUnitSystem(system: string) {
+    this.setLocalStorageItem('unit_system', system);
+  }
+
+  private setUserID(id: string) {
+    this.setLocalStorageItem('user_id', id);
+  }
+
+  private setUsername(username: string) {
+    this.setLocalStorageItem('username', username);
+  }
+
+  private setTokenAccess(access: string) {
+    this.setLocalStorageItem('access_token', access);
+  }
+
+  private setTokenRefresh(refresh: string) {
+    this.setLocalStorageItem('refresh_token', refresh);
   }
 }

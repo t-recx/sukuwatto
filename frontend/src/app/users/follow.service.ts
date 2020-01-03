@@ -16,6 +16,7 @@ export class FollowService {
   private followUrl= `${environment.apiUrl}/follow/`;
   private unfollowUrl= `${environment.apiUrl}/unfollow/`;
   private followersUrl= `${environment.apiUrl}/followers/`;
+  private followingUrl= `${environment.apiUrl}/following/`;
 
   constructor(
     private http: HttpClient,
@@ -57,6 +58,27 @@ export class FollowService {
     // todo: check permissions??
 
     return of(true);
+  }
+
+  getFollowing(username: string): Observable<User[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (username) {
+      options = {params: params};
+    }
+
+    return this.http.get<User[]>(`${this.followingUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<User[]>('following', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch following');
+        }, []))
+      );
   }
 
   getFollowers(username: string): Observable<User[]> {

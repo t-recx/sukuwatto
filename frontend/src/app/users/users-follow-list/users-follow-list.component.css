@@ -1,0 +1,27 @@
+.profile-image {
+  width: 32px;
+  height: 32px;
+}
+
+.profile-container {
+  position: relative;
+}
+
+.profile-container img, fa-icon {
+  float: left;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.profile-user-info {
+  height: 32px;            
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.profile-action-button {
+  position: absolute;            
+  right: 10px;                    
+  top: 50%;                      
+  transform: translateY(-50%);   
+}

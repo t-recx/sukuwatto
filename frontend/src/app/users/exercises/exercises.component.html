@@ -13,7 +13,7 @@
     </thead>
     <tbody class="siimple-table-body">
         <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises" 
-            [routerLink]="['/users', authService.username, 'exercise', exercise.id]">
+            [routerLink]="['/users', authService.getUsername(), 'exercise', exercise.id]">
             <td class="siimple-table-cell">{{exercise.name}}</td>
             <td class="siimple-table-cell">{{getSectionLabel(exercise.section)}}</td>
             <td class="siimple-table-cell">{{getModalityLabel(exercise.modality)}}</td>

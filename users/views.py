@@ -1,4 +1,4 @@
-from actstream.models import followers
+from actstream.models import followers, following
 from actstream.actions import follow, unfollow
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import api_view
@@ -96,6 +96,23 @@ def get_followers(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         queryset = followers(user)
+        serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def get_following(request):
+    if request.method == 'GET':
+        user = None
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            user = get_object_or_404(get_user_model(), username=username)
+
+        if user is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        queryset = following(user, get_user_model())
         serializer = UserSerializer(queryset, many=True)
 
         return Response(serializer.data)
