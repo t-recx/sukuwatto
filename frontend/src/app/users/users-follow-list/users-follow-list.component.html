@@ -3,7 +3,7 @@
         <div class="profile-container">
             <img *ngIf="user.profile_filename" [src]="getProfileImageURL(user)" class="round-image profile-image" />
             <fa-icon *ngIf="!user.profile_filename" [icon]="faUserCircle" 
-                class="siimple--color-primary" size="2x">
+                class="siimple--color-primary profile-icon" size="2x">
             </fa-icon>
 
             <span class="profile-user-info">
@@ -14,10 +14,8 @@
             <span *ngIf="showActionButton" 
                 class="siimple-btn siimple-btn--dark profile-action-button"
                 (click)="action(user)">
-                <span class="siimple--mr-1" *ngIf="actionIcon">
-                    <fa-icon [icon]=actionIcon></fa-icon>
-                </span>
-                <span>
+                <fa-icon *ngIf="actionIcon" [icon]=actionIcon></fa-icon>
+                <span class="siimple--ml-2">
                     {{actionText}}
                 </span>
             </span>

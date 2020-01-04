@@ -27,6 +27,17 @@ box-shadow: none;
 	border-radius: 50%;
 }
 
+.round-box-container {
+    display: block;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px solid #eef2f7;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-bottom: 10px;
+}
+
 ul {
 	padding: 0px;
 }

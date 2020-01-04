@@ -119,7 +119,8 @@ export class ProfileComponent implements OnInit {
     this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x => this.loadFollowing());
   }
 
-  unfollowUser(user: User): void {
+  public unfollowUser(user: User): void {
+    console.log('b');
     this.followService.unfollow(this.userContentTypeID, user.id).subscribe(x => this.loadFollowing());
   }
 

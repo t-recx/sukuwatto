@@ -5,7 +5,7 @@
                 <div class="image-container">
                     <img *ngIf="user.profile_filename" [src]=profileImageURL />
                     <fa-icon *ngIf="!user.profile_filename" [icon]="faUserCircle" class="siimple--color-primary"
-                        size="6x"></fa-icon>
+                        size="10x"></fa-icon>
                 </div>
             </div>
             <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--sm-12">
@@ -15,15 +15,15 @@
                 <div class="action-button-group">
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()">
                         <fa-icon [icon]="faUserPlus"></fa-icon>
-                        <span class="siimple--ml-1">Follow</span>
+                        <span class="siimple--ml-2">Follow</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()">
                         <fa-icon [icon]="faUserMinus"></fa-icon>
-                        <span class="siimple--ml-1">Unfollow</span>
+                        <span class="siimple--ml-2">Unfollow</span>
                     </button>
                     <button class="siimple-btn" *ngIf="canMessage" (click)="showMessageModal()">
                         <fa-icon [icon]="faEnvelope"></fa-icon>
-                        <span class="siimple--ml-1">Message</span>
+                        <span class="siimple--ml-2">Message</span>
                     </button>
                 </div>
 
@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="">
         <div class="siimple-tabs">
             <div class="siimple-tabs-item"
                 [class.siimple-tabs-item--selected]="selectedTab==profileTab.Followers"
@@ -72,7 +72,7 @@
                     [showActionButton]=showUnfollowButtonOnFollowingList 
                     [actionIcon]=faUserMinus
                     actionText="Unfollow"
-                    (action)="unfollowUser($event)">
+                    (actionPressed)="unfollowUser($event)">
                 </app-users-follow-list>
             </div>
         </div>

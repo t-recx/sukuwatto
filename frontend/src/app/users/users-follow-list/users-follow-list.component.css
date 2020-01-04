@@ -7,7 +7,7 @@
   position: relative;
 }
 
-.profile-container img, fa-icon {
+.profile-container img, .profile-icon {
   float: left;
   margin-right: 10px;
   vertical-align: middle;

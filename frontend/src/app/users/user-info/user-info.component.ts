@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
-import { faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faSignOutAlt, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-info',
@@ -9,6 +9,8 @@ import { faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 })
 export class UserInfoComponent implements OnInit {
   faUserCircle = faUserCircle;
+  faUserPlus = faUserPlus;
+  faSignInAlt = faSignInAlt;
   faSignOutAlt = faSignOutAlt;
 
   constructor(

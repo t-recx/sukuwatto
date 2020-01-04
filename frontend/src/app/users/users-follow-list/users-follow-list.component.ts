@@ -22,7 +22,8 @@ export class UsersFollowListComponent implements OnInit {
   ngOnInit() {
   }
 
-  action(user: User): void {
+  public action(user: User): void {
+    console.log('a');
     this.actionPressed.emit(user);
   }
 
