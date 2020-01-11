@@ -1,0 +1,35 @@
+<div *ngIf="lastMessages">
+    <ul class="siimple-list siimple-list--hover">
+        <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages">
+            <div class="message-container">
+                <div class="profile-image-container">
+                    <div>
+                        <img *ngIf="lastMessage.correspondent.profile_filename"
+                            [src]="getProfileImageURL(lastMessage.correspondent)" class="round-image profile-image" />
+                        <fa-icon *ngIf="!lastMessage.correspondent.profile_filename" [icon]="faUserCircle"
+                            class="siimple--color-primary " size="2x">
+                        </fa-icon>
+                    </div>
+                </div>
+                <div class="user-message-container">
+                    <div class="correspondent-message-container">
+                        <div class="correspondent">
+                            <div class="siimple-h6 siimple--mb-0">{{getUserContactName(lastMessage.correspondent)}}</div>
+                        </div>
+                        <div class="message">
+                            {{lastMessage.last_message.message}}
+                        </div>
+                    </div>
+                    <div class="message-info-container">
+                        <div class="time">
+                            <small class="siimple-small">{{getTime(lastMessage)}}</small>
+                        </div>
+                        <div class="unread-count siimple-tag--rounded siimple-tag--success siimple-tag" *ngIf="lastMessage.unread_count > 0">
+                            {{lastMessage.unread_count}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

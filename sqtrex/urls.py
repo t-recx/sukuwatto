@@ -2,6 +2,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import include, path, re_path
 from rest_framework import routers
 from users.views import UserViewSet, GroupViewSet, FileUploadView, get_followers, get_following, do_follow, do_unfollow
+from social.views import MessageList, LastMessageList
 from workouts.views.views import ExerciseViewSet, UnitViewSet, UnitConversionViewSet
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
@@ -32,6 +33,8 @@ urlpatterns = [
     path('api/following/', get_following, name="following"),
     path('api/follow/', do_follow, name="follow"),
     path('api/unfollow/', do_unfollow, name="unfollow"),
+    path('api/messages/', MessageList.as_view(), name='messages'),
+    path('api/last-messages/', LastMessageList.as_view(), name='last-messages'),
 ]
 
 # todo: change this for production:

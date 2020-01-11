@@ -26,11 +26,9 @@ class UserBioDataSerializer(serializers.ModelSerializer):
             'bone_mass_weight', 'bone_mass_weight_unit', 'notes']
 
     def validate(self, data):
-        pprint("validation called")
         request = self.context.get("request")
 
         if not request or not hasattr(request, "user") or isinstance(request.user, AnonymousUser):
-            pprint('xkfjdkjfd')
             raise serializers.ValidationError("User not authenticated")
 
         return data

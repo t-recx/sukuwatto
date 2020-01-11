@@ -1,0 +1,41 @@
+.message-container {
+  display: flex;
+}
+
+.profile-image-container {
+  align-self: center;
+  margin: 10px;
+}
+
+.profile-image {
+  width: 48px;
+  height: 48px;
+}
+
+.message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.user-message-container {
+  display: flex;
+  flex-grow: 1;
+  align-self: center;
+  margin-left: 10px;
+}
+
+.correspondent-message-container {
+  flex-grow: 1;
+  align-self: center;
+}
+
+.message-info-container {
+  margin: 10px;
+}
+
+.unread-count {
+  float: right;
+}

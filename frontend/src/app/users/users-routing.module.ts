@@ -11,6 +11,7 @@ import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.compo
 import { WorkoutsComponent } from './workouts/workouts.component';
 import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
 import { AccountComponent } from './account/account.component';
+import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
   { 
@@ -42,6 +43,11 @@ const routes: Routes = [
         path: 'plan',
         canActivateChild: [],
         component: PlanDetailComponent,
+      },
+      {
+        path: 'messages',
+        canActivateChild: [],
+        component: MessagesComponent,
       },
       {
         path: 'workouts/:page',

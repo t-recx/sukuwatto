@@ -1,3 +1,10 @@
+.profile-action-button {
+  position: absolute;            
+  right: 10px;                    
+  top: 50%;                      
+  transform: translateY(-50%);   
+}
+
 .profile-image {
   width: 32px;
   height: 32px;
@@ -17,11 +24,4 @@
   height: 32px;            
   display: table-cell;
   vertical-align: middle;
-}
-
-.profile-action-button {
-  position: absolute;            
-  right: 10px;                    
-  top: 50%;                      
-  transform: translateY(-50%);   
 }
