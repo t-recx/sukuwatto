@@ -62,3 +62,25 @@ class MessageList(generics.ListCreateAPIView):
             return MessageReadSerializer
 
         return MessageSerializer
+
+@api_view(['POST'])
+def update_last_message(request):
+    if request.method == 'POST':
+        user_id = request.data.get('user', None)
+        correspondent_id = request.data.get('correspondent', None)
+        
+        # rewrite this and dont create if it doesn't exist..
+        """
+        obj, created = LastMessage.objects.update_or_create(
+            user=user_id,
+            correspondent=correspondent_id,
+            defaults={
+                'unread_count': 0
+            }
+        )
+
+        obj.last_message_read = obj.last_message 
+        obj.save()
+        """
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

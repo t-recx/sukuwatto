@@ -1,6 +1,7 @@
 <div *ngIf="lastMessages">
     <ul class="siimple-list siimple-list--hover">
-        <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages">
+        <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages"
+           [routerLink]="['/users', username, 'message', lastMessage.correspondent.username]" >
             <div class="message-container">
                 <div class="profile-image-container">
                     <div>

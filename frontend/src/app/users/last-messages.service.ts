@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LastMessagesService {
   private messagesUrl= `${environment.apiUrl}/last-messages/`;
+  private updateLastMessageUrl = `${environment.apiUrl}/update-last-message/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -40,6 +41,24 @@ export class LastMessagesService {
         { 
           this.alertService.error('Unable to fetch last messages');
         }, []))
+      );
+  }
+
+  updateLastMessageRead(user_id: number, correspondent_id: number): Observable<any> {
+    let options = {};
+    let params = new HttpParams();
+
+    params = params.set('user', user_id.toString());
+    params = params.set('correspondent', correspondent_id.toString());
+
+    options = {params: params};
+
+    return this.http.post<any>(`${this.updateLastMessageUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<any>('get', (e: any) => 
+        { 
+          this.alertService.error('Unable to update last message read');
+        }, null))
       );
   }
 

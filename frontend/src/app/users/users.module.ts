@@ -37,10 +37,11 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { UsersFollowListComponent } from './users-follow-list/users-follow-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { MessageDetailComponent } from './message-detail/message-detail.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, FriendsComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, ConversationComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, FriendsComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, ConversationComponent, MessageDetailComponent],
   imports: [
     AlertModule,
     CommonModule,

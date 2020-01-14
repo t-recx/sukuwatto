@@ -12,6 +12,7 @@ import { WorkoutsComponent } from './workouts/workouts.component';
 import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
 import { AccountComponent } from './account/account.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MessageDetailComponent } from './message-detail/message-detail.component';
 
 const routes: Routes = [
   { 
@@ -48,6 +49,11 @@ const routes: Routes = [
         path: 'messages',
         canActivateChild: [],
         component: MessagesComponent,
+      },
+      {
+        path: 'message/:correspondent',
+        canActivateChild: [],
+        component: MessageDetailComponent,
       },
       {
         path: 'workouts/:page',

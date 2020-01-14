@@ -1,0 +1,53 @@
+<div class="page" *ngIf="correspondent && user && messages">
+  <div class="screen">
+    <div class="screen-container">
+      <div class="chat">
+        <div class="chat-container">
+          <div class="user-bar siimple--bg-light">
+            <div class="avatar">
+              <img *ngIf="correspondent.profile_filename"
+                  [src]="getProfileImageURL(correspondent)" class="round-image profile-image" />
+              <fa-icon *ngIf="!correspondent.profile_filename" [icon]="faUserCircle"
+                  class="siimple--color-primary " size="2x">
+              </fa-icon>
+            </div>
+            <div class="name siimple-h6 siimple--mb-0 siimple--mt-0">
+              <span>{{getUserContactName(correspondent)}}</span>
+            </div>
+          </div>
+          <div class="conversation">
+            <div class="conversation-container" (scroll)="scrolled($event)" #scrollframe>
+              <div *ngFor="let message of messages"
+                class="message" 
+                [ngClass]="{'sent siimple--bg-success siimple--color-white': messageWasSent(message),
+                             'received siimple--bg-light siimple--color-dark': messageWasReceived(message)}">
+                {{message.message}}
+                <span class="metadata">
+                  <span class="time"
+                    [ngClass]="{'siimple--color-light': messageWasSent(message)}">
+                    {{getMessageTime(message.date)}}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <form class="conversation-compose" (ngSubmit)="sendMessage()">
+              <input 
+                id = "messageInput"
+                [(ngModel)]="newMessage"
+                #messageInput="ngModel"
+                type="text"
+                required
+                class="input-msg siimple-input" name="messageInput" 
+                placeholder="Type a message" autocomplete="off" autofocus>
+              <button class="send">
+                <div class="circle siimple--bg-primary">
+                    <fa-icon [icon]="faPaperPlane"></fa-icon>
+                </div>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

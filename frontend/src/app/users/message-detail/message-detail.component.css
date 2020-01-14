@@ -1,0 +1,225 @@
+*, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  .page {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .screen {
+      width: 100%;
+  }
+
+  .screen-container {
+    height: 100%;
+  }
+  
+  .chat {
+    height: calc(100% - 69px);
+  }
+  
+  .chat-container {
+    height: 100%;
+  }
+  
+  .user-bar {
+    height: 55px;
+    padding: 0 8px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .user-bar:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .user-bar div {
+    float: left;
+    transform: translateY(-50%);
+    position: relative;
+    top: 50%;
+  }
+  
+  .user-bar .avatar {
+    margin: 0 0 0 5px;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-bar .avatar img {
+    border-radius: 50%;
+    display: block;
+    width: 100%;
+  }
+  
+  .user-bar .name {
+    margin-left: 16px;
+  }
+
+  .conversation {
+    height: calc(100% - 12px);
+    position: relative;
+    z-index: 0;
+  }
+  
+  .conversation ::-webkit-scrollbar {
+    transition: all .5s;
+    width: 5px;
+    height: 1px;
+    z-index: 10;
+  }
+  
+  .conversation ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .conversation ::-webkit-scrollbar-thumb {
+    background: #b3ada7;
+  }
+  
+  .conversation .conversation-container {
+    height: calc(100% - 68px);
+    overflow-x: hidden;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .conversation .conversation-container:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .message {
+    color: #000;
+    clear: both;
+    line-height: 18px;
+    font-size: 15px;
+    padding: 8px;
+    position: relative;
+    margin: 8px 0;
+    max-width: 85%;
+    word-wrap: break-word;
+    z-index: -1;
+  }
+  
+  .message:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  
+  .metadata {
+    float: right;
+    padding: 0 0 0 7px;
+    position: relative;
+    bottom: -4px;
+  }
+  
+  .metadata .time {
+    color: rgba(0, 0, 0, .45);
+    font-size: 11px;
+    display: inline-block;
+  }
+  
+  .message:first-child {
+    margin: 16px 0 8px;
+  }
+  
+  .message.received {
+    border-radius: 0px 5px 5px 5px;
+    float: left;
+  }
+  
+  .message.received .metadata {
+    padding: 0 0 0 16px;
+  }
+  
+  .message.received:after {
+    border-width: 0px 10px 10px 0;
+    border-color: transparent #dde5ee transparent transparent;
+    top: 0;
+    left: -10px;
+  }
+  
+  .message.sent {
+    border-radius: 5px 0px 5px 5px;
+    float: right;
+  }
+  
+  .message.sent:after {
+    border-width: 0px 0 10px 10px;
+    border-color: transparent transparent transparent #4acf7f;
+    top: 0;
+    right: -10px;
+  }
+  
+  .conversation-compose {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    overflow: hidden;
+    height: 40px;
+    width: 100%;
+    z-index: 2;
+  }
+  
+  .conversation-compose div,
+  .conversation-compose input {
+    height: 100%;
+  }
+  
+  .conversation-compose .input-msg {
+    border: 0;
+    flex: 1 1 auto;
+    font-size: 14px;
+    margin: 0;
+    border-radius: 10px;
+    outline: none;
+    padding: 10px;
+    min-width: 50px;
+    height: 36px;
+  }
+  
+  .conversation-compose .send {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+    padding: 0;
+    position: relative;
+    outline: none;
+    margin-left: .5rem;
+  }
+
+  .conversation-compose .send .circle {
+    border-radius: 50%;
+    color: #fff;
+    position: relative;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .conversation {
+    height: calc(100vh - 55px - 64px - 30px - 12px - 30px - 12px);
+  }
+
+  .conversation .conversation-container {
+    height: calc(100vh - 110px - 64px - 30px - 12px - 30px - 12px);
+  }
+  
