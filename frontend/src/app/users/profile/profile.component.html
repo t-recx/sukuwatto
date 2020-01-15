@@ -21,7 +21,8 @@
                         <fa-icon [icon]="faUserMinus"></fa-icon>
                         <span class="siimple--ml-2">Unfollow</span>
                     </button>
-                    <button class="siimple-btn" *ngIf="canMessage" (click)="showMessageModal()">
+                    <button class="siimple-btn" *ngIf="canMessage" 
+                        [routerLink]="['/users', authService.getUsername(), 'message', username]" >
                         <fa-icon [icon]="faEnvelope"></fa-icon>
                         <span class="siimple--ml-2">Message</span>
                     </button>

@@ -1,9 +1,7 @@
-import { User } from '../user';
-
 export class Message {
     date: Date;
-    from_user: User;
-    to_user: User;
+    from_user: number;
+    to_user: number;
     message: string;
 
     constructor() {

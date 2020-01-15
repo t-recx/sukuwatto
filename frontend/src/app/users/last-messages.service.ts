@@ -45,15 +45,8 @@ export class LastMessagesService {
   }
 
   updateLastMessageRead(user_id: number, correspondent_id: number): Observable<any> {
-    let options = {};
-    let params = new HttpParams();
-
-    params = params.set('user', user_id.toString());
-    params = params.set('correspondent', correspondent_id.toString());
-
-    options = {params: params};
-
-    return this.http.post<any>(`${this.updateLastMessageUrl}`, options)
+    return this.http.post<any>(`${this.updateLastMessageUrl}`, 
+      {user: user_id, correspondent: correspondent_id}, this.httpOptions)
       .pipe(
         catchError(this.errorService.handleError<any>('get', (e: any) => 
         { 

@@ -90,7 +90,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   private isUserNearBottom(): boolean {
-    const threshold = 150;
+    const threshold = 50;
     const position = this.scrollContainer.scrollTop + this.scrollContainer.offsetHeight;
     const height = this.scrollContainer.scrollHeight;
 
@@ -100,12 +100,14 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   scrolled(event: any): void {
     this.isNearBottom = this.isUserNearBottom();
   }
+
   loadParameterDependentData(username: string, correspondent_username: string) {
     this.username = username;
     this.correspondent_username = correspondent_username;
     this.newMessage = "";
 
-    if (username && correspondent_username && username == this.authService.getUsername()) {
+    if (username && correspondent_username && username.length > 0 && correspondent_username.length > 0 &&
+      username == this.authService.getUsername()) {
       this.usersService.get(correspondent_username).subscribe(users => {
         if (users.length == 1) {
           this.correspondent = users[0];
@@ -143,7 +145,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   messageWasSent(message: Message): boolean {
-    return message.to_user.id == this.correspondent.id;
+    return message.to_user == this.correspondent.id;
   }
 
   messageWasReceived(message: Message): boolean {
@@ -158,17 +160,16 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     // todo
     let newMessage = new Message();
     newMessage.date = new Date();
-    newMessage.from_user = this.user;
-    newMessage.to_user = this.correspondent;
+    newMessage.from_user = this.user.id;
+    newMessage.to_user = this.correspondent.id;
     newMessage.message = this.newMessage;
 
     this.messages.push(newMessage);
 
     newMessage = new Message();
     newMessage.date = new Date();
-    newMessage.from_user = this.user;
-    newMessage.to_user = new User();
-    newMessage.to_user.id = 1092;
+    newMessage.from_user = this.user.id;
+    newMessage.to_user = 1092;
     newMessage.message = this.newMessage;
 
     this.messages.push(newMessage);

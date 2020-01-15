@@ -7,17 +7,11 @@ from users.serializers import UserSerializer
 from pprint import pprint
 
 class MessageReadSerializer(serializers.ModelSerializer):
-    from_user = UserSerializer(read_only=True)
-    to_user = UserSerializer(read_only=True)
-
     class Meta:
         model = Message
         fields = ['id', 'date', 'from_user', 'to_user', 'message']
 
 class MessageSerializer(serializers.ModelSerializer):
-    from_user = UserSerializer(read_only=True)
-    to_user = UserSerializer(read_only=True)
-
     class Meta:
         model = Message
         fields = ['id', 'date', 'from_user', 'to_user', 'message']
