@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'workouts',
     'social',
     'actstream',
+    'channels',
     'rest_framework',
 ]
 
@@ -176,3 +177,5 @@ CORS_ORIGIN_WHITELIST = [
 
 MEDIA_URL =  '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+ASGI_APPLICATION = "sqtrex.routing.application"

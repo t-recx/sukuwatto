@@ -11,8 +11,6 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from pprint import pprint
 
-# todo: make a method to update the unread to = 0 and last_message_read = last_message
-
 class LastMessageList(generics.ListAPIView):
     queryset = LastMessage.objects.all()
     permission_classes = [IsAuthenticated]
