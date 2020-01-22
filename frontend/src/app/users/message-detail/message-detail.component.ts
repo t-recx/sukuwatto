@@ -11,6 +11,7 @@ import { MessagesService } from '../messages.service';
 import { UserService } from 'src/app/user.service';
 import { LastMessagesService } from '../last-messages.service';
 import { debounce, switchMap, filter } from 'rxjs/operators';
+import { Paginated } from '../paginated';
 
 @Component({
   selector: 'app-message-detail',
@@ -20,6 +21,9 @@ import { debounce, switchMap, filter } from 'rxjs/operators';
 export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewChecked {
   private scrollContainer: any;
   private isNearBottom = true;
+
+  previousScrollHeight: number = 0;
+  loadingOlderMessages: boolean = false;
 
   @ViewChild('scrollframe', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('message') itemElements: QueryList<any>;
@@ -36,9 +40,10 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   user: User;
   correspondent: User;
   messages: Message[];
+  paginated: Paginated<Message>;
   newMessage: string;
   viewInitialized: boolean = false;
-  pageSize = 30;
+  pageSize = 10;
   currentPage = 1;
 
   newMessageSubscription: Subscription;
@@ -102,6 +107,11 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     if (this.isNearBottom) {
       this.scrollToBottom();
     }
+    else {
+        if (this.scrollContainer.scrollHeight > this.previousScrollHeight) { 
+            this.scrollContainer.scrollTop += this.scrollContainer.scrollHeight - this.previousScrollHeight;
+        }
+    }
   }
 
   private scrollToBottom(): void {
@@ -122,14 +132,29 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   scrolled(event: any): void {
     this.isNearBottom = this.isUserNearBottom();
+
+    if (this.scrollContainer.scrollTop == 0) {
+      this.loadOlderMessages();
+    }
   }
 
   loadOlderMessages() {
-    this.currentPage += 1;
+    if (this.loadingOlderMessages || !this.paginated.next) {
+      return;
+    }
 
-    // todo: maybe check if this fails to undo the increment of current page...
-    this.messagesService.get(this.correspondent.id, this.currentPage, this.pageSize)
-    .subscribe(messages => this.messages = messages.results.concat(this.messages));
+    this.previousScrollHeight = this.scrollContainer.scrollHeight;
+    this.loadingOlderMessages = true;
+
+    this.messagesService.get(this.correspondent.id, this.currentPage + 1, this.pageSize)
+    .subscribe(messages => {
+
+      this.paginated = messages;
+      this.messages = messages.results.concat(this.messages);
+      this.currentPage += 1;
+      this.loadingOlderMessages = false;
+
+    }, () => this.loadingOlderMessages = false);
   }
 
   loadParameterDependentData(username: string, correspondent_username: string) {
@@ -145,7 +170,10 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
           this.correspondent = users[0];
 
           this.messagesService.get(this.correspondent.id, this.currentPage, this.pageSize)
-          .subscribe(messages => this.messages = messages.results);
+          .subscribe(messages => {
+            this.paginated = messages;
+            this.messages = messages.results;
+          });
 
           this.usersService.get(username).subscribe(users_ => {
             if (users_.length == 1) {
