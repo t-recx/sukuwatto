@@ -7,12 +7,14 @@ import { of, Observable } from 'rxjs';
 import { Message } from './message';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
   private messagesUrl= `${environment.apiUrl}/messages/`;
+  private wsChatUrl = `${environment.wsUrl}/chat/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,16 +26,6 @@ export class MessagesService {
     private alertService: AlertService,
     private authService: AuthService,
   ) { }
-
-  send(to_user: number, text: string) {
-    return this.http.post<Message>(this.messagesUrl, {to_user: to_user, message: text}, this.httpOptions)
-    .pipe(
-      catchError(this.errorService.handleError<Message>('send', (e: any) => 
-      {
-        this.alertService.error('Unable to send message, try again later');
-      }, new Message()))
-    );
-  }
 
   get(with_user: number): Observable<Message[]> {
     let options = {};
@@ -82,5 +74,10 @@ export class MessagesService {
     // todo: check specific message permissions, when created
 
     return of(true);
+  }
+
+  getChatSocket(username: string, correspondent: string): WebSocketSubject<Message> {
+    let orderedUsers = [username, correspondent].sort((a, b) => a.localeCompare(b));
+    return webSocket(`${this.wsChatUrl}${orderedUsers[0]}/${orderedUsers[1]}/?token=${this.authService.getAccessToken()}`);
   }
 }

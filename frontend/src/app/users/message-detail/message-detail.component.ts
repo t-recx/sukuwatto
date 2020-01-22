@@ -1,14 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChildren, ViewChild, QueryList, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+import { faPaperPlane, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/user';
 import { Message } from '../message';
 import { environment } from 'src/environments/environment';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, interval } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { MessagesService } from '../messages.service';
 import { UserService } from 'src/app/user.service';
 import { LastMessagesService } from '../last-messages.service';
+import { debounce, switchMap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-message-detail',
@@ -23,16 +25,21 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   @ViewChildren('message') itemElements: QueryList<any>;
 
   faPaperPlane = faPaperPlane;
+  faUserCircle = faUserCircle;
 
+  chatroomName: string;
   username: string;
   correspondent_username: string;
 
+  newMessageSubject: Subject<Message>;
+  chatSocket: WebSocketSubject<Message>;
   user: User;
   correspondent: User;
   messages: Message[];
   newMessage: string;
   viewInitialized: boolean = false;
 
+  newMessageSubscription: Subscription;
   paramChangedSubscription: Subscription;
   itemElementsChangedSubscription: Subscription;
 
@@ -43,20 +50,30 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     private usersService: UserService,
     public route: ActivatedRoute, 
   ) {
-    this.paramChangedSubscription = route.paramMap.subscribe(val => 
-      {
-        this.loadParameterDependentData(val.get('username'), val.get('correspondent'));
-      });
+    this.paramChangedSubscription = route.paramMap.subscribe(val => {
+      this.loadParameterDependentData(val.get('username'), val.get('correspondent'));
+    });
   }
 
   ngOnInit() {
+    this.newMessageSubject = new Subject<Message>();
+    this.newMessageSubscription = this.newMessageSubject
+      .pipe(filter(x => x.from_user != this.user.id), debounce(() => interval(2000)), switchMap(x => 
+          this.lastMessagesService.updateLastMessageRead(this.user.id, this.correspondent.id)
+      ))
+      .subscribe();
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.newMessageSubscription.unsubscribe();
 
     if (this.itemElementsChangedSubscription) {
       this.itemElementsChangedSubscription.unsubscribe();
+    }
+
+    if (this.chatSocket) {
+      this.chatSocket.unsubscribe();
     }
   }
 
@@ -69,8 +86,12 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
       this.scrollContainer = this.scrollFrame.nativeElement;
 
       if (this.scrollContainer) {
-        this.itemElementsChangedSubscription = this.itemElements.changes
+        if (!this.itemElementsChangedSubscription) { 
+            this.itemElementsChangedSubscription = this.itemElements.changes
           .subscribe(_ => this.onItemElementsChanged());  
+
+            this.scrollToBottom();
+        }
       }
     }
   }
@@ -108,6 +129,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
     if (username && correspondent_username && username.length > 0 && correspondent_username.length > 0 &&
       username == this.authService.getUsername()) {
+      
       this.usersService.get(correspondent_username).subscribe(users => {
         if (users.length == 1) {
           this.correspondent = users[0];
@@ -118,6 +140,19 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
             if (users_.length == 1) {
               this.user = users_[0];
               this.lastMessagesService.updateLastMessageRead(this.user.id, this.correspondent.id).subscribe();
+            }
+          });
+
+          if (this.chatSocket) {
+            this.chatSocket.unsubscribe();
+          }
+
+          this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
+          this.chatSocket.subscribe(newMessage => {
+            if (this.messages) {
+              newMessage.date = new Date();
+              this.messages.push(newMessage);
+              this.newMessageSubject.next(newMessage);
             }
           });
         }
@@ -145,7 +180,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   messageWasSent(message: Message): boolean {
-    return message.to_user == this.correspondent.id;
+    return message.from_user == this.user.id;
   }
 
   messageWasReceived(message: Message): boolean {
@@ -157,23 +192,16 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   sendMessage(): void {
-    // todo
-    let newMessage = new Message();
-    newMessage.date = new Date();
-    newMessage.from_user = this.user.id;
-    newMessage.to_user = this.correspondent.id;
-    newMessage.message = this.newMessage;
+    if (this.chatSocket) {
+      let newMessage = new Message();
+      newMessage.date = new Date();
+      newMessage.from_user = this.user.id;
+      newMessage.to_user = this.correspondent.id;
+      newMessage.message = this.newMessage;
 
-    this.messages.push(newMessage);
+      this.chatSocket.next(newMessage);
 
-    newMessage = new Message();
-    newMessage.date = new Date();
-    newMessage.from_user = this.user.id;
-    newMessage.to_user = 1092;
-    newMessage.message = this.newMessage;
-
-    this.messages.push(newMessage);
-
-    this.newMessage = "";
+      this.newMessage = "";
+    }
   }
 }

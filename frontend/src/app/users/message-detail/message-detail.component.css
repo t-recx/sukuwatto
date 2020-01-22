@@ -51,8 +51,8 @@
   
   .user-bar .avatar {
     margin: 0 0 0 5px;
-    width: 36px;
-    height: 36px;
+    width: 31px;
+    height: 31px;
   }
   
   .user-bar .avatar img {
@@ -223,3 +223,14 @@
     height: calc(100vh - 110px - 64px - 30px - 12px - 30px - 12px);
   }
   
+  .date-separator-container {
+    clear: both;
+    padding: 8px;
+    position: relative;
+    z-index: -1;
+    text-align: center;
+  }
+
+  .date-separator-rule {
+	  margin-top: 4px !important;
+  }

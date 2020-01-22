@@ -7,6 +7,7 @@ import { User } from 'src/app/user';
 import { environment } from 'src/environments/environment';
 import { LastMessagesService } from '../last-messages.service';
 import { LastMessage } from '../last-message';
+import { faUserCircle, faReply } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-messages',
@@ -17,6 +18,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   username: string;
   lastMessages: LastMessage[];
+
+  faUserCircle = faUserCircle;
+  faReply = faReply;
 
   constructor(
     private lastMessagesService: LastMessagesService,
@@ -66,6 +70,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   getTime(message: LastMessage): string {
+    if (message.date.toLocaleDateString() != (new Date()).toLocaleDateString()) {
+      return message.date.toLocaleDateString();
+    }
+
     return message.date.toLocaleTimeString().substring(0, 5);
+  }
+
+  wasReply(message: LastMessage): boolean {
+    return message.user.username == this.authService.getUsername();
   }
 }

@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from pprint import pprint
+from social.message_service import MessageService
 
 class LastMessageList(generics.ListAPIView):
     queryset = LastMessage.objects.all()
@@ -43,6 +44,8 @@ class MessageList(generics.ListCreateAPIView):
         if with_user is not None:
             queryset = queryset.filter(Q(from_user__id=with_user) | Q(to_user__id=with_user))
 
+        queryset = queryset.order_by('date')
+
         serializer = MessageReadSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -67,12 +70,8 @@ def update_last_message(request):
         user_id = request.data.get('user', None)
         correspondent_id = request.data.get('correspondent', None)
         
-        objs = LastMessage.objects.filter(user__id=user_id, correspondent__id=correspondent_id)
+        message_service = MessageService()
 
-        if len(objs) == 1:
-            obj = objs[0]
-            obj.unread_count = 0;
-            obj.last_message_read = obj.last_message 
-            obj.save()
+        message_service.update_read(user_id, correspondent_id)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

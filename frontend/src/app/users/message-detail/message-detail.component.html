@@ -11,23 +11,27 @@
                   class="siimple--color-primary " size="2x">
               </fa-icon>
             </div>
-            <div class="name siimple-h6 siimple--mb-0 siimple--mt-0">
+            <div class="name siimple-h6 siimple--mb-0 siimple--mt-0 siimple-link" [routerLink]="['/users', correspondent.username, 'profile']">
               <span>{{getUserContactName(correspondent)}}</span>
             </div>
           </div>
           <div class="conversation">
             <div class="conversation-container" (scroll)="scrolled($event)" #scrollframe>
-              <div *ngFor="let message of messages"
-                class="message" 
-                [ngClass]="{'sent siimple--bg-success siimple--color-white': messageWasSent(message),
-                             'received siimple--bg-light siimple--color-dark': messageWasReceived(message)}">
-                {{message.message}}
-                <span class="metadata">
-                  <span class="time"
-                    [ngClass]="{'siimple--color-light': messageWasSent(message)}">
-                    {{getMessageTime(message.date)}}
+              <div *ngFor="let message of messages; let i = index;">
+                <div *ngIf="messages[i - 1] && message.date.toLocaleDateString() != messages[i - 1].date.toLocaleDateString()"
+                  class="date-separator-container">
+                  <small class="siimple-small">{{message.date.toLocaleDateString()}}</small>
+                  <div class="siimple-rule date-separator-rule"></div>
+                </div>
+                <div class="message" [ngClass]="{'sent siimple--bg-success siimple--color-white': messageWasSent(message),
+                                         'received siimple--bg-light siimple--color-dark': messageWasReceived(message)}">
+                  {{message.message}}
+                  <span class="metadata">
+                    <span class="time" [ngClass]="{'siimple--color-light': messageWasSent(message)}">
+                      {{getMessageTime(message.date)}}
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
             </div>
             <form class="conversation-compose" (ngSubmit)="sendMessage()">

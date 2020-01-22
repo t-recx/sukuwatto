@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   mediaUrl: 'http://localhost:8000',
   apiUrl: 'http://localhost:8000/api',
+  wsUrl: 'ws://localhost:8000/ws',
 };
 
 /*

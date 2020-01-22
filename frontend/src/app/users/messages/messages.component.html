@@ -8,7 +8,7 @@
                         <img *ngIf="lastMessage.correspondent.profile_filename"
                             [src]="getProfileImageURL(lastMessage.correspondent)" class="round-image profile-image" />
                         <fa-icon *ngIf="!lastMessage.correspondent.profile_filename" [icon]="faUserCircle"
-                            class="siimple--color-primary " size="2x">
+                            class="siimple--color-primary " size="3x">
                         </fa-icon>
                     </div>
                 </div>
@@ -18,6 +18,8 @@
                             <div class="siimple-h6 siimple--mb-0">{{getUserContactName(lastMessage.correspondent)}}</div>
                         </div>
                         <div class="message">
+                            <fa-icon *ngIf="wasReply(lastMessage)" [icon]="faReply" class="">
+                            </fa-icon>
                             {{lastMessage.last_message.message}}
                         </div>
                     </div>
