@@ -17,6 +17,11 @@
           </div>
           <div class="conversation">
             <div class="conversation-container" (scroll)="scrolled($event)" #scrollframe>
+              <div class="older-messages-retriever-container">
+                <!-- this isn't working, see if you can put this logic on the scroll-->
+                <button class="siimple-btn" (click)="loadOlderMessages()">Load older messages</button>
+              </div>
+
               <div *ngFor="let message of messages; let i = index;">
                 <div *ngIf="messages[i - 1] && message.date.toLocaleDateString() != messages[i - 1].date.toLocaleDateString()"
                   class="date-separator-container">

@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer, UserBioDataSerializer
 from workouts.models import Exercise, Unit, UnitConversion, UserBioData
-from workouts.pagination import StandardResultsSetPagination
+from sqtrex.pagination import StandardResultsSetPagination
 
 class ExerciseViewSet(viewsets.ModelViewSet):
     """

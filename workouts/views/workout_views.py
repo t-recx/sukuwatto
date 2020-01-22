@@ -4,7 +4,7 @@ from workouts.models import Workout, WorkingWeight, WorkoutWarmUp, WorkoutSet
 from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkingWeightSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from workouts.pagination import StandardResultsSetPagination
+from sqtrex.pagination import StandardResultsSetPagination
 
 class WorkoutViewSet(viewsets.ModelViewSet):
     """

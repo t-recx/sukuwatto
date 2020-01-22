@@ -11,6 +11,7 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from pprint import pprint
 from social.message_service import MessageService
+from sqtrex.pagination import StandardResultsSetPagination
 
 class LastMessageList(generics.ListAPIView):
     queryset = LastMessage.objects.all()
@@ -31,6 +32,7 @@ class LastMessageList(generics.ListAPIView):
 class MessageList(generics.ListCreateAPIView):
     queryset = Message.objects.all()
     permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
     def list(self, request):
         user = None
@@ -43,6 +45,15 @@ class MessageList(generics.ListCreateAPIView):
 
         if with_user is not None:
             queryset = queryset.filter(Q(from_user__id=with_user) | Q(to_user__id=with_user))
+
+        page = self.paginate_queryset(queryset.order_by('-date'))
+
+        if page is not None:
+            page = sorted(page, key=lambda x: x.date)
+
+            serializer = MessageReadSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
 
         queryset = queryset.order_by('date')
 

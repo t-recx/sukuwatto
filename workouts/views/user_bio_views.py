@@ -3,8 +3,7 @@ from workouts.models import UserBioData
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from workouts.pagination import StandardResultsSetPagination
-from workouts.pagination import StandardResultsSetPagination
+from sqtrex.pagination import StandardResultsSetPagination
 from rest_framework import viewsets, generics
 
 class UserBioDataViewSet(viewsets.ModelViewSet):

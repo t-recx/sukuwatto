@@ -222,7 +222,15 @@
   .conversation .conversation-container {
     height: calc(100vh - 110px - 64px - 30px - 12px - 30px - 12px);
   }
-  
+  .older-messages-retriever-container {
+    clear: both;
+    padding: 8px;
+    position: relative;
+    z-index: -1;
+    align-items: center;
+    text-align: center;
+  }
+
   .date-separator-container {
     clear: both;
     padding: 8px;

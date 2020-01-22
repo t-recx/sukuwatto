@@ -38,6 +38,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   messages: Message[];
   newMessage: string;
   viewInitialized: boolean = false;
+  pageSize = 30;
+  currentPage = 1;
 
   newMessageSubscription: Subscription;
   paramChangedSubscription: Subscription;
@@ -122,6 +124,14 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.isNearBottom = this.isUserNearBottom();
   }
 
+  loadOlderMessages() {
+    this.currentPage += 1;
+
+    // todo: maybe check if this fails to undo the increment of current page...
+    this.messagesService.get(this.correspondent.id, this.currentPage, this.pageSize)
+    .subscribe(messages => this.messages = messages.results.concat(this.messages));
+  }
+
   loadParameterDependentData(username: string, correspondent_username: string) {
     this.username = username;
     this.correspondent_username = correspondent_username;
@@ -134,7 +144,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
         if (users.length == 1) {
           this.correspondent = users[0];
 
-          this.messagesService.get(this.correspondent.id).subscribe(messages => this.messages = messages);
+          this.messagesService.get(this.correspondent.id, this.currentPage, this.pageSize)
+          .subscribe(messages => this.messages = messages.results);
 
           this.usersService.get(username).subscribe(users_ => {
             if (users_.length == 1) {

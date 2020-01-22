@@ -8,6 +8,7 @@ import { Message } from './message';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+import { Paginated } from './paginated';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class MessagesService {
     private authService: AuthService,
   ) { }
 
-  get(with_user: number): Observable<Message[]> {
+  get(with_user: number, page: number, page_size: number): Observable<Paginated<Message>> {
     let options = {};
     let params = new HttpParams();
 
@@ -35,22 +36,30 @@ export class MessagesService {
       params = params.set('with_user', with_user.toString());
     }
 
-    if (with_user) {
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    if (with_user || page || page_size) {
       options = {params: params};
     }
 
-    return this.http.get<Message[]>(`${this.messagesUrl}`, options)
+    return this.http.get<Paginated<Message>>(`${this.messagesUrl}`, options)
       .pipe(
         map(response => {
-          if (response) {
-            response = this.getProperlyTypedMessages(response);
+          if (response && response.results) {
+            response.results = this.getProperlyTypedMessages(response.results);
           }
           return response;
         }),
-        catchError(this.errorService.handleError<Message[]>('get', (e: any) => 
+        catchError(this.errorService.handleError<Paginated<Message>>('get', (e: any) => 
         { 
           this.alertService.error('Unable to fetch messages');
-        }, []))
+        }, new Paginated<Message>()))
       );
   }
 
