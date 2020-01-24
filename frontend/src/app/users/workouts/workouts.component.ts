@@ -12,7 +12,7 @@ import { RepetitionType } from '../plan-session-group-activity';
 import { WorkoutActivityResumed } from '../workout-activity-resumed';
 import { Paginated } from '../paginated';
 import { Subscription } from 'rxjs';
-import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faArrowLeft, faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workouts',
@@ -29,6 +29,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   username: string;
   page: string;
 
+  faDumbbell = faDumbbell;
   currentPage: number;
 
   pageSize: number = 10;

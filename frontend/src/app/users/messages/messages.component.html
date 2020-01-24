@@ -1,3 +1,30 @@
+<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="newMessageVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Contact list</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
+                actionText="Message" (actionPressed)="messageUser($event)">
+            </app-users-follow-list>
+        </div>
+        <div class="siimple-modal-footer">
+        </div>
+    </div>
+</div>
+
+<div class="toolbar">
+    <div class="toolbar-title">Messages</div>
+
+    <div class="toolbar-buttons">
+        <button (click)="newMessage()" class="siimple-btn siimple-btn--primary toolbar-button">
+            <fa-icon [icon]="faPen" class="siimple--mr-1"></fa-icon>
+            New message
+        </button>
+    </div>
+</div>
+
 <div *ngIf="lastMessages">
     <ul class="siimple-list siimple-list--hover">
         <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages"

@@ -1,4 +1,14 @@
-<h1 class="siimple-h1">Workouts</h1>
+<div class="toolbar">
+    <div class="toolbar-title">Workouts</div>
+
+    <div class="toolbar-buttons">
+        <button class="siimple-btn siimple-btn--primary toolbar-button" 
+          [routerLink]="['/users', username, 'workout']">
+            <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
+            New workout
+        </button>
+    </div>
+</div>
 
 <ul class="">
   <li class="siimple-card" *ngFor="let workout of workouts">
@@ -72,5 +82,3 @@
 
 <app-pagination [paginatedRecords]="paginatedWorkouts" [currentPage]="currentPage" [link]="['/users', username, 'workouts']">
 </app-pagination>
-
-<button class="siimple-btn siimple-btn--primary" [routerLink]="['/users', username, 'workout']">New workout</button>

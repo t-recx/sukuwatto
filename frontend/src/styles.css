@@ -53,3 +53,22 @@ input[type=time] {
 	font-size: 14px;
 	font-weight: 400;
 }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-title {
+  font-size: 40px;
+  font-weight: 600;
+  color: #546778;
+}
+
+.toolbar-buttons {
+  margin-left: auto;
+}
+
+.toolbar-button {
+  margin-left: 5px !important;
+}

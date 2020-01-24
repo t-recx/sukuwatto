@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MessagesService } from '../messages.service';
 import { AuthService } from 'src/app/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/user';
 import { environment } from 'src/environments/environment';
 import { LastMessagesService } from '../last-messages.service';
 import { LastMessage } from '../last-message';
-import { faUserCircle, faReply } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faReply, faPen } from '@fortawesome/free-solid-svg-icons';
+import { FollowService } from '../follow.service';
 
 @Component({
   selector: 'app-messages',
@@ -18,14 +19,20 @@ export class MessagesComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   username: string;
   lastMessages: LastMessage[];
+  availableUsersToMessage: User[];
 
   faUserCircle = faUserCircle;
   faReply = faReply;
+  faPen = faPen;
+
+  newMessageVisible: boolean = false;
 
   constructor(
     private lastMessagesService: LastMessagesService,
     private authService: AuthService,
     public route: ActivatedRoute, 
+    private router: Router,
+    private followService: FollowService,
   ) { 
     this.paramChangedSubscription = route.paramMap.subscribe(val => 
       {
@@ -40,13 +47,27 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.paramChangedSubscription.unsubscribe();
   }
 
+  newMessage(): void {
+    this.newMessageVisible = true;
+  }
+
+  hideNewMessageModal(): void {
+    this.newMessageVisible = false;
+  }
+
   loadParameterDependentData(username: string) {
     this.username = username;
+    this.newMessageVisible = false;
     if (username == this.authService.getUsername()) {
       this.lastMessagesService.get()
       .subscribe(lastMessages => 
         this.lastMessages = lastMessages
                             .sort((a,b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime()));
+
+      this.followService.getFollowing(this.username).subscribe(following => 
+        {
+          this.availableUsersToMessage = following;
+        });
     }
     else {
       this.lastMessages = null;
@@ -79,5 +100,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   wasReply(message: LastMessage): boolean {
     return message.user.username == this.authService.getUsername();
+  }
+
+  messageUser(messagedUser: any) {
+    this.router.navigate([`/users/${this.authService.getUsername()}/message/${messagedUser.username}`])
+    this.newMessageVisible = false;
   }
 }
