@@ -6,7 +6,6 @@ import { Workout } from './workout';
 import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
-import { WorkoutSet } from './workout-set';
 import { Paginated } from './paginated';
 
 @Injectable({

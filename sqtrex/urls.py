@@ -2,7 +2,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import include, path, re_path
 from rest_framework import routers
 from users.views import UserViewSet, UserStreamList, GroupViewSet, FileUploadView, get_followers, get_following, do_follow, do_unfollow
-from social.views import MessageList, LastMessageList, update_last_message
+from social.views import MessageList, LastMessageList, update_last_message, PostViewSet
 from workouts.views.views import ExerciseViewSet, UnitViewSet, UnitConversionViewSet
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
@@ -19,6 +19,7 @@ router.register(r'units', UnitViewSet)
 router.register(r'unit-conversions', UnitConversionViewSet)
 router.register(r'workouts', workout_views.WorkoutViewSet)
 router.register(r'user-bio-datas', user_bio_views.UserBioDataViewSet)
+router.register(r'posts', PostViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

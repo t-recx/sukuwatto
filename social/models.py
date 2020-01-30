@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 class Post(models.Model):
     title = models.CharField(max_length=200, null=True)
     text = models.TextField()
-    owner = models.ForeignKey(get_user_model(), related_name='owner', on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    user = models.ForeignKey(get_user_model(), related_name='owner', on_delete=models.CASCADE)
 
 class Message(models.Model):
     date = models.DateTimeField()

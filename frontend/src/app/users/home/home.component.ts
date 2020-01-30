@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Action } from '../action';
 import { Paginated } from '../paginated';
 import { AuthService } from 'src/app/auth.service';
+import { PostsService } from '../posts.service';
+import { Post } from '../post';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     route: ActivatedRoute,
     private authService: AuthService,
     private streamsService: StreamsService,
+    private postsService: PostsService,
   ) {
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('username'));
@@ -33,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  @HostListener("window:scroll", []) onScroll(): void {
+  @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       this.loadOlderActions();
     }
@@ -46,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadParameterDependentData(username: string) {
     this.paginated = null;
     this.actions = null;
-    this.newPost = "";
+    this.newPost = '';
     this.currentPage = 1;
 
     if (username && username == this.authService.getUsername()) {
@@ -77,7 +80,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   post(): void {
-    // todo
-    this.newPost = "";
+    const post = new Post();
+
+    post.text = this.newPost;
+
+    this.postsService.createPost(post).subscribe(() => this.newPost = '');
   }
 }

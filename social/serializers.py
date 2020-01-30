@@ -31,4 +31,28 @@ class LastMessageSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id', 'title', 'text', 'owner']
+        fields = "__all__"
+
+    def validate(self, data):
+        request = self.context.get("request")
+
+        if not request or not hasattr(request, "user") or isinstance(request.user, AnonymousUser):
+            raise serializers.ValidationError("User not authenticated")
+
+        if self.instance and self.instance.user.id != request.user.id:
+            raise serializers.ValidationError("User doesn't own resource")
+
+        return data
+
+    def create(self, validated_data):
+        post = Post.objects.create(user=request.user, date=datetime.utcnow(), **validated_data)
+
+        return post
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.text = validated_data.get('text', instance.text)
+
+        instance.save()
+
+        return instance
