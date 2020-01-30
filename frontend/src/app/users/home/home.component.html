@@ -1,1 +1,27 @@
-<p>home works!</p>
+<div class="siimple-card siimple-form">
+    <div class="siimple-form-field">
+        <div class="siimple-form-field-label">New Post</div>
+        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="4"
+            name="newPost" id="newPost" [(ngModel)]="newPost" #newPost="ngModel"
+            placeholder="What's on your mind?">
+        </textarea>
+    </div>
+    <div class="siimple--clearfix">
+        <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="post()">
+            Post
+        </button>
+    </div>
+</div>
+
+<div *ngIf="actions">
+    <div *ngFor="let action of actions" class="siimple-p">
+        {{action.actor}} 
+        {{action.verb} 
+        <span *ngIf="action.action_object">{{action.action_object}}</span>
+        <span *ngIf="action.target">{{action.target}}</span>
+        {{action.timestamp | timeAgo}}
+    </div>
+    <div class="older-actions-retriever-container" *ngIf="loadingOlderActions">
+      <small class="siimple-small">Loading...</small>
+    </div>
+</div>

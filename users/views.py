@@ -1,3 +1,4 @@
+from sqtrex.pagination import StandardResultsSetPagination
 from actstream.models import followers, following
 from actstream.actions import follow, unfollow
 from django.contrib.contenttypes.models import ContentType
@@ -10,10 +11,11 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, GroupSerializer, FileSerializer
+from .serializers import UserSerializer, GroupSerializer, FileSerializer, ActionSerializer
 from pprint import pprint
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
+from actstream import models
 
 # todo: limit account creation with a captcha or ip somehow...
 # maybe consider changing registration to this: https://github.com/apragacz/django-rest-registration
@@ -82,6 +84,27 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         
         return obj == request.user
+
+class UserStreamList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
+
+    def list(self, request):
+        user = None
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        queryset = models.user_stream(request.user)
+        page = self.paginate_queryset(queryset.order_by('-date'))
+
+        if page is not None:
+            serializer = ActionSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = ActionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
 
 @api_view(['GET'])
 def get_followers(request):

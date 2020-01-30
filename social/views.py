@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from social.models import Message, LastMessage
-from social.serializers import MessageSerializer, MessageReadSerializer, LastMessageSerializer
+from social.models import Message, LastMessage, Post
+from social.serializers import MessageSerializer, MessageReadSerializer, LastMessageSerializer, PostSerializer
 from rest_framework import viewsets
 from rest_framework import generics, status, mixins
 from rest_framework.permissions import IsAuthenticated
@@ -12,6 +12,16 @@ from django.contrib.auth import get_user_model
 from pprint import pprint
 from social.message_service import MessageService
 from sqtrex.pagination import StandardResultsSetPagination
+
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['owner__username']
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
 class LastMessageList(generics.ListAPIView):
     queryset = LastMessage.objects.all()

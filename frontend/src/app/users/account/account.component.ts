@@ -16,7 +16,6 @@ import { UserBioDataService } from '../user-bio-data.service';
 })
 export class AccountComponent implements OnInit {
   user: User;
-  aaa: string;
   username: string;
   allowed: boolean;
   triedToSave: boolean;

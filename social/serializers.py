@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from datetime import datetime
-from social.models import Message, LastMessage
+from social.models import Message, LastMessage, Post
 from users.serializers import UserSerializer
 from pprint import pprint
 
@@ -27,3 +27,8 @@ class LastMessageSerializer(serializers.ModelSerializer):
         model = LastMessage
         fields = ['id', 'date', 'user', 'correspondent',
             'last_read_message', 'last_message', 'unread_count']
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'text', 'owner']

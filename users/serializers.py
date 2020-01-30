@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from actstream.models import Action
 from .models import File
 from django.contrib.auth.models import Group
 from rest_framework import serializers
@@ -17,4 +18,9 @@ class GroupSerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
+        fields = "__all__"
+
+class ActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Action
         fields = "__all__"
