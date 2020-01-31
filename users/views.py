@@ -165,3 +165,15 @@ def do_unfollow(request):
 
         unfollow(request.user, instance, flag=flag)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def get_profile_filename(request):
+    user = None
+    profile_filename = None
+    username = request.query_params.get('username', None)
+
+    if username is not None:
+        user = get_object_or_404(get_user_model(), username=username)
+        profile_filename = user.profile_filename
+
+    return Response(profile_filename)

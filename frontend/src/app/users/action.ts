@@ -1,3 +1,5 @@
+import { ObjectConstruct } from './object-construct';
+
 export class Action {
     actor_content_type: any;
     actor_object_id: string;
@@ -17,9 +19,4 @@ export class Action {
     timestamp: Date;
 
     public: boolean;
-}
-
-export class ObjectConstruct {
-    object_type: string;
-    display_name: string;
 }

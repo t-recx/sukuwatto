@@ -14,11 +14,14 @@
 
 <div *ngIf="actions">
     <div *ngFor="let action of actions" class="siimple-p">
-        {{action.actor.display_name}} 
-        {{action.verb}} 
-        <span *ngIf="action.action_object">{{action.action_object.display_name}}</span>
-        <span *ngIf="action.target">{{action.target.display_name}}</span>
-        {{action.timestamp | timeAgo}}
+        <app-user-tag [username]=action.actor.display_name [fetchProfileFilename]=true>
+        </app-user-tag>
+        <span class="action-info">
+            {{action.verb}}
+            <span *ngIf="action.action_object">{{action.action_object.display_name}}</span>
+            <span *ngIf="action.target">{{action.target.display_name}}</span>
+            <small class="siimple-small siimple--ml-2">{{action.timestamp | timeAgo}}</small>
+        </span>
     </div>
     <div class="older-actions-retriever-container" *ngIf="loadingOlderActions">
       <small class="siimple-small">Loading...</small>

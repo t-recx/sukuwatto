@@ -15,23 +15,12 @@ export class UsersFollowListComponent implements OnInit {
   @Input() actionIcon;
   @Output() actionPressed = new EventEmitter<User>();
 
-  faUserCircle = faUserCircle;
-
   constructor() { }
 
   ngOnInit() {
   }
 
   public action(user: User): void {
-    console.log('a');
     this.actionPressed.emit(user);
-  }
-
-  getProfileImageURL(user: User): string {
-    if (!user.profile_filename) {
-      return null;
-    }
-
-    return `${environment.mediaUrl}${user.profile_filename}`;
   }
 }
