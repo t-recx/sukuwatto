@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   pageSize = 10;
   currentPage = 1;
   loadingOlderActions: boolean = false;
-  newPost: string;
+  newPostText: string;
 
   constructor(
     route: ActivatedRoute,
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadParameterDependentData(username: string) {
     this.paginated = null;
     this.actions = null;
-    this.newPost = '';
+    this.newPostText = '';
     this.currentPage = 1;
 
     if (username && username == this.authService.getUsername()) {
@@ -82,8 +82,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   post(): void {
     const post = new Post();
 
-    post.text = this.newPost;
+    post.text = this.newPostText;
 
-    this.postsService.createPost(post).subscribe(() => this.newPost = '');
+    this.postsService.createPost(post).subscribe(() => this.newPostText = '');
   }
 }

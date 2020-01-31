@@ -7,6 +7,9 @@ class Post(models.Model):
     date = models.DateTimeField()
     user = models.ForeignKey(get_user_model(), related_name='owner', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.text
+
 class Message(models.Model):
     date = models.DateTimeField()
     from_user = models.ForeignKey(get_user_model(), related_name='from_user', on_delete=models.CASCADE)

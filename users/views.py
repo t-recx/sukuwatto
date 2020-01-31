@@ -95,7 +95,7 @@ class UserStreamList(generics.ListAPIView):
             user = request.user
 
         queryset = models.user_stream(request.user)
-        page = self.paginate_queryset(queryset.order_by('-date'))
+        page = self.paginate_queryset(queryset)
 
         if page is not None:
             serializer = ActionSerializer(page, many=True)

@@ -31,7 +31,8 @@ class LastMessageSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ['id', 'title', 'text', 'date', 'user']
+        extra_kwargs = {'user': {'required': False},'date': {'required': False}}
 
     def validate(self, data):
         request = self.context.get("request")
@@ -45,6 +46,8 @@ class PostSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        request = self.context.get("request")
+
         post = Post.objects.create(user=request.user, date=datetime.utcnow(), **validated_data)
 
         return post
