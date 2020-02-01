@@ -62,6 +62,18 @@ export class AuthService {
       );
   }
 
+  public isCurrentUserLoggedIn(username: string): boolean {
+    if (!this.isLoggedIn()) {
+      return false;
+    }
+
+    if (username != this.getUsername()) {
+      return false;
+    }
+
+    return true;
+  }
+
   public isLoggedIn(): boolean {
     if (this.getAccessToken()) {
       return !this.jwtHelper.isTokenExpired(this.getAccessToken());

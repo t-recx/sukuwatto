@@ -19,7 +19,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['owner__username']
+    filterset_fields = ['user__username']
     permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 

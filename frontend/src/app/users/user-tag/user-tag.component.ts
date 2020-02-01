@@ -24,7 +24,6 @@ export class UserTagComponent implements OnInit {
       this.userService.getProfileFilename(this.username)
       .subscribe(f => 
         {
-          console.log(f);
           this.profile_filename = f;
         });
     }

@@ -7,7 +7,5 @@
 </span>
 
 <span class="profile-user-info">
-    <a [routerLink]="['/users', username, 'profile']" class="siimple-link">
-        {{username}}
-    </a>
+    <app-user-link [username]=username></app-user-link>
 </span>

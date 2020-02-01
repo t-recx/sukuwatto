@@ -21,10 +21,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentPage = 1;
   loadingOlderActions: boolean = false;
   newPostText: string;
+  username: string;
 
   constructor(
     route: ActivatedRoute,
-    private authService: AuthService,
+    public authService: AuthService,
     private streamsService: StreamsService,
     private postsService: PostsService,
   ) {
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadParameterDependentData(username: string) {
+    this.username = username;
     this.paginated = null;
     this.actions = null;
     this.newPostText = '';
@@ -62,9 +64,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadOlderActions() {
-    console.log('trying to load older actions...');
-
-    if (this.loadingOlderActions || !this.paginated.next) {
+    if (!this.paginated || this.loadingOlderActions || !this.paginated.next) {
       return;
     }
 

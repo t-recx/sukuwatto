@@ -1,0 +1,25 @@
+<div class="siimple-card" *ngIf="post">
+    <div class="siimple-card-header post-header" *ngIf="showHeader">
+        <span class="user-profile">
+            <app-user-tag [username]="post.user.username" 
+            [profile_filename]="post.user.profile_filename" class="user-profile">
+            </app-user-tag>
+            <span *ngIf="post.title">
+                {{post.title}}
+            </span>
+        </span>
+
+        <small class="siimple-small time">{{getTime(post)}}</small>
+    </div>
+    <div class="siimple-card-body">{{post.text}}</div>
+    <div class="siimple-card-footer post-footer">
+        <span class="like-button button-link" [class.liked]="liked" (click)="toggleLike()">
+            <fa-icon [icon]="faThumbsUp" class="siimple--mr-1"></fa-icon>
+
+            <span class="likes">
+                {{likes}}
+            </span>
+        </span>
+
+    </div>
+</div>

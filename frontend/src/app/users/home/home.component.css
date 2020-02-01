@@ -6,3 +6,8 @@
   align-items: center;
   text-align: center;
 }
+
+.post-detail-card-container {
+  padding-top: 10px;
+  padding-left: 40px;
+}

@@ -29,6 +29,8 @@ class LastMessageSerializer(serializers.ModelSerializer):
             'last_read_message', 'last_message', 'unread_count']
 
 class PostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Post
         fields = ['id', 'title', 'text', 'date', 'user']
