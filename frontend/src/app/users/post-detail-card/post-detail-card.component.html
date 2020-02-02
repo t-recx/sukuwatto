@@ -13,13 +13,6 @@
     </div>
     <div class="siimple-card-body">{{post.text}}</div>
     <div class="siimple-card-footer post-footer">
-        <span class="like-button button-link" [class.liked]="liked" (click)="toggleLike()">
-            <fa-icon [icon]="faThumbsUp" class="siimple--mr-1"></fa-icon>
-
-            <span class="likes">
-                {{likes}}
-            </span>
-        </span>
-
+        <app-card-social-interaction></app-card-social-interaction>
     </div>
 </div>

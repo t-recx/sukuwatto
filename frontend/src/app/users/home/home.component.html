@@ -26,12 +26,28 @@
             <ng-container [ngSwitch]=action.verb>
                 <ng-template [ngSwitchCase]="'started following'">
                     {{action.verb}}
-                    <app-home-object-construct [object]=action.target></app-home-object-construct>
+                    <span *ngIf="action.target.display_name == username; else elseBlock">
+                        you
+                    </span>
+                    <ng-template #elseBlock>
+                        <app-home-object-construct [object]=action.target></app-home-object-construct>
+                    </ng-template>
                 </ng-template>
 
                 <ng-template [ngSwitchCase]="'posted'">
                     <span class="action-info">
                         made a new
+                        <span>
+                            <app-home-object-construct [object]=action.action_object
+                                [username]=action.actor.display_name [object_id]=action.action_object_object_id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'trained'">
+                    <span class="action-info">
+                        finished a
                         <span>
                             <app-home-object-construct [object]=action.action_object
                                 [username]=action.actor.display_name [object_id]=action.action_object_object_id>
@@ -55,9 +71,15 @@
                 <small class="siimple-small siimple--ml-2">{{action.timestamp | timeAgo}}</small>
 
                 <ng-template [ngSwitchCase]="'posted'">
-                    <div class="post-detail-card-container">
+                    <div class="card-container">
                         <app-post-detail-card [id]=action.action_object_object_id [showHeader]=false>
                         </app-post-detail-card>
+                    </div>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'trained'">
+                    <div class="card-container">
+                        <app-workout-overview-card [id]=action.action_object_object_id></app-workout-overview-card>
                     </div>
                 </ng-template>
             </ng-container>

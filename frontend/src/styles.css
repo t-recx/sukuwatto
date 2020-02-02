@@ -39,7 +39,8 @@ box-shadow: none;
 }
 
 ul {
-	padding: 0px;
+  padding: 0px;
+  list-style-type: none;
 }
 
 input[type=date] {
@@ -71,4 +72,9 @@ input[type=time] {
 
 .toolbar-button {
   margin-left: 5px !important;
+}
+
+.card-social-interaction-container {
+    display: flex;
+    align-items: center;
 }
