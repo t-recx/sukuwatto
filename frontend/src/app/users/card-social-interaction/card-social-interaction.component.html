@@ -1,7 +1,48 @@
-<span class="like-button button-link" [class.liked]="liked" (click)="toggleLike()">
-    <fa-icon [icon]="faThumbsUp" class="siimple--mr-1"></fa-icon>
+<div class="social-interaction-buttons">
+    <span class="like-button button-link" [class.liked]="liked" (click)="toggleLike()">
+        <fa-icon [icon]="faThumbsUp" class="siimple--mr-1"></fa-icon>
 
-    <span class="likes">
-        {{likes}}
+        <span class="likes">
+            {{likes}}
+        </span>
     </span>
-</span>
+
+    <span class="like-button button-link siimple--ml-2" (click)="toggleCommentView()">
+        <fa-icon [icon]="faComments" class="siimple--mr-1"></fa-icon>
+
+        <span class="comments-number">
+            {{commentsNumber}}
+        </span>
+    </span>
+</div>
+
+<div class="siimple-card siimple-form comment-form" *ngIf="commentsSectionOpen">
+    <div class="comment-card siimple--rounded" *ngFor=" let comment of commentActions">
+        <div>
+            {{comment.action_object.display_name}}
+        </div>
+
+        <div class="siimple-rule"></div>
+    
+        <div class="comment-info">
+            <app-user-tag [username]=comment.actor.display_name [fetchProfileFilename]=true>
+            </app-user-tag>
+    
+            <div class="comment-date">
+                <small class="siimple-small">{{comment.timestamp | timeAgo}}</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="siimple-form-field siimple--pt-2">
+        <textarea type="text" class="siimple-textarea siimple-textarea--fluid comment-textarea" rows="2" name="newComment" id="newComment"
+            [(ngModel)]="newCommentText" #newComment="ngModel" placeholder="Write your comment here">
+            </textarea>
+    </div>
+    <div class="siimple--clearfix">
+        <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()">
+            <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
+            Comment
+        </button>
+    </div>
+</div>

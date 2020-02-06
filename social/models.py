@@ -1,11 +1,28 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 class Post(models.Model):
     title = models.CharField(max_length=200, null=True)
     text = models.TextField()
     date = models.DateTimeField()
     user = models.ForeignKey(get_user_model(), related_name='owner', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
+
+class Comment(models.Model):
+    text = models.TextField()
+    date = models.DateTimeField()
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+    comment_target_content_type = models.ForeignKey(
+        ContentType, related_name='comment_target',
+        on_delete=models.CASCADE, db_index=True
+    )
+    comment_target_object_id = models.CharField(max_length=255, db_index=True)
+    comment_target = GenericForeignKey('comment_target_content_type', 'comment_target_object_id')
 
     def __str__(self):
         return self.text

@@ -2,8 +2,12 @@
     <div class="siimple-card siimple-form">
         <div class="siimple-form-field">
             <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost" id="newPost"
+                required
                 [(ngModel)]="newPostText" #newPost="ngModel" placeholder="What's on your mind?">
-        </textarea>
+            </textarea>
+            <div *ngIf="newPost.invalid && triedToPost">
+                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+            </div>
         </div>
         <div class="siimple--clearfix">
             <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="post()">
@@ -56,6 +60,36 @@
                     </span>
                 </ng-template>
 
+                <ng-template [ngSwitchCase]="'liked'">
+                    <span class="action-info">
+                        liked a
+                        <span>
+                            <app-home-object-construct 
+                                *ngIf="action.action_object"
+                                [object]=action.action_object
+                                [username]=action.actor.display_name [object_id]=action.action_object_object_id>
+                            </app-home-object-construct>
+
+                            <app-home-object-construct 
+                                *ngIf="action.target"
+                                [object]=action.target
+                                [username]=action.actor.display_name [object_id]=action.target_object_id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'commented'">
+                    <span class="action-info">
+                        commented a
+                        <span>
+                            <app-home-object-construct [object]=action.target
+                                [username]=action.actor.display_name [object_id]=action.target_object_id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+                </ng-template>
+
                 <ng-template ngSwitchDefault>
                     <span class="action-info">
                         {{action.verb}}
@@ -80,6 +114,16 @@
                 <ng-template [ngSwitchCase]="'trained'">
                     <div class="card-container">
                         <app-workout-overview-card [id]=action.action_object_object_id></app-workout-overview-card>
+                    </div>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'commented'">
+                    <div class="card-container">
+                        <div class="siimple-card">
+                            <div class="siimple-card-body">
+                                {{action.action_object.display_name}}
+                            </div>
+                        </div>
                     </div>
                 </ng-template>
             </ng-container>

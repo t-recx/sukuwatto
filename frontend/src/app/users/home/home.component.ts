@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadingOlderActions: boolean = false;
   newPostText: string;
   username: string;
+  triedToPost: boolean = false;
 
   constructor(
     route: ActivatedRoute,
@@ -80,10 +81,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   post(): void {
-    const post = new Post();
+    this.triedToPost = true;
 
-    post.text = this.newPostText;
+    if (this.newPostText && this.newPostText.trim().length > 0) {
+      const post = new Post();
 
-    this.postsService.createPost(post).subscribe(() => this.newPostText = '');
+      post.text = this.newPostText;
+
+      this.postsService.createPost(post).subscribe(() => { 
+        this.newPostText = ''; 
+        this.triedToPost = false; 
+      });
+    }
   }
 }

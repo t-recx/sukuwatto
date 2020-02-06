@@ -11,7 +11,8 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, GroupSerializer, FileSerializer, ActionSerializer
+from .serializers import UserSerializer, GroupSerializer, FileSerializer
+from sqtrex.serializers import ActionSerializer
 from pprint import pprint
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
