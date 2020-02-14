@@ -21,39 +21,41 @@
 </div>
 
 <div class="siimple-card" *ngIf="post">
-    <div class="siimple-card-header " *ngIf="showHeader">
-        <div *ngIf="authenticatedUserIsOwner">
-            <div class="modal-header-corner siimple--mr-2" (click)="toggleEditing()">
-                <fa-icon [icon]="faEdit" class=""></fa-icon>
-            </div>
-            <div class="modal-header-corner" (click)="showDeleteModal()">
-                <fa-icon [icon]="faTrash" class=""></fa-icon>
-            </div>
-        </div>
-
-        <div class="post-header">
-            <span class="user-profile">
-                <app-user-tag [username]="post.user.username" 
-                [profile_filename]="post.user.profile_filename" class="user-profile">
-                </app-user-tag>
-                <span *ngIf="post.title">
-                    {{post.title}}
-                </span>
+    <div class="siimple-card-header post-header" *ngIf="showHeader">
+        <span class="user-profile">
+            <app-user-tag [username]="post.user.username" [profile_filename]="post.user.profile_filename"
+                class="user-profile">
+            </app-user-tag>
+            <span *ngIf="post.title">
+                {{post.title}}
             </span>
-
-            <small class="siimple-small time">{{getTime(post.date)}}</small>
-
-            <small class="siimple-small edited-time" *ngIf="post.edited_date">
-                (edited: {{getTime(post.edited_date)}})
-            </small>
+        </span>
+    
+        <small class="siimple-small time">{{getTime(post.date)}}</small>
+    
+        <small class="siimple-small edited-time" *ngIf="post.edited_date">
+            (edited: {{getTime(post.edited_date)}})
+        </small>
+    
+        <div *ngIf="authenticatedUserIsOwner" class="dropdown" (click)="toggleOptionsModal()">
+            <fa-icon [icon]="faEllipsisV" class="ellipsis"></fa-icon>
+            <div class="dropdown-content" *ngIf="optionsVisible">
+                <div class="dropdown-content-item" (click)="toggleEditing()">
+                    <fa-icon [icon]="faEdit" class="siimple--mr-1"></fa-icon>
+                    Edit
+                </div>
+                <div class="dropdown-content-item" (click)="showDeleteModal()">
+                    <fa-icon [icon]="faTrash" class="siimple--mr-1 trash-icon"></fa-icon>
+                    Delete
+                </div>
+            </div>
         </div>
     </div>
     <div class="siimple-card-body">
         <div *ngIf="editing" class="siimple-form post-form">
             <div class="siimple-form-field">
-              <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost" id="newPost"
-                  required
-                  [(ngModel)]="post.text" #newPost="ngModel" placeholder="What's on your mind?">
+                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost"
+                    id="newPost" required [(ngModel)]="post.text" #newPost="ngModel" placeholder="What's on your mind?">
               </textarea>
             </div>
 
@@ -71,6 +73,7 @@
         </div>
     </div>
     <div class="siimple-card-footer post-footer">
-        <app-card-social-interaction content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen></app-card-social-interaction>
+        <app-card-social-interaction content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen>
+        </app-card-social-interaction>
     </div>
 </div>

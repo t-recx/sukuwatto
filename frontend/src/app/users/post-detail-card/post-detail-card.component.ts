@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
-import { faThumbsUp, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faEdit, faTrash, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { ContentTypesService } from '../content-types.service';
 import { AuthService } from 'src/app/auth.service';
 
@@ -15,19 +15,20 @@ export class PostDetailCardComponent implements OnInit {
   @Input() showHeader: boolean;
   @Input() commentsSectionOpen: boolean = false;
   @Output() deleted = new EventEmitter();
-  post: Post;
-
-  faThumbsUp = faThumbsUp;
+  post: Post = null;
 
   liked: boolean;
   likes: number = 0;
 
   authenticatedUserIsOwner: boolean = false;
 
+  optionsVisible: boolean = false;
+
   deleteModalVisible: boolean = false;
 
   faTrash = faTrash;
   faEdit = faEdit;
+  faEllipsisV = faEllipsisV;
   editing: boolean = false;
 
   constructor(
@@ -44,7 +45,12 @@ export class PostDetailCardComponent implements OnInit {
   }
 
   checkOwner() {
-    this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.post.user.username);
+    if (this.post) {
+      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.post.user.username);
+    }
+    else {
+      this.authenticatedUserIsOwner = false;
+    }
   }
 
   getTime(date): string {
@@ -90,5 +96,9 @@ export class PostDetailCardComponent implements OnInit {
 
       this.toggleEditing();
     });
+  }
+
+  toggleOptionsModal() {
+    this.optionsVisible = !this.optionsVisible;
   }
 }
