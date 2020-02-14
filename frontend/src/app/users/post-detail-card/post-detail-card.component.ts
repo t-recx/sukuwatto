@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ContentTypesService } from '../content-types.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-post-detail-card',
@@ -12,6 +13,8 @@ import { ContentTypesService } from '../content-types.service';
 export class PostDetailCardComponent implements OnInit {
   @Input() id: number;
   @Input() showHeader: boolean;
+  @Input() commentsSectionOpen: boolean = false;
+  @Output() deleted = new EventEmitter();
   post: Post;
 
   faThumbsUp = faThumbsUp;
@@ -19,21 +22,38 @@ export class PostDetailCardComponent implements OnInit {
   liked: boolean;
   likes: number = 0;
 
+  authenticatedUserIsOwner: boolean = false;
+
+  deleteModalVisible: boolean = false;
+
+  faTrash = faTrash;
+  faEdit = faEdit;
+  editing: boolean = false;
+
   constructor(
     private contentTypeService: ContentTypesService,
-    private postsService: PostsService
+    private postsService: PostsService,
+    private authService: AuthService,
     ) { }
 
   ngOnInit() {
-    this.postsService.getPost(this.id).subscribe(p => this.post = p);
+    this.postsService.getPost(this.id).subscribe(p => { 
+      this.post = p; 
+      this.checkOwner();
+    });
   }
 
-  getTime(post: Post): string {
-    if (post.date.toLocaleDateString() != (new Date()).toLocaleDateString()) {
-      return post.date.toLocaleDateString();
+  checkOwner() {
+    this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.post.user.username);
+  }
+
+  getTime(date): string {
+    date = new Date(date);
+    if (date.toLocaleDateString() != (new Date()).toLocaleDateString()) {
+      return date.toLocaleDateString();
     }
 
-    return post.date.toLocaleTimeString().substring(0, 5);
+    return date.toLocaleTimeString().substring(0, 5);
   }
 
   toggleLike(): void {
@@ -45,5 +65,30 @@ export class PostDetailCardComponent implements OnInit {
     else {
       this.likes -= 1;
     }
+  }
+
+  showDeleteModal() {
+    this.deleteModalVisible = true;
+  }
+
+  hideDeleteModal() {
+    this.deleteModalVisible = false;
+  }
+
+  toggleEditing() {
+    this.editing = !this.editing;
+  }
+
+  delete() {
+    this.postsService.deletePost(this.post).subscribe(x => 
+      this.deleted.emit(this.post));
+  }
+
+  update() {
+    this.postsService.updatePost(this.post).subscribe(x => {
+      this.post = x;
+
+      this.toggleEditing();
+    });
   }
 }

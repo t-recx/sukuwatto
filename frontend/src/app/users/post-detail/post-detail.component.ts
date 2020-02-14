@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { Post } from '../post';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-post-detail',
@@ -14,6 +16,7 @@ export class PostDetailComponent implements OnInit,OnDestroy {
 
   constructor(
     route: ActivatedRoute,
+    private location: Location,
   ) {
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('id'));
@@ -31,4 +34,7 @@ export class PostDetailComponent implements OnInit,OnDestroy {
     this.id = +id;
   }
 
+  postDeleted(post: Post) {
+    this.location.back();
+  }
 }

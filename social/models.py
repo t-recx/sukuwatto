@@ -7,6 +7,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, null=True)
     text = models.TextField()
     date = models.DateTimeField()
+    edited_date = models.DateTimeField(null=True)
     user = models.ForeignKey(get_user_model(), related_name='owner', on_delete=models.CASCADE)
 
     def __str__(self):

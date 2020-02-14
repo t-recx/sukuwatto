@@ -17,6 +17,7 @@ export class CardSocialInteractionComponent implements OnInit {
 
   @Input() content_type_model: string;
   @Input() id: number;
+  @Input() commentsSectionOpen: boolean = false;
 
   content_type_id: number;
   
@@ -30,8 +31,9 @@ export class CardSocialInteractionComponent implements OnInit {
 
   commentsNumber: number = 0;
   newCommentText: string;
-  commentsSectionOpen: boolean = false;
   commentActions: Action[];
+
+  createCommentSectionVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +43,8 @@ export class CardSocialInteractionComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.createCommentSectionVisible = this.authService.isLoggedIn();
+
     this.contentTypesService.get(this.content_type_model).subscribe(contentTypes => {
       if (contentTypes.length > 0) {
         this.content_type_id = contentTypes[0].id;

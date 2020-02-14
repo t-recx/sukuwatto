@@ -82,6 +82,9 @@ export class PostsService {
 
   getProperlyTypedPost(post: Post): Post {
     post.date = new Date(post.date);
+    if (post.edited_date) {
+        post.edited_date = new Date(post.edited_date);
+    }
 
     return post;
   }
@@ -112,7 +115,7 @@ export class PostsService {
       catchError(this.errorService.handleError<Post>('updatePost', (e: any) => 
       {
         this.alertService.error('Unable to update post, try again later');
-      }, post))
+      }, this.getProperlyTypedPost(post)))
     );
   }
 

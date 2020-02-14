@@ -5,5 +5,6 @@ export class Post {
     title: string;
     text: string;
     date: Date;
+    edited_date: Date;
     user: User;
 }

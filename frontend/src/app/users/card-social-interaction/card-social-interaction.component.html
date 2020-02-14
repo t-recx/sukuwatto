@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="siimple-form-field siimple--pt-2">
+    <div class="siimple-form-field siimple--pt-2" *ngIf="createCommentSectionVisible">
         <textarea type="text" class="siimple-textarea siimple-textarea--fluid comment-textarea" rows="2" name="newComment" id="newComment"
             [(ngModel)]="newCommentText" #newComment="ngModel" placeholder="Write your comment here">
             </textarea>

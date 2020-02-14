@@ -33,8 +33,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'text', 'date', 'user']
-        extra_kwargs = {'user': {'required': False},'date': {'required': False}}
+        fields = ['id', 'title', 'text', 'date', 'user', 'edited_date']
+        extra_kwargs = {'user': {'required': False},'date': {'required': False},'edited_date': {'required': False}}
 
     def validate(self, data):
         request = self.context.get("request")
@@ -57,6 +57,7 @@ class PostSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.text = validated_data.get('text', instance.text)
+        instance.edited_date = datetime.utcnow()
 
         instance.save()
 
