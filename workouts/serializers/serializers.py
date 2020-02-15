@@ -4,6 +4,8 @@ from rest_framework import serializers
 from workouts.models import Exercise, Unit, UnitConversion, UserBioData
 
 class ExerciseSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
+
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'owner']

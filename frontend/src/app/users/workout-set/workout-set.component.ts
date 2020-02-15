@@ -28,7 +28,7 @@ export class WorkoutSetComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (!this.workoutActivity.exercise) {
+    if (!this.workoutActivity.exercise.id) {
       this.editing = true;
     }
   }

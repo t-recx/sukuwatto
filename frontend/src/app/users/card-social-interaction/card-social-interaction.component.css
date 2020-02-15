@@ -1,0 +1,27 @@
+.like-button {
+    padding-left: 5px !important;
+}
+
+.button-link {
+    font-weight: 600;
+    text-decoration: none;
+    -webkit-transition: color .3s;
+    transition: color .3s;
+    cursor: pointer;
+}
+
+.liked {
+    color: #4e91e4;
+}
+
+.social-interaction-buttons {
+    display: block;
+}
+
+.comment-form {
+    margin-bottom: 10px !important;
+}
+
+.comment-textarea {
+    background-color: white !important;
+}

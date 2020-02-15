@@ -188,6 +188,13 @@ class PlanSessionGroupProgressionStrategy(AbstractProgressionStrategy):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="progressions", on_delete=models.CASCADE, null=True)
 
 class Workout(models.Model):
+    INPROGRESS = 'p'
+    FINISHED = 'f'
+    STATUS = [
+        (INPROGRESS, 'In progress'),
+        (FINISHED, 'Finished'),
+    ]
+
     start = models.DateTimeField()
     end = models.DateTimeField(null=True)
     name = models.CharField(max_length=200, null=True)
@@ -195,6 +202,7 @@ class Workout(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
     plan_session = models.ForeignKey(PlanSession, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    status = models.CharField(default=INPROGRESS, max_length=1, choices=STATUS)
 
 class WorkoutGroup(models.Model):
     order = models.PositiveIntegerField(default=1)

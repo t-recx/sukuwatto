@@ -1,0 +1,34 @@
+<div class="social-interaction-buttons">
+    <span class="like-button button-link" [class.liked]="liked" (click)="toggleLike()">
+        <fa-icon [icon]="faThumbsUp" class="siimple--mr-1"></fa-icon>
+
+        <span class="likes">
+            {{likes}}
+        </span>
+    </span>
+
+    <span class="like-button button-link siimple--ml-2" (click)="toggleCommentView()">
+        <fa-icon [icon]="faComments" class="siimple--mr-1"></fa-icon>
+
+        <span class="comments-number">
+            {{commentsNumber}}
+        </span>
+    </span>
+</div>
+
+<div class="siimple-card siimple-form comment-form" *ngIf="commentsSectionOpen">
+    <app-comment-card *ngFor="let comment of commentActions" [comment]=comment (deleted)="deleteComment(comment)">
+    </app-comment-card>
+
+    <div class="siimple-form-field siimple--pt-2" *ngIf="createCommentSectionVisible">
+        <textarea type="text" class="siimple-textarea siimple-textarea--fluid comment-textarea" rows="2" name="newComment" id="newComment"
+            [(ngModel)]="newCommentText" #newComment="ngModel" placeholder="Write your comment here">
+            </textarea>
+    </div>
+    <div class="siimple--clearfix">
+        <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()">
+            <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
+            Comment
+        </button>
+    </div>
+</div>

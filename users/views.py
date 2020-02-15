@@ -1,3 +1,4 @@
+from sqtrex.pagination import StandardResultsSetPagination
 from actstream.models import followers, following
 from actstream.actions import follow, unfollow
 from django.contrib.contenttypes.models import ContentType
@@ -11,9 +12,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from .serializers import UserSerializer, GroupSerializer, FileSerializer
+from sqtrex.serializers import ActionSerializer
 from pprint import pprint
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
+from actstream import models
 
 # todo: limit account creation with a captcha or ip somehow...
 # maybe consider changing registration to this: https://github.com/apragacz/django-rest-registration
@@ -83,6 +86,27 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         
         return obj == request.user
 
+class UserStreamList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
+
+    def list(self, request):
+        user = None
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        queryset = models.user_stream(request.user, with_user_activity=True)
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = ActionSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = ActionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
 @api_view(['GET'])
 def get_followers(request):
     if request.method == 'GET':
@@ -142,3 +166,15 @@ def do_unfollow(request):
 
         unfollow(request.user, instance, flag=flag)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def get_profile_filename(request):
+    user = None
+    profile_filename = None
+    username = request.query_params.get('username', None)
+
+    if username is not None:
+        user = get_object_or_404(get_user_model(), username=username)
+        profile_filename = user.profile_filename
+
+    return Response(profile_filename)

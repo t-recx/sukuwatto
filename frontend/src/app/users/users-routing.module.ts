@@ -13,6 +13,7 @@ import { WorkoutDetailComponent } from './workout-detail/workout-detail.componen
 import { AccountComponent } from './account/account.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageDetailComponent } from './message-detail/message-detail.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
 
 const routes: Routes = [
   { 
@@ -29,6 +30,11 @@ const routes: Routes = [
         path: 'home',
         canActivateChild: [],
         component: HomeComponent,
+      },
+      {
+        path: 'post/:id',
+        canActivateChild: [],
+        component: PostDetailComponent,
       },
       {
         path: 'plans',

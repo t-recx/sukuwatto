@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Workout } from '../workout';
+import { Workout, WorkoutStatus } from '../workout';
 import { Plan } from '../plan';
 import { WorkoutsService } from '../workouts.service';
 import { PlansService } from '../plans.service';
@@ -12,10 +12,11 @@ import { Unit, MeasurementType } from '../unit';
 import { UnitsService } from '../units.service';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { WorkingWeight } from '../working-weight';
 import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
+import { concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-workout-detail',
@@ -35,6 +36,7 @@ export class WorkoutDetailComponent implements OnInit {
   workingWeightsVisible: boolean = false;
   userBioDataVisible: boolean = false;
   userBioData: UserBioData = null;
+  finishWorkoutVisible: boolean = false;
   username: string;
 
   activityStatusChangedSubject: Subject<void> = new Subject<void>();
@@ -77,6 +79,30 @@ export class WorkoutDetailComponent implements OnInit {
       }
       else {
         this.workout.start = new Date(
+          (new Date()).toISOString().substring(0, 10) + " " + event); 
+      }
+    }
+  }
+
+  setWorkoutEndDate(event: any) {
+    if (event && this.workout) {
+      if (this.workout.end) {
+        this.workout.end = new Date(event + " " + new Date(this.workout.end).toTimeString().substring(0, 5));
+      }
+      else {
+        this.workout.end = new Date(event);
+      }
+    }
+  }
+
+  setWorkoutEndTime(event: any) {
+    if (event && this.workout) {
+      if (this.workout.end) {
+        this.workout.end = new Date(
+          new Date(this.workout.end).toISOString().substring(0, 10) + " " + event); 
+      }
+      else {
+        this.workout.end = new Date(
           (new Date()).toISOString().substring(0, 10) + " " + event); 
       }
     }
@@ -313,24 +339,40 @@ export class WorkoutDetailComponent implements OnInit {
       return;
     }
 
+    this.saveObservable().subscribe(workout => {
+      this.triedToSave = false;
+      this.workout = workout;
+    });
+  }
+
+  saveObservable(): Observable<Workout> {
+    let userBioDataObservable: Observable<UserBioData>;
+    let saveWorkoutObservable: Observable<Workout>;
+
+    saveWorkoutObservable = this.service.saveWorkout(this.workout);
+
     if (this.userBioData) {
-      this.userBioDataService.saveUserBioData(this.userBioData).subscribe();
+      userBioDataObservable = this.userBioDataService.saveUserBioData(this.userBioData);
     }
 
-    this.service.saveWorkout(this.workout).subscribe(workout => {
-      this.triedToSave = false;
+    if (userBioDataObservable) {
+      return userBioDataObservable.pipe(concatMap(ubd => saveWorkoutObservable));
+    }
 
-      if (!this.workout.id || this.workout.id <= 0) {
-        this.router.navigate(['../workouts'], {
-          relativeTo: this.route,
-        });
-      }
-      else {
-        this.router.navigate(['../../workouts'], {
-          relativeTo: this.route,
-        });
-      }
-    });
+    return saveWorkoutObservable;
+  }
+
+  navigateToWorkoutList(): void {
+    if (!this.workout.id || this.workout.id <= 0) {
+      this.router.navigate(['../workouts'], {
+        relativeTo: this.route,
+      });
+    }
+    else {
+      this.router.navigate(['../../workouts'], {
+        relativeTo: this.route,
+      });
+    }
   }
 
   onWorkingWeightsClosed() {
@@ -340,6 +382,18 @@ export class WorkoutDetailComponent implements OnInit {
 
   valid(workout: Workout): boolean {
     if (!workout.start) {
+      return false;
+    }
+
+    return true;
+  }
+
+  validFinishedWorkout(workout: Workout): boolean {
+    if (!this.valid(workout)) {
+      return false;
+    }
+
+    if (!workout.end) {
       return false;
     }
 
@@ -356,5 +410,30 @@ export class WorkoutDetailComponent implements OnInit {
     }
 
     return true;
+  }
+
+  finishWorkout(): void {
+    this.workout.status = WorkoutStatus.Finished;
+    this.triedToSave = true;
+
+    if (!this.validFinishedWorkout(this.workout)) {
+      return;
+    }
+
+    this.saveObservable().subscribe(workout => {
+      this.triedToSave = false;
+      this.workout = workout;
+      this.navigateToWorkoutList();
+    });
+  }
+
+  showFinishWorkoutModal(): void {
+    this.workout.end = new Date();
+
+    this.finishWorkoutVisible = true;
+  }
+
+  hideFinishWorkout(): void {
+    this.finishWorkoutVisible = false;
   }
 }

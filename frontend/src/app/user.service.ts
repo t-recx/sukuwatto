@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private usersProfileFilenameApiUrl = `${environment.apiUrl}/user-profile-filename/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -77,6 +78,25 @@ export class UserService {
         { 
           this.alertService.error('Unable to fetch users');
         }, []))
+      );
+  }
+
+  getProfileFilename(username: string): Observable<string> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    options = {params: params};
+
+    return this.http.get<string>(`${this.usersProfileFilenameApiUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<string>('getProfileFilename', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch user profile filename');
+        }, null))
       );
   }
 }

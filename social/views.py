@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from social.models import Message, LastMessage
-from social.serializers import MessageSerializer, MessageReadSerializer, LastMessageSerializer
+from social.models import Message, LastMessage, Post, Comment
+from social.serializers import MessageSerializer, MessageReadSerializer, LastMessageSerializer, PostSerializer, CommentSerializer
 from rest_framework import viewsets
 from rest_framework import generics, status, mixins
 from rest_framework.permissions import IsAuthenticated
@@ -12,6 +12,62 @@ from django.contrib.auth import get_user_model
 from pprint import pprint
 from social.message_service import MessageService
 from sqtrex.pagination import StandardResultsSetPagination
+from actstream.models import action_object_stream, Action, target_stream
+from sqtrex.serializers import ActionSerializer
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
+from actstream import action
+
+class ActionObjectStreamList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        content_type_id = request.query_params.get('content_type_id', None)
+        object_id = request.query_params.get('object_id', None)
+
+        ctype = get_object_or_404(ContentType, pk=content_type_id)
+        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+
+        queryset = action_object_stream(instance)
+
+        serializer = ActionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+class TargetStreamList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        content_type_id = request.query_params.get('content_type_id', None)
+        object_id = request.query_params.get('object_id', None)
+
+        ctype = get_object_or_404(ContentType, pk=content_type_id)
+        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+
+        queryset = target_stream(instance)
+
+        serializer = ActionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user__username']
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    filter_backends = [DjangoFilterBackend]
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
 class LastMessageList(generics.ListAPIView):
     queryset = LastMessage.objects.all()
@@ -86,3 +142,24 @@ def update_last_message(request):
         message_service.update_read(user_id, correspondent_id)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def toggle_like(request):
+    user = request.user
+    content_type_id = request.data.get('content_type_id', None)
+    object_id = request.data.get('object_id', None)
+    user_content_type_id = ContentType.objects.get(app_label='users', model='customuser').pk
+
+    actor_ctype = get_object_or_404(ContentType, pk=user_content_type_id)
+    ctype = get_object_or_404(ContentType, pk=content_type_id)
+    instance = get_object_or_404(ctype.model_class(), pk=object_id)
+
+    queryset = Action.objects.filter(actor_content_type=actor_ctype, actor_object_id=user.id,
+        target_content_type=ctype, target_object_id=object_id, verb='liked')
+
+    if queryset.count() > 0:
+        queryset.delete()
+    else:
+        action.send(request.user, verb='liked', target=instance)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingWeight
+from social.serializers import UserSerializer
+from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingWeight, Exercise
 from workouts.utils import get_differences
+from workouts.serializers.serializers import ExerciseSerializer
 from pprint import pprint
 from django.contrib.auth import get_user_model
 
@@ -11,13 +13,17 @@ class WorkingWeightSerializer(serializers.ModelSerializer):
         fields = ['id', 'exercise', 'weight', 'unit', 'previous_weight', 'previous_unit']
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
+
     class Meta:
         model = WorkoutSet
         fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutWarmUp()._meta.get_field('id'), required=False)
+
     class Meta:
         model = WorkoutWarmUp
         fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
@@ -39,10 +45,13 @@ class WorkoutFlatSerializer(serializers.ModelSerializer):
 class WorkoutSerializer(serializers.ModelSerializer):
     groups = WorkoutGroupSerializer(many=True, required=False)
     working_weights = WorkingWeightSerializer(many=True, required=False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_weights']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_weights', 'user', 'status']
+        extra_kwargs = {'user': {'required': False}}
+
 
     def create(self, validated_data):
         user = None
@@ -96,7 +105,12 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     def create_group_activities(self, model, workout_group, activities_data):
         for activity_data in activities_data:
-            model.objects.create(workout_group=workout_group, **activity_data)
+            # todo: check here if id exists??
+            exercise = activity_data.pop('exercise')
+            exercise_model = Exercise.objects.get(pk=exercise['id'])
+
+            model.objects.create(workout_group=workout_group, exercise=exercise_model, 
+                **activity_data)
 
     def update(self, instance, validated_data):
         instance.start = validated_data.get('start', instance.start)
@@ -106,6 +120,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         instance.plan = validated_data.get('plan', instance.plan)
         instance.plan_session = validated_data.get('plan_session', instance.plan_session)
         instance.user = validated_data.get('user', instance.user)
+        instance.status = validated_data.get('status', instance.status)
 
         instance.save()
 
@@ -220,10 +235,14 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
             instance = instances.first()
 
+            # todo: check here if id exists??
+            exercise = group_data.get('exercise')
+            exercise_model = Exercise.objects.get(pk=exercise['id'])
+
             instance.order = group_data.get('order', instance.order)
             instance.start = group_data.get('start', instance.start)
             instance.end = group_data.get('end', instance.end)
-            instance.exercise = group_data.get('exercise', instance.exercise)
+            instance.exercise = exercise_model
             instance.repetition_type = group_data.get('repetition_type', instance.repetition_type)
             instance.expected_number_of_repetitions = group_data.get('expected_number_of_repetitions', instance.expected_number_of_repetitions)
             instance.expected_number_of_repetitions_up_to = group_data.get('expected_number_of_repetitions_up_to', instance.expected_number_of_repetitions_up_to)

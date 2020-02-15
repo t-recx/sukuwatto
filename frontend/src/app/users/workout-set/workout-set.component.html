@@ -10,9 +10,7 @@
 style="padding: 10px;"
 [class.siimple--text-bold]="workoutActivity.in_progress">
     <fa-icon [icon]="faEdit" (click)="toggleEdit($event)" class="siimple--mr-1"></fa-icon>
-    <span *ngFor="let exercise of exercises">
-        <span *ngIf="exercise.id == workoutActivity.exercise">{{exercise.name}}</span>
-    </span>
+    <span *ngIf="workoutActivity.exercise">{{workoutActivity.exercise.name}}</span>
     <span>
         x
     </span>

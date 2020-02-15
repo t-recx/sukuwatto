@@ -22,9 +22,13 @@ export class WorkoutSetEditComponent implements OnInit {
   repetitionType = RepetitionType;
   repetitionTypeLabel = RepetitionTypeLabel;
 
+  exercise_id: number;
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.exercise_id = this.workoutActivity.exercise.id;
+
     this.triedToHide= false;
     let unitSystem = this.authService.getUserUnitSystem();
     if (!this.workoutActivity.unit && unitSystem) {
@@ -56,13 +60,16 @@ export class WorkoutSetEditComponent implements OnInit {
       return;
     }
 
+    // the cloning here is necessary because we don't want to inadvertently change the original exercises' array
+    this.workoutActivity.exercise = {...this.exercises.find(e => e.id == this.exercise_id)};
+
     this.visible = false;
     this.triedToHide = false;
     this.closed.emit();
   }
 
   valid(): boolean {
-    if (!this.workoutActivity.exercise) {
+    if (!this.exercise_id) {
       return false;
     }
     if (!this.workoutActivity.weight) {

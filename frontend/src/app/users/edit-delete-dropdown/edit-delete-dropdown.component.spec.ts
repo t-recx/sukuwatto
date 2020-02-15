@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FriendsComponent } from './friends.component';
+import { EditDeleteDropdownComponent } from './edit-delete-dropdown.component';
 
-describe('FriendsComponent', () => {
-  let component: FriendsComponent;
-  let fixture: ComponentFixture<FriendsComponent>;
+describe('EditDeleteDropdownComponent', () => {
+  let component: EditDeleteDropdownComponent;
+  let fixture: ComponentFixture<EditDeleteDropdownComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FriendsComponent ]
+      declarations: [ EditDeleteDropdownComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FriendsComponent);
+    fixture = TestBed.createComponent(EditDeleteDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

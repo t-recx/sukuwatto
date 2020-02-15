@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from actstream.models import Action
 from .models import File
 from django.contrib.auth.models import Group
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):

@@ -39,7 +39,8 @@ box-shadow: none;
 }
 
 ul {
-	padding: 0px;
+  padding: 0px;
+  list-style-type: none;
 }
 
 input[type=date] {
@@ -71,4 +72,39 @@ input[type=time] {
 
 .toolbar-button {
   margin-left: 5px !important;
+}
+
+.card-social-interaction-container {
+}
+
+.modal-header-corner {
+  display: block;
+  float: right;
+  position: relative;
+  width: 16px;
+  height: 24px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.modal-header-corner:hover {
+  opacity: 1;
+}
+
+.modal-header-corner::before, .modal-header-corner::after {
+  width: 16px;
+  height: 3px;
+  background-color: #546778;
+  position: absolute;
+  border-radius: 1px;
+  top: 10px;
+}
+
+.self-centered {
+  align-self: center;
+}
+
+.keep-original-formatting {
+  white-space: pre-wrap;
 }

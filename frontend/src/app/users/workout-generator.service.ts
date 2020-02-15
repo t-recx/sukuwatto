@@ -110,7 +110,7 @@ export class WorkoutGeneratorService {
         }
 
         for (let set of sets) {
-          let workingWeight = this.getWorkingWeight(workingWeights, set.exercise, 
+          let workingWeight = this.getWorkingWeight(workingWeights, set.exercise.id, 
             set.working_weight_percentage);
           if (workingWeight) {
             set.weight = workingWeight.weight;
@@ -264,7 +264,7 @@ console.log(progressionStrategies);
         }
 
         for (var i = 0; i < sessionWarmUp.number_of_sets; i++) {
-          sets.push(this.getSet(workingWeights, sessionWarmUp));
+          sets.push(this.getSet(exercises, workingWeights, sessionWarmUp));
         }
       }
     }
@@ -277,12 +277,12 @@ console.log(progressionStrategies);
       ww.previous_weight != ww.weight).length > 0;
   }
 
-  private getSet(workingWeights: WorkingWeight[], sessionActivity: PlanSessionGroupActivity): WorkoutSet {
+  private getSet(exercises: Exercise[], workingWeights: WorkingWeight[], sessionActivity: PlanSessionGroupActivity): WorkoutSet {
     let workingWeight = this.getWorkingWeight(workingWeights, sessionActivity.exercise, sessionActivity.working_weight_percentage);
     let set = new WorkoutSet();
     set.working_weight_percentage = sessionActivity.working_weight_percentage;
     set.order = sessionActivity.order;
-    set.exercise = sessionActivity.exercise;
+    set.exercise = exercises.find(x => x.id==sessionActivity.exercise);
     set.expected_number_of_repetitions = sessionActivity.number_of_repetitions;
     set.expected_number_of_repetitions_up_to = sessionActivity.number_of_repetitions_up_to;
     set.repetition_type = sessionActivity.repetition_type;

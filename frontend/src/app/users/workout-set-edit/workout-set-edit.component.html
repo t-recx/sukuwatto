@@ -11,7 +11,7 @@
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Exercise</div>
                             <select class="siimple-select siimple-select--fluid" required name="exercise" id="exercise"
-                                [(ngModel)]="workoutActivity.exercise" #exercise="ngModel">
+                                [(ngModel)]="exercise_id" #exercise="ngModel">
                                 <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
                                     {{exerciseModel.name}}
                                 </option>

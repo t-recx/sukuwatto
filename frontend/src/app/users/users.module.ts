@@ -29,19 +29,26 @@ import { WorkingWeightComponent } from './working-weight/working-weight.componen
 import { WorkoutSetEditComponent } from './workout-set-edit/workout-set-edit.component';
 import { WorkoutSetRepetitionsEditComponent } from './workout-set-repetitions-edit/workout-set-repetitions-edit.component';
 import { WorkoutTimerComponent } from './workout-timer/workout-timer.component';
-import { FriendsComponent } from './friends/friends.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { UserBioDataDetailComponent } from './user-bio-data-detail/user-bio-data-detail.component';
 import { AccountComponent } from './account/account.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { UsersFollowListComponent } from './users-follow-list/users-follow-list.component';
 import { MessagesComponent } from './messages/messages.component';
-import { ConversationComponent } from './conversation/conversation.component';
 import { MessageDetailComponent } from './message-detail/message-detail.component';
-
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { UserTagComponent } from './user-tag/user-tag.component';
+import { UserLinkComponent } from './user-link/user-link.component';
+import { HomeObjectConstructComponent } from './home-object-construct/home-object-construct.component';
+import { PostDetailCardComponent } from './post-detail-card/post-detail-card.component';
+import { WorkoutOverviewCardComponent } from './workout-overview-card/workout-overview-card.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
+import { CardSocialInteractionComponent } from './card-social-interaction/card-social-interaction.component';
+import { CommentCardComponent } from './comment-card/comment-card.component';
+import { EditDeleteDropdownComponent } from './edit-delete-dropdown/edit-delete-dropdown.component';
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, FriendsComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, ConversationComponent, MessageDetailComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent],
   imports: [
     AlertModule,
     CommonModule,
