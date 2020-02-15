@@ -1,0 +1,13 @@
+<div class="dropdown" (click)="toggleOptionsModal()">
+    <fa-icon [icon]="faEllipsisV" class="ellipsis"></fa-icon>
+    <div class="dropdown-content" *ngIf="optionsVisible">
+        <div class="dropdown-content-item" (click)="edit()">
+            <fa-icon [icon]="faEdit" class="siimple--mr-1"></fa-icon>
+            Edit
+        </div>
+        <div class="dropdown-content-item" (click)="delete()">
+            <fa-icon [icon]="faTrash" class="siimple--mr-1 trash-icon"></fa-icon>
+            Delete
+        </div>
+    </div>
+</div>

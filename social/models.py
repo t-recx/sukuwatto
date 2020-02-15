@@ -16,6 +16,7 @@ class Post(models.Model):
 class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField()
+    edited_date = models.DateTimeField(null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     comment_target_content_type = models.ForeignKey(

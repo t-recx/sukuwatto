@@ -90,8 +90,8 @@ class CommentSerializer(serializers.ModelSerializer):
         return comment
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get('title', instance.title)
         instance.text = validated_data.get('text', instance.text)
+        instance.edited_date = datetime.utcnow()
 
         instance.save()
 

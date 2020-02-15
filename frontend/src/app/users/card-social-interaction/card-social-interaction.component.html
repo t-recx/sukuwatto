@@ -17,22 +17,8 @@
 </div>
 
 <div class="siimple-card siimple-form comment-form" *ngIf="commentsSectionOpen">
-    <div class="comment-card siimple--rounded" *ngFor=" let comment of commentActions">
-        <div>
-            {{comment.action_object.display_name}}
-        </div>
-
-        <div class="siimple-rule"></div>
-    
-        <div class="comment-info">
-            <app-user-tag [username]=comment.actor.display_name [fetchProfileFilename]=true>
-            </app-user-tag>
-    
-            <div class="comment-date">
-                <small class="siimple-small">{{comment.timestamp | timeAgo}}</small>
-            </div>
-        </div>
-    </div>
+    <app-comment-card *ngFor="let comment of commentActions" [comment]=comment (deleted)="deleteComment(comment)">
+    </app-comment-card>
 
     <div class="siimple-form-field siimple--pt-2" *ngIf="createCommentSectionVisible">
         <textarea type="text" class="siimple-textarea siimple-textarea--fluid comment-textarea" rows="2" name="newComment" id="newComment"

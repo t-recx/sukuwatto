@@ -95,7 +95,7 @@ class UserStreamList(generics.ListAPIView):
         if request and hasattr(request, "user"):
             user = request.user
 
-        queryset = models.user_stream(request.user)
+        queryset = models.user_stream(request.user, with_user_activity=True)
         page = self.paginate_queryset(queryset)
 
         if page is not None:

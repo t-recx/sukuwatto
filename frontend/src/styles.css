@@ -100,3 +100,11 @@ input[type=time] {
   border-radius: 1px;
   top: 10px;
 }
+
+.self-centered {
+  align-self: center;
+}
+
+.keep-original-formatting {
+  white-space: pre-wrap;
+}

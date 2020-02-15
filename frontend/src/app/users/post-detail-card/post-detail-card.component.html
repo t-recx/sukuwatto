@@ -1,3 +1,54 @@
+<div class="siimple-card" *ngIf="post">
+    <div class="siimple-card-header post-header" *ngIf="showHeader">
+        <span class="user-profile">
+            <app-user-tag [username]="post.user.username" [profile_filename]="post.user.profile_filename"
+                class="user-profile">
+            </app-user-tag>
+            <span *ngIf="post.title">
+                {{post.title}}
+            </span>
+        </span>
+    
+        <small class="siimple-small time">{{getTime(post.date)}}</small>
+    
+        <small class="siimple-small edited-time" *ngIf="post.edited_date">
+            (edited: {{getTime(post.edited_date)}})
+        </small>
+    
+        <app-edit-delete-dropdown class="self-centered" (edited)="toggleEditing()" (deleted)="showDeleteModal()"
+            *ngIf="authenticatedUserIsOwner">
+        </app-edit-delete-dropdown>
+    </div>
+    <div class="siimple-card-body">
+        <div *ngIf="editing" class="siimple-form post-form">
+            <div class="siimple-form-field">
+                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost"
+                    id="newPost" required [(ngModel)]="post.text" #newPost="ngModel" placeholder="What's on your mind?">
+                </textarea>
+                <div *ngIf="newPost.invalid && (newPost.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+
+            <div class="siimple--clearfix">
+                <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="update()">
+                    <!--
+                        <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
+                    -->
+                    Update
+                </button>
+            </div>
+        </div>
+        <div *ngIf="!editing" class="keep-original-formatting">
+            {{post.text}}
+        </div>
+    </div>
+    <div class="siimple-card-footer post-footer">
+        <app-card-social-interaction content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen>
+        </app-card-social-interaction>
+    </div>
+</div>
+
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
@@ -17,63 +68,5 @@
                 Cancel
             </button>
         </div>
-    </div>
-</div>
-
-<div class="siimple-card" *ngIf="post">
-    <div class="siimple-card-header post-header" *ngIf="showHeader">
-        <span class="user-profile">
-            <app-user-tag [username]="post.user.username" [profile_filename]="post.user.profile_filename"
-                class="user-profile">
-            </app-user-tag>
-            <span *ngIf="post.title">
-                {{post.title}}
-            </span>
-        </span>
-    
-        <small class="siimple-small time">{{getTime(post.date)}}</small>
-    
-        <small class="siimple-small edited-time" *ngIf="post.edited_date">
-            (edited: {{getTime(post.edited_date)}})
-        </small>
-    
-        <div *ngIf="authenticatedUserIsOwner" class="dropdown" (click)="toggleOptionsModal()">
-            <fa-icon [icon]="faEllipsisV" class="ellipsis"></fa-icon>
-            <div class="dropdown-content" *ngIf="optionsVisible">
-                <div class="dropdown-content-item" (click)="toggleEditing()">
-                    <fa-icon [icon]="faEdit" class="siimple--mr-1"></fa-icon>
-                    Edit
-                </div>
-                <div class="dropdown-content-item" (click)="showDeleteModal()">
-                    <fa-icon [icon]="faTrash" class="siimple--mr-1 trash-icon"></fa-icon>
-                    Delete
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="siimple-card-body">
-        <div *ngIf="editing" class="siimple-form post-form">
-            <div class="siimple-form-field">
-                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost"
-                    id="newPost" required [(ngModel)]="post.text" #newPost="ngModel" placeholder="What's on your mind?">
-              </textarea>
-            </div>
-
-            <div class="siimple--clearfix">
-                <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="update()">
-                    <!--
-                        <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
-                    -->
-                    Update
-                </button>
-            </div>
-        </div>
-        <div *ngIf="!editing">
-            {{post.text}}
-        </div>
-    </div>
-    <div class="siimple-card-footer post-footer">
-        <app-card-social-interaction content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen>
-        </app-card-social-interaction>
     </div>
 </div>

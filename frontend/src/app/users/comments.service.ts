@@ -116,7 +116,7 @@ export class CommentsService {
     );
   }
 
-  deleteComment(comment: Comment): Observable<Comment> {
+  deleteComment(comment: Comment | number): Observable<Comment> {
     const id = typeof comment === 'number' ? comment : comment.id;
     const url = `${this.commentsUrl}${id}/`;
 

@@ -117,4 +117,11 @@ export class CardSocialInteractionComponent implements OnInit {
         this.loadActions();
       });
   }
+
+  deleteComment(comment: Action): void {
+    const index = this.commentActions.indexOf(comment, 0);
+    if (index > -1) {
+      this.commentActions.splice(index, 1);
+    }
+  }
 }

@@ -25,18 +25,3 @@
 .comment-textarea {
     background-color: white !important;
 }
-
-.comment-card {
-    background-color: white !important;
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.comment-info {
-    display: flex;
-    align-items: baseline;
-}
-
-.comment-date {
-    margin-left: auto;
-}

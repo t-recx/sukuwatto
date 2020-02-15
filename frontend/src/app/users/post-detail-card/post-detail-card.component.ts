@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
-import { faThumbsUp, faEdit, faTrash, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { ContentTypesService } from '../content-types.service';
 import { AuthService } from 'src/app/auth.service';
 
 @Component({
@@ -22,17 +20,14 @@ export class PostDetailCardComponent implements OnInit {
 
   authenticatedUserIsOwner: boolean = false;
 
-  optionsVisible: boolean = false;
 
   deleteModalVisible: boolean = false;
 
-  faTrash = faTrash;
-  faEdit = faEdit;
-  faEllipsisV = faEllipsisV;
   editing: boolean = false;
 
+  triedToSave: boolean = false;
+
   constructor(
-    private contentTypeService: ContentTypesService,
     private postsService: PostsService,
     private authService: AuthService,
     ) { }
@@ -91,14 +86,23 @@ export class PostDetailCardComponent implements OnInit {
   }
 
   update() {
-    this.postsService.updatePost(this.post).subscribe(x => {
-      this.post = x;
+    this.triedToSave = true;
 
-      this.toggleEditing();
-    });
+    if (this.valid()) {
+      this.postsService.updatePost(this.post).subscribe(x => {
+        this.post = x;
+
+        this.toggleEditing();
+        this.triedToSave = false;
+      });
+    }
   }
 
-  toggleOptionsModal() {
-    this.optionsVisible = !this.optionsVisible;
+  valid(): boolean {
+    if (this.post.text.trim().length == 0) {
+      return false;
+    }
+
+    return true;
   }
 }
