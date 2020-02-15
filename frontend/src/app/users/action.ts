@@ -1,6 +1,8 @@
 import { ObjectConstruct } from './object-construct';
 
 export class Action {
+    id: number;
+
     actor_content_type: any;
     actor_object_id: string;
     actor: ObjectConstruct;

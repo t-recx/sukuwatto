@@ -81,8 +81,10 @@ export class PostDetailCardComponent implements OnInit {
   }
 
   delete() {
-    this.postsService.deletePost(this.post).subscribe(x => 
-      this.deleted.emit(this.post));
+    this.postsService.deletePost(this.post).subscribe(x => { 
+      this.deleteModalVisible = false;
+      this.deleted.emit(this.post);
+    });
   }
 
   update() {

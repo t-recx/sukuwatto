@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   pageSize = 10;
   currentPage = 1;
   loadingOlderActions: boolean = false;
+  loadingNewActions: boolean = false;
   newPostText: string;
   username: string;
   triedToPost: boolean = false;
@@ -74,10 +75,40 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.streamsService.getUserStream(this.currentPage + 1, this.pageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
-        this.actions = this.actions.concat(paginatedActions.results);
+        this.actions.push(...this.getNewActions(this.actions, paginatedActions.results));
         this.currentPage += 1;
         this.loadingOlderActions = false;
       }, () => this.loadingOlderActions = false);
+  }
+
+  getNewActions(a: Action[], b: Action[]): Action[] {
+    return b.filter(n => a.filter(o => o.id == n.id).length == 0);
+  }
+
+  loadNewActions(indexPage: number = 1) {
+    if (this.loadingNewActions) {
+      return;
+    }
+
+    this.loadingNewActions = true;
+
+    this.streamsService.getUserStream(indexPage, this.pageSize)
+      .subscribe(paginatedActions => {
+        const numberOfNewRecords = this.pageSize - paginatedActions.results.filter(x =>
+          this.actions.filter(y => y.id == x.id).length > 0).length;
+
+        if (numberOfNewRecords > 0) {
+          this.actions.unshift(...this.getNewActions(this.actions, paginatedActions.results));
+          this.paginated.count = paginatedActions.count;
+          this.currentPage = Math.floor(this.actions.length / this.pageSize);
+        }
+
+        this.loadingNewActions = false;
+
+        if (numberOfNewRecords == this.pageSize) {
+          this.loadNewActions(indexPage + 1);
+        }
+      }, () => this.loadingNewActions = false);
   }
 
   post(): void {
@@ -91,6 +122,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.postsService.createPost(post).subscribe(() => { 
         this.newPostText = ''; 
         this.triedToPost = false; 
+
+        this.loadNewActions();
       });
     }
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../post';
 import {Location} from '@angular/common';
 
@@ -15,6 +15,7 @@ export class PostDetailComponent implements OnInit,OnDestroy {
   paramChangedSubscription: Subscription;
 
   constructor(
+    private router: Router,
     route: ActivatedRoute,
     private location: Location,
   ) {
@@ -35,6 +36,10 @@ export class PostDetailComponent implements OnInit,OnDestroy {
   }
 
   postDeleted(post: Post) {
-    this.location.back();
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

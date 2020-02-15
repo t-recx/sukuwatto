@@ -13,5 +13,3 @@ def comment_actstream_handler(sender, instance, created, **kwargs):
 
 post_save.connect(post_actstream_handler, sender=Post)
 post_save.connect(comment_actstream_handler, sender=Comment)
-
-# todo: add post_delete methods too ?

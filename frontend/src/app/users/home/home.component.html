@@ -16,6 +16,10 @@
         </div>
     </div>
 
+    <div class="actions-retriever-container" *ngIf="loadingNewActions">
+        <div class="siimple-spinner siimple-spinner--primary"></div>
+    </div>
+
     <div *ngIf="actions">
         <div *ngFor="let action of actions; let i = index;" class="siimple-p">
             <div *ngIf="i > 0" class="siimple-rule"></div>
@@ -128,8 +132,9 @@
                 </ng-template>
             </ng-container>
         </div>
-        <div class="older-actions-retriever-container" *ngIf="loadingOlderActions">
-            <small class="siimple-small">Loading...</small>
+
+        <div class="actions-retriever-container" *ngIf="loadingOlderActions">
+            <div class="siimple-spinner siimple-spinner--primary"></div>
         </div>
     </div>
 </div>
