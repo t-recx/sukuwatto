@@ -17,6 +17,7 @@ from pprint import pprint
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 from actstream import models
+from sqtrex.permissions import IsUserOrReadOnly
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -40,9 +41,9 @@ class UserViewSet(viewsets.ModelViewSet):
         elif self.action == 'list' or self.action == 'retrieve':
             permission_classes = [AllowAny]
         elif self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsOwnerOrReadOnly]
+            permission_classes = [IsUserOrReadOnly]
         elif self.action == 'destroy':
-            permission_classes = [IsOwnerOrReadOnly|IsAdminUser]
+            permission_classes = [IsUserOrReadOnly]
         else:
             permission_classes = [IsAdminUser]
 
@@ -71,15 +72,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        
-        return obj == request.user
 
 class UserStreamList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
