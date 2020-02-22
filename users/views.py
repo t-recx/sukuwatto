@@ -18,8 +18,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 from actstream import models
 
-# todo: limit account creation with a captcha or ip somehow...
-# maybe consider changing registration to this: https://github.com/apragacz/django-rest-registration
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -40,9 +38,6 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             permission_classes = [AllowAny]
         elif self.action == 'list' or self.action == 'retrieve':
-            # todo: maybe create a special permission here that will only AllowAny if there's a specified 
-            # username filter
-            # todo: also check if user allows a public profile maybe??
             permission_classes = [AllowAny]
         elif self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsOwnerOrReadOnly]

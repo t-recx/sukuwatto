@@ -55,8 +55,6 @@ export class FollowService {
       return of(false);
     }
 
-    // todo: check permissions??
-
     return of(true);
   }
 

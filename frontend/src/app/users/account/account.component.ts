@@ -7,7 +7,6 @@ import { UnitsService } from '../units.service';
 import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
-// todo: add change password functionality
 
 @Component({
   selector: 'app-account',

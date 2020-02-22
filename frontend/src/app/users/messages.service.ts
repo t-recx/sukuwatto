@@ -80,8 +80,6 @@ export class MessagesService {
       return of(false);
     }
 
-    // todo: check specific message permissions, when created
-
     return of(true);
   }
 

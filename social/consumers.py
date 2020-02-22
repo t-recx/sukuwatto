@@ -23,9 +23,6 @@ class ChatConsumer(WebsocketConsumer):
 
             return
 
-        # todo: what happens if I send a username that doesn't exist here? does get raise an exception? 
-        # does raising an exception automatically closes the connection? check...
-
         correspondent_username = user1
 
         if user1 == self.scope["user"].username:

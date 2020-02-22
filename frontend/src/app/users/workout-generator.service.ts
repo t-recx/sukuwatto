@@ -314,8 +314,6 @@ console.log(progressionStrategies);
   }
 
   getIncreasedWeightWithPercentage(weight: number, unit: number, percentage: number): number {
-    // todo: round up the weight generated below to normal regular plates' weights accordingly to 
-    // unit system type:
     if (percentage) {
       return weight * (percentage / 100);
     }

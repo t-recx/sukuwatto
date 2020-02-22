@@ -45,6 +45,6 @@ urlpatterns = [
     path('api/update-last-message/', update_last_message, name='update-last-message'),
 ]
 
-# todo: change this for production:
+# change this for production:
 if settings.DEBUG: 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

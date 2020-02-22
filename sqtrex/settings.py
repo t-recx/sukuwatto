@@ -170,7 +170,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# todo: change this on production...
+# change this on production...
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
 ]
@@ -180,6 +180,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 ASGI_APPLICATION = "sqtrex.routing.application"
 
+# change this on production...
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

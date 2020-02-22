@@ -77,8 +77,6 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
           this.paginatedWorkouts = paginated;
           this.workouts = paginated.results;
           this.currentPage = Number(pageParameter);
-
-          // todo: scroll to top using a #id ?
         });
     }
   }
