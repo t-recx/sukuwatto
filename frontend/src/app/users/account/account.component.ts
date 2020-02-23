@@ -63,6 +63,8 @@ export class AccountComponent implements OnInit {
       this.userService.get(this.username).subscribe(users => {
         if (users && users.length == 1) {
           this.user = users[0];
+
+          this.userService.getEmail().subscribe(email => this.user.email = email);
         }
       });
     }
