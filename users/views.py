@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 from actstream import models
 from sqtrex.permissions import IsUserOrReadOnly
+from users.models import CustomUser
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -165,3 +166,14 @@ def get_profile_filename(request):
         profile_filename = user.profile_filename
 
     return Response(profile_filename)
+
+@api_view(['GET'])
+def get_email(request):
+    email = None
+
+    if request.user and isinstance(request.user, CustomUser):
+        email = request.user.email
+
+        return Response(email)
+
+    return Response(status=status.HTTP_401_UNAUTHORIZED)

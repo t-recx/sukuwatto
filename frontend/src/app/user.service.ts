@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private usersEmailApiUrl = `${environment.apiUrl}/user-email/`;
   private usersProfileFilenameApiUrl = `${environment.apiUrl}/user-profile-filename/`;
 
   httpOptions = {
@@ -78,6 +79,16 @@ export class UserService {
         { 
           this.alertService.error('Unable to fetch users');
         }, []))
+      );
+  }
+
+  getEmail(): Observable<string> {
+    return this.http.get<string>(`${this.usersEmailApiUrl}`, {})
+      .pipe(
+        catchError(this.errorService.handleError<string>('getEmail', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch user email');
+        }, null))
       );
   }
 

@@ -1,20 +1,19 @@
-from django.urls import reverse
+import json
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework.test import APIRequestFactory
 from workouts.models import Workout
 from users.models import CustomUser
-from rest_framework.test import APIRequestFactory
-import json
+from users.tests import UserTestCaseMixin
+from sqtrex.tests import AuthTestCaseMixin
 
-class WorkoutTestCase(APITestCase):
+class WorkoutTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
     def setUp(self):
         self.workout_data = { 'name': 'test', 'start': "2014-01-01T23:28:56.782Z" }
-        self.user1 = { 'username': 'test', 'password': 'test'}
-        self.user2 = { 'username': 'test2', 'password': 'test2'}
-        CustomUser.objects.create_user(username=self.user1['username'], email="test@test.com", 
-            password=self.user1['password'])
-        CustomUser.objects.create_user(username=self.user2['username'], email="test@test.com", 
-            password=self.user2['password'])
+        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
+        self.create_user(self.user1)
+        self.create_user(self.user2)
 
     def test_create_workout_when_user_not_authenticated_should_return_unauthorized(self):
         response = self.client.post('/api/workouts/', self.workout_data, format='json')
@@ -85,11 +84,13 @@ class WorkoutTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Workout.objects.count(), 0)
 
-    def authenticate(self, credentials):
-        response = self.client.post('/api/token/', credentials)
-        token = json.loads(response.content)['access']
+    def test_get_workouts_should_not_bring_sensitive_information_in_their_user_nested_representation(self):
+        self.authenticate(self.user1)
+        self.create_workout(self.user1, self.workout_data)
 
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+        response = self.client.get(f'/api/workouts/')
 
-    def logout(self):
-        self.client.credentials()
+        data = json.loads(response.content)['results']
+
+        self.assertFalse(any('password' in x['user'] for x in data))
+        self.assertFalse(any('email' in x['user'] for x in data))
