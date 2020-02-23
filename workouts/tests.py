@@ -10,8 +10,8 @@ from sqtrex.tests import AuthTestCaseMixin
 class WorkoutTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
     def setUp(self):
         self.workout_data = { 'name': 'test', 'start': "2014-01-01T23:28:56.782Z" }
-        self.user1 = { 'username': 'test', 'password': 'test'}
-        self.user2 = { 'username': 'test2', 'password': 'test2'}
+        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
         self.create_user(self.user1)
         self.create_user(self.user2)
 
@@ -83,3 +83,14 @@ class WorkoutTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Workout.objects.count(), 0)
+
+    def test_get_workouts_should_not_bring_sensitive_information_in_their_user_nested_representation(self):
+        self.authenticate(self.user1)
+        self.create_workout(self.user1, self.workout_data)
+
+        response = self.client.get(f'/api/workouts/')
+
+        data = json.loads(response.content)['results']
+
+        self.assertFalse(any('password' in x['user'] for x in data))
+        self.assertFalse(any('email' in x['user'] for x in data))

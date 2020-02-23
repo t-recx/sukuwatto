@@ -6,6 +6,7 @@ from rest_framework.test import APIRequestFactory
 from workouts.models import Workout
 from users.models import CustomUser
 from sqtrex.tests import AuthTestCaseMixin
+from django.contrib.contenttypes.models import ContentType
 
 class UserTestCaseMixin():
     def create_user(self, user):
@@ -96,3 +97,17 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(CustomUser.objects.count(), 1)
+
+    def test_get_followers_should_not_return_sensitive_information_in_user_nested_representation(self):
+        ctid = ContentType.objects.get(model='customuser').id
+        uid = CustomUser.objects.get(username=self.user2['username']).id
+        self.authenticate(self.user1)
+
+        self.client.post('/api/follow/', {
+            'content_type_id': ctid,
+            'object_id': uid})
+        response = self.client.get(f'/api/followers/?username={self.user2["username"]}')
+        data = json.loads(response.content)
+
+        self.assertFalse(any('password' in x for x in data))
+        self.assertFalse(any('email' in x for x in data))
