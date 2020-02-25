@@ -52,7 +52,7 @@ export class PlansService {
   }
 
   getAdoptedPlans (username: string): Observable<Plan[]> {
-    return this.http.get<Plan[]>(`${this.plansUrl}?owner__username=${username}`)
+    return this.http.get<Plan[]>(`${this.plansUrl}?user__username=${username}`)
       .pipe(
         map(response => this.getProperlyTypedPlans(response)),
         catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 

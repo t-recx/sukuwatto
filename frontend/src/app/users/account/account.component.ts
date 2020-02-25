@@ -41,13 +41,19 @@ export class AccountComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    public route: ActivatedRoute, 
+    public route: ActivatedRoute,
     private router: Router,
     private unitsService: UnitsService,
     private userBioDataService: UserBioDataService,
   ) { }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params =>
+      this.loadUserData(params.get('username')));
+  }
+
+  loadUserData(username: string) {
+    this.username = username;
     this.userBioData = null;
     this.bioDataDate = new Date();
     this.weightUnits = [];
@@ -55,7 +61,6 @@ export class AccountComponent implements OnInit {
     this.loadUnits();
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
-    this.username = this.route.snapshot.paramMap.get('username');
     this.allowed = this.authService.isLoggedIn() && this.authService.getUsername() == this.username;
     this.triedToSave = false;
 

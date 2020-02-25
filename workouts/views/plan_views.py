@@ -12,7 +12,7 @@ class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['public', 'owner__username']
+    filterset_fields = ['public', 'user__username']
 
 @api_view(['POST'])
 def adopt_plan(request, pk):

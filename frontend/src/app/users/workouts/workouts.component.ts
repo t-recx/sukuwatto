@@ -41,7 +41,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     private exercisesService: ExercisesService,
     private unitsService: UnitsService,
   ) { 
-    this.paramChangedSubscription = route.paramMap.subscribe(val => 
+    this.paramChangedSubscription = route.paramMap.subscribe(val =>
       {
         this.loadParameterDependentData(val.get('username'), val.get('page'));
       });
