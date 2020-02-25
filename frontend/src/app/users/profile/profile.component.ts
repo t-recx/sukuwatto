@@ -93,8 +93,7 @@ export class ProfileComponent implements OnInit {
       });
     }
 
-    this.showUnfollowButtonOnFollowingList = this.authService.isLoggedIn() && 
-      this.username == this.authService.getUsername();
+    this.showUnfollowButtonOnFollowingList = this.authService.isCurrentUserLoggedIn(this.username);
   }
 
   loadFollowers(): void {
