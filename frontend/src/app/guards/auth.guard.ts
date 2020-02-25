@@ -12,8 +12,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if (this.authService.isLoggedIn())
+      if (this.authService.isLoggedIn()) {
         return true;
+      }
 
       this.authService.redirectUrl = state.url;
 
@@ -31,8 +32,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-      if (this.authService.isLoggedIn())
+      if (this.authService.isLoggedIn()) {
         return true;
+      }
 
       return false;
   }

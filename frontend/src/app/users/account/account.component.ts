@@ -61,7 +61,7 @@ export class AccountComponent implements OnInit {
     this.loadUnits();
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
-    this.allowed = this.authService.isLoggedIn() && this.authService.getUsername() == this.username;
+    this.allowed = this.authService.isCurrentUserLoggedIn(this.username);
     this.triedToSave = false;
 
     if (this.allowed) {

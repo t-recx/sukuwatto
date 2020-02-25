@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.streamsService.getUserStream(indexPage, this.pageSize)
       .subscribe(paginatedActions => {
-        const numberOfNewRecords = this.pageSize - paginatedActions.results.filter(x =>
+        const numberOfNewRecords = paginatedActions.results.length - paginatedActions.results.filter(x =>
           this.actions.filter(y => y.id == x.id).length > 0).length;
 
         if (numberOfNewRecords > 0) {

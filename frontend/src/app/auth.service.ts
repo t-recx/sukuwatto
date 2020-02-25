@@ -75,8 +75,8 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    if (this.getAccessToken()) {
-      return !this.jwtHelper.isTokenExpired(this.getAccessToken());
+    if (this.getTokenRefresh()) {
+      return !this.jwtHelper.isTokenExpired(this.getTokenRefresh());
     }
 
     return false;
@@ -138,7 +138,7 @@ export class AuthService {
     return this.getLocalStorageItem('unit_system');
   }
 
-  private getTokenRefresh(): string {
+  public getTokenRefresh(): string {
     return this.getLocalStorageItem('refresh_token');
   }
 
