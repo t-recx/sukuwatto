@@ -1,128 +1,169 @@
 <form>
-<div class="siimple-card-body" *ngIf="progression">
-    <div class="siimple-grid">
-        <div class="siimple-grid-row">
-            <div class="siimple-grid-col siimple-grid-col--12">
-                <div class="siimple--display-block">
-                    <div class="siimple-form-field-label">Progression Type</div>
+    <div class="siimple-card-body" *ngIf="progression">
+        <div class="siimple-grid">
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12">
+                    <div class="siimple--display-block">
+                        <div class="siimple-form-field-label">Progression Type</div>
+                    </div>
+
+
+                    <div class="siimple--display-inline-block">
+                        <div class="siimple-radio">
+                            <input type="radio" id="{{idExercise}}" value="e" name="{{idGroup}}"
+                                [(ngModel)]="progression.progression_type" #by_exercise="ngModel"
+                                (change)="clearUnusedParameters()">
+                            <label for="{{idExercise}}"></label>
+                        </div>
+                        <label class="siimple-label">By Exercise</label>
+                    </div>
+
+                    <div class="siimple--display-inline-block">
+                        <div class="siimple-radio">
+                            <input type="radio" id="{{idCharacteristics}}" value="c" name="{{idGroup}}"
+                                [(ngModel)]="progression.progression_type" #by_characteristics="ngModel"
+                                (change)="clearUnusedParameters()">
+                            <label for="{{idCharacteristics}}"></label>
+                        </div>
+                        <label class="siimple-label">By Exercise Type</label>
+                    </div>
+
+                    <div *ngIf="progression.validations && progression.validations['progression_type'] && triedToSave">
+                        <div class="siimple-field-helper siimple--color-error">
+                            {{progression.validations['progression_type']}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row" *ngIf="progression.progression_type">
+                <div class="siimple-grid-col siimple-grid-col--12">
+                    <div class="siimple--display-block">
+                        <div class="siimple-form-field-label">Parameters</div>
+                    </div>
                 </div>
 
-                <div class="siimple--display-inline-block">
-                    <div class="siimple-radio">
-                        <input type="radio" id="{{idExercise}}" value="e" name="{{idGroup}}"
-                            [(ngModel)]="progression.progression_type" #by_exercise="ngModel" (change)="clearUnusedParameters()">
-                        <label for="{{idExercise}}"></label>
+                <div class="tab-content" [class.tab-content-selected]="progression.progression_type=='e'">
+                    <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Exercise</div>
+                            <select class="siimple-select siimple-select--fluid" name="exercise" id="exercise"
+                                [(ngModel)]="progression.exercise" #exercise="ngModel">
+                                <option [ngValue]="null"></option>
+                                <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
+                                    {{exerciseModel.name}}
+                                </option>
+                            </select>
+
+                            <div *ngIf="progression.validations && progression.validations['exercise'] && triedToSave">
+                                <div class="siimple-field-helper siimple--color-error">
+                                    {{progression.validations['exercise']}}</div>
+                            </div>
+                        </div>
                     </div>
-                    <label class="siimple-label">By Exercise</label>
+                </div>
+                <div class="tab-content" [class.tab-content-selected]="progression.progression_type=='c'">
+                    <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Mechanics</div>
+                            <select class="siimple-select siimple-select--fluid" name="mechanics" id="mechanics"
+                                [(ngModel)]="progression.mechanics" #mechanics="ngModel">
+                                <option [ngValue]="null"></option>
+                                <option *ngFor="let mechanicsModel of mechanicsLabel | keyvalue"
+                                    value={{mechanicsModel.key}}>
+                                    {{mechanicsModel.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Modality</div>
+                            <select class="siimple-select siimple-select--fluid" name="modality" id="modality"
+                                [(ngModel)]="progression.modality" #modality="ngModel">
+                                <option [ngValue]="null"></option>
+                                <option *ngFor="let modalityModel of modalityLabel | keyvalue"
+                                    value={{modalityModel.key}}>
+                                    {{modalityModel.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Force</div>
+                            <select class="siimple-select siimple-select--fluid" name="force" id="force"
+                                [(ngModel)]="progression.force" #force="ngModel">
+                                <option [ngValue]="null"></option>
+                                <option *ngFor="let forceModel of forceLabel | keyvalue" value={{forceModel.key}}>
+                                    {{forceModel.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <div class="siimple-form-field-label">Section</div>
+                            <select class="siimple-select siimple-select--fluid" name="section" id="section"
+                                [(ngModel)]="progression.section" #section="ngModel">
+                                <option [ngValue]="null"></option>
+                                <option *ngFor="let sectionModel of sectionLabel | keyvalue" value={{sectionModel.key}}>
+                                    {{sectionModel.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="siimple--display-inline-block">
-                    <div class="siimple-radio">
-                        <input type="radio" id="{{idCharacteristics}}" value="c" name="{{idGroup}}"
-                            [(ngModel)]="progression.progression_type" #by_characteristics="ngModel" (change)="clearUnusedParameters()">
-                        <label for="{{idCharacteristics}}"></label>
-                    </div>
-                    <label class="siimple-label">By Exercise Type</label>
+                <div *ngIf="progression.validations && progression.validations['parameters'] && triedToSave">
+                    <div class="siimple--ml-2 siimple-field-helper siimple--color-error">
+                        {{progression.validations['parameters']}}</div>
                 </div>
             </div>
-        </div>
-        <div class="siimple-grid-row">
-            <div class="tab-content" [class.tab-content-selected]="progression.progression_type=='e'">
-                <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
-                    <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Exercise</div>
-                        <select class="siimple-select siimple-select--fluid" name="exercise" id="exercise"
-                            [(ngModel)]="progression.exercise" #exercise="ngModel">
-                            <option [ngValue]="null"></option>
-                            <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
-                                {{exerciseModel.name}}
-                            </option>
-                        </select>
+            <div class="siimple-grid-row" *ngIf="progression.progression_type">
+                <div class="siimple-grid-col siimple-grid-col--12">
+                    <div class="siimple--display-block">
+                        <div class="siimple-form-field-label">Increase method</div>
                     </div>
                 </div>
-            </div>
-            <div class="tab-content" [class.tab-content-selected]="progression.progression_type=='c'">
-                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Mechanics</div>
-                        <select class="siimple-select siimple-select--fluid" name="mechanics" id="mechanics"
-                            [(ngModel)]="progression.mechanics" #mechanics="ngModel">
-                            <option [ngValue]="null"></option>
-                            <option *ngFor="let mechanicsModel of mechanicsLabel | keyvalue"
-                                value={{mechanicsModel.key}}>
-                                {{mechanicsModel.value}}
-                            </option>
-                        </select>
+                        <div class="siimple-form-field-label">Weight increase</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" name="weight_increase"
+                            id="weight_increase" [(ngModel)]="progression.weight_increase" #weight_increase="ngModel"
+                            placeholder="Weight increase">
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Modality</div>
-                        <select class="siimple-select siimple-select--fluid" name="modality" id="modality"
-                            [(ngModel)]="progression.modality" #modality="ngModel">
+                        <div class="siimple-form-field-label">Unit</div>
+                        <select class="siimple-select siimple-select--fluid" name="unit" id="unit"
+                            [(ngModel)]="progression.unit" #unit="ngModel">
                             <option [ngValue]="null"></option>
-                            <option *ngFor="let modalityModel of modalityLabel | keyvalue" value={{modalityModel.key}}>
-                                {{modalityModel.value}}
+                            <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                {{unitModel.name}}
                             </option>
                         </select>
+
+                        <div *ngIf="progression.validations && progression.validations['unit'] && triedToSave">
+                            <div class="siimple-field-helper siimple--color-error">{{progression.validations['unit']}}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Force</div>
-                        <select class="siimple-select siimple-select--fluid" name="force" id="force"
-                            [(ngModel)]="progression.force" #force="ngModel">
-                            <option [ngValue]="null"></option>
-                            <option *ngFor="let forceModel of forceLabel | keyvalue" value={{forceModel.key}}>
-                                {{forceModel.value}}
-                            </option>
-                        </select>
+                        <div class="siimple-form-field-label">Percentage increase</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" name="percentage_increase"
+                            id="percentage_increase" [(ngModel)]="progression.percentage_increase"
+                            #percentage_increase="ngModel" placeholder="% increase">
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
-                    <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Section</div>
-                        <select class="siimple-select siimple-select--fluid" name="section" id="section"
-                            [(ngModel)]="progression.section" #section="ngModel">
-                            <option [ngValue]="null"></option>
-                            <option *ngFor="let sectionModel of sectionLabel | keyvalue" value={{sectionModel.key}}>
-                                {{sectionModel.value}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="siimple-grid-row">
-            <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
-                <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Weight increase</div>
-                    <input type="number" class="siimple-input siimple-input--fluid" name="weight_increase"
-                        id="weight_increase" [(ngModel)]="progression.weight_increase" #weight_increase="ngModel"
-                        placeholder="Weight increase">
-                </div>
-            </div>
-            <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
-                <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Unit</div>
-                    <select class="siimple-select siimple-select--fluid" name="unit" id="unit"
-                        [(ngModel)]="progression.unit" #unit="ngModel">
-                        <option [ngValue]="null"></option>
-                        <option *ngFor="let unitModel of units" value={{unitModel.id}}>
-                            {{unitModel.name}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
-                <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Percentage increase</div>
-                    <input type="number" class="siimple-input siimple-input--fluid" name="percentage_increase"
-                        id="percentage_increase" [(ngModel)]="progression.percentage_increase"
-                        #percentage_increase="ngModel" placeholder="% increase">
+
+                <div *ngIf="progression.validations && progression.validations['method'] && triedToSave">
+                    <div class="siimple--ml-2 siimple-field-helper siimple--color-error">
+                        {{progression.validations['method']}}</div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </form>

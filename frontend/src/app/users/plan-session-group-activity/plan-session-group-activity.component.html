@@ -41,7 +41,7 @@
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
                     <div class="siimple-form-field-label">Repetition Type</div>
-                    <select class="siimple-select siimple-select--fluid" name="repetition_type" id="repetition_type"
+                    <select class="siimple-select siimple-select--fluid" name="repetition_type" required id="repetition_type"
                         [(ngModel)]="planSessionGroupExercise.repetition_type" #repetition_type="ngModel"
                         (change)="repetitionTypeChange()">
                         <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
@@ -49,6 +49,10 @@
                             {{repetition_typeModel.value}}
                         </option>
                     </select>
+
+                    <div *ngIf="repetition_type.invalid && (repetition_type.dirty || triedToSave)">
+                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    </div>
                 </div>
             </div>
             <div *ngIf="planSessionGroupExercise.repetition_type == repetitionTypeEnum.Standard || planSessionGroupExercise.repetition_type == repetitionTypeEnum.Range ">
@@ -78,7 +82,7 @@
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
                     <div class="siimple-form-field-label">Working Weight (%)</div>
-                    <input type="number" class="siimple-input siimple-input--fluid" name="working_weight_percentage"
+                    <input type="number" class="siimple-input siimple-input--fluid" required name="working_weight_percentage"
                         id="working_weight_percentage" [(ngModel)]="planSessionGroupExercise.working_weight_percentage"
                         #working_weight_percentage="ngModel" placeholder="% Work Weight">
 

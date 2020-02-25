@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ProgressionStrategy, ProgressionType } from '../plan-progression-strategy';
 import { Exercise, MechanicsLabel, SectionLabel, ForceLabel, ModalityLabel } from '../exercise';
 import { Unit } from '../unit';
 import { v4 as uuid } from 'uuid';
+import { PlansService } from '../plans.service';
 
 @Component({
   selector: 'app-plan-progression-strategy',
