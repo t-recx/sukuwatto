@@ -99,7 +99,15 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   wasReply(message: LastMessage): boolean {
-    return message.user.username == this.authService.getUsername();
+    let id;
+
+    if (message.user.username == this.authService.getUsername()) {
+      id = message.user.id;
+    } else {
+      id = message.correspondent.id;
+    }
+
+    return message.last_message.from_user == id;
   }
 
   messageUser(messagedUser: any) {

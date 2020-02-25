@@ -9,6 +9,11 @@ import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
 import { MessagesService } from '../messages.service';
 
+export enum UserViewProfileTab {
+  Followers = 1,
+  Following = 2,
+}
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -61,7 +66,7 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.route.paramMap.subscribe(params => 
+    this.route.paramMap.subscribe(params =>
       this.loadUserData(params.get('username')));
   }
 
@@ -127,9 +132,4 @@ export class ProfileComponent implements OnInit {
   selectTab(tab: UserViewProfileTab): void {
     this.selectedTab = tab;
   }
-}
-
-export enum UserViewProfileTab {
-  Followers = 1,
-  Following = 2,
 }

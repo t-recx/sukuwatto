@@ -20,17 +20,17 @@ export class ExerciseDetailComponent implements OnInit {
 
   ngOnInit() {
     this.triedToSave = false;
-    this.loadOrInitializeExercise();
+
+    this.route.paramMap.subscribe(params =>
+      this.loadOrInitializeExercise(params.get('id')));
   }
 
-  private loadOrInitializeExercise(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+  private loadOrInitializeExercise(id: string): void {
     if (id) {
       this.service.getExercise(id).subscribe(exercise => {
         this.exercise = exercise;
       });
-    }
-    else {
+    } else {
       this.exercise = new Exercise();
     }
   }

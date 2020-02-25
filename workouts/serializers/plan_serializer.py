@@ -60,7 +60,7 @@ class PlanSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Plan
-        fields = ['id', 'short_name', 'name', 'description', 'owner', 'parent_plan', 'public', 'sessions', 'progressions']
+        fields = ['id', 'short_name', 'name', 'description', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
 
     def create(self, validated_data):
         user = None
@@ -77,7 +77,7 @@ class PlanSerializer(serializers.ModelSerializer):
         if 'progressions' in validated_data:
             progressions_data = validated_data.pop('progressions')
 
-        plan = Plan.objects.create(owner=user, **validated_data)
+        plan = Plan.objects.create(user=user, **validated_data)
 
         if sessions_data is not None:
             self.create_sessions(plan, sessions_data)

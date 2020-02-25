@@ -6,7 +6,7 @@ export class Plan {
   short_name: string;
   name: string;
   description: string;
-  owner: string;
+  user: string;
   public: boolean;
   parent_plan: number;
   sessions: PlanSession[];
