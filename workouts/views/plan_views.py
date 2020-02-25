@@ -32,7 +32,7 @@ def adopt_plan(request, pk):
         plan.pk = None
         plan.id = None
         plan.parent_plan_id = pk
-        plan.owner = user
+        plan.user = user
         plan.public = False
         plan.save()
 

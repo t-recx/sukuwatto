@@ -81,7 +81,7 @@ class Exercise(models.Model):
     force = models.CharField(max_length=1, null=True, choices=FORCES)
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -91,7 +91,7 @@ class Plan(models.Model):
     short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)')
     name = models.CharField(max_length=200, help_text='Enter the workout plan template''s name (ex: Push Pull Legs, Starting Strength)')
     description = models.TextField(null=True)
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
     parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
     public = models.BooleanField(default=False)
 

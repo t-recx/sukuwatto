@@ -261,14 +261,6 @@ class PlanSerializer(serializers.ModelSerializer):
             exercises.delete()
 
     def update(self, instance, validated_data):
-        """
-        user = None
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            user = request.user
-
-        instance.owner = user
-        """
         # update the plan first
         instance.short_name = validated_data.get('short_name', instance.short_name)
         instance.name = validated_data.get('name', instance.name)
