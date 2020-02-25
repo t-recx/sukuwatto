@@ -3,6 +3,7 @@ import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } fro
 import { ExercisesService } from '../exercises.service';
 import { Subject } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
+import 'datatables.net';
 
 @Component({
   selector: 'app-exercises',

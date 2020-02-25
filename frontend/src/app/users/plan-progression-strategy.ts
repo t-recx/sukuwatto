@@ -21,4 +21,6 @@ export class ProgressionStrategy {
     modality: Modality;
     force: Force;
     mechanics: Mechanics;
+
+    validations: {};
 }

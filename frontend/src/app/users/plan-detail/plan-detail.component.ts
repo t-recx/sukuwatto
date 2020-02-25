@@ -98,7 +98,7 @@ export class PlanDetailComponent implements OnInit {
   save() {
     this.triedToSave = true;
 
-    if (!this.valid(this.plan)) {
+    if (!this.service.valid(this.plan)) {
       return;
     }
 
@@ -116,68 +116,5 @@ export class PlanDetailComponent implements OnInit {
         });
       }
     });
-  }
-
-  valid(plan: Plan): boolean {
-    if (!plan.short_name || 0 == plan.short_name.trim().length)
-      return false;
-
-    if (!plan.name || 0 == plan.name.trim().length)
-      return false;
-
-    if (!plan.description || 0 == plan.description.trim().length)
-      return false;
-
-    for (let session of plan.sessions) {
-      if (!this.validSession(session))
-        return false;
-    }
-
-    return true;
-  }
-
-  validSession(session: PlanSession): boolean {
-    if (!session.name || 0 == session.name.trim().length)
-      return false;
-
-    for (let group of session.groups) {
-      if (!this.validGroup(group))
-        return false;
-    }
-
-    return true;
-  }
-
-  validGroup(group: PlanSessionGroup): boolean {
-    if (!group.name || 0 == group.name.trim().length)
-      return false;
-
-    for (let exercise of group.exercises) {
-      if (!this.validActivity(exercise))
-        return false;
-    }
-
-    for (let warmup of group.warmups) {
-      if (!this.validActivity(warmup))
-        return false;
-    }
-
-    return true;
-  }
-
-  validActivity(activity: PlanSessionGroupActivity): boolean {
-    if (!activity.order)
-      return false;
-      
-    if (!activity.exercise)
-      return false;
-
-    if (!activity.number_of_sets || activity.number_of_sets <= 0)
-      return false;
-
-    if (!activity.number_of_repetitions || activity.number_of_repetitions <= 0)
-      return false;
-
-    return true;
   }
 }

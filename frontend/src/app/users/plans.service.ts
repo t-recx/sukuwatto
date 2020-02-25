@@ -6,7 +6,11 @@ import { Plan } from './plan';
 import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
-import { ProgressionStrategy } from './plan-progression-strategy';
+import { ProgressionStrategy, ProgressionType } from './plan-progression-strategy';
+import { PlanSession } from './plan-session';
+import { PlanSessionGroup } from './plan-session-group';
+import { PlanSessionGroupActivity, RepetitionType } from './plan-session-group-activity';
+import { Result, Results } from '../result';
 
 @Injectable({
   providedIn: 'root'
@@ -162,5 +166,182 @@ export class PlansService {
         this.alertService.error('Unable to delete plan, try again later');
       }, new Plan()))
     );
+  }
+
+  valid(plan: Plan): boolean {
+    if (!plan.short_name || 0 == plan.short_name.trim().length) {
+      return false;
+    }
+
+    if (!plan.name || 0 == plan.name.trim().length) {
+      return false;
+    }
+
+    if (!plan.description || 0 == plan.description.trim().length) {
+      return false;
+    }
+
+    for (const session of plan.sessions) {
+      if (!this.validSession(session)) {
+        return false;
+      }
+    }
+
+    for (const progression of plan.progressions) {
+      if (this.validateProgression(progression).failed()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  validSession(session: PlanSession): boolean {
+    if (!session.name || 0 == session.name.trim().length) {
+      return false;
+    }
+
+    for (const group of session.groups) {
+      if (!this.validGroup(group)) {
+        return false;
+      }
+    }
+
+    for (const progression of session.progressions) {
+      if (this.validateProgression(progression).failed()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  validGroup(group: PlanSessionGroup): boolean {
+    if (!group.order) {
+      return false;
+    }
+
+    if (!group.name || 0 == group.name.trim().length) {
+      return false;
+    }
+
+    for (const exercise of group.exercises) {
+      if (!this.validActivity(exercise)) {
+        return false;
+      }
+    }
+
+    for (const warmup of group.warmups) {
+      if (!this.validActivity(warmup)) {
+        return false;
+      }
+    }
+
+    for (const progression of group.progressions) {
+      if (this.validateProgression(progression).failed()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  validActivity(activity: PlanSessionGroupActivity): boolean {
+    if (!activity.order) {
+      return false;
+    }
+
+    if (!activity.exercise) {
+      return false;
+    }
+
+    if (!activity.number_of_sets || activity.number_of_sets <= 0) {
+      return false;
+    }
+
+    if (!activity.repetition_type) {
+      return false;
+    }
+    if ((activity.repetition_type == RepetitionType.Standard || 
+      activity.repetition_type == RepetitionType.Range) &&
+      !activity.number_of_repetitions) {
+      return false;
+    }
+
+    if (activity.repetition_type == RepetitionType.Range &&
+      !activity.number_of_repetitions_up_to) {
+      return false;
+    }
+
+    if (activity.working_weight_percentage == null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  validateProgression(progression: ProgressionStrategy): Results<ProgressionStrategy> {
+    const results = new Results<ProgressionStrategy>();
+    
+    if (!progression.progression_type) {
+      results.push(new Result<ProgressionStrategy>({
+        success: false,
+        field: 'progression_type',
+        object: progression,
+        code: 'VPS1',
+        message: 'Select a progression type',
+      }));
+    }
+
+    if (progression.progression_type == ProgressionType.ByExercise) {
+      if (!progression.exercise) {
+        results.push(new Result<ProgressionStrategy>({
+          success: false,
+          field: 'exercise',
+          object: progression,
+          code: 'VPS2',
+          message: 'Select an exercise',
+        }));
+      }
+    } else if (progression.progression_type == ProgressionType.ByCharacteristics) {
+      if (!progression.mechanics &&
+        !progression.force &&
+        !progression.modality &&
+        !progression.section) {
+          results.push(new Result<ProgressionStrategy>({
+            success: false,
+            field: 'parameters',
+            object: progression,
+            code: 'VPS3',
+            message: 'Select one or more parameters',
+          }));
+        }
+    }
+
+    if (!progression.weight_increase && !progression.percentage_increase) {
+      results.push(new Result<ProgressionStrategy>({
+        success: false,
+        field: 'method',
+        object: progression,
+        code: 'VPS4',
+        message: 'Select increase method',
+      }));
+    }
+
+    if (progression.weight_increase)  {
+      if (!progression.unit) {
+        results.push(new Result<ProgressionStrategy>({
+          success: false,
+          field: 'unit',
+          object: progression,
+          code: 'VPS5',
+          message: 'Select unit',
+        }));
+      }
+    }
+
+    progression.validations = results.getFailedFields();
+
+    return results;
   }
 }
