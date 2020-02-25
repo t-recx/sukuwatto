@@ -29,6 +29,11 @@
     height: 100%;
   }
   
+  .profile-image {
+    width: 32px;
+    height: 32px;
+  }
+
   .user-bar {
     height: 55px;
     padding: 0 8px;
