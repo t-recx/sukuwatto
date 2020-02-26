@@ -5,17 +5,8 @@ from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
 from workouts.models import Workout
 from users.models import CustomUser
-from sqtrex.tests import AuthTestCaseMixin
+from sqtrex.tests import AuthTestCaseMixin, UserTestCaseMixin
 from django.contrib.contenttypes.models import ContentType
-
-class UserTestCaseMixin():
-    def create_user(self, user):
-        email = None
-
-        if 'email' in user:
-            email = user['email']
-
-        CustomUser.objects.create_user(username=user['username'], email=email, password=user['password'])
 
 class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
     def setUp(self):

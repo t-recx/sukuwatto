@@ -27,14 +27,6 @@ class UserBioDataSerializer(serializers.ModelSerializer):
             'body_fat_percentage', 'water_weight_percentage', 'muscle_mass_percentage',
             'bone_mass_weight', 'bone_mass_weight_unit', 'notes']
 
-    def validate(self, data):
-        request = self.context.get("request")
-
-        if not request or not hasattr(request, "user") or isinstance(request.user, AnonymousUser):
-            raise serializers.ValidationError("User not authenticated")
-
-        return data
-
     def validate_date(self, value):
         if value is None:
             raise serializers.ValidationError("Date is required")
