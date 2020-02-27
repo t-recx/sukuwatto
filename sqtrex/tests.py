@@ -21,7 +21,7 @@ class UserTestCaseMixin():
         if 'email' in user:
             email = user['email']
 
-        CustomUser.objects.create_user(username=user['username'], email=email, password=user['password'])
+        return CustomUser.objects.create_user(username=user['username'], email=email, password=user['password'])
 
 class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
     def setUp(self):

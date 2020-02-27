@@ -13,9 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from .serializers import UserSerializer, GroupSerializer, FileSerializer
 from sqtrex.serializers import ActionSerializer
-from pprint import pprint
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.hashers import make_password
 from actstream import models
 from sqtrex.permissions import IsUserOrReadOnly
 from users.models import CustomUser
@@ -66,13 +64,6 @@ class FileUploadView(APIView):
         permission_classes = [IsAuthenticated]
 
         return [permission() for permission in permission_classes]
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
 
 class UserStreamList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]

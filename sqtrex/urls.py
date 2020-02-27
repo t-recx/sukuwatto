@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import include, path, re_path
 from rest_framework import routers
-from users.views import UserViewSet, UserStreamList, GroupViewSet, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email
+from users.views import UserViewSet, UserStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
 from workouts.views.views import ExerciseViewSet, UnitList, UnitConversionList
 from workouts.views import plan_views
@@ -12,7 +12,6 @@ from sqtrex.views import ContentTypeList
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'groups', GroupViewSet)
 router.register(r'exercises', ExerciseViewSet)
 router.register(r'plans', plan_views.PlanViewSet)
 router.register(r'workouts', workout_views.WorkoutViewSet)
