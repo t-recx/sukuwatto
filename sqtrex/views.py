@@ -6,7 +6,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 class ContentTypeList(generics.ListAPIView):
     queryset = ContentType.objects.all()
-    permission_classes = [IsAuthenticated]
     serializer_class = ContentTypeSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['model']

@@ -20,8 +20,6 @@ from actstream import action
 from sqtrex.permissions import StandardPermissionsMixin
 
 class ActionObjectStreamList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-
     def list(self, request):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
@@ -36,8 +34,6 @@ class ActionObjectStreamList(generics.ListAPIView):
         return Response(serializer.data)
 
 class TargetStreamList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-
     def list(self, request):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
@@ -58,7 +54,6 @@ class PostViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user__username']
-    permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
 class CommentViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
@@ -67,7 +62,6 @@ class CommentViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     filter_backends = [DjangoFilterBackend]
-    permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
 class LastMessageList(generics.ListAPIView):
