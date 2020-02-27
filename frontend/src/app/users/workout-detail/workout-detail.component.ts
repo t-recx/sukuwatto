@@ -17,6 +17,7 @@ import { WorkingWeight } from '../working-weight';
 import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
 import { concatMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-workout-detail',
@@ -50,6 +51,7 @@ export class WorkoutDetailComponent implements OnInit {
     private unitsService: UnitsService,
     private router: Router,
     private workoutGeneratorService: WorkoutGeneratorService,
+    private authService: AuthService,
   ) { }
 
   setWorkoutStartDate(event: any) {
@@ -127,7 +129,9 @@ export class WorkoutDetailComponent implements OnInit {
   loadOrInitializeWorkout(id: string) {
     if (id) {
       this.service.getWorkout(id).subscribe(workout => {
-        this.workout = workout;
+        if (workout.user.username == this.authService.getUsername()) {
+          this.workout = workout;
+        }
       });
     }
     else {
