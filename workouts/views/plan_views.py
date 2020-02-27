@@ -5,8 +5,9 @@ from workouts.serializers.plan_serializer import PlanSerializer
 from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from sqtrex.permissions import StandardPermissionsMixin
 
-class PlanViewSet(viewsets.ModelViewSet):
+class PlanViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     """
     queryset = Plan.objects.all()
