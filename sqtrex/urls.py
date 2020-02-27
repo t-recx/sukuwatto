@@ -1,9 +1,9 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import include, path, re_path
 from rest_framework import routers
-from users.views import UserViewSet, UserStreamList, GroupViewSet, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email
+from users.views import UserViewSet, UserStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
-from workouts.views.views import ExerciseViewSet, UnitViewSet, UnitConversionViewSet
+from workouts.views.views import ExerciseViewSet, UnitList, UnitConversionList
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
@@ -12,11 +12,8 @@ from sqtrex.views import ContentTypeList
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'groups', GroupViewSet)
 router.register(r'exercises', ExerciseViewSet)
 router.register(r'plans', plan_views.PlanViewSet)
-router.register(r'units', UnitViewSet)
-router.register(r'unit-conversions', UnitConversionViewSet)
 router.register(r'workouts', workout_views.WorkoutViewSet)
 router.register(r'user-bio-datas', user_bio_views.UserBioDataViewSet)
 router.register(r'posts', PostViewSet)
@@ -30,6 +27,8 @@ urlpatterns = [
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),
+    path('api/units/', UnitList.as_view()),
+    path('api/unit-conversions/', UnitConversionList.as_view()),
     path('api/content-types/', ContentTypeList.as_view()),
     path('api/user-profile-filename/', get_profile_filename, name='user-profile-filename'),
     path('api/user-email/', get_email, name='user-email'),

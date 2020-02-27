@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from datetime import datetime
 from social.models import Message, LastMessage
+from django.utils import timezone
 
 class MessageService:
     def update_read(self, user_id, correspondent_id):
@@ -14,7 +14,7 @@ class MessageService:
 
     def create(self, from_user, to_user, message):
         instance = Message.objects.create(from_user=from_user, to_user=to_user,
-            message=message, date=datetime.utcnow())
+            message=message, date=timezone.now())
 
         obj, created = LastMessage.objects.update_or_create(
             user=instance.from_user,

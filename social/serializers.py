@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from datetime import datetime
 from social.models import Message, LastMessage, Post, Comment
 from users.serializers import UserSerializer
-from pprint import pprint
+from django.utils import timezone
 
 class MessageReadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,14 +50,14 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get("request")
 
-        post = Post.objects.create(user=request.user, date=datetime.utcnow(), **validated_data)
+        post = Post.objects.create(user=request.user, date=timezone.now(), **validated_data)
 
         return post
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.text = validated_data.get('text', instance.text)
-        instance.edited_date = datetime.utcnow()
+        instance.edited_date = timezone.now()
 
         instance.save()
 
@@ -85,13 +85,13 @@ class CommentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get("request")
 
-        comment = Comment.objects.create(user=request.user, date=datetime.utcnow(), **validated_data)
+        comment = Comment.objects.create(user=request.user, date=timezone.now(), **validated_data)
 
         return comment
 
     def update(self, instance, validated_data):
         instance.text = validated_data.get('text', instance.text)
-        instance.edited_date = datetime.utcnow()
+        instance.edited_date = timezone.now()
 
         instance.save()
 

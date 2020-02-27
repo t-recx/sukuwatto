@@ -66,7 +66,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.newMessageSubject = new Subject<Message>();
     this.newMessageSubscription = this.newMessageSubject
       .pipe(filter(x => x.from_user != this.user.id), debounce(() => interval(2000)), switchMap(x => 
-          this.lastMessagesService.updateLastMessageRead(this.user.id, this.correspondent.id)
+          this.lastMessagesService.updateLastMessageRead(this.correspondent.id)
       ))
       .subscribe();
   }
@@ -178,7 +178,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
           this.usersService.get(username).subscribe(users_ => {
             if (users_.length == 1) {
               this.user = users_[0];
-              this.lastMessagesService.updateLastMessageRead(this.user.id, this.correspondent.id).subscribe();
+              this.lastMessagesService.updateLastMessageRead(this.correspondent.id).subscribe();
             }
           });
 

@@ -5,8 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from sqtrex.pagination import StandardResultsSetPagination
 from rest_framework import viewsets, generics
+from sqtrex.permissions import StandardPermissionsMixin
 
-class UserBioDataViewSet(viewsets.ModelViewSet):
+class UserBioDataViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows users bio data to be viewed or edited.
     """

@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
 from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer, UserBioDataSerializer
 from workouts.models import Exercise, Unit, UnitConversion, UserBioData
 from sqtrex.pagination import StandardResultsSetPagination
@@ -10,16 +11,16 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
 
-class UnitViewSet(viewsets.ModelViewSet):
+class UnitList(ListAPIView):
     """
-    API endpoint that allows units to be viewed or edited.
+    API endpoint that allows units to be viewed 
     """
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
 
-class UnitConversionViewSet(viewsets.ModelViewSet):
+class UnitConversionList(ListAPIView):
     """
-    API endpoint that allows units to be viewed or edited.
+    API endpoint that allows units to be viewed 
     """
     queryset = UnitConversion.objects.all()
     serializer_class = UnitConversionSerializer

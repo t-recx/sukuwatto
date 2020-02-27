@@ -2,7 +2,7 @@ from sqtrex.pagination import StandardResultsSetPagination
 from actstream.models import followers, following
 from actstream.actions import follow, unfollow
 from django.contrib.contenttypes.models import ContentType
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -13,9 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from .serializers import UserSerializer, GroupSerializer, FileSerializer
 from sqtrex.serializers import ActionSerializer
-from pprint import pprint
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.hashers import make_password
 from actstream import models
 from sqtrex.permissions import IsUserOrReadOnly
 from users.models import CustomUser
@@ -67,22 +65,11 @@ class FileUploadView(APIView):
 
         return [permission() for permission in permission_classes]
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
 class UserStreamList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
     def list(self, request):
-        user = None
-        if request and hasattr(request, "user"):
-            user = request.user
-
         queryset = models.user_stream(request.user, with_user_activity=True)
         page = self.paginate_queryset(queryset)
 
@@ -130,6 +117,7 @@ def get_following(request):
         return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def do_follow(request):
     if request.method == 'POST':
         content_type_id = request.data.get('content_type_id', None)
@@ -143,6 +131,7 @@ def do_follow(request):
         return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def do_unfollow(request):
     if request.method == 'POST':
         content_type_id = request.data.get('content_type_id', None)
@@ -168,12 +157,6 @@ def get_profile_filename(request):
     return Response(profile_filename)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_email(request):
-    email = None
-
-    if request.user and isinstance(request.user, CustomUser):
-        email = request.user.email
-
-        return Response(email)
-
-    return Response(status=status.HTTP_401_UNAUTHORIZED)
+    return Response(request.user.email)

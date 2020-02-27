@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -17,10 +17,9 @@ from sqtrex.serializers import ActionSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from actstream import action
+from sqtrex.permissions import StandardPermissionsMixin
 
 class ActionObjectStreamList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-
     def list(self, request):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
@@ -35,8 +34,6 @@ class ActionObjectStreamList(generics.ListAPIView):
         return Response(serializer.data)
 
 class TargetStreamList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-
     def list(self, request):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
@@ -50,23 +47,21 @@ class TargetStreamList(generics.ListAPIView):
 
         return Response(serializer.data)
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user__username']
-    permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     filter_backends = [DjangoFilterBackend]
-    permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
 class LastMessageList(generics.ListAPIView):
@@ -85,10 +80,11 @@ class LastMessageList(generics.ListAPIView):
 
         return Response(serializer.data)
 
-class MessageList(generics.ListCreateAPIView):
+class MessageList(generics.ListAPIView):
     queryset = Message.objects.all()
     permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
+    serializer_class = MessageReadSerializer
 
     def list(self, request):
         user = None
@@ -116,25 +112,12 @@ class MessageList(generics.ListCreateAPIView):
         serializer = MessageReadSerializer(queryset, many=True)
 
         return Response(serializer.data)
-    
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = serializer.save()
-        headers = self.get_success_headers(serializer.data)
-        read_serializer = MessageReadSerializer(instance=instance)
-        return Response(read_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    def get_serializer_class(self):
-        if self.request.method in ['GET']:
-            return MessageReadSerializer
-
-        return MessageSerializer
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def update_last_message(request):
     if request.method == 'POST':
-        user_id = request.data.get('user', None)
+        user_id = request.user.id
         correspondent_id = request.data.get('correspondent', None)
         
         message_service = MessageService()
@@ -144,6 +127,7 @@ def update_last_message(request):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def toggle_like(request):
     user = request.user
     content_type_id = request.data.get('content_type_id', None)

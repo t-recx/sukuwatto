@@ -44,9 +44,9 @@ export class LastMessagesService {
       );
   }
 
-  updateLastMessageRead(user_id: number, correspondent_id: number): Observable<any> {
+  updateLastMessageRead(correspondent_id: number): Observable<any> {
     return this.http.post<any>(`${this.updateLastMessageUrl}`, 
-      {user: user_id, correspondent: correspondent_id}, this.httpOptions)
+      {correspondent: correspondent_id}, this.httpOptions)
       .pipe(
         catchError(this.errorService.handleError<any>('get', (e: any) => 
         { 
