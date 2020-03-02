@@ -150,7 +150,6 @@ export class WorkoutDetailComponent implements OnInit {
           }
           this.previousWorkout = w;
         });
-        console.log(this.workout);
     }
   }
 
@@ -273,8 +272,6 @@ export class WorkoutDetailComponent implements OnInit {
       .filter(a => a.done)
       .sort((a,b) => (new Date(b.end)).getTime() - (new Date(a.end)).getTime())[0];
 
-    console.log(lastCompletedActivity);
-
     let setNext = false;
     for (let activity of activities) {
       if (!activity.done && setNext) {
@@ -368,12 +365,12 @@ export class WorkoutDetailComponent implements OnInit {
 
   navigateToWorkoutList(): void {
     if (!this.workout.id || this.workout.id <= 0) {
-      this.router.navigate(['../workouts'], {
+      this.router.navigate(['/users', this.authService.getUsername(), 'workouts', this.workout.id], {
         relativeTo: this.route,
       });
     }
     else {
-      this.router.navigate(['../../workouts'], {
+      this.router.navigate(['/users', this.authService.getUsername(), 'workouts'], {
         relativeTo: this.route,
       });
     }
