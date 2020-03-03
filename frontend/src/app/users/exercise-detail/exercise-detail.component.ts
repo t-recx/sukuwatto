@@ -105,4 +105,22 @@ export class ExerciseDetailComponent implements OnInit {
   hideDeleteModal() {
     this.deleteModalVisible = false;
   }
+
+  showDeleteButton() {
+    if (this.exercise.id &&
+      this.authService.isLoggedIn() && 
+      this.exercise.user == +this.authService.getUserId()) {
+        return true;
+      }
+
+    return false;
+  }
+
+  showSaveButton() {
+    if (!this.exercise || !this.exercise.id || this.exercise.id <= 0) {
+      return true;
+    }
+
+    return this.showDeleteButton();
+  }
 }

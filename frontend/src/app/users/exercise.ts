@@ -52,4 +52,5 @@ export class Exercise {
     modality: Modality;
     force: Force;
     mechanics: Mechanics;
+    user: number;
 }

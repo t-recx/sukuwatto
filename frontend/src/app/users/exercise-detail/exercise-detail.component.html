@@ -167,11 +167,13 @@
                 </div>
             </div>
         </div>
-        <button class="siimple-btn siimple-btn--success" (click)="save()">
+        <button 
+            *ngIf="showSaveButton()"
+            class="siimple-btn siimple-btn--success" (click)="save()">
             Save
         </button>
         <button 
-            *ngIf="exercise && exercise.id"
+            *ngIf="showDeleteButton()"
             class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="showDeleteModal()">
             Delete
         </button>
