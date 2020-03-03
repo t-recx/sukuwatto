@@ -81,7 +81,8 @@ class Exercise(models.Model):
     force = models.CharField(max_length=1, null=True, choices=FORCES)
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user_submitted = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -131,7 +132,7 @@ class AbstractGroupActivity(models.Model):
     ]
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     number_of_sets = models.PositiveIntegerField()
     repetition_type = models.CharField(max_length=1, null=True, choices=TYPES)
     number_of_repetitions = models.PositiveIntegerField(null=True)
@@ -165,7 +166,7 @@ class AbstractProgressionStrategy(models.Model):
         (TYPE_CHARACTERISTICS, 'By Characteristics'),
     ]
 
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True)
+    exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT, null=True)
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
@@ -214,7 +215,7 @@ class AbstractWorkoutActivity(models.Model):
     order = models.PositiveIntegerField(default=1)
     start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TYPES)
     expected_number_of_repetitions = models.PositiveIntegerField(null=True)
     expected_number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
@@ -238,7 +239,7 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
 
 class WorkingWeight(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_weights")
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     previous_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)

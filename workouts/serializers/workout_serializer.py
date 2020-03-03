@@ -52,14 +52,11 @@ class WorkoutSerializer(serializers.ModelSerializer):
         fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_weights', 'user', 'status']
         extra_kwargs = {'user': {'required': False}}
 
-
     def create(self, validated_data):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-
-        #todo: handle user null here...
 
         groups_data = None
         working_weights_data = None

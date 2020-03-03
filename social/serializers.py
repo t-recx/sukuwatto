@@ -36,17 +36,6 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'text', 'date', 'user', 'edited_date']
         extra_kwargs = {'user': {'required': False},'date': {'required': False},'edited_date': {'required': False}}
 
-    def validate(self, data):
-        request = self.context.get("request")
-
-        if not request or not hasattr(request, "user") or isinstance(request.user, AnonymousUser):
-            raise serializers.ValidationError("User not authenticated")
-
-        if self.instance and self.instance.user.id != request.user.id:
-            raise serializers.ValidationError("User doesn't own resource")
-
-        return data
-
     def create(self, validated_data):
         request = self.context.get("request")
 
@@ -70,17 +59,6 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'text', 'date', 'user', 'comment_target_object_id', 'comment_target_content_type']
         extra_kwargs = {'user': {'required': False},'date': {'required': False}}
-
-    def validate(self, data):
-        request = self.context.get("request")
-
-        if not request or not hasattr(request, "user") or isinstance(request.user, AnonymousUser):
-            raise serializers.ValidationError("User not authenticated")
-
-        if self.instance and self.instance.user.id != request.user.id:
-            raise serializers.ValidationError("User doesn't own resource")
-
-        return data
 
     def create(self, validated_data):
         request = self.context.get("request")
