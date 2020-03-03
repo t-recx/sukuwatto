@@ -3,6 +3,7 @@ import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } fro
 import { ExercisesService } from '../exercises.service';
 import { Subject } from 'rxjs';
 import 'datatables.net';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-exercises',
@@ -16,6 +17,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
   constructor(
     private exercisesService: ExercisesService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
@@ -12,6 +12,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ExercisesService {
   private exercisesUrl= `${environment.apiUrl}/exercises/`;
+  private exerciseInUseApiUrl = `${environment.apiUrl}/exercise-in-use/`;
+  private exerciseInUseOnOtherUsersResourcesApiUrl = `${environment.apiUrl}/exercise-in-use-on-other-users-resources/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -80,5 +82,37 @@ export class ExercisesService {
         this.alertService.error('Unable to delete exercise, try again later');
       }, new Exercise()))
     );
+  }
+
+  exerciseInUse(exercise: Exercise): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+
+    params = params.set('exercise', exercise.id.toString());
+    options = {params: params};
+
+    return this.http.get<boolean>(`${this.exerciseInUseApiUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('exerciseInUse', (e: any) => 
+        { 
+          this.alertService.error('Unable to check if exercise in use');
+        }, false))
+      );
+  }
+
+  exerciseInUseOnOtherUsersResources(exercise: Exercise): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+
+    params = params.set('exercise', exercise.id.toString());
+    options = {params: params};
+
+    return this.http.get<boolean>(`${this.exerciseInUseOnOtherUsersResourcesApiUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('exerciseInUseOnOtherUsersResources', (e: any) => 
+        { 
+          this.alertService.error('Unable to check if exercise in use on other users resources');
+        }, false))
+      );
   }
 }

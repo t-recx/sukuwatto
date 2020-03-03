@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UnitConversion, UserBioData, PlanSessionGroupExercise, PlanSessionGroupWarmUp, WorkoutSet, WorkoutWarmUp, WorkingWeight
+from workouts.models import Exercise, Unit, UnitConversion, UserBioData
+from workouts.exercise_service import ExerciseService
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
@@ -13,19 +14,9 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if 'id' in data:
-            if PlanSessionGroupExercise.objects.filter(exercise__id=data['id']).exclude(plan_session_group__plan_session__plan__user=self.context.get("request").user).exists():
-                raise serializers.ValidationError("Exercise in usage")
+            es = ExerciseService()
 
-            if PlanSessionGroupWarmUp.objects.filter(exercise__id=data['id']).exclude(plan_session_group__plan_session__plan__user=self.context.get("request").user).exists():
-                raise serializers.ValidationError("Exercise in usage")
-
-            if WorkingWeight.objects.filter(exercise__id=data['id']).exclude(workout__user=self.context.get("request").user).exists():
-                raise serializers.ValidationError("Exercise in usage")
-
-            if WorkoutSet.objects.filter(exercise__id=data['id']).exclude(workout_group__workout__user=self.context.get("request").user).exists():
-                raise serializers.ValidationError("Exercise in usage")
-
-            if WorkoutWarmUp.objects.filter(exercise__id=data['id']).exclude(workout_group__workout__user=self.context.get("request").user).exists():
+            if es.in_use_on_other_users_resources(data['id'], self.context.get("request").user):
                 raise serializers.ValidationError("Exercise in usage")
 
         return data

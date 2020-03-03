@@ -1,5 +1,14 @@
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Delete exercise?'
+    body='This will delete your exercise and associated data. Are you sure you want to proceed?'
+    (deleted)="delete()"
+    (canceled)="hideDeleteModal()"
+    >
+</app-delete-modal>
+
 <div *ngIf="exercise">
-    <form class="siimple-card siimple-form" #exerciseForm="ngForm" (submit)="save()">
+    <form class="siimple-card siimple-form" #exerciseForm="ngForm">
         <div class="siimple-form-title">Exercise detail</div>
         <div class="siimple-grid">
             <div class="siimple-grid-row">
@@ -19,7 +28,7 @@
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Description</div>
-                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" required
+                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" 
                             name="description" id="description" [(ngModel)]="exercise.description"
                             #description="ngModel">
                         </textarea>
@@ -158,6 +167,13 @@
                 </div>
             </div>
         </div>
-        <button class="siimple-btn siimple-btn--success" type="submit">Save</button>
+        <button class="siimple-btn siimple-btn--success" (click)="save()">
+            Save
+        </button>
+        <button 
+            *ngIf="exercise && exercise.id"
+            class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="showDeleteModal()">
+            Delete
+        </button>
     </form>
 </div>

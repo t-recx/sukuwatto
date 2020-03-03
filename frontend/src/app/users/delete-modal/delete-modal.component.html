@@ -1,0 +1,23 @@
+<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="visible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">
+                {{title}}
+            </div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="cancel()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <p class="siimple-p">
+                {{body}}
+            </p>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
+                Yes
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="cancel()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
