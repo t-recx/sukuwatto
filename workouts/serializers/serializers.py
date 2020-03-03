@@ -1,14 +1,37 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UnitConversion, UserBioData
+from workouts.models import Exercise, Unit, UnitConversion, UserBioData, PlanSessionGroupExercise, PlanSessionGroupWarmUp, WorkoutSet, WorkoutWarmUp, WorkingWeight
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
-
+    
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'user']
+        extra_kwargs = {'user': {'required': False}}
+
+    def validate(self, data):
+        if 'id' in data:
+            if PlanSessionGroupExercise.objects.filter(exercise__id=data['id']).exclude(plan_session_group__plan_session__plan__user=self.context.get("request").user).exists():
+                raise serializers.ValidationError("Exercise in usage")
+
+            if PlanSessionGroupWarmUp.objects.filter(exercise__id=data['id']).exclude(plan_session_group__plan_session__plan__user=self.context.get("request").user).exists():
+                raise serializers.ValidationError("Exercise in usage")
+
+            if WorkingWeight.objects.filter(exercise__id=data['id']).exclude(workout__user=self.context.get("request").user).exists():
+                raise serializers.ValidationError("Exercise in usage")
+
+            if WorkoutSet.objects.filter(exercise__id=data['id']).exclude(workout_group__workout__user=self.context.get("request").user).exists():
+                raise serializers.ValidationError("Exercise in usage")
+
+            if WorkoutWarmUp.objects.filter(exercise__id=data['id']).exclude(workout_group__workout__user=self.context.get("request").user).exists():
+                raise serializers.ValidationError("Exercise in usage")
+
+        return data
+
+    def create(self, validated_data):
+        return Exercise.objects.create(user=self.context.get("request").user, **validated_data)
 
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
