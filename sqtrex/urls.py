@@ -3,7 +3,7 @@ from django.urls import include, path, re_path
 from rest_framework import routers
 from users.views import UserViewSet, UserStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
-from workouts.views.views import ExerciseViewSet, UnitList, UnitConversionList
+from workouts.views.views import ExerciseViewSet, UnitList, UnitConversionList, exercise_in_use, exercise_in_use_in_other_users_resources
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
@@ -43,6 +43,8 @@ urlpatterns = [
     path('api/messages/', MessageList.as_view(), name='messages'),
     path('api/last-messages/', LastMessageList.as_view(), name='last-messages'),
     path('api/update-last-message/', update_last_message, name='update-last-message'),
+    path('api/exercise-in-use/', exercise_in_use, name='exercise-in-use'),
+    path('api/exercise-in-use-on-other-users-resources/', exercise_in_use_in_other_users_resources, name='exercise-in-use-on-other-users-resources'),
 ]
 
 # change this for production:

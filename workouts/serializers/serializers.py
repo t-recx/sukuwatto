@@ -2,13 +2,27 @@ from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
 from workouts.models import Exercise, Unit, UnitConversion, UserBioData
+from workouts.exercise_service import ExerciseService
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
-
+    
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'user']
+        extra_kwargs = {'user': {'required': False}}
+
+    def validate(self, data):
+        if 'id' in data:
+            es = ExerciseService()
+
+            if es.in_use_on_other_users_resources(data['id'], self.context.get("request").user):
+                raise serializers.ValidationError("Exercise in usage")
+
+        return data
+
+    def create(self, validated_data):
+        return Exercise.objects.create(user=self.context.get("request").user, **validated_data)
 
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:

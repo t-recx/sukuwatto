@@ -1,15 +1,23 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer, UserBioDataSerializer
 from workouts.models import Exercise, Unit, UnitConversion, UserBioData
 from sqtrex.pagination import StandardResultsSetPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from sqtrex.permissions import StandardPermissionsMixin
+from workouts.exercise_service import ExerciseService
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 
-class ExerciseViewSet(viewsets.ModelViewSet):
+class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows exercises to be viewed or edited.
     """
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_submitted']
 
 class UnitList(ListAPIView):
     """
@@ -24,3 +32,19 @@ class UnitConversionList(ListAPIView):
     """
     queryset = UnitConversion.objects.all()
     serializer_class = UnitConversionSerializer
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def exercise_in_use(request):
+    es = ExerciseService()
+    exid = request.query_params.get('exercise', None)
+
+    return Response(es.in_use(exid))
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def exercise_in_use_in_other_users_resources(request):
+    es = ExerciseService()
+    exid = request.query_params.get('exercise', None)
+
+    return Response(es.in_use_on_other_users_resources(exid, request.user))

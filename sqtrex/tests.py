@@ -58,10 +58,14 @@ class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
         self.authenticate(user)
 
         response = self.client.post(self.get_resource_endpoint(), data, format='json')
+
         return json.loads(response.content)['id']
 
     def update_resource(self, resource_id, data):
         return self.client.put(f'{self.get_resource_endpoint()}{resource_id}/', data, format='json')
+
+    def delete_resource(self, resource_id):
+        return self.client.delete(f'{self.get_resource_endpoint()}{resource_id}/')
 
     def test_create_resource_when_user_not_authenticated_should_return_unauthorized(self):
         response = self.client.post(self.get_resource_endpoint(), self.get_resource_data(), format='json')
@@ -109,7 +113,7 @@ class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
         resource_id = self.create_resource(self.user1, self.get_resource_data())
         self.logout()
 
-        response = self.client.delete(f'{self.get_resource_endpoint()}{resource_id}/')
+        response = self.delete_resource(resource_id)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(self.get_resource_model().objects.count(), 1)
@@ -119,7 +123,7 @@ class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
         self.logout()
         self.authenticate(self.user2)
 
-        response = self.client.delete(f'{self.get_resource_endpoint()}{resource_id}/')
+        response = self.delete_resource(resource_id)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(self.get_resource_model().objects.count(), 1)
@@ -127,7 +131,7 @@ class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
     def test_destroy_resource_when_user_is_owner_should_delete_object(self):
         resource_id = self.create_resource(self.user1, self.get_resource_data())
 
-        response = self.client.delete(f'{self.get_resource_endpoint()}{resource_id}/')
+        response = self.delete_resource(resource_id)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(self.get_resource_model().objects.count(), 0)
