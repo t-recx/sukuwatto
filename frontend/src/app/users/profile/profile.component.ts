@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { User } from 'src/app/user';
 import { UserService } from 'src/app/user.service';
@@ -8,10 +8,14 @@ import { AuthService } from 'src/app/auth.service';
 import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
 import { MessagesService } from '../messages.service';
+import { Action } from '../action';
+import { Paginated } from '../paginated';
+import { StreamsService } from '../streams.service';
 
 export enum UserViewProfileTab {
-  Followers = 1,
-  Following = 2,
+  Feed = 1,
+  Followers = 2,
+  Following = 3,
 }
 
 @Component({
@@ -20,6 +24,11 @@ export enum UserViewProfileTab {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  actions: Action[];
+  paginated: Paginated<Action>;
+  pageSize = 10;
+  currentPage = 1;
+  loadingOlderActions: boolean = false;
 
   user: User;
   username: string;
@@ -57,6 +66,7 @@ export class ProfileComponent implements OnInit {
     private followService: FollowService,
     private contentTypesService: ContentTypesService,
     private messagesService: MessagesService,
+    private streamsService: StreamsService,
   ) { }
 
   ngOnInit() {
@@ -70,8 +80,14 @@ export class ProfileComponent implements OnInit {
       this.loadUserData(params.get('username')));
   }
 
+  @HostListener('window:scroll', []) onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      this.loadOlderActions();
+    }
+  }
+
   private loadUserData(username: string) {
-    this.selectedTab = UserViewProfileTab.Followers;
+    this.selectedTab = UserViewProfileTab.Feed;
     this.user = null;
     this.profileImageURL = null;
     this.birthDate = null;
@@ -79,6 +95,7 @@ export class ProfileComponent implements OnInit {
     this.username = username;
     this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
     this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
+    this.loadFeed();
     this.loadFollowers();
     this.loadFollowing();
     if (this.username) {
@@ -94,6 +111,40 @@ export class ProfileComponent implements OnInit {
     }
 
     this.showUnfollowButtonOnFollowingList = this.authService.isCurrentUserLoggedIn(this.username);
+  }
+
+  loadFeed(): void {
+    this.actions = null;
+    this.paginated = null;
+    this.currentPage = 1;
+
+    if (this.username) {
+      this.streamsService.getActorStream(this.username, this.currentPage, this.pageSize)
+      .subscribe(paginatedActions => {
+        this.paginated = paginatedActions;
+        this.actions = paginatedActions.results;
+      });
+    }
+  }
+
+  loadOlderActions() {
+    if (!this.paginated || this.loadingOlderActions || !this.paginated.next) {
+      return;
+    }
+
+    this.loadingOlderActions = true;
+
+    this.streamsService.getActorStream(this.username, this.currentPage + 1, this.pageSize)
+      .subscribe(paginatedActions => {
+        this.paginated = paginatedActions;
+        this.actions.push(...this.getNewActions(this.actions, paginatedActions.results));
+        this.currentPage += 1;
+        this.loadingOlderActions = false;
+      }, () => this.loadingOlderActions = false);
+  }
+
+  getNewActions(a: Action[], b: Action[]): Action[] {
+    return b.filter(n => a.filter(o => o.id == n.id).length == 0);
   }
 
   loadFollowers(): void {
@@ -124,7 +175,6 @@ export class ProfileComponent implements OnInit {
   }
 
   public unfollowUser(user: User): void {
-    console.log('b');
     this.followService.unfollow(this.userContentTypeID, user.id).subscribe(x => this.loadFollowing());
   }
 

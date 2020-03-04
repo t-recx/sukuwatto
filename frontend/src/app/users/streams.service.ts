@@ -13,6 +13,7 @@ import { Action } from './action';
 })
 export class StreamsService {
   private actionsUrl= `${environment.apiUrl}/user-stream/`;
+  private actorUrl= `${environment.apiUrl}/actor-stream/`;
   private actionsObjectsUrl = `${environment.apiUrl}/action-object-stream/`;
   private targetUrl = `${environment.apiUrl}/target-stream/`;
   private toggleLikeUrl= `${environment.apiUrl}/toggle-like/`;
@@ -27,7 +28,34 @@ export class StreamsService {
     private alertService: AlertService
   ) { }
 
+  toggleLike(content_type_id: number|string, object_id: number|string): Observable<any> {
+    return this.http.post<any>(this.toggleLikeUrl, 
+      {content_type_id: content_type_id.toString(), object_id: object_id.toString()}, this.httpOptions)
+    .pipe(
+      catchError(this.errorService.handleError<any>('toggleLike', (e: any) => 
+      {
+        this.alertService.error('Unable to like, try again later');
+      }, {}))
+    );
+  }
+
   getUserStream(page: number, page_size: number): Observable<Paginated<Action>> {
+    return this.getStreamForUser(this.actionsUrl, page, page_size);
+  }
+
+  getActorStream(username: string, page: number, page_size: number): Observable<Paginated<Action>> {
+    return this.getStreamForUser(this.actorUrl, page, page_size, username);
+  }
+
+  getActionObjectStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
+    return this.getObjectStream(this.actionsObjectsUrl, content_type_id, object_id);
+  }
+
+  getTargetStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
+    return this.getObjectStream(this.targetUrl, content_type_id, object_id);
+  }
+
+  private getStreamForUser(url: string, page: number, page_size: number, username: string = null): Observable<Paginated<Action>> {
     let options = {};
     let params = new HttpParams();
 
@@ -39,11 +67,15 @@ export class StreamsService {
       params = params.set('page_size', page_size.toString());
     }
 
-    if (page || page_size) {
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (page || page_size || username) {
       options = {params: params};
     }
 
-    return this.http.get<Paginated<Action>>(`${this.actionsUrl}`, options)
+    return this.http.get<Paginated<Action>>(url, options)
       .pipe(
         map(response => {
           if (response.results) {
@@ -51,22 +83,14 @@ export class StreamsService {
           }
           return response;
         }),
-        catchError(this.errorService.handleError<Paginated<Action>>('getUserStream', (e: any) => 
+        catchError(this.errorService.handleError<Paginated<Action>>('getStream', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch user stream');
+          this.alertService.error('Unable to fetch stream');
         }, new Paginated<Action>()))
       );
   }
 
-  getActionObjectStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
-    return this.getStream(this.actionsObjectsUrl, content_type_id, object_id);
-  }
-
-  getTargetStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
-    return this.getStream(this.targetUrl, content_type_id, object_id);
-  }
-
-  private getStream(url: string, content_type_id: number | string, object_id: number | string): Observable<Action[]> {
+  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string): Observable<Action[]> {
     let options = {};
     let params = new HttpParams();
 
@@ -100,16 +124,5 @@ export class StreamsService {
     }
 
     return actions;
-  }
-
-  toggleLike(content_type_id: number|string, object_id: number|string): Observable<any> {
-    return this.http.post<any>(this.toggleLikeUrl, 
-      {content_type_id: content_type_id.toString(), object_id: object_id.toString()}, this.httpOptions)
-    .pipe(
-      catchError(this.errorService.handleError<any>('toggleLike', (e: any) => 
-      {
-        this.alertService.error('Unable to like, try again later');
-      }, {}))
-    );
   }
 }

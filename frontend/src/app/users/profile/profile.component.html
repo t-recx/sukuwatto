@@ -49,6 +49,11 @@
     <div class="">
         <div class="siimple-tabs">
             <div class="siimple-tabs-item"
+                [class.siimple-tabs-item--selected]="selectedTab==profileTab.Feed"
+                (click)="selectTab(profileTab.Feed)">
+                Feed
+            </div>
+            <div class="siimple-tabs-item"
                 [class.siimple-tabs-item--selected]="selectedTab==profileTab.Followers"
                 (click)="selectTab(profileTab.Followers)">
                 Followers
@@ -61,6 +66,11 @@
         </div>
 
         <div>
+            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Feed">
+                <app-feed [actions]=actions [paginated]=paginated
+                    [loadingOlderActions]=loadingOlderActions>
+                </app-feed>
+            </div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Followers">
                 <app-users-follow-list
                     [users]=followers 

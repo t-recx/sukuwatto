@@ -13,6 +13,7 @@ export class UserTagComponent implements OnInit {
   @Input() username: string;
   @Input() fetchProfileFilename: boolean;
 
+  imageHidden = false;
   faUserCircle = faUserCircle;
 
   constructor(
@@ -35,5 +36,9 @@ export class UserTagComponent implements OnInit {
     }
 
     return `${environment.mediaUrl}${this.profile_filename}`;
+  }
+
+  hideImage(): void {
+      this.imageHidden = true;
   }
 }
