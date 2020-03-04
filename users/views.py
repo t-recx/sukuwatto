@@ -65,12 +65,15 @@ class FileUploadView(APIView):
 
         return [permission() for permission in permission_classes]
 
-class UserStreamList(generics.ListAPIView):
+class StreamList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
+    def get_stream_queryset(self, request):
+        pass
+
     def list(self, request):
-        queryset = models.user_stream(request.user, with_user_activity=True)
+        queryset = self.get_stream_queryset(request)
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -81,6 +84,21 @@ class UserStreamList(generics.ListAPIView):
         serializer = ActionSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+class UserStreamList(StreamList):
+    def get_stream_queryset(self, request):
+        return models.user_stream(request.user, with_user_activity=True)
+
+class ActorStreamList(StreamList):
+    def get_stream_queryset(self, request):
+        user = None
+
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            user = get_object_or_404(get_user_model(), username=username)
+
+        return models.actor_stream(user)
 
 @api_view(['GET'])
 def get_followers(request):
