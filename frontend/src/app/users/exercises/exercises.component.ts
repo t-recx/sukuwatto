@@ -4,51 +4,24 @@ import { ExercisesService } from '../exercises.service';
 import { Subject } from 'rxjs';
 import 'datatables.net';
 import { AuthService } from 'src/app/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercises',
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.css']
 })
-export class ExercisesComponent implements OnInit, OnDestroy {
-  exercises: Exercise[];
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<Exercise[]> = new Subject<Exercise[]>();
+export class ExercisesComponent implements OnInit {
 
   constructor(
-    private exercisesService: ExercisesService,
     private authService: AuthService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.dtOptions = {
-      pageLength: 10
-    };
-
-    this.exercisesService.getExercises().subscribe(exercises => {
-       this.exercises = exercises;
-       this.dtTrigger.next(this.exercises)
-    });
-
   }
 
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-
-  getSectionLabel(section: string): string {
-    return SectionLabel.get(section);
-  }
-
-  getForceLabel(force: string): string {
-    return ForceLabel.get(force);
-  }
-
-  getMechanicsLabel(mechanis: string): string {
-    return MechanicsLabel.get(mechanis);
-  }
-
-  getModalityLabel(modality: string): string {
-    return ModalityLabel.get(modality);
+  navigate(exercise) {
+    this.router.navigate(['/users', this.authService.getUsername(), 'exercise', exercise.id]);
   }
 }

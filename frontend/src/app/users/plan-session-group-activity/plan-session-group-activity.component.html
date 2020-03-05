@@ -15,12 +15,23 @@
             <div class="siimple-grid-col siimple-grid-col--9 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
                     <div class="siimple-form-field-label">Exercise</div>
+                    <!--
                     <select class="siimple-select siimple-select--fluid" required name="exercise"
                         id="exercise" [(ngModel)]="planSessionGroupExercise.exercise" #exercise="ngModel">
                         <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
                             {{exerciseModel.name}}
                         </option>
                     </select>
+                    -->
+                    <app-exercises-input
+                        [exercises]=exercises
+                        [(ngModel)]="planSessionGroupExercise.exercise" 
+                        #exercise="ngModel"
+                        name="exercise"
+                        id="exercise"
+                    >
+                    </app-exercises-input>
+
                     <div *ngIf="exercise.invalid && (exercise.dirty || triedToSave)">
                         <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                     </div>
