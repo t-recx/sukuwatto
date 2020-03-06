@@ -117,3 +117,18 @@ input[type=time] {
   align-items: center;
   text-align: center;
 }
+
+.clickable {
+	cursor: pointer;
+}
+
+.round-right {
+  border-radius: 0px;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+
+.no-round-right {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}

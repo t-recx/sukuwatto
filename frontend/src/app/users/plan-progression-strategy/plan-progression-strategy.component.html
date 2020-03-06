@@ -45,13 +45,13 @@
                     <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Exercise</div>
-                            <select class="siimple-select siimple-select--fluid" name="exercise" id="exercise"
-                                [(ngModel)]="progression.exercise" #exercise="ngModel">
-                                <option [ngValue]="null"></option>
-                                <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
-                                    {{exerciseModel.name}}
-                                </option>
-                            </select>
+                            <exercises-input
+                                [(ngModel)]="progression.exercise" 
+                                #exercise="ngModel"
+                                name="exercise"
+                                id="exercise"
+                            >
+                            </exercises-input>
 
                             <div *ngIf="progression.validations && progression.validations['exercise'] && triedToSave">
                                 <div class="siimple-field-helper siimple--color-error">

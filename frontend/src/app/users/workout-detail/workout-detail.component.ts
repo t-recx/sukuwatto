@@ -364,16 +364,9 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   navigateToWorkoutList(): void {
-    if (!this.workout.id || this.workout.id <= 0) {
-      this.router.navigate(['/users', this.authService.getUsername(), 'workouts', this.workout.id], {
-        relativeTo: this.route,
-      });
-    }
-    else {
-      this.router.navigate(['/users', this.authService.getUsername(), 'workouts'], {
-        relativeTo: this.route,
-      });
-    }
+    this.router.navigate(['/users', this.authService.getUsername(), 'workouts'], {
+      relativeTo: this.route,
+    });
   }
 
   onWorkingWeightsClosed() {

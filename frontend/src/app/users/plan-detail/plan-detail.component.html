@@ -1,5 +1,5 @@
 <div *ngIf="plan">
-    <form class="siimple-card siimple-form" #planForm="ngForm" (submit)="save()">
+    <form class="siimple-card siimple-form" #planForm="ngForm" >
         <div class="siimple-form-title">Plan detail</div>
         <div class="siimple-grid">
             <div class="siimple-grid-row">
@@ -74,6 +74,7 @@
         </div>
         <app-plan-progression-strategies type_label="Plan" [progressions]=plan.progressions [exercises]=exercises [units]=units [triedToSave]=triedToSave>
         </app-plan-progression-strategies> 
-        <button class="siimple-btn siimple-btn--success siimple--mt-2" type="submit">Save</button>
+
+        <button class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">Save</button>
     </form>
 </div>

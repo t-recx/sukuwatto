@@ -1,24 +1,6 @@
 <h1 class="siimple-h1">Exercises</h1>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" class="siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
-    <thead class="siimple-table-header">
-        <tr class="siimple-table-row">
-            <th class="siimple-table-cell">Name</th>
-            <th class="siimple-table-cell">Section</th>
-            <th class="siimple-table-cell">Modality</th>
-            <th class="siimple-table-cell">Force</th>
-            <th class="siimple-table-cell">Mechanics</th>
-        </tr>
-    </thead>
-    <tbody class="siimple-table-body">
-        <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises" 
-            [routerLink]="['/users', authService.getUsername(), 'exercise', exercise.id]">
-            <td class="siimple-table-cell">{{exercise.name}}</td>
-            <td class="siimple-table-cell">{{getSectionLabel(exercise.section)}}</td>
-            <td class="siimple-table-cell">{{getModalityLabel(exercise.modality)}}</td>
-            <td class="siimple-table-cell">{{getForceLabel(exercise.force)}}</td>
-            <td class="siimple-table-cell">{{getMechanicsLabel(exercise.mechanics)}}</td>
-        </tr>
-    </tbody>
-</table>
+
+<app-exercises-list (selected)="navigate($event)">
+</app-exercises-list>
 
 <button class="siimple-btn siimple-btn--primary" routerLink="../exercise/">New exercise</button>

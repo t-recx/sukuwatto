@@ -11,6 +11,7 @@ import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupActivity } from '../plan-session-group-activity';
 import { Unit } from '../unit';
 import { UnitsService } from '../units.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-plan-detail',
@@ -33,6 +34,7 @@ export class PlanDetailComponent implements OnInit {
     private exercisesService: ExercisesService,
     private unitsService: UnitsService,
     private router: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -105,16 +107,9 @@ export class PlanDetailComponent implements OnInit {
     this.service.savePlan(this.plan).subscribe(plan => {
       this.triedToSave = false;
 
-      if (!this.plan.id || this.plan.id <= 0) {
-        this.router.navigate(['../plans'], {
-          relativeTo: this.route,
-        });
-      }
-      else {
-        this.router.navigate(['../../plans'], {
-          relativeTo: this.route,
-        });
-      }
+      this.router.navigate(['/users', this.authService.getUsername(), 'plans'], {
+        relativeTo: this.route,
+      });
     });
   }
 }

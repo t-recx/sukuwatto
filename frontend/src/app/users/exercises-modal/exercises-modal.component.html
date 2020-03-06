@@ -1,0 +1,28 @@
+<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="visible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">
+                Select an exercise
+            </div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <app-exercises-list (selected)="select($event)">
+            </app-exercises-list>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newExercise()">
+                New Exercise
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="close()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<app-exercise-detail-modal
+    [(visible)]=newExerciseModalVisible
+    (saved)="select($event)"
+    (closed)="hideNewExerciseModal()">
+</app-exercise-detail-modal>
