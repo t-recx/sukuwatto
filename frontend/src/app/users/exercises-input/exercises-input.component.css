@@ -1,0 +1,11 @@
+.exercises-input-control {
+    display: flex;
+}
+
+.exercise-name-box {
+    width: calc(100% - 46px);
+}
+
+.erase-button {
+    margin-left: auto;
+}

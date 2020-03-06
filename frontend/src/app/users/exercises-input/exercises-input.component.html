@@ -1,22 +1,15 @@
-<div>
-    <span class="siimple-input siimple-input--fluid">
-        <span *ngIf="exercise">
-            {{exercise.name}}
-        </span>
-        <span *ngIf="!exercise" class="siimple--color-light">
-            Select an exercise
-        </span>
-    </span>
-    <button class="siimple-btn siimple-btn--primary" (click)="search()">
-        <fa-icon [icon]="faSearch"></fa-icon>
-    </button>
-    <button class="siimple-btn siimple-btn--error" (click)="clear()">
+<div class="exercises-input-control">
+    <input class="exercise-name-box siimple-input clickable no-round-right" 
+        [value]="getExerciseName()"
+        placeholder="Select an exercise"
+        readonly (click)="search()">
+
+    <button class="siimple-btn siimple-btn--error round-right erase-button" (click)="clear()">
         <fa-icon [icon]="faEraser"></fa-icon>
     </button>
 </div>
 
 <app-exercises-modal
-    [exercises]=exercises
     [visible]=modalVisible
     (selected)="select($event)"
     (closed)="modalClosed()"

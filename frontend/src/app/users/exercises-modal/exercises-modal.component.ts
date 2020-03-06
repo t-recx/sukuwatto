@@ -8,7 +8,6 @@ import { Exercise } from '../exercise';
 })
 export class ExercisesModalComponent implements OnInit {
   @Input() visible: boolean = false;
-  @Input() exercises: Exercise[] = null;
   @Output() selected = new EventEmitter<Exercise>();
   @Output() closed = new EventEmitter();
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
 import { Subject } from 'rxjs';
@@ -11,10 +11,10 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./exercises-list.component.css']
 })
 export class ExercisesListComponent implements OnInit, OnDestroy {
-  @Input() exercises: Exercise[];
   @Output() selected = new EventEmitter<Exercise>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<Exercise[]> = new Subject<Exercise[]>();
+  exercises: Exercise[];
 
   constructor(
     private exercisesService: ExercisesService,
@@ -25,15 +25,10 @@ export class ExercisesListComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    if (!this.exercises) {
-      this.exercisesService.getExercises().subscribe(exercises => {
-        this.exercises = exercises;
-        this.dtTrigger.next(this.exercises)
-      });
-    }
-    else {
-      this.dtTrigger.next(this.exercises)
-    }
+    this.exercisesService.getExercises().subscribe(exercises => {
+      this.exercises = exercises;
+      this.dtTrigger.next(this.exercises);
+    });
   }
 
   ngOnDestroy(): void {

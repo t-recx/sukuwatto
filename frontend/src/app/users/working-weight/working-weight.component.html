@@ -1,10 +1,12 @@
 <div class="siimple-grid-col siimple-grid-col--5 siimple-grid-col-sm--12">
-    <select class="siimple-select siimple-select--fluid" required name="exercise" id="exercise"
-        [(ngModel)]="workingWeight.exercise" #exercise="ngModel">
-        <option *ngFor="let exerciseModel of exercises" value={{exerciseModel.id}}>
-            {{exerciseModel.name}}
-        </option>
-    </select>
+    <exercises-input
+        [(ngModel)]="workingWeight.exercise" 
+        #exercise="ngModel"
+        name="exercise"
+        id="exercise"
+        required
+    >
+    </exercises-input>
     <div *ngIf="exercise.invalid && (exercise.dirty || triedToHide)">
         <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
     </div>
@@ -24,6 +26,7 @@
             {{unitModel.name}}
         </option>
     </select>
+
     <div *ngIf="unit.invalid && (unit.dirty || triedToHide)">
         <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
     </div>

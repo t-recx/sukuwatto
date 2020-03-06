@@ -2,9 +2,10 @@ import { Component, OnInit, Input, EventEmitter, Output, OnChanges, SimpleChange
 import { faSearch, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Exercise } from '../exercise';
 import { ControlValueAccessor, SelectControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ExercisesService } from '../exercises.service';
 
 @Component({
-  selector: 'app-exercises-input',
+  selector: 'exercises-input',
   templateUrl: './exercises-input.component.html',
   styleUrls: ['./exercises-input.component.css'],
   providers: [
@@ -38,12 +39,7 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   setValue(id: number):void {
     this.value = id;
 
-    if (this.value) {
-      this.exercise = this.exercises.filter(e => e.id == this.value)[0];
-    }
-    else {
-      this.exercise = null;
-    }
+    this.setExerciseBaseOnId();
   }
 
   @Input() value: number;
@@ -56,9 +52,15 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   faSearch = faSearch;
   faEraser = faEraser;
 
-  constructor() { }
+  constructor(
+    private exercisesService: ExercisesService,
+  ) { }
 
   ngOnInit() {
+    this.exercisesService.getExercises().subscribe(exercises => {
+      this.exercises = exercises;
+      this.setExerciseBaseOnId();
+    });
   }
 
   select(exercise) {
@@ -78,6 +80,8 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   }
 
   setExercise(exercise: Exercise) {
+    this.modalClosed();
+
     this.exercise = exercise;
 
     if (this.exercise) {
@@ -85,6 +89,23 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
     }
     else {
       this.propagateChange(null);
+    }
+  }
+
+  getExerciseName(): string {
+    if (this.exercise) {
+      return this.exercise.name;
+    }
+
+    return "";
+  }
+
+  setExerciseBaseOnId(): void {
+    if (this.value && this.exercises) {
+      this.exercise = this.exercises.filter(e => e.id == this.value)[0];
+    }
+    else {
+      this.exercise = null;
     }
   }
 }
