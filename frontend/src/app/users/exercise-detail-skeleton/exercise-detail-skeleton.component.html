@@ -1,0 +1,162 @@
+<div *ngIf="exercise">
+    <form class="siimple-card siimple-form" #exerciseForm="ngForm">
+        <div class="siimple-form-title" *ngIf="showTitle">Exercise detail</div>
+        <div class="siimple-grid">
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Name</div>
+                        <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
+                            [(ngModel)]="exercise.name" #name="ngModel">
+
+                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Description</div>
+                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" 
+                            name="description" id="description" [(ngModel)]="exercise.description"
+                            #description="ngModel">
+                        </textarea>
+
+                        <div *ngIf="description.invalid && (description.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field siimple-card-body">
+                        <div class="siimple-form-field-label">Mechanics</div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="compound" name="compound" value="c"
+                                    [(ngModel)]="exercise.mechanics" #compound="ngModel">
+                                <label for="compound"></label>
+                            </div>
+                            <label class="siimple-label">Compound</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="isolated" name="isolated" value="i"
+                                    [(ngModel)]="exercise.mechanics" #isolated="ngModel">
+                                <label for="isolated"></label>
+                            </div>
+                            <label class="siimple-label">Isolated</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field siimple-card-body">
+                        <div class="siimple-form-field-label">Force</div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="pull" name="pull" value="p" [(ngModel)]="exercise.force"
+                                    #pull="ngModel">
+                                <label for="pull"></label>
+                            </div>
+                            <label class="siimple-label">Pull</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="push" name="push" value="h" [(ngModel)]="exercise.force"
+                                    #push="ngModel">
+                                <label for="push"></label>
+                            </div>
+                            <label class="siimple-label">Push</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="static" name="static" value="s" [(ngModel)]="exercise.force"
+                                    #static="ngModel">
+                                <label for="static"></label>
+                            </div>
+                            <label class="siimple-label">Static</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field siimple-card-body">
+                        <div class="siimple-form-field-label">Modality</div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="free_weights" name="free_weights" value="f" [(ngModel)]="exercise.modality"
+                                    #free_weights="ngModel">
+                                <label for="free_weights"></label>
+                            </div>
+                            <label class="siimple-label">Free Weights</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="machine" name="machine" value="m" [(ngModel)]="exercise.modality"
+                                    #machine="ngModel">
+                                <label for="machine"></label>
+                            </div>
+                            <label class="siimple-label">Machine</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="cable" name="cable" value="c" [(ngModel)]="exercise.modality"
+                                    #cable="ngModel">
+                                <label for="cable"></label>
+                            </div>
+                            <label class="siimple-label">Cable</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field siimple-card-body">
+                        <div class="siimple-form-field-label">Section</div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="upper" name="upper" value="u" [(ngModel)]="exercise.section"
+                                    #upper="ngModel">
+                                <label for="upper"></label>
+                            </div>
+                            <label class="siimple-label">Upper</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="lower" name="lower" value="l" [(ngModel)]="exercise.section"
+                                    #lower="ngModel">
+                                <label for="lower"></label>
+                            </div>
+                            <label class="siimple-label">Lower</label>
+                        </div>
+
+                        <div class="siimple--display-block">
+                            <div class="siimple-radio">
+                                <input type="radio" id="core" name="core" value="c" [(ngModel)]="exercise.section"
+                                    #core="ngModel">
+                                <label for="core"></label>
+                            </div>
+                            <label class="siimple-label">Core</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

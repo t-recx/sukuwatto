@@ -2,17 +2,21 @@
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">
-                Select an exercise
+                New exercise
             </div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
         </div>
         <div class="siimple-modal-body">
-            <app-exercises-list (selected)="select($event)">
-            </app-exercises-list>
+            <app-exercise-detail-skeleton
+                [(exercise)]=exercise
+                [(triedToSave)]=triedToSave
+                [showTitle]=false
+            >
+            </app-exercise-detail-skeleton>
         </div>
         <div class="siimple-modal-footer">
-            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newExercise()">
-                New Exercise
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="save()">
+                Save
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="close()">
                 Cancel
@@ -21,8 +25,4 @@
     </div>
 </div>
 
-<app-exercise-detail-modal
-    [(visible)]=newExerciseModalVisible
-    (saved)="select($event)"
-    (closed)="hideNewExerciseModal()">
-</app-exercise-detail-modal>
+

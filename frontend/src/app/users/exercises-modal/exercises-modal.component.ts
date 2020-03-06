@@ -11,6 +11,8 @@ export class ExercisesModalComponent implements OnInit {
   @Output() selected = new EventEmitter<Exercise>();
   @Output() closed = new EventEmitter();
 
+  newExerciseModalVisible: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -21,7 +23,11 @@ export class ExercisesModalComponent implements OnInit {
   }
 
   newExercise(): void {
-    // todo
+    this.newExerciseModalVisible = true;
+  }
+
+  hideNewExerciseModal(): void {
+    this.newExerciseModalVisible = false;
   }
 
   close(): void {
