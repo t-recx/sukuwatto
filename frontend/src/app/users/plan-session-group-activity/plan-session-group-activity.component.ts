@@ -9,7 +9,6 @@ import { Exercise } from '../exercise';
 })
 export class PlanSessionGroupExerciseComponent implements OnInit {
   @Input() planSessionGroupExercise: PlanSessionGroupActivity;
-  @Input() exercises: Exercise[];
   @Input() triedToSave: boolean;
 
   repetitionTypeEnum = RepetitionType;

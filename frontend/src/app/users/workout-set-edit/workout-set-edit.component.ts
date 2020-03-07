@@ -4,6 +4,7 @@ import { Exercise } from '../exercise';
 import { Unit, MeasurementType } from '../unit';
 import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
 import { AuthService } from 'src/app/auth.service';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-workout-set-edit',
@@ -13,31 +14,38 @@ import { AuthService } from 'src/app/auth.service';
 export class WorkoutSetEditComponent implements OnInit {
   @Input() sets: WorkoutSet[];
   @Input() workoutActivity: WorkoutSet;
-  @Input() exercises: Exercise[];
-  @Input() units: Unit[];
   @Input() triedToSave: boolean;
   @Input() triedToHide: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
+
+  units: Unit[];
+
   repetitionType = RepetitionType;
   repetitionTypeLabel = RepetitionTypeLabel;
 
-  exercise_id: number;
-
-  constructor(private authService: AuthService) { }
+  constructor(
+    private unitsService: UnitsService,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.exercise_id = this.workoutActivity.exercise.id;
-
     this.triedToHide= false;
-    let unitSystem = this.authService.getUserUnitSystem();
-    if (!this.workoutActivity.unit && unitSystem) {
-      let filteredUnits = this.units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Weight);
+    this.loadUnits();
+  }
 
-      if (filteredUnits && filteredUnits.length > 0) {
-        this.workoutActivity.unit = filteredUnits[0].id;
+  loadUnits() {
+    this.unitsService.getUnits().subscribe(u => {
+      this.units = u.filter(u => u.measurement_type == MeasurementType.Weight);
+
+      let unitSystem = this.authService.getUserUnitSystem();
+      if (!this.workoutActivity.unit && unitSystem) {
+        let filteredUnits = this.units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Weight);
+
+        if (filteredUnits && filteredUnits.length > 0) {
+          this.workoutActivity.unit = filteredUnits[0].id;
+        }
       }
-    }
+    });
   }
 
   repetitionTypeChange() {
@@ -60,21 +68,18 @@ export class WorkoutSetEditComponent implements OnInit {
       return;
     }
 
-    // the cloning here is necessary because we don't want to inadvertently change the original exercises' array
-    this.workoutActivity.exercise = {...this.exercises.find(e => e.id == this.exercise_id)};
-
     this.visible = false;
     this.triedToHide = false;
     this.closed.emit();
   }
 
   valid(): boolean {
-    if (!this.exercise_id) {
+    if (!this.workoutActivity.exercise) {
       return false;
     }
-    if (!this.workoutActivity.weight) {
-      return false;
-    }
+    // if (!this.workoutActivity.weight) {
+    //   return false;
+    // }
     if (!this.workoutActivity.unit) {
       return false;
     }

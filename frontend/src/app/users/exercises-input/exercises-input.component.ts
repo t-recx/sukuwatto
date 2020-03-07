@@ -17,11 +17,14 @@ import { ExercisesService } from '../exercises.service';
   ]
 })
 export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
+  @Input() value: Exercise;
+  exercises: Exercise[];
+
   propagateChange = (_: any) => {};
   disabled: boolean = false; // todo change view when disabled
 
   writeValue(obj: any): void {
-    this.setValue(+obj);
+    this.setValue(obj);
     this.value = obj;
   }
 
@@ -36,16 +39,9 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  setValue(id: number):void {
-    this.value = id;
-
-    this.setExerciseBaseOnId();
+  setValue(exercise: Exercise):void {
+    this.value = exercise;
   }
-
-  @Input() value: number;
-  @Input() exercises: Exercise[];
-
-  exercise: Exercise;
 
   modalVisible: boolean = false;
 
@@ -59,7 +55,6 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
     this.exercisesService.getExercises().subscribe(exercises => {
       this.exercises = exercises;
-      this.setExerciseBaseOnId();
     });
   }
 
@@ -82,30 +77,16 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   setExercise(exercise: Exercise) {
     this.modalClosed();
 
-    this.exercise = exercise;
+    this.value = exercise;
 
-    if (this.exercise) {
-      this.propagateChange(this.exercise.id);
-    }
-    else {
-      this.propagateChange(null);
-    }
+    this.propagateChange(this.value);
   }
 
   getExerciseName(): string {
-    if (this.exercise) {
-      return this.exercise.name;
+    if (this.value) {
+      return this.value.name;
     }
 
     return "";
-  }
-
-  setExerciseBaseOnId(): void {
-    if (this.value && this.exercises) {
-      this.exercise = this.exercises.filter(e => e.id == this.value)[0];
-    }
-    else {
-      this.exercise = null;
-    }
   }
 }

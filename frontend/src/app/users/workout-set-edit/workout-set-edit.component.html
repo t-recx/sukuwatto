@@ -11,7 +11,7 @@
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Exercise</div>
                             <exercises-input
-                                    [(ngModel)]="exercise_id" 
+                                    [(ngModel)]="workoutActivity.exercise" 
                                     #exercise="ngModel"
                                     name="exercise"
                                     id="exercise"
@@ -29,7 +29,6 @@
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Weight</div>
                             <input type="number" class="siimple-input siimple-input--fluid" name="weight" id="weight"
-                                required
                                 [(ngModel)]="workoutActivity.weight" #weight="ngModel" placeholder="Weight">
                             <div *ngIf="weight.invalid && (weight.dirty || triedToHide)">
                                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>

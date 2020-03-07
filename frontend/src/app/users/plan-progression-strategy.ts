@@ -1,4 +1,4 @@
-import { Section, Modality, Force, Mechanics } from './exercise';
+import { Section, Modality, Force, Mechanics, Exercise } from './exercise';
 
 export enum ProgressionType {
     ByExercise = 'e',
@@ -16,7 +16,7 @@ export class ProgressionStrategy {
     percentage_increase: number;
     unit: number;
     progression_type: ProgressionType;
-    exercise: number;
+    exercise: Exercise;
     section: Section;
     modality: Modality;
     force: Force;

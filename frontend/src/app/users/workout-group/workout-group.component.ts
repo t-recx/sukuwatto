@@ -2,10 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { WorkoutGroup } from '../workout-group';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
-import { Exercise } from '../exercise';
 import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
-import { Unit } from '../unit';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -17,8 +15,6 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
   @Input() workout: Workout;
   @Input() group: WorkoutGroup;
   @Input() triedToSave: boolean;
-  @Input() exercises: Exercise[];
-  @Input() units: Unit[];
   @Output() activityStatusChanged = new EventEmitter();
   @Input() workoutActivityStatusChanged: Observable<void>;
 
@@ -30,7 +26,8 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
 
   selectedActivityType = ActivityType.Exercise;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() {
     this.selectCurrentActivityType(true);

@@ -50,13 +50,13 @@
     <form class="siimple-card siimple-form" #workoutForm="ngForm">
 
         <app-working-weights [workingWeights]=workout.working_weights 
-        [visible]=workingWeightsVisible [units]=units 
-            [exercises]=exercises [triedToSave]=triedToSave
+        [visible]=workingWeightsVisible  
+            [triedToSave]=triedToSave
             (closed)="onWorkingWeightsClosed()">
         </app-working-weights>
 
         <app-user-bio-data-detail [username]=username [start]=workout.start 
-            [visible]=userBioDataVisible [units]=units [heightUnits]=heightUnits
+            [visible]=userBioDataVisible 
             (closed)="onUserBioDataClosed()"
             (okayed)="onUserBioDataOkayed($event)">
         </app-user-bio-data-detail>
@@ -157,7 +157,7 @@
                 </div>
             </div>
             <div class="siimple-grid-row" *ngFor="let group of workout.groups">
-               <app-workout-group [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+               <app-workout-group [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave>
                </app-workout-group> 
             </div>
             <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>

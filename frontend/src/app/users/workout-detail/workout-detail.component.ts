@@ -8,8 +8,6 @@ import { PlanSession } from '../plan-session';
 import { ExercisesService } from '../exercises.service';
 import { Exercise } from '../exercise';
 import { WorkoutGroup } from '../workout-group';
-import { Unit, MeasurementType } from '../unit';
-import { UnitsService } from '../units.service';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
 import { Subject, Observable } from 'rxjs';
@@ -31,8 +29,6 @@ export class WorkoutDetailComponent implements OnInit {
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
   exercises: Exercise[];
-  units: Unit[];
-  heightUnits: Unit[];
   triedToSave: boolean;
   workingWeightsVisible: boolean = false;
   userBioDataVisible: boolean = false;
@@ -48,7 +44,6 @@ export class WorkoutDetailComponent implements OnInit {
     private userBioDataService: UserBioDataService,
     private plansService: PlansService,
     private exercisesService: ExercisesService,
-    private unitsService: UnitsService,
     private router: Router,
     private workoutGeneratorService: WorkoutGeneratorService,
     private authService: AuthService,
@@ -114,7 +109,6 @@ export class WorkoutDetailComponent implements OnInit {
     this.triedToSave = false;
     this.userBioData = null;
     this.loadExercises();
-    this.loadUnits();
 
     this.route.paramMap.subscribe(params => 
       {
@@ -155,13 +149,6 @@ export class WorkoutDetailComponent implements OnInit {
 
   loadExercises() {
     this.exercisesService.getExercises().subscribe(exercises => this.exercises = exercises);
-  }
-
-  loadUnits() {
-    this.unitsService.getUnits().subscribe(units => {
-      this.units = units.filter(u => u.measurement_type == MeasurementType.Weight);
-      this.heightUnits = units.filter(u => u.measurement_type == MeasurementType.Height);
-    });
   }
 
   loadAdoptedPlans() {

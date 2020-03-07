@@ -48,7 +48,7 @@
                             <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
                         </div>
 
-                        <app-plan-session-group-activity [planSessionGroupExercise]=exercise [exercises]=exercises
+                        <app-plan-session-group-activity [planSessionGroupExercise]=exercise
                             [triedToSave]=triedToSave>
                         </app-plan-session-group-activity>
                     </div>
@@ -62,7 +62,7 @@
                             <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
                         </div>
 
-                        <app-plan-session-group-activity [planSessionGroupExercise]=warmup [exercises]=exercises
+                        <app-plan-session-group-activity [planSessionGroupExercise]=warmup
                             [triedToSave]=triedToSave>
                         </app-plan-session-group-activity>
                     </div>
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <app-plan-progression-strategies type_label="Group" [progressions]=planSessionGroup.progressions [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+        <app-plan-progression-strategies type_label="Group" [progressions]=planSessionGroup.progressions [triedToSave]=triedToSave>
         </app-plan-progression-strategies> 
     </div>
 </div>

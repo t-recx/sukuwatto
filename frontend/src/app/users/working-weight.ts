@@ -1,6 +1,8 @@
+import { Exercise } from './exercise';
+
 export class WorkingWeight {
     id: number;
-    exercise: number;
+    exercise: Exercise;
     weight: number;
     unit: number;
     previous_weight: number;

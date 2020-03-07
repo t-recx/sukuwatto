@@ -7,7 +7,9 @@ from pprint import pprint
 from django.contrib.auth import get_user_model
 
 class WorkingWeightSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkingWeight()._meta.get_field('id'), required=False)
+
     class Meta:
         model = WorkingWeight
         fields = ['id', 'exercise', 'weight', 'unit', 'previous_weight', 'previous_unit']
@@ -79,7 +81,10 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     def create_working_weights(self, workout, working_weights_data):
         for working_weight_data in working_weights_data:
-            WorkingWeight.objects.create(workout=workout, **working_weight_data)
+            exercise = working_weight_data.pop('exercise')
+            exercise_model = Exercise.objects.get(pk=exercise['id'])
+            WorkingWeight.objects.create(workout=workout, exercise=exercise_model, 
+                **working_weight_data)
 
     def create_groups(self, workout, groups_data):
         for group_data in groups_data:
@@ -168,7 +173,10 @@ class WorkoutSerializer(serializers.ModelSerializer):
                 continue
 
             instance = instances.first()
-            instance.exercise = working_weight_data.get('exercise', instance.exercise)
+
+            exercise = working_weight_data.get('exercise')
+            exercise_model = Exercise.objects.get(pk=exercise['id'])
+            instance.exercise = exercise_model
             instance.weight = working_weight_data.get('weight', instance.weight)
             instance.unit = working_weight_data.get('unit', instance.unit)
             instance.previous_weight = working_weight_data.get('previous_weight', instance.previous_weight)
@@ -232,7 +240,6 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
             instance = instances.first()
 
-            # todo: check here if id exists??
             exercise = group_data.get('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
 

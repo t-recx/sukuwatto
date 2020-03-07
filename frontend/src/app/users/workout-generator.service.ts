@@ -110,7 +110,7 @@ export class WorkoutGeneratorService {
         }
 
         for (let set of sets) {
-          let workingWeight = this.getWorkingWeight(workingWeights, set.exercise.id, 
+          let workingWeight = this.getWorkingWeight(workingWeights, set.exercise, 
             set.working_weight_percentage);
           if (workingWeight) {
             set.weight = workingWeight.weight;
@@ -124,7 +124,7 @@ export class WorkoutGeneratorService {
   }
 
   fillOutWorkingWeights(workingWeights: WorkingWeight[], planSession: PlanSession): void {
-    let exercises: number[] = [];
+    let exercises: Exercise[] = [];
     let unit: number = null;
 
     if (workingWeights.length > 0) {
@@ -133,16 +133,20 @@ export class WorkoutGeneratorService {
 
     for (let group of planSession.groups) {
       for (let warmup of group.warmups) {
-        exercises.push(warmup.exercise);
+        if (exercises.filter(e => e.id == warmup.exercise.id).length == 0) {
+          exercises.push(warmup.exercise);
+        }
       }
 
       for (let set of group.exercises) {
-        exercises.push(set.exercise);
+        if (exercises.filter(e => e.id == set.exercise.id).length == 0) {
+          exercises.push(set.exercise);
+        }
       }
     }
 
-    for (let exercise of new Set(exercises)) {
-      if (workingWeights.filter(x => x.exercise == exercise).length == 0) {
+    for (let exercise of exercises) {
+      if (workingWeights.filter(x => x.exercise.id == exercise.id).length == 0) {
         let workingWeight = new WorkingWeight();
 
         workingWeight.exercise = exercise;
@@ -157,26 +161,25 @@ export class WorkoutGeneratorService {
   }
 
   private applyProgressionStrategy(
-    exercise_id: number,
+    exercise: Exercise,
     exercises: Exercise[],
     workingWeights: WorkingWeight[],
     progressionStrategy: ProgressionStrategy): boolean {
     let workingWeight: WorkingWeight;
-    let exerciseModel = exercises.filter(x => x.id == exercise_id);
-    workingWeight = workingWeights.filter(ww => ww.exercise == exercise_id)[0];
+    workingWeight = workingWeights.filter(ww => ww.exercise.id == exercise.id)[0];
 
     console.log('evaluating progression strategy:');
     console.log(progressionStrategy);
     if (workingWeight) {
       if (progressionStrategy.exercise) {
-        if (progressionStrategy.exercise == exercise_id) {
+        if (progressionStrategy.exercise.id == exercise.id) {
           console.log('Applying progression strategy because exercise matches');
           this.updateWorkingWeight(workingWeight, progressionStrategy);
         }
       }
       else {
-        if (exerciseModel && exerciseModel.length > 0) {
-          if (exerciseModel.filter(x =>
+        if (exercise) {
+          if ([exercise].filter(x =>
             (progressionStrategy.force == null || x.force == progressionStrategy.force) &&
             (progressionStrategy.mechanics == null || x.mechanics == progressionStrategy.mechanics) &&
             (progressionStrategy.section == null || x.section == progressionStrategy.section) &&
@@ -272,8 +275,8 @@ console.log(progressionStrategies);
     return sets;
   }
 
-  private progressionStrategyAppliedToExercise(exercise_id: number, workingWeights: WorkingWeight[]) {
-    return workingWeights.filter(ww => ww.exercise == exercise_id && ww.previous_weight != null && 
+  private progressionStrategyAppliedToExercise(exercise: Exercise, workingWeights: WorkingWeight[]) {
+    return workingWeights.filter(ww => ww.exercise.id == exercise.id && ww.previous_weight != null && 
       ww.previous_weight != ww.weight).length > 0;
   }
 
@@ -282,7 +285,7 @@ console.log(progressionStrategies);
     let set = new WorkoutSet();
     set.working_weight_percentage = sessionActivity.working_weight_percentage;
     set.order = sessionActivity.order;
-    set.exercise = exercises.find(x => x.id==sessionActivity.exercise);
+    set.exercise = sessionActivity.exercise;
     set.expected_number_of_repetitions = sessionActivity.number_of_repetitions;
     set.expected_number_of_repetitions_up_to = sessionActivity.number_of_repetitions_up_to;
     set.repetition_type = sessionActivity.repetition_type;
@@ -295,9 +298,9 @@ console.log(progressionStrategies);
     return set;
   }
 
-  getWorkingWeight(workingWeights: WorkingWeight[], exercise: number, percentage: number): WorkingWeight {
+  getWorkingWeight(workingWeights: WorkingWeight[], exercise: Exercise, percentage: number): WorkingWeight {
     let workingWeight = new WorkingWeight();
-    let filteredWorkingWeight = workingWeights.filter(x => x.exercise == exercise)[0];
+    let filteredWorkingWeight = workingWeights.filter(x => x.exercise.id == exercise.id)[0];
 
     workingWeight.exercise = exercise;
 

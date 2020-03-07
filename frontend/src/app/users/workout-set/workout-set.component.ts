@@ -4,6 +4,7 @@ import { Exercise } from '../exercise';
 import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
 import { faCheck, faEdit, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Unit } from '../unit';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-workout-set',
@@ -14,9 +15,9 @@ export class WorkoutSetComponent implements OnInit {
   @Input() sets: WorkoutSet[];
   @Input() workoutActivity: WorkoutSet;
   @Input() triedToSave: boolean;
-  @Input() exercises: Exercise[];
-  @Input() units: Unit[];
   @Output() statusChanged = new EventEmitter();
+
+  units: Unit[];
 
   faCheck = faCheck;
   faEdit = faEdit;
@@ -25,12 +26,15 @@ export class WorkoutSetComponent implements OnInit {
   editingRepetitions: boolean = false;
   repetitionType = RepetitionType;
 
-  constructor() { }
+  constructor(
+    private unitsService: UnitsService,
+  ) { }
 
   ngOnInit() {
     if (!this.workoutActivity.exercise.id) {
       this.editing = true;
     }
+    this.unitsService.getUnits().subscribe(u => this.units = u);
   }
 
   toggleEdit(event) {

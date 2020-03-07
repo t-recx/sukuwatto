@@ -1,5 +1,5 @@
-<app-user-bio-data-detail [username]=username [start]=bioDataDate [visible]=userBioDataVisible [units]=weightUnits
-    [heightUnits]=heightUnits (closed)="onUserBioDataClosed()" (okayed)="onUserBioDataOkayed($event)">
+<app-user-bio-data-detail [username]=username [start]=bioDataDate [visible]=userBioDataVisible 
+     (closed)="onUserBioDataClosed()" (okayed)="onUserBioDataOkayed($event)">
 </app-user-bio-data-detail>
 
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">

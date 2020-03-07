@@ -26,7 +26,7 @@
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
                 <div class="siimple-list siimple-list--hover">
                     <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets" style="padding: 0px;">
-                        <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.sets [workoutActivity]=workoutActivity [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+                        <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.sets [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
                         </app-workout-set>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
                 <div class="siimple-list siimple-list--hover">
                     <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups" style="padding: 0px;">
-                        <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.warmups [workoutActivity]=workoutActivity [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+                        <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.warmups [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
                         </app-workout-set>
                     </div>
                 </div>

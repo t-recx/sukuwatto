@@ -52,7 +52,7 @@
                             <div class="siimple-form-field-label">Unit</div>
                             <select class="siimple-select siimple-select--fluid" name="weight_unit" id="weight_unit"
                                 [(ngModel)]="userBioData.weight_unit" #weight_unit="ngModel">
-                                <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                <option *ngFor="let unitModel of weightUnits" value={{unitModel.id}}>
                                     {{unitModel.name}}
                                 </option>
                             </select>
@@ -136,7 +136,7 @@
                             <div class="siimple-form-field-label">Unit</div>
                             <select class="siimple-select siimple-select--fluid" name="bone_mass_weight_unit" id="bone_mass_weight_unit"
                                 [(ngModel)]="userBioData.bone_mass_weight_unit" #bone_mass_weight_unit="ngModel">
-                                <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                <option *ngFor="let unitModel of weightUnits" value={{unitModel.id}}>
                                     {{unitModel.name}}
                                 </option>
                             </select>

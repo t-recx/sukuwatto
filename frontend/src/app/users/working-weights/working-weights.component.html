@@ -7,7 +7,7 @@
         <div class="siimple-modal-body">
             <div class="siimple-grid">
                 <div class="siimple-grid-row" *ngFor="let workingWeight of workingWeights">
-                    <app-working-weight [workingWeight]=workingWeight [exercises]=exercises [units]=units [triedToSave]=triedToSave [triedToHide]=triedToHide>
+                    <app-working-weight [workingWeight]=workingWeight [triedToSave]=triedToSave [triedToHide]=triedToHide>
                     </app-working-weight>
                     <div class="siimple-grid-col siimple-grid-col--2 siimple-grid-col-sm--12">
                         <button class="siimple-btn siimple-btn--error siimple-btn--fluid" type="button" (click)="remove(workingWeight)">
