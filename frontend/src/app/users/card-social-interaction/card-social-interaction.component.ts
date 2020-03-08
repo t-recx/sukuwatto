@@ -45,11 +45,9 @@ export class CardSocialInteractionComponent implements OnInit {
   ngOnInit() {
     this.createCommentSectionVisible = this.authService.isLoggedIn();
 
-    this.contentTypesService.get(this.content_type_model).subscribe(contentTypes => {
-      if (contentTypes.length > 0) {
-        this.content_type_id = contentTypes[0].id;
+    this.contentTypesService.get(this.content_type_model).subscribe(contentType => {
+        this.content_type_id = contentType.id;
         this.loadActions();
-      }
     });
   }
 
