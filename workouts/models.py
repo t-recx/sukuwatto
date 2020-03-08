@@ -49,7 +49,7 @@ class Exercise(models.Model):
     ]
 
     PULL = 'p'
-    PUSH = 'h'
+    PUSH = 'q'
     STATIC = 's'
     FORCES = [
         (PULL, 'Pull'),

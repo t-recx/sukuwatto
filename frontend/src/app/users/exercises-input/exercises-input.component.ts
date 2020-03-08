@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { faSearch, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Exercise } from '../exercise';
-import { ControlValueAccessor, SelectControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ExercisesService } from '../exercises.service';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'exercises-input',
@@ -49,13 +48,9 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   faEraser = faEraser;
 
   constructor(
-    private exercisesService: ExercisesService,
   ) { }
 
   ngOnInit() {
-    this.exercisesService.getExercises().subscribe(exercises => {
-      this.exercises = exercises;
-    });
   }
 
   select(exercise) {

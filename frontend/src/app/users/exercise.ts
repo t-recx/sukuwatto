@@ -10,7 +10,7 @@ export const MechanicsLabel = new Map<string, string>([
 
 export enum Force {
     Pull = 'p',
-    Push = 'h',
+    Push = 'q',
     Static = 's',
 }
 

@@ -5,8 +5,6 @@ import { WorkoutsService } from '../workouts.service';
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlanSession } from '../plan-session';
-import { ExercisesService } from '../exercises.service';
-import { Exercise } from '../exercise';
 import { WorkoutGroup } from '../workout-group';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
@@ -28,7 +26,6 @@ export class WorkoutDetailComponent implements OnInit {
 
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
-  exercises: Exercise[];
   triedToSave: boolean;
   workingWeightsVisible: boolean = false;
   userBioDataVisible: boolean = false;
@@ -43,7 +40,6 @@ export class WorkoutDetailComponent implements OnInit {
     private service: WorkoutsService,
     private userBioDataService: UserBioDataService,
     private plansService: PlansService,
-    private exercisesService: ExercisesService,
     private router: Router,
     private workoutGeneratorService: WorkoutGeneratorService,
     private authService: AuthService,
@@ -108,7 +104,6 @@ export class WorkoutDetailComponent implements OnInit {
   ngOnInit() {
     this.triedToSave = false;
     this.userBioData = null;
-    this.loadExercises();
 
     this.route.paramMap.subscribe(params => 
       {
@@ -145,10 +140,6 @@ export class WorkoutDetailComponent implements OnInit {
           this.previousWorkout = w;
         });
     }
-  }
-
-  loadExercises() {
-    this.exercisesService.getExercises().subscribe(exercises => this.exercises = exercises);
   }
 
   loadAdoptedPlans() {
@@ -298,7 +289,7 @@ export class WorkoutDetailComponent implements OnInit {
     let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
 
     if (plan && planSession && (this.workout.id == null || this.workout.id <= 0)) {
-      this.workoutGeneratorService.generate(this.workout.start, this.exercises, this.workout.working_weights, plan, planSession)
+      this.workoutGeneratorService.generate(this.workout.start, this.workout.working_weights, plan, planSession)
       .subscribe(newWorkout => { 
         this.workout = newWorkout; 
         this.setNextActivityInProgress();

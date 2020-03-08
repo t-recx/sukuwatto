@@ -25,7 +25,7 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
 
     def create_plan(self, exid):
         self.client.post('/api/plans/', 
-            {"sessions":[{"groups":[{"exercises":[{"exercise":exid,"order":1,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"warmups":[{"order":1,"exercise":exid,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"progressions":[],"name":"g","order":1}],"progressions":[],"name":"s"}],"progressions":[{"progression_type":"e","exercise":exid,"percentage_increase":100,"validations":{}}],"short_name":"s","name":"n","description":"d"}
+            {"sessions":[{"groups":[{"exercises":[{"exercise": {"id": exid, "name":"initial"},"order":1,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"warmups":[{"order":1,"exercise":{"id": exid, "name":"initial"},"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"progressions":[],"name":"g","order":1}],"progressions":[],"name":"s"}],"progressions":[{"progression_type":"e","exercise":{"id":exid,"name":"initial"},"percentage_increase":100,"validations":{}}],"short_name":"s","name":"n","description":"d"}
             , format='json')
 
     def test_updating_exercise_when_it_is_being_used_in_a_plan_owned_by_exercise_creator_should_update(self):
@@ -76,7 +76,7 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
                          {"exercise":{"id":exid, "name":"n"},"order":1,"weight":1,"repetition_type":"a"}],
                          "name":"g"}],
                 "working_weights":[
-                    {"exercise":exid,"weight":3,"previous_weight":1}],
+                    {"exercise":{"id": exid, "name":"initial"},"weight":3,"previous_weight":1}],
                 "status":"p","start":"2020-03-02T19:25:53.753Z","name":"n"}, format='json')
 
         try:

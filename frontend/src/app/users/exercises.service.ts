@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Exercise } from './exercise';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Paginated } from './paginated';
 
 @Injectable({
   providedIn: 'root'
@@ -25,13 +26,36 @@ export class ExercisesService {
     private alertService: AlertService
   ) { }
 
-  getExercises (): Observable<Exercise[]> {
-    return this.http.get<Exercise[]>(this.exercisesUrl)
+  getExercises (page: number, page_size: number, search_filter: string, ordering: string[]): Observable<Paginated<Exercise>> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    if (search_filter) {
+      params = params.set('search', search_filter);
+    }
+
+    if (ordering) {
+      params = params.set('ordering', ordering.join(','))
+    }
+
+    if (page || page_size || search_filter || ordering) {
+      options = {params: params};
+    }
+
+    return this.http.get<Paginated<Exercise>>(this.exercisesUrl, options)
       .pipe(
-        catchError(this.errorService.handleError<Exercise[]>('getExercises', (e: any) => 
+        catchError(this.errorService.handleError<Paginated<Exercise>>('getExercises', (e: any) => 
         { 
           this.alertService.error('Unable to fetch exercises');
-        }, []))
+        }, new Paginated<Exercise>()))
       );
   }
 

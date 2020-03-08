@@ -25,7 +25,7 @@ export class WorkoutGeneratorService {
     private authService: AuthService,
   ) { }
 
-  generate(start: Date, exercises: Exercise[], workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
+  generate(start: Date, workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
@@ -66,8 +66,8 @@ export class WorkoutGeneratorService {
               workoutGroup.order = planSessionGroup.order;
               workoutGroup.plan_session_group = planSessionGroup.id;
 
-              workoutGroup.warmups = this.getSets(exercises, workingWeights, plan, planSession, planSessionGroup, planSessionGroup.warmups, lastWorkoutGroup ? lastWorkoutGroup.warmups : []);
-              workoutGroup.sets = this.getSets(exercises, workingWeights, plan, planSession, planSessionGroup, planSessionGroup.exercises, lastWorkoutGroup ? lastWorkoutGroup.sets : []);
+              workoutGroup.warmups = this.getSets(workingWeights, plan, planSession, planSessionGroup, planSessionGroup.warmups, lastWorkoutGroup ? lastWorkoutGroup.warmups : []);
+              workoutGroup.sets = this.getSets(workingWeights, plan, planSession, planSessionGroup, planSessionGroup.exercises, lastWorkoutGroup ? lastWorkoutGroup.sets : []);
 
               workout.groups.push(workoutGroup);
             }
@@ -162,7 +162,6 @@ export class WorkoutGeneratorService {
 
   private applyProgressionStrategy(
     exercise: Exercise,
-    exercises: Exercise[],
     workingWeights: WorkingWeight[],
     progressionStrategy: ProgressionStrategy): boolean {
     let workingWeight: WorkingWeight;
@@ -213,7 +212,6 @@ export class WorkoutGeneratorService {
   }
 
   private getSets(
-    exercises: Exercise[],
     workingWeights: WorkingWeight[], 
     plan: Plan,
     planSession: PlanSession,
@@ -259,7 +257,7 @@ export class WorkoutGeneratorService {
 console.log('progression strategies available:');
 console.log(progressionStrategies);
           for (let progressionStrategy of progressionStrategies) {
-            if (this.applyProgressionStrategy(sessionWarmUp.exercise, exercises, 
+            if (this.applyProgressionStrategy(sessionWarmUp.exercise, 
               workingWeights, progressionStrategy)) {
               break;
             }
@@ -267,7 +265,7 @@ console.log(progressionStrategies);
         }
 
         for (var i = 0; i < sessionWarmUp.number_of_sets; i++) {
-          sets.push(this.getSet(exercises, workingWeights, sessionWarmUp));
+          sets.push(this.getSet(workingWeights, sessionWarmUp));
         }
       }
     }
@@ -280,7 +278,7 @@ console.log(progressionStrategies);
       ww.previous_weight != ww.weight).length > 0;
   }
 
-  private getSet(exercises: Exercise[], workingWeights: WorkingWeight[], sessionActivity: PlanSessionGroupActivity): WorkoutSet {
+  private getSet(workingWeights: WorkingWeight[], sessionActivity: PlanSessionGroupActivity): WorkoutSet {
     let workingWeight = this.getWorkingWeight(workingWeights, sessionActivity.exercise, sessionActivity.working_weight_percentage);
     let set = new WorkoutSet();
     set.working_weight_percentage = sessionActivity.working_weight_percentage;

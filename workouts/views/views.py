@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter, OrderingFilter
 from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer, UserBioDataSerializer
 from workouts.models import Exercise, Unit, UnitConversion, UserBioData
 from sqtrex.pagination import StandardResultsSetPagination
-from django_filters.rest_framework import DjangoFilterBackend
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.exercise_service import ExerciseService
 from rest_framework.decorators import api_view,permission_classes
@@ -16,8 +16,10 @@ class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['user_submitted']
+    filter_backends = [SearchFilter, OrderingFilter]
+    pagination_class = StandardResultsSetPagination
+    search_fields = ['name']
+    ordering_fields = ['name', 'mechanics', 'force', 'section', 'modality']
 
 class UnitList(ListAPIView):
     """

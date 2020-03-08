@@ -107,7 +107,6 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     def create_group_activities(self, model, workout_group, activities_data):
         for activity_data in activities_data:
-            # todo: check here if id exists??
             exercise = activity_data.pop('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
 
