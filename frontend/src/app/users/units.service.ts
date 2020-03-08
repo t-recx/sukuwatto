@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { ErrorService } from '../error.service';
 import { Observable } from 'rxjs';
 import { Unit } from './unit';
-import { catchError } from 'rxjs/operators';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UnitsService {
   private unitsUrl= `${environment.apiUrl}/units/`;
+  private cache$: Observable<Unit[]>;
 
   constructor(
     private http: HttpClient,
@@ -20,12 +21,21 @@ export class UnitsService {
   ) { }
 
   getUnits (): Observable<Unit[]> {
-    return this.http.get<Unit[]>(this.unitsUrl)
-      .pipe(
-        catchError(this.errorService.handleError<Unit[]>('getUnits', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch units');
-        }, []))
-      );
+    if (!this.cache$) {
+      this.cache$ =
+        this.requestUnits().pipe(
+          shareReplay({ bufferSize: 1, refCount: true }),
+          catchError(this.errorService.handleError<Unit[]>('getUnits', (e: any) => 
+          { 
+            this.alertService.error('Unable to fetch units');
+          }, []))
+        );
+    }
+
+    return this.cache$;
+  }
+
+  requestUnits(): Observable<Unit[]> {
+    return this.http.get<Unit[]>(this.unitsUrl);
   }
 }

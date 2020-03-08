@@ -6,7 +6,7 @@ from workouts.exercise_service import ExerciseService
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
-    
+
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'user']

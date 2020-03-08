@@ -1,11 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Exercise } from '../exercise';
 import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
 import { PlanSessionGroupWarmUp } from '../plan-session-group-warmup';
-import { Unit } from '../unit';
 
 @Component({
   selector: 'app-plan-session-group',
@@ -14,8 +12,6 @@ import { Unit } from '../unit';
 })
 export class PlanSessionGroupComponent implements OnInit {
   @Input() planSessionGroup: PlanSessionGroup;
-  @Input() exercises: Exercise[];
-  @Input() units: Unit[];
   @Input() triedToSave: boolean;
 
   activityType = ActivityType;

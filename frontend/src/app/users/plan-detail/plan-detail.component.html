@@ -67,12 +67,12 @@
             <div>
                 <div class="tab-content" *ngFor="let session of plan.sessions"
                     [class.tab-content-selected]="session==selectedSession">
-                    <app-plan-session [planSession]=session [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+                    <app-plan-session [planSession]=session [triedToSave]=triedToSave>
                     </app-plan-session>
                 </div>
             </div>
         </div>
-        <app-plan-progression-strategies type_label="Plan" [progressions]=plan.progressions [exercises]=exercises [units]=units [triedToSave]=triedToSave>
+        <app-plan-progression-strategies type_label="Plan" [progressions]=plan.progressions [triedToSave]=triedToSave>
         </app-plan-progression-strategies> 
 
         <button class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">Save</button>

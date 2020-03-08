@@ -3,6 +3,7 @@ import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
 import { Unit, MeasurementType } from '../unit';
 import { AuthService } from 'src/app/auth.service';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-user-bio-data-detail',
@@ -13,10 +14,12 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
   @Input() username: string;
   @Input() start: Date;
   @Input() visible: boolean;
-  @Input() units: Unit[];
-  @Input() heightUnits: Unit[];
   @Output() closed = new EventEmitter();
   @Output() okayed = new EventEmitter<UserBioData>();
+
+  units: Unit[];
+  weightUnits: Unit[];
+  heightUnits: Unit[];
 
   triedToHide: boolean;
   userBioData: UserBioData;
@@ -27,8 +30,11 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
   height_unit_invalid: boolean;
   bone_mass_weight_unit_invalid: boolean;
 
-  constructor(private service: UserBioDataService,
-    private authService: AuthService) { }
+  constructor(
+    private service: UserBioDataService,
+    private authService: AuthService,
+    private unitsService: UnitsService,
+    ) { }
 
   ngOnInit() {
     this.userBioData = new UserBioData();
@@ -39,9 +45,20 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
     this.height_unit_invalid = false;
     this.bone_mass_weight_unit_invalid = false;
 
-    this.loadDefaultUserUnits();
-    this.setDefaultUserUnits();
+    this.loadUnits();
     this.loadUserBioData();
+  }
+
+  loadUnits(): void {
+    this.unitsService.getUnits().subscribe(units => {
+      this.units = units;
+      this.weightUnits = this.units.filter(u => 
+        u.measurement_type == MeasurementType.Weight);
+      this.heightUnits = this.units.filter(u => 
+        u.measurement_type == MeasurementType.Height);
+      this.loadDefaultUserUnits();
+      this.setDefaultUserUnits();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,10 +113,8 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
   loadDefaultUserUnits(): void {
     let unitSystem = this.authService.getUserUnitSystem();
 
-    let filteredUnitsWeight = this.units.filter(u => u.system == unitSystem && 
-      u.measurement_type == MeasurementType.Weight);
-    let filteredUnitsHeight = this.heightUnits.filter(u => u.system == unitSystem && 
-      u.measurement_type == MeasurementType.Height);
+    let filteredUnitsWeight = this.weightUnits.filter(u => u.system == unitSystem);
+    let filteredUnitsHeight = this.heightUnits.filter(u => u.system == unitSystem);
 
     if (filteredUnitsWeight && filteredUnitsWeight.length > 0) {
       this.defaultWeightUnit = filteredUnitsWeight[0].id;

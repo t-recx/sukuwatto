@@ -11,8 +11,6 @@ import { Unit } from '../unit';
 })
 export class WorkingWeightsComponent implements OnInit {
   @Input() workingWeights: WorkingWeight[];
-  @Input() exercises: Exercise[];
-  @Input() units: Unit[];
   @Input() triedToSave: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();

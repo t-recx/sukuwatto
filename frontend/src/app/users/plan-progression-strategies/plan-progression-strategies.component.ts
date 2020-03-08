@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProgressionStrategy } from '../plan-progression-strategy';
-import { Exercise } from '../exercise';
-import { Unit } from '../unit';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -11,14 +9,13 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 })
 export class PlanProgressionStrategiesComponent implements OnInit {
   @Input() progressions: ProgressionStrategy[];
-  @Input() exercises: Exercise[];
-  @Input() units: Unit[];
   @Input() triedToSave: boolean;
   @Input() type_label: string;
 
   faTimesCircle = faTimesCircle;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() {
   }

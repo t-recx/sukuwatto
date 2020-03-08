@@ -1,21 +1,27 @@
 from rest_framework import serializers
-from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy 
+from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy, Exercise
 from workouts.utils import get_differences
+from workouts.serializers.serializers import ExerciseSerializer
 
 class PlanSessionGroupExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupExercise()._meta.get_field('id'), required=False)
+    exercise = ExerciseSerializer()
+
     class Meta:
         model = PlanSessionGroupExercise
         fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupWarmUp()._meta.get_field('id'), required=False)
+    exercise = ExerciseSerializer()
+
     class Meta:
         model = PlanSessionGroupExercise
         fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanProgressionStrategy()._meta.get_field('id'), required=False)
+    exercise = ExerciseSerializer()
 
     class Meta:
         model = PlanProgressionStrategy
@@ -23,6 +29,7 @@ class PlanProgressionStrategySerializer(serializers.ModelSerializer):
 
 class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionProgressionStrategy()._meta.get_field('id'), required=False)
+    exercise = ExerciseSerializer()
 
     class Meta:
         model = PlanSessionProgressionStrategy
@@ -30,6 +37,7 @@ class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
 
 class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupProgressionStrategy()._meta.get_field('id'), required=False)
+    exercise = ExerciseSerializer()
 
     class Meta:
         model = PlanSessionGroupProgressionStrategy
@@ -134,20 +142,37 @@ class PlanSerializer(serializers.ModelSerializer):
 
     def create_plan_progressions(self, progressions_data, plan):
         for progression_data in progressions_data:
-            PlanProgressionStrategy.objects.create(plan=plan, **progression_data)    
+            exercise_model = None
+            if 'exercise' in progression_data:
+                exercise = progression_data.pop('exercise')
+                exercise_model = Exercise.objects.get(pk=exercise['id'])
+
+            PlanProgressionStrategy.objects.create(plan=plan, exercise=exercise_model, **progression_data)    
 
     def create_plan_session_progressions(self, progressions_data, plan_session):
         for progression_data in progressions_data:
-            PlanSessionProgressionStrategy.objects.create(plan_session=plan_session, **progression_data)    
+            exercise_model = None
+            if 'exercise' in progression_data:
+                exercise = progression_data.pop('exercise')
+                exercise_model = Exercise.objects.get(pk=exercise['id'])
+            PlanSessionProgressionStrategy.objects.create(plan_session=plan_session, exercise=exercise_model, **progression_data)    
 
     def create_plan_session_group_progressions(self, progressions_data, plan_session_group):
         for progression_data in progressions_data:
-            PlanSessionGroupProgressionStrategy.objects.create(plan_session_group=plan_session_group, **progression_data)    
+            exercise_model = None
+            if 'exercise' in progression_data:
+                exercise = progression_data.pop('exercise')
+                exercise_model = Exercise.objects.get(pk=exercise['id'])
+            PlanSessionGroupProgressionStrategy.objects.create(plan_session_group=plan_session_group, exercise=exercise_model, **progression_data)    
 
     def create_group_activities(self, model, plan_session_group, exercises_data):
         if exercises_data is not None:
             for exercise_data in exercises_data:
-                model.objects.create(plan_session_group=plan_session_group, **exercise_data)
+                exercise_model = None
+                if 'exercise' in exercise_data:
+                    exercise = exercise_data.pop('exercise')
+                    exercise_model = Exercise.objects.get(pk=exercise['id'])
+                model.objects.create(plan_session_group=plan_session_group, exercise=exercise_model, **exercise_data)
 
     def update_group_activities(self, model, exercises_data):
         for exercise_data in exercises_data:
@@ -158,8 +183,12 @@ class PlanSerializer(serializers.ModelSerializer):
 
             instance = instances.first()
 
+            exercise_model = None
+            if 'exercise' in exercise_data:
+                exercise = exercise_data.pop('exercise')
+                exercise_model = Exercise.objects.get(pk=exercise['id'])
+            instance.exercise = exercise_model
             instance.order = exercise_data.get('order', instance.order)
-            instance.exercise = exercise_data.get('exercise', instance.exercise)
             instance.repetition_type = exercise_data.get('repetition_type', instance.repetition_type)
             instance.number_of_sets = exercise_data.get('number_of_sets', instance.number_of_sets)
             instance.number_of_repetitions = exercise_data.get('number_of_repetitions', instance.number_of_repetitions)
@@ -208,7 +237,11 @@ class PlanSerializer(serializers.ModelSerializer):
                 continue
 
             instance = instances.first()
-            instance.exercise = progression_data.get('exercise', instance.exercise)
+            exercise_model = None
+            if 'exercise' in progression_data:
+                exercise = progression_data.pop('exercise')
+                exercise_model = Exercise.objects.get(pk=exercise['id'])
+            instance.exercise = exercise_model
             instance.percentage_increase = progression_data.get('percentage_increase', instance.percentage_increase)
             instance.weight_increase = progression_data.get('weight_increase', instance.weight_increase)
             instance.unit = progression_data.get('unit', instance.unit)

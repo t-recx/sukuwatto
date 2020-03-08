@@ -3,15 +3,10 @@ import { WorkoutsService } from '../workouts.service';
 import { Workout } from '../workout';
 import { AuthService } from 'src/app/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { Exercise } from '../exercise';
-import { Unit, MeasurementType } from '../unit';
-import { ExercisesService } from '../exercises.service';
-import { UnitsService } from '../units.service';
-import { WorkoutGroup } from '../workout-group';
 import { RepetitionType } from '../plan-session-group-activity';
 import { Paginated } from '../paginated';
 import { Subscription } from 'rxjs';
-import { faArrowRight, faArrowLeft, faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workouts',
@@ -22,8 +17,6 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   paginatedWorkouts: Paginated<Workout>;
   workouts: Workout[];
-  exercises: Exercise[];
-  units: Unit[];
 
   username: string;
   page: string;
@@ -38,8 +31,6 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     private workoutsService: WorkoutsService,
     private authService: AuthService,
     public route: ActivatedRoute, 
-    private exercisesService: ExercisesService,
-    private unitsService: UnitsService,
   ) { 
     this.paramChangedSubscription = route.paramMap.subscribe(val =>
       {
@@ -48,8 +39,6 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadExercises();
-    this.loadUnits();
   }
 
   ngOnDestroy(): void {
@@ -83,15 +72,5 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   deleteWorkout(workout): void {
     this.workoutsService.deleteWorkout(workout).subscribe(_ => this.getWorkouts(this.username, this.page));
-  }
-
-  loadExercises() {
-    this.exercisesService.getExercises().subscribe(exercises => this.exercises = exercises);
-  }
-
-  loadUnits() {
-    this.unitsService.getUnits().subscribe(units => {
-      this.units = units.filter(u => u.measurement_type == MeasurementType.Weight);
-    });
   }
 }
