@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './user';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, shareReplay } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
@@ -92,7 +92,24 @@ export class UserService {
       );
   }
 
+  private cacheProfileFilename$ = {};
+
   getProfileFilename(username: string): Observable<string> {
+    if (!(username in this.cacheProfileFilename$)) {
+      this.cacheProfileFilename$[username] =
+        this.requestProfileFilename(username).pipe(
+          shareReplay({ bufferSize: 1, refCount: true }),
+          catchError(this.errorService.handleError<string>('getProfileFilename', (e: any) => 
+          { 
+            this.alertService.error('Unable to fetch user profile filename');
+          }, null))
+        );
+    }
+
+    return this.cacheProfileFilename$[username];
+  }
+
+  requestProfileFilename(username: string): Observable<string> {
     let options = {};
     let params = new HttpParams();
 
@@ -102,12 +119,6 @@ export class UserService {
 
     options = {params: params};
 
-    return this.http.get<string>(`${this.usersProfileFilenameApiUrl}`, options)
-      .pipe(
-        catchError(this.errorService.handleError<string>('getProfileFilename', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch user profile filename');
-        }, null))
-      );
+    return this.http.get<string>(`${this.usersProfileFilenameApiUrl}`, options);
   }
 }

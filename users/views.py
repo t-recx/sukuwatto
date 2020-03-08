@@ -66,7 +66,6 @@ class FileUploadView(APIView):
         return [permission() for permission in permission_classes]
 
 class StreamList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
     def get_stream_queryset(self, request):
@@ -86,6 +85,8 @@ class StreamList(generics.ListAPIView):
         return Response(serializer.data)
 
 class UserStreamList(StreamList):
+    permission_classes = [IsAuthenticated]
+
     def get_stream_queryset(self, request):
         return models.user_stream(request.user, with_user_activity=True)
 
