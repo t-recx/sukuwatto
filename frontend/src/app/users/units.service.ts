@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ErrorService } from '../error.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Unit } from './unit';
-import { catchError, map, publish, refCount, publishReplay, shareReplay } from 'rxjs/operators';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,10 +13,6 @@ import { HttpClient } from '@angular/common/http';
 export class UnitsService {
   private unitsUrl= `${environment.apiUrl}/units/`;
   private cache$: Observable<Unit[]>;
-  private reload$ = new Subject<void>();
-
-  REFRESH_INTERVAL = 10000;
-  CACHE_SIZE = 1;
 
   constructor(
     private http: HttpClient,
