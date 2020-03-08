@@ -71,9 +71,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.contentTypesService.get("customuser").subscribe(x => {
-      if (x.length > 0) {
-        this.userContentTypeID = x[0].id;
-      }
+        this.userContentTypeID = x.id;
     });
 
     this.route.paramMap.subscribe(params =>
