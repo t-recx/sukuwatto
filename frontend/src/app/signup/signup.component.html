@@ -66,6 +66,12 @@
                             <div *ngIf="password.invalid && (password.dirty || triedToSignUp)">
                                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                             </div>
+
+                            <div *ngIf="passwordValidations">
+                                <div class="siimple-field-helper siimple--color-error siimple--mb-0" *ngFor="let validation of passwordValidations">
+                                    {{validation}}
+                                </div>
+                            </div>
                         </div>
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Gender</div>

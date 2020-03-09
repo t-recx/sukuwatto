@@ -14,6 +14,7 @@ export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
   private usersEmailApiUrl = `${environment.apiUrl}/user-email/`;
   private usersProfileFilenameApiUrl = `${environment.apiUrl}/user-profile-filename/`;
+  private usersValidatePasswordApiUrl = `${environment.apiUrl}/user-validate-password/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -82,6 +83,16 @@ export class UserService {
       );
   }
 
+  validatePassword(user: User): Observable<string[]> {
+    return this.http.post<string[]>(`${this.usersValidatePasswordApiUrl}`, user)
+      .pipe(
+        catchError(this.errorService.handleError<string[]>('validatePassword', (e: any) => 
+        { 
+          this.alertService.error('Unable to validate password');
+        }, []))
+      );
+  }
+  
   getEmail(): Observable<string> {
     return this.http.get<string>(`${this.usersEmailApiUrl}`, {})
       .pipe(

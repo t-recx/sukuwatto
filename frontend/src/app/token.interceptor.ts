@@ -14,6 +14,8 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(public authService: AuthService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let originalRequest = request;
+
         if (this.authService.getAccessToken()) {
             request = this.addToken(request, this.authService.getAccessToken());
         }
@@ -21,6 +23,13 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(catchError(error => {
             if (error instanceof HttpErrorResponse && error.status === 401 &&
                 this.authService.getTokenRefresh()) {
+
+                if (error.error.code == 'token_not_valid') {
+                    this.authService.logout();
+
+                    return next.handle(originalRequest);
+                }
+
                 return this.refreshTokenAndContinue(request, next);
             } else {
                 return throwError(error);
