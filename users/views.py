@@ -17,6 +17,8 @@ from django.shortcuts import get_object_or_404
 from actstream import models
 from sqtrex.permissions import IsUserOrReadOnly
 from users.models import CustomUser
+from django.contrib.auth import password_validation
+from django.core.exceptions import ValidationError
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -148,6 +150,18 @@ def do_follow(request):
 
         follow(request.user, instance, actor_only=True, flag=flag)
         return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def validate_password(request):
+    errors = list()
+
+    try:
+        password_validation.validate_password(password=request.data.get('password'), user=get_user_model()(**request.data))
+    except ValidationError as e:
+        errors = list(e.messages)
+
+    return Response(errors)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
