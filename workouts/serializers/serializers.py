@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UnitConversion, UserBioData
+from workouts.models import Exercise, Unit, UserBioData
 from workouts.exercise_service import ExerciseService
 
 class ExerciseSerializer(serializers.ModelSerializer):
@@ -28,11 +28,6 @@ class UnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unit
         fields = ['id', 'name', 'abbreviation', 'system', 'measurement_type']
-
-class UnitConversionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UnitConversion
-        fields = ['id', 'from_unit', 'to_unit', 'ratio']
 
 class UserBioDataSerializer(serializers.ModelSerializer):
     weight_unit_code = serializers.SerializerMethodField()

@@ -21,11 +21,6 @@ class Unit(models.Model):
     system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
     measurement_type = models.CharField(max_length=1, null=True, choices=MEASUREMENT_TYPE)
 
-class UnitConversion(models.Model):
-    from_unit = models.ForeignKey(Unit, related_name='from_unit', on_delete=models.CASCADE)
-    to_unit = models.ForeignKey(Unit, related_name='to_unit', on_delete=models.CASCADE)
-    ratio = models.DecimalField(max_digits=12, decimal_places=9)
-
 class UserBioData(models.Model):
     date = models.DateTimeField()
     weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
