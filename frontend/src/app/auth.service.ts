@@ -142,7 +142,7 @@ export class AuthService {
     return this.getLocalStorageItem('refresh_token');
   }
 
-  private setUnitSystem(system: string) {
+  public setUnitSystem(system: string) {
     this.setLocalStorageItem('unit_system', system);
   }
 

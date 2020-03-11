@@ -68,7 +68,8 @@
                             </div>
 
                             <div *ngIf="passwordValidations">
-                                <div class="siimple-field-helper siimple--color-error siimple--mb-0" *ngFor="let validation of passwordValidations">
+                                <div class="siimple-field-helper siimple--color-error siimple--mb-0"
+                                    *ngFor="let validation of passwordValidations">
                                     {{validation}}
                                 </div>
                             </div>
@@ -120,6 +121,29 @@
                         <div class="siimple-form-field-label">Year of birth</div>
                         <input type="number" class="siimple-input siimple-input--fluid" [(ngModel)]="user.year_birth"
                             name="year_birth">
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <div class="siimple-form-field-label">Measurement units</div>
+                            <div class="siimple-radio">
+                                <input type="radio" name="system" value="m" id="metric" [checked]="user.system === 'm'"
+                                    [(ngModel)]="user.system">
+                                <label for="metric"></label>
+                            </div>
+                            <label class="siimple-label" for="metric">Metric</label>
+                            <div class="siimple-radio">
+                                <input type="radio" name="system" value="i" id="imperial"
+                                    [checked]="user.system === 'i'" [(ngModel)]="user.system">
+                                <label for="imperial"></label>
+                            </div>
+                            <label class="siimple-label" for="imperial">Imperial</label>
+
+                            <div *ngIf="!user.system && triedToSignUp">
+                                <div class="siimple-field-helper siimple--color-error siimple--mb-0">This field can't be empty</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

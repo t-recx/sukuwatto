@@ -62,6 +62,10 @@ export class SignupComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.user.system) {
+      return false;
+    }
+
     if (this.passwordValidations && this.passwordValidations.length > 0) {
       return;
     }

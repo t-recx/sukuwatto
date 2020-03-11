@@ -117,6 +117,8 @@ export class AccountComponent implements OnInit {
       this.userBioDataService.saveUserBioData(this.userBioData).subscribe();
     }
 
+    this.authService.setUnitSystem(this.user.system);
+
     this.router.navigateByUrl(`/users/${this.user.username}/profile`);
   }
 
@@ -131,6 +133,10 @@ export class AccountComponent implements OnInit {
   valid(): boolean {
     if (!this.user.username || 0 == this.user.username.trim().length ||
       !this.user.email || 0 == this.user.email.trim().length) {
+      return false;
+    }
+
+    if (!this.user.system) {
       return false;
     }
 

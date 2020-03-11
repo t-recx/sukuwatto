@@ -24,13 +24,13 @@
                     <td class="siimple-table-cell" align="center">
                         <span *ngIf="workoutActivity.weight">
                             <span *ngIf="workoutActivity.weight % 1 == 0">
-                                {{workoutActivity.weight | number: '1.0-0'}}
+                                {{workoutActivity.weight | unitConvert: workoutActivity.unit_code | number: '1.0-0'}}
                             </span>
                             <span *ngIf="workoutActivity.weight % 1 != 0">
-                                {{workoutActivity.weight}}
+                                {{workoutActivity.weight | unitConvert: workoutActivity.unit_code}}
                             </span>
-                            <span *ngFor="let unit of units">
-                                <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+                            <span>
+                                {{getToUnitCode(workoutActivity.unit_code)}}
                             </span>
                         </span>
                         <span *ngIf="!workoutActivity.weight">

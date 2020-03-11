@@ -3,6 +3,7 @@ import { Workout } from '../workout';
 import { WorkoutsService } from '../workouts.service';
 import { WorkoutOverview } from '../workout-activity-resumed';
 import { WorkoutGroup } from '../workout-group';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -16,6 +17,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
   @Output() deleted = new EventEmitter();
 
   constructor(
+    private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
   ) { }
 
@@ -58,14 +60,14 @@ export class WorkoutOverviewCardComponent implements OnInit {
         let setsWithWeight = setsWithExercise.filter(s => s.weight == weight);
         for (let numberReps of new Set(setsWithWeight.map(s => s.number_of_repetitions))) {
           let setsWithNumberReps = setsWithWeight.filter(s => s.number_of_repetitions == numberReps);
-          for (let unit of new Set(setsWithNumberReps.map(s => s.unit))) {
-            let setsWithUnit = setsWithNumberReps.filter(s => s.unit == unit);
+          for (let unit_code of new Set(setsWithNumberReps.map(s => s.unit_code))) {
+            let setsWithUnit = setsWithNumberReps.filter(s => s.unit_code == unit_code);
             let activity = new WorkoutOverview();
 
             activity.exercise = {...exercise};
             activity.weight = weight;
             activity.number_of_repetitions = numberReps;
-            activity.unit = unit;
+            activity.unit_code = unit_code;
             activity.number_of_sets = setsWithUnit.length;
 
             activities.push(activity);
@@ -79,5 +81,9 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   deleteWorkout(): void {
     this.deleted.emit(this.workout);
+  }
+
+  getToUnitCode(fromUnitCode: string): string {
+    return this.unitsService.getToUnitCode(fromUnitCode);
   }
 }

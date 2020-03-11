@@ -9,26 +9,48 @@ from django.contrib.auth import get_user_model
 class WorkingWeightSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkingWeight()._meta.get_field('id'), required=False)
+    unit_code = serializers.SerializerMethodField()
+
+    def get_unit_code(self, obj):
+        if obj.unit:
+            return obj.unit.abbreviation
+        
+        return None
 
     class Meta:
         model = WorkingWeight
-        fields = ['id', 'exercise', 'weight', 'unit', 'previous_weight', 'previous_unit']
+        fields = ['id', 'exercise', 'weight', 'unit', 'unit_code', 'previous_weight', 'previous_unit']
+    
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
+    unit_code = serializers.SerializerMethodField()
+
+    def get_unit_code(self, obj):
+        if obj.unit:
+            return obj.unit.abbreviation
+        
+        return None
 
     class Meta:
         model = WorkoutSet
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutWarmUp()._meta.get_field('id'), required=False)
+    unit_code = serializers.SerializerMethodField()
+
+    def get_unit_code(self, obj):
+        if obj.unit:
+            return obj.unit.abbreviation
+        
+        return None
 
     class Meta:
         model = WorkoutWarmUp
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
 
 class WorkoutGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutGroup()._meta.get_field('id'), required=False)
