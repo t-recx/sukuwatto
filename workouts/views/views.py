@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
-from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UnitConversionSerializer, UserBioDataSerializer
-from workouts.models import Exercise, Unit, UnitConversion, UserBioData
+from workouts.serializers.serializers import ExerciseSerializer, UnitSerializer, UserBioDataSerializer
+from workouts.models import Exercise, Unit, UserBioData
 from sqtrex.pagination import StandardResultsSetPagination
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.exercise_service import ExerciseService
@@ -27,13 +27,6 @@ class UnitList(ListAPIView):
     """
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
-
-class UnitConversionList(ListAPIView):
-    """
-    API endpoint that allows units to be viewed 
-    """
-    queryset = UnitConversion.objects.all()
-    serializer_class = UnitConversionSerializer
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

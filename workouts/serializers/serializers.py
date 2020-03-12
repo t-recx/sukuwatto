@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UnitConversion, UserBioData
+from workouts.models import Exercise, Unit, UserBioData
 from workouts.exercise_service import ExerciseService
 
 class ExerciseSerializer(serializers.ModelSerializer):
@@ -29,17 +29,35 @@ class UnitSerializer(serializers.ModelSerializer):
         model = Unit
         fields = ['id', 'name', 'abbreviation', 'system', 'measurement_type']
 
-class UnitConversionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UnitConversion
-        fields = ['id', 'from_unit', 'to_unit', 'ratio']
-
 class UserBioDataSerializer(serializers.ModelSerializer):
+    weight_unit_code = serializers.SerializerMethodField()
+    height_unit_code = serializers.SerializerMethodField()
+    bone_mass_weight_unit_code = serializers.SerializerMethodField()
+
+    def get_weight_unit_code(self, obj):
+        if obj.weight_unit:
+            return obj.weight_unit.abbreviation
+        
+        return None
+
+    def get_height_unit_code(self, obj):
+        if obj.height_unit:
+            return obj.height_unit.abbreviation
+        
+        return None
+
+    def get_bone_mass_weight_unit_code(self, obj):
+        if obj.bone_mass_weight_unit:
+            return obj.bone_mass_weight_unit.abbreviation
+        
+        return None
+
     class Meta:
         model = UserBioData
         fields = ['id', 'date', 'weight', 'weight_unit', 'height', 'height_unit', 
             'body_fat_percentage', 'water_weight_percentage', 'muscle_mass_percentage',
-            'bone_mass_weight', 'bone_mass_weight_unit', 'notes']
+            'bone_mass_weight', 'bone_mass_weight_unit', 'notes',
+            'weight_unit_code', 'height_unit_code', 'bone_mass_weight_unit_code']
 
     def validate_date(self, value):
         if value is None:

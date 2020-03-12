@@ -12,6 +12,7 @@ export class WorkoutSet {
     number_of_repetitions: number;
     weight: number;
     unit: number;
+    unit_code: string;
     in_progress: boolean;
     done: boolean;
     order: number;

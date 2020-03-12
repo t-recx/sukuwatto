@@ -22,26 +22,47 @@ class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
 class PlanProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanProgressionStrategy()._meta.get_field('id'), required=False)
     exercise = ExerciseSerializer()
+    unit_code = serializers.SerializerMethodField()
+
+    def get_unit_code(self, obj):
+        if obj.unit:
+            return obj.unit.abbreviation
+        
+        return None
 
     class Meta:
         model = PlanProgressionStrategy
-        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'unit_code', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionProgressionStrategy()._meta.get_field('id'), required=False)
     exercise = ExerciseSerializer()
+    unit_code = serializers.SerializerMethodField()
+
+    def get_unit_code(self, obj):
+        if obj.unit:
+            return obj.unit.abbreviation
+        
+        return None
 
     class Meta:
         model = PlanSessionProgressionStrategy
-        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'unit_code', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupProgressionStrategy()._meta.get_field('id'), required=False)
     exercise = ExerciseSerializer()
+    unit_code = serializers.SerializerMethodField()
+
+    def get_unit_code(self, obj):
+        if obj.unit:
+            return obj.unit.abbreviation
+        
+        return None
 
     class Meta:
         model = PlanSessionGroupProgressionStrategy
-        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
+        fields = ['id', 'exercise', 'percentage_increase', 'weight_increase', 'unit', 'unit_code', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroup()._meta.get_field('id'), required=False)

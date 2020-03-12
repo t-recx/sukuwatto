@@ -21,7 +21,7 @@ class CustomUser(AbstractUser):
     gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
     year_birth = models.IntegerField(null=True)
     month_birth = models.IntegerField(null=True)
-    system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
+    system = models.CharField(max_length=1, choices=SYSTEMS)
     location = models.CharField(max_length=200, null=True)
     biography = models.TextField(null=True)
     profile_filename = models.CharField(max_length=1024, null=True)

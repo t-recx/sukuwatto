@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody class="siimple-table-body">
-                <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of getResumedActivities(workout)">
+                <tr class="siimple-table-row link-row"  *ngFor="let workoutActivity of workoutActivities">
                     <td class="siimple-table-cell">
                         {{workoutActivity.exercise.name}}
                     </td>
@@ -29,8 +29,8 @@
                             <span *ngIf="workoutActivity.weight % 1 != 0">
                                 {{workoutActivity.weight}}
                             </span>
-                            <span *ngFor="let unit of units">
-                                <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+                            <span>
+                                {{workoutActivity.unit_code}}
                             </span>
                         </span>
                         <span *ngIf="!workoutActivity.weight">

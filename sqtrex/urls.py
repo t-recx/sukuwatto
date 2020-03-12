@@ -1,9 +1,9 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from django.urls import include, path, re_path
+from django.urls import include, path
 from rest_framework import routers
 from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email, validate_password
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
-from workouts.views.views import ExerciseViewSet, UnitList, UnitConversionList, exercise_in_use, exercise_in_use_in_other_users_resources
+from workouts.views.views import ExerciseViewSet, UnitList, exercise_in_use, exercise_in_use_in_other_users_resources
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
@@ -28,7 +28,6 @@ urlpatterns = [
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),
     path('api/units/', UnitList.as_view()),
-    path('api/unit-conversions/', UnitConversionList.as_view()),
     path('api/content-types/', ContentTypeList.as_view()),
     path('api/user-profile-filename/', get_profile_filename, name='user-profile-filename'),
     path('api/user-email/', get_email, name='user-email'),
