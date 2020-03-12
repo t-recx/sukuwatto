@@ -17,20 +17,20 @@
                 </tr>
             </thead>
             <tbody class="siimple-table-body">
-                <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of getResumedActivities(workout)">
+                <tr class="siimple-table-row link-row"  *ngFor="let workoutActivity of workoutActivities">
                     <td class="siimple-table-cell">
                         {{workoutActivity.exercise.name}}
                     </td>
                     <td class="siimple-table-cell" align="center">
                         <span *ngIf="workoutActivity.weight">
                             <span *ngIf="workoutActivity.weight % 1 == 0">
-                                {{workoutActivity.weight | unitConvert: workoutActivity.unit_code | number: '1.0-0'}}
+                                {{workoutActivity.weight | number: '1.0-0'}}
                             </span>
                             <span *ngIf="workoutActivity.weight % 1 != 0">
-                                {{workoutActivity.weight | unitConvert: workoutActivity.unit_code}}
+                                {{workoutActivity.weight}}
                             </span>
                             <span>
-                                {{getToUnitCode(workoutActivity.unit_code)}}
+                                {{workoutActivity.unit_code}}
                             </span>
                         </span>
                         <span *ngIf="!workoutActivity.weight">

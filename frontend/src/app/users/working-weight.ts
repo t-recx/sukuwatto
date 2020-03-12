@@ -8,4 +8,5 @@ export class WorkingWeight {
     unit_code: string;
     previous_weight: number;
     previous_unit: number;
+    previous_unit_code: string;
 }

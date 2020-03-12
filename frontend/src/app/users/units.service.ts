@@ -9,6 +9,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { MeasurementSystem } from '../user';
 import { uz, Classes } from 'unitz-ts';
+import { Workout } from './workout';
+import { WorkoutOverview } from './workout-activity-resumed';
+import { UserBioData } from './user-bio-data';
 
 @Injectable({
   providedIn: 'root'
@@ -87,9 +90,72 @@ export class UnitsService {
     let toUnitCode = this.getToUnitCode(fromUnitCode);
 
     if (toUnitCode != fromUnitCode) {
-      return uz(value + fromUnitCode).convert(toUnitCode).value;
+      let num = uz(value + fromUnitCode).convert(toUnitCode).value;
+
+      return this.roundValue(num, fromUnitCode, toUnitCode);
     }
 
     return value;
+  }
+
+  roundValue(num: number, fromUnitCode: string, toUnitCode: string): number {
+    return Math.round((num + Number.EPSILON) * 100) / 100;
+  }
+
+  convertWorkout(workout: Workout) {
+    if (!workout) {
+      return;
+    }
+    if (workout.groups) {
+      workout.groups.forEach(group => {
+        if (group.sets) {
+          group.sets.forEach(s => this.convertWeightValue(s));
+        }
+        if (group.warmups) {
+          group.warmups.forEach(s => this.convertWeightValue(s));
+        }
+      });
+    }
+    if (workout.working_weights) {
+      workout.working_weights.forEach(ww => { 
+        this.convertWeightValue(ww); 
+        ww.previous_weight = this.convert(ww.previous_weight, ww.previous_unit_code);
+        ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
+      });
+    }
+  }
+
+  convertWorkoutOverview(workoutOverview: WorkoutOverview) {
+    if (!workoutOverview) {
+      return;
+    }
+
+    this.convertWeightValue(workoutOverview);
+  }
+
+  convertUserBioData(userBioData: UserBioData) {
+    if (!userBioData) {
+      if (userBioData.weight && userBioData.weight_unit_code) {
+        userBioData.weight = this.convert(userBioData.weight, userBioData.weight_unit_code);
+        userBioData.weight_unit_code = this.getToUnitCode(userBioData.weight_unit_code);
+      }
+
+      if (userBioData.height && userBioData.height_unit_code) {
+        userBioData.height = this.convert(userBioData.height, userBioData.height_unit_code);
+        userBioData.height_unit_code = this.getToUnitCode(userBioData.height_unit_code);
+      }
+
+      if (userBioData.bone_mass_weight && userBioData.bone_mass_weight_unit_code) {
+        userBioData.bone_mass_weight = this.convert(userBioData.bone_mass_weight, userBioData.bone_mass_weight_unit_code);
+        userBioData.bone_mass_weight_unit_code = this.getToUnitCode(userBioData.bone_mass_weight_unit_code);
+      }
+    }
+  }
+
+  convertWeightValue(model: {weight: number, unit_code: string}) {
+    if (model) {
+      model.weight = this.convert(model.weight, model.unit_code);
+      model.unit_code = this.getToUnitCode(model.unit_code);
+    }
   }
 }

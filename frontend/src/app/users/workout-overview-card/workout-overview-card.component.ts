@@ -16,6 +16,8 @@ export class WorkoutOverviewCardComponent implements OnInit {
   @Input() showSaveDeleteButtons: boolean = false;
   @Output() deleted = new EventEmitter();
 
+  workoutActivities: WorkoutOverview[] = [];
+
   constructor(
     private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
@@ -26,6 +28,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
       this.workoutsService.getWorkout(this.id).subscribe(w =>
         {
           this.workout = w;
+          this.workoutActivities = this.getResumedActivities(w);
         });
     }
   }
@@ -69,6 +72,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
             activity.number_of_repetitions = numberReps;
             activity.unit_code = unit_code;
             activity.number_of_sets = setsWithUnit.length;
+            this.unitsService.convertWorkoutOverview(activity);
 
             activities.push(activity);
           }
@@ -81,9 +85,5 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   deleteWorkout(): void {
     this.deleted.emit(this.workout);
-  }
-
-  getToUnitCode(fromUnitCode: string): string {
-    return this.unitsService.getToUnitCode(fromUnitCode);
   }
 }

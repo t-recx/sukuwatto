@@ -10,6 +10,7 @@ class WorkingWeightSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkingWeight()._meta.get_field('id'), required=False)
     unit_code = serializers.SerializerMethodField()
+    previous_unit_code = serializers.SerializerMethodField()
 
     def get_unit_code(self, obj):
         if obj.unit:
@@ -17,9 +18,15 @@ class WorkingWeightSerializer(serializers.ModelSerializer):
         
         return None
 
+    def get_previous_unit_code(self, obj):
+        if obj.previous_unit:
+            return obj.previous_unit.abbreviation
+        
+        return None
+
     class Meta:
         model = WorkingWeight
-        fields = ['id', 'exercise', 'weight', 'unit', 'unit_code', 'previous_weight', 'previous_unit']
+        fields = ['id', 'exercise', 'weight', 'unit', 'unit_code', 'previous_unit_code', 'previous_weight', 'previous_unit']
     
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
