@@ -1,4 +1,10 @@
 <div class="siimple-navbar siimple-navbar--primary siimple-navbar--large">
+    <div class="siimple--float-left menu-icon siimple--mr-1">
+        <span class="menu-icon phones-only" (click)="toggleMenuVisibility()">
+            <fa-icon [icon]="faBars"></fa-icon>
+        </span>
+    </div>
+
     <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
     <ng-template #loggedTitle>
         <a class="siimple-navbar-title" [routerLink]="['/users', authService.getUsername(), 'home']">
@@ -14,6 +20,13 @@
         <app-user-info></app-user-info>
     </div>
 </div>
+
+<div *ngIf="menuDropDownVisible" class="menu-dropdown" 
+(click)="toggleMenuVisibility()"
+>
+    <app-menu></app-menu>
+</div>
+
 <div>
     <app-alert></app-alert>
 </div>

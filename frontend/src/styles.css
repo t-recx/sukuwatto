@@ -132,3 +132,9 @@ input[type=time] {
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
 }
+
+@media only screen and (min-width: 600px) {
+    .phones-only {
+        display: none;
+    }
+}
