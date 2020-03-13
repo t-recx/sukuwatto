@@ -7,7 +7,7 @@ import { User } from 'src/app/user';
 import { environment } from 'src/environments/environment';
 import { LastMessagesService } from '../last-messages.service';
 import { LastMessage } from '../last-message';
-import { faUserCircle, faReply, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faReply, faPen, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FollowService } from '../follow.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   faUserCircle = faUserCircle;
   faReply = faReply;
-  faPen = faPen;
+  faComment = faComment;
 
   newMessageVisible: boolean = false;
 

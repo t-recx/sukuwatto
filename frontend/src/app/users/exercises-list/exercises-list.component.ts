@@ -23,6 +23,7 @@ export class ExercisesListComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
+      lengthChange: false, 
       pageLength: 10,
       serverSide: true,
       processing: true,

@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import 'datatables.net';
 import { AuthService } from 'src/app/auth.service';
 import { Router } from '@angular/router';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercises',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./exercises.component.css']
 })
 export class ExercisesComponent implements OnInit {
+  faDumbbell = faDumbbell;
 
   constructor(
     private authService: AuthService,

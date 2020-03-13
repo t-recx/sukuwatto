@@ -1,4 +1,13 @@
-<h1 class="siimple-h1">Plans</h1>
+<div class="toolbar">
+    <div class="toolbar-title">Plans</div>
+
+    <div class="toolbar-buttons">
+      <button class="siimple-btn siimple-btn--primary toolbar-button" [routerLink]="['/users', username, 'plan']">
+        <fa-icon [icon]="faCalendarAlt" class="siimple--mr-1"></fa-icon>
+        New
+     </button>
+    </div>
+</div>
 
 <div *ngIf="adoptedPlans && adoptedPlans.length > 0">
   <h2 class="siimple-h2">Adopted plans</h2>
@@ -40,5 +49,3 @@
     </li>
   </ul>
 </div>
-
-<button class="siimple-btn siimple-btn--primary" [routerLink]="['/users', username, 'plan']">New plan</button>

@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RepetitionType } from '../plan-session-group-activity';
 import { Paginated } from '../paginated';
 import { Subscription } from 'rxjs';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import { faTasks } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workouts',
@@ -21,7 +21,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   username: string;
   page: string;
 
-  faDumbbell = faDumbbell;
+  faTasks = faTasks;
   currentPage: number;
 
   pageSize: number = 10;
