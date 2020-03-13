@@ -1,6 +1,14 @@
-<h1 class="siimple-h1">Exercises</h1>
+<div class="toolbar">
+    <div class="toolbar-title">Exercises</div>
+
+    <div class="toolbar-buttons">
+        <button class="siimple-btn siimple-btn--primary toolbar-button" 
+          [routerLink]="['/users', username, 'exercise']">
+            <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
+            New
+        </button>
+    </div>
+</div>
 
 <app-exercises-list (selected)="navigate($event)">
 </app-exercises-list>
-
-<button class="siimple-btn siimple-btn--primary" routerLink="../exercise/">New exercise</button>

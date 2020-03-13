@@ -2,19 +2,19 @@
     <thead class="siimple-table-header">
         <tr class="siimple-table-row">
             <th class="siimple-table-cell">Name</th>
-            <th class="siimple-table-cell">Section</th>
-            <th class="siimple-table-cell">Modality</th>
-            <th class="siimple-table-cell">Force</th>
-            <th class="siimple-table-cell">Mechanics</th>
+            <th class="siimple-table-cell siimple--display-sm-none">Section</th>
+            <th class="siimple-table-cell siimple--display-sm-none">Modality</th>
+            <th class="siimple-table-cell siimple--display-sm-none">Force</th>
+            <th class="siimple-table-cell siimple--display-sm-none">Mechanics</th>
         </tr>
     </thead>
     <tbody class="siimple-table-body">
         <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises"  (click)="select(exercise)">
             <td class="siimple-table-cell">{{exercise.name}}</td>
-            <td class="siimple-table-cell">{{getSectionLabel(exercise.section)}}</td>
-            <td class="siimple-table-cell">{{getModalityLabel(exercise.modality)}}</td>
-            <td class="siimple-table-cell">{{getForceLabel(exercise.force)}}</td>
-            <td class="siimple-table-cell">{{getMechanicsLabel(exercise.mechanics)}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{getSectionLabel(exercise.section)}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{getModalityLabel(exercise.modality)}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{getForceLabel(exercise.force)}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{getMechanicsLabel(exercise.mechanics)}}</td>
         </tr>
     </tbody>
 </table>

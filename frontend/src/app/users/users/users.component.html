@@ -1,4 +1,4 @@
-<div class="siimple-navbar siimple-navbar--primary siimple-navbar--large">
+<div class="siimple-navbar siimple-navbar--primary siimple-navbar--large navbar">
     <div class="siimple--float-left menu-icon siimple--mr-1">
         <span class="menu-icon phones-only" (click)="toggleMenuVisibility()">
             <fa-icon [icon]="faBars"></fa-icon>
@@ -30,7 +30,7 @@
 <div>
     <app-alert></app-alert>
 </div>
-<div class="siimple-content siimple-content--large">
+<div class="siimple-content siimple-content--large content-body" [class.content-body-with-dropdown-expanded]="menuDropDownVisible">
     <div class="siimple-grid-row">
         <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
             <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none">
