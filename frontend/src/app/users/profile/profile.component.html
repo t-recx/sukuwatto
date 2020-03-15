@@ -3,8 +3,8 @@
         <div class="siimple-grid-row">
             <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12" align="center">
                 <div class="image-container">
-                    <img *ngIf="user.profile_filename" [src]=profileImageURL />
-                    <fa-icon *ngIf="!user.profile_filename" [icon]="faUserCircle" class="siimple--color-primary"
+                    <img *ngIf="user.profile_filename && !imageHidden" [src]=profileImageURL (error)="hideImage()" />
+                    <fa-icon *ngIf="!user.profile_filename || imageHidden" [icon]="faUserCircle" class="siimple--color-primary"
                         size="10x"></fa-icon>
                 </div>
             </div>

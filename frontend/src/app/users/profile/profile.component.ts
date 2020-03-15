@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
   currentPage = 1;
   loadingOlderActions: boolean = false;
 
+  imageHidden: boolean = false;
+
   user: User;
   username: string;
   profileImageURL: string;
@@ -108,7 +110,12 @@ export class ProfileComponent implements OnInit {
       });
     }
 
+    this.imageHidden = false;
     this.showUnfollowButtonOnFollowingList = this.authService.isCurrentUserLoggedIn(this.username);
+  }
+
+  hideImage() {
+    this.imageHidden = true;
   }
 
   loadFeed(): void {

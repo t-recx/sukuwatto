@@ -25,6 +25,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
   faReply = faReply;
   faComment = faComment;
 
+  imageHidden: boolean = false;
+
   newMessageVisible: boolean = false;
 
   constructor(
@@ -55,6 +57,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.newMessageVisible = false;
   }
 
+  hideImage() {
+    this.imageHidden = true;
+  }
+
   loadParameterDependentData(username: string) {
     this.username = username;
     this.newMessageVisible = false;
@@ -72,6 +78,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
     else {
       this.lastMessages = null;
     }
+
+    this.imageHidden = false;
   }
 
   getProfileImageURL(user: User): string {

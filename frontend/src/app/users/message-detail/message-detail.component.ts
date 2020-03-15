@@ -22,6 +22,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   private scrollContainer: any;
   private isNearBottom = true;
 
+  imageHidden: boolean = false;
+
   previousScrollHeight: number = 0;
   loadingOlderMessages: boolean = false;
 
@@ -86,6 +88,10 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   ngAfterViewChecked(): void {
     this.setScrollContainer();
+  }
+
+  hideImage() {
+    this.imageHidden = true;
   }
 
   setScrollContainer(): void {
@@ -161,6 +167,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.username = username;
     this.correspondent_username = correspondent_username;
     this.newMessage = "";
+    this.imageHidden = false;
 
     if (username && correspondent_username && username.length > 0 && correspondent_username.length > 0 &&
       username == this.authService.getUsername()) {
