@@ -1,20 +1,53 @@
-<div class="navigation-box" *ngIf="hasPreviousPage || hasNextPage" align="center">
-  <button [class.siimple-btn--disabled]="!hasPreviousPage" class="siimple-btn siimple-btn--primary navigation-previous" [routerLink]="link.concat([previousPage])">
-    <fa-icon [icon]="faArrowLeft"></fa-icon>
-    <span class="siimple--display-sm-none siimple--ml-1">Previous</span>
-  </button>
-  <span class="current-page siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
-    <button *ngIf="currentPage > 3" class="siimple--mr-2 siimple-btn" [routerLink]="link.concat([1])">1</button>
-    <span *ngIf="currentPage > 3" class="siimple--rounded siimple--mr-2 siimple--bg-light more-pages-label" align="center">
-      <small class="siimple-small">...</small>
+<div *ngIf="link">
+  <div class="navigation-box" *ngIf="hasPreviousPage || hasNextPage" align="center">
+    <button [class.siimple-btn--disabled]="!hasPreviousPage" [disabled]="!hasPreviousPage"
+      class="siimple-btn siimple-btn--primary navigation-previous" [routerLink]="link.concat([previousPage])">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      <span class="siimple--display-sm-none siimple--ml-1">Previous</span>
+    </button>
+    <span class="current-page siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
+      <button *ngIf="currentPage > 3" class="siimple--mr-2 siimple-btn" [routerLink]="link.concat([1])">1</button>
+      <span *ngIf="currentPage > 3" class="siimple--rounded siimple--mr-2 siimple--bg-light more-pages-label"
+        align="center">
+        <small class="siimple-small">...</small>
+      </span>
+      <button *ngIf="hasPreviousPage" class="siimple-btn siimple--mr-2"
+        [routerLink]="link.concat([previousPage])">{{previousPage}}</button>
+      <button class="siimple-btn siimple-btn--primary siimple--mr-2 "
+        [routerLink]="link.concat([currentPage])">{{currentPage}}</button>
+      <button *ngIf="hasNextPage" class="siimple-btn" [routerLink]="link.concat([nextPage])">{{nextPage}}</button>
     </span>
-    <button *ngIf="hasPreviousPage" class="siimple-btn siimple--mr-2" [routerLink]="link.concat([previousPage])">{{previousPage}}</button>
-    <button class="siimple-btn siimple-btn--primary siimple--mr-2 " [routerLink]="link.concat([currentPage])">{{currentPage}}</button>
-    <button *ngIf="hasNextPage" class="siimple-btn" [routerLink]="link.concat([nextPage])">{{nextPage}}</button>
-  </span>
-  <button [class.siimple-btn--disabled]="!hasNextPage" class="siimple-btn siimple-btn--primary navigation-next" [routerLink]="link.concat([nextPage])">
-    <span class="siimple--display-sm-none siimple--mr-1">Next</span>
-    <fa-icon [icon]="faArrowRight"></fa-icon>
-  </button>
+    <button [class.siimple-btn--disabled]="!hasNextPage" [disabled]="!hasNextPage" class="siimple-btn siimple-btn--primary navigation-next"
+      [routerLink]="link.concat([nextPage])">
+      <span class="siimple--display-sm-none siimple--mr-1">Next</span>
+      <fa-icon [icon]="faArrowRight"></fa-icon>
+    </button>
+  </div>
 </div>
 
+<div *ngIf="!link">
+  <div class="navigation-box" *ngIf="hasPreviousPage || hasNextPage" align="center" >
+    <button [class.siimple-btn--disabled]="!hasPreviousPage"  [disabled]="!hasPreviousPage"
+      class="siimple-btn siimple-btn--primary navigation-previous" (click)="goToPreviousPage()">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      <span class="siimple--display-sm-none siimple--ml-1">Previous</span>
+    </button>
+    <span class="current-page siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
+      <button *ngIf="currentPage > 3" class="siimple--mr-2 siimple-btn" (click)="goToPage(1)">1</button>
+      <span *ngIf="currentPage > 3" class="siimple--rounded siimple--mr-2 siimple--bg-light more-pages-label"
+        align="center">
+        <small class="siimple-small">...</small>
+      </span>
+      <button *ngIf="hasPreviousPage" class="siimple-btn siimple--mr-2"
+        (click)="goToPreviousPage()">{{previousPage}}</button>
+      <button class="siimple-btn siimple-btn--primary siimple--mr-2 "
+        (click)="goToPage(currentPage)">{{currentPage}}</button>
+      <button *ngIf="hasNextPage" class="siimple-btn" (click)="goToNextPage()">{{nextPage}}</button>
+    </span>
+    <button [class.siimple-btn--disabled]="!hasNextPage"  [disabled]="!hasNextPage" class="siimple-btn siimple-btn--primary navigation-next"
+      (click)="goToNextPage()">
+      <span class="siimple--display-sm-none siimple--mr-1">Next</span>
+      <fa-icon [icon]="faArrowRight"></fa-icon>
+    </button>
+  </div>
+</div>

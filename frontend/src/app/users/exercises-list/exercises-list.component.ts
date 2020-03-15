@@ -1,52 +1,68 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
-import { Subject } from 'rxjs';
-import 'datatables.net';
-import { DataTablesParameters } from 'src/app/datatables-parameters';
+import { Subject, Subscription } from 'rxjs';
+import { Paginated } from '../paginated';
 
 @Component({
   selector: 'app-exercises-list',
   templateUrl: './exercises-list.component.html',
   styleUrls: ['./exercises-list.component.css']
 })
-export class ExercisesListComponent implements OnInit {
+export class ExercisesListComponent implements OnInit, OnChanges {
+  @Input() page: number;
+  @Input() pageSize: number = 10;
+  @Input() searchFilter: string;
+  @Input() ordering: string[];
+  @Input() link: any;
+
   @Output() selected = new EventEmitter<Exercise>();
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<Exercise[]> = new Subject<Exercise[]>();
+
   exercises: Exercise[];
+
+  paramChangedSubscription: Subscription;
+  paginatedExercises: Paginated<Exercise>;
 
   constructor(
     private exercisesService: ExercisesService,
   ) { }
 
   ngOnInit() {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      lengthChange: false, 
-      pageLength: 10,
-      serverSide: true,
-      processing: true,
-      ajax: (parameters: DataTablesParameters, callback) => {
-        console.log(parameters);
+  }
 
-        this.exercisesService.getExercises(parameters.start / parameters.length, parameters.length,
-          parameters.search.value, parameters.order.map(o => (o.dir == 'desc' ? '-' : '') + parameters.columns[o.column].data))
-        .subscribe(paginated => {
-          this.exercises = paginated.results;
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loadExercises();
+  }
 
-          let recordsTotal = paginated.count;
-          let recordsFiltered = paginated.count;
+  loadExercises() {
+    if (!this.page) {
+      this.page = 1;
+    }
 
-          callback({
-              recordsTotal: recordsTotal,
-              recordsFiltered: recordsFiltered,
-              data: []
-            });
-        });
-      },
-      columns: [{ data: 'name' }, { data: 'section' }, { data: 'modality' }, { data: 'force' }, { data: 'mechanics' }]
-    };
+    this.exercisesService.getExercises(this.page, this.pageSize, this.searchFilter, this.ordering)
+    .subscribe(paginated => {
+      this.setDescriptions(paginated.results);
+      this.paginatedExercises = paginated;
+      this.exercises = paginated.results;
+    });
+  }
+
+  navigateToPage(page: number) {
+    if (!this.link) {
+      this.page = page;
+      this.loadExercises();
+    }
+  }
+
+  setDescriptions(exercises: Exercise[]) {
+    if (exercises) {
+      exercises.forEach(e => {
+        e.sectionLabel = this.getSectionLabel(e.section);
+        e.forceLabel = this.getForceLabel(e.force);
+        e.mechanicsLabel = this.getMechanicsLabel(e.mechanics);
+        e.modalityLabel = this.getModalityLabel(e.modality);
+      });
+    }
   }
 
   getSectionLabel(section: string): string {

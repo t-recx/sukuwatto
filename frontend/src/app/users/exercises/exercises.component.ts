@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } from '../exercise';
-import { ExercisesService } from '../exercises.service';
-import { Subject } from 'rxjs';
-import 'datatables.net';
+import { Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -12,15 +9,34 @@ import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.css']
 })
-export class ExercisesComponent implements OnInit {
+export class ExercisesComponent implements OnInit, OnDestroy {
+  paramChangedSubscription: Subscription;
   faDumbbell = faDumbbell;
+
+  username: string;
+  page: number;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) { }
+    route: ActivatedRoute,
+  ) { 
+    this.paramChangedSubscription = route.paramMap.subscribe(val =>
+      {
+        this.loadParameterDependentData(val.get('username'), val.get('page'));
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.paramChangedSubscription.unsubscribe();
+  }
 
   ngOnInit() {
+  }
+
+  loadParameterDependentData(username: string, page: string) {
+    this.username = username;
+    this.page = +page;
   }
 
   navigate(exercise) {

@@ -1,4 +1,4 @@
-<table datatable [dtOptions]="dtOptions" class=" row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
+<table class=" row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
     <thead class="siimple-table-header">
         <tr class="siimple-table-row">
             <th class="siimple-table-cell">Name</th>
@@ -11,10 +11,13 @@
     <tbody class="siimple-table-body">
         <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises"  (click)="select(exercise)">
             <td class="siimple-table-cell">{{exercise.name}}</td>
-            <td class="siimple-table-cell siimple--display-sm-none">{{getSectionLabel(exercise.section)}}</td>
-            <td class="siimple-table-cell siimple--display-sm-none">{{getModalityLabel(exercise.modality)}}</td>
-            <td class="siimple-table-cell siimple--display-sm-none">{{getForceLabel(exercise.force)}}</td>
-            <td class="siimple-table-cell siimple--display-sm-none">{{getMechanicsLabel(exercise.mechanics)}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{exercise.sectionLabel}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{exercise.modalityLabel}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{exercise.forceLabel}}</td>
+            <td class="siimple-table-cell siimple--display-sm-none">{{exercise.mechanicsLabel}}</td>
         </tr>
     </tbody>
 </table>
+
+<app-pagination [paginatedRecords]="paginatedExercises" [currentPage]="page" (navigateToPage)="navigateToPage($event)" [link]=link>
+</app-pagination>

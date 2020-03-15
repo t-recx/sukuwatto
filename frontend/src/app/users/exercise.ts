@@ -49,8 +49,12 @@ export class Exercise {
     name: string;
     description: string;
     section: Section;
+    sectionLabel: string;
     modality: Modality;
+    modalityLabel: string;
     force: Force;
+    forceLabel: string;
     mechanics: Mechanics;
+    mechanicsLabel: string;
     user: number;
 }
