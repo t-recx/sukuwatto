@@ -3,6 +3,7 @@ import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-plans',
@@ -18,6 +19,7 @@ export class PlansComponent implements OnInit {
   constructor(
     private plansService: PlansService,
     private route: ActivatedRoute,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -40,14 +42,8 @@ export class PlansComponent implements OnInit {
     this.plansService.getAdoptedPlans(this.username).subscribe(plans => this.adoptedPlans = plans);
   }
 
-  adoptPlan(plan): void {
-    this.plansService.adoptPlan(plan).subscribe(savedPlan =>
-      {
-        if (savedPlan && savedPlan.id && savedPlan.id > 0)
-        {
-          this.loadAdoptedPlans();
-        }
-      });
+  showDeleteButton(plan): boolean {
+    return this.authService.isCurrentUserLoggedIn(plan.username);
   }
 
   deletePlan(plan): void {

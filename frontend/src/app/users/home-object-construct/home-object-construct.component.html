@@ -17,6 +17,13 @@
         </a>
     </ng-template>
 
+    <ng-template [ngSwitchCase]="'plan'">
+        <a class="siimple-link"
+            [routerLink]="['/users', username, 'plan', object_id]">
+            plan
+        </a>
+    </ng-template>
+
     <ng-template ngSwitchDefault>
         {{object.display_name}}
     </ng-template>

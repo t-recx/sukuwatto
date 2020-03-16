@@ -1,4 +1,10 @@
 <div *ngIf="plan">
+    <div *ngIf="!userIsOwner">
+      <app-plan-card [plan]=plan 
+        [showSaveDeleteButtons]=false >
+      </app-plan-card>
+    </div>
+    <div *ngIf="userIsOwner">
     <form class="siimple-card siimple-form" #planForm="ngForm" >
         <div class="siimple-form-title">Plan detail</div>
         <div class="siimple-grid">
@@ -76,5 +82,16 @@
         </app-plan-progression-strategies> 
 
         <button class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">Save</button>
+        <button *ngIf="plan.id" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()">Delete</button>
     </form>
+    </div>
 </div>
+
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Delete plan?'
+    body='This will delete your plan and associated data. Are you sure you want to proceed?'
+    (deleted)="delete()"
+    (canceled)="toggleDeleteModal()"
+    >
+</app-delete-modal>

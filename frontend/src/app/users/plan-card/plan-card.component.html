@@ -1,0 +1,28 @@
+<div class="siimple-card">
+    <div class="siimple-card-header">
+        <a class="siimple-link" [routerLink]="['/users', this.plan.user.username, 'plan', plan.id]">
+            {{plan.name}}
+        </a>
+
+        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
+    </div>
+    <div class="siimple-card-body">
+        {{plan.description}}
+    </div>
+    <div class="siimple-card-footer plan-card-footer">
+        <app-card-social-interaction content_type_model='plan' [id]=plan.id></app-card-social-interaction>
+        <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()">
+            <fa-icon [icon]="faChild" class="siimple--mr-1"></fa-icon>
+            Adopt
+        </button>
+    </div>
+</div>
+
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Delete plan?'
+    body='This will delete your plan and associated data. Are you sure you want to proceed?'
+    (deleted)="delete()"
+    (canceled)="toggleDeleteModal()"
+    >
+</app-delete-modal>

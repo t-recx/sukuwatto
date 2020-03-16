@@ -87,7 +87,7 @@ class Plan(models.Model):
     short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)')
     name = models.CharField(max_length=200, help_text='Enter the workout plan template''s name (ex: Push Pull Legs, Starting Strength)')
     description = models.TextField(null=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
     public = models.BooleanField(default=False)
 
@@ -195,8 +195,8 @@ class Workout(models.Model):
     end = models.DateTimeField(null=True)
     name = models.CharField(max_length=200, null=True)
     notes = models.TextField(null=True)
-    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
-    plan_session = models.ForeignKey(PlanSession, on_delete=models.CASCADE, null=True)
+    plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True)
+    plan_session = models.ForeignKey(PlanSession, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     status = models.CharField(default=INPROGRESS, max_length=1, choices=STATUS)
 
