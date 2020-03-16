@@ -17,7 +17,11 @@ export class PlanDetailComponent implements OnInit {
 
   plan: Plan;
   selectedSession: PlanSession;
-  triedToSave: boolean;
+  triedToSave: boolean = false;
+
+  deleteModalVisible: boolean = false;
+
+  userIsOwner: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,15 +31,18 @@ export class PlanDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.triedToSave = false;
-    this.loadOrInitializePlan();
+    this.route.paramMap.subscribe(params => 
+      {
+        this.triedToSave = false;
+        this.loadOrInitializePlan(params.get('id'));
+      });
   }
 
-  private loadOrInitializePlan() {
-    const id = this.route.snapshot.paramMap.get('id');
+  private loadOrInitializePlan(id: string) {
     if (id) {
       this.service.getPlan(id).subscribe(plan => {
         this.plan = plan;
+        this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
         if (this.plan.sessions && this.plan.sessions.length > 0) {
           this.selectedSession = this.plan.sessions[0];
         }
@@ -43,6 +50,7 @@ export class PlanDetailComponent implements OnInit {
     }
     else {
       this.plan = new Plan();
+      this.userIsOwner = true;
     }
   }
 
@@ -82,9 +90,21 @@ export class PlanDetailComponent implements OnInit {
     this.service.savePlan(this.plan).subscribe(plan => {
       this.triedToSave = false;
 
-      this.router.navigate(['/users', this.authService.getUsername(), 'plans'], {
-        relativeTo: this.route,
-      });
+      this.goBackToList();
     });
+  }
+
+  goBackToList() {
+    this.router.navigate(['/users', this.authService.getUsername(), 'plans'], {
+      relativeTo: this.route,
+    });
+  }
+
+  toggleDeleteModal() {
+    this.deleteModalVisible = !this.deleteModalVisible;
+  }
+
+  delete() {
+    this.service.deletePlan(this.plan).subscribe(x => this.goBackToList());
   }
 }

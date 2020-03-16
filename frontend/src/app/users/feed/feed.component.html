@@ -46,6 +46,28 @@
                 </span>
             </ng-template>
 
+            <ng-template [ngSwitchCase]="'adopted'">
+                <span class="action-info">
+                    adopted a
+                    <span>
+                        <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
+                            [object_id]=action.action_object_object_id>
+                        </app-home-object-construct>
+                    </span>
+                </span>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'created'">
+                <span class="action-info">
+                    created a
+                    <span>
+                        <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
+                            [object_id]=action.action_object_object_id>
+                        </app-home-object-construct>
+                    </span>
+                </span>
+            </ng-template>
+
             <ng-template [ngSwitchCase]="'liked'">
                 <span class="action-info">
                     liked a
@@ -96,6 +118,18 @@
             <ng-template [ngSwitchCase]="'trained'">
                 <div class="card-container">
                     <app-workout-overview-card [id]=action.action_object_object_id></app-workout-overview-card>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'adopted'">
+                <div class="card-container">
+                    <app-plan-card [id]=action.action_object_object_id></app-plan-card>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'created'">
+                <div class="card-container">
+                    <app-plan-card [id]=action.action_object_object_id></app-plan-card>
                 </div>
             </ng-template>
 

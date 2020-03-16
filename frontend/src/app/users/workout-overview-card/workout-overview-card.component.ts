@@ -31,6 +31,9 @@ export class WorkoutOverviewCardComponent implements OnInit {
           this.workoutActivities = this.getResumedActivities(w);
         });
     }
+    else {
+      this.workoutActivities = this.getResumedActivities(this.workout);
+    }
   }
 
   getProductiveGroups(groups: WorkoutGroup[]): WorkoutGroup[] {

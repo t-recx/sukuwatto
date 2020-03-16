@@ -2,6 +2,7 @@ from rest_framework import serializers
 from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGroupExercise, PlanSessionGroupWarmUp, PlanProgressionStrategy, PlanSessionProgressionStrategy, PlanSessionGroupProgressionStrategy, Exercise
 from workouts.utils import get_differences
 from workouts.serializers.serializers import ExerciseSerializer
+from users.serializers import UserSerializer
 
 class PlanSessionGroupExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupExercise()._meta.get_field('id'), required=False)
@@ -84,12 +85,14 @@ class PlanSessionSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'groups', 'progressions']
 
 class PlanSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     sessions = PlanSessionSerializer(many=True, required=False)
     progressions = PlanProgressionStrategySerializer(many=True, required=False)
     
     class Meta:
         model = Plan
         fields = ['id', 'short_name', 'name', 'description', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
+        extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):
         user = None

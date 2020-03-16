@@ -12,17 +12,25 @@ class ExerciseSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'user']
         extra_kwargs = {'user': {'required': False}}
 
-    def validate(self, data):
-        if 'id' in data:
-            es = ExerciseService()
-
-            if es.in_use_on_other_users_resources(data['id'], self.context.get("request").user):
-                raise serializers.ValidationError("Exercise in usage")
-
-        return data
-
     def create(self, validated_data):
         return Exercise.objects.create(user=self.context.get("request").user, **validated_data)
+
+    def update(self, instance, validated_data):
+        es = ExerciseService()
+
+        if es.in_use_on_other_users_resources(instance.id, self.context.get("request").user):
+            raise serializers.ValidationError("Exercise in usage")
+
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.mechanics = validated_data.get('mechanics', instance.mechanics)
+        instance.force = validated_data.get('force', instance.force)
+        instance.modality = validated_data.get('modality', instance.modality)
+        instance.section = validated_data.get('section', instance.section)
+
+        instance.save()
+
+        return instance
 
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
