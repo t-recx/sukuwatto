@@ -1,8 +1,22 @@
-<div class="social-interaction-buttons">
-    <span class="like-button button-link" [class.liked]="liked" (click)="toggleLike()">
-        <fa-icon [icon]="faThumbsUp" class="siimple--mr-1"></fa-icon>
+<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="usersLikesModalVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Likes</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="toggleUserLikesModal()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <app-users-follow-list [users]=usersThatLiked [showActionButton]=false></app-users-follow-list>
+        </div>
+        <div class="siimple-modal-footer">
+        </div>
+    </div>
+</div>
 
-        <span class="likes">
+<div class="social-interaction-buttons">
+    <span class="like-button button-link" [class.liked]="liked">
+        <fa-icon [icon]="faThumbsUp" class="siimple--mr-1" (click)="toggleLike()"></fa-icon>
+
+        <span class="likes" (click)="toggleUserLikesModal()">
             {{likes}}
         </span>
     </span>
