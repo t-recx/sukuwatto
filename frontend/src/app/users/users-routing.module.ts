@@ -87,6 +87,11 @@ const routes: Routes = [
         component: ExercisesComponent,
       },
       {
+        path: 'exercises/:page',
+        canActivateChild: [],
+        component: ExercisesComponent,
+      },
+      {
         path: 'exercise/:id',
         canActivateChild: [],
         component: ExerciseDetailComponent,

@@ -10,5 +10,9 @@
     </div>
 </div>
 
-<app-exercises-list (selected)="navigate($event)">
+<app-exercises-list 
+    (selected)="navigate($event)" [page]=page [link]="['/users', username, 'exercises']" 
+    [searchFilter]=search
+    [ordering]=ordering
+    [queryParams]=queryParams>
 </app-exercises-list>

@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Self } from '@angular/core';
 import { faSearch, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Exercise } from '../exercise';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl, NgControl, NG_VALIDATORS, Validator, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'exercises-input',
@@ -12,10 +12,15 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ExercisesInputComponent),
       multi: true
+    },
+    { 
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ExercisesInputComponent),
+      multi: true
     }
   ]
 })
-export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
+export class ExercisesInputComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() value: Exercise;
   exercises: Exercise[];
 
@@ -42,13 +47,23 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
     this.value = exercise;
   }
 
+  validate(control: FormControl): ValidationErrors {
+    if(!this.value || !this.value.id) {
+        return {
+          invalid: true
+        };
+    }
+
+    return null;
+  }
+
   modalVisible: boolean = false;
 
   faSearch = faSearch;
   faEraser = faEraser;
 
-  constructor(
-  ) { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -78,7 +93,7 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor {
   }
 
   getExerciseName(): string {
-    if (this.value) {
+    if (this.value && this.value.name) {
       return this.value.name;
     }
 

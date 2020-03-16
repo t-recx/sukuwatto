@@ -13,9 +13,12 @@ export class ExercisesModalComponent implements OnInit {
 
   newExerciseModalVisible: boolean = false;
 
+  page: number;
+
   constructor() { }
 
   ngOnInit() {
+    this.page = 1;
   }
 
   select(exercise): void {
