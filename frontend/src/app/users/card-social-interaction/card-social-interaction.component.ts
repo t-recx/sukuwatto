@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth.service';
 import { ContentTypesService } from '../content-types.service';
 import { CommentsService } from '../comments.service';
 import { Comment } from '../comment';
+import { User } from 'src/app/user';
 
 @Component({
   selector: 'app-card-social-interaction',
@@ -26,6 +27,8 @@ export class CardSocialInteractionComponent implements OnInit {
   faComments = faComments;
   faComment = faComment;
 
+  usersThatLiked: User[];
+
   liked: boolean;
   likes: number = 0;
 
@@ -34,6 +37,7 @@ export class CardSocialInteractionComponent implements OnInit {
   commentActions: Action[];
 
   createCommentSectionVisible: boolean = false;
+  usersLikesModalVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -78,7 +82,20 @@ export class CardSocialInteractionComponent implements OnInit {
   }
 
   setLikeNumber() {
-    this.likes = this.actions.filter(a => a.verb == 'liked').length;
+    this.usersThatLiked = [];
+
+    let likeActions = this.actions.filter(a => a.verb == 'liked');
+
+    this.likes = likeActions.length;
+    likeActions.forEach(action => 
+      {
+        let user = new User();
+
+        user.username = action.actor.display_name;
+
+        this.usersThatLiked.push(user);
+      });
+
   }
 
   setCommentNumber() {
@@ -91,9 +108,15 @@ export class CardSocialInteractionComponent implements OnInit {
 
       if (this.liked) {
         this.likes += 1;
+
+        let user = new User();
+        user.username = this.authService.getUsername();
+        this.usersThatLiked.push(user);
       }
       else {
         this.likes -= 1;
+
+        this.usersThatLiked = this.usersThatLiked.filter(x => x.username != this.authService.getUsername());
       }
     });
   }
@@ -121,5 +144,9 @@ export class CardSocialInteractionComponent implements OnInit {
     if (index > -1) {
       this.commentActions.splice(index, 1);
     }
+  }
+
+  toggleUserLikesModal() {
+    this.usersLikesModalVisible = !this.usersLikesModalVisible;
   }
 }
