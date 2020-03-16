@@ -1,11 +1,24 @@
+<div class="search-box">
+    <input type="text" class="siimple-input search-box-input" id="search-input"
+        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel" >
+    <div class="search-buttons">
+        <button class="siimple-btn siimple-btn--success" (click)="search()" >
+            Find
+        </button>
+        <button class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()" >
+            Clear
+        </button>
+    </div>
+</div>
+
 <table class=" row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
     <thead class="siimple-table-header">
         <tr class="siimple-table-row">
-            <th class="siimple-table-cell">Name</th>
-            <th class="siimple-table-cell siimple--display-sm-none">Section</th>
-            <th class="siimple-table-cell siimple--display-sm-none">Modality</th>
-            <th class="siimple-table-cell siimple--display-sm-none">Force</th>
-            <th class="siimple-table-cell siimple--display-sm-none">Mechanics</th>
+            <th (click)="toggleSort('name')" [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable">Name</th>
+            <th (click)="toggleSort('section')" [class.siimple-table-cell--asc]="columnOrder['section'] && columnOrder['section'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['section'] && columnOrder['section'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable siimple--display-sm-none">Section</th>
+            <th (click)="toggleSort('modality')" [class.siimple-table-cell--asc]="columnOrder['modality'] && columnOrder['modality'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['modality'] && columnOrder['modality'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable siimple--display-sm-none">Modality</th>
+            <th (click)="toggleSort('force')" [class.siimple-table-cell--asc]="columnOrder['force'] && columnOrder['force'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['force'] && columnOrder['force'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable siimple--display-sm-none">Force</th>
+            <th (click)="toggleSort('mechanics')" [class.siimple-table-cell--asc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable siimple--display-sm-none">Mechanics</th>
         </tr>
     </thead>
     <tbody class="siimple-table-body">
@@ -19,5 +32,5 @@
     </tbody>
 </table>
 
-<app-pagination [paginatedRecords]="paginatedExercises" [currentPage]="page" (navigateToPage)="navigateToPage($event)" [link]=link>
+<app-pagination [paginatedRecords]="paginatedExercises" [currentPage]="page" (navigateToPage)="navigateToPage($event)" [link]=link [queryParams]=queryParams>
 </app-pagination>

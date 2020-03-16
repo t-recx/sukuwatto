@@ -3,6 +3,7 @@ import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } fro
 import { ExercisesService } from '../exercises.service';
 import { Subject, Subscription } from 'rxjs';
 import { Paginated } from '../paginated';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercises-list',
@@ -13,10 +14,14 @@ export class ExercisesListComponent implements OnInit, OnChanges {
   @Input() page: number;
   @Input() pageSize: number = 10;
   @Input() searchFilter: string;
-  @Input() ordering: string[];
+  @Input() ordering: string;
   @Input() link: any;
+  @Input() queryParams: {};
 
   @Output() selected = new EventEmitter<Exercise>();
+
+  lastSearchedFilter = '';
+  columnOrder = {}
 
   exercises: Exercise[];
 
@@ -25,12 +30,15 @@ export class ExercisesListComponent implements OnInit, OnChanges {
 
   constructor(
     private exercisesService: ExercisesService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
+    this.lastSearchedFilter = '';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.orderingToColumnOrder();
     this.loadExercises();
   }
 
@@ -44,7 +52,81 @@ export class ExercisesListComponent implements OnInit, OnChanges {
       this.setDescriptions(paginated.results);
       this.paginatedExercises = paginated;
       this.exercises = paginated.results;
+      this.lastSearchedFilter = this.searchFilter;
     });
+  }
+
+  search() {
+    if (this.lastSearchedFilter != this.searchFilter) {
+      this.page = 1;
+    }
+
+    if (this.link) {
+      this.queryParams = this.getQueryParams();
+      this.router.navigate(this.link.concat(this.page), { queryParams: this.getQueryParams() });
+    }
+    else {
+      this.loadExercises();
+    }
+  }
+
+  clearFilters() {
+    this.searchFilter = '';
+    this.search();
+  }
+
+  sortIndex = 0;
+
+  orderingToColumnOrder() {
+    if (this.ordering) {
+      this.ordering.split(',').forEach(o => 
+        {
+          let columnName = o;
+          if (o[0] == '-') {
+            columnName = o.substr(1);
+          }
+          this.columnOrder[columnName] = [this.sortIndex, o];
+          this.sortIndex++;
+        });
+    }
+    else {
+      this.columnOrder = {};
+    }
+    console.log(this.columnOrder);
+  }
+
+  toggleSort(column: string) {
+    if (!this.columnOrder[column]) {
+      this.sortIndex++;
+      this.columnOrder[column] = [this.sortIndex, column];
+    }
+    else if (this.columnOrder[column][1][0] == '-') {
+      this.columnOrder[column] = null;
+    }
+    else {
+      this.columnOrder[column][1] = '-' + this.columnOrder[column][1];
+    }
+
+    this.ordering = Object.values(this.columnOrder).filter(x => x).sort((a, b) => a[0] - b[0]).map(x => x[1]).join(',');
+    this.search();
+
+    if (Object.values(this.columnOrder).filter(x => x).length == 0) {
+      this.sortIndex = 0;
+    }
+  }
+
+  getQueryParams() {
+    let queryParams = {}
+    
+    if (this.searchFilter && this.searchFilter.length > 0) {
+      queryParams['search']= this.searchFilter;
+    }
+
+    if (this.ordering && this.ordering.length > 0) {
+      queryParams['ordering']= this.ordering;
+    }
+
+    return queryParams;
   }
 
   navigateToPage(page: number) {

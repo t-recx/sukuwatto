@@ -48,8 +48,6 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor, Va
   }
 
   validate(control: FormControl): ValidationErrors {
-    console.log('validate');
-
     if(!this.value || !this.value.id) {
         return {
           invalid: true

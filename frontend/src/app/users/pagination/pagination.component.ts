@@ -11,6 +11,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() paginatedRecords: Paginated<any>;
   @Input() currentPage: number;
   @Input() link: any;
+  @Input() queryParams: {};
   @Output() navigateToPage = new EventEmitter<number>();
 
   faArrowLeft = faArrowLeft;
