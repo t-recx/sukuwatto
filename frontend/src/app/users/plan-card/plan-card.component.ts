@@ -3,6 +3,9 @@ import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { AuthService } from 'src/app/auth.service';
 import { faChild } from '@fortawesome/free-solid-svg-icons';
+import { RepetitionType, PlanSessionGroupActivity } from '../plan-session-group-activity';
+import { PlanSession } from '../plan-session';
+import { Exercise } from '../exercise';
 
 @Component({
   selector: 'app-plan-card',
@@ -19,6 +22,7 @@ export class PlanCardComponent implements OnInit {
   showAdoptButton: boolean = false;
   deleteModalVisible: boolean = false;
 
+  repetitionType = RepetitionType;
   faChild = faChild;
 
   constructor(
@@ -60,5 +64,15 @@ export class PlanCardComponent implements OnInit {
 
   toggleDeleteModal() {
     this.deleteModalVisible = !this.deleteModalVisible;
+  }
+
+  getActivities(session: PlanSession): PlanSessionGroupActivity[] {
+    return ([] as PlanSessionGroupActivity[]).concat(...session.groups.map(x => x.exercises));
+  }
+
+  multipleWorkingWeightsForExercise(session: PlanSession, exercise: Exercise): boolean {
+    let distinct = new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => x.working_weight_percentage));
+
+    return distinct.size > 1;
   }
 }

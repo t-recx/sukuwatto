@@ -1,4 +1,4 @@
-<div class="siimple-card">
+<div class="siimple-card" *ngIf="plan">
     <div class="siimple-card-header">
         <a class="siimple-link" [routerLink]="['/users', plan.user.username, 'plan', plan.id]">
             {{plan.name}}
@@ -7,7 +7,49 @@
         <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
     </div>
     <div class="siimple-card-body">
-        {{plan.description}}
+        <p class="siimple-p">{{plan.description}}</p>
+
+        <div class="siimple-rule siimple--mt-3"></div>
+
+        <div class="session-list">
+            <div class="siimple-card session-card" *ngFor="let session of plan.sessions">
+                <div class="siimple-card-header">
+                    {{session.name}}
+                </div>
+                <div class="siimple-card-body" *ngFor="let workoutActivity of getActivities(session)">
+                    <span *ngIf="workoutActivity.exercise">
+                        {{workoutActivity.exercise.name}}
+                    </span>
+                    <span>
+                        x
+                    </span>
+                    <span *ngIf="workoutActivity.number_of_sets">
+                        <span>
+                            {{workoutActivity.number_of_sets}}
+                        </span>
+                        <span>
+                            x
+                        </span>
+                    </span>
+                    <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
+                        {{workoutActivity.number_of_repetitions}}
+                    </span>
+                    <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
+                        {{workoutActivity.number_of_repetitions}} -
+                        {{workoutActivity.number_of_repetitions_up_to}}
+                    </span>
+                    <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                        F
+                    </span>
+                    <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                        AMRAP
+                    </span>
+                    <span *ngIf="multipleWorkingWeightsForExercise(session, workoutActivity.exercise)">
+                        ({{workoutActivity.working_weight_percentage}}%)
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="siimple-card-footer plan-card-footer">
         <app-card-social-interaction content_type_model='plan' [id]=plan.id></app-card-social-interaction>
@@ -18,11 +60,7 @@
     </div>
 </div>
 
-<app-delete-modal 
-    [(visible)]="deleteModalVisible"
-    title='Delete plan?'
-    body='This will delete your plan and associated data. Are you sure you want to proceed?'
-    (deleted)="delete()"
-    (canceled)="toggleDeleteModal()"
-    >
+<app-delete-modal [(visible)]="deleteModalVisible" title='Delete plan?'
+    body='This will delete your plan and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+    (canceled)="toggleDeleteModal()">
 </app-delete-modal>
