@@ -1,10 +1,10 @@
 <div class="siimple-card" *ngIf="workout">
     <div class="siimple-card-header">
-        <a class="siimple-link" [routerLink]="['/users', this.workout.user.username, 'workout', workout.id]">
+        <a class="siimple-link" [routerLink]="['/users', workout.user.username, 'workout', workout.id]">
             {{workout.name}}
         </a>
 
-        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="deleteWorkout(workout)"></div>
+        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
     </div>
     <div class="siimple-card-body">
         <table class="siimple-table siimple-table--striped siimple-table--border">
@@ -57,3 +57,12 @@
         <app-card-social-interaction content_type_model='workout' [id]=workout.id></app-card-social-interaction>
     </div>
 </div>
+
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Delete workout?'
+    body='This will delete your workout and associated data. Are you sure you want to proceed?'
+    (deleted)="delete()"
+    (canceled)="toggleDeleteModal()"
+    >
+</app-delete-modal>
