@@ -35,6 +35,8 @@ export class WorkoutDetailComponent implements OnInit {
 
   activityStatusChangedSubject: Subject<void> = new Subject<void>();
 
+  deleteModalVisible: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutsService,
@@ -104,6 +106,7 @@ export class WorkoutDetailComponent implements OnInit {
   ngOnInit() {
     this.triedToSave = false;
     this.userBioData = null;
+    this.deleteModalVisible = false;
 
     this.route.paramMap.subscribe(params => 
       {
@@ -328,6 +331,10 @@ export class WorkoutDetailComponent implements OnInit {
     let userBioDataObservable: Observable<UserBioData>;
     let saveWorkoutObservable: Observable<Workout>;
 
+    if (!this.workout.name || this.workout.name.trim().length == 0) {
+      this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
+    }
+
     saveWorkoutObservable = this.service.saveWorkout(this.workout);
 
     if (this.userBioData) {
@@ -407,5 +414,13 @@ export class WorkoutDetailComponent implements OnInit {
 
   hideFinishWorkout(): void {
     this.finishWorkoutVisible = false;
+  }
+
+  toggleDeleteModal(): void {
+    this.deleteModalVisible = !this.deleteModalVisible;
+  }
+
+  delete(): void {
+    this.service.deleteWorkout(this.workout).subscribe(_ => this.navigateToWorkoutList());
   }
 }

@@ -18,12 +18,15 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   workoutActivities: WorkoutOverview[] = [];
 
+  deleteModalVisible: boolean = false;
+
   constructor(
     private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
   ) { }
 
   ngOnInit() {
+    this.deleteModalVisible = false;
     if (!this.workout) {
       this.workoutsService.getWorkout(this.id).subscribe(w =>
         {
@@ -86,7 +89,11 @@ export class WorkoutOverviewCardComponent implements OnInit {
     return activities;
   }
 
-  deleteWorkout(): void {
+  delete(): void {
     this.deleted.emit(this.workout);
+  }
+
+  toggleDeleteModal(): void {
+    this.deleteModalVisible = !this.deleteModalVisible;
   }
 }

@@ -168,9 +168,21 @@
         <button class="siimple-btn siimple-btn--success siimple--mt-2 siimple--ml-2" (click)="showFinishWorkoutModal()">
             Finish
         </button>
+        <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()">
+            Delete
+        </button>
     </form>
 
     <app-workout-timer  [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" [workout]=workout >
 
     </app-workout-timer>
 </div>
+
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Delete workout?'
+    body='This will delete your workout and associated data. Are you sure you want to proceed?'
+    (deleted)="delete()"
+    (canceled)="toggleDeleteModal()"
+    >
+</app-delete-modal>
