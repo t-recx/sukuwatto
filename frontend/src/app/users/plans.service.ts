@@ -82,6 +82,8 @@ export class PlansService {
   }
 
   getProperlyTypedPlan(plan: Plan): Plan {
+    plan.creation = new Date(plan.creation);
+
     if (plan.progressions) {
       plan.progressions = this.getProperlyTypedProgressions(plan.progressions);
     }

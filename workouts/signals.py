@@ -10,7 +10,7 @@ def workout_actstream_handler(sender, instance, created, **kwargs):
 def plan_actstream_handler(sender, instance, created, **kwargs):
     if created: 
         if instance.parent_plan:
-            action.send(instance.user, verb='adopted', action_object=instance)
+            action.send(instance.user, verb='adopted', action_object=instance.parent_plan)
         else:
             action.send(instance.user, verb='created', action_object=instance)
 

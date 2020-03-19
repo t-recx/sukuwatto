@@ -22,7 +22,7 @@ class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
 
 class PlanProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanProgressionStrategy()._meta.get_field('id'), required=False)
-    exercise = ExerciseSerializer()
+    exercise = ExerciseSerializer(required=False, allow_null=True)
     unit_code = serializers.SerializerMethodField()
 
     def get_unit_code(self, obj):
@@ -37,7 +37,7 @@ class PlanProgressionStrategySerializer(serializers.ModelSerializer):
 
 class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionProgressionStrategy()._meta.get_field('id'), required=False)
-    exercise = ExerciseSerializer()
+    exercise = ExerciseSerializer(required=False, allow_null=True)
     unit_code = serializers.SerializerMethodField()
 
     def get_unit_code(self, obj):
@@ -52,7 +52,7 @@ class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
 
 class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupProgressionStrategy()._meta.get_field('id'), required=False)
-    exercise = ExerciseSerializer()
+    exercise = ExerciseSerializer(required=False, allow_null=True)
     unit_code = serializers.SerializerMethodField()
 
     def get_unit_code(self, obj):
@@ -91,8 +91,8 @@ class PlanSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Plan
-        fields = ['id', 'short_name', 'name', 'description', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
-        extra_kwargs = {'user': {'required': False}}
+        fields = ['id', 'short_name', 'name', 'description', 'website', 'creation', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
+        extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
         user = None
@@ -169,7 +169,8 @@ class PlanSerializer(serializers.ModelSerializer):
             exercise_model = None
             if 'exercise' in progression_data:
                 exercise = progression_data.pop('exercise')
-                exercise_model = Exercise.objects.get(pk=exercise['id'])
+                if exercise is not None:
+                    exercise_model = Exercise.objects.get(pk=exercise['id'])
 
             PlanProgressionStrategy.objects.create(plan=plan, exercise=exercise_model, **progression_data)    
 
@@ -178,7 +179,8 @@ class PlanSerializer(serializers.ModelSerializer):
             exercise_model = None
             if 'exercise' in progression_data:
                 exercise = progression_data.pop('exercise')
-                exercise_model = Exercise.objects.get(pk=exercise['id'])
+                if exercise is not None:
+                    exercise_model = Exercise.objects.get(pk=exercise['id'])
             PlanSessionProgressionStrategy.objects.create(plan_session=plan_session, exercise=exercise_model, **progression_data)    
 
     def create_plan_session_group_progressions(self, progressions_data, plan_session_group):
@@ -186,7 +188,8 @@ class PlanSerializer(serializers.ModelSerializer):
             exercise_model = None
             if 'exercise' in progression_data:
                 exercise = progression_data.pop('exercise')
-                exercise_model = Exercise.objects.get(pk=exercise['id'])
+                if exercise is not None:
+                    exercise_model = Exercise.objects.get(pk=exercise['id'])
             PlanSessionGroupProgressionStrategy.objects.create(plan_session_group=plan_session_group, exercise=exercise_model, **progression_data)    
 
     def create_group_activities(self, model, plan_session_group, exercises_data):
@@ -195,7 +198,8 @@ class PlanSerializer(serializers.ModelSerializer):
                 exercise_model = None
                 if 'exercise' in exercise_data:
                     exercise = exercise_data.pop('exercise')
-                    exercise_model = Exercise.objects.get(pk=exercise['id'])
+                    if exercise is not None:
+                        exercise_model = Exercise.objects.get(pk=exercise['id'])
                 model.objects.create(plan_session_group=plan_session_group, exercise=exercise_model, **exercise_data)
 
     def update_group_activities(self, model, exercises_data):
@@ -264,7 +268,9 @@ class PlanSerializer(serializers.ModelSerializer):
             exercise_model = None
             if 'exercise' in progression_data:
                 exercise = progression_data.pop('exercise')
-                exercise_model = Exercise.objects.get(pk=exercise['id'])
+                if exercise is not None:
+                    exercise_model = Exercise.objects.get(pk=exercise['id'])
+
             instance.exercise = exercise_model
             instance.percentage_increase = progression_data.get('percentage_increase', instance.percentage_increase)
             instance.weight_increase = progression_data.get('weight_increase', instance.weight_increase)
@@ -320,6 +326,7 @@ class PlanSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # update the plan first
         instance.short_name = validated_data.get('short_name', instance.short_name)
+        instance.website = validated_data.get('website', instance.website)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.parent_plan = validated_data.get('parent_plan', instance.parent_plan)

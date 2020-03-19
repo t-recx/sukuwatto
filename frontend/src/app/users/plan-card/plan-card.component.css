@@ -2,7 +2,19 @@
     margin-left: auto;
 }
 
-.plan-card-footer {
+.session-card {
+    width: unset;
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.session-list {
     display: flex;
-    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.owner-user-container {
+    display: flex;
+    align-items: baseline;
 }

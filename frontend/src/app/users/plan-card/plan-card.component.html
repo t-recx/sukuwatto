@@ -1,4 +1,4 @@
-<div class="siimple-card">
+<div class="siimple-card" *ngIf="plan">
     <div class="siimple-card-header">
         <a class="siimple-link" [routerLink]="['/users', plan.user.username, 'plan', plan.id]">
             {{plan.name}}
@@ -7,22 +7,99 @@
         <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
     </div>
     <div class="siimple-card-body">
-        {{plan.description}}
+        <p class="siimple-p">{{plan.description}}</p>
+
+        <span *ngIf="plan.website">
+            <span class="siimple--text-bold">Website: </span>
+            <span class="siimple-link">
+                <a [href]="getPlanWebsite()" target="_blank" class="siimple-link">
+                    {{plan.website}}
+                    <fa-icon [icon]=faExternalLinkAlt></fa-icon>
+                </a>
+            </span>
+        </span>
+
+        <div class="siimple-rule siimple--mt-3"></div>
+
+        <div class="session-list">
+            <div class="siimple-card session-card" *ngFor="let session of plan.sessions">
+                <div class="siimple-card-header">
+                    {{session.name}}
+                </div>
+                <div class="siimple-card-body" *ngFor="let group_order of getGroupOrders(session)">
+                    <span *ngFor="let group of getGroups(session, group_order); let i = index;">
+                        <span *ngIf="i > 0 && i < getGroups(session, group_order).length">
+                            <div class="siimple--text-bold" *ngIf="hasGroupsWithMoreThanOneExercise(session, group_order); else groupsWithJustOneExercise">
+                                alternating with
+                            </div>
+                            <ng-template #groupsWithJustOneExercise>
+                                /
+                            </ng-template>
+                        </span>
+                        <div *ngFor="let exercise_order of getExerciseOrders(group)">
+                            <span *ngFor="let workoutActivity of getExercises(group, exercise_order); let ai = index;">
+                                <span *ngIf="ai > 0">
+                                    /
+                                </span>
+
+                                <span *ngIf="workoutActivity.exercise">
+                                    {{workoutActivity.exercise.name}}
+                                </span>
+                                <span>
+                                    x
+                                </span>
+                                <span *ngIf="workoutActivity.number_of_sets">
+                                    <span>
+                                        {{workoutActivity.number_of_sets}}
+                                    </span>
+                                    <span>
+                                        x
+                                    </span>
+                                </span>
+                                <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
+                                    {{workoutActivity.number_of_repetitions}}
+                                </span>
+                                <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
+                                    {{workoutActivity.number_of_repetitions}} -
+                                    {{workoutActivity.number_of_repetitions_up_to}}
+                                </span>
+                                <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                                    F
+                                </span>
+                                <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                                    AMRAP
+                                </span>
+                                <span *ngIf="multipleWorkingWeightsForExercise(session, workoutActivity.exercise)">
+                                    ({{workoutActivity.working_weight_percentage}}%)
+                                </span>
+                            </span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="siimple-rule siimple--mt-3"></div>
+
+        <div class="owner-user-container">
+            <app-user-tag [username]=plan.user.username
+                [fetchProfileFilename]=true>
+            </app-user-tag>
+
+            <small class="siimple-small siimple--ml-2">{{plan.creation | timeAgo}}</small>
+
+            <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()">
+                <fa-icon [icon]="faChild" class="siimple--mr-1"></fa-icon>
+                Adopt
+            </button>
+        </div>
     </div>
-    <div class="siimple-card-footer plan-card-footer">
+    <div class="siimple-card-footer">
         <app-card-social-interaction content_type_model='plan' [id]=plan.id></app-card-social-interaction>
-        <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()">
-            <fa-icon [icon]="faChild" class="siimple--mr-1"></fa-icon>
-            Adopt
-        </button>
     </div>
 </div>
 
-<app-delete-modal 
-    [(visible)]="deleteModalVisible"
-    title='Delete plan?'
-    body='This will delete your plan and associated data. Are you sure you want to proceed?'
-    (deleted)="delete()"
-    (canceled)="toggleDeleteModal()"
-    >
+<app-delete-modal [(visible)]="deleteModalVisible" title='Delete plan?'
+    body='This will delete your plan and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+    (canceled)="toggleDeleteModal()">
 </app-delete-modal>
