@@ -31,6 +31,8 @@ export class PlanSessionGroupComponent implements OnInit {
   newExercise() {
     let newExercise = new PlanSessionGroupExercise();
 
+    newExercise.working_weight_percentage = 100;
+
     this.planSessionGroup.exercises.push(newExercise);
   }
 

@@ -89,6 +89,8 @@ class Plan(models.Model):
     description = models.TextField(null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    website = models.CharField(max_length=400, null=True)
+    creation = models.DateTimeField(auto_now_add=True)
     public = models.BooleanField(default=False)
 
     def __str__(self):
