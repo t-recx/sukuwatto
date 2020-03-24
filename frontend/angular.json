@@ -25,12 +25,10 @@
             ],
             "styles": [
               "node_modules/siimple/dist/siimple.min.css",
-              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "src/styles.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js"
             ]
           },
           "configurations": {
