@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataTablesModule } from 'angular-datatables';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -63,7 +62,6 @@ import { PlanCardComponent } from './plan-card/plan-card.component';
     CommonModule,
     UsersRoutingModule,
     FontAwesomeModule,
-    DataTablesModule,
     FormsModule,
   ]
 })
