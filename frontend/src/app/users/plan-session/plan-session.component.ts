@@ -23,13 +23,28 @@ export class PlanSessionComponent implements OnInit {
     let newGroup = new PlanSessionGroup();
     newGroup.name= "New Group";
 
+    this.setOrder(newGroup, this.planSession.groups);
+
     this.planSession.groups.push(newGroup);
+  }
+
+  setOrder(item: any, items: any) {
+    let orders = items.map(x => x.order).sort((a, b) => b - a);
+
+    if (items.length > 0) {
+      item.order = orders[0] + 1;
+    }
+    else {
+      item.order = 1;
+    }
   }
 
   removeGroup(group) {
     const index = this.planSession.groups.indexOf(group, 0);
     if (index > -1) {
       this.planSession.groups.splice(index, 1);
+      
+      this.planSession.groups.filter(x => x.order > group.order).forEach(x => x.order--);
     }
   }
 }

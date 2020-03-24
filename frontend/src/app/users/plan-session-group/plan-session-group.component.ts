@@ -33,6 +33,8 @@ export class PlanSessionGroupComponent implements OnInit {
 
     newExercise.working_weight_percentage = 100;
 
+    this.setOrder(newExercise, this.planSessionGroup.exercises);
+
     this.planSessionGroup.exercises.push(newExercise);
   }
 
@@ -40,11 +42,15 @@ export class PlanSessionGroupComponent implements OnInit {
     const index = this.planSessionGroup.exercises.indexOf(exercise, 0);
     if (index > -1) {
       this.planSessionGroup.exercises.splice(index, 1);
+
+      this.adjustRemainingOrders(exercise, this.planSessionGroup.exercises);
     }
   }
 
   newWarmUp() {
     let newWarmUp = new PlanSessionGroupWarmUp();
+
+    this.setOrder(newWarmUp, this.planSessionGroup.warmups);
 
     this.planSessionGroup.warmups.push(newWarmUp);
   }
@@ -53,6 +59,23 @@ export class PlanSessionGroupComponent implements OnInit {
     const index = this.planSessionGroup.warmups.indexOf(warmup, 0);
     if (index > -1) {
       this.planSessionGroup.warmups.splice(index, 1);
+
+      this.adjustRemainingOrders(warmup, this.planSessionGroup.warmups);
     }
+  }
+
+  setOrder(item: any, items: any) {
+    let orders = items.map(x => x.order).sort((a, b) => b - a);
+
+    if (items.length > 0) {
+      item.order = orders[0] + 1;
+    }
+    else {
+      item.order = 1;
+    }
+  }
+
+  adjustRemainingOrders(item: any, items: any) {
+    items.filter(x => x.order > item.order).forEach(x => x.order--);
   }
 }
