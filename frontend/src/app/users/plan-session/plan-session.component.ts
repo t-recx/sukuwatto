@@ -14,6 +14,12 @@ export class PlanSessionComponent implements OnInit {
 
   faTimesCircle = faTimesCircle;
 
+  selectedTab: string = 'session';
+
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+  }
+
   constructor() { }
 
   ngOnInit() {

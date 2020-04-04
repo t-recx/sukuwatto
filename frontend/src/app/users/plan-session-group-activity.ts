@@ -5,6 +5,12 @@ export enum ActivityType {
     WarmUp,
 }
 
+export enum PlanActivityTab {
+    Exercise,
+    WarmUp,
+    Progressions
+}
+
 export enum RepetitionType {
     Standard = 's',
     Range = 'r',

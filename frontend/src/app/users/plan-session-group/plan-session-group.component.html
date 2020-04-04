@@ -39,6 +39,11 @@
                     (click)="selectActivityType(activityType.WarmUp)">
                     Warm-Ups
                 </div>
+                <div class="siimple-tabs-item"
+                    [class.siimple-tabs-item--selected]="selectedActivityType==activityType.Progressions"
+                    (click)="selectActivityType(activityType.Progressions)">
+                    Progressions
+                </div>
             </div>
 
             <div>
@@ -69,9 +74,12 @@
                     <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
                         (click)="newWarmUp()">New WarmUp</button>
                 </div>
+
+                <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Progressions">
+                    <app-plan-progression-strategies type_label="Group" [progressions]=planSessionGroup.progressions [triedToSave]=triedToSave>
+                    </app-plan-progression-strategies> 
+                </div>
             </div>
         </div>
-        <app-plan-progression-strategies type_label="Group" [progressions]=planSessionGroup.progressions [triedToSave]=triedToSave>
-        </app-plan-progression-strategies> 
     </div>
 </div>

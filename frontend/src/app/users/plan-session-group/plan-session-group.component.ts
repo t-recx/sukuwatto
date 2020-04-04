@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { ActivityType } from '../plan-session-group-activity';
+import { PlanActivityTab } from '../plan-session-group-activity';
 import { PlanSessionGroupWarmUp } from '../plan-session-group-warmup';
 
 @Component({
@@ -14,9 +14,9 @@ export class PlanSessionGroupComponent implements OnInit {
   @Input() planSessionGroup: PlanSessionGroup;
   @Input() triedToSave: boolean;
 
-  activityType = ActivityType;
+  activityType = PlanActivityTab;
 
-  selectedActivityType = ActivityType.Exercise;
+  selectedActivityType = PlanActivityTab.Exercise;
   faTimesCircle = faTimesCircle;
 
   constructor() { }
@@ -24,7 +24,7 @@ export class PlanSessionGroupComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectActivityType(type: ActivityType): void {
+  selectActivityType(type: PlanActivityTab): void {
     this.selectedActivityType = type;
   }
 
