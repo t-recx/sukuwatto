@@ -4,12 +4,11 @@ import { PlanSession } from './plan-session';
 import { WorkoutsService } from './workouts.service';
 import { WorkingWeight } from './working-weight';
 import { AuthService } from '../auth.service';
-import { Observable, concat } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { WorkoutGroup } from './workout-group';
 import { WorkoutSet } from './workout-set';
 import { PlanSessionGroupActivity } from './plan-session-group-activity';
-import { PlansService } from './plans.service';
 import { PlanSessionGroup } from './plan-session-group';
 import { ProgressionStrategy } from './plan-progression-strategy';
 import { Exercise } from './exercise';
@@ -23,7 +22,7 @@ export class WorkoutGeneratorService {
   constructor(
     private workoutsService: WorkoutsService,
     private authService: AuthService,
-  ) { }
+  ) {}
 
   generate(start: Date, workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
@@ -46,11 +45,11 @@ export class WorkoutGeneratorService {
               var groups = planSession.groups.filter(x => x.order == sessionOrder);
               let planSessionGroup: PlanSessionGroup;
               let lastWorkoutGroup: WorkoutGroup = null;
-              if (groups.length == 1 || lastWorkoutForPlanSession.id == null) {
+              if (groups.length == 1 || lastWorkoutForPlanSession == null || lastWorkoutForPlanSession.id == null) {
                 planSessionGroup = groups[0];
               } 
               else {
-                planSessionGroup = groups[0];
+                planSessionGroup = groups.sort((a, b) => a.id - b.id)[0];
                 lastWorkoutGroup = lastWorkoutForPlanSession.groups.filter(x => x.order == sessionOrder)[0];
 
                 if (lastWorkoutGroup) {

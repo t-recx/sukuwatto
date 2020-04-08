@@ -10,9 +10,11 @@ export class PlanSessionGroup {
   warmups: PlanSessionGroupWarmUp[];
   progressions: ProgressionStrategy[];
 
-  constructor() {
+  constructor(init? : Partial<PlanSessionGroup>) {
     this.exercises = [];
     this.warmups = [];
     this.progressions = [];
+
+    Object.assign(this, init);
   }
 }

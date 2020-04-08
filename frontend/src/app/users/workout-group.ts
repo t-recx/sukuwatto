@@ -7,8 +7,10 @@ export class WorkoutGroup {
     sets: WorkoutSet[];
     warmups: WorkoutSet[];
 
-    constructor() {
+    constructor(init? : Partial<WorkoutGroup>) {
         this.sets = [];
         this.warmups = [];
+
+        Object.assign(this, init);
     }
 }
