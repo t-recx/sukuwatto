@@ -57,4 +57,8 @@ export class Exercise {
     mechanics: Mechanics;
     mechanicsLabel: string;
     user: number;
+
+    constructor(init?: Partial<Exercise>) {
+        Object.assign(this, init);
+    }
 }

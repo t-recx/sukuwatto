@@ -126,9 +126,7 @@ export class WorkoutGeneratorService {
     let exercises: Exercise[] = [];
     let unit: number = null;
 
-    if (workingWeights.length > 0) {
-      unit = workingWeights[0].unit;
-    }
+    unit = this.authService.getUserWeightUnitId();
 
     for (let group of planSession.groups) {
       for (let warmup of group.warmups) {

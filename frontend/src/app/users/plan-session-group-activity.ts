@@ -36,4 +36,8 @@ export class PlanSessionGroupActivity {
     number_of_repetitions_up_to: number;
     working_weight_percentage: number;
     exercise: Exercise;
+
+    constructor(init?: Partial<PlanSessionGroupActivity>) {
+        Object.assign(this, init);
+    }
 }

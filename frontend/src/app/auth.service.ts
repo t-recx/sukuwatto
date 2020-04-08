@@ -51,6 +51,7 @@ export class AuthService {
     this.setTokenAccess(null);
     this.setTokenRefresh(null);
     this.setUnitSystem(null);
+    this.setUserWeightUnitId(null);
     this.setUserID(null);
   }
 
@@ -104,6 +105,17 @@ export class AuthService {
     this.userService.get(username).subscribe(users => {
       if (users.length > 0) { 
         this.setUnitSystem(users[0].system);
+        this.setUserWeightUnitId(null);
+
+        if (users[0].system) {
+            this.unitsService.getUnits().subscribe(u => {
+                const userUnit = u.filter(x => x.system == users[0].system && x.measurement_type == MeasurementType.Weight)[0]
+                if (userUnit) { 
+                    this.setUserWeightUnitId(userUnit.id);
+                }
+            });
+        }
+
         this.setUserID(users[0].id.toString());
       }
     });
@@ -140,6 +152,14 @@ export class AuthService {
 
   public getTokenRefresh(): string {
     return this.getLocalStorageItem('refresh_token');
+  }
+
+  public getUserWeightUnitId(): string {
+    return this.getLocalStorageItem('weight_unit_id');
+  }
+
+  public setUserWeightUnitId(unit: string) {
+    this.setLocalStorageItem('weight_unit_id', unit);
   }
 
   public setUnitSystem(system: string) {
