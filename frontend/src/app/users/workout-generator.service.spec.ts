@@ -5,12 +5,14 @@ import { of, Observable } from 'rxjs';
 import { Workout } from './workout';
 import { Plan } from './plan';
 import { PlanSession } from './plan-session';
-import { ProgressionStrategy } from './plan-progression-strategy';
+import { ProgressionStrategy, ProgressionType } from './plan-progression-strategy';
 import { WorkingWeight } from './working-weight';
 import { PlanSessionGroup } from './plan-session-group';
 import { WorkoutGroup } from './workout-group';
 import { PlanSessionGroupActivity } from './plan-session-group-activity';
-import { Exercise } from './exercise';
+import { Exercise, Section, Modality, Force, Mechanics } from './exercise';
+import { PlanSessionGroupExercise } from './plan-session-group-exercise';
+import { WorkoutSet } from './workout-set';
 
 describe('WorkoutGeneratorService', () => {
     let start: Date;
@@ -33,7 +35,7 @@ describe('WorkoutGeneratorService', () => {
     let workoutServiceSpy: jasmine.SpyObj<WorkoutsService>;
     let authServiceSpy: jasmine.SpyObj<AuthService>;
 
-    beforeEach(() => { 
+    beforeEach(() => {
         start = new Date();
 
         working_weights = [];
@@ -51,7 +53,7 @@ describe('WorkoutGeneratorService', () => {
         plan.sessions = [planSession];
 
         workoutServiceSpy = jasmine.createSpyObj('WorkoutsService', ['getLastWorkout']);
-        authServiceSpy = jasmine.createSpyObj('AuthService', ['getUsername']);
+        authServiceSpy = jasmine.createSpyObj('AuthService', ['getUsername', 'getUserWeightUnitId']);
 
         lastWorkout = new Workout();
         lastWorkout.id = 1;
@@ -59,18 +61,19 @@ describe('WorkoutGeneratorService', () => {
         authServiceSpy.getUsername.and.returnValue(username);
         authServiceSpy.getUserWeightUnitId.and.returnValue(userWeightUnitId.toString());
 
-        service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy); 
+        service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy);
     });
-
-    describe('#updateWeights', () => {
-    })
-
-    describe('#getWorkoutName', () => {
-    })
+    /*
+        describe('#updateWeights', () => {
+        })
+    
+        describe('#getWorkoutName', () => {
+        })
+        */
 
     describe('#generate', () => {
         it('should set workout fields based on parameters received', () => {
-            exerciseGenerate().subscribe(workout => {
+            serviceGenerate().subscribe(workout => {
                 expect(workout.start).toEqual(start);
                 expect(workout.plan).toEqual(plan.id)
                 expect(workout.plan_session).toEqual(planSession.id)
@@ -78,12 +81,12 @@ describe('WorkoutGeneratorService', () => {
         });
 
         it('should set workout name according to start date and plan session', () => {
-            start = new Date(2020,4,8);
-             
+            start = new Date(2020, 4, 8);
+
             planSession.name = "workout a";
 
-            exerciseGenerate().subscribe(workout => {
-                expect(workout.name).toEqual(start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s" + " " + planSession.name);
+            serviceGenerate().subscribe(workout => {
+                expect(workout.name).toEqual(start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s" + " " + planSession.name + " session");
             });
         });
 
@@ -94,31 +97,39 @@ describe('WorkoutGeneratorService', () => {
                     warmups: [
                         new PlanSessionGroupActivity({
                             order: 1,
-                            exercise: new Exercise({id: 1})}
+                            number_of_sets: 2,
+                            exercise: new Exercise({ id: 1 })
+                        }
                         ),
                         new PlanSessionGroupActivity({
                             order: 2,
-                            exercise: new Exercise({id: 2})}
+                            number_of_sets: 1,
+                            exercise: new Exercise({ id: 2 })
+                        }
                         ),
-                    ]});
+                    ]
+                });
                 let anotherGroup = new PlanSessionGroup({
                     order: 2,
                     warmups: [
                         new PlanSessionGroupActivity({
                             order: 1,
-                            exercise: new Exercise({id: 1})}
+                            number_of_sets: 3,
+                            exercise: new Exercise({ id: 1 })
+                        }
                         ),
-                    ]});
+                    ]
+                });
                 planSession.groups = [group, anotherGroup];
             });
 
             it('should generate workout warmups', () => {
-                exerciseGenerate().subscribe(workout => {
+                serviceGenerate().subscribe(workout => {
                     expect(workout.groups.length).toEqual(2);
-                    expect(workout.groups[0].warmups.length).toEqual(2);
-                    expect(workout.groups[0].warmups.map(x => x.exercise.id).sort((a,b) => a - b)).toEqual([1,2]);
-                    expect(workout.groups[1].warmups.length).toEqual(1);
-                    expect(workout.groups[1].warmups.map(x => x.exercise.id).sort((a,b) => a - b)).toEqual([1]);
+                    expect(workout.groups[0].warmups.length).toEqual(3);
+                    expect(workout.groups[0].warmups.map(x => x.exercise.id).sort((a, b) => a - b)).toEqual([1, 1, 2]);
+                    expect(workout.groups[1].warmups.length).toEqual(3);
+                    expect(workout.groups[1].warmups.map(x => x.exercise.id).sort((a, b) => a - b)).toEqual([1, 1, 1]);
                 });
             });
         });
@@ -129,35 +140,37 @@ describe('WorkoutGeneratorService', () => {
                     id: 1,
                     name: 'a',
                     order: 1,
-                    });
+                });
                 let anotherGroup = new PlanSessionGroup({
                     id: 2,
                     name: 'b',
                     order: 1,
-                    });
+                });
                 planSession.groups = [group, anotherGroup];
             })
 
             it('should alternate between groups according to the last workout', () => {
-                exerciseGenerate().subscribe(workout => {
+                serviceGenerate().subscribe(workout => {
                     expect(workout.groups.length).toEqual(1);
                     expect(workout.groups[0].name).toEqual('a');
                     expect(workout.groups[0].plan_session_group).toEqual(1);
 
                     lastWorkout = workout;
+                    workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
 
-                    exerciseGenerate().subscribe(nextWorkout => {
+                    serviceGenerate().subscribe(nextWorkout => {
                         expect(nextWorkout.groups.length).toEqual(1);
                         expect(nextWorkout.groups[0].name).toEqual('b');
                         expect(nextWorkout.groups[0].plan_session_group).toEqual(2);
 
                         lastWorkout = nextWorkout;
+                        workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
 
                         // should start from the beginning when reaching the end of order
-                        exerciseGenerate().subscribe(anotherWorkout => {
+                        serviceGenerate().subscribe(anotherWorkout => {
                             expect(anotherWorkout.groups.length).toEqual(1);
                             expect(anotherWorkout.groups[0].name).toEqual('a');
-                            expect(anotherWorkout.groups[0].plan_session_group).toEqual(2);
+                            expect(anotherWorkout.groups[0].plan_session_group).toEqual(1);
                         });
                     });
                 });
@@ -168,39 +181,47 @@ describe('WorkoutGeneratorService', () => {
             describe('when sets have exercises with the same order', () => {
                 beforeEach(() => {
                     let group = new PlanSessionGroup({
+                        id: 1,
                         order: 1,
                         exercises: [
                             new PlanSessionGroupActivity({
                                 id: 1,
                                 order: 1,
-                                exercise: new Exercise({id: 1})}
+                                number_of_sets: 1,
+                                exercise: new Exercise({ id: 1 })
+                            }
                             ),
                             new PlanSessionGroupActivity({
                                 id: 2,
                                 order: 1,
-                                exercise: new Exercise({id: 2})}
+                                number_of_sets: 1,
+                                exercise: new Exercise({ id: 2 })
+                            }
                             ),
-                        ]});
+                        ]
+                    });
                     planSession.groups = [group];
                 });
 
                 it('should alternate exercises according to last workout', () => {
-                    exerciseGenerate().subscribe(workout => {
+                    serviceGenerate().subscribe(workout => {
                         expect(workout.groups.length).toEqual(1);
                         expect(workout.groups[0].sets.length).toEqual(1);
                         expect(workout.groups[0].sets[0].exercise.id).toEqual(1);
 
                         lastWorkout = workout;
+                        workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
 
-                        exerciseGenerate().subscribe(nextWorkout => {
+                        serviceGenerate().subscribe(nextWorkout => {
                             expect(nextWorkout.groups.length).toEqual(1);
                             expect(nextWorkout.groups[0].sets.length).toEqual(1);
                             expect(nextWorkout.groups[0].sets[0].exercise.id).toEqual(2);
 
                             lastWorkout = nextWorkout;
+                            workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
 
                             // should start from the beginning when reaching max order
-                            exerciseGenerate().subscribe(anotherWorkout => {
+                            serviceGenerate().subscribe(anotherWorkout => {
                                 expect(anotherWorkout.groups.length).toEqual(1);
                                 expect(anotherWorkout.groups[0].sets.length).toEqual(1);
                                 expect(anotherWorkout.groups[0].sets[0].exercise.id).toEqual(1);
@@ -212,42 +233,102 @@ describe('WorkoutGeneratorService', () => {
 
             beforeEach(() => {
                 let group = new PlanSessionGroup({
+                    id: 1,
                     order: 1,
                     exercises: [
                         new PlanSessionGroupActivity({
+                            id: 1,
                             order: 1,
-                            exercise: new Exercise({id: 1})}
+                            number_of_sets: 3,
+                            exercise: new Exercise({ id: 1 })
+                        }
                         ),
                         new PlanSessionGroupActivity({
+                            id: 2,
                             order: 2,
-                            exercise: new Exercise({id: 2})}
+                            number_of_sets: 1,
+                            exercise: new Exercise({ id: 2 })
+                        }
                         ),
-                    ]});
+                    ]
+                });
                 let anotherGroup = new PlanSessionGroup({
+                    id: 2,
                     order: 2,
                     exercises: [
                         new PlanSessionGroupActivity({
+                            id: 3,
                             order: 1,
-                            exercise: new Exercise({id: 1})}
+                            number_of_sets: 1,
+                            exercise: new Exercise({ id: 1 })
+                        }
                         ),
-                    ]});
+                    ]
+                });
                 planSession.groups = [group, anotherGroup];
             });
 
             it('should generate workout sets', () => {
-                exerciseGenerate().subscribe(workout => {
+                serviceGenerate().subscribe(workout => {
+                    expect(workout.groups[0].sets.length).toEqual(4);
                     expect(workout.groups.length).toEqual(2);
-                    expect(workout.groups[0].sets.length).toEqual(2);
-                    expect(workout.groups[0].sets.map(x => x.exercise.id).sort((a,b) => a - b)).toEqual([1,2]);
+                    expect(workout.groups[0].sets.filter(x => x.order == 1).length).toEqual(3);
+                    expect(workout.groups[0].sets.map(x => x.exercise.id).sort((a, b) => a - b)).toEqual([1, 1, 1, 2]);
                     expect(workout.groups[1].sets.length).toEqual(1);
-                    expect(workout.groups[1].sets.map(x => x.exercise.id).sort((a,b) => a - b)).toEqual([1]);
+                    expect(workout.groups[1].sets.map(x => x.exercise.id).sort((a, b) => a - b)).toEqual([1]);
                 });
             });
         });
 
+        describe('when progression strategies are set', () => {
+            /*
+            describe('when progression strategies are set at plan level', () => {
+                describe('and when progression strategies are set at session level', () => {
+                    describe('and when progression strategies are set at group level', () => {
+
+                    })
+                })
+            })
+
+            describe('when progression strategies are set at session level', () => {
+                describe('and when progression strategies are set at group level', () => {
+
+                })
+            })
+            */
+
+            describe('when progression strategies are set at group level', () => {
+                it('should not affect exercises on other groups', () => {
+                    let previousWeight = 10;
+                    let increase = 2;
+                    let exercise = new Exercise({ id: 1, section: Section.Core });
+                    let anotherExercise = new Exercise({ id: 2, section: Section.Core });
+                    let strategy = new ProgressionStrategy({ id: 1, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: increase, unit: userWeightUnitId });
+                    let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: exercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                    let anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                    planSession.groups = [group, anotherGroup];
+                    working_weights.push(new WorkingWeight({ weight: previousWeight, exercise, unit: userWeightUnitId }));
+                    working_weights.push(new WorkingWeight({ weight: previousWeight, exercise: anotherExercise, unit: userWeightUnitId }));
+                    serviceGenerate().subscribe(workout => {
+                        lastWorkout = workout;
+                        workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
+                    })
+                    complete(lastWorkout);
+
+                    group.progressions.push(strategy);
+                    serviceGenerate().subscribe(workout => {
+                        expect(workout.groups.filter(g => g.plan_session_group == group.id)[0].sets[0].weight)
+                            .toEqual(previousWeight + increase);
+                        expect(workout.groups.filter(g => g.plan_session_group == anotherGroup.id)[0].sets[0].weight)
+                            .toEqual(previousWeight);
+                    });
+                })
+            })
+        })
+
         describe('when working weights partially filled', () => {
             beforeEach(() => {
-               working_weights = [new WorkingWeight({unit: anotherUnitId, weight: 20, exercise: new Exercise({id:1})})]; 
+                working_weights = [new WorkingWeight({ unit: anotherUnitId, weight: 20, exercise: new Exercise({ id: 1 }) })];
             });
 
             it('should fill the missing exercises', () => {
@@ -256,22 +337,23 @@ describe('WorkoutGeneratorService', () => {
                     exercises: [
                         new PlanSessionGroupActivity({
                             order: 1,
-                            exercise: new Exercise({id: 1})
+                            exercise: new Exercise({ id: 1 })
                         }),
                         new PlanSessionGroupActivity({
                             order: 2,
-                            exercise: new Exercise({id: 2})
+                            exercise: new Exercise({ id: 2 })
                         }),
                         new PlanSessionGroupActivity({
                             order: 3,
-                            exercise: new Exercise({id: 3})
+                            exercise: new Exercise({ id: 3 })
                         }),
-                    ]});
+                    ]
+                });
                 planSession.groups = [group];
 
-                exerciseGenerate().subscribe(workout => {
+                serviceGenerate().subscribe(workout => {
                     expect(workout.working_weights.length).toEqual(3);
-                    expect(workout.working_weights.map(x => x.exercise.id).sort((a,b) => a - b)).toEqual([1,2,3]);
+                    expect(workout.working_weights.map(x => x.exercise.id).sort((a, b) => a - b)).toEqual([1, 2, 3]);
                     expect(workout.working_weights.filter(x => x.weight == null || x.weight == 0).length).toEqual(2, 'new working weights start with no weight');
                     expect(workout.working_weights.filter(x => x.weight == 20).length).toEqual(1, 'existing weight value was preserved');
                     expect(workout.working_weights.filter(x => x.unit == userWeightUnitId).length).toEqual(2, 'user weight unit id was added to new working weights');
@@ -282,7 +364,7 @@ describe('WorkoutGeneratorService', () => {
 
         describe('when working weights empty', () => {
             beforeEach(() => {
-               working_weights = []; 
+                working_weights = [];
             });
 
             it('should fill working weights with all exercises of plan', () => {
@@ -291,38 +373,46 @@ describe('WorkoutGeneratorService', () => {
                     exercises: [
                         new PlanSessionGroupActivity({
                             order: 1,
-                            exercise: new Exercise({id: 1})}
+                            exercise: new Exercise({ id: 1 })
+                        }
                         ),
                         new PlanSessionGroupActivity({
                             order: 2,
-                            exercise: new Exercise({id: 1})}
+                            exercise: new Exercise({ id: 1 })
+                        }
                         ),
                         new PlanSessionGroupActivity({
                             order: 3,
-                            exercise: new Exercise({id: 2})}
+                            exercise: new Exercise({ id: 2 })
+                        }
                         ),
-                    ]});
+                    ]
+                });
                 let anotherGroup = new PlanSessionGroup({
                     order: 2,
                     exercises: [
                         new PlanSessionGroupActivity({
                             order: 1,
-                            exercise: new Exercise({id: 2})}
+                            exercise: new Exercise({ id: 2 })
+                        }
                         ),
                         new PlanSessionGroupActivity({
                             order: 2,
-                            exercise: new Exercise({id: 3})}
+                            exercise: new Exercise({ id: 3 })
+                        }
                         ),
                         new PlanSessionGroupActivity({
                             order: 3,
-                            exercise: new Exercise({id: 4})}
+                            exercise: new Exercise({ id: 4 })
+                        }
                         ),
-                    ]});
+                    ]
+                });
                 planSession.groups = [group, anotherGroup];
 
-                exerciseGenerate().subscribe(workout => {
+                serviceGenerate().subscribe(workout => {
                     expect(workout.working_weights.length).toEqual(4);
-                    expect(workout.working_weights.map(x => x.exercise.id).sort((a,b) => a - b)).toEqual([1,2,3,4]);
+                    expect(workout.working_weights.map(x => x.exercise.id).sort((a, b) => a - b)).toEqual([1, 2, 3, 4]);
                     expect(workout.working_weights.filter(x => x.weight != null && x.weight > 0).length).toEqual(0);
                     expect(workout.working_weights.filter(x => x.unit == userWeightUnitId).length).toEqual(4);
                 });
@@ -330,18 +420,18 @@ describe('WorkoutGeneratorService', () => {
         });
 
         describe('when no last workout available', () => {
-            beforeEach(() =>{
+            beforeEach(() => {
                 workoutServiceSpy.getLastWorkout.and.returnValue(of(null));
             });
 
             describe('when multiple groups with same order', () => {
                 it('should select first group with same order', () => {
-                    const expected = new PlanSessionGroup({id: 1, order: 1});
-                    const decoy = new PlanSessionGroup({id: 2, order: 1});
+                    const expected = new PlanSessionGroup({ id: 1, order: 1 });
+                    const decoy = new PlanSessionGroup({ id: 2, order: 1 });
 
                     planSession.groups = [expected, decoy];
 
-                    exerciseGenerate().subscribe(workout => {
+                    serviceGenerate().subscribe(workout => {
                         expect(workout.groups.length).toEqual(1);
                         expect(workout.groups[0].plan_session_group).toEqual(1);
                     });
@@ -353,16 +443,16 @@ describe('WorkoutGeneratorService', () => {
             describe('when multiple groups with same order', () => {
                 describe('when not at final group', () => {
                     beforeEach(() => {
-                        const decoy = new PlanSessionGroup({id: 1, order: 1});
-                        const expected = new PlanSessionGroup({id: 3, order: 1});
-                        const workoutGroup = new WorkoutGroup({plan_session_group: decoy.id, order: 1});
+                        const decoy = new PlanSessionGroup({ id: 1, order: 1 });
+                        const expected = new PlanSessionGroup({ id: 3, order: 1 });
+                        const workoutGroup = new WorkoutGroup({ plan_session_group: decoy.id, order: 1 });
 
                         lastWorkout.groups = [workoutGroup];
                         planSession.groups = [expected, decoy];
                     });
 
                     it('should select the group with a bigger id than the one in the last workout', () => {
-                        exerciseGenerate().subscribe(workout => {
+                        serviceGenerate().subscribe(workout => {
                             expect(workout.groups.length).toEqual(1);
                             expect(workout.groups[0].plan_session_group).toEqual(3);
                         });
@@ -371,17 +461,17 @@ describe('WorkoutGeneratorService', () => {
 
                 describe('when already at final group', () => {
                     beforeEach(() => {
-                        const expected = new PlanSessionGroup({id: 2, order: 1});
-                        const decoy = new PlanSessionGroup({id: 30, order: 1});
-                        const anotherDecoy = new PlanSessionGroup({id: 12, order: 1});
-                        const workoutGroup = new WorkoutGroup({plan_session_group: 30, order: 1});
+                        const expected = new PlanSessionGroup({ id: 2, order: 1 });
+                        const decoy = new PlanSessionGroup({ id: 30, order: 1 });
+                        const anotherDecoy = new PlanSessionGroup({ id: 12, order: 1 });
+                        const workoutGroup = new WorkoutGroup({ plan_session_group: 30, order: 1 });
 
                         lastWorkout.groups = [workoutGroup];
                         planSession.groups = [anotherDecoy, expected, decoy];
                     });
 
                     it('should select the group with the lowest id', () => {
-                        exerciseGenerate().subscribe(workout => {
+                        serviceGenerate().subscribe(workout => {
                             expect(workout.groups.length).toEqual(1);
                             expect(workout.groups[0].plan_session_group).toEqual(2);
                         });
@@ -391,7 +481,18 @@ describe('WorkoutGeneratorService', () => {
         });
     });
 
-    function exerciseGenerate() : Observable<Workout> {
+    function complete(workout: Workout) {
+        workout.groups.forEach(g => {
+            g.sets.forEach(set => {
+                set.done = true;
+            })
+            g.warmups.forEach(warmup => {
+                warmup.done = true;
+            })
+        })
+    }
+
+    function serviceGenerate(): Observable<Workout> {
         return service.generate(start, working_weights, plan, planSession);
     }
 });

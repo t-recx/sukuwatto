@@ -110,6 +110,14 @@ export class AccountComponent implements OnInit {
       return;
     }
 
+    if (this.user.system) {
+      const unit = this.weightUnits.filter(x => x.system == this.user.system)[0];
+
+      if (unit) {
+        this.user.default_weight_unit = unit.id;
+      }
+    }
+
     this.userService.update(this.user)
     .subscribe();
 

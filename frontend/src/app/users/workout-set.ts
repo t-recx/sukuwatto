@@ -19,7 +19,8 @@ export class WorkoutSet {
     plan_session_group_activity: number;
     working_weight_percentage: number;
 
-    constructor() {
+    constructor(init?: Partial<WorkoutSet>) {
         this.exercise = new Exercise();
+        Object.assign(this, init);
     }
 }

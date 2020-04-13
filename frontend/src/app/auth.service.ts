@@ -105,16 +105,7 @@ export class AuthService {
     this.userService.get(username).subscribe(users => {
       if (users.length > 0) { 
         this.setUnitSystem(users[0].system);
-        this.setUserWeightUnitId(null);
-
-        if (users[0].system) {
-            this.unitsService.getUnits().subscribe(u => {
-                const userUnit = u.filter(x => x.system == users[0].system && x.measurement_type == MeasurementType.Weight)[0]
-                if (userUnit) { 
-                    this.setUserWeightUnitId(userUnit.id);
-                }
-            });
-        }
+        this.setUserWeightUnitId(users[0].default_weight_unit.toString());
 
         this.setUserID(users[0].id.toString());
       }

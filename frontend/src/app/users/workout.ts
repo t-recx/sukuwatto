@@ -25,9 +25,11 @@ export class Workout {
     user: User;
     status: WorkoutStatus;
 
-    constructor() {
+    constructor(init?: Partial<Workout>) {
         this.groups = [];
         this.working_weights = [];
         this.status = WorkoutStatus.InProgress;
+
+        Object.assign(this, init);
     }
 }

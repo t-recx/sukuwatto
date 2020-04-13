@@ -28,7 +28,6 @@ export class WorkoutGeneratorService {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
-          console.log('generating workout...');
           let workout = new Workout();
 
           workout.start = start;
@@ -42,23 +41,28 @@ export class WorkoutGeneratorService {
 
             let sessionOrders = Array.from(new Set(planSession.groups.map(x => x.order))).sort((a, b) => a - b);
             for (let sessionOrder of sessionOrders) {
-              var groups = planSession.groups.filter(x => x.order == sessionOrder);
+              var groups = planSession.groups.filter(x => x.order == sessionOrder).sort((a,b) => a.id - b.id);
               let planSessionGroup: PlanSessionGroup;
               let lastWorkoutGroup: WorkoutGroup = null;
-              if (groups.length == 1 || lastWorkoutForPlanSession == null || lastWorkoutForPlanSession.id == null) {
-                planSessionGroup = groups[0];
-              } 
-              else {
-                planSessionGroup = groups.sort((a, b) => a.id - b.id)[0];
-                lastWorkoutGroup = lastWorkoutForPlanSession.groups.filter(x => x.order == sessionOrder)[0];
 
-                if (lastWorkoutGroup) {
-                  let nextSessionGroup = groups.filter(x => x.id > lastWorkoutGroup.plan_session_group)[0];
-                  if (nextSessionGroup) {
-                    planSessionGroup = nextSessionGroup;
-                  }
-                }
+              if (lastWorkoutForPlanSession != null && 
+                lastWorkoutForPlanSession.groups != null &&
+                lastWorkoutForPlanSession.groups.length > 0) {
+                lastWorkoutGroup = lastWorkoutForPlanSession.groups.filter(x => x.order == sessionOrder)[0];
               }
+
+              let nextSessionGroup: PlanSessionGroup = null;
+
+              if (lastWorkoutGroup) {
+                nextSessionGroup = groups.filter(x => x.id > lastWorkoutGroup.plan_session_group)[0];
+              }
+
+              if (nextSessionGroup == null) {
+                nextSessionGroup = groups[0];
+              }
+
+              planSessionGroup = nextSessionGroup;
+
               let workoutGroup = new WorkoutGroup();
 
               workoutGroup.name = planSessionGroup.name;
@@ -72,7 +76,6 @@ export class WorkoutGeneratorService {
             }
           }
 
-          console.log('finished generating workout...');
           x.next(workout);
           x.complete();
         })));
@@ -95,7 +98,6 @@ export class WorkoutGeneratorService {
   }
 
   updateWeights(workout: Workout, workingWeights: WorkingWeight[]): void {
-          console.log('updating workout weights...');
     if (workout.groups) {
       for (let group of workout.groups) {
         let sets: WorkoutSet[] = []; 
@@ -118,15 +120,15 @@ export class WorkoutGeneratorService {
         }
       }
     }
-
-          console.log('finished updating workout weights...');
   }
 
   fillOutWorkingWeights(workingWeights: WorkingWeight[], planSession: PlanSession): void {
     let exercises: Exercise[] = [];
     let unit: number = null;
 
-    unit = this.authService.getUserWeightUnitId();
+    if (this.authService.getUserWeightUnitId()) {
+      unit = +this.authService.getUserWeightUnitId();
+    }
 
     for (let group of planSession.groups) {
       for (let warmup of group.warmups) {
@@ -151,7 +153,6 @@ export class WorkoutGeneratorService {
         if (unit) {
           workingWeight.unit = unit;
         }
-        console.log(workingWeight);
         workingWeights.push(workingWeight);
       }
     }
@@ -164,12 +165,9 @@ export class WorkoutGeneratorService {
     let workingWeight: WorkingWeight;
     workingWeight = workingWeights.filter(ww => ww.exercise.id == exercise.id)[0];
 
-    console.log('evaluating progression strategy:');
-    console.log(progressionStrategy);
     if (workingWeight) {
       if (progressionStrategy.exercise) {
         if (progressionStrategy.exercise.id == exercise.id) {
-          console.log('Applying progression strategy because exercise matches');
           this.updateWorkingWeight(workingWeight, progressionStrategy);
         }
       }
@@ -180,17 +178,11 @@ export class WorkoutGeneratorService {
             (progressionStrategy.mechanics == null || x.mechanics == progressionStrategy.mechanics) &&
             (progressionStrategy.section == null || x.section == progressionStrategy.section) &&
             (progressionStrategy.modality == null || x.modality == progressionStrategy.modality)).length > 0) {
-          console.log('Applying progression strategy by characteristic of the exercise');
-          console.log('before:');
-          console.log(workingWeight);
             this.updateWorkingWeight(workingWeight, progressionStrategy);
-          console.log('after:');
-          console.log(workingWeight);
           }
         }
       }
     }
-    console.log('ending evaluating progression strategy');
 
     return false;
   }
@@ -217,13 +209,13 @@ export class WorkoutGeneratorService {
     lastWorkoutActivities: WorkoutSet[]): WorkoutSet[] {
     let sets: WorkoutSet[] = [];
     let orders = Array.from(new Set(planActivities.map(x => x.order))).sort((a, b) => a - b);
+    
     for (let order of orders) {
       var warmups = planActivities.filter(x => x.order == order);
       let lastWorkoutSessionWarmUp: WorkoutSet = null;
 
       if (warmups) {
         let sessionWarmUp: PlanSessionGroupActivity;
-
         if (warmups.length == 1 || lastWorkoutActivities == null || lastWorkoutActivities.length == 0) {
           sessionWarmUp = warmups[0];
         }
@@ -251,8 +243,6 @@ export class WorkoutGeneratorService {
           if (plan.progressions) {
             progressionStrategies.push(...plan.progressions);
           }
-console.log('progression strategies available:');
-console.log(progressionStrategies);
           for (let progressionStrategy of progressionStrategies) {
             if (this.applyProgressionStrategy(sessionWarmUp.exercise, 
               workingWeights, progressionStrategy)) {
