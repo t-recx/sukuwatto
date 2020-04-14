@@ -13,6 +13,9 @@ import { PlanSessionGroupActivity } from './plan-session-group-activity';
 import { Exercise, Section, Modality, Force, Mechanics } from './exercise';
 import { PlanSessionGroupExercise } from './plan-session-group-exercise';
 import { WorkoutSet } from './workout-set';
+import { CompileReflector } from '@angular/compiler';
+import { UnitsService } from './units.service';
+import { Unit, MeasurementType } from './unit';
 
 describe('WorkoutGeneratorService', () => {
     let start: Date;
@@ -30,10 +33,14 @@ describe('WorkoutGeneratorService', () => {
     let username: string = 'username';
     let userWeightUnitId: number = 60;
     let anotherUnitId: number = 30;
+    let userWeightUnit: Unit = new Unit({id:60, measurement_type: MeasurementType.Weight});
+    let anotherUnit: Unit = new Unit({id:30, measurement_type: MeasurementType.Weight});
+    let convertedWeight: number = 3948;
 
     let service: WorkoutGeneratorService;
     let workoutServiceSpy: jasmine.SpyObj<WorkoutsService>;
     let authServiceSpy: jasmine.SpyObj<AuthService>;
+    let unitServiceSpy: jasmine.SpyObj<UnitsService>;
 
     beforeEach(() => {
         start = new Date();
@@ -54,14 +61,17 @@ describe('WorkoutGeneratorService', () => {
 
         workoutServiceSpy = jasmine.createSpyObj('WorkoutsService', ['getLastWorkout']);
         authServiceSpy = jasmine.createSpyObj('AuthService', ['getUsername', 'getUserWeightUnitId']);
+        unitServiceSpy = jasmine.createSpyObj('UnitsService', ['convert', 'getUnits']);
 
         lastWorkout = new Workout();
         lastWorkout.id = 1;
         workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
         authServiceSpy.getUsername.and.returnValue(username);
         authServiceSpy.getUserWeightUnitId.and.returnValue(userWeightUnitId.toString());
+        unitServiceSpy.getUnits.and.returnValue(of([userWeightUnit, anotherUnit]));
+        unitServiceSpy.convert.and.returnValue(convertedWeight);
 
-        service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy);
+        service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy, unitServiceSpy);
     });
     /*
         describe('#updateWeights', () => {
@@ -281,11 +291,83 @@ describe('WorkoutGeneratorService', () => {
         });
 
         describe('when progression strategies are set', () => {
-            /*
             describe('when progression strategies are set at plan level', () => {
-                describe('and when progression strategies are set at session level', () => {
-                    describe('and when progression strategies are set at group level', () => {
+                let previousWeight;
+                let weightIncrease;
+                let weightIncreaseAnotherUnit;
+                let coreExercise;
+                let anotherCoreExercise;
+                let strategy;
+                let strategyWithDifferentUnit;
+                let group;
+                let anotherGroup;
 
+                beforeEach(() => {
+                    previousWeight = 10;
+                    weightIncrease = 2;
+                    weightIncreaseAnotherUnit = 400;
+                    coreExercise = new Exercise({ id: 1, section: Section.Core });
+                    anotherCoreExercise = new Exercise({ id: 2, section: Section.Core });
+                    strategy = new ProgressionStrategy({ id: 1, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: weightIncrease, unit: userWeightUnitId });
+                    strategyWithDifferentUnit = new ProgressionStrategy({ id: 2, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: weightIncreaseAnotherUnit, unit: anotherUnitId });
+                    group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: coreExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                    anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherCoreExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                    planSession.groups = [group, anotherGroup];
+
+                    working_weights.push(new WorkingWeight({ weight: previousWeight, exercise: coreExercise, unit: userWeightUnitId }));
+                    working_weights.push(new WorkingWeight({ weight: previousWeight, exercise: anotherCoreExercise, unit: userWeightUnitId }));
+
+                    serviceGenerate().subscribe(workout => {
+                        lastWorkout = workout;
+                        workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
+                    })
+                    complete(lastWorkout);
+                })
+
+                describe('when strategy is of a different unit than the users and there is no equivalent strategy', () => {
+                    beforeEach(() => {
+                        plan.progressions.push(strategyWithDifferentUnit);
+                    })
+
+                    it('should convert to the users unit', () => {
+                        serviceGenerate().subscribe(workout => {
+                            expect(workout.working_weights.filter(x => x.exercise.id == coreExercise.id)[0].weight)
+                            .toEqual(previousWeight + convertedWeight);
+                        });
+                    })
+                })
+
+                describe('when there are two equal strategies differing only in the unit applying for the same exercise', () =>
+                {
+                    beforeEach(() => {
+                        plan.progressions.push(strategyWithDifferentUnit, strategy);
+                    })
+
+                    it('should choose the strategy with the user unit', () => {
+                        serviceGenerate().subscribe(workout => {
+                            expect(workout.working_weights.filter(x => x.exercise.id == coreExercise.id)[0].weight)
+                            .toEqual(previousWeight + weightIncrease);
+                        });
+                    })
+                })
+
+                describe('and when progression strategies are set at session level', () => {
+                    beforeEach(() => {
+
+                    })
+
+                    it('should take precedence over plan strategies', () => {
+
+                    })
+
+                    describe('and when progression strategies are set at group level', () => {
+                        beforeEach(() => {
+
+                        })
+
+                        it('should take precedence over plan and session strategies', () => {
+
+                        })
                     })
                 })
             })
@@ -295,7 +377,6 @@ describe('WorkoutGeneratorService', () => {
 
                 })
             })
-            */
 
             describe('when progression strategies are set at group level', () => {
                 it('should not affect exercises on other groups', () => {
@@ -321,6 +402,10 @@ describe('WorkoutGeneratorService', () => {
                             .toEqual(previousWeight + increase);
                         expect(workout.groups.filter(g => g.plan_session_group == anotherGroup.id)[0].sets[0].weight)
                             .toEqual(previousWeight);
+                        expect(workout.working_weights.filter(w => w.exercise.id == exercise.id)[0].weight)
+                        .toEqual(previousWeight + increase);
+                        expect(workout.working_weights.filter(w => w.exercise.id == anotherExercise.id)[0].weight)
+                        .toEqual(previousWeight);
                     });
                 })
             })

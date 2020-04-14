@@ -13,16 +13,27 @@ import { PlanSessionGroup } from './plan-session-group';
 import { ProgressionStrategy } from './plan-progression-strategy';
 import { Exercise } from './exercise';
 import { Plan } from './plan';
+import { UnitsService } from './units.service';
+import { Unit, MeasurementType } from './unit';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutGeneratorService {
 
+  units: Unit[];
+  weightUnits: Unit[];
+
   constructor(
     private workoutsService: WorkoutsService,
     private authService: AuthService,
-  ) {}
+    private unitsService: UnitsService,
+  ) {
+    unitsService.getUnits().subscribe(units => {
+      this.units = units;
+      this.weightUnits = this.units.filter(u => u.measurement_type == MeasurementType.Weight) 
+    });
+  }
 
   generate(start: Date, workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
@@ -200,6 +211,53 @@ export class WorkoutGeneratorService {
     }
   }
 
+  private equivalentProgressionExists(progression: ProgressionStrategy, progressions: ProgressionStrategy[], unit: number) {
+    return progressions.filter(element => 
+       (element.id != progression.id && element.weight_increase &&
+        element.unit == unit &&
+        element.progression_type == progression.progression_type &&
+        (
+          (element.exercise && progression.exercise && element.exercise.id == progression.exercise.id) ||
+          (element.section == progression.section && element.modality == progression.modality &&
+            element.force == progression.force && element.mechanics == progression.mechanics)
+        ))
+    ).length > 0;
+  }
+
+  private getConvertedProgression(progression: ProgressionStrategy, fromUnitId: number, toUnitId: number): ProgressionStrategy {
+    let newProgression = new ProgressionStrategy(progression);
+    let fromUnit= this.units.filter(u => u.id == fromUnitId)[0];
+    let toUnit= this.units.filter(u => u.id == toUnitId)[0];
+
+    newProgression.unit = toUnitId;
+    newProgression.unit_code = toUnit.abbreviation;
+    newProgression.weight_increase = this.unitsService.convert(newProgression.weight_increase, fromUnit, toUnit);
+
+    return newProgression;
+  }
+
+  private getMissingProgressionsWithConvertedWeights(progressions: ProgressionStrategy[]) {
+    let missingProgressions: ProgressionStrategy[] = [];
+
+    progressions.forEach(progression => {
+      if (progression.weight_increase && progression.weight_increase > 0 && progression.unit) {
+        this.weightUnits.filter(u => u.id != progression.unit).map (u => {
+          if (!this.equivalentProgressionExists(progression, progressions, u.id)) {
+            missingProgressions.push(this.getConvertedProgression(progression, progression.unit, u.id));
+          }
+        });
+      }
+    });
+
+    return missingProgressions;
+  }
+
+  private getWithMissingProgressions(progressions: ProgressionStrategy[]) : ProgressionStrategy[]
+  {
+    return [...progressions, ...this.getMissingProgressionsWithConvertedWeights(progressions)];
+  }
+
+
   private getSets(
     workingWeights: WorkingWeight[], 
     plan: Plan,
@@ -235,14 +293,15 @@ export class WorkoutGeneratorService {
           let progressionStrategies: ProgressionStrategy[] = [];
 
           if (planSessionGroup.progressions) {
-            progressionStrategies.push(...planSessionGroup.progressions);
+            progressionStrategies.push(...this.getWithMissingProgressions(planSessionGroup.progressions));
           }
           if (planSession.progressions) {
-            progressionStrategies.push(...planSession.progressions);
+            progressionStrategies.push(...this.getWithMissingProgressions(planSession.progressions));
           }
           if (plan.progressions) {
-            progressionStrategies.push(...plan.progressions);
+            progressionStrategies.push(...this.getWithMissingProgressions(plan.progressions));
           }
+
           for (let progressionStrategy of progressionStrategies) {
             if (this.applyProgressionStrategy(sessionWarmUp.exercise, 
               workingWeights, progressionStrategy)) {

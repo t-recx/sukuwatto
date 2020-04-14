@@ -11,6 +11,6 @@ export class UnitConvertPipe implements PipeTransform {
   }
 
   transform(value: any, fromUnit: Unit|string): any {
-    return this.unitsService.convert(value, fromUnit);
+    return this.unitsService.convertToUserUnit(value, fromUnit);
   }
 }

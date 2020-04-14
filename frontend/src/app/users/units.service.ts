@@ -77,7 +77,7 @@ export class UnitsService {
     return toUnitCode;
   }
 
-  convert(value:any, fromUnit:Unit|string) {
+  convertToUserUnit(value:any, fromUnit:Unit|string) {
     let fromUnitCode = '';
 
     if (fromUnit instanceof Unit) {
@@ -88,6 +88,34 @@ export class UnitsService {
     }
 
     let toUnitCode = this.getToUnitCode(fromUnitCode);
+
+    if (toUnitCode != fromUnitCode) {
+      let num = uz(value + fromUnitCode).convert(toUnitCode).value;
+
+      return this.roundValue(num, fromUnitCode, toUnitCode);
+    }
+
+    return value;
+  }
+
+  convert(value:any, fromUnit:Unit|string, toUnit:Unit|string) {
+    let fromUnitCode = '';
+
+    if (fromUnit instanceof Unit) {
+      fromUnitCode = fromUnit.abbreviation;
+    }
+    else {
+      fromUnitCode = fromUnit;
+    }
+
+    let toUnitCode = '';
+
+    if (toUnit instanceof Unit) {
+      toUnitCode = toUnit.abbreviation;
+    }
+    else {
+      toUnitCode = toUnit;
+    }
 
     if (toUnitCode != fromUnitCode) {
       let num = uz(value + fromUnitCode).convert(toUnitCode).value;
@@ -119,7 +147,7 @@ export class UnitsService {
     if (workout.working_weights) {
       workout.working_weights.forEach(ww => { 
         this.convertWeightValue(ww); 
-        ww.previous_weight = this.convert(ww.previous_weight, ww.previous_unit_code);
+        ww.previous_weight = this.convertToUserUnit(ww.previous_weight, ww.previous_unit_code);
         ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
       });
     }
@@ -136,17 +164,17 @@ export class UnitsService {
   convertUserBioData(userBioData: UserBioData) {
     if (!userBioData) {
       if (userBioData.weight && userBioData.weight_unit_code) {
-        userBioData.weight = this.convert(userBioData.weight, userBioData.weight_unit_code);
+        userBioData.weight = this.convertToUserUnit(userBioData.weight, userBioData.weight_unit_code);
         userBioData.weight_unit_code = this.getToUnitCode(userBioData.weight_unit_code);
       }
 
       if (userBioData.height && userBioData.height_unit_code) {
-        userBioData.height = this.convert(userBioData.height, userBioData.height_unit_code);
+        userBioData.height = this.convertToUserUnit(userBioData.height, userBioData.height_unit_code);
         userBioData.height_unit_code = this.getToUnitCode(userBioData.height_unit_code);
       }
 
       if (userBioData.bone_mass_weight && userBioData.bone_mass_weight_unit_code) {
-        userBioData.bone_mass_weight = this.convert(userBioData.bone_mass_weight, userBioData.bone_mass_weight_unit_code);
+        userBioData.bone_mass_weight = this.convertToUserUnit(userBioData.bone_mass_weight, userBioData.bone_mass_weight_unit_code);
         userBioData.bone_mass_weight_unit_code = this.getToUnitCode(userBioData.bone_mass_weight_unit_code);
       }
     }
@@ -154,7 +182,7 @@ export class UnitsService {
 
   convertWeightValue(model: {weight: number, unit_code: string}) {
     if (model) {
-      model.weight = this.convert(model.weight, model.unit_code);
+      model.weight = this.convertToUserUnit(model.weight, model.unit_code);
       model.unit_code = this.getToUnitCode(model.unit_code);
     }
   }
