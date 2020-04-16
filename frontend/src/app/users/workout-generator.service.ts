@@ -15,6 +15,7 @@ import { Exercise } from './exercise';
 import { Plan } from './plan';
 import { UnitsService } from './units.service';
 import { Unit, MeasurementType } from './unit';
+import { ProgressionStrategyService } from './progression-strategy-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class WorkoutGeneratorService {
     private workoutsService: WorkoutsService,
     private authService: AuthService,
     private unitsService: UnitsService,
+    private progressionStrategyService: ProgressionStrategyService,
   ) {
     unitsService.getUnits().subscribe(units => {
       this.units = units;
@@ -99,7 +101,7 @@ export class WorkoutGeneratorService {
       name += start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s";
     }
 
-    if (planSession) {
+    if (planSession && planSession.name) {
       name += " " + planSession.name;
     }
 
@@ -177,21 +179,10 @@ export class WorkoutGeneratorService {
     workingWeight = workingWeights.filter(ww => ww.exercise.id == exercise.id)[0];
 
     if (workingWeight) {
-      if (progressionStrategy.exercise) {
-        if (progressionStrategy.exercise.id == exercise.id) {
+      if (this.progressionStrategyService.applies(progressionStrategy, exercise, workingWeight.unit)) {
           this.updateWorkingWeight(workingWeight, progressionStrategy);
-        }
-      }
-      else {
-        if (exercise) {
-          if ([exercise].filter(x =>
-            (progressionStrategy.force == null || x.force == progressionStrategy.force) &&
-            (progressionStrategy.mechanics == null || x.mechanics == progressionStrategy.mechanics) &&
-            (progressionStrategy.section == null || x.section == progressionStrategy.section) &&
-            (progressionStrategy.modality == null || x.modality == progressionStrategy.modality)).length > 0) {
-            this.updateWorkingWeight(workingWeight, progressionStrategy);
-          }
-        }
+
+          return true;
       }
     }
 
@@ -212,16 +203,12 @@ export class WorkoutGeneratorService {
   }
 
   private equivalentProgressionExists(progression: ProgressionStrategy, progressions: ProgressionStrategy[], unit: number) {
-    return progressions.filter(element => 
-       (element.id != progression.id && element.weight_increase &&
-        element.unit == unit &&
-        element.progression_type == progression.progression_type &&
-        (
-          (element.exercise && progression.exercise && element.exercise.id == progression.exercise.id) ||
-          (element.section == progression.section && element.modality == progression.modality &&
-            element.force == progression.force && element.mechanics == progression.mechanics)
-        ))
-    ).length > 0;
+    return progressions.filter(x => 
+        x.id != progression.id &&
+        x.weight_increase &&
+        x.unit == unit &&
+        this.progressionStrategyService.matches(x, progression)
+      ).length > 0;
   }
 
   private getConvertedProgression(progression: ProgressionStrategy, fromUnitId: number, toUnitId: number): ProgressionStrategy {
@@ -243,6 +230,7 @@ export class WorkoutGeneratorService {
       if (progression.weight_increase && progression.weight_increase > 0 && progression.unit) {
         this.weightUnits.filter(u => u.id != progression.unit).map (u => {
           if (!this.equivalentProgressionExists(progression, progressions, u.id)) {
+            console.log('no equivalent progression for ' + u.id);
             missingProgressions.push(this.getConvertedProgression(progression, progression.unit, u.id));
           }
         });
@@ -256,7 +244,6 @@ export class WorkoutGeneratorService {
   {
     return [...progressions, ...this.getMissingProgressionsWithConvertedWeights(progressions)];
   }
-
 
   private getSets(
     workingWeights: WorkingWeight[], 
@@ -326,14 +313,16 @@ export class WorkoutGeneratorService {
 
   private getSet(workingWeights: WorkingWeight[], sessionActivity: PlanSessionGroupActivity): WorkoutSet {
     let workingWeight = this.getWorkingWeight(workingWeights, sessionActivity.exercise, sessionActivity.working_weight_percentage);
-    let set = new WorkoutSet();
-    set.working_weight_percentage = sessionActivity.working_weight_percentage;
-    set.order = sessionActivity.order;
-    set.exercise = sessionActivity.exercise;
-    set.expected_number_of_repetitions = sessionActivity.number_of_repetitions;
-    set.expected_number_of_repetitions_up_to = sessionActivity.number_of_repetitions_up_to;
-    set.repetition_type = sessionActivity.repetition_type;
-    set.plan_session_group_activity = sessionActivity.id;
+    let set = new WorkoutSet({
+      working_weight_percentage: sessionActivity.working_weight_percentage,
+      order: sessionActivity.order,
+      exercise: sessionActivity.exercise,
+      expected_number_of_repetitions: sessionActivity.number_of_repetitions,
+      expected_number_of_repetitions_up_to: sessionActivity.number_of_repetitions_up_to,
+      repetition_type: sessionActivity.repetition_type,
+      plan_session_group_activity: sessionActivity.id,
+    }) ;
+
     if (workingWeight && workingWeight.weight) {
       set.weight = workingWeight.weight;
       set.unit = workingWeight.unit;

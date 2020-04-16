@@ -16,6 +16,7 @@ import { WorkoutSet } from './workout-set';
 import { CompileReflector } from '@angular/compiler';
 import { UnitsService } from './units.service';
 import { Unit, MeasurementType } from './unit';
+import { ProgressionStrategyService } from './progression-strategy-service.service';
 
 describe('WorkoutGeneratorService', () => {
     let start: Date;
@@ -41,6 +42,7 @@ describe('WorkoutGeneratorService', () => {
     let workoutServiceSpy: jasmine.SpyObj<WorkoutsService>;
     let authServiceSpy: jasmine.SpyObj<AuthService>;
     let unitServiceSpy: jasmine.SpyObj<UnitsService>;
+    let progressionStrategyService: ProgressionStrategyService;
 
     beforeEach(() => {
         start = new Date();
@@ -62,6 +64,7 @@ describe('WorkoutGeneratorService', () => {
         workoutServiceSpy = jasmine.createSpyObj('WorkoutsService', ['getLastWorkout']);
         authServiceSpy = jasmine.createSpyObj('AuthService', ['getUsername', 'getUserWeightUnitId']);
         unitServiceSpy = jasmine.createSpyObj('UnitsService', ['convert', 'getUnits']);
+        progressionStrategyService = new ProgressionStrategyService();
 
         lastWorkout = new Workout();
         lastWorkout.id = 1;
@@ -71,7 +74,7 @@ describe('WorkoutGeneratorService', () => {
         unitServiceSpy.getUnits.and.returnValue(of([userWeightUnit, anotherUnit]));
         unitServiceSpy.convert.and.returnValue(convertedWeight);
 
-        service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy, unitServiceSpy);
+        service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy, unitServiceSpy, progressionStrategyService);
     });
     /*
         describe('#updateWeights', () => {
@@ -330,10 +333,12 @@ describe('WorkoutGeneratorService', () => {
                     })
 
                     it('should convert to the users unit', () => {
+                        console.log('-start-');
                         serviceGenerate().subscribe(workout => {
                             expect(workout.working_weights.filter(x => x.exercise.id == coreExercise.id)[0].weight)
                             .toEqual(previousWeight + convertedWeight);
                         });
+                        console.log('-end-');
                     })
                 })
 
