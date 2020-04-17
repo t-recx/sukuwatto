@@ -15,6 +15,31 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
         self.create_user(self.user1)
         self.create_user(self.user2)
 
+    def test_change_password_when_old_password_not_correct_should_return_bad_request(self):
+        self.authenticate(self.user1)
+
+        response = self.client.post('/api/user-change-password/', { 'old_password': 'wrong', 'new_password': '43928409328fdshrewui2309'})
+
+        self.assertEqual(response.data, ['Wrong password specified'])
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_change_password_when_new_password_does_not_validate_should_return_bad_request(self):
+        self.authenticate(self.user1)
+
+        response = self.client.post('/api/user-change-password/', { 'old_password': 'wrong', 'new_password': '0'})
+
+        self.assertEqual(response.data, ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.'])
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_change_password_should_change_password(self):
+        new_password = '94382fdhs90342fdhjew'
+        self.authenticate(self.user1)
+
+        response = self.client.post('/api/user-change-password/', { 'old_password': self.user1['password'], 'new_password': new_password})
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertTrue(CustomUser.objects.get(username=self.user1['username']).check_password(new_password))
+
     def test_listing_data_should_not_bring_back_sensitive_information(self):
         response = self.client.get('/api/users/')
 
