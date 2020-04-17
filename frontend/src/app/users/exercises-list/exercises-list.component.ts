@@ -92,7 +92,6 @@ export class ExercisesListComponent implements OnInit, OnChanges {
     else {
       this.columnOrder = {};
     }
-    console.log(this.columnOrder);
   }
 
   toggleSort(column: string) {

@@ -230,7 +230,6 @@ export class WorkoutGeneratorService {
       if (progression.weight_increase && progression.weight_increase > 0 && progression.unit) {
         this.weightUnits.filter(u => u.id != progression.unit).map (u => {
           if (!this.equivalentProgressionExists(progression, progressions, u.id)) {
-            console.log('no equivalent progression for ' + u.id);
             missingProgressions.push(this.getConvertedProgression(progression, progression.unit, u.id));
           }
         });

@@ -77,10 +77,10 @@ export class UnitsService {
     return toUnitCode;
   }
 
-  convertToUserUnit(value:any, fromUnit:Unit|string) {
+  convertToUserUnit(value:any, fromUnit:any) {
     let fromUnitCode = '';
 
-    if (fromUnit instanceof Unit) {
+    if (fromUnit.abbreviation) {
       fromUnitCode = fromUnit.abbreviation;
     }
     else {
@@ -98,10 +98,10 @@ export class UnitsService {
     return value;
   }
 
-  convert(value:any, fromUnit:Unit|string, toUnit:Unit|string) {
+  convert(value:any, fromUnit:any, toUnit:any) {
     let fromUnitCode = '';
 
-    if (fromUnit instanceof Unit) {
+    if (fromUnit.abbreviation) {
       fromUnitCode = fromUnit.abbreviation;
     }
     else {
@@ -110,7 +110,7 @@ export class UnitsService {
 
     let toUnitCode = '';
 
-    if (toUnit instanceof Unit) {
+    if (toUnit.abbreviation) {
       toUnitCode = toUnit.abbreviation;
     }
     else {

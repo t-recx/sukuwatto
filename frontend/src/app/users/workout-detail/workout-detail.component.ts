@@ -296,7 +296,6 @@ export class WorkoutDetailComponent implements OnInit {
       .subscribe(newWorkout => { 
         this.workout = newWorkout; 
         this.setNextActivityInProgress();
-        console.log(this.workout); 
       });
     }
   }
