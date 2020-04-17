@@ -162,6 +162,24 @@ def validate_password(request):
 
     return Response(errors)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    old_password = request.data.get('old_password', None)
+    new_password = request.data.get('new_password', None)
+
+    if not request.user.check_password(old_password):
+        return Response(data=list(['Wrong password specified']), status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        password_validation.validate_password(password=new_password, user=request.user)
+    except ValidationError as e:
+        return Response(data=list(e.messages), status=status.HTTP_400_BAD_REQUEST)
+
+    request.user.set_password(new_password)
+    request.user.save()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

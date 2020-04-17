@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
   private usersEmailApiUrl = `${environment.apiUrl}/user-email/`;
+  private usersChangePasswordApiUrl = `${environment.apiUrl}/user-change-password/`;
   private usersProfileFilenameApiUrl = `${environment.apiUrl}/user-profile-filename/`;
   private usersValidatePasswordApiUrl = `${environment.apiUrl}/user-validate-password/`;
 
@@ -91,6 +92,10 @@ export class UserService {
           this.alertService.error('Unable to validate password');
         }, []))
       );
+  }
+
+  changePassword(old_password: string, new_password: string): Observable<string[]> {
+    return this.http.post<string[]>(`${this.usersChangePasswordApiUrl}`, {old_password, new_password});
   }
   
   getEmail(): Observable<string> {
