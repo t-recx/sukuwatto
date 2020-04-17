@@ -5,6 +5,8 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
 import { filter, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { UnitsService } from '../users/units.service';
+import { Unit, MeasurementType } from '../users/unit';
 
 @Component({
   selector: 'app-signup',
@@ -18,10 +20,12 @@ export class SignupComponent implements OnInit, OnDestroy {
   signUpText: string;
   validatePasswordSubscription: Subscription;
   passwordValidations: string[];
+  units: Unit[];
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private unitsService: UnitsService,
     private router: Router,
     ) { }
 
@@ -30,6 +34,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.triedToSignUp = false;
     this.signingUp = false;
     this.signUpText = "Sign up";
+    this.unitsService.getUnits().subscribe(u => this.units = u);
 
     this.setupPasswordValidator();
   }
@@ -65,6 +70,15 @@ export class SignupComponent implements OnInit, OnDestroy {
     if (!this.user.system) {
       return false;
     }
+    else {
+      const unit = this.units.filter(x => x.measurement_type == MeasurementType.Weight && 
+        x.system == this.user.system)[0];
+
+      if (unit) {
+        this.user.default_weight_unit = unit.id;
+      }
+    }
+
 
     if (this.passwordValidations && this.passwordValidations.length > 0) {
       return;

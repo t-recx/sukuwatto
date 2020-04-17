@@ -25,6 +25,7 @@ export class User {
     year_birth: number;
     month_birth: number;
     biography: string;
+    default_weight_unit: number;
     system: MeasurementSystem;
     profile_filename: string;
 }

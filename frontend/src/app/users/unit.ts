@@ -16,4 +16,8 @@ export class Unit {
     abbreviation: string;
     system: MeasurementSystem;
     measurement_type: MeasurementType;
+
+    constructor(init?: Partial<Unit>) {
+        Object.assign(this, init);
+    }
 }

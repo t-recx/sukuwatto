@@ -9,4 +9,8 @@ export class WorkingWeight {
     previous_weight: number;
     previous_unit: number;
     previous_unit_code: string;
+
+    constructor(init?: Partial<WorkingWeight>) {
+        Object.assign(this, init);
+    }
 }
