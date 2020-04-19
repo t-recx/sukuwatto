@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'actstream',
     'channels',
     'rest_framework',
+    'django_rest_passwordreset',
 ]
 
 SITE_ID = 1
