@@ -146,12 +146,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <div class="siimple-checkbox siimple-checkbox--success">
+                                <input type="checkbox" id="terms-checkbox" [(ngModel)]="acceptedTerms" name="terms-checkbox">
+                                <label for="terms-checkbox"></label>
+                            </div>
+                            <label class="siimple-label">
+                                <span class="clickable" (click)="toggleAcceptTerms()">I agree to the </span> 
+                                <a class="siimple-link" target="_blank" routerLink='/terms-and-conditions/'>terms and conditions</a>.
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12" style="padding-bottom: 0px;height: 36px;">
                     <div class="siimple-form-field">
                         <button class="siimple-btn siimple-btn--success siimple--text-bold" type="submit"
-                            [disabled]="signingUp" [class.siimple-btn--disabled]="signingUp">
+                            [disabled]="signingUp || !acceptedTerms" [class.siimple-btn--disabled]="signingUp || !acceptedTerms">
                             {{ signUpText }}
                         </button>
                     </div>

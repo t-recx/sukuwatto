@@ -6,6 +6,7 @@ import { IndexComponent } from './index/index.component';
 import { LandingGuard } from './guards/landing.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
@@ -16,6 +17,7 @@ const routes: Routes = [
     loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule),
     canActivate: []
   },
+  { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
