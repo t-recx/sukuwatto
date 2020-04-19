@@ -7,7 +7,6 @@ import { UnitsService } from '../units.service';
 import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
-import { UserChangePassword } from '../user-change-password';
 
 @Component({
   selector: 'app-account',

@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { UserChangePassword } from '../user-change-password';
 import { UserService } from 'src/app/user.service';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';

@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './alert/alert.module';
 import { TokenInterceptor } from './token.interceptor';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -25,6 +26,7 @@ export function tokenGetter() {
     SignupComponent,
     IndexComponent,
     PageNotFoundComponent,
+    TermsAndConditionsComponent,
   ],
   imports: [
     AlertModule,
