@@ -14,6 +14,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './alert/alert.module';
 import { TokenInterceptor } from './token.interceptor';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ResetPasswordRequestComponent } from './reset-password-request/reset-password-request.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -27,6 +29,8 @@ export function tokenGetter() {
     IndexComponent,
     PageNotFoundComponent,
     TermsAndConditionsComponent,
+    ResetPasswordComponent,
+    ResetPasswordRequestComponent,
   ],
   imports: [
     AlertModule,

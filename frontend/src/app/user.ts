@@ -28,4 +28,8 @@ export class User {
     default_weight_unit: number;
     system: MeasurementSystem;
     profile_filename: string;
+
+    constructor(init?: Partial<User>) {
+        Object.assign(this, init);
+    }
 }

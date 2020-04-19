@@ -8,6 +8,8 @@ from django_rest_passwordreset.signals import reset_password_token_created
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    # todo: change in production:
+    host = 'localhost:4200'
     """
     Handles password reset tokens
     When a token is created, an e-mail needs to be sent to the user
@@ -23,12 +25,12 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
-        'reset_password_url': "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+        'reset_password_url':  "http://" + host + "/reset-password/" + reset_password_token.key
     }
 
     # render email text
-    email_html_message = render_to_string('email/user_reset_password.html', context)
-    email_plaintext_message = render_to_string('email/user_reset_password.txt', context)
+    email_html_message = render_to_string('user_reset_password.html', context)
+    email_plaintext_message = render_to_string('user_reset_password.txt', context)
 
     msg = EmailMultiAlternatives(
         # title:
@@ -36,7 +38,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # message:
         email_plaintext_message,
         # from:
-        "noreply@somehost.local",
+        "noreply@" + host,
         # to:
         [reset_password_token.user.email]
     )
