@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'actstream',
     'channels',
     'rest_framework',
+    'django_rest_passwordreset',
 ]
 
 SITE_ID = 1
@@ -70,7 +71,7 @@ ROOT_URLCONF = 'sqtrex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

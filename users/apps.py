@@ -7,3 +7,5 @@ class UsersConfig(AppConfig):
     def ready(self):
         from actstream import registry
         registry.register(self.get_model('CustomUser'))
+
+        import users.signals

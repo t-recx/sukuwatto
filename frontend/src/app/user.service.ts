@@ -16,6 +16,9 @@ export class UserService {
   private usersChangePasswordApiUrl = `${environment.apiUrl}/user-change-password/`;
   private usersProfileFilenameApiUrl = `${environment.apiUrl}/user-profile-filename/`;
   private usersValidatePasswordApiUrl = `${environment.apiUrl}/user-validate-password/`;
+  private usersResetPasswordApiUrl = `${environment.apiUrl}/password-reset/`;
+  private usersResetPasswordConfirmApiUrl = `${environment.apiUrl}/password-reset-confirm/`;
+  private usersResetPasswordValidateTokenApiUrl = `${environment.apiUrl}/password-reset-validate-token/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,10 +29,38 @@ export class UserService {
     private errorService: ErrorService,
     private alertService: AlertService) { }
 
+  resetPasswordValidateToken(token: string): Observable<any> {
+    return this.http.post<any>(`${this.usersResetPasswordValidateTokenApiUrl}`, { token }, this.httpOptions);
+  }
+
+  resetConfirmPassword(token: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.usersResetPasswordConfirmApiUrl}`, { token, password }, this.httpOptions)
+    .pipe(
+      catchError(this.errorService.handleError<any>('resetConfirmPassword', (e: any) => 
+      {
+        this.alertService.error('Unable to reset password, try again later');
+      }, {error:true}))
+    );
+  }
+
+  resetPassword(email: string): Observable<any> {
+    return this.http.post<any>(`${this.usersResetPasswordApiUrl}`, { email }, this.httpOptions)
+    .pipe(
+      catchError(this.errorService.handleError<any>('resetPassword', (e: any) => 
+      {
+        if (e.error && e.error.email) {
+          this.alertService.error(e.error.email);
+        }
+        else {
+          this.alertService.error('Unable to reset password, try again later');
+        }
+      }, {error:true}))
+    );
+  }
+
   create(user: User): Observable<User> {
     return this.http.post<User>(`${this.usersApiUrl}`, user, this.httpOptions)
     .pipe(
-      tap((newUser: User) => { }),
       catchError(this.errorService.handleError<User>('create', (e: any) => 
       {
         if (e.error && e.error.username) {
