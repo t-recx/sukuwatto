@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   validatePasswordSubscription: Subscription;
   passwordValidations: string[];
   units: Unit[];
+  acceptedTerms: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -32,6 +33,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user = new User();
     this.triedToSignUp = false;
+    this.acceptedTerms = false;
     this.signingUp = false;
     this.signUpText = "Sign up";
     this.unitsService.getUnits().subscribe(u => this.units = u);
@@ -41,6 +43,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.validatePasswordSubscription.unsubscribe();
+  }
+
+  toggleAcceptTerms(): void {
+    this.acceptedTerms = !this.acceptedTerms;
   }
 
   setupPasswordValidator() {

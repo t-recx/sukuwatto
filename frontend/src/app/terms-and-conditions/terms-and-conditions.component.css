@@ -1,0 +1,10 @@
+.title {
+    font-size: 40px;
+    font-weight: 600;
+    color: #546778;
+}
+
+.terms-list {
+    list-style-type: disc;
+    padding-left: 40px;
+}
