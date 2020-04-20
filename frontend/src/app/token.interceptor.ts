@@ -5,7 +5,6 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
 import { Token } from './token';
 import { Router } from '@angular/router';
-import { ErrorService } from './error.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -16,7 +15,6 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(
         public authService: AuthService,
         private router: Router,
-        private errorService: ErrorService,
         ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -26,9 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(catchError(error => {
             if (error instanceof HttpErrorResponse && error.status === 401) {
-                console.log('error 401');
                 if (this.authService.getTokenRefresh()) {
-                    console.log('refreshing');
                     if (this.isRefreshing) {
                         this.isRefreshing = false;
                         this.authService.logout();
@@ -40,7 +36,6 @@ export class TokenInterceptor implements HttpInterceptor {
                     }
                 }
                 else {
-                    console.log('loggingout');
                     this.authService.logout();
                     this.router.navigate(['/login']);
 
@@ -48,7 +43,6 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             } 
             else {
-                    console.log('throwing error');
                 return throwError(error);
             }
         }));
@@ -63,17 +57,12 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     private refreshTokenAndContinue(request: HttpRequest<any>, next: HttpHandler) {
-        console.log('refreshTokenAndContinue');
-        console.log('isRefreshing:');
-        console.log(this.isRefreshing);
         if (!this.isRefreshing) {
             this.isRefreshing = true;
             this.refreshSubject.next(null);
 
             return this.authService.refresh().pipe(
                 switchMap((token: Token) => {
-                    console.log('entered switch map');
-
                     this.authService.setTokenAccess(token.access);
                     this.isRefreshing = false;
                     this.refreshSubject.next(token.access);
