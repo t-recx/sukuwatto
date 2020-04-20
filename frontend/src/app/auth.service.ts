@@ -56,11 +56,7 @@ export class AuthService {
   }
 
   refresh(): Observable<Token> {
-    return this.http.post<Token>(`${environment.apiUrl}/refresh/`, { refresh: this.getTokenRefresh() }, this.httpOptions)
-      .pipe(
-        tap((newToken: Token) => this.setTokenAccess(newToken.access)),
-        catchError(this.errorService.handleError<Token>('refresh'))
-      );
+    return this.http.post<Token>(`${environment.apiUrl}/refresh/`, { refresh: this.getTokenRefresh() }, this.httpOptions);
   }
 
   public isCurrentUserLoggedIn(username: string): boolean {
@@ -165,7 +161,7 @@ export class AuthService {
     this.setLocalStorageItem('username', username);
   }
 
-  private setTokenAccess(access: string) {
+  setTokenAccess(access: string) {
     this.setLocalStorageItem('access_token', access);
   }
 
