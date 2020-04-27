@@ -28,7 +28,7 @@
         </app-user-tag>
 
         <div class="comment-date">
-            <small class="siimple-small">{{comment.timestamp | timeAgo}}</small>
+            <small class="siimple-small">{{comment.timestamp.toString() | timeAgo}}</small>
         </div>
 
         <app-edit-delete-dropdown class="self-centered siimple--ml-2" 

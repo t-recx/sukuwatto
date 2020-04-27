@@ -13,7 +13,7 @@ export class UsersComponent implements OnInit {
   faBars = faBars;
 
   constructor(
-    private authService: AuthService, 
+    public authService: AuthService, 
     private router: Router,
     public route: ActivatedRoute, 
     ) { }

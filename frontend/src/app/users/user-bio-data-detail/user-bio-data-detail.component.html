@@ -151,7 +151,7 @@
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Notes</div>
                             <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
-                                name="notes" id="notes" [(ngModel)]="userBioDatanotes" #notes="ngModel">
+                                name="notes" id="notes" [(ngModel)]="userBioData.notes" #notes="ngModel">
                             </textarea>
                             <div *ngIf="notes.invalid && (notes.dirty || triedToHide)">
                                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
