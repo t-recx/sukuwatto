@@ -86,7 +86,7 @@
                 [fetchProfileFilename]=true>
             </app-user-tag>
 
-            <small class="siimple-small siimple--ml-2">{{plan.creation | timeAgo}}</small>
+            <small class="siimple-small siimple--ml-2">{{plan.creation.toString() | timeAgo}}</small>
 
             <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()">
                 <fa-icon [icon]="faChild" class="siimple--mr-1"></fa-icon>

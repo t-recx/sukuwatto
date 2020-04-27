@@ -20,6 +20,7 @@ export class User {
     last_name: string;
     username: string;
     password: string;
+    location: string;
     email: string;
     gender: Gender;
     year_birth: number;

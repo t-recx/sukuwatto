@@ -24,6 +24,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   faUserCircle = faUserCircle;
   faReply = faReply;
   faComment = faComment;
+  faPen = faPen;
 
   imageHidden: boolean = false;
 

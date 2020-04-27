@@ -99,7 +99,7 @@
                         [(ngModel)]="user.email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         [ngModelOptions]="{updateOn: 'blur'}" placeholder="Your email address">
 
-                    <div *ngIf="email.invalid && (email.dirty || triedToSignUp)">
+                    <div *ngIf="email.invalid && (email.dirty || triedToSave)">
                         <div *ngIf="email.errors?.required" class="siimple-field-helper siimple--color-error">
                             This field can't be empty
                         </div>
