@@ -27,7 +27,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   previousScrollHeight: number = 0;
   loadingOlderMessages: boolean = false;
 
-  @ViewChild('scrollframe', {static: false}) scrollFrame: ElementRef;
+  @ViewChild('scrollframe') scrollFrame: ElementRef;
   @ViewChildren('message') itemElements: QueryList<any>;
 
   faPaperPlane = faPaperPlane;
