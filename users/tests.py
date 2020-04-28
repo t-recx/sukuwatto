@@ -26,7 +26,7 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
     def test_change_password_when_new_password_does_not_validate_should_return_bad_request(self):
         self.authenticate(self.user1)
 
-        response = self.client.post('/api/user-change-password/', { 'old_password': 'wrong', 'new_password': '0'})
+        response = self.client.post('/api/user-change-password/', { 'old_password': self.user1['password'], 'new_password': '0'})
 
         self.assertEqual(response.data, ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.'])
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
