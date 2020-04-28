@@ -12,7 +12,7 @@ cryptography==2.9.2
 daphne==2.5.0
 Django==3.0.5
 # To support django 3+
-# pip install git+https://github.com/justquick/django-activity-stream.git@8d38fd45b4bef1f7137fb8185b04ee0d8cdb5e3b
+django-activity-stream = {git = "git://github.com/justquick/django-activity-stream.git",ref = "8d38fd45b4bef1f7137fb8185b04ee0d8cdb5e3b"}
 django-activity-stream==0.8.0
 django-cors-headers==3.2.1
 django-filter==2.2.0
