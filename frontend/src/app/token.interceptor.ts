@@ -17,7 +17,41 @@ export class TokenInterceptor implements HttpInterceptor {
         private router: Router,
         ) { }
 
+    getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        request = request.clone({
+                withCredentials: true
+            });
+
+        if (request.method != 'GET' && request.method != 'HEAD' && request.method != 'OPTIONS') {
+            const csrftoken = this.getCookie('csrftoken');
+
+            if (csrftoken) {
+                request = request.clone({
+                    setHeaders: {
+                        'X-CSRFToken': csrftoken
+                    }
+                });
+            }
+        }
+
+        return next.handle(request);
+
         if (this.authService.getAccessToken()) {
             request = this.addToken(request, this.authService.getAccessToken());
         }
