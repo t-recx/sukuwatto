@@ -83,8 +83,8 @@ export class MessagesService {
     return of(true);
   }
 
-  getChatSocket(username: string, correspondent: string): WebSocketSubject<Message> {
+  getChatSocket(username: string, correspondent: string, token: string): WebSocketSubject<Message> {
     let orderedUsers = [username, correspondent].sort((a, b) => a.localeCompare(b));
-    return webSocket(`${this.wsChatUrl}${orderedUsers[0]}/${orderedUsers[1]}/?token=${this.authService.getAccessToken()}`);
+    return webSocket(`${this.wsChatUrl}${orderedUsers[0]}/${orderedUsers[1]}/?token=${token}`);
   }
 }

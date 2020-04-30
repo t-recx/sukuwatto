@@ -1,4 +1,4 @@
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenCookieDeleteView
 from django.urls import include, path
 from rest_framework import routers
 from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password
@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/logout/', TokenCookieDeleteView.as_view(), name='logout'),
     path('api/adopt-plan/<int:pk>/', plan_views.adopt_plan, name='adopt_plan'),
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
