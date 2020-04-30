@@ -46,17 +46,18 @@ export class AuthService {
       );
   }
 
-  public logout() {
+  public logout(): Observable<any> {
+    this.setIsLoggedIn(null);
     this.setUsername(null);
-    this.setTokenAccess(null);
-    this.setTokenRefresh(null);
     this.setUnitSystem(null);
     this.setUserWeightUnitId(null);
     this.setUserID(null);
+
+    return this.http.post<any>(`${environment.apiUrl}/logout/`, { }, this.httpOptions);
   }
 
-  refresh(): Observable<Token> {
-    return this.http.post<Token>(`${environment.apiUrl}/refresh/`, { refresh: this.getTokenRefresh() }, this.httpOptions);
+  public refresh(): Observable<Token> {
+    return this.http.post<Token>(`${environment.apiUrl}/refresh/`, {  }, this.httpOptions);
   }
 
   public isCurrentUserLoggedIn(username: string): boolean {
@@ -72,28 +73,16 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    if (this.getTokenRefresh()) {
-      return !this.jwtHelper.isTokenExpired(this.getTokenRefresh());
-    }
-
-    return false;
+    return this.getIsLoggedIn() == 'true';
   }
 
-  public tokenExpired(): boolean {
-    if (this.getAccessToken()) {
-      return this.jwtHelper.isTokenExpired(this.getAccessToken());
-    }
-
-    return false;
-  }
-
-  public canRefresh(): boolean {
-    return !this.jwtHelper.isTokenExpired(this.getTokenRefresh());
+  private setIsLoggedIn(value: string) {
+    this.setLocalStorageItem('logged_in', value);
   }
 
   private setSession(user: User, token: Token) {
-    this.setTokenAccess(token.access);
-    this.setTokenRefresh(token.refresh);
+    this.setIsLoggedIn('true');
+    this.setTokenMessaging(token.messaging);
     this.setUsername(user.username)
   }
 
@@ -121,8 +110,12 @@ export class AuthService {
     }
   }
 
-  public getAccessToken(): string {
-    return this.getLocalStorageItem('access_token');
+  public getIsLoggedIn(): string {
+    return this.getLocalStorageItem('logged_in');
+  }
+
+  public getMessagingToken(): string {
+    return this.getLocalStorageItem('messaging_token');
   }
 
   public getUsername(): string {
@@ -135,10 +128,6 @@ export class AuthService {
 
   public getUserUnitSystem(): string {
     return this.getLocalStorageItem('unit_system');
-  }
-
-  public getTokenRefresh(): string {
-    return this.getLocalStorageItem('refresh_token');
   }
 
   public getUserWeightUnitId(): string {
@@ -161,11 +150,7 @@ export class AuthService {
     this.setLocalStorageItem('username', username);
   }
 
-  setTokenAccess(access: string) {
-    this.setLocalStorageItem('access_token', access);
-  }
-
-  private setTokenRefresh(refresh: string) {
-    this.setLocalStorageItem('refresh_token', refresh);
+  setTokenMessaging(token: string) {
+    this.setLocalStorageItem('messaging_token', token);
   }
 }
