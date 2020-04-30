@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from urllib.parse import parse_qs
 from channels.db import database_sync_to_async
- 
+from django.http import parse_cookie
  
 class TokenAuthMiddleware:
     """
@@ -28,8 +28,20 @@ class TokenAuthMiddlewareInstance:
         self.inner = self.middleware.inner
 
     async def __call__(self, receive, send):
-        # Get the token
-        token = parse_qs(self.scope["query_string"].decode("utf8"))["token"][0]
+        token = None
+
+        if "headers" in self.scope:
+            # Go through headers to find the cookie one
+            for name, value in self.scope.get("headers", []):
+                if name == b"cookie":
+                    cookies = parse_cookie(value.decode("ascii"))
+                    break
+            else:
+                # No cookie header found - add an empty default.
+                cookies = {}
+
+            if "Authorization" in cookies:
+                token = cookies['Authorization']
  
         # Try to authenticate the user
         try:

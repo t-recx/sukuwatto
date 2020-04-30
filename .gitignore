@@ -1,6 +1,9 @@
 media/*
 
-db.sqlite3
+*.swp
+*.swo
+
+*.sqlite3
 
 .vscode/*
 !.vscode/settings.json
