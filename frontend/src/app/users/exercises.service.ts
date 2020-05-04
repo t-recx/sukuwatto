@@ -82,7 +82,7 @@ export class ExercisesService {
       catchError(this.errorService.handleError<Exercise>('createExercise', (e: any) => 
       {
         this.alertService.error('Unable to create exercise, try again later');
-      }, exercise))
+      }, null))
     );
   }
 
@@ -92,7 +92,7 @@ export class ExercisesService {
       catchError(this.errorService.handleError<Exercise>('updateExercise', (e: any) => 
       {
         this.alertService.error('Unable to update exercise, try again later');
-      }, exercise))
+      }, null))
     );
   }
 

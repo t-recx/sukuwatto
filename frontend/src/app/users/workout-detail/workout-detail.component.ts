@@ -321,6 +321,7 @@ export class WorkoutDetailComponent implements OnInit {
     this.triedToSave = true;
 
     if (!this.valid(this.workout)) {
+      this.alertService.warn('Please fill all required fields and try again');
       return;
     }
 
@@ -409,6 +410,7 @@ export class WorkoutDetailComponent implements OnInit {
     this.triedToSave = true;
 
     if (!this.validFinishedWorkout(this.workout)) {
+      this.alertService.warn('Please fill all required fields and try again');
       return;
     }
 

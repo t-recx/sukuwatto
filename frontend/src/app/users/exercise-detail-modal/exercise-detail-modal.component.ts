@@ -51,8 +51,10 @@ export class ExerciseDetailModalComponent implements OnInit, OnChanges {
     this.service.saveExercise(this.exercise).subscribe(exercise => {
       this.triedToSave = false;
 
-      this.saved.emit(exercise);
-      this.close();
+      if (exercise) {
+        this.saved.emit(exercise);
+        this.close();
+      }
     });
   }
 

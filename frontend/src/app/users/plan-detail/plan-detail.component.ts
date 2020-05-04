@@ -5,6 +5,7 @@ import { Plan } from '../plan';
 import { faCalendarPlus, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { PlanSession } from '../plan-session';
 import { AuthService } from 'src/app/auth.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-plan-detail',
@@ -28,6 +29,7 @@ export class PlanDetailComponent implements OnInit {
     private service: PlansService,
     private router: Router,
     private authService: AuthService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -84,6 +86,7 @@ export class PlanDetailComponent implements OnInit {
     this.triedToSave = true;
 
     if (!this.service.valid(this.plan)) {
+      this.alertService.warn('Please fill all required fields and try again');
       return;
     }
 
