@@ -90,7 +90,9 @@ export class PlanDetailComponent implements OnInit {
     this.service.savePlan(this.plan).subscribe(plan => {
       this.triedToSave = false;
 
-      this.goBackToList();
+      if (plan) {
+        this.goBackToList();
+      }
     });
   }
 
