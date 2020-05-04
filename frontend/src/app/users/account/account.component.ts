@@ -7,6 +7,7 @@ import { UnitsService } from '../units.service';
 import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-account',
@@ -45,6 +46,7 @@ export class AccountComponent implements OnInit {
     private router: Router,
     private unitsService: UnitsService,
     private userBioDataService: UserBioDataService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -107,6 +109,7 @@ export class AccountComponent implements OnInit {
     this.triedToSave = true;
 
     if (!this.valid()) {
+      this.alertService.warn('Please fill all required fields and try again');
       return;
     }
 

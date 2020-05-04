@@ -44,6 +44,7 @@ export class ExerciseDetailComponent implements OnInit {
     this.triedToSave = true;
 
     if (!this.valid(this.exercise)) {
+      this.alertService.warn('Please fill all required fields and try again');
       return;
     }
 
@@ -65,7 +66,9 @@ export class ExerciseDetailComponent implements OnInit {
     this.service.saveExercise(this.exercise).subscribe(exercise => {
       this.triedToSave = false;
 
-      this.navigateToList();
+      if (exercise) {
+        this.navigateToList();
+      }
     });
   }
 

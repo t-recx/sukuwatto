@@ -5,6 +5,7 @@ media/*
 
 *.sqlite3
 
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

@@ -139,22 +139,20 @@ export class PlansService {
   createPlan(plan: Plan): Observable<Plan> {
     return this.http.post<Plan>(this.plansUrl, plan, this.httpOptions)
     .pipe(
-      tap((newPlan: Plan) => { }),
       catchError(this.errorService.handleError<Plan>('createPlan', (e: any) => 
       {
         this.alertService.error('Unable to create plan, try again later');
-      }, plan))
+      }, null))
     );
   }
 
   updatePlan(plan: Plan): Observable<Plan> {
     return this.http.put<Plan>(`${this.plansUrl}${plan.id}/`, plan, this.httpOptions)
     .pipe(
-      tap((newPlan: Plan) => { }),
       catchError(this.errorService.handleError<Plan>('updatePlan', (e: any) => 
       {
         this.alertService.error('Unable to update plan, try again later');
-      }, plan))
+      }, null))
     );
   }
 
