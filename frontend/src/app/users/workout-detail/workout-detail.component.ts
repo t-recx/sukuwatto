@@ -14,6 +14,8 @@ import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
 import { concatMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
+import { Location } from '@angular/common';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-workout-detail',
@@ -45,6 +47,8 @@ export class WorkoutDetailComponent implements OnInit {
     private router: Router,
     private workoutGeneratorService: WorkoutGeneratorService,
     private authService: AuthService,
+    private location: Location,
+    private alertService: AlertService,
   ) { }
 
   setWorkoutStartDate(event: any) {
@@ -322,7 +326,17 @@ export class WorkoutDetailComponent implements OnInit {
 
     this.saveObservable().subscribe(workout => {
       this.triedToSave = false;
-      this.workout = workout;
+
+      if (workout) {
+        this.workout = workout;
+
+        if (this.workout.id) {
+          this.location
+          .replaceState('/users/' + this.authService.getUsername() + '/workout/' + this.workout.id.toString());
+        } 
+
+        this.alertService.success('Workout saved successfully');
+      }
     });
   }
 
@@ -400,8 +414,10 @@ export class WorkoutDetailComponent implements OnInit {
 
     this.saveObservable().subscribe(workout => {
       this.triedToSave = false;
-      this.workout = workout;
-      this.navigateToWorkoutList();
+      if (workout) {
+        this.workout = workout;
+        this.navigateToWorkoutList();
+      }
     });
   }
 

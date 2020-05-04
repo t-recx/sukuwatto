@@ -172,7 +172,7 @@ export class WorkoutsService {
       catchError(this.errorService.handleError<Workout>('createWorkout', (e: any) => 
       {
         this.alertService.error('Unable to create workout, try again later');
-      }, workout))
+      }, null))
     );
   }
 
@@ -183,7 +183,7 @@ export class WorkoutsService {
       catchError(this.errorService.handleError<Workout>('updateWorkout', (e: any) => 
       {
         this.alertService.error('Unable to update workout, try again later');
-      }, workout))
+      }, null))
     );
   }
 
