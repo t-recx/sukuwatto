@@ -16,6 +16,9 @@ import { TokenInterceptor } from './token.interceptor';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ResetPasswordRequestComponent } from './reset-password-request/reset-password-request.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { MenuLegalComponent } from './menu-legal/menu-legal.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -31,6 +34,9 @@ export function tokenGetter() {
     TermsAndConditionsComponent,
     ResetPasswordComponent,
     ResetPasswordRequestComponent,
+    CookiePolicyComponent,
+    MenuLegalComponent,
+    PrivacyPolicyComponent,
   ],
   imports: [
     AlertModule,
