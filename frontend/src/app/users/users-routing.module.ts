@@ -14,6 +14,7 @@ import { AccountComponent } from './account/account.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageDetailComponent } from './message-detail/message-detail.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
+import { HomeGuard } from '../guards/home.guard';
 
 const routes: Routes = [
   { 
@@ -23,13 +24,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        canActivateChild: [],
+        canActivate: [HomeGuard],
         component: HomeComponent,
       },
       {
         path: 'home',
-        canActivateChild: [],
+        canActivate: [HomeGuard],
         component: HomeComponent,
+      },
+      {
+        path: 'profile',
+        canActivateChild: [],
+        component: ProfileComponent,
       },
       {
         path: 'post/:id',
@@ -100,11 +106,6 @@ const routes: Routes = [
         path: 'exercise',
         canActivateChild: [],
         component: ExerciseDetailComponent,
-      },
-      {
-        path: 'profile',
-        canActivateChild: [],
-        component: ProfileComponent,
       },
       {
         path: 'account',
