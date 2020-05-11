@@ -9,6 +9,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { ResetPasswordRequestComponent } from './reset-password-request/reset-password-request.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
@@ -22,6 +24,8 @@ const routes: Routes = [
     canActivate: []
   },
   { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
+  { path: 'cookie-policy', component: CookiePolicyComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
