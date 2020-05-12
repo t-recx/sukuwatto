@@ -47,13 +47,18 @@ export class AuthService {
   }
 
   public logout(): Observable<any> {
-    this.setIsLoggedIn(null);
-    this.setUsername(null);
-    this.setUnitSystem(null);
-    this.setUserWeightUnitId(null);
-    this.setUserID(null);
-
-    return this.http.post<any>(`${environment.apiUrl}/logout/`, { }, this.httpOptions);
+    return this.http.post<any>(`${environment.apiUrl}/logout/`, { }, this.httpOptions).pipe(
+      tap(x => {
+        this.setIsLoggedIn(null);
+        this.setUsername(null);
+        this.setUnitSystem(null);
+        this.setUserWeightUnitId(null);
+        this.setUserID(null);
+      }),
+      catchError(this.errorService.handleError<any>('logout', (e: any) => {
+        this.alertService.error('Unable to sign out, try again later');
+      }))
+    );
   }
 
   public refresh(): Observable<Token> {

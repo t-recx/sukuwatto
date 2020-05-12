@@ -20,4 +20,7 @@ export class UserInfoComponent implements OnInit {
   ngOnInit() {
   }
 
+  logout() {
+    this.authService.logout().subscribe();
+  }
 }
