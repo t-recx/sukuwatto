@@ -21,12 +21,6 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
   }
 
-  signOut(): void {
-    this.authService.logout();
-    
-    this.router.navigateByUrl('/');
-  }
-
   toggleMenuVisibility(): void {
     this.menuDropDownVisible = !this.menuDropDownVisible;
   }

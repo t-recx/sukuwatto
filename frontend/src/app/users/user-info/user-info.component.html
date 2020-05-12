@@ -4,7 +4,7 @@
             <fa-icon [icon]="faUserCircle" class=""></fa-icon>
             <span class="siimple--ml-2 siimple--display-sm-none ">{{authService.getUsername()}}</span>
         </button>
-        <button class="siimple-btn" (click)="authService.logout()">
+        <button class="siimple-btn" (click)="logout()">
             <fa-icon [icon]="faSignOutAlt" class=""></fa-icon>
             <span class="siimple--ml-2 siimple--display-sm-none">Sign out</span>
         </button>

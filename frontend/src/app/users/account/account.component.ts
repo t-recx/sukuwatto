@@ -135,9 +135,9 @@ export class AccountComponent implements OnInit {
 
   delete(): void {
     this.userService.delete(this.user).subscribe(x => {
-      this.authService.logout();
-
-      this.router.navigateByUrl('/');
+      this.authService.logout().subscribe(x => {
+        this.router.navigateByUrl('/');
+      });
     });
   }
 
