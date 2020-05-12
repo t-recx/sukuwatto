@@ -1,3 +1,12 @@
+.site-body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1;
+}
 /* You can add global styles to this file, and also import other style files */
 :-moz-ui-invalid:not(output) {
 box-shadow: none;

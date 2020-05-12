@@ -1,49 +1,53 @@
-<div class="siimple-navbar siimple-navbar--primary siimple-navbar--large navbar">
-    <div class="siimple--float-left menu-icon siimple--mr-1">
-        <span class="menu-icon phones-only" (click)="toggleMenuVisibility()">
-            <fa-icon [icon]="faBars"></fa-icon>
-        </span>
-    </div>
-
-    <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
-    <ng-template #loggedTitle>
-        <a class="siimple-navbar-title" [routerLink]="['/users', authService.getUsername(), 'home']">
-            sukuwatto
-        </a>
-    </ng-template>
-    <ng-template #notLoggedTitle>
-        <a class="siimple-navbar-title" routerLink="/">
-            sukuwatto
-        </a>
-    </ng-template>
-    <div class="siimple--float-right">
-        <app-user-info></app-user-info>
-    </div>
-</div>
-
-<div *ngIf="menuDropDownVisible" class="menu-dropdown" 
-(click)="toggleMenuVisibility()"
->
-    <app-menu></app-menu>
-</div>
-
-<div>
-    <app-alert></app-alert>
-</div>
-<div class="siimple-content siimple-content--large content-body" [class.content-body-with-dropdown-expanded]="menuDropDownVisible">
-    <div class="siimple-grid-row">
-        <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
-            <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none">
-                <app-menu></app-menu>
-            </div>
-            <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12">
-                <router-outlet></router-outlet>
-            </div>
+<div class="site-body">
+    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--large navbar">
+        <div class="siimple--float-left menu-icon siimple--mr-1">
+            <span class="menu-icon phones-only" (click)="toggleMenuVisibility()">
+                <fa-icon [icon]="faBars"></fa-icon>
+            </span>
         </div>
-        <ng-template #notLoggedContent>
-            <div class="siimple-grid-col siimple-grid-col--12">
-                <router-outlet></router-outlet>
-            </div>
+
+        <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
+        <ng-template #loggedTitle>
+            <a class="siimple-navbar-title" [routerLink]="['/users', authService.getUsername(), 'home']">
+                sukuwatto
+            </a>
         </ng-template>
+        <ng-template #notLoggedTitle>
+            <a class="siimple-navbar-title" routerLink="/">
+                sukuwatto
+            </a>
+        </ng-template>
+        <div class="siimple--float-right">
+            <app-user-info></app-user-info>
+        </div>
     </div>
+
+    <div *ngIf="menuDropDownVisible" class="menu-dropdown" (click)="toggleMenuVisibility()">
+        <app-menu></app-menu>
+    </div>
+
+    <div>
+        <app-alert></app-alert>
+    </div>
+
+    <main class="site-content siimple-content siimple-content--large content-body"
+        [class.content-body-with-dropdown-expanded]="menuDropDownVisible">
+        <div class="siimple-grid-row">
+            <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
+                <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none">
+                    <app-menu></app-menu>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <ng-template #notLoggedContent>
+                <div class="siimple-grid-col siimple-grid-col--12">
+                    <router-outlet></router-outlet>
+                </div>
+            </ng-template>
+        </div>
+    </main>
+
+    <app-footer></app-footer>
 </div>
