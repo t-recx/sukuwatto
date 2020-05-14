@@ -29,6 +29,7 @@ export class User {
     default_weight_unit: number;
     system: MeasurementSystem;
     profile_filename: string;
+    is_staff: boolean;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);

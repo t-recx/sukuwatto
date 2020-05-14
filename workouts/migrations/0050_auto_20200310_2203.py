@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workouts', '0049_update_push_enum'),
+        ('workouts', '0048_auto_20200302_1744'),
     ]
 
     operations = [

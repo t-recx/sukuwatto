@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel } from '../exercise';
+import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
 import { Subject, Subscription } from 'rxjs';
 import { Paginated } from '../paginated';
@@ -142,6 +142,7 @@ export class ExercisesListComponent implements OnInit, OnChanges {
         e.forceLabel = this.getForceLabel(e.force);
         e.mechanicsLabel = this.getMechanicsLabel(e.mechanics);
         e.modalityLabel = this.getModalityLabel(e.modality);
+        e.levelLabel = this.getLevelLabel(e.level);
       });
     }
   }
@@ -160,6 +161,10 @@ export class ExercisesListComponent implements OnInit, OnChanges {
 
   getModalityLabel(modality: string): string {
     return ModalityLabel.get(modality);
+  }
+
+  getLevelLabel(level: string): string {
+    return LevelLabel.get(level);
   }
 
   select(exercise) {

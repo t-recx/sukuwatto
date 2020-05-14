@@ -1,0 +1,3512 @@
+[
+    {
+        "model": "workouts.exercise",
+        "pk": 1,
+        "fields": {
+            "muscle": "Abdominals - Lower",
+            "name": "Full Reverse Crunch",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 2,
+        "fields": {
+            "muscle": "Abdominals - Lower",
+            "name": "Incline Hip Thrust",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 3,
+        "fields": {
+            "muscle": "Abdominals - Lower",
+            "name": "Incline Reverse Crunch",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 4,
+        "fields": {
+            "muscle": "Abdominals - Lower",
+            "name": "Lying Hip Thrust",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 5,
+        "fields": {
+            "muscle": "Abdominals - Lower",
+            "name": "Reverse Crunch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 6,
+        "fields": {
+            "muscle": "Abdominals - Lower",
+            "name": "Reverse Medicine Ball Crunch",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 7,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Alternating Heel Touch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 8,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Bent-Knee Medicine Ball Hip Rotation",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 9,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Cable Chop",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 10,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Cross Crunch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 11,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Cross Crunch w/ Medicine Ball",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 12,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Decline Cross Sit-Up",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 13,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Decline Sit-Up w/ Twist",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 14,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Reverse Cable Chop",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 15,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Seated Medicine Ball Twist",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 16,
+        "fields": {
+            "muscle": "Abdominals - Obliques",
+            "name": "Trunk Rotator",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 17,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Front Plank (from knees)",
+            "level": "b",
+            "section": "c",
+            "force": "s",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 18,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Front Plank (from toes)",
+            "level": "Intermediate",
+            "section": "c",
+            "force": "s",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 19,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Front Plank (tripod - 1 arm and 2 legs or 2 legs and 1 arm)",
+            "level": "a",
+            "section": "c",
+            "force": "s",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 20,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Side-Plank (from knees)",
+            "level": "Intermediate",
+            "section": "c",
+            "force": "s",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 21,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Side-Plank (hip lift)",
+            "level": "b",
+            "section": "c",
+            "force": "s",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 22,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Side-Plank (from toes)",
+            "level": "a",
+            "section": "c",
+            "force": "s",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 23,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Ab Cycle",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 24,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Kneeling Ab Rollout",
+            "level": "Intermediate",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 25,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Medicine Ball V-Up",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 26,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "V-Up",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 27,
+        "fields": {
+            "muscle": "Abdominals - Total",
+            "name": "Weighted V-Up",
+            "level": "Intermediate",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 28,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Bent Knee Sit-Up",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 29,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Bent-Knee Crunch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 30,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Crunch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 31,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Crunch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 32,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Decline Crunch",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 33,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Decline Sit-Up",
+            "level": "a",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 34,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Heel Touch",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 35,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Sit-Up",
+            "level": "b",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 36,
+        "fields": {
+            "muscle": "Abdominals - Upper",
+            "name": "Weighted Crunch",
+            "level": "Intermediate",
+            "section": "c",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 37,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Assisted Pull-Up",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 38,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Close-Grip Lat Pulldown",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 39,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Inverted Pull-Up",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 40,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Lat Pulldown",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 41,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Pull-Up",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 42,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Reverse-Grip Lat Pullown",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 43,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Reverse-Grip Pull-Up",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 44,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "V-Bar Pull-Up",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 45,
+        "fields": {
+            "muscle": "Back - Latissimus Dorsi",
+            "name": "Wide-Grip Lat Pulldown",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 46,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Alternating Dumbbell Row",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 47,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Barbell Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 48,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Dumbbell Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 49,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Hammer Dumbbell Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 50,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Long Barbell Row",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 51,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Reverse-Grip Barbell Row",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 52,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Bent-Over Single-Arm Long Barbell Row",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 53,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Machine Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 54,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "One Arm Dumbbell Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 55,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Reverse Incline Dumbbell Row",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 56,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Rope Cable Row",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 57,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Seated Cable Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 58,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Seated Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 59,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Single-Arm Cable Row",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 60,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Single-Arm Dumbbell Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 61,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Single-Arm Lat Pulldown",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 62,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Standing Cable Row",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 63,
+        "fields": {
+            "muscle": "Back - Lat.Dorsi/Rhomboids",
+            "name": "Standing Single-Arm Cable Row",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 64,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Alternating Dumbbell Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 65,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Alternating Hammer Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 66,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Barbell Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 67,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Bicep Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 68,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Bottom/Top/Full Curls",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 69,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Cable Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 70,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Concentration Dumbbell Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 71,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Cross Body Hammer Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 72,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Dumbbell Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 73,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "EZ-Bar Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 74,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Hammer Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 75,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Incline Alternating Dumbbell Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 76,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Incline Alternating Hammer Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 77,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Incline Dumbbell Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 78,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Incline Hammer Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 79,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Kneeling Cable Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 80,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Lying Cable Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 81,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Lying Double Biceps Cable Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 82,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Lying High Cable Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 83,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Machine Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 84,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Overhead Double Biceps Cable Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 85,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Overhead Rope Cable Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 86,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Preacher Barbell Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 87,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Preacher Cable Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 88,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Preacher Dumbbell Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 89,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Preacher EZ-Bar Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 90,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Preacher Hammer Dumbbell Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 91,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Preacher Single-Arm Dumbbell Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 92,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Reverse Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 93,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Rope Cable Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 94,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Seated Alternating Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 95,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Seated Alternating Hammer Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 96,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Seated Dumbbell Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 97,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Seated Hammer Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 98,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Single-Arm Barbell Curl",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 99,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Single-Arm Cable Curl",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 100,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Single-Arm Dumbbell Curl w/ Incline Bench",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 101,
+        "fields": {
+            "muscle": "Biceps",
+            "name": "Spider Curl",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 102,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Barbell Calf Raise",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 103,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Calf Press",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 104,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Calf Raise - Seated",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 105,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Calf Raise - Standing",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 106,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Dumbbell Calf Raise",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 107,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Single-Leg Calf Press",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 108,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Single-Leg Dumbbell Calf Raise",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 109,
+        "fields": {
+            "muscle": "Calves - Gastrocnemius",
+            "name": "Smith Machine Calf Raise",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 110,
+        "fields": {
+            "muscle": "Calves - Soleus",
+            "name": "Seated Calf Raise",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 111,
+        "fields": {
+            "muscle": "Calves - Soleus",
+            "name": "Seated Single-Leg Calf Raise",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 112,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Alternating Dumbbell Bench Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 113,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Barbell Bench Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 114,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Chest Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 115,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Decline Dumbbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 116,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Decline Smith Machine Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 117,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Dumbbell Bench Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 118,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Dumbbell Push-Up",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 119,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Elevated Push-Up",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 120,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Flat Bench Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 121,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Alternating Dumbbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 122,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Barbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 123,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 124,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Dumbbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 125,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Hammer Dumbbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 126,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Single-Arm Dumbbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 127,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Smith Machine Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 128,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Twisting Dumbbell Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 129,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Kneeling Push-Up",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 130,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Machine Bench Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 131,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Machine Vertical Bench Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 132,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Medicine Ball Crossover Push-Up",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 133,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Push-Up",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 134,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Single-Arm Dumbbell Bench Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 135,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Smith Machine Bench Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 136,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Twisting Dumbbell Bench Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 137,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Wide-Grip Push-Up",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 138,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Cable Crossover",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 139,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Cable Fly",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 140,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Decline Dumbbell Fly",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 141,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Dumbbell Fly",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 142,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "High Cable Crossover",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 143,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Cable Fly",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 144,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Dumbbell Fly",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 145,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Incline Twisting Dumbbell Fly",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 146,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Low Cable Crossover",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 147,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Pec Deck",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 148,
+        "fields": {
+            "muscle": "Chest - Pectoralis",
+            "name": "Pec Deck Fly",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 149,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Bent-Knee Single-Leg Hip Lift",
+            "level": "a",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 150,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Elevated Hip Lift",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 151,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Elevated Single-Leg Hip Lift",
+            "level": "a",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 152,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Hip Lift",
+            "level": "b",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 153,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Single-Leg Hip Lift",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 154,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Deadlift",
+            "level": "a",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 155,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Leg Curl",
+            "level": "b",
+            "section": "l",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 156,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Lying Alternating Leg Curl",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 157,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Lying Leg Curl",
+            "level": "b",
+            "section": "l",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 158,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Lying Single-Leg Curl",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 159,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Seated Leg Curl",
+            "level": "b",
+            "section": "l",
+            "force": "p",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 160,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Diagonal Lunge",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 161,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Hack Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 162,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 163,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Reverse Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 164,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Side Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 165,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Split Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 166,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Squat",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 167,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Step-Up",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 168,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Barbell Walking Lunge",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 169,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Diagonal Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 170,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Diagonal Lunge",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 171,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Lunge",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 172,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Reverse Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 173,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Side Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 174,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Split Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 175,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Squat",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 176,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Step-Up",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 177,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Dumbbell Walking Lunge",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 178,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Forward Lunge",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 179,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Lateral Barbell Squat",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 180,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Lateral Barbell Step-Up",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 181,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Lateral Squat",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 182,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Lateral Step-Up",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 183,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Leg Press",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 184,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Lunge",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 185,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Lying Machine Squat",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 186,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Machine Hack Squat",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 187,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Reverse Lunge",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 188,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Arm Barbell Side Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 189,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Arm Dumbbell Side Squat",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 190,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Leg Barbell Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 191,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Leg Box Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 192,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Leg Dumbbell Box Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 193,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Leg Dumbbell Squat",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 194,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Leg Squat",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 195,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Smith Machine Squat",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 196,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Split Squat",
+            "level": "a",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 197,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Step-Up",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 198,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Walking Lunge",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 199,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Alternating Leg Extension",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 200,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Leg Extension",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 201,
+        "fields": {
+            "muscle": "Legs - Quadriceps",
+            "name": "Single-Leg Extension",
+            "level": "Intermediate",
+            "section": "l",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 202,
+        "fields": {
+            "muscle": "Lower Back - Erector Spinae",
+            "name": "Alternating Superman",
+            "level": "b",
+            "section": "c",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 203,
+        "fields": {
+            "muscle": "Lower Back - Erector Spinae",
+            "name": "Back Raise",
+            "level": "b",
+            "section": "c",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 204,
+        "fields": {
+            "muscle": "Lower Back - Erector Spinae",
+            "name": "Quadruped Alternating Superman",
+            "level": "b",
+            "section": "c",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 205,
+        "fields": {
+            "muscle": "Lower Back - Erector Spinae",
+            "name": "Superman",
+            "level": "b",
+            "section": "c",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 206,
+        "fields": {
+            "muscle": "Lower Back - Erector Spinae",
+            "name": "Superman Hold",
+            "level": "b",
+            "section": "c",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 207,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Arnold Dumbbell Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 208,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Barbell Shoulder Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 209,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Dumbbell Alternating Shoulder Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 210,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Dumbbell Front Raise",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 211,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Dumbbell Shoulder Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 212,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Dumbbell Twisting Shoulder Press",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 213,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Machine Shoulder Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 214,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Seated Dumbbell Rear Delt Elbow Raise",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 215,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Single-Arm Dumbbell Shoulder Press",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 216,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Smith Machine Shoulder Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 217,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Barbell Front Raise",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 218,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Bent-Over Cable Rear Delt Raise",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 219,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Bent-Over Dumbbell Rear Delt Raise",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 220,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Cable Front Raise",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 221,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Cable Lateral Raise",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 222,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Dumbbell Lateral Raise",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 223,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Front Plate Raise",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 224,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Kneeling Single-Arm Cable Rear Delt Raise",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 225,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Lying Dumbbell External Rotation",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 226,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Lying Dumbbell Rear Delt Raise",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 227,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Lying Single-Arm Dumbbell Rear Delt Raise",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 228,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Pec Deck Real Delt Extensions",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 229,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Reverse Incline Dumbbell Rear Delt Raise",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 230,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Seated Dumbbell Rear Delt Raise",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 231,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Single-Arm Cable Lateral Raise",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 232,
+        "fields": {
+            "muscle": "Shoulders - Rotator Cuff",
+            "name": "Cable External Rotation",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 233,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Close-Grip Bench Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 234,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Forward Lean Dips",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 235,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Assisted Dips",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 236,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Bench Dips",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 237,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Diamond Push-Up",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 238,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Dips",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 239,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Machine Dips",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "m",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 240,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Decline Dumbbell Triceps Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 241,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Decline EZ-Bar Tricep Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 242,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Decline Single Dumbbell Triceps Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 243,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Decline Single-Arm Dumbbell Triceps Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 244,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Dumbbell Kickback",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 245,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Incline EZ-Bar Tricep Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 246,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Kneeling Cable Triceps Extension",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 247,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Leaning Overhead Tricep Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 248,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Low Cable Triceps Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 249,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying Cable Triceps Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 250,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying EZ-Bar Triceps Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 251,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying Overhead EZ-Bar Tricep Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 252,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying Reverse EZ-Bar Triceps Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 253,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying Single Dumbbell Triceps Extension",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 254,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying Single-Arm Dumbbell Triceps Extension",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 255,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Lying Tricep Extensions",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 256,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Overhead Dumbbell Triceps Extension",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 257,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Overhead EZ-Bar Triceps Extension",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 258,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Overhead Rope Cable Tricep Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 259,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Overhead Single Dumbbell Tricep Extension",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 260,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Overhead Single-Arm Cable Tricep Extension",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 261,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Overhead Single-Arm Dumbbell Tricep Extension",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 262,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Reverse Tricep Pushdown",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 263,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Rope Triceps Pushdown",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 264,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Single-Arm Towel Triceps Pushdown",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 265,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Single-Arm Triceps Pushdown",
+            "level": "Intermediate",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 266,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Towel Triceps Pushdown",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 267,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Tricep Extensions",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 268,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Tricep Pushdown",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 269,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "Tricep Pushdown",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 270,
+        "fields": {
+            "muscle": "Triceps",
+            "name": "V-Bar Tricep Pushdown",
+            "level": "b",
+            "section": "u",
+            "force": "q",
+            "modality": "c",
+            "mechanics": "i"
+        }
+    }
+]

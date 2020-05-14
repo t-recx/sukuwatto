@@ -27,9 +27,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'password', 'email', 'first_name', 'last_name', 
         'month_birth', 'year_birth', 'username', 'gender', 'groups', 
         'system', 'biography', 'location', 'profile_filename',
-        'default_weight_unit']
+        'default_weight_unit', 'is_staff']
         extra_kwargs = {'password': {'write_only': True, 'required': False},
-            'email': {'write_only': True, 'required': False}}
+            'email': {'write_only': True, 'required': False},
+            'is_staff': { 'read_only': True, 'required': False}}
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:

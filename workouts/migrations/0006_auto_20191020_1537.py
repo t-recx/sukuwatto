@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workouts', '0005_seed_workout_templates'),
+        ('workouts', '0004_workoutplansessionexercisetemplate_workoutplansessiontemplate_workoutplansessiontemplateschedule_wor'),
     ]
 
     operations = [

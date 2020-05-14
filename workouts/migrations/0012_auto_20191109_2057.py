@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workouts', '0011_update_units_and_unit_conversions'),
+        ('workouts', '0010_auto_20191109_2037'),
     ]
 
     operations = [

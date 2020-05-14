@@ -28,6 +28,54 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
             {"sessions":[{"groups":[{"exercises":[{"exercise": {"id": exid, "name":"initial"},"order":1,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"warmups":[{"order":1,"exercise":{"id": exid, "name":"initial"},"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"progressions":[],"name":"g","order":1}],"progressions":[],"name":"s"}],"progressions":[{"progression_type":"e","exercise":{"id":exid,"name":"initial"},"percentage_increase":100,"validations":{}}],"short_name":"s","name":"n","description":"d"}
             , format='json')
 
+    def test_updating_exercise_when_user_is_null_should_return_forbidden(self):
+        resource_id = self.create_resource(self.user1, self.get_resource_data())
+        resource = Exercise.objects.get(pk=resource_id)
+        resource.user = None
+        resource.save()
+
+        self.authenticate(self.user1)
+        response = self.update_resource(resource_id, self.get_updated_resource_data(resource_id))
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assert_resource_not_updated()
+
+    def test_deleting_exercise_when_user_is_null_should_return_forbidden(self):
+        resource_id = self.create_resource(self.user1, self.get_resource_data())
+        resource = Exercise.objects.get(pk=resource_id)
+        resource.user = None
+        resource.save()
+
+        self.authenticate(self.user1)
+        response = self.delete_resource(resource_id)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(self.get_resource_model().objects.count(), 1)
+
+    def test_updating_exercise_when_authenticated_as_staff_and_when_user_is_null_should_update(self):
+        resource_id = self.create_resource(self.user1, self.get_resource_data())
+        resource = Exercise.objects.get(pk=resource_id)
+        resource.user = None
+        resource.save()
+
+        self.authenticate(self.staff_user)
+        response = self.update_resource(resource_id, self.get_updated_resource_data(resource_id))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assert_resource_updated()
+
+    def test_deleting_exercise_when_authenticated_as_staff_and_when_user_is_null_should_return_forbidden(self):
+        resource_id = self.create_resource(self.user1, self.get_resource_data())
+        resource = Exercise.objects.get(pk=resource_id)
+        resource.user = None
+        resource.save()
+
+        self.authenticate(self.staff_user)
+        response = self.delete_resource(resource_id)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(self.get_resource_model().objects.count(), 0)
+
     def test_updating_exercise_when_it_is_being_used_in_a_plan_owned_by_exercise_creator_should_update(self):
         resource_id = self.create_resource(self.user1, self.get_resource_data())
         self.create_plan(resource_id)

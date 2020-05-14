@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workouts', '0039_update_measurement_types_on_units'),
+        ('workouts', '0038_unit_measurement_type'),
     ]
 
     operations = [

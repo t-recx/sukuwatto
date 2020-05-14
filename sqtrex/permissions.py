@@ -12,7 +12,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return obj.user == request.user
+        return obj.user == request.user or request.user.is_staff
 
 # WARNING: see comments above
 class IsUserOrReadOnly(permissions.BasePermission):
@@ -22,7 +22,7 @@ class IsUserOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         
-        return obj == request.user
+        return obj == request.user or request.user.is_staff
 
 class StandardPermissionsMixin():
     def get_permissions(self):
