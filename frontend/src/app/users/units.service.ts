@@ -48,6 +48,14 @@ export class UnitsService {
     return this.http.get<Unit[]>(this.unitsUrl);
   }
 
+  getUserWeightUnitCode(): string {
+      if (this.authService.getUserUnitSystem() == MeasurementSystem.Imperial) {
+          return 'lb';
+      }
+
+      return 'kg';
+  }
+
   getToUnitCode(fromUnit: string) {
     let toUnitCode = fromUnit;
 

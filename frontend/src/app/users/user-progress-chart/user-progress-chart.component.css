@@ -1,0 +1,28 @@
+.chart-legend {
+  display: flex;
+  min-height: 33px;
+  font: 10px sans-serif;
+  margin-left: 10px;
+  flex-flow: row wrap;
+}
+
+.chart-legend-item {
+    break-inside: avoid;
+    display: flex;
+    align-items: center;
+    padding-bottom: 1px;
+    margin-right: 10px;
+}
+
+.chart-legend-swatch {
+    width: 15px;
+    height: 15px;
+    margin: 0 0.5em 0 0;
+}
+
+.chart-legend-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 15px - 0.5em);
+}
