@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div>
+    <div *ngIf="progressData && progressData.series.length > 0">
         <app-user-progress-chart [progressData]=progressData>
         </app-user-progress-chart>
     </div>
