@@ -12,7 +12,7 @@ class AuthTestCaseMixin():
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
 
     def logout(self):
-        self.client.credentials()
+        self.client.logout()
 
 class UserTestCaseMixin():
     def create_user(self, user):
