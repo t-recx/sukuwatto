@@ -1,0 +1,12 @@
+<div class="chart-legend" *ngIf="progressData" >
+  <div class="chart-legend-item" *ngFor="let series of progressData.series">
+    <div class="chart-legend-swatch" [style.background-color]="colors[series.exercise_name]"></div>
+    <span class="chart-legend-label">
+      {{series.exercise_name}}
+    </span>
+  </div>
+</div>
+
+<svg>
+    
+</svg>

@@ -44,6 +44,18 @@ export const SectionLabel = new Map<string, string>([
   [Section.Core, 'Core'],
 ]);
 
+export enum Level {
+    Advanced = 'a',
+    Beginner = 'b',
+    Intermediate = 'i',
+}
+
+export const LevelLabel = new Map<string, string>([
+  [Level.Advanced, 'Advanced'],
+  [Level.Beginner, 'Beginner'],
+  [Level.Intermediate, 'Intermediate'],
+]);
+
 export class Exercise {
     id: number;
     name: string;
@@ -56,6 +68,9 @@ export class Exercise {
     forceLabel: string;
     mechanics: Mechanics;
     mechanicsLabel: string;
+    muscle: string;
+    level: Level;
+    levelLabel: string;
     user: number;
 
     constructor(init?: Partial<Exercise>) {

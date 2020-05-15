@@ -54,6 +54,7 @@ export class AuthService {
         this.setUnitSystem(null);
         this.setUserWeightUnitId(null);
         this.setUserID(null);
+        this.setIsStaff(null);
       }),
       catchError(this.errorService.handleError<any>('logout', (e: any) => {
         this.alertService.error('Unable to sign out, try again later');
@@ -98,6 +99,7 @@ export class AuthService {
         this.setUserWeightUnitId(users[0].default_weight_unit.toString());
 
         this.setUserID(users[0].id.toString());
+        this.setIsStaff(users[0].is_staff);
       }
     });
   }
@@ -131,6 +133,10 @@ export class AuthService {
     return this.getLocalStorageItem('user_id');
   }
 
+  public userIsStaff(): boolean {
+    return this.getLocalStorageItem('is_staff') == 'true';
+  }
+
   public getUserUnitSystem(): string {
     return this.getLocalStorageItem('unit_system');
   }
@@ -153,6 +159,10 @@ export class AuthService {
 
   private setUsername(username: string) {
     this.setLocalStorageItem('username', username);
+  }
+
+  private setIsStaff(is_staff: boolean) {
+    this.setLocalStorageItem('is_staff', is_staff ? is_staff.toString() : null);
   }
 
   setTokenMessaging(token: string) {

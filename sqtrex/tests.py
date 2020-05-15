@@ -12,23 +12,26 @@ class AuthTestCaseMixin():
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
 
     def logout(self):
-        self.client.credentials()
+        self.client.logout()
 
 class UserTestCaseMixin():
-    def create_user(self, user):
+    def create_user(self, user, is_staff = False):
         email = None
 
         if 'email' in user:
             email = user['email']
 
-        return CustomUser.objects.create_user(username=user['username'], email=email, password=user['password'])
+        return CustomUser.objects.create_user(username=user['username'], email=email, password=user['password'], 
+            is_staff = is_staff)
 
 class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
     def setUp(self):
+        self.staff_user = { 'username': 'staff', 'password': 'test', 'email': 'test@test.org'}
         self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
         self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
         self.create_user(self.user1)
         self.create_user(self.user2)
+        self.create_user(self.staff_user, True)
 
     @abstractmethod
     def get_resource_model(self):

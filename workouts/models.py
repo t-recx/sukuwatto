@@ -70,14 +70,24 @@ class Exercise(models.Model):
         (CORE, 'Core'),
     ]
 
+    BEGINNER = 'b'
+    INTERMEDIATE = 'i'
+    ADVANCED = 'a'
+    LEVELS = [
+        (BEGINNER, 'Beginner'),
+        (INTERMEDIATE, 'Intermediate'),
+        (ADVANCED, 'Advanced'),
+    ]
+
     name = models.CharField(max_length=200)
     description = models.TextField(null=True)
     mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS_CHOICES)
     force = models.CharField(max_length=1, null=True, choices=FORCES)
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    user_submitted = models.BooleanField(default=True)
+    user = models.ForeignKey(get_user_model(), null=True, on_delete=models.CASCADE)
+    muscle = models.CharField(max_length=200, null=True)
+    level = models.CharField(max_length=1, null=True, choices=LEVELS)
 
     def __str__(self):
         return self.name

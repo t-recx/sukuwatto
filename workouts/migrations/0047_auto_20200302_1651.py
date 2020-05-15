@@ -13,15 +13,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='exercise',
-            name='user_submitted',
-            field=models.BooleanField(default=True),
-        ),
         migrations.AlterField(
             model_name='exercise',
             name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
             preserve_default=False,
         ),
     ]

@@ -68,6 +68,13 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
         self.assertEqual(CustomUser.objects.count(), 3)
         self.assertNotEqual(CustomUser.objects.get(Q(username='new'), Q(email='new@new.com')), None)
 
+    def test_create_should_ignore_is_staff(self):
+        response = self.client.post('/api/users/', { 'is_staff': 'true', 'username': 'new', 'email': 'new@new.com', 'password': 'new9834098432', 'system': 'm' }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CustomUser.objects.count(), 3)
+        self.assertNotEqual(CustomUser.objects.get(Q(username='new'), Q(email='new@new.com'), Q(is_staff=False)), None)
+
     def test_create_should_not_allow_short_passwords(self):
         response = self.client.post('/api/users/', { 'password': 's@AAt', 'username': 'new', 'email': 'new@new.com', 'system': 'm' }, format='json')
 
@@ -122,6 +129,19 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(CustomUser.objects.get(pk=uid).email, 'changed@changed.org')
+
+    def test_update_user_should_ignore_is_staff(self):
+        self.authenticate(self.user1)
+        uid = CustomUser.objects.get(username=self.user1['username']).id
+
+        response = self.client.put(f'/api/users/{uid}/', { 'id': uid, 
+            'username': self.user1['username'], 
+            'is_staff': 'true',
+            'email': 'changed@changed.org', 'system': 'm' }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(CustomUser.objects.get(pk=uid).email, 'changed@changed.org')
+        self.assertEqual(CustomUser.objects.get(pk=uid).is_staff, False)
 
     def test_destroy_user_when_user_not_authenticated_should_return_unauthorized(self):
         uid = CustomUser.objects.get(username=self.user1['username']).id

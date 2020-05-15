@@ -48,6 +48,14 @@ export class WorkoutGeneratorService {
           workout.plan_session = planSession.id;
           workout.name = this.getWorkoutName(workout.start, planSession);
           workout.working_weights = workingWeights;
+          if (workout.working_weights) {
+            workout.working_weights.forEach(ww => {
+                ww.previous_unit = ww.unit;
+                ww.previous_unit_code = ww.unit_code;
+                ww.previous_weight = ww.weight;
+            });
+          }
+
           this.fillOutWorkingWeights(workingWeights, planSession);
 
           if (planSession.groups) {

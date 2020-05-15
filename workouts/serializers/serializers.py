@@ -9,7 +9,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exercise
-        fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'user']
+        fields = ['id', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'user']
         extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):
@@ -27,6 +27,8 @@ class ExerciseSerializer(serializers.ModelSerializer):
         instance.force = validated_data.get('force', instance.force)
         instance.modality = validated_data.get('modality', instance.modality)
         instance.section = validated_data.get('section', instance.section)
+        instance.muscle = validated_data.get('muscle', instance.muscle)
+        instance.level = validated_data.get('level', instance.level)
 
         instance.save()
 

@@ -48,6 +48,14 @@ export class UnitsService {
     return this.http.get<Unit[]>(this.unitsUrl);
   }
 
+  getUserWeightUnitCode(): string {
+      if (this.authService.getUserUnitSystem() == MeasurementSystem.Imperial) {
+          return 'lb';
+      }
+
+      return 'kg';
+  }
+
   getToUnitCode(fromUnit: string) {
     let toUnitCode = fromUnit;
 
@@ -131,26 +139,31 @@ export class UnitsService {
   }
 
   convertWorkout(workout: Workout) {
-    if (!workout) {
-      return;
+    if (workout) {
+      if (workout.groups) {
+        workout.groups.forEach(group => {
+          if (group.sets) {
+            group.sets.forEach(s => this.convertWeightValue(s));
+          }
+          if (group.warmups) {
+            group.warmups.forEach(s => this.convertWeightValue(s));
+          }
+        });
+      }
+      if (workout.working_weights) {
+        workout.working_weights.forEach(ww => {
+          this.convertWeightValue(ww);
+          if (ww.previous_weight) {
+            ww.previous_weight = this.convertToUserUnit(ww.previous_weight, ww.previous_unit_code);
+          }
+          if (ww.previous_unit_code) {
+            ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
+          }
+        });
+      }
     }
-    if (workout.groups) {
-      workout.groups.forEach(group => {
-        if (group.sets) {
-          group.sets.forEach(s => this.convertWeightValue(s));
-        }
-        if (group.warmups) {
-          group.warmups.forEach(s => this.convertWeightValue(s));
-        }
-      });
-    }
-    if (workout.working_weights) {
-      workout.working_weights.forEach(ww => { 
-        this.convertWeightValue(ww); 
-        ww.previous_weight = this.convertToUserUnit(ww.previous_weight, ww.previous_unit_code);
-        ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
-      });
-    }
+
+    return workout;
   }
 
   convertWorkoutOverview(workoutOverview: WorkoutOverview) {
@@ -180,10 +193,14 @@ export class UnitsService {
     }
   }
 
-  convertWeightValue(model: {weight: number, unit_code: string}) {
-    if (model) {
-      model.weight = this.convertToUserUnit(model.weight, model.unit_code);
-      model.unit_code = this.getToUnitCode(model.unit_code);
-    }
+  convertWeightValue(model: { weight: number, unit_code: string }) {
+      if (model) {
+          if (model.weight) {
+              model.weight = this.convertToUserUnit(model.weight, model.unit_code);
+          }
+          if (model.unit_code) {
+              model.unit_code = this.getToUnitCode(model.unit_code);
+          }
+      }
   }
 }

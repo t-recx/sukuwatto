@@ -1,0 +1,42 @@
+[
+    {
+        "model": "workouts.Unit",
+        "pk": 1,
+        "fields": {
+            "name": "Kilogram",
+            "abbreviation": "kg",
+            "system": "m",
+            "measurement_type": "w"
+        }
+    },
+    {
+        "model": "workouts.Unit",
+        "pk": 2,
+        "fields": {
+            "name": "Pound",
+            "abbreviation": "lb",
+            "system": "i",
+            "measurement_type": "w"
+        }
+    },
+    {
+        "model": "workouts.Unit",
+        "pk": 3,
+        "fields": {
+            "name": "Centimeter",
+            "abbreviation": "cm",
+            "system": "m",
+            "measurement_type": "h"
+        }
+    },
+    {
+        "model": "workouts.Unit",
+        "pk": 4,
+        "fields": {
+            "name": "Feet",
+            "abbreviation": "ft",
+            "system": "i",
+            "measurement_type": "h"
+        }
+    }
+]

@@ -25,7 +25,7 @@ export class WorkoutsService {
     private alertService: AlertService
   ) { }
 
-  getWorkouts (username: string, page: number, page_size: number): Observable<Paginated<Workout>> {
+  getWorkouts (username: string, page: number = null, page_size: number = null): Observable<Paginated<Workout>> {
     let options = {};
     let params = new HttpParams();
 
