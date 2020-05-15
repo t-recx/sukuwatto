@@ -35,7 +35,6 @@ export class WorkingWeightComponent implements OnInit {
   }
 
   onWeightChange(event) {
-    console.log('onWeightChange called!');
     this.workingWeight.manually_changed = true;
   }
 }

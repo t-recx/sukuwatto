@@ -141,6 +141,7 @@ export class WorkoutDetailComponent implements OnInit {
           if (w.working_weights) {
             for (const workingWeight of w.working_weights) {
               delete workingWeight.id;
+              workingWeight.manually_changed = false;
             }
             this.workout.working_weights = w.working_weights;
           }

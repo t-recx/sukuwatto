@@ -116,9 +116,11 @@ export class WorkoutGeneratorService {
 
           let planSessionGroup = nextSessionGroup;
 
-          workout.groups = workout.groups.filter(x => x.plan_session_group != workoutGroup.plan_session_group);
-
-          workout.groups.push(this.generateGroup(planSessionGroup, lastWorkoutGroupForPlanSessionGroup.order ? lastWorkoutGroupForPlanSessionGroup : null));
+          workout.groups = 
+            [
+              ...workout.groups.filter(x => x.plan_session_group != workoutGroup.plan_session_group),
+              this.generateGroup(planSessionGroup, lastWorkoutGroupForPlanSessionGroup.order ? lastWorkoutGroupForPlanSessionGroup : null)
+            ].sort((a, b) => a.order - b.order);
 
           workout.working_weights = this.getWorkingWeightsWithProgressions(workout.working_weights, workout, plan);
 
@@ -184,7 +186,7 @@ export class WorkoutGeneratorService {
       }
     }
 
-    return userChangedWorkingWeights.concat(automaticWorkingWeights);
+    return userChangedWorkingWeights.concat(automaticWorkingWeights).sort((a, b) => a.exercise.name.localeCompare(b.exercise.name));
   }
 
   getWorkoutName(start: Date, planSession: PlanSession): string {
