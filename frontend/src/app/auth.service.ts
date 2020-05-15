@@ -90,7 +90,6 @@ export class AuthService {
     this.setIsLoggedIn('true');
     this.setTokenMessaging(token.messaging);
     this.setUsername(user.username)
-    this.setIsStaff(user.is_staff);
   }
 
   private setUserData(username: string) {
@@ -100,6 +99,7 @@ export class AuthService {
         this.setUserWeightUnitId(users[0].default_weight_unit.toString());
 
         this.setUserID(users[0].id.toString());
+        this.setIsStaff(users[0].is_staff);
       }
     });
   }

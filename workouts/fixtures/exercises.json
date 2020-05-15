@@ -226,7 +226,7 @@
         "fields": {
             "muscle": "Abdominals - Total",
             "name": "Front Plank (from toes)",
-            "level": "Intermediate",
+            "level": "i",
             "section": "c",
             "force": "s",
             "modality": "f",
@@ -252,7 +252,7 @@
         "fields": {
             "muscle": "Abdominals - Total",
             "name": "Side-Plank (from knees)",
-            "level": "Intermediate",
+            "level": "i",
             "section": "c",
             "force": "s",
             "modality": "f",
@@ -304,7 +304,7 @@
         "fields": {
             "muscle": "Abdominals - Total",
             "name": "Kneeling Ab Rollout",
-            "level": "Intermediate",
+            "level": "i",
             "section": "c",
             "force": "q",
             "modality": "f",
@@ -343,7 +343,7 @@
         "fields": {
             "muscle": "Abdominals - Total",
             "name": "Weighted V-Up",
-            "level": "Intermediate",
+            "level": "i",
             "section": "c",
             "force": "q",
             "modality": "f",
@@ -460,7 +460,7 @@
         "fields": {
             "muscle": "Abdominals - Upper",
             "name": "Weighted Crunch",
-            "level": "Intermediate",
+            "level": "i",
             "section": "c",
             "force": "q",
             "modality": "f",
@@ -538,7 +538,7 @@
         "fields": {
             "muscle": "Back - Latissimus Dorsi",
             "name": "Reverse-Grip Lat Pullown",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -590,7 +590,7 @@
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "name": "Bent-Over Alternating Dumbbell Row",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -642,7 +642,7 @@
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "name": "Bent-Over Long Barbell Row",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -720,7 +720,7 @@
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "name": "Rope Cable Row",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -759,7 +759,7 @@
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "name": "Single-Arm Cable Row",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -785,7 +785,7 @@
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "name": "Single-Arm Lat Pulldown",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -811,7 +811,7 @@
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "name": "Standing Single-Arm Cable Row",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -889,7 +889,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Cable Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -902,7 +902,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Concentration Dumbbell Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -941,7 +941,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "EZ-Bar Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -1032,7 +1032,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Lying Cable Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -1045,7 +1045,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Lying Double Biceps Cable Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -1136,7 +1136,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Preacher Dumbbell Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -1162,7 +1162,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Preacher Hammer Dumbbell Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -1175,7 +1175,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Preacher Single-Arm Dumbbell Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -1201,7 +1201,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Rope Cable Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "c",
@@ -1279,7 +1279,7 @@
         "fields": {
             "muscle": "Biceps",
             "name": "Single-Arm Cable Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "p",
             "modality": "f",
@@ -1409,7 +1409,7 @@
         "fields": {
             "muscle": "Calves - Gastrocnemius",
             "name": "Smith Machine Calf Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "m",
@@ -1435,7 +1435,7 @@
         "fields": {
             "muscle": "Calves - Soleus",
             "name": "Seated Single-Leg Calf Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "m",
@@ -1448,7 +1448,7 @@
         "fields": {
             "muscle": "Chest - Pectoralis",
             "name": "Alternating Dumbbell Bench Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -1461,7 +1461,7 @@
         "fields": {
             "muscle": "Chest - Pectoralis",
             "name": "Barbell Bench Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -1552,7 +1552,7 @@
         "fields": {
             "muscle": "Chest - Pectoralis",
             "name": "Flat Bench Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -1734,7 +1734,7 @@
         "fields": {
             "muscle": "Chest - Pectoralis",
             "name": "Single-Arm Dumbbell Bench Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -1747,7 +1747,7 @@
         "fields": {
             "muscle": "Chest - Pectoralis",
             "name": "Smith Machine Bench Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "m",
@@ -1890,7 +1890,7 @@
         "fields": {
             "muscle": "Chest - Pectoralis",
             "name": "Low Cable Crossover",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -1942,7 +1942,7 @@
         "fields": {
             "muscle": "Legs - Hamstrings",
             "name": "Elevated Hip Lift",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "p",
             "modality": "f",
@@ -1981,7 +1981,7 @@
         "fields": {
             "muscle": "Legs - Hamstrings",
             "name": "Single-Leg Hip Lift",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "p",
             "modality": "f",
@@ -2020,7 +2020,7 @@
         "fields": {
             "muscle": "Legs - Hamstrings",
             "name": "Lying Alternating Leg Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "p",
             "modality": "m",
@@ -2046,7 +2046,7 @@
         "fields": {
             "muscle": "Legs - Hamstrings",
             "name": "Lying Single-Leg Curl",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "p",
             "modality": "m",
@@ -2098,7 +2098,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Barbell Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2111,7 +2111,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Barbell Reverse Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2124,7 +2124,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Barbell Side Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2189,7 +2189,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Diagonal Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2228,7 +2228,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Dumbbell Reverse Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2241,7 +2241,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Dumbbell Side Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2319,7 +2319,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Lateral Barbell Squat",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2449,7 +2449,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Single-Arm Dumbbell Side Squat",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2501,7 +2501,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Single-Leg Dumbbell Squat",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2514,7 +2514,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Single-Leg Squat",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2527,7 +2527,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Smith Machine Squat",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "m",
@@ -2566,7 +2566,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Walking Lunge",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "f",
@@ -2579,7 +2579,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Alternating Leg Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "m",
@@ -2605,7 +2605,7 @@
         "fields": {
             "muscle": "Legs - Quadriceps",
             "name": "Single-Leg Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "l",
             "force": "q",
             "modality": "m",
@@ -2683,7 +2683,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Arnold Dumbbell Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -2735,7 +2735,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Dumbbell Shoulder Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -2748,7 +2748,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Dumbbell Twisting Shoulder Press",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -2774,7 +2774,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Seated Dumbbell Rear Delt Elbow Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -2813,7 +2813,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Barbell Front Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -2839,7 +2839,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Bent-Over Dumbbell Rear Delt Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -2852,7 +2852,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Cable Front Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -2865,7 +2865,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Cable Lateral Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -2956,7 +2956,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Pec Deck Real Delt Extensions",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "m",
@@ -2995,7 +2995,7 @@
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
             "name": "Single-Arm Cable Lateral Raise",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3034,7 +3034,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Forward Lean Dips",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3060,7 +3060,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Bench Dips",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3073,7 +3073,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Diamond Push-Up",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3086,7 +3086,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Dips",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3203,7 +3203,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Leaning Overhead Tricep Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3216,7 +3216,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Low Cable Triceps Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3229,7 +3229,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Lying Cable Triceps Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3242,7 +3242,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Lying EZ-Bar Triceps Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3255,7 +3255,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Lying Overhead EZ-Bar Tricep Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "f",
@@ -3346,7 +3346,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Overhead Rope Cable Tricep Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3372,7 +3372,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Overhead Single-Arm Cable Tricep Extension",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3411,7 +3411,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Rope Triceps Pushdown",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3437,7 +3437,7 @@
         "fields": {
             "muscle": "Triceps",
             "name": "Single-Arm Triceps Pushdown",
-            "level": "Intermediate",
+            "level": "i",
             "section": "u",
             "force": "q",
             "modality": "c",
@@ -3508,5 +3508,59 @@
             "modality": "c",
             "mechanics": "i"
         }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 271,
+        "fields": {
+            "muscle": "Legs - Hamstrings",
+            "name": "Romanian Deadlift",
+            "level": "a",
+            "section": "l",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 272,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Barbell Overhead Press",
+            "level": "a",
+            "section": "u",
+            "force": "q",
+            "modality": "f",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 273,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Barbell Shrug",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 274,
+        "fields": {
+            "muscle": "Shoulders - Delts/Traps",
+            "name": "Dumbbell Shrug",
+            "level": "a",
+            "section": "u",
+            "force": "p",
+            "modality": "f",
+            "mechanics": "i"
+        }
     }
+
+
 ]

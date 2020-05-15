@@ -153,8 +153,12 @@ export class UnitsService {
       if (workout.working_weights) {
         workout.working_weights.forEach(ww => {
           this.convertWeightValue(ww);
-          ww.previous_weight = this.convertToUserUnit(ww.previous_weight, ww.previous_unit_code);
-          ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
+          if (ww.previous_weight) {
+            ww.previous_weight = this.convertToUserUnit(ww.previous_weight, ww.previous_unit_code);
+          }
+          if (ww.previous_unit_code) {
+            ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
+          }
         });
       }
     }
@@ -190,9 +194,13 @@ export class UnitsService {
   }
 
   convertWeightValue(model: { weight: number, unit_code: string }) {
-    if (model) {
-      model.weight = this.convertToUserUnit(model.weight, model.unit_code);
-      model.unit_code = this.getToUnitCode(model.unit_code);
-    }
+      if (model) {
+          if (model.weight) {
+              model.weight = this.convertToUserUnit(model.weight, model.unit_code);
+          }
+          if (model.unit_code) {
+              model.unit_code = this.getToUnitCode(model.unit_code);
+          }
+      }
   }
 }

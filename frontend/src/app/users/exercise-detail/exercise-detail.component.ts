@@ -110,7 +110,8 @@ export class ExerciseDetailComponent implements OnInit {
   }
 
   showDeleteButton() {
-    if (this.exercise.id &&
+      if (this.exercise &&
+          this.exercise.id &&
       this.authService.isLoggedIn() && 
       (this.authService.userIsStaff() || this.exercise.user == +this.authService.getUserId())) {
         return true;

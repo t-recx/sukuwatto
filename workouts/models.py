@@ -71,9 +71,11 @@ class Exercise(models.Model):
     ]
 
     BEGINNER = 'b'
+    INTERMEDIATE = 'i'
     ADVANCED = 'a'
     LEVELS = [
         (BEGINNER, 'Beginner'),
+        (INTERMEDIATE, 'Intermediate'),
         (ADVANCED, 'Advanced'),
     ]
 
