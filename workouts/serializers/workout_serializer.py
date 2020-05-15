@@ -26,7 +26,7 @@ class WorkingWeightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkingWeight
-        fields = ['id', 'exercise', 'weight', 'unit', 'unit_code', 'previous_unit_code', 'previous_weight', 'previous_unit']
+        fields = ['id', 'exercise', 'weight', 'unit', 'unit_code', 'previous_unit_code', 'previous_weight', 'previous_unit', 'manually_changed']
     
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
@@ -209,6 +209,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.unit = working_weight_data.get('unit', instance.unit)
             instance.previous_weight = working_weight_data.get('previous_weight', instance.previous_weight)
             instance.previous_unit = working_weight_data.get('previous_unit', instance.previous_unit)
+            instance.manually_changed = working_weight_data.get('manually_changed', instance.manually_changed)
             instance.save()
 
     def update_groups(self, groups_data):

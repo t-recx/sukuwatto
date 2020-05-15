@@ -186,6 +186,33 @@ export class WorkoutDetailComponent implements OnInit {
     }
   }
 
+  hasAlternativeGroups(group: WorkoutGroup): boolean {
+    if (this.workout.plan && this.workout.plan_session) {
+      if (group.plan_session_group) {
+        let planSession = this.planSessions.filter(s => s.id == this.workout.plan_session)[0];
+
+        if (planSession) {
+          let planSessionGroup = planSession.groups.filter(g => g.id == group.plan_session_group)[0];
+
+          if (planSessionGroup) {
+            return planSession.groups.filter(o => o.order == planSessionGroup.order).length > 1;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  alternateGroup(group: WorkoutGroup): void {
+    let plan = this.adoptedPlans.filter(x => x.id == this.workout.plan)[0];
+    let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
+
+    if (plan && planSession) {
+      this.workoutGeneratorService.alternateGroupOnWorkout(this.workout, plan, planSession, group).subscribe(() => {});
+    }
+  }
+
   selectNextPlanSession(previousPlanWorkout: Workout): void {
     let selectNextPlanSession = false;
 

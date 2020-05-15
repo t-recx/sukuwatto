@@ -157,7 +157,11 @@
                 </div>
             </div>
             <div class="siimple-grid-row" *ngFor="let group of workout.groups">
-               <app-workout-group [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave>
+               <app-workout-group 
+                [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave
+                [hasAlternativeGroups]="hasAlternativeGroups(group)"
+                (alternateGroupRequested)="alternateGroup(group)"
+               >
                </app-workout-group> 
             </div>
             <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>

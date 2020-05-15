@@ -7,6 +7,7 @@ import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
+import { WorkoutGroup } from './workout-group';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ import { Paginated } from './paginated';
 export class WorkoutsService {
   private workoutsUrl= `${environment.apiUrl}/workouts/`;
   private workoutLast= `${environment.apiUrl}/workout-last/`;
+  private workoutGroupLast= `${environment.apiUrl}/workout-group-last/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -57,6 +59,38 @@ export class WorkoutsService {
         { 
           this.alertService.error('Unable to fetch workouts');
         }, new Paginated<Workout>()))
+      );
+  }
+
+  getLastWorkoutGroup(username: string, date_lte: Date, plan_session_group: number): Observable<WorkoutGroup> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (plan_session_group) {
+      params = params.set('plan_session_group', plan_session_group.toString());
+    }
+
+    if (username || date_lte || plan_session_group) {
+      options = {params: params};
+    }
+
+    return this.http.get<WorkoutGroup>(`${this.workoutGroupLast}`, options)
+      .pipe(
+        map(response => {
+          return this.getProperlyTypedWorkoutGroup(response);
+        }),
+        catchError(this.errorService.handleError<WorkoutGroup>('getLastWorkoutGroup', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch last workout group');
+        }, new WorkoutGroup()))
       );
   }
 
@@ -131,31 +165,37 @@ export class WorkoutsService {
 
     if (workout.groups) {
       for (let g of workout.groups) {
-        if (g.warmups) {
-          for (let wu of g.warmups) {
-            if (wu.weight) {
-              wu.weight = Number(wu.weight);
-            }
-            if (wu.working_weight_percentage) {
-              wu.working_weight_percentage = Number(wu.working_weight_percentage);
-            }
-          }
-        }
-
-        if (g.sets) {
-          for (let s of g.sets) {
-            if (s.weight) {
-              s.weight = Number(s.weight);
-            }
-            if (s.working_weight_percentage) {
-              s.working_weight_percentage = Number(s.working_weight_percentage);
-            }
-          }
-        }
+        g = this.getProperlyTypedWorkoutGroup(g);
       }
     }
 
     return workout;
+  }
+
+  getProperlyTypedWorkoutGroup(g: WorkoutGroup): WorkoutGroup {
+    if (g.warmups) {
+      for (let wu of g.warmups) {
+        if (wu.weight) {
+          wu.weight = Number(wu.weight);
+        }
+        if (wu.working_weight_percentage) {
+          wu.working_weight_percentage = Number(wu.working_weight_percentage);
+        }
+      }
+    }
+
+    if (g.sets) {
+      for (let s of g.sets) {
+        if (s.weight) {
+          s.weight = Number(s.weight);
+        }
+        if (s.working_weight_percentage) {
+          s.working_weight_percentage = Number(s.working_weight_percentage);
+        }
+      }
+    }
+
+    return g;
   }
 
   saveWorkout(workout: Workout): Observable<Workout> {
