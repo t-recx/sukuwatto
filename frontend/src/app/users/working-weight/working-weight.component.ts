@@ -33,4 +33,8 @@ export class WorkingWeightComponent implements OnInit {
       }
     });
   }
+
+  onWeightChange(event) {
+    this.workingWeight.manually_changed = true;
+  }
 }

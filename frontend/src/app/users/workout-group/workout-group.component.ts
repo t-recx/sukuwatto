@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WorkoutGroup } from '../workout-group';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
 import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
@@ -17,10 +17,13 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
   @Input() triedToSave: boolean;
   @Output() activityStatusChanged = new EventEmitter();
   @Input() workoutActivityStatusChanged: Observable<void>;
+  @Output() alternateGroupRequested = new EventEmitter();
+  @Input() hasAlternativeGroups: boolean = false;
 
   private workoutActivityStatusChangedSubscription: Subscription;
 
   faTimesCircle = faTimesCircle;
+  faExchangeAlt = faExchangeAlt;
 
   activityType = ActivityType;
 
@@ -107,6 +110,10 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
 
   setStatusChanged() {
     this.activityStatusChanged.emit();
+  }
+
+  exchange() {
+    this.alternateGroupRequested.emit();
   }
 
   remove(): void {

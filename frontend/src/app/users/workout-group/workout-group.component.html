@@ -4,7 +4,13 @@
             <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
         </div>
 
-        <div class="siimple-card-title">
+        <div class="siimple-card-title group-title">
+            <span *ngIf="hasAlternativeGroups">
+                <button class="siimple-btn siimple--mr-1" (click)="exchange()">
+                    <fa-icon [icon]="faExchangeAlt">
+                    </fa-icon>
+                </button>
+            </span>
             <input type="text" class="siimple-input siimple-input--fluid" name="name" id="name"
                 [(ngModel)]="group.name" #name="ngModel">
         </div>

@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from workouts.models import Workout, WorkingWeight, WorkoutWarmUp, WorkoutSet
-from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkingWeightSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer
+from workouts.models import Workout, WorkingWeight, WorkoutWarmUp, WorkoutSet, WorkoutGroup
+from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkingWeightSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from sqtrex.pagination import StandardResultsSetPagination
@@ -28,6 +28,11 @@ def get_last_workout(request):
         if username is not None:
             queryset = queryset.filter(user__username=username)
 
+        plan = request.query_params.get('plan', None)
+
+        if plan is not None:
+            queryset = queryset.filter(plan=plan)
+
         plan_session = request.query_params.get('plan_session', None)
 
         if plan_session is not None:
@@ -41,5 +46,31 @@ def get_last_workout(request):
         queryset = queryset.first()
 
         serializer = WorkoutSerializer(queryset)
+
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def get_last_workout_group(request):
+    if request.method == 'GET':
+        queryset = WorkoutGroup.objects.all().order_by('-workout__start')
+
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            queryset = queryset.filter(workout__user__username=username)
+
+        plan_session_group = request.query_params.get('plan_session_group', None)
+
+        if plan_session_group is not None:
+            queryset = queryset.filter(plan_session_group=plan_session_group)
+
+        date_lte = request.query_params.get('date_lte', None)
+
+        if date_lte is not None:
+            queryset = queryset.filter(workout__start__lte=date_lte)
+
+        queryset = queryset.first()
+
+        serializer = WorkoutGroupSerializer(queryset)
 
         return Response(serializer.data)

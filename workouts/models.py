@@ -251,3 +251,4 @@ class WorkingWeight(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     previous_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit", null=True)
+    manually_changed = models.BooleanField(default=False)
