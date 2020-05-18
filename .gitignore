@@ -1,4 +1,6 @@
-media/*
+backend/media/*
+
+*.env.prod*
 
 *.swp
 *.swo

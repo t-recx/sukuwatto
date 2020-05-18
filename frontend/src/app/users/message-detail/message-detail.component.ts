@@ -22,9 +22,6 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   private scrollContainer: any;
   private isNearBottom = true;
 
-  // todo: set this token on loadParameterDependentData
-  token: string = null;
-
   imageHidden: boolean = false;
 
   previousScrollHeight: number = 0;
@@ -196,7 +193,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
             this.chatSocket.unsubscribe();
           }
 
-          this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username, this.token);
+          this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
           this.chatSocket.subscribe(newMessage => {
             if (this.messages) {
               newMessage.date = new Date();
