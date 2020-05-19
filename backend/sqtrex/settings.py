@@ -17,18 +17,45 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '***REMOVED***'
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ADMINS = [
+    ('João Bruno', 'jnnlbruno@gmail.com')
+]
 
-ALLOWED_HOSTS = []
+DATABASES = {
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
+    }
+}
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': os.environ.get("CHANNELS_BACKEND", "channels_redis.core.RedisChannelLayer"),
+        'CONFIG': {
+            "hosts": [(os.environ.get("CHANNELS_HOST"), int(os.environ.get("CHANNELS_PORT", default=6379)))],
+        },
+    },
+}
+
+CORS_ORIGIN_WHITELIST = os.environ.get("CORS_ORIGIN_WHITELIST").split(" ")
+
+CORS_ALLOW_CREDENTIALS = True
+
+SECURE_SSL_REDIRECT = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -87,18 +114,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sqtrex.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -141,8 +156,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    #'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -175,32 +188,13 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 
     'AUTH_COOKIE': 'Authorization',
-    'AUTH_COOKIE_SECURE': False, # change this with https
+    'AUTH_COOKIE_SECURE': True, # change this with https
     'AUTH_COOKIE_PATH': '/',
     'AUTH_COOKIE_SAMESITE': 'Lax',
 }
 
-# change this on production...
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:4200",
-]
-
-
-CORS_ALLOW_CREDENTIALS = True
-
-#CORS_REPLACE_HTTPS_REFERER = True
 
 MEDIA_URL =  '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 ASGI_APPLICATION = "sqtrex.routing.application"
-
-# change this on production...
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}

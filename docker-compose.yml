@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  wsgi:
+    build: 
+      context: ./backend/
+      dockerfile: ../docker/wsgi/Dockerfile
+    command: gunicorn sqtrex.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    volumes:
+      - media_volume:/home/app/web/media
+      - ssl_volume:/home/app/web/ssl
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+    restart: always
+  asgi:
+    build: 
+      context: ./backend/
+      dockerfile: ../docker/asgi/Dockerfile
+    command: daphne --port 8001 --bind 0.0.0.0 sqtrex.asgi:application
+    expose:
+      - 8001
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+      - redis
+    restart: always
+  db:
+    image: postgres:12.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+    restart: always
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: ../docker/frontend/Dockerfile
+    volumes:
+      - frontend_data:/usr/src/app/dist/frontend
+  nginx:
+    build: ./docker/nginx
+    volumes:
+      - frontend_data:/usr/src/app/dist/frontend
+      - media_volume:/home/app/web/media
+      - ssl_volume:/home/app/web/ssl
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
+      - wsgi
+      - asgi
+    restart: always
+  redis:
+    image: redis:6
+    expose: 
+      - 6379
+    restart: always
+
+volumes:
+  postgres_data:
+  frontend_data:
+  media_volume:
+  ssl_volume:
