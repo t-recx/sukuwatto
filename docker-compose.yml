@@ -15,6 +15,7 @@ services:
       - ./.env.prod
     depends_on:
       - db
+    restart: always
   asgi:
     build: 
       context: ./backend/
@@ -27,12 +28,14 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
   db:
     image: postgres:12.3-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
+    restart: always
   frontend:
     build:
       context: ./frontend/
@@ -52,10 +55,12 @@ services:
       - frontend
       - wsgi
       - asgi
+    restart: always
   redis:
     image: redis:6
     expose: 
       - 6379
+    restart: always
 
 volumes:
   postgres_data:
