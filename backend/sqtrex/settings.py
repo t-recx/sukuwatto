@@ -47,14 +47,15 @@ CHANNEL_LAYERS = {
     },
 }
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:4200",
-]
+CORS_ORIGIN_WHITELIST = os.environ.get("CORS_ORIGIN_WHITELIST").split(" ")
 
 CORS_ALLOW_CREDENTIALS = True
 
-#CORS_REPLACE_HTTPS_REFERER = True
+SECURE_SSL_REDIRECT = True
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -187,7 +188,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 
     'AUTH_COOKIE': 'Authorization',
-    'AUTH_COOKIE_SECURE': False, # change this with https
+    'AUTH_COOKIE_SECURE': True, # change this with https
     'AUTH_COOKIE_PATH': '/',
     'AUTH_COOKIE_SAMESITE': 'Lax',
 }

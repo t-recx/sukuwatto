@@ -10,6 +10,7 @@ services:
       - 8000
     volumes:
       - media_volume:/home/app/web/media
+      - ssl_volume:/home/app/web/ssl
     env_file:
       - ./.env.prod
     depends_on:
@@ -43,8 +44,10 @@ services:
     volumes:
       - frontend_data:/usr/src/app/dist/frontend
       - media_volume:/home/app/web/media
+      - ssl_volume:/home/app/web/ssl
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - frontend
       - wsgi
@@ -58,3 +61,4 @@ volumes:
   postgres_data:
   frontend_data:
   media_volume:
+  ssl_volume:
