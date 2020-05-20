@@ -1,0 +1,15 @@
+export DEBUG="1"
+export SECRET_KEY="foo"
+export DJANGO_ALLOWED_HOSTS="* localhost 127.0.0.1 [::1]"
+export CORS_ORIGIN_WHITELIST="http://localhost:4200"
+export CORS_ORIGIN_ALLOW_ALL="1"
+export CHANNELS_BACKEND="channels_redis.core.RedisChannelLayer"
+export CHANNELS_HOST="redis"
+export CHANNELS_PORT="6379"
+export DATABASE="sqlite3"
+export SECURE_SSL_REDIRECT="0"
+export CSRF_COOKIE_SECURE="0"
+
+source ../bin/activate
+python backend/manage.py migrate
+python backend/manage.py runserver

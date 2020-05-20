@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = bool(int(os.environ.get("DEBUG", default=0)))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -51,11 +51,13 @@ CORS_ORIGIN_WHITELIST = os.environ.get("CORS_ORIGIN_WHITELIST").split(" ")
 
 CORS_ALLOW_CREDENTIALS = True
 
-SECURE_SSL_REDIRECT = True
+CORS_ORIGIN_ALLOW_ALL = bool(int(os.environ.get("CORS_ORIGIN_ALLOW_ALL", default=0)))
+
+SECURE_SSL_REDIRECT = bool(int(os.environ.get("SECURE_SSL_REDIRECT", default=1)))
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = bool(int(os.environ.get("CSRF_COOKIE_SECURE", default=1)))
 
 # Application definition
 
