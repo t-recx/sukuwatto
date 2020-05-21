@@ -1,0 +1,25 @@
+.navigation-previous {
+    float: left;
+    text-align: left;
+}
+
+.navigation-next {
+    float: right;
+    text-align: right;
+}
+
+.current-series {
+    padding: 5px;
+    display: inline-block;
+}
+
+.navigation-box {
+    display: block;
+    vertical-align: top;
+    width: calc(100% - 20px);
+    background-color: #dde5ee;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+

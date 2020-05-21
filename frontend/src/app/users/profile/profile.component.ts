@@ -11,11 +11,9 @@ import { MessagesService } from '../messages.service';
 import { Action } from '../action';
 import { Paginated } from '../paginated';
 import { StreamsService } from '../streams.service';
-import { UserProgressData } from '../user-progress-data';
-import { UserProgressService } from '../user-progress.service';
 
 export enum UserViewProfileTab {
-  Feed = 1,
+  Overview = 1,
   Followers = 2,
   Following = 3,
 }
@@ -63,8 +61,6 @@ export class ProfileComponent implements OnInit {
   following: User[];
   showUnfollowButtonOnFollowingList: boolean;
 
-  progressData: UserProgressData;
-
   constructor(
     private route: ActivatedRoute, 
     private userService: UserService,
@@ -73,7 +69,6 @@ export class ProfileComponent implements OnInit {
     private contentTypesService: ContentTypesService,
     private messagesService: MessagesService,
     private streamsService: StreamsService,
-    private userProgressService: UserProgressService,
   ) { }
 
   ngOnInit() {
@@ -92,7 +87,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserData(username: string) {
-    this.selectedTab = UserViewProfileTab.Feed;
+    this.selectedTab = UserViewProfileTab.Overview;
     this.user = null;
     this.profileImageURL = null;
     this.birthDate = null;
@@ -111,9 +106,6 @@ export class ProfileComponent implements OnInit {
             this.profileImageURL = `${environment.mediaUrl}${this.user.profile_filename}`;
           }
           this.birthDate = new Date(this.user.year_birth, this.user.month_birth - 1);
-
-          this.userProgressService.getUserProgress(username).subscribe(p => 
-            this.progressData = p);
         }
       });
     }

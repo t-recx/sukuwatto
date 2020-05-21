@@ -31,12 +31,12 @@ export class UserProgressService {
                     .flatMap(g =>
                       g.sets
                         .filter(s => s.done)
-                        .map(s => new UserProgressDataPoint(s.exercise.name, s.weight, w.start)))));
+                        .map(s => new UserProgressDataPoint(s.exercise, s.weight, w.start)))));
 
           data.dates = [...new Set(values.map(x => x.date))];
-          data.series = [...new Set(values.map(x => x.exercise_name))]
-            .map(exercise_name => 
-              new UserProgressSeries(exercise_name, values.filter(y => exercise_name == y.exercise_name)));
+          data.series = [...new Set(values.map(x => x.exercise.id))]
+            .map(exercise_id => 
+                                                   new UserProgressSeries(values.filter(v => v.exercise.id == exercise_id)[0].exercise, values.filter(y => exercise_id == y.exercise.id)));
 
           obs.next(data);
           obs.complete();
@@ -50,11 +50,10 @@ export class UserProgressService {
     for (const date of new Set(values.map(v => v.date))) {
       const valuesWithDate = values.filter(v => v.date == date);
 
-      for (const exercise_name of new Set(valuesWithDate.map(v => v.exercise_name))) {
-        const valuesWithExerciseName = valuesWithDate.filter(v => v.exercise_name);
+      for (const exercise_id of new Set(valuesWithDate.map(v => v.exercise.id))) {
+        const valuesWithExerciseId = valuesWithDate.filter(v => v.exercise.id == exercise_id);
 
-        transformed.push(
-          new UserProgressDataPoint(exercise_name, Math.max(...valuesWithExerciseName.map(v => v.weight)), date));
+        transformed.push(new UserProgressDataPoint(valuesWithExerciseId[0].exercise, Math.max(...valuesWithExerciseId.map(v => v.weight)), date));
       }
     }
 

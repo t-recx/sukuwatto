@@ -37,13 +37,13 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             return;
         }
 
-        let margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
+        let margin = ({ top: 40, right: 40, bottom: 40, left: 40 })
         let height = 500
         let width = 500
 
-        d3.select(this.hostElement).select('svg').remove();
+        d3.select(this.hostElement).select('.svg-chart').select('svg').remove();
 
-        const svg = d3.select(this.hostElement).append('svg')
+        const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
         .attr('width', '100%')
         .attr('height', '100%')
         .attr('viewBox', '0 0 ' + width + ' ' + height);
@@ -84,7 +84,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
               this.progressData.series.forEach((series, index) => {
                   let color = colorScale('' + index);
-                  this.colors[series.exercise_name] = color;
+                  this.colors[series.exercise.name] = color;
 
                   svg
                   .append("path")
