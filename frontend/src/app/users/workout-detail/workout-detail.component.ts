@@ -71,16 +71,25 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   setWorkoutStartTime(event: any) {
-    if (event && this.workout) {
-      if (this.workout.start) {
-        this.workout.start = new Date(
-          new Date(this.workout.start).toISOString().substring(0, 10) + " " + event); 
+      if (event && this.workout) {
+          let date: Date = new Date();
+
+          if (this.workout.start) {
+              date = new Date(this.workout.start);
+          }
+
+          this.workout.start = this.getDate(date, event);
       }
-      else {
-        this.workout.start = new Date(
-          (new Date()).toISOString().substring(0, 10) + " " + event); 
-      }
-    }
+  }
+
+  getDate(date: Date, timeString: string) : Date {
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+      let hour = +timeString.substr(0, 2);
+      let minute = +timeString.substr(3, 2);
+
+      return new Date(year, month, day, hour, minute);
   }
 
   setWorkoutEndDate(event: any) {
@@ -95,16 +104,15 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   setWorkoutEndTime(event: any) {
-    if (event && this.workout) {
-      if (this.workout.end) {
-        this.workout.end = new Date(
-          new Date(this.workout.end).toISOString().substring(0, 10) + " " + event); 
+      if (event && this.workout) {
+          let date: Date = new Date();
+
+          if (this.workout.end) {
+              date = new Date(this.workout.end);
+          }
+
+          this.workout.end = this.getDate(date, event);
       }
-      else {
-        this.workout.end = new Date(
-          (new Date()).toISOString().substring(0, 10) + " " + event); 
-      }
-    }
   }
 
   ngOnInit() {
@@ -188,7 +196,7 @@ export class WorkoutDetailComponent implements OnInit {
   }
 
   hasAlternativeGroups(group: WorkoutGroup): boolean {
-    if (this.workout.plan && this.workout.plan_session) {
+    if (this.workout.plan && this.workout.plan_session && this.planSessions) {
       if (group.plan_session_group) {
         let planSession = this.planSessions.filter(s => s.id == this.workout.plan_session)[0];
 
@@ -451,11 +459,19 @@ export class WorkoutDetailComponent implements OnInit {
     });
   }
 
-  showFinishWorkoutModal(): void {
-    this.workout.end = new Date();
+    showFinishWorkoutModal(): void {
+        let now = new Date();
 
-    this.finishWorkoutVisible = true;
-  }
+        if (this.workout.start &&
+            this.workout.start.getFullYear() == now.getFullYear() && this.workout.start.getMonth() == now.getMonth() && this.workout.start.getDate() == now.getDate()) {
+            this.workout.end = now;
+        }
+        else {
+            this.workout.end = this.workout.start;
+        }
+
+        this.finishWorkoutVisible = true;
+    }
 
   hideFinishWorkout(): void {
     this.finishWorkoutVisible = false;
