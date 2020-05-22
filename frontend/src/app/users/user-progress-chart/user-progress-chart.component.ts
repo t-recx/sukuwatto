@@ -37,13 +37,14 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             return;
         }
 
-        let margin = ({ top: 40, right: 40, bottom: 40, left: 40 })
-        let height = 500
-        let width = 500
+        let margin = ({ top: 20, right: 40, bottom: 20, left: 40 })
+        let height = 400
+        let width = 400
 
         d3.select(this.hostElement).select('.svg-chart').select('svg').remove();
 
         const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
+        //.style('font-size', '6px')
         .attr('width', '100%')
         .attr('height', '100%')
         .attr('viewBox', '0 0 ' + width + ' ' + height);
@@ -58,13 +59,16 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         let xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
+        //.style('font-size', '6px')
         .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
 
         let yAxis = g => g
         .attr("transform", `translate(${margin.left},0)`)
+        //.style('font-size', '6px')
         .call(d3.axisLeft(y))
         .call(g => g.select(".domain").remove())
         .call(g => g.select(".tick:last-of-type text").clone()
+        //.style('font-size', '6px')
               .attr("x", 3)
               .attr("text-anchor", "start")
               .attr("font-weight", "bold")

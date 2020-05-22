@@ -3,11 +3,14 @@
   </svg>
 </div>
 
-<div class="chart-legend" *ngIf="progressData" >
-  <div class="chart-legend-item" *ngFor="let series of progressData.series">
-    <div class="chart-legend-swatch" [style.background-color]="colors[series.exercise.name]"></div>
-    <span class="chart-legend-label">
-      {{series.exercise.name}}
-    </span>
+<div class="chart-container">
+  <div class="chart-legend siimple-grid siimple-grid-row" *ngIf="progressData">
+    <div class="chart-legend-item siimple-grid-col siimple-grid-col--3 siimple-grid-col--md-4 siimple-grid-col--sm-6 siimple-grid-col--xs-12"
+      *ngFor="let series of progressData.series">
+      <div class="chart-legend-swatch" [style.background-color]="colors[series.exercise.name]"></div>
+      <span class="chart-legend-label">
+        {{series.exercise.short_name}}
+      </span>
+    </div>
   </div>
 </div>

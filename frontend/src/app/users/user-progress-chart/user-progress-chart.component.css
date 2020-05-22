@@ -1,8 +1,12 @@
+.chart-container {
+    margin: 10px;
+}
+
 .chart-legend {
   display: flex;
   min-height: 33px;
   font: 10px sans-serif;
-  margin-left: 10px;
+  /* margin-left: 10px;*/
   flex-flow: row wrap;
 }
 
@@ -11,7 +15,7 @@
     display: flex;
     align-items: center;
     padding-bottom: 1px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 .chart-legend-swatch {
