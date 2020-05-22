@@ -16,7 +16,7 @@ export class UserProgressService {
   ) { }
 
   getUserProgress(username: string): Observable<UserProgressData> {
-    return this.workoutsService.getWorkouts(username).pipe(
+    return this.workoutsService.getWorkouts(username, 1, 1000).pipe(
       concatMap(paginatedWorkouts =>
         new Observable<UserProgressData>(obs => {
           let data = new UserProgressData();
