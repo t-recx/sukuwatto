@@ -40,12 +40,14 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         let margin = ({ top: 20, right: 20, bottom: 20, left: 30 });
         let height = 330;
-        let width = 330;
+        let width = 530;
 
         const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
-            .attr('width', '100%')
-            .attr('height', '100%')
-            .attr('viewBox', '0 0 ' + width + ' ' + height);
+        //            .attr('width', '100%')
+        //.attr('height', '100%')
+            .attr('viewBox', '0 0 ' + width + ' ' + height)
+            .style('overflow', 'visible')
+            ;
 
         let x = d3.scaleUtc()
             .domain(d3.extent<Date, Date>(this.progressData.dates, d => d))
@@ -63,7 +65,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .tickSizeOuter(0)
                 )
             .call(g => g.selectAll(".tick text")
-                .attr("font-size", 6)
+                .attr("font-size", 8)
                 );
 
         let yAxis = g => g
@@ -82,7 +84,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y))
         .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick text").attr("font-size", 6))
+        .call(g => g.selectAll(".tick text").attr("font-size", 8))
         .call(g => g.selectAll(".tick line").attr("display", "none"))
         ;
 
@@ -102,31 +104,10 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-        var Tooltip = d3.select(this.hostElement).select('.svg-chart')
+        var divTooltip = d3.select(this.hostElement).select('.svg-chart')
         .append("div")
         .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-
-        var mouseover = function(d) {
-            Tooltip
-            .style("opacity", 1)
-        }
-
-        var mousemove = function(d) {
-            Tooltip
-            .html("Exact value: " + d.weight)
-            .style("left", x(d.date) + "px")
-            .style("top", y(d.weight) + "px")
-        }
-        var mouseleave = function(d) {
-            Tooltip
-            .style("opacity", 0)
-        }
+        .attr("class", "chart-tooltip");
 
         this.progressData.series.forEach((series, index) => {
             let color = colorScale('' + index);
@@ -142,11 +123,27 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .attr("stroke-linecap", "round")
                 .attr("d", line)
             
+            function onMouseOver(d) {		
+                divTooltip.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+
+                divTooltip.html(series.exercise.short_name + ' - ' + d.weight)	
+                .attr("text-anchor", "middle")
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            }
+
+            function onMouseOut(d) {		
+                divTooltip.transition()		
+                .duration(250)		
+                .style("opacity", 0);	
+            }
+
             let dotGroup = svg.selectAll(".dot")
                 .data(series.dataPoints)
                 .enter()
                 .append("g");
-
              dotGroup
                 .append("circle") // Uses the enter().append() method
                 .attr('fill', color)
@@ -154,21 +151,9 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .attr("cx", function (d, i) { return x(d.date) })
                 .attr("cy", function (d) { return y(d.weight) })
                 .attr("r", 1.5)
-                .on("mouseover", mouseover)
-                .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
-
-            dotGroup
-                .append("text")
-                  .attr("font-family", "sans-serif")
-                  .attr("font-size", 10)
-                .attr("x", function (d, i) { return x(d.date) })
-                .attr("y", function (d) { return y(d.weight) })
-                    .attr("text-anchor", "middle")
-                    .text(d => d.weight)
-                    //.attr("text", d => d.weight)
+                .on("mouseover", onMouseOver)					
+                .on("mouseout", onMouseOut)
                 ;
-
         });
 
         return svg.node();
