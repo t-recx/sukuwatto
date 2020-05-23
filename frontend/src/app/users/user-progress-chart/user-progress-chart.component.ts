@@ -102,6 +102,32 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
+        var Tooltip = d3.select(this.hostElement).select('.svg-chart')
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+        var mouseover = function(d) {
+            Tooltip
+            .style("opacity", 1)
+        }
+
+        var mousemove = function(d) {
+            Tooltip
+            .html("Exact value: " + d.weight)
+            .style("left", x(d.date) + "px")
+            .style("top", y(d.weight) + "px")
+        }
+        var mouseleave = function(d) {
+            Tooltip
+            .style("opacity", 0)
+        }
+
         this.progressData.series.forEach((series, index) => {
             let color = colorScale('' + index);
             this.colors[series.exercise.name] = color;
@@ -116,14 +142,32 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .attr("stroke-linecap", "round")
                 .attr("d", line)
             
-            svg.selectAll(".dot")
+            let dotGroup = svg.selectAll(".dot")
                 .data(series.dataPoints)
-                .enter().append("circle") // Uses the enter().append() method
+                .enter()
+                .append("g");
+
+             dotGroup
+                .append("circle") // Uses the enter().append() method
                 .attr('fill', color)
                 .attr('stroke', color)
                 .attr("cx", function (d, i) { return x(d.date) })
                 .attr("cy", function (d) { return y(d.weight) })
-                .attr("r", 1.5);
+                .attr("r", 1.5)
+                .on("mouseover", mouseover)
+                .on("mousemove", mousemove)
+                .on("mouseleave", mouseleave)
+
+            dotGroup
+                .append("text")
+                  .attr("font-family", "sans-serif")
+                  .attr("font-size", 10)
+                .attr("x", function (d, i) { return x(d.date) })
+                .attr("y", function (d) { return y(d.weight) })
+                    .attr("text-anchor", "middle")
+                    .text(d => d.weight)
+                    //.attr("text", d => d.weight)
+                ;
 
         });
 
