@@ -58,6 +58,7 @@ export const LevelLabel = new Map<string, string>([
 
 export class Exercise {
     id: number;
+    short_name: string;
     name: string;
     description: string;
     section: Section;
