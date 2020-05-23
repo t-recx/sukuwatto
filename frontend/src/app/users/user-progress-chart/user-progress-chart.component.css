@@ -1,8 +1,12 @@
+.chart-legend-container {
+    margin: 10px;
+}
+
 .chart-legend {
   display: flex;
   min-height: 33px;
   font: 10px sans-serif;
-  margin-left: 10px;
+  /* margin-left: 10px;*/
   flex-flow: row wrap;
 }
 
@@ -11,7 +15,7 @@
     display: flex;
     align-items: center;
     padding-bottom: 1px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 .chart-legend-swatch {
@@ -25,4 +29,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: calc(100% - 15px - 0.5em);
+}
+
+.chart-tooltip {	
+    position: absolute;			
+    text-align: center;			
+    padding: 8px;				
+    font: 12px sans-serif;		
+    font-weight: 700;
+    background: #dde5ee;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+    white-space: nowrap;
+    transform: translateX(-50%);
 }

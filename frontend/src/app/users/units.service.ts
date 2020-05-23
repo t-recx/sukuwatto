@@ -140,6 +140,8 @@ export class UnitsService {
 
   convertWorkout(workout: Workout) {
     if (workout) {
+      workout.start = new Date(workout.start);
+
       if (workout.groups) {
         workout.groups.forEach(group => {
           if (group.sets) {

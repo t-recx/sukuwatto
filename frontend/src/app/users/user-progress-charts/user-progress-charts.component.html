@@ -1,0 +1,19 @@
+<div *ngIf="progressData && progressData.series.length > 0">
+  <div class="navigation-box" align="center">
+
+    <button class="siimple-btn siimple-btn--primary navigation-previous" (click)="previous()">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+    </button>
+
+    <span class="current-series siimple--text-bold siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
+      {{currentProgressData.name}}
+    </span>
+
+    <button class="siimple-btn siimple-btn--primary navigation-next" (click)="next()">
+      <fa-icon [icon]="faArrowRight"></fa-icon>
+    </button>
+  </div>
+
+  <app-user-progress-chart [progressData]=currentProgressData>
+  </app-user-progress-chart>
+</div>

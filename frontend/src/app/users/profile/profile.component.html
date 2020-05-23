@@ -47,17 +47,12 @@
         </div>
     </div>
 
-    <div *ngIf="progressData && progressData.series.length > 0">
-        <app-user-progress-chart [progressData]=progressData>
-        </app-user-progress-chart>
-    </div>
-
     <div class="">
         <div class="siimple-tabs">
             <div class="siimple-tabs-item"
-                [class.siimple-tabs-item--selected]="selectedTab==profileTab.Feed"
-                (click)="selectTab(profileTab.Feed)">
-                Feed
+                [class.siimple-tabs-item--selected]="selectedTab==profileTab.Overview"
+                (click)="selectTab(profileTab.Overview)">
+                Overview
             </div>
             <div class="siimple-tabs-item"
                 [class.siimple-tabs-item--selected]="selectedTab==profileTab.Followers"
@@ -72,7 +67,14 @@
         </div>
 
         <div>
-            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Feed">
+            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Overview">
+              <div class="siimple--mb-4 siimple-card"> 
+                <div class="siimple-card-body">
+                    <app-user-progress-charts [username]=username>
+                    </app-user-progress-charts>
+                </div>
+              </div>
+
                 <app-feed [actions]=actions [paginated]=paginated
                     [loadingOlderActions]=loadingOlderActions>
                 </app-feed>

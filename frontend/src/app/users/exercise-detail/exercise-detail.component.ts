@@ -73,6 +73,10 @@ export class ExerciseDetailComponent implements OnInit {
   }
 
   valid(exercise: Exercise): boolean {
+    if (!exercise.short_name || exercise.short_name.trim().length == 0) {
+      return false;
+    }
+
     if (!exercise.name || exercise.name.trim().length == 0) {
       return false;
     }

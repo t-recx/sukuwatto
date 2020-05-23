@@ -79,6 +79,7 @@ class Exercise(models.Model):
         (ADVANCED, 'Advanced'),
     ]
 
+    short_name = models.CharField(max_length=200, null=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True)
     mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS_CHOICES)
