@@ -4,6 +4,8 @@ import { WorkoutsService } from './workouts.service';
 import { concatMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitsService } from './units.service';
+import { UserBioDataService } from './user-bio-data.service';
+import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSeries } from './user-progress-chart-data';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,7 @@ export class UserProgressService {
 
   constructor(
     private workoutsService: WorkoutsService,
+    private userBioDataService: UserBioDataService,
     private unitsService: UnitsService,
   ) { }
 
@@ -58,5 +61,26 @@ export class UserProgressService {
     }
 
     return transformed;
+ }
+
+  getUserWeightData(username: string): Observable<UserProgressChartData> {
+    return this.userBioDataService.getUserBioDatas(username, 1, 1000).pipe(
+      concatMap(paginatedUserBioDataRecords =>
+          new Observable<UserProgressChartData>(obs => {
+          let data = new UserProgressChartData();
+          data.name = "Weight";
+
+          let dataPoints = 
+            paginatedUserBioDataRecords.results
+            .filter(w => w.weight)
+            .map(x => new UserProgressChartDataPoint(data.name, x.weight, x.date));
+
+          data.series = [new UserProgressChartSeries("Weight", dataPoints)];
+          data.dates = [...new Set(dataPoints.map(x => x.date))];
+
+          obs.next(data);
+          obs.complete();
+          })
+      ));
   }
 } 

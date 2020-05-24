@@ -23,6 +23,7 @@ export class UserProgressChartsComponent implements OnInit {
     progressData: UserProgressData;
     compoundProgressData: UserProgressChartData;
     isolatedProgressData: UserProgressChartData;
+    weightData: UserProgressChartData;
 
     constructor(
         private userProgressService: UserProgressService,
@@ -55,6 +56,12 @@ export class UserProgressChartsComponent implements OnInit {
             }
 
             this.currentProgressData = this.series[this.currentIndex];
+
+            this.userProgressService.getUserWeightData(this.username).subscribe(p => {
+                if (p && p.series && p.series.length > 0 && p.series[0].dataPoints && p.series[0].dataPoints.length > 0) {
+                    this.series.push(p); 
+                }
+            })
         });
     }
 
