@@ -3,7 +3,7 @@ import { UserProgressService } from '../user-progress.service';
 import { Mechanics } from '../exercise';
 import { UserProgressData } from '../user-progress-data';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint } from '../user-progress-chart-data';
+import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint, UserProgressChartType } from '../user-progress-chart-data';
 
 @Component({
     selector: 'app-user-progress-charts',
@@ -24,6 +24,8 @@ export class UserProgressChartsComponent implements OnInit {
     compoundProgressData: UserProgressChartData;
     isolatedProgressData: UserProgressChartData;
     weightData: UserProgressChartData;
+
+    UserProgressChartType = UserProgressChartType;
 
     constructor(
         private userProgressService: UserProgressService,
@@ -61,7 +63,11 @@ export class UserProgressChartsComponent implements OnInit {
                 if (p && p.series && p.series.length > 0 && p.series[0].dataPoints && p.series[0].dataPoints.length > 0) {
                     this.series.push(p); 
                 }
-            })
+
+                this.userProgressService.getUserBioDataProgress(this.username).subscribe(p => {
+                    this.series.push(p);
+                });
+            });
         });
     }
 

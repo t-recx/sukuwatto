@@ -1,7 +1,17 @@
+export enum UserProgressChartType {
+    Line = 1,
+    Pie = 2,
+}
+
 export class UserProgressChartData{
     name: string;
     series: UserProgressChartSeries[];
     dates: Date[];
+    type: UserProgressChartType;
+
+    constructor() {
+        this.type = UserProgressChartType.Line;
+    }
 }
 
 export class UserProgressChartSeries {

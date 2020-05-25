@@ -1,2 +1,2 @@
-cd frontend; ng serve; cd..
+cd frontend; ng serve --open; cd..
 

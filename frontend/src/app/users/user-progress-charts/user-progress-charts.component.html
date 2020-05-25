@@ -14,6 +14,12 @@
     </button>
   </div>
 
-  <app-user-progress-chart [progressData]=currentProgressData>
-  </app-user-progress-chart>
+  <div *ngIf="currentProgressData.type == UserProgressChartType.Line">
+    <app-user-progress-chart [progressData]=currentProgressData>
+    </app-user-progress-chart>
+  </div>
+  <div *ngIf="currentProgressData.type == UserProgressChartType.Pie">
+    <app-pie-chart [progressData]=currentProgressData>
+    </app-pie-chart>
+  </div>
 </div>

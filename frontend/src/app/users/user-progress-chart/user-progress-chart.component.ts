@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { UserProgressDataPoint } from '../user-progress-data';
-import { UserProgressChartData, UserProgressChartDataPoint } from '../user-progress-chart-data';
+import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType } from '../user-progress-chart-data';
 
 @Component({
     selector: 'app-user-progress-chart',
