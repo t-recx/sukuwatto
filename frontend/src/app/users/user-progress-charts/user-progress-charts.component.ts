@@ -3,6 +3,7 @@ import { UserProgressService } from '../user-progress.service';
 import { Mechanics } from '../exercise';
 import { UserProgressData } from '../user-progress-data';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint, UserProgressChartType } from '../user-progress-chart-data';
 
 @Component({
     selector: 'app-user-progress-charts',
@@ -18,10 +19,13 @@ export class UserProgressChartsComponent implements OnInit {
     series: any = {};
     currentIndex;
 
-    currentProgressData: UserProgressData;
+    currentProgressData: UserProgressChartData;
     progressData: UserProgressData;
-    compoundProgressData: UserProgressData;
-    isolatedProgressData: UserProgressData;
+    compoundProgressData: UserProgressChartData;
+    isolatedProgressData: UserProgressChartData;
+    weightData: UserProgressChartData;
+
+    UserProgressChartType = UserProgressChartType;
 
     constructor(
         private userProgressService: UserProgressService,
@@ -54,6 +58,16 @@ export class UserProgressChartsComponent implements OnInit {
             }
 
             this.currentProgressData = this.series[this.currentIndex];
+
+            this.userProgressService.getUserWeightData(this.username).subscribe(p => {
+                if (p && p.series && p.series.length > 0 && p.series[0].dataPoints && p.series[0].dataPoints.length > 0) {
+                    this.series.push(p); 
+                }
+
+                this.userProgressService.getUserBioDataProgress(this.username).subscribe(p => {
+                    this.series.push(p);
+                });
+            });
         });
     }
 
@@ -78,10 +92,10 @@ export class UserProgressChartsComponent implements OnInit {
     }
 
     getProgressDataByMechanics(n: string, pd: UserProgressData, mechanics: Mechanics) {
-        const npd = new UserProgressData();
+        const npd = new UserProgressChartData();
 
         npd.name = n;
-        npd.series = pd.series.filter(x => x.exercise.mechanics == mechanics);
+        npd.series = pd.series.filter(x => x.exercise.mechanics == mechanics).map(x => new UserProgressChartSeries(x.exercise.short_name, x.dataPoints.map(y => new UserProgressChartDataPoint(x.exercise.short_name, y.weight, y.date))));
         npd.dates = [... new Set(npd.series.flatMap(x => x.dataPoints.map(y => y.date)))];
 
         return npd;

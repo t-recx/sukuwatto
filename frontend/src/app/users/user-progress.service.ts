@@ -4,6 +4,8 @@ import { WorkoutsService } from './workouts.service';
 import { concatMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitsService } from './units.service';
+import { UserBioDataService } from './user-bio-data.service';
+import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSeries, UserProgressChartType } from './user-progress-chart-data';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,48 @@ export class UserProgressService {
 
   constructor(
     private workoutsService: WorkoutsService,
+    private userBioDataService: UserBioDataService,
     private unitsService: UnitsService,
   ) { }
+
+  getUserBioDataProgress(username: string): Observable<UserProgressChartData> {
+    return this.userBioDataService.getLastUserBioData(username, new Date()).pipe(
+      concatMap(userBioData =>
+        new Observable<UserProgressChartData>(obs => {
+          let data = new UserProgressChartData();
+
+          data.name = "Body composition";
+          data.type = UserProgressChartType.Pie;
+
+
+          let series = new UserProgressChartSeries(userBioData.date.toLocaleDateString(), []);
+
+          if (userBioData.body_fat_percentage) {
+            let bodyFat = new UserProgressChartDataPoint('Fat', userBioData.body_fat_percentage, userBioData.date);
+            series.dataPoints.push(bodyFat);
+          }
+
+          if (userBioData.muscle_mass_percentage) {
+            let muscleMass = new UserProgressChartDataPoint('Muscle', userBioData.muscle_mass_percentage, userBioData.date);
+            series.dataPoints.push(muscleMass);
+          }
+
+          if (userBioData.water_weight_percentage) {
+            let waterWeight = new UserProgressChartDataPoint('Water', userBioData.water_weight_percentage, userBioData.date);
+            series.dataPoints.push(waterWeight);
+          }
+
+          let rest = new UserProgressChartDataPoint('Other', 100 - userBioData.body_fat_percentage ?? 0 - userBioData.muscle_mass_percentage ?? 0 - userBioData.water_weight_percentage ?? 0, userBioData.date);
+
+          series.dataPoints.push(rest);
+
+          data.series = [series];
+
+          obs.next(data);
+          obs.complete();
+        })
+      ));
+  }
 
   getUserProgress(username: string): Observable<UserProgressData> {
     return this.workoutsService.getWorkouts(username, 1, 1000).pipe(
@@ -58,5 +100,26 @@ export class UserProgressService {
     }
 
     return transformed;
+ }
+
+  getUserWeightData(username: string): Observable<UserProgressChartData> {
+    return this.userBioDataService.getUserBioDatas(username, 1, 1000).pipe(
+      concatMap(paginatedUserBioDataRecords =>
+          new Observable<UserProgressChartData>(obs => {
+          let data = new UserProgressChartData();
+          data.name = "Weight";
+
+          let dataPoints = 
+            paginatedUserBioDataRecords.results
+            .filter(w => w.weight)
+            .map(x => new UserProgressChartDataPoint(data.name, x.weight, x.date));
+
+          data.series = [new UserProgressChartSeries("Weight", dataPoints)];
+          data.dates = [...new Set(dataPoints.map(x => x.date))];
+
+          obs.next(data);
+          obs.complete();
+          })
+      ));
   }
 } 

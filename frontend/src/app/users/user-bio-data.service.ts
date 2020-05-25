@@ -110,6 +110,10 @@ export class UserBioDataService {
   }
 
   getProperlyTypedUserBioData(userbiodata: UserBioData): UserBioData {
+    if (userbiodata.date) {
+      userbiodata.date = new Date(userbiodata.date);
+    }
+
     if (userbiodata.weight) {
       userbiodata.weight = Number(userbiodata.weight);
     }

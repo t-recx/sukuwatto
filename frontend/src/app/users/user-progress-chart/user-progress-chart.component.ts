@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { UnitsService } from '../units.service';
 import * as d3 from 'd3';
-import { UserProgressData, UserProgressDataPoint, UserProgressSeries } from '../user-progress-data';
+import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType } from '../user-progress-chart-data';
 
 @Component({
     selector: 'app-user-progress-chart',
@@ -10,14 +9,13 @@ import { UserProgressData, UserProgressDataPoint, UserProgressSeries } from '../
     styleUrls: ['./user-progress-chart.component.css']
 })
 export class UserProgressChartComponent implements OnInit, OnChanges {
-    @Input() progressData: UserProgressData;
+    @Input() progressData: UserProgressChartData;
 
     colors = {};
     hostElement; // Native element hosting the SVG container
 
     constructor(
         private elRef: ElementRef,
-        private unitsService: UnitsService,
     ) {
         this.hostElement = this.elRef.nativeElement;
     }
@@ -39,14 +37,10 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         }
 
         let margin = ({ top: 10, right: 20, bottom: 20, left: 30 });
-        // let height = 330;
-        // let width = 530;
         let width=290;
         let height= 180;
 
         const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
-        //            .attr('width', '100%')
-        //.attr('height', '100%')
             .attr('viewBox', '0 0 ' + width + ' ' + height)
             .style('overflow', 'visible')
             ;
@@ -99,7 +93,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         svg.append("g")
         .call(yAxis2);
 
-        let line = d3.line<UserProgressDataPoint>()
+        let line = d3.line<UserProgressChartDataPoint>()
             .defined(d => !isNaN(d.weight))
             .x(d => x(d.date))
             .y(d => y(d.weight))
@@ -113,7 +107,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         this.progressData.series.forEach((series, index) => {
             let color = colorScale('' + index);
-            this.colors[series.exercise.name] = color;
+            this.colors[series.name] = color;
 
             svg
                 .append("path")
@@ -130,7 +124,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .duration(200)		
                 .style("opacity", .9);		
 
-                divTooltip.html(series.exercise.short_name + ' - ' + d.weight)	
+                divTooltip.html(series.name + ' - ' + d.weight)	
                 .attr("text-anchor", "middle")
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
@@ -160,5 +154,4 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         return svg.node();
     }
-
 }
