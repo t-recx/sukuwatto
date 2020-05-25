@@ -422,8 +422,12 @@ export class WorkoutGeneratorService {
   }
 
   getWeightWithPercentage(weight: number, unit: number, percentage: number): number {
+    if (percentage == 100) {
+      return weight;
+    }
+
     if (percentage) {
-      return weight * (percentage / 100);
+      return Math.round(weight * (percentage / 100));
     }
 
     // if we don't have a percentage... this could mean we're just using the bar
