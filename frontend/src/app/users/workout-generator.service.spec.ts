@@ -78,7 +78,7 @@ describe('WorkoutGeneratorService', () => {
         describe('#updateWeights', () => {
                 it('should update sets and warmups according to percentage of working weight', () => {
                         let weight = 100;
-                        let squat = new Exercise({ id: 1, section: Section.Lower });
+                        let squat = new Exercise({ name: 'aaa',  id: 1, section: Section.Lower });
                         let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: squat, working_weight_percentage: 50, number_of_sets: 1, number_of_repetitions: 1 })], warmups: [new PlanSessionGroupExercise({ exercise: squat, working_weight_percentage: 25, number_of_sets: 1, number_of_repetitions: 1 })] });
                         planSession.groups = [group];
                         working_weights.push(new WorkingWeight({ weight: weight, exercise: squat, unit: userWeightUnitId }));
@@ -129,13 +129,13 @@ describe('WorkoutGeneratorService', () => {
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
                                                         number_of_sets: 2,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
                                                         number_of_sets: 1,
-                                                        exercise: new Exercise({ id: 2 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                         ]
@@ -146,7 +146,7 @@ describe('WorkoutGeneratorService', () => {
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
                                                         number_of_sets: 3,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                         ]
@@ -219,14 +219,14 @@ describe('WorkoutGeneratorService', () => {
                                                                 id: 1,
                                                                 order: 1,
                                                                 number_of_sets: 1,
-                                                                exercise: new Exercise({ id: 1 })
+                                                                exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                         }
                                                         ),
                                                         new PlanSessionGroupActivity({
                                                                 id: 2,
                                                                 order: 1,
                                                                 number_of_sets: 1,
-                                                                exercise: new Exercise({ id: 2 })
+                                                                exercise: new Exercise({ name: 'aaa',  id: 2 })
                                                         }
                                                         ),
                                                 ]
@@ -271,14 +271,14 @@ describe('WorkoutGeneratorService', () => {
                                                         id: 1,
                                                         order: 1,
                                                         number_of_sets: 3,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         id: 2,
                                                         order: 2,
                                                         number_of_sets: 1,
-                                                        exercise: new Exercise({ id: 2 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                         ]
@@ -291,7 +291,7 @@ describe('WorkoutGeneratorService', () => {
                                                         id: 3,
                                                         order: 1,
                                                         number_of_sets: 1,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                         ]
@@ -333,8 +333,8 @@ describe('WorkoutGeneratorService', () => {
                                 weightIncreaseAnotherStrategy = 2983;
                                 weightIncreaseYetAnotherStrategy = 2011;
 
-                                coreExercise = new Exercise({ id: 1, section: Section.Core });
-                                anotherCoreExercise = new Exercise({ id: 2, section: Section.Core });
+                                coreExercise = new Exercise({ name: 'aaa',  id: 1, section: Section.Core });
+                                anotherCoreExercise = new Exercise({ name: 'aaa',  id: 2, section: Section.Core });
                                 strategy = new ProgressionStrategy({ id: 1, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: weightIncrease, unit: userWeightUnitId });
                                 strategyWithDifferentUnit = new ProgressionStrategy({ id: 2, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: weightIncreaseAnotherUnit, unit: anotherUnitId });
                                 anotherStrategy = new ProgressionStrategy({ id: 3, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: weightIncreaseAnotherStrategy, unit: userWeightUnitId });
@@ -437,8 +437,8 @@ describe('WorkoutGeneratorService', () => {
                                 it('should not affect exercises on other groups', () => {
                                         let previousWeight = 10;
                                         let increase = 2;
-                                        let exercise = new Exercise({ id: 1, section: Section.Core });
-                                        let anotherExercise = new Exercise({ id: 2, section: Section.Core });
+                                        let exercise = new Exercise({ name: 'aaa',  id: 1, section: Section.Core });
+                                        let anotherExercise = new Exercise({ name: 'aaa',  id: 2, section: Section.Core });
                                         let strategy = new ProgressionStrategy({ id: 1, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, weight_increase: increase, unit: userWeightUnitId });
                                         let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: exercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
                                         let anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
@@ -468,7 +468,7 @@ describe('WorkoutGeneratorService', () => {
 
                 describe('when working weights partially filled', () => {
                         beforeEach(() => {
-                                working_weights = [new WorkingWeight({ unit: anotherUnitId, weight: 20, exercise: new Exercise({ id: 1 }) })];
+                                working_weights = [new WorkingWeight({ unit: anotherUnitId, weight: 20, exercise: new Exercise({ name: 'aaa',  id: 1 }) })];
                         });
 
                         it('should fill the missing exercises', () => {
@@ -477,15 +477,15 @@ describe('WorkoutGeneratorService', () => {
                                         exercises: [
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
-                                                        exercise: new Exercise({ id: 2 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
                                                 }),
                                                 new PlanSessionGroupActivity({
                                                         order: 3,
-                                                        exercise: new Exercise({ id: 3 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 3 })
                                                 }),
                                         ]
                                 });
@@ -513,17 +513,17 @@ describe('WorkoutGeneratorService', () => {
                                         exercises: [
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
-                                                        exercise: new Exercise({ id: 1 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 3,
-                                                        exercise: new Exercise({ id: 2 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                         ]
@@ -533,17 +533,17 @@ describe('WorkoutGeneratorService', () => {
                                         exercises: [
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
-                                                        exercise: new Exercise({ id: 2 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
-                                                        exercise: new Exercise({ id: 3 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 3 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 3,
-                                                        exercise: new Exercise({ id: 4 })
+                                                        exercise: new Exercise({ name: 'aaa',  id: 4 })
                                                 }
                                                 ),
                                         ]
