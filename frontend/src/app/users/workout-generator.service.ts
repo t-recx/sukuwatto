@@ -186,7 +186,15 @@ export class WorkoutGeneratorService {
       }
     }
 
-    return userChangedWorkingWeights.concat(automaticWorkingWeights).sort((a, b) => a.exercise.name.localeCompare(b.exercise.name));
+    let joined = userChangedWorkingWeights.concat(automaticWorkingWeights);
+
+    let withExercisesInWorkout = joined.filter(ww => workout.groups.filter(g => g.sets.filter(s => s.exercise.id == ww.exercise.id).length > 0).length > 0);
+    let withoutExercisesInWorkout = joined.filter(ww => workout.groups.filter(g => g.sets.filter(s => s.exercise.id == ww.exercise.id).length > 0).length == 0);
+
+    withExercisesInWorkout = withExercisesInWorkout.sort((a, b) => a.exercise.name.localeCompare(b.exercise.name));
+    withoutExercisesInWorkout = withoutExercisesInWorkout.sort((a, b) => a.exercise.name.localeCompare(b.exercise.name));
+
+    return withExercisesInWorkout.concat(withoutExercisesInWorkout);
   }
 
   getWorkoutName(start: Date, planSession: PlanSession): string {
