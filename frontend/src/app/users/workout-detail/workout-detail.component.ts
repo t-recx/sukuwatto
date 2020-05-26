@@ -459,19 +459,22 @@ export class WorkoutDetailComponent implements OnInit {
     });
   }
 
-    showFinishWorkoutModal(): void {
-        let now = new Date();
+  showFinishWorkoutModal(): void {
+    let now = new Date();
 
-        if (this.workout.start &&
-            this.workout.start.getFullYear() == now.getFullYear() && this.workout.start.getMonth() == now.getMonth() && this.workout.start.getDate() == now.getDate()) {
-            this.workout.end = now;
-        }
-        else {
-            this.workout.end = this.workout.start;
-        }
+    if (this.workout.start) {
+      this.workout.start = new Date(this.workout.start);
 
-        this.finishWorkoutVisible = true;
+      if (this.workout.start.getFullYear() == now.getFullYear() && this.workout.start.getMonth() == now.getMonth() && this.workout.start.getDate() == now.getDate()) {
+        this.workout.end = now;
+      }
+      else {
+        this.workout.end = this.workout.start;
+      }
     }
+
+    this.finishWorkoutVisible = true;
+  }
 
   hideFinishWorkout(): void {
     this.finishWorkoutVisible = false;

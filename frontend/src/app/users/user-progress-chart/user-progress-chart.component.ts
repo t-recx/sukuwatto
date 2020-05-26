@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType } from '../user-progress-chart-data';
+import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType, UserProgressChartSeries } from '../user-progress-chart-data';
 
 @Component({
     selector: 'app-user-progress-chart',
@@ -11,6 +11,7 @@ import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartTyp
 export class UserProgressChartComponent implements OnInit, OnChanges {
     @Input() progressData: UserProgressChartData;
 
+    hiddenSeries: string[] = [];
     colors = {};
     hostElement; // Native element hosting the SVG container
 
@@ -25,8 +26,24 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.progressData) {
+            this.hiddenSeries = [];
             this.createChart();
         }
+    }
+
+    toggle(series: UserProgressChartSeries): void {
+        if (this.isHidden(series)) {
+            this.hiddenSeries = this.hiddenSeries.filter(name => name != series.name);
+        }
+        else {
+            this.hiddenSeries.push(series.name);
+        }
+
+        this.createChart();
+    }
+
+    isHidden(series: UserProgressChartSeries): boolean {
+        return this.hiddenSeries.filter(name => series.name == name).length > 0;
     }
 
     private createChart() {
@@ -105,52 +122,55 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         .style("opacity", 0)
         .attr("class", "chart-tooltip");
 
-        this.progressData.series.forEach((series, index) => {
-            let color = colorScale('' + index);
-            this.colors[series.name] = color;
+        this.progressData.series
+            .forEach((series, index) => {
+                let color = colorScale('' + index);
+                this.colors[series.name] = color;
 
-            svg
-                .append("path")
-                .datum(series.dataPoints)
-                .attr("fill", "none")
-                .attr("stroke", color)
-                .attr("stroke-width", 1)
-                .attr("stroke-linejoin", "round")
-                .attr("stroke-linecap", "round")
-                .attr("d", line)
-            
-            function onMouseOver(d) {		
-                divTooltip.transition()		
-                .duration(200)		
-                .style("opacity", .9);		
+                if (!this.isHidden(series)) {
+                    svg
+                        .append("path")
+                        .datum(series.dataPoints)
+                        .attr("fill", "none")
+                        .attr("stroke", color)
+                        .attr("stroke-width", 1)
+                        .attr("stroke-linejoin", "round")
+                        .attr("stroke-linecap", "round")
+                        .attr("d", line)
 
-                divTooltip.html(series.name + ' - ' + d.weight)	
-                .attr("text-anchor", "middle")
-                .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px");	
-            }
+                    function onMouseOver(d) {
+                        divTooltip.transition()
+                            .duration(200)
+                            .style("opacity", .9);
 
-            function onMouseOut(d) {		
-                divTooltip.transition()		
-                .duration(250)		
-                .style("opacity", 0);	
-            }
+                        divTooltip.html(series.name + ' - ' + d.weight)
+                            .attr("text-anchor", "middle")
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY - 28) + "px");
+                    }
 
-            let dotGroup = svg.selectAll(".dot")
-                .data(series.dataPoints)
-                .enter()
-                .append("g");
-             dotGroup
-                .append("circle") // Uses the enter().append() method
-                .attr('fill', color)
-                .attr('stroke', color)
-                .attr("cx", function (d, i) { return x(d.date) })
-                .attr("cy", function (d) { return y(d.weight) })
-                .attr("r", 1.5)
-                .on("mouseover", onMouseOver)					
-                .on("mouseout", onMouseOut)
-                ;
-        });
+                    function onMouseOut(d) {
+                        divTooltip.transition()
+                            .duration(250)
+                            .style("opacity", 0);
+                    }
+
+                    let dotGroup = svg.selectAll(".dot")
+                        .data(series.dataPoints)
+                        .enter()
+                        .append("g");
+                    dotGroup
+                        .append("circle") // Uses the enter().append() method
+                        .attr('fill', color)
+                        .attr('stroke', color)
+                        .attr("cx", function (d, i) { return x(d.date) })
+                        .attr("cy", function (d) { return y(d.weight) })
+                        .attr("r", 1.5)
+                        .on("mouseover", onMouseOver)
+                        .on("mouseout", onMouseOut)
+                        ;
+                }
+            });
 
         return svg.node();
     }

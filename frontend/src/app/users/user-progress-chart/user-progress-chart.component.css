@@ -31,6 +31,10 @@
     max-width: calc(100% - 15px - 0.5em);
 }
 
+.hidden-chart-legend-label {
+    opacity: 50%;
+}
+
 .chart-tooltip {	
     position: absolute;			
     text-align: center;			
