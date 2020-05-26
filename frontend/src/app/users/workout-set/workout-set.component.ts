@@ -88,4 +88,17 @@ export class WorkoutSetComponent implements OnInit {
   onWorkingSetEditRepetitionsClosed(): void {
     this.editingRepetitions = false;
   }
+
+  onCloneOrder(n: number): void {
+    let order: number = 1;
+
+    for (let index = 0; index < n; index++) {
+      if (this.sets && this.sets.length > 0) {
+        order = Math.max(...this.sets.map(x => x.order));
+        order += 1;
+      }
+
+      this.sets.push(new WorkoutSet({...this.workoutActivity, order}));
+    }
+  }
 }
