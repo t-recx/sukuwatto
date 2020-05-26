@@ -18,11 +18,15 @@ export class WorkoutSetEditComponent implements OnInit {
   @Input() triedToHide: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
+  @Output() cloneOrders = new EventEmitter()
 
   units: Unit[];
 
   repetitionType = RepetitionType;
   repetitionTypeLabel = RepetitionTypeLabel;
+
+  cloningModalVisible: boolean = false;
+  number_of_cloned_activities: number = 1;
 
   constructor(
     private unitsService: UnitsService,
@@ -30,6 +34,9 @@ export class WorkoutSetEditComponent implements OnInit {
 
   ngOnInit() {
     this.triedToHide= false;
+    this.cloningModalVisible = false;
+    this.number_of_cloned_activities = 1;
+
     this.loadUnits();
   }
 
@@ -61,16 +68,18 @@ export class WorkoutSetEditComponent implements OnInit {
 
   }
 
-  hide(): void {
+  hide(): boolean {
     this.triedToHide = true;
 
     if (!this.valid()) {
-      return;
+      return false;
     }
 
     this.visible = false;
     this.triedToHide = false;
     this.closed.emit();
+
+    return true;
   }
 
   valid(): boolean {
@@ -103,6 +112,22 @@ export class WorkoutSetEditComponent implements OnInit {
     const index = this.sets.indexOf(this.workoutActivity, 0);
     if (index > -1) {
       this.sets.splice(index, 1);
+    }
+  }
+
+  showCloningModal(): void {
+    this.cloningModalVisible = true;
+  }
+
+  hideCloningModal(): void {
+    this.cloningModalVisible = false;
+  }
+
+  hideAndIssueCloningOrder(): void {
+    this.cloningModalVisible = false;
+
+    if (this.hide()) {
+      this.cloneOrders.emit(this.number_of_cloned_activities);
     }
   }
 }

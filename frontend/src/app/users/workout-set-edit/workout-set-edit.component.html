@@ -111,6 +111,34 @@
             <button class="siimple-btn siimple-btn--error" type="button" (click)="remove()">
                 Delete
             </button>
+            <button class="siimple-btn siimple-btn--primary siimple--float-right" type="button" (click)="showCloningModal()">
+                Clone
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="siimple-modal siimple-modal--small" id="workout-set-edit-modal" *ngIf="cloningModalVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Clone Activity</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hideCloningModal()"></div>
+        </div>
+        <div class="siimple-modal-body">
+            <div class="siimple-form-field">
+                <div class="siimple-form-field-label">Number of activies</div>
+                <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_cloned_activities"
+                    id="number_of_cloned_activities" [(ngModel)]="number_of_cloned_activities"
+                    #number_of_repetitions="ngModel" placeholder="Number of activities">
+            </div>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="hideAndIssueCloningOrder()">
+                OK
+            </button>
+            <button class="siimple-btn siimple-btn--error" type="button" (click)="hideCloningModal()">
+                Cancel
+            </button>
         </div>
     </div>
 </div>

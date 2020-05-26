@@ -1,5 +1,5 @@
-<app-workout-set-edit [visible]=editing [sets]=sets [workoutActivity]=workoutActivity [triedToSave]=triedToSave
-(closed)="onWorkingSetEditClosed()">
+<app-workout-set-edit [visible]=editing [sets]=sets [workoutActivity]=workoutActivity [triedToSave]=triedToSave 
+(closed)="onWorkingSetEditClosed()" (cloneOrders)="onCloneOrder($event)">
 </app-workout-set-edit>
 
 <app-workout-set-repetitions-edit [visible]=editingRepetitions [workoutActivity]=workoutActivity [triedToSave]=triedToSave
