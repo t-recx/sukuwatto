@@ -19,6 +19,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
   workoutActivities: WorkoutOverview[] = [];
 
   deleteModalVisible: boolean = false;
+  dateString: string;
 
   constructor(
     private unitsService: UnitsService,
@@ -27,15 +28,24 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   ngOnInit() {
     this.deleteModalVisible = false;
+    this.dateString = null;
+
     if (!this.workout) {
       this.workoutsService.getWorkout(this.id).subscribe(w =>
         {
           this.workout = w;
           this.workoutActivities = this.getResumedActivities(w);
+          if (this.workout.start) {
+            this.dateString = (new Date(this.workout.start)).toLocaleDateString();
+          }
         });
     }
     else {
       this.workoutActivities = this.getResumedActivities(this.workout);
+
+      if (this.workout.start) {
+        this.dateString = (new Date(this.workout.start)).toLocaleDateString();
+      }
     }
   }
 

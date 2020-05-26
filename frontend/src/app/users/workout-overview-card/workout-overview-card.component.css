@@ -1,0 +1,7 @@
+.workout-card-header-link {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: calc(100% - 100px);
+    display: inline-flex;
+}

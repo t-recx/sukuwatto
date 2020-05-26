@@ -1,10 +1,15 @@
 <div class="siimple-card" *ngIf="workout">
     <div class="siimple-card-header">
-        <a class="siimple-link" [routerLink]="['/users', workout.user.username, 'workout', workout.id]">
+        <a class="siimple-link workout-card-header-link" 
+        [routerLink]="['/users', workout.user.username, 'workout', workout.id]">
             {{workout.name}}
         </a>
 
-        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
+        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close siimple--ml-2" (click)="toggleDeleteModal()"></div>
+
+        <span class="siimple--float-right siimple-small" *ngIf="dateString">
+            {{dateString}}
+        </span>
     </div>
     <div class="siimple-card-body">
         <table class="siimple-table siimple-table--striped siimple-table--border">
