@@ -30,8 +30,7 @@
         <app-alert></app-alert>
     </div>
 
-    <main class="site-content siimple-content siimple-content--large content-body"
-        [class.content-body-with-dropdown-expanded]="menuDropDownVisible">
+    <main class="site-content siimple-content siimple-content--large content-body">
         <div class="siimple-grid-row">
             <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
                 <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none siimple--display-md-none">
