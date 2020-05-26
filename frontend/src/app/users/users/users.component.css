@@ -17,9 +17,11 @@
 }
 
 .menu-dropdown {
-  overflow: hidden;
-  position: relative;
-  padding-top: 64px;
+  position: sticky;
+  top: 64px;
+  width: 100%;
+  background-color: white;
+  z-index: 50; 
 }
 
 .navbar {
