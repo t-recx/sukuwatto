@@ -59,7 +59,7 @@ export class UserProgressService {
   }
 
   getFinishWorkoutProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {
-    return this.getUserProgress(username, (finishedWorkout.id && finishedWorkout.id > 0) ? []: [finishedWorkout]).pipe(
+    return this.getUserProgress(username, [finishedWorkout]).pipe(
       concatMap(userProgress => new Observable<UserProgressData>(obs => {
         let data = new UserProgressData();
 
@@ -105,6 +105,7 @@ export class UserProgressService {
             this.getValuesWithMaxWeight(
               paginatedWorkouts
                 .results
+                .filter(r => (additionalWorkouts ?? []).filter(aw => aw.id == r.id).length == 0)
                 .concat(additionalWorkouts ?? [])
                 .map(w => this.unitsService.convertWorkout(w))
                 .flatMap(w =>
