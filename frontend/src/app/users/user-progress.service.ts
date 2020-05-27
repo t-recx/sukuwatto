@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { UnitsService } from './units.service';
 import { UserBioDataService } from './user-bio-data.service';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSeries, UserProgressChartType } from './user-progress-chart-data';
+import { Workout } from './workout';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,44 @@ export class UserProgressService {
       ));
   }
 
-  getUserProgress(username: string): Observable<UserProgressData> {
+  getFinishWorkoutProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {
+    return this.getUserProgress(username, (finishedWorkout.id && finishedWorkout.id > 0) ? []: [finishedWorkout]).pipe(
+      concatMap(userProgress => new Observable<UserProgressData>(obs => {
+        let data = new UserProgressData();
+
+        let series = userProgress
+        .series
+        .filter(s => finishedWorkout
+          .groups
+          .filter(g => g
+            .sets
+            .filter(gs => gs.done && gs.exercise.id == s.exercise.id).length > 0).length > 0);
+            
+        let filteredSeries: UserProgressSeries[] = [];
+        let filteredDates = [];
+        
+        series.forEach(s => {
+          let dataPoints = s.dataPoints.filter(dp => dp.date.getTime() <= finishedWorkout.end.getTime());
+
+          let lastThreeDates = [...new Set(dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime()).map(x => x.date.getTime()))].slice(0, 3).map(x => new Date(x));
+
+          let filteredDataPoints = dataPoints.filter(dp => lastThreeDates.filter(ldd => ldd.getTime() == new Date(dp.date).getTime()).length > 0);
+
+          filteredSeries.push(new UserProgressSeries(s.exercise, filteredDataPoints));
+
+          filteredDates.push(...lastThreeDates.filter(d => filteredDates.filter(fd => fd == d).length == 0));
+        });
+
+        data.series = filteredSeries.sort((x,y) => y.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime())[0].weight - x.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime())[0].weight);
+        data.dates = filteredDates;
+
+        obs.next(data);
+        obs.complete();
+      }))
+    );
+  }
+
+  getUserProgress(username: string, additionalWorkouts: Workout[] = []): Observable<UserProgressData> {
     return this.workoutsService.getWorkouts(username, 1, 1000).pipe(
       concatMap(paginatedWorkouts =>
         new Observable<UserProgressData>(obs => {
@@ -67,13 +105,21 @@ export class UserProgressService {
             this.getValuesWithMaxWeight(
               paginatedWorkouts
                 .results
+                .concat(additionalWorkouts ?? [])
                 .map(w => this.unitsService.convertWorkout(w))
                 .flatMap(w =>
                   w.groups
                     .flatMap(g =>
-                      g.sets
+                      [...new Set(g.sets
                         .filter(s => s.done)
-                        .map(s => new UserProgressDataPoint(s.exercise, s.weight, w.start)))));
+                        .map(s => s.exercise.id))].flatMap(id => 
+                          [g.sets
+                          .filter(s => s.exercise.id == id)
+                          .sort((a,b) => b.weight - a.weight)[0]]
+                          .filter(x => x)
+                          .map(x => new UserProgressDataPoint(x.exercise, x.weight, w.start))
+                          )
+                        )));
 
           data.dates = [...new Set(values.map(x => x.date))];
           data.series = [...new Set(values.map(x => x.exercise.id))]

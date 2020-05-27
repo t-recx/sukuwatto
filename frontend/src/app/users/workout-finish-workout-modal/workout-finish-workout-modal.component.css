@@ -1,0 +1,18 @@
+.chart-card-body {
+    min-height: 200px;
+    display:flex;
+}
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.chart-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}

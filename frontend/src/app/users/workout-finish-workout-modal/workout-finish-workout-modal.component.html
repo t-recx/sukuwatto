@@ -1,0 +1,63 @@
+<div *ngIf="visible">
+    <div class="siimple-modal siimple-modal--small" id="workout-finish-modal">
+        <div class="siimple-modal-content">
+            <!--
+            <div class="siimple-modal-header">
+                <div class="siimple-modal-header-title">Finish workout</div>
+                <div class="siimple-modal-header-close" id="modal-close" (click)="hideFinishWorkout()"></div>
+            </div>
+            -->
+            <div class="siimple-modal-body">
+                <div class="siimple-h2" align="center">Good job!</div>
+
+                <div class="siimple-grid-row">
+                    <div
+                        class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <input type="date" class="siimple-input siimple-input--fluid" required name="end" id="end"
+                                [ngModel]="workout.end | date:'yyyy-MM-dd'" (ngModelChange)="setWorkoutEndDate($event)"
+                                #end="ngModel">
+
+                            <div *ngIf="end.invalid && (end.dirty || triedToSave)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
+                        <div class="siimple-form-field">
+                            <input type="time" class="siimple-input siimple-input--fluid" required name="end_time"
+                                id="end_time" [ngModel]="workout.end | date:'HH:mm'"
+                                (ngModelChange)="setWorkoutEndTime($event)" #end_time="ngModel">
+
+                            <div *ngIf="end_time.invalid && (end_time.dirty || triedToSave)">
+                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="siimple-card">
+                    <div class="siimple-card-body chart-card-body">
+                        <div class="loading-container" *ngIf="loading">
+                            <div class="siimple-spinner siimple-spinner--primary siimple-spinner--large"></div>
+                        </div>
+
+                        <div *ngIf="progressData && !loading" class="chart-container">
+                            <app-user-finish-workout-progress-chart [workout]=workout [progressData]=progressData>
+                            </app-user-finish-workout-progress-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-modal-footer">
+                <button class="siimple-btn siimple-btn--success" type="button" (click)="finishWorkout()">
+                    Confirm
+                </button>
+                <button class="siimple-btn siimple--ml-2" type="button" (click)="hideFinishWorkout()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
