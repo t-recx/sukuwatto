@@ -232,6 +232,7 @@ export class WorkoutGeneratorService {
           if (workingWeight) {
             set.weight = workingWeight.weight;
             set.unit = workingWeight.unit;
+            set.unit_code = this.units.filter(u => u.id == set.unit)[0].abbreviation;
           }
         }
       }
@@ -241,9 +242,11 @@ export class WorkoutGeneratorService {
   fillOutWorkingWeights(workingWeights: WorkingWeight[], planSession: PlanSession): void {
     let exercises: Exercise[] = [];
     let unit: number = null;
+    let unit_code: string = null;
 
     if (this.authService.getUserWeightUnitId()) {
       unit = +this.authService.getUserWeightUnitId();
+      unit_code = this.units.filter(u => u.id == unit)[0].abbreviation;
     }
 
     for (let group of planSession.groups) {
@@ -268,6 +271,7 @@ export class WorkoutGeneratorService {
 
         if (unit) {
           workingWeight.unit = unit;
+          workingWeight.unit_code = unit_code;
         }
         workingWeights.push(workingWeight);
       }
@@ -412,6 +416,7 @@ export class WorkoutGeneratorService {
     if (filteredWorkingWeight) {
       workingWeight.id = filteredWorkingWeight.id;
       workingWeight.unit = filteredWorkingWeight.unit;
+      workingWeight.unit_code = this.units.filter(u => u.id == workingWeight.unit)[0].abbreviation;
       workingWeight.weight = this.getWeightWithPercentage(
         filteredWorkingWeight.weight,
         filteredWorkingWeight.unit,

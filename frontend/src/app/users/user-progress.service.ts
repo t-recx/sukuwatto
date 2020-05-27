@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { UnitsService } from './units.service';
 import { UserBioDataService } from './user-bio-data.service';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSeries, UserProgressChartType } from './user-progress-chart-data';
+import { Workout } from './workout';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,42 @@ export class UserProgressService {
       ));
   }
 
-  getUserProgress(username: string): Observable<UserProgressData> {
+  getFinishWorkoutProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {
+    return this.getUserProgress(username, (finishedWorkout.id && finishedWorkout.id > 0) ? []: [finishedWorkout]).pipe(
+      concatMap(userProgress => new Observable<UserProgressData>(obs => {
+        let data = new UserProgressData();
+
+        let series = userProgress
+        .series
+        .filter(s => finishedWorkout
+          .groups
+          .filter(g => g
+            .sets
+            .filter(gs => gs.done && gs.exercise.id == s.exercise.id).length > 0).length > 0);
+
+        let filteredSeries = [];
+        let filteredDates = [];
+        
+        series.forEach(s => {
+          let lastThreeDates = [...new Set(s.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime()).map(x => x.date.getTime()))].slice(0, 3).map(x => new Date(x));
+
+          let filteredDataPoints = s.dataPoints.filter(dp => lastThreeDates.filter(ldd => ldd.getTime() == new Date(dp.date).getTime()).length > 0);
+
+          filteredSeries.push(new UserProgressSeries(s.exercise, filteredDataPoints));
+
+          filteredDates.push(...lastThreeDates.filter(d => filteredDates.filter(fd => fd == d).length == 0));
+        });
+
+        data.series = filteredSeries;
+        data.dates = filteredDates;
+
+        obs.next(data);
+        obs.complete();
+      }))
+    );
+  }
+
+  getUserProgress(username: string, additionalWorkouts: Workout[] = []): Observable<UserProgressData> {
     return this.workoutsService.getWorkouts(username, 1, 1000).pipe(
       concatMap(paginatedWorkouts =>
         new Observable<UserProgressData>(obs => {
@@ -67,6 +103,7 @@ export class UserProgressService {
             this.getValuesWithMaxWeight(
               paginatedWorkouts
                 .results
+                .concat(additionalWorkouts ?? [])
                 .map(w => this.unitsService.convertWorkout(w))
                 .flatMap(w =>
                   w.groups

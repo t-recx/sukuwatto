@@ -50,9 +50,16 @@ export class WorkoutSetEditComponent implements OnInit {
 
         if (filteredUnits && filteredUnits.length > 0) {
           this.workoutActivity.unit = filteredUnits[0].id;
+          this.workoutActivity.unit_code = filteredUnits[0].abbreviation;
         }
       }
     });
+  }
+
+  updateUnitCode() {
+    if (this.workoutActivity.unit) {
+      this.workoutActivity.unit_code = this.units.filter(u => u.id == this.workoutActivity.unit)[0].abbreviation;
+    }
   }
 
   repetitionTypeChange() {
@@ -74,6 +81,8 @@ export class WorkoutSetEditComponent implements OnInit {
     if (!this.valid()) {
       return false;
     }
+
+    this.updateUnitCode();
 
     this.visible = false;
     this.triedToHide = false;

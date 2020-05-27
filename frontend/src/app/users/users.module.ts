@@ -59,6 +59,8 @@ import { FooterComponent } from './footer/footer.component';
 import { UserProgressChartComponent } from './user-progress-chart/user-progress-chart.component';
 import { UserProgressChartsComponent } from './user-progress-charts/user-progress-charts.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { WorkoutFinishWorkoutModalComponent } from './workout-finish-workout-modal/workout-finish-workout-modal.component';
+import { UserFinishWorkoutProgressChartComponent } from './user-finish-workout-progress-chart/user-finish-workout-progress-chart.component';
 
 @Pipe({
     name: 'timeAgo',
@@ -67,7 +69,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 export class TimeAgoExtendsPipe extends TimeAgoPipe {}
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoExtendsPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent, DeleteModalComponent, FeedComponent, ExercisesListComponent, ExercisesModalComponent, ExercisesInputComponent, ExerciseDetailSkeletonComponent, ExerciseDetailModalComponent, UnitConvertPipe, PlanCardComponent, UserChangePasswordComponent, FooterComponent, UserProgressChartComponent, UserProgressChartsComponent, PieChartComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingWeightsComponent, WorkingWeightComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoExtendsPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent, DeleteModalComponent, FeedComponent, ExercisesListComponent, ExercisesModalComponent, ExercisesInputComponent, ExerciseDetailSkeletonComponent, ExerciseDetailModalComponent, UnitConvertPipe, PlanCardComponent, UserChangePasswordComponent, FooterComponent, UserProgressChartComponent, UserProgressChartsComponent, PieChartComponent, WorkoutFinishWorkoutModalComponent, UserFinishWorkoutProgressChartComponent],
   imports: [
     AlertModule,
     CommonModule,

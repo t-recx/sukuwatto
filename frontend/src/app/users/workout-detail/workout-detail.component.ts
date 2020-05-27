@@ -92,29 +92,6 @@ export class WorkoutDetailComponent implements OnInit {
       return new Date(year, month, day, hour, minute);
   }
 
-  setWorkoutEndDate(event: any) {
-    if (event && this.workout) {
-      if (this.workout.end) {
-        this.workout.end = new Date(event + " " + new Date(this.workout.end).toTimeString().substring(0, 5));
-      }
-      else {
-        this.workout.end = new Date(event);
-      }
-    }
-  }
-
-  setWorkoutEndTime(event: any) {
-      if (event && this.workout) {
-          let date: Date = new Date();
-
-          if (this.workout.end) {
-              date = new Date(this.workout.end);
-          }
-
-          this.workout.end = this.getDate(date, event);
-      }
-  }
-
   ngOnInit() {
     this.triedToSave = false;
     this.userBioData = null;
