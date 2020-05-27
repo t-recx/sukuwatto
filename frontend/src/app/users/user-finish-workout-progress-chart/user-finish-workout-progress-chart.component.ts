@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType, UserProgressChartSeries } from '../user-progress-chart-data';
+import { Workout } from '../workout';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-user-finish-workout-progress-chart',
@@ -8,16 +10,21 @@ import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartTyp
   styleUrls: ['./user-finish-workout-progress-chart.component.css']
 })
 export class UserFinishWorkoutProgressChartComponent implements OnInit {
+    @Input() workout: Workout;
     @Input() progressData: UserProgressChartData;
 
-    hiddenSeries: string[] = [];
     colors = {};
     hostElement; // Native element hosting the SVG container
 
+    weightUnitCode: string;
+
     constructor(
         private elRef: ElementRef,
+        unitsService: UnitsService,
     ) {
         this.hostElement = this.elRef.nativeElement;
+
+        this.weightUnitCode = unitsService.getUserWeightUnitCode();
     }
 
     ngOnInit(): void {
@@ -25,24 +32,23 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.progressData) {
-            this.hiddenSeries = [];
             this.createChart();
         }
     }
 
-    toggle(series: UserProgressChartSeries): void {
-        if (this.isHidden(series)) {
-            this.hiddenSeries = this.hiddenSeries.filter(name => name != series.name);
-        }
-        else {
-            this.hiddenSeries.push(series.name);
-        }
-
-        this.createChart();
+    getWorkoutTopValue(series: UserProgressChartSeries): number {
+        return this.workout.groups
+            .flatMap(g => 
+                g.sets
+                .filter(s => s.done)
+                .filter(s => s.exercise.short_name == series.name)
+            .map(s => s.weight))
+            .sort((a, b) => b - a)
+            [0];
     }
-
-    isHidden(series: UserProgressChartSeries): boolean {
-        return this.hiddenSeries.filter(name => series.name == name).length > 0;
+    
+    isPR(series: UserProgressChartSeries): boolean {
+        return series.dataPoints.filter(x => x.weight == this.getWorkoutTopValue(series)).length == 1;
     }
 
     private createChart() {
@@ -54,14 +60,14 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
 
         let margin = ({ top: 5, right: 15, bottom: 5, left: 15 });
         let width= 270 ;
-        let height= 128 + 80 ;
+        let height= 128 + 40 ;
         let viewBoxWidth = width;
         let viewBoxHeight = height;
 
         const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
             .attr('viewBox', '0 0 ' + viewBoxWidth + ' ' + viewBoxHeight)
             //.style('overflow', 'visible')
-            .attr('width', width)
+            .attr('width', "100%")
           .attr('height', height)
             ;
 
@@ -96,7 +102,6 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
                 let color = colorScale('' + index);
                 this.colors[series.name] = color;
 
-                if (!this.isHidden(series)) {
                     svg
                         .append("path")
                         .datum(series.dataPoints)
@@ -134,7 +139,6 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
                         .attr("cy", function (d) { return y(d.weight) })
                         .attr("r", 12)
                         ;
-                }
             });
 
         return svg.node();

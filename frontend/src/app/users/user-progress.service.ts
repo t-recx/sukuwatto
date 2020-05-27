@@ -70,21 +70,23 @@ export class UserProgressService {
           .filter(g => g
             .sets
             .filter(gs => gs.done && gs.exercise.id == s.exercise.id).length > 0).length > 0);
-
-        let filteredSeries = [];
+            
+        let filteredSeries: UserProgressSeries[] = [];
         let filteredDates = [];
         
         series.forEach(s => {
-          let lastThreeDates = [...new Set(s.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime()).map(x => x.date.getTime()))].slice(0, 3).map(x => new Date(x));
+          let dataPoints = s.dataPoints.filter(dp => dp.date.getTime() <= finishedWorkout.end.getTime());
 
-          let filteredDataPoints = s.dataPoints.filter(dp => lastThreeDates.filter(ldd => ldd.getTime() == new Date(dp.date).getTime()).length > 0);
+          let lastThreeDates = [...new Set(dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime()).map(x => x.date.getTime()))].slice(0, 3).map(x => new Date(x));
+
+          let filteredDataPoints = dataPoints.filter(dp => lastThreeDates.filter(ldd => ldd.getTime() == new Date(dp.date).getTime()).length > 0);
 
           filteredSeries.push(new UserProgressSeries(s.exercise, filteredDataPoints));
 
           filteredDates.push(...lastThreeDates.filter(d => filteredDates.filter(fd => fd == d).length == 0));
         });
 
-        data.series = filteredSeries;
+        data.series = filteredSeries.sort((x,y) => y.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime())[0].weight - x.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime())[0].weight);
         data.dates = filteredDates;
 
         obs.next(data);
@@ -108,9 +110,16 @@ export class UserProgressService {
                 .flatMap(w =>
                   w.groups
                     .flatMap(g =>
-                      g.sets
+                      [...new Set(g.sets
                         .filter(s => s.done)
-                        .map(s => new UserProgressDataPoint(s.exercise, s.weight, w.start)))));
+                        .map(s => s.exercise.id))].flatMap(id => 
+                          [g.sets
+                          .filter(s => s.exercise.id == id)
+                          .sort((a,b) => b.weight - a.weight)[0]]
+                          .filter(x => x)
+                          .map(x => new UserProgressDataPoint(x.exercise, x.weight, w.start))
+                          )
+                        )));
 
           data.dates = [...new Set(values.map(x => x.date))];
           data.series = [...new Set(values.map(x => x.exercise.id))]

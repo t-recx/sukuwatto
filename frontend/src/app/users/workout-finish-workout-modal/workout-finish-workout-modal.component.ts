@@ -17,6 +17,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   @Output() finished = new EventEmitter();
 
   progressData: UserProgressChartData = null;
+  loading: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -35,6 +36,8 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   }
 
   loadChartData() {
+    this.loading = true;
+
     if (this.authService.isLoggedIn()) {
       this.userProgressService
       .getFinishWorkoutProgress(this.authService.getUsername(), this.workout)
@@ -55,6 +58,8 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
           else {
             this.progressData = null;
           }
+
+          this.loading = false;
         });
     }
   }

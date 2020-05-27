@@ -1,4 +1,28 @@
-<div class="svg-chart" align="center">
-    <svg>
-    </svg>
+<div class="siimple-grid">
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12">
+            <div class="svg-chart" align="center">
+                <svg>
+                </svg>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12">
+            <div class="siimple-table siimple-table--striped weight-chart-table">
+                <div class="siimple-table-body">
+                    <div class="siimple-table-row" *ngFor="let series of progressData.series">
+                        <div class="siimple-table-cell siimple--text-bold" [style.color]="colors[series.name]">
+                            {{series.name}}
+                        </div>
+                        <div align="right" class="siimple-table-cell siimple--text-bold weight-table-cell"
+                            [style.color]="colors[series.name]">
+                            {{getWorkoutTopValue(series)}} {{weightUnitCode}}
+                        </div>
+                        <div align="center" class="siimple-table-cell">
+                            <span class="siimple-tag siimple-tag--success" *ngIf="isPR(series)">PR</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

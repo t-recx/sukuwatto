@@ -10,12 +10,10 @@
             <div class="siimple-modal-body">
                 <div class="siimple-h2" align="center">Good job!</div>
 
-                <!--
                 <div class="siimple-grid-row">
                     <div
                         class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Date</div>
                             <input type="date" class="siimple-input siimple-input--fluid" required name="end" id="end"
                                 [ngModel]="workout.end | date:'yyyy-MM-dd'" (ngModelChange)="setWorkoutEndDate($event)"
                                 #end="ngModel">
@@ -28,7 +26,6 @@
                     <div
                         class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Time</div>
                             <input type="time" class="siimple-input siimple-input--fluid" required name="end_time"
                                 id="end_time" [ngModel]="workout.end | date:'HH:mm'"
                                 (ngModelChange)="setWorkoutEndTime($event)" #end_time="ngModel">
@@ -39,12 +36,15 @@
                         </div>
                     </div>
                 </div>
-                -->
 
                 <div class="siimple-card">
                     <div class="siimple-card-body chart-card-body">
-                        <div *ngIf="progressData">
-                            <app-user-finish-workout-progress-chart [progressData]=progressData>
+                        <div class="loading-container" *ngIf="loading">
+                            <div class="siimple-spinner siimple-spinner--primary siimple-spinner--large"></div>
+                        </div>
+
+                        <div *ngIf="progressData && !loading" class="chart-container">
+                            <app-user-finish-workout-progress-chart [workout]=workout [progressData]=progressData>
                             </app-user-finish-workout-progress-chart>
                         </div>
                     </div>
