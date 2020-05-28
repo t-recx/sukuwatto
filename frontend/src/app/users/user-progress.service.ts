@@ -23,36 +23,38 @@ export class UserProgressService {
     return this.userBioDataService.getLastUserBioData(username, new Date()).pipe(
       concatMap(userBioData =>
         new Observable<UserProgressChartData>(obs => {
-          let data = new UserProgressChartData();
+          if (userBioData.date) {
+            let data = new UserProgressChartData();
 
-          data.name = "Body composition";
-          data.type = UserProgressChartType.Pie;
+            data.name = "Body composition";
+            data.type = UserProgressChartType.Pie;
 
+            let series = new UserProgressChartSeries(userBioData.date.toLocaleDateString(), []);
 
-          let series = new UserProgressChartSeries(userBioData.date.toLocaleDateString(), []);
+            if (userBioData.body_fat_percentage) {
+              let bodyFat = new UserProgressChartDataPoint('Fat', userBioData.body_fat_percentage, userBioData.date);
+              series.dataPoints.push(bodyFat);
+            }
 
-          if (userBioData.body_fat_percentage) {
-            let bodyFat = new UserProgressChartDataPoint('Fat', userBioData.body_fat_percentage, userBioData.date);
-            series.dataPoints.push(bodyFat);
+            if (userBioData.muscle_mass_percentage) {
+              let muscleMass = new UserProgressChartDataPoint('Muscle', userBioData.muscle_mass_percentage, userBioData.date);
+              series.dataPoints.push(muscleMass);
+            }
+
+            if (userBioData.water_weight_percentage) {
+              let waterWeight = new UserProgressChartDataPoint('Water', userBioData.water_weight_percentage, userBioData.date);
+              series.dataPoints.push(waterWeight);
+            }
+
+            let rest = new UserProgressChartDataPoint('Other', 100 - userBioData.body_fat_percentage ?? 0 - userBioData.muscle_mass_percentage ?? 0 - userBioData.water_weight_percentage ?? 0, userBioData.date);
+
+            series.dataPoints.push(rest);
+
+            data.series = [series];
+
+            obs.next(data);
           }
 
-          if (userBioData.muscle_mass_percentage) {
-            let muscleMass = new UserProgressChartDataPoint('Muscle', userBioData.muscle_mass_percentage, userBioData.date);
-            series.dataPoints.push(muscleMass);
-          }
-
-          if (userBioData.water_weight_percentage) {
-            let waterWeight = new UserProgressChartDataPoint('Water', userBioData.water_weight_percentage, userBioData.date);
-            series.dataPoints.push(waterWeight);
-          }
-
-          let rest = new UserProgressChartDataPoint('Other', 100 - userBioData.body_fat_percentage ?? 0 - userBioData.muscle_mass_percentage ?? 0 - userBioData.water_weight_percentage ?? 0, userBioData.date);
-
-          series.dataPoints.push(rest);
-
-          data.series = [series];
-
-          obs.next(data);
           obs.complete();
         })
       ));
