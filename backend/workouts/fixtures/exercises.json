@@ -648,7 +648,7 @@
         "pk": 47,
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
-            "short_name": "Bent-Over BB Row",
+            "short_name": "Bent-Over Row",
             "name": "Bent-Over Barbell Row",
             "level": "b",
             "section": "u",
@@ -690,7 +690,7 @@
         "pk": 50,
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
-            "short_name": "Bent-Over Long BB Row",
+            "short_name": "Bent-Over Long Row",
             "name": "Bent-Over Long Barbell Row",
             "level": "i",
             "section": "u",
@@ -704,7 +704,7 @@
         "pk": 51,
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
-            "short_name": "Bent-Over Reverse-Grip BB Row",
+            "short_name": "Bent-Over Reverse-Grip Row",
             "name": "Bent-Over Reverse-Grip Barbell Row",
             "level": "a",
             "section": "u",
@@ -718,7 +718,7 @@
         "pk": 52,
         "fields": {
             "muscle": "Back - Lat.Dorsi/Rhomboids",
-            "short_name": "Bent-Over Single-Arm Long BB Row",
+            "short_name": "Bent-Over Single-Arm Long Row",
             "name": "Bent-Over Single-Arm Long Barbell Row",
             "level": "a",
             "section": "u",
@@ -914,7 +914,7 @@
         "pk": 66,
         "fields": {
             "muscle": "Biceps",
-            "short_name": "BB Curl",
+            "short_name": "Curl",
             "name": "Barbell Curl",
             "level": "b",
             "section": "u",
@@ -1194,7 +1194,7 @@
         "pk": 86,
         "fields": {
             "muscle": "Biceps",
-            "short_name": "Preacher BB Curl",
+            "short_name": "Preacher Curl",
             "name": "Preacher Barbell Curl",
             "level": "a",
             "section": "u",
@@ -1362,7 +1362,7 @@
         "pk": 98,
         "fields": {
             "muscle": "Biceps",
-            "short_name": "Single-Arm BB Curl",
+            "short_name": "Single-Arm Curl",
             "name": "Single-Arm Barbell Curl",
             "level": "b",
             "section": "u",
@@ -1418,7 +1418,7 @@
         "pk": 102,
         "fields": {
             "muscle": "Calves - Gastrocnemius",
-            "short_name": "BB Calf Raise",
+            "short_name": "Calf Raise",
             "name": "Barbell Calf Raise",
             "level": "a",
             "section": "l",
@@ -1572,7 +1572,7 @@
         "pk": 113,
         "fields": {
             "muscle": "Chest - Pectoralis",
-            "short_name": "BB Bench Press",
+            "short_name": "Bench Press",
             "name": "Barbell Bench Press",
             "level": "i",
             "section": "u",
@@ -1698,7 +1698,7 @@
         "pk": 122,
         "fields": {
             "muscle": "Chest - Pectoralis",
-            "short_name": "Incline BB Bench Press",
+            "short_name": "Incline Bench Press",
             "name": "Incline Barbell Bench Press",
             "level": "a",
             "section": "u",
@@ -2230,7 +2230,7 @@
         "pk": 160,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Diagonal Lunge",
+            "short_name": "Diagonal Lunge",
             "name": "Barbell Diagonal Lunge",
             "level": "a",
             "section": "l",
@@ -2244,7 +2244,7 @@
         "pk": 161,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Hack Squat",
+            "short_name": "Hack Squat",
             "name": "Barbell Hack Squat",
             "level": "a",
             "section": "l",
@@ -2258,7 +2258,7 @@
         "pk": 162,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Lunge",
+            "short_name": "Lunge",
             "name": "Barbell Lunge",
             "level": "i",
             "section": "l",
@@ -2272,7 +2272,7 @@
         "pk": 163,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Reverse Lunge",
+            "short_name": "Reverse Lunge",
             "name": "Barbell Reverse Lunge",
             "level": "i",
             "section": "l",
@@ -2286,7 +2286,7 @@
         "pk": 164,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Side Lunge",
+            "short_name": "Side Lunge",
             "name": "Barbell Side Lunge",
             "level": "i",
             "section": "l",
@@ -2300,7 +2300,7 @@
         "pk": 165,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Split Squat",
+            "short_name": "Split Squat",
             "name": "Barbell Split Squat",
             "level": "a",
             "section": "l",
@@ -2314,7 +2314,7 @@
         "pk": 166,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Squat",
+            "short_name": "Squat",
             "name": "Barbell Squat",
             "level": "b",
             "section": "l",
@@ -2328,7 +2328,7 @@
         "pk": 167,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Step-Up",
+            "short_name": "Step-Up",
             "name": "Barbell Step-Up",
             "level": "a",
             "section": "l",
@@ -2342,7 +2342,7 @@
         "pk": 168,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "BB Walking Lunge",
+            "short_name": "Walking Lunge",
             "name": "Barbell Walking Lunge",
             "level": "a",
             "section": "l",
@@ -2496,7 +2496,7 @@
         "pk": 179,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "Lateral BB Squat",
+            "short_name": "Lateral Squat",
             "name": "Lateral Barbell Squat",
             "level": "i",
             "section": "l",
@@ -2510,7 +2510,7 @@
         "pk": 180,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "Lateral BB Step-Up",
+            "short_name": "Lateral Step-Up",
             "name": "Lateral Barbell Step-Up",
             "level": "a",
             "section": "l",
@@ -2622,7 +2622,7 @@
         "pk": 188,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "Single-Arm BB Side Squat",
+            "short_name": "Single-Arm Side Squat",
             "name": "Single-Arm Barbell Side Squat",
             "level": "a",
             "section": "l",
@@ -2650,7 +2650,7 @@
         "pk": 190,
         "fields": {
             "muscle": "Legs - Quadriceps",
-            "short_name": "Single-Leg BB Squat",
+            "short_name": "Single-Leg Squat",
             "name": "Single-Leg Barbell Squat",
             "level": "a",
             "section": "l",
@@ -2902,7 +2902,7 @@
         "pk": 208,
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
-            "short_name": "BB Shoulder Press",
+            "short_name": "Shoulder Press",
             "name": "Barbell Shoulder Press",
             "level": "a",
             "section": "u",
@@ -3028,7 +3028,7 @@
         "pk": 217,
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
-            "short_name": "BB Front Raise",
+            "short_name": "Front Raise",
             "name": "Barbell Front Raise",
             "level": "i",
             "section": "u",
@@ -3798,7 +3798,7 @@
         "pk": 272,
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
-            "short_name": "BB Overhead Press",
+            "short_name": "Overhead Press",
             "name": "Barbell Overhead Press",
             "level": "a",
             "section": "u",
@@ -3812,7 +3812,7 @@
         "pk": 273,
         "fields": {
             "muscle": "Shoulders - Delts/Traps",
-            "short_name": "BB Shrug",
+            "short_name": "Shrug",
             "name": "Barbell Shrug",
             "level": "a",
             "section": "u",
