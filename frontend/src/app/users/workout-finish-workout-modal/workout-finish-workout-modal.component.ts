@@ -46,8 +46,9 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
             let npd = new UserProgressChartData();
 
             npd.name = "Progress";
-            npd.series = pd.series.filter(x => x.dataPoints.length > 1).map(x => new UserProgressChartSeries(x.exercise.short_name,
-              x.dataPoints.map(y => new UserProgressChartDataPoint(x.exercise.short_name, y.weight, y.date))));
+            npd.series = pd.series
+              .map(x => new UserProgressChartSeries(x.exercise.short_name,
+                x.dataPoints.map(y => new UserProgressChartDataPoint(x.exercise.short_name, y.weight, y.date))));
 
             if (npd.series && npd.series.length > 0) {
               npd.dates = [... new Set(npd.series.flatMap(x => x.dataPoints.map(y => y.date)))];

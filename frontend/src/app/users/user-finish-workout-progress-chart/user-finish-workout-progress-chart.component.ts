@@ -75,7 +75,7 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
             .domain(d3.extent<Date, Date>(this.progressData.dates, d => d))
             .range([margin.left, width - margin.right])
 
-        const delta = 5;
+        const delta = 1;
 
         let min = d3.min(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.weight)), d => d) - delta;
 
