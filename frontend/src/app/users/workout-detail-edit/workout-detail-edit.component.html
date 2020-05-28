@@ -1,0 +1,153 @@
+<div *ngIf="workout">
+    <app-workout-finish-workout-modal 
+        [visible]="finishWorkoutVisible"
+        [workout]=workout
+        (closed)="hideFinishWorkout()"
+        (finished)="finishWorkout()"
+        [triedToSave]="triedToSave"
+    >
+    </app-workout-finish-workout-modal>
+
+    <form class="siimple-card siimple-form" #workoutForm="ngForm">
+
+        <app-working-weights [workingWeights]=workout.working_weights 
+        [visible]=workingWeightsVisible  
+            [triedToSave]=triedToSave
+            (closed)="onWorkingWeightsClosed()">
+        </app-working-weights>
+
+        <app-user-bio-data-detail [username]=username [start]=workout.start 
+            [visible]=userBioDataVisible 
+            (closed)="onUserBioDataClosed()"
+            (okayed)="onUserBioDataOkayed($event)">
+        </app-user-bio-data-detail>
+
+        <div class="siimple-form-title">Workout detail</div>
+        <div class="siimple-grid">
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Plan</div>
+                        <select class="siimple-select siimple-select--fluid" name="plan"
+                            id="plan" [(ngModel)]="workout.plan" #plan="ngModel" (change)="planChanged()">
+                        <option [ngValue]="null"></option> 
+                        <option *ngFor="let planModel of adoptedPlans" value={{planModel.id}}>
+                            {{planModel.name}}
+                        </option>
+                    </select>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Session</div>
+                        <select class="siimple-select siimple-select--fluid" name="planSession"
+                            id="planSession" [(ngModel)]="workout.plan_session" #planSession="ngModel" (change)="sessionChanged()">
+                        <option [ngValue]="null"></option> 
+                        <option *ngFor="let planSessionModel of planSessions" value={{planSessionModel.id}}>
+                            {{planSessionModel.name}}
+                        </option>
+                    </select>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingWeights()">Working Weights</button>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Date</div>
+                        <input type="date" class="siimple-input siimple-input--fluid" required name="start" id="start"
+                            [ngModel]="workout.start | date:'yyyy-MM-dd'" 
+                            (ngModelChange)="setWorkoutStartDate($event)"
+                            #start="ngModel">
+
+                        <div *ngIf="start.invalid && (start.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Time</div>
+                        <input type="time" class="siimple-input siimple-input--fluid" required name="start_time" id="start_time"
+                            [ngModel]="workout.start | date:'HH:mm'" 
+                            (ngModelChange)="setWorkoutStartTime($event)"
+                            #start_time="ngModel">
+
+                        <div *ngIf="start_time.invalid && (start_time.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">User Bio Data</button>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Name</div>
+                        <input type="text" class="siimple-input siimple-input--fluid"  name="name" id="name"
+                            [(ngModel)]="workout.name" #name="ngModel">
+
+                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Notes</div>
+                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
+                            name="notes" id="notes" [(ngModel)]="workout.notes" #notes="ngModel">
+                        </textarea>
+
+                        <div *ngIf="notes.invalid && (notes.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-grid-row" *ngFor="let group of workout.groups">
+               <app-workout-group 
+                [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave
+                [hasAlternativeGroups]="hasAlternativeGroups(group)"
+                (alternateGroupRequested)="alternateGroup(group)"
+               >
+               </app-workout-group> 
+            </div>
+            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
+        </div>
+        <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="save()">
+            Save
+        </button>
+        <button class="siimple-btn siimple-btn--success siimple--mt-2 siimple--ml-2" (click)="showFinishWorkoutModal()">
+            Finish
+        </button>
+        <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()">
+            Delete
+        </button>
+    </form>
+
+    <app-workout-timer  [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" [workout]=workout >
+
+    </app-workout-timer>
+</div>
+
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Delete workout?'
+    body='This will delete your workout and associated data. Are you sure you want to proceed?'
+    (deleted)="delete()"
+    (canceled)="toggleDeleteModal()"
+    >
+</app-delete-modal>
