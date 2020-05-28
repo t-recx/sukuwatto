@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
-import { AuthGuard } from '../guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { PlansComponent } from './plans/plans.component';
 import { PlanDetailComponent } from './plan-detail/plan-detail.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.component';
 import { WorkoutsComponent } from './workouts/workouts.component';
-import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
+import { WorkoutDetailEditComponent } from './workout-detail-edit/workout-detail-edit.component';
 import { AccountComponent } from './account/account.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageDetailComponent } from './message-detail/message-detail.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { HomeGuard } from '../guards/home.guard';
+import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
 
 const routes: Routes = [
   { 
@@ -85,7 +85,7 @@ const routes: Routes = [
       {
         path: 'workout',
         canActivateChild: [],
-        component: WorkoutDetailComponent,
+        component: WorkoutDetailEditComponent,
       },
       {
         path: 'exercises',
