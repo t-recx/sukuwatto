@@ -42,6 +42,15 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
   upload() {
     const formData = new FormData();
+    const maxCharacters = 80;
+
+    if (this.file.name.length > maxCharacters) {
+      var tokens = this.file.name.split('.');
+      const newName = tokens[0].slice(0, maxCharacters - 1 - (tokens[1] ? tokens[1].length : 0)) + '.' + (tokens[1] ?? '')
+      
+      this.file = new File([this.file], newName, {type: this.file.type});
+    }
+
     formData.append('file', this.file);
 
     this.uploadService.uploadFile(formData).subscribe(
