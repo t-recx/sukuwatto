@@ -23,6 +23,11 @@ export class FileUploadService {
     .pipe(
       catchError(this.errorService.handleError<any>('uploadFile', (e: any) => 
       {
+        if (e.status && e.status == 413) {
+          this.alertService.error("Unable to upload file, file exceeds maximum size");
+          return;
+        }
+
         this.alertService.error('Unable to upload file, try again later');
       }, null))
     );
