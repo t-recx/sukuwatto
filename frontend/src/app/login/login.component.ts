@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
           let redirect = this.authService.redirectUrl ? 
             this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}`; 
 
+          this.authService.redirectUrl = null;
           this.router.navigateByUrl(redirect);
         }
         else {

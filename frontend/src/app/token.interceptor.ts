@@ -11,6 +11,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     private isRefreshing = false;
     private refreshSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    private lastUrlBeforeRefresh: string = null;
 
     constructor(
         public authService: AuthService,
@@ -45,6 +46,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
                         return this.authService.logout().pipe(
                             switchMap(() => {
+                                this.authService.redirectUrl = this.lastUrlBeforeRefresh;
+
                                 this.router.navigate(['/login']);
 
                                 return throwError(error);
@@ -56,6 +59,8 @@ export class TokenInterceptor implements HttpInterceptor {
                     }
                 }
                 else {
+                    this.authService.redirectUrl = this.lastUrlBeforeRefresh;
+
                     this.router.navigate(['/login']);
 
                     return throwError(error);
@@ -69,6 +74,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     private refreshTokenAndContinue(request: HttpRequest<any>, next: HttpHandler) {
         if (!this.isRefreshing) {
+            this.lastUrlBeforeRefresh = window.location.pathname;
             this.isRefreshing = true;
             this.refreshSubject.next(null);
 

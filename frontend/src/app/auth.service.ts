@@ -14,7 +14,7 @@ import { JwtService } from './jwt.service';
   providedIn: 'root'
 })
 export class AuthService {
-  redirectUrl: string;
+  redirectUrl: string = null;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -15,6 +15,7 @@ import { MessageDetailComponent } from './message-detail/message-detail.componen
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { HomeGuard } from '../guards/home.guard';
 import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   { 
@@ -54,17 +55,17 @@ const routes: Routes = [
       },
       {
         path: 'plan',
-        canActivateChild: [],
+        canActivate: [AuthGuard],
         component: PlanDetailComponent,
       },
       {
         path: 'messages',
-        canActivateChild: [],
+        canActivate: [AuthGuard],
         component: MessagesComponent,
       },
       {
         path: 'message/:correspondent',
-        canActivateChild: [],
+        canActivate: [AuthGuard],
         component: MessageDetailComponent,
       },
       {
@@ -84,7 +85,7 @@ const routes: Routes = [
       },
       {
         path: 'workout',
-        canActivateChild: [],
+        canActivate: [AuthGuard],
         component: WorkoutDetailEditComponent,
       },
       {
@@ -104,12 +105,12 @@ const routes: Routes = [
       },
       {
         path: 'exercise',
-        canActivateChild: [],
+        canActivate: [AuthGuard],
         component: ExerciseDetailComponent,
       },
       {
         path: 'account',
-        canActivateChild: [],
+        canActivate: [AuthGuard],
         component: AccountComponent,
       },
     ]
