@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FileUploadService } from '../file-upload.service';
 import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-image-upload',
@@ -16,7 +17,8 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   imageMediaURL: string;
 
   constructor(
-    private uploadService: FileUploadService
+    private uploadService: FileUploadService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -43,6 +45,11 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   upload() {
     const formData = new FormData();
     const maxCharacters = 80;
+
+    if (this.file.size > environment.maxFileSizeUpload) {
+      this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000,2)} MBs`)
+      return;
+    }
 
     if (this.file.name.length > maxCharacters) {
       var tokens = this.file.name.split('.');
