@@ -4,6 +4,7 @@ import { WorkoutsService } from '../workouts.service';
 import { WorkoutOverview } from '../workout-activity-resumed';
 import { WorkoutGroup } from '../workout-group';
 import { UnitsService } from '../units.service';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -21,6 +22,10 @@ export class WorkoutOverviewCardComponent implements OnInit {
   deleteModalVisible: boolean = false;
   dateString: string;
 
+  deleting: boolean = false;
+
+  faCircleNotch = faCircleNotch;
+
   constructor(
     private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
@@ -28,6 +33,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   ngOnInit() {
     this.deleteModalVisible = false;
+    this.deleting = false;
     this.dateString = null;
 
     if (!this.workout) {
@@ -100,6 +106,8 @@ export class WorkoutOverviewCardComponent implements OnInit {
   }
 
   delete(): void {
+    this.deleting = true;
+    this.deleteModalVisible = false;
     this.deleted.emit(this.workout);
   }
 

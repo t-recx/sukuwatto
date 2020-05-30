@@ -5,7 +5,10 @@
             {{workout.name}}
         </a>
 
-        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close siimple--ml-2" (click)="toggleDeleteModal()"></div>
+        <div *ngIf="showSaveDeleteButtons && !deleting" class="siimple--ml-2 siimple-modal-header-close" (click)="toggleDeleteModal()">
+        </div>
+
+        <fa-icon class="loading-delete-icon siimple--ml-2" [icon]="faCircleNotch" [spin]=true *ngIf="deleting"></fa-icon>
 
         <span class="siimple--float-right siimple-small" *ngIf="dateString">
             {{dateString}}

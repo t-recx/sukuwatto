@@ -13,6 +13,7 @@ export class DeleteModalComponent {
   @Output() canceled = new EventEmitter();
 
   delete() {
+    this.visible = false;
     this.deleted.emit();
   }
 

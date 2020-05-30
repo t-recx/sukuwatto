@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProgressionStrategy } from '../plan-progression-strategy';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-plan-progression-strategies',
@@ -13,6 +13,7 @@ export class PlanProgressionStrategiesComponent implements OnInit {
   @Input() type_label: string;
 
   faTimesCircle = faTimesCircle;
+  faChartLine = faChartLine;
 
   constructor(
   ) { }

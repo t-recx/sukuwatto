@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExercisesService } from '../exercises.service';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { faCircleNotch, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercise-detail',
@@ -14,6 +15,13 @@ export class ExerciseDetailComponent implements OnInit {
   exercise: Exercise;
   triedToSave: boolean;
   deleteModalVisible: boolean = false;
+
+  saving: boolean = false;
+  deleting: boolean = false;
+
+  faSave = faSave;
+  faTrash = faTrash;
+  faCircleNotch = faCircleNotch;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,8 +71,11 @@ export class ExerciseDetailComponent implements OnInit {
   }
 
   saveExercise() {
+    this.saving = true;
+
     this.service.saveExercise(this.exercise).subscribe(exercise => {
       this.triedToSave = false;
+      this.saving = false;
 
       if (exercise) {
         this.navigateToList();
@@ -92,7 +103,9 @@ export class ExerciseDetailComponent implements OnInit {
         if (inUse) {
           this.alertService.error('Unable to delete: Exercise in use on other resources');
         } else {
+          this.deleting = true;
           this.service.deleteExercise(this.exercise).subscribe(e => {
+            this.deleting = false;
             this.navigateToList();
           });
         }

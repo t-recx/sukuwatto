@@ -3,6 +3,7 @@ import { Comment } from '../comment';
 import { CommentsService } from '../comments.service';
 import { AuthService } from 'src/app/auth.service';
 import { Action } from '../action';
+import { faCircleNotch, faComment } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-comment-card',
@@ -13,11 +14,15 @@ export class CommentCardComponent implements OnInit {
   @Input() comment: Action;
   @Output() deleted = new EventEmitter<Action>();
 
+  faCircleNotch = faCircleNotch;
+  faComment = faComment;
+
   newComment: string;
   authenticatedUserIsOwner: boolean = false;
 
   deleteModalVisible: boolean = false;
   editing: boolean = false;
+  updating: boolean = false;
 
   triedToSave: boolean = false;
 
@@ -51,11 +56,13 @@ export class CommentCardComponent implements OnInit {
     this.triedToSave = true;
 
     if (this.valid()) {
+      this.updating = true;
       this.commentsService.getComment(+this.comment.action_object_object_id).subscribe(x =>
         {
           x.text = this.comment.action_object.display_name;
 
           this.commentsService.saveComment(x).subscribe(y => {
+            this.updating = false;
             this.editing = false;
             this.triedToSave = false;
           });

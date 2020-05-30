@@ -127,13 +127,25 @@
             </div>
             <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
         </div>
-        <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="save()">
+        <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="save()" 
+            [disabled]="saving"
+            [class.siimple-btn--disabled]="saving">
+            <fa-icon [icon]="faSave" class="  siimple--mr-2" *ngIf="!saving"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" class=" siimple--mr-2" [spin]=true *ngIf="saving"></fa-icon>
             Save
         </button>
-        <button class="siimple-btn siimple-btn--success siimple--mt-2 siimple--ml-2" (click)="showFinishWorkoutModal()">
+        <button class="siimple-btn siimple-btn--success siimple--mt-2 siimple--ml-2" (click)="showFinishWorkoutModal()"
+            [disabled]="finishing"
+            [class.siimple-btn--disabled]="finishing">
+            <fa-icon [icon]="faCheckSquare" class="  siimple--mr-2" *ngIf="!finishing"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" class="  siimple--mr-2" [spin]=true *ngIf="finishing"></fa-icon>
             Finish
         </button>
-        <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()">
+        <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()"
+            [disabled]="deleting"
+            [class.siimple-btn--disabled]="deleting">
+            <fa-icon [icon]="faTrash" class="  siimple--mr-2" *ngIf="!deleting"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" class=" siimple--mr-2" [spin]=true *ngIf="deleting"></fa-icon>
             Delete
         </button>
     </form>
