@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { User } from 'src/app/user';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/environments/environment';
-import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus } from '@fortawesome/free-solid-svg-icons';
+import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
 import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
@@ -55,11 +55,14 @@ export class ProfileComponent implements OnInit {
   faUserCircle = faUserCircle;
   faBirthdayCake = faBirthdayCake;
   faMapMarkerAlt = faMapMarkerAlt;
+  faCircleNotch = faCircleNotch;
 
   messageModalVisible: boolean;
 
   following: User[];
   showUnfollowButtonOnFollowingList: boolean;
+
+  operating: boolean = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -87,6 +90,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserData(username: string) {
+    this.operating = false;
     this.selectedTab = UserViewProfileTab.Overview;
     this.user = null;
     this.profileImageURL = null;
@@ -172,11 +176,24 @@ export class ProfileComponent implements OnInit {
   }
 
   follow(): void {
-    this.followService.follow(this.userContentTypeID, this.user.id).subscribe(x => this.loadFollowers());
+    this.operating = true;
+
+    this.followService.follow(this.userContentTypeID, this.user.id).subscribe(x => {
+      this.loadFollowers();
+
+      this.operating = false;
+    });
   }
 
   unfollow(): void {
-    this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x => this.loadFollowing());
+    this.operating = true;
+
+    this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x =>  {
+      this.loadFollowing();
+
+      this.operating = false;
+      this.isFollowed = false;
+    });
   }
 
   public unfollowUser(user: User): void {

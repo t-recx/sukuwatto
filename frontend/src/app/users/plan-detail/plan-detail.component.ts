@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from '../plan';
-import { faCalendarPlus, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faTimesCircle, faSave, faTrash, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { PlanSession } from '../plan-session';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
@@ -16,6 +16,10 @@ export class PlanDetailComponent implements OnInit {
   faCalendarPlus = faCalendarPlus;
   faTimesCircle = faTimesCircle;
 
+  faSave = faSave;
+  faTrash = faTrash;
+  faCircleNotch = faCircleNotch;
+
   plan: Plan;
   selectedSession: PlanSession;
   triedToSave: boolean = false;
@@ -23,6 +27,9 @@ export class PlanDetailComponent implements OnInit {
   deleteModalVisible: boolean = false;
 
   userIsOwner: boolean = false;
+
+  saving: boolean = false;
+  deleting: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -90,7 +97,9 @@ export class PlanDetailComponent implements OnInit {
       return;
     }
 
+    this.saving = true;
     this.service.savePlan(this.plan).subscribe(plan => {
+      this.saving = false;
       this.triedToSave = false;
 
       if (plan) {
@@ -110,6 +119,11 @@ export class PlanDetailComponent implements OnInit {
   }
 
   delete() {
-    this.service.deletePlan(this.plan).subscribe(x => this.goBackToList());
+    this.deleting = true;
+    this.service.deletePlan(this.plan).subscribe(x => 
+      {
+        this.deleting = false;
+        this.goBackToList();
+      });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PlanSession } from '../plan-session';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import { PlanSessionGroup } from '../plan-session-group';
 
 @Component({
@@ -13,6 +13,7 @@ export class PlanSessionComponent implements OnInit {
   @Input() triedToSave: boolean;
 
   faTimesCircle = faTimesCircle;
+  faLayerGroup = faLayerGroup;
 
   selectedTab: string = 'session';
 

@@ -4,7 +4,9 @@
             {{plan.name}}
         </a>
 
-        <div *ngIf="showSaveDeleteButtons" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
+        <div *ngIf="showSaveDeleteButtons && !deleting" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
+
+        <fa-icon class="loading-delete-icon" [icon]="faCircleNotch" [spin]=true *ngIf="deleting"></fa-icon>
     </div>
     <div class="siimple-card-body">
         <p class="siimple-p">{{plan.description}}</p>

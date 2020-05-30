@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faDumbbell } from '@fortawesome/free-solid-svg-icons';
 import { PlanActivityTab } from '../plan-session-group-activity';
 import { PlanSessionGroupWarmUp } from '../plan-session-group-warmup';
 
@@ -18,6 +18,7 @@ export class PlanSessionGroupComponent implements OnInit {
 
   selectedActivityType = PlanActivityTab.Exercise;
   faTimesCircle = faTimesCircle;
+  faDumbbell = faDumbbell;
 
   constructor() { }
 

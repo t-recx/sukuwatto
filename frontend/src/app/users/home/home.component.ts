@@ -7,6 +7,7 @@ import { Paginated } from '../paginated';
 import { AuthService } from 'src/app/auth.service';
 import { PostsService } from '../posts.service';
 import { Post } from '../post';
+import { faCircleNotch, faStickyNote } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   newPostText: string;
   username: string;
   triedToPost: boolean = false;
+  posting: boolean = false;
+
+  faCircleNotch = faCircleNotch;
+  faStickyNote = faStickyNote;
 
   constructor(
     route: ActivatedRoute,
@@ -50,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadParameterDependentData(username: string) {
+    this.posting = false;
     this.username = username;
     this.paginated = null;
     this.actions = null;
@@ -115,15 +121,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.triedToPost = true;
 
     if (this.newPostText && this.newPostText.trim().length > 0) {
+      this.posting = true;
       const post = new Post();
 
       post.text = this.newPostText;
 
-      this.postsService.createPost(post).subscribe(() => { 
+      this.postsService.createPost(post)
+      .subscribe(() => { 
         this.newPostText = ''; 
         this.triedToPost = false; 
 
         this.loadNewActions();
+
+        this.posting = false;
       });
     }
   }

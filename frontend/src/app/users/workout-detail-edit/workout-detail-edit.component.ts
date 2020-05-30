@@ -16,6 +16,7 @@ import { concatMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { Location } from '@angular/common';
 import { AlertService } from 'src/app/alert/alert.service';
+import { faCircleNotch, faSave, faTrash, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -25,6 +26,11 @@ import { AlertService } from 'src/app/alert/alert.service';
 export class WorkoutDetailEditComponent implements OnInit {
   workout: Workout;
   previousWorkout: Workout;
+
+  faCircleNotch = faCircleNotch;
+  faSave = faSave;
+  faTrash = faTrash;
+  faCheckSquare = faCheckSquare;
 
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
@@ -38,6 +44,10 @@ export class WorkoutDetailEditComponent implements OnInit {
   activityStatusChangedSubject: Subject<void> = new Subject<void>();
 
   deleteModalVisible: boolean = false;
+
+  saving: boolean = false;
+  finishing: boolean = false;
+  deleting: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -99,6 +109,7 @@ export class WorkoutDetailEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => 
       {
+        this.saving = this.deleting = this.finishing = false;
         this.triedToSave = false;
         this.userBioData = null;
         this.username = params.get('username');
@@ -338,7 +349,9 @@ export class WorkoutDetailEditComponent implements OnInit {
       return;
     }
 
+    this.saving = true;
     this.saveObservable().subscribe(workout => {
+      this.saving = false;
       this.triedToSave = false;
 
       if (workout) {
@@ -427,7 +440,9 @@ export class WorkoutDetailEditComponent implements OnInit {
       return;
     }
 
+    this.finishing = true;
     this.saveObservable().subscribe(workout => {
+      this.finishing = false;
       this.triedToSave = false;
       if (workout) {
         this.workout = workout;
@@ -462,6 +477,10 @@ export class WorkoutDetailEditComponent implements OnInit {
   }
 
   delete(): void {
-    this.service.deleteWorkout(this.workout).subscribe(_ => this.navigateToWorkoutList());
+    this.deleting = true;
+    this.service.deleteWorkout(this.workout).subscribe(_ => {
+      this.deleting = false;
+      this.navigateToWorkoutList();
+    });
   }
 }

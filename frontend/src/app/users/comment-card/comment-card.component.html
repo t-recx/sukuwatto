@@ -13,6 +13,8 @@
 
         <div class="siimple--clearfix">
             <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="update()">
+                <fa-icon [icon]="faCircleNotch" [spin]=true  class="siimple--mr-2" [spin]=true *ngIf="updating"></fa-icon>
+                <fa-icon [icon]="faComment" class="siimple--mr-2" *ngIf="!updating"></fa-icon>
                 Update
             </button>
         </div>

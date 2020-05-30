@@ -70,6 +70,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   }
 
   finishWorkout(): void {
+    this.visible = false;
     this.finished.emit();
   }
 

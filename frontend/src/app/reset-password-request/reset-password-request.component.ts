@@ -1,6 +1,7 @@
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
 import { AlertService } from '../alert/alert.service';
+import { faCircleNotch, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-reset-password-request',
@@ -14,6 +15,9 @@ export class ResetPasswordRequestComponent implements OnInit {
   resetText: string;
 
   resetEmail: string = '';
+
+  faEnvelope = faEnvelope;
+  faCircleNotch = faCircleNotch;
 
   constructor(
     private userService: UserService,
@@ -31,13 +35,13 @@ export class ResetPasswordRequestComponent implements OnInit {
 
   reset() {
     this.triedToReset = true;
-    this.resetting = true;
 
     if (!this.valid()) {
 
       this.resetting = false;
     }
 
+    this.resetting = true;
     this.userService.resetPassword(this.resetEmail).subscribe(x => {
       this.resetting = false;
       this.triedToReset = false;

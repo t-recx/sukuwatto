@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { AuthService } from 'src/app/auth.service';
-import { faChild, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { faChild, faExternalLinkAlt, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { RepetitionType, PlanSessionGroupActivity } from '../plan-session-group-activity';
 import { PlanSession } from '../plan-session';
 import { Exercise } from '../exercise';
@@ -26,6 +26,9 @@ export class PlanCardComponent implements OnInit {
   repetitionType = RepetitionType;
   faChild = faChild;
   faExternalLinkAlt = faExternalLinkAlt;
+  faCircleNotch = faCircleNotch;
+
+  deleting: boolean = false;
 
   constructor(
     private plansService: PlansService,
@@ -34,6 +37,7 @@ export class PlanCardComponent implements OnInit {
 
   ngOnInit() {
     this.deleteModalVisible = false;
+    this.deleting = false;
     if (!this.plan) {
       this.plansService.getPlan(this.id).subscribe(w =>
         {
@@ -47,6 +51,8 @@ export class PlanCardComponent implements OnInit {
   }
 
   delete() {
+    this.deleteModalVisible = false;
+    this.deleting = true;
     this.deleted.emit(this.plan);
   }
 

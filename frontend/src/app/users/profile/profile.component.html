@@ -13,12 +13,16 @@
                     {{user.first_name}} {{user.last_name}}
                 </div>
                 <div class="action-button-group">
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()">
-                        <fa-icon [icon]="faUserPlus"></fa-icon>
+                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()"
+                        [disabled]="operating" [class.siimple-btn--disabled]="operating">
+                        <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
+                        <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-2">Follow</span>
                     </button>
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()">
-                        <fa-icon [icon]="faUserMinus"></fa-icon>
+                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()"
+                        [disabled]="operating" [class.siimple-btn--disabled]="operating">
+                        <fa-icon [icon]="faUserMinus" *ngIf="!operating"></fa-icon>
+                        <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-2">Unfollow</span>
                     </button>
                     <button class="siimple-btn" *ngIf="canMessage" 

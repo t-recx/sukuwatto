@@ -153,3 +153,9 @@ input[type=time] {
         display: none;
     }
 }
+
+.loading-delete-icon {
+    display: block;
+    float: right;
+    position: relative;
+}

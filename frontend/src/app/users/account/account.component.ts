@@ -8,6 +8,7 @@ import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { faCircleNotch, faSave, faKey, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-account',
@@ -26,6 +27,14 @@ export class AccountComponent implements OnInit {
   weightUnits: Unit[];
   heightUnits: Unit[];
   userBioDataVisible: boolean;
+
+  faSave = faSave;
+  faKey = faKey;
+  faTrash = faTrash;
+  faCircleNotch = faCircleNotch;
+
+  saving: boolean = false;
+  deleting: boolean = false;
 
   setProfilePicture(event: any) {
     this.user.profile_filename = event;
@@ -121,12 +130,17 @@ export class AccountComponent implements OnInit {
       }
     }
 
-    this.userService.update(this.user)
-    .subscribe();
+    this.saving = true;
 
-    if (this.userBioData) {
-      this.userBioDataService.saveUserBioData(this.userBioData).subscribe();
-    }
+    this.userService.update(this.user)
+    .subscribe(() => {
+      if (this.userBioData) {
+        this.userBioDataService.saveUserBioData(this.userBioData).subscribe(() => this.saving = false);
+      }
+      else {
+        this.saving = false;
+      }
+    });
 
     this.authService.setUnitSystem(this.user.system);
 
@@ -134,8 +148,10 @@ export class AccountComponent implements OnInit {
   }
 
   delete(): void {
+    this.deleting = true;
     this.userService.delete(this.user).subscribe(x => {
       this.authService.logout().subscribe(x => {
+        this.deleting = false;
         this.router.navigateByUrl('/');
       });
     });

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth.service';
+import { faStickyNote, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-post-detail-card',
@@ -15,11 +16,15 @@ export class PostDetailCardComponent implements OnInit {
   @Output() deleted = new EventEmitter();
   post: Post = null;
 
+  faStickyNote = faStickyNote;
+  faCircleNotch = faCircleNotch;
+
   liked: boolean;
   likes: number = 0;
 
   authenticatedUserIsOwner: boolean = false;
 
+  updating: boolean = false;
 
   deleteModalVisible: boolean = false;
 
@@ -91,7 +96,9 @@ export class PostDetailCardComponent implements OnInit {
     this.triedToSave = true;
 
     if (this.valid()) {
+      this.updating = true;
       this.postsService.updatePost(this.post).subscribe(x => {
+      this.updating = false;
         this.post = x;
 
         this.toggleEditing();

@@ -4,6 +4,7 @@ import { ExercisesService } from '../exercises.service';
 import { Subject, Subscription } from 'rxjs';
 import { Paginated } from '../paginated';
 import { Router } from '@angular/router';
+import { faSearch, faBackspace } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercises-list',
@@ -19,6 +20,9 @@ export class ExercisesListComponent implements OnInit, OnChanges {
   @Input() queryParams: {};
 
   @Output() selected = new EventEmitter<Exercise>();
+
+  faSearch = faSearch;
+  faBackspace = faBackspace;
 
   lastSearchedFilter = '';
   columnOrder = {}

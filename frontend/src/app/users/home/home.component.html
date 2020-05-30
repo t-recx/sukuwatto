@@ -10,7 +10,11 @@
             </div>
         </div>
         <div class="siimple--clearfix">
-            <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="post()">
+            <button class="siimple-btn siimple-btn--primary siimple--float-right" 
+            [disabled]="posting" [class.siimple-btn--disabled]="posting"
+            (click)="post()">
+                <fa-icon [icon]="faCircleNotch" [spin]=true  class="siimple--mr-2" [spin]=true *ngIf="posting"></fa-icon>
+                <fa-icon [icon]="faStickyNote" class="siimple--mr-2" *ngIf="!posting"></fa-icon>
                 Post
             </button>
         </div>

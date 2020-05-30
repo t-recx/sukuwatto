@@ -32,12 +32,12 @@
                 <div class="siimple-tabs-item"
                     [class.siimple-tabs-item--selected]="selectedActivityType==activityType.Exercise"
                     (click)="selectActivityType(activityType.Exercise)">
-                    Exercises
+                    Sets
                 </div>
                 <div class="siimple-tabs-item"
                     [class.siimple-tabs-item--selected]="selectedActivityType==activityType.WarmUp"
                     (click)="selectActivityType(activityType.WarmUp)">
-                    Warm-Ups
+                    Warmups
                 </div>
                 <div class="siimple-tabs-item"
                     [class.siimple-tabs-item--selected]="selectedActivityType==activityType.Progressions"
@@ -58,7 +58,10 @@
                         </app-plan-session-group-activity>
                     </div>
                     <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
-                        (click)="newExercise()">New Exercise</button>
+                        (click)="newExercise()">
+                        <fa-icon [icon]="faDumbbell" class="siimple--mr-2"></fa-icon>
+                        New Exercise
+                    </button>
                 </div>
 
                 <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
@@ -72,7 +75,10 @@
                         </app-plan-session-group-activity>
                     </div>
                     <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
-                        (click)="newWarmUp()">New WarmUp</button>
+                        (click)="newWarmUp()">
+                        <fa-icon [icon]="faDumbbell" class="siimple--mr-2"></fa-icon>
+                        New Warmup
+                    </button>
                 </div>
 
                 <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Progressions">
