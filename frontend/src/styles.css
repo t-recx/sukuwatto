@@ -163,3 +163,12 @@ input[type=time] {
 .loading-spinner-container {
   margin-top: calc(15vh);
 }
+
+/*
+.loading-spinner {
+  position: absolute;
+  left: 30px;
+  top: 10px;
+  z-index: 51;
+}
+*/
