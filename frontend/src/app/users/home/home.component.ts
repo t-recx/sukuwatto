@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   pageSize = 10;
   currentPage = 1;
+  loading: boolean = false;
   loadingOlderActions: boolean = false;
   loadingNewActions: boolean = false;
   newPostText: string;
@@ -63,10 +64,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.currentPage = 1;
 
     if (username && username == this.authService.getUsername()) {
+      this.loading = true;
       this.streamsService.getUserStream(this.currentPage, this.pageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
         this.actions = paginatedActions.results;
+        this.loading = false;
       });
     }
   }

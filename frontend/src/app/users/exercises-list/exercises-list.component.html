@@ -12,39 +12,66 @@
     </div>
 </div>
 
-<table class="phones-only row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
-    <thead class="siimple-table-header">
-        <tr class="siimple-table-row">
-            <th (click)="toggleSort('name')" [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable">Name</th>
-        </tr>
-    </thead>
-    <tbody class="siimple-table-body">
-        <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises"  (click)="select(exercise)">
-            <td class="siimple-table-cell">{{exercise.name}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
 
-<table class="siimple--display-sm-none row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
-    <thead class="siimple-table-header">
-        <tr class="siimple-table-row">
-            <th (click)="toggleSort('name')" [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable">Name</th>
-            <th (click)="toggleSort('section')" [class.siimple-table-cell--asc]="columnOrder['section'] && columnOrder['section'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['section'] && columnOrder['section'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable ">Section</th>
-            <th (click)="toggleSort('modality')" [class.siimple-table-cell--asc]="columnOrder['modality'] && columnOrder['modality'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['modality'] && columnOrder['modality'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable ">Modality</th>
-            <th (click)="toggleSort('force')" [class.siimple-table-cell--asc]="columnOrder['force'] && columnOrder['force'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['force'] && columnOrder['force'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable ">Force</th>
-            <th (click)="toggleSort('mechanics')" [class.siimple-table-cell--asc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0] != '-'" [class.siimple-table-cell--desc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0]=='-'" class="siimple-table-cell siimple-table-cell--sortable ">Mechanics</th>
-        </tr>
-    </thead>
-    <tbody class="siimple-table-body">
-        <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises"  (click)="select(exercise)">
-            <td class="siimple-table-cell">{{exercise.name}}</td>
-            <td class="siimple-table-cell ">{{exercise.sectionLabel}}</td>
-            <td class="siimple-table-cell ">{{exercise.modalityLabel}}</td>
-            <td class="siimple-table-cell ">{{exercise.forceLabel}}</td>
-            <td class="siimple-table-cell ">{{exercise.mechanicsLabel}}</td>
-        </tr>
-    </tbody>
-</table>
+<div *ngIf="!loading && exercises && exercises.length > 0">
+    <table
+        class="phones-only row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
+        <thead class="siimple-table-header">
+            <tr class="siimple-table-row">
+                <th (click)="toggleSort('name')"
+                    [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'"
+                    [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'"
+                    class="siimple-table-cell siimple-table-cell--sortable">Name</th>
+            </tr>
+        </thead>
+        <tbody class="siimple-table-body">
+            <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises" (click)="select(exercise)">
+                <td class="siimple-table-cell">{{exercise.name}}</td>
+            </tr>
+        </tbody>
+    </table>
 
-<app-pagination [paginatedRecords]="paginatedExercises" [currentPage]="page" (navigateToPage)="navigateToPage($event)" [link]=link [queryParams]=queryParams>
-</app-pagination>
+    <table
+        class="siimple--display-sm-none row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
+        <thead class="siimple-table-header">
+            <tr class="siimple-table-row">
+                <th (click)="toggleSort('name')"
+                    [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'"
+                    [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'"
+                    class="siimple-table-cell siimple-table-cell--sortable">Name</th>
+                <th (click)="toggleSort('section')"
+                    [class.siimple-table-cell--asc]="columnOrder['section'] && columnOrder['section'][1][0] != '-'"
+                    [class.siimple-table-cell--desc]="columnOrder['section'] && columnOrder['section'][1][0]=='-'"
+                    class="siimple-table-cell siimple-table-cell--sortable ">Section</th>
+                <th (click)="toggleSort('modality')"
+                    [class.siimple-table-cell--asc]="columnOrder['modality'] && columnOrder['modality'][1][0] != '-'"
+                    [class.siimple-table-cell--desc]="columnOrder['modality'] && columnOrder['modality'][1][0]=='-'"
+                    class="siimple-table-cell siimple-table-cell--sortable ">Modality</th>
+                <th (click)="toggleSort('force')"
+                    [class.siimple-table-cell--asc]="columnOrder['force'] && columnOrder['force'][1][0] != '-'"
+                    [class.siimple-table-cell--desc]="columnOrder['force'] && columnOrder['force'][1][0]=='-'"
+                    class="siimple-table-cell siimple-table-cell--sortable ">Force</th>
+                <th (click)="toggleSort('mechanics')"
+                    [class.siimple-table-cell--asc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0] != '-'"
+                    [class.siimple-table-cell--desc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0]=='-'"
+                    class="siimple-table-cell siimple-table-cell--sortable ">Mechanics</th>
+            </tr>
+        </thead>
+        <tbody class="siimple-table-body">
+            <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises" (click)="select(exercise)">
+                <td class="siimple-table-cell">{{exercise.name}}</td>
+                <td class="siimple-table-cell ">{{exercise.sectionLabel}}</td>
+                <td class="siimple-table-cell ">{{exercise.modalityLabel}}</td>
+                <td class="siimple-table-cell ">{{exercise.forceLabel}}</td>
+                <td class="siimple-table-cell ">{{exercise.mechanicsLabel}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <app-pagination [paginatedRecords]="paginatedExercises" [currentPage]="page"
+        (navigateToPage)="navigateToPage($event)" [link]=link [queryParams]=queryParams>
+    </app-pagination>
+</div>

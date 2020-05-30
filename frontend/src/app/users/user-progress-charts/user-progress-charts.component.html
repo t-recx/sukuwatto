@@ -1,5 +1,5 @@
-<div class="siimple--mb-4" *ngIf="loading">
-    <div class="siimple-spinner siimple-spinner--primary"></div>
+<div class="siimple--mb-4 siimple--mt-4" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
 </div>
 
 <div class="siimple-card siimple--mb-4" *ngIf="progressData && progressData.series.length > 0 && !loading">

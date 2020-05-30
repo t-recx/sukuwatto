@@ -5,9 +5,15 @@
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>
         </div>
         <div class="siimple-modal-body">
-            <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
-                actionText="Message" (actionPressed)="messageUser($event)">
-            </app-users-follow-list>
+            <div class="loading-spinner-container" *ngIf="loadingUsers">
+                <app-loading-spinner></app-loading-spinner>
+            </div>
+
+            <div *ngIf="!loadingUsers">
+                <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
+                    actionText="Message" (actionPressed)="messageUser($event)">
+                </app-users-follow-list>
+            </div>
         </div>
         <div class="siimple-modal-footer">
         </div>
@@ -25,7 +31,11 @@
     </div>
 </div>
 
-<div *ngIf="lastMessages">
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="lastMessages && !loading">
     <ul class="siimple-list siimple-list--hover">
         <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages"
            [routerLink]="['/users', username, 'message', lastMessage.correspondent.username]" >

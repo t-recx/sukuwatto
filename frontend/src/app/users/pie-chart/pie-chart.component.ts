@@ -70,7 +70,9 @@ export class PieChartComponent implements OnInit, OnChanges {
     const arcs = pie(this.data);
 
     const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
-      .attr("viewBox", `${-width / 2}, ${-height / 2}, ${width}, ${height}`);
+      .attr("viewBox", `${-width / 2}, ${-height / 2}, ${width}, ${height}`)
+      .style('max-height', '300px')
+      ;
 
     svg.append("g")
       .attr("stroke", "white")

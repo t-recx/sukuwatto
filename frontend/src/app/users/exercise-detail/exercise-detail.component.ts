@@ -16,6 +16,7 @@ export class ExerciseDetailComponent implements OnInit {
   triedToSave: boolean;
   deleteModalVisible: boolean = false;
 
+  loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
 
@@ -40,8 +41,10 @@ export class ExerciseDetailComponent implements OnInit {
 
   private loadOrInitializeExercise(id: string): void {
     if (id) {
+      this.loading = true;
       this.service.getExercise(id).subscribe(exercise => {
         this.exercise = exercise;
+        this.loading = false;
       });
     } else {
       this.exercise = new Exercise();

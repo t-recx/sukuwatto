@@ -37,7 +37,10 @@
                     </div>
                 </div>
                 <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
-                    (click)="newSet()">New Set</button>
+                    (click)="newSet()">
+                    <fa-icon [icon]="faDumbbell" class="siimple--mr-2"></fa-icon>
+                    New set
+                </button>
             </div>
 
             <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
@@ -48,7 +51,10 @@
                     </div>
                 </div>
                 <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
-                    (click)="newWarmUp()">New Warmup</button>
+                    (click)="newWarmUp()">
+                    <fa-icon [icon]="faDumbbell" class="siimple--mr-2"></fa-icon>
+                    New warmup
+                </button>
             </div>
         </div>
     </div>

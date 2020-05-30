@@ -1,4 +1,8 @@
-<div *ngIf="workout">
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="workout && !loading">
     <app-workout-finish-workout-modal 
         [visible]="finishWorkoutVisible"
         [workout]=workout
@@ -52,7 +56,10 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingWeights()">Working Weights</button>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingWeights()">
+                            <fa-icon [icon]="faWeightHanging" class="siimple--mr-2"></fa-icon>
+                            Working weights
+                        </button>
                     </div>
                 </div>
             </div>
@@ -86,7 +93,10 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">User Bio Data</button>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">
+                            <fa-icon [icon]="faWeight" class="siimple--mr-2"></fa-icon>
+                            User measurements
+                        </button>
                     </div>
                 </div>
             </div>
@@ -125,7 +135,10 @@
                >
                </app-workout-group> 
             </div>
-            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">New Group</button>
+            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">
+                <fa-icon [icon]="faLayerGroup" class="siimple--mr-2"></fa-icon>
+                New group
+            </button>
         </div>
         <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="save()" 
             [disabled]="saving"

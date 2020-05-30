@@ -16,6 +16,8 @@ export class PlansComponent implements OnInit {
   username: string;
   faCalendarAlt = faCalendarAlt;
 
+  loading: boolean = false;
+
   constructor(
     private plansService: PlansService,
     private route: ActivatedRoute,
@@ -29,17 +31,26 @@ export class PlansComponent implements OnInit {
   }
 
   loadPlans(): void {
-    this.loadPublicPlans();
-    this.loadAdoptedPlans();
+    this.loading = true;
+
+    this.plansService.getAdoptedPlans(this.username).subscribe(adoptedPlans => {
+      this.adoptedPlans = adoptedPlans;
+
+      this.plansService.getPublicPlans().subscribe(plans => {
+        this.plans = plans;
+
+        this.loading = false;
+      });
+    });
   }
 
-  loadPublicPlans(): void {
-    this.plansService.getPublicPlans().subscribe(plans => this.plans = plans);
-  }
+  loadAdoptedPlans() :void {
+    this.loading = true;
 
-  loadAdoptedPlans(): void {
-
-    this.plansService.getAdoptedPlans(this.username).subscribe(plans => this.adoptedPlans = plans);
+    this.plansService.getAdoptedPlans(this.username).subscribe(adoptedPlans => {
+      this.adoptedPlans = adoptedPlans;
+      this.loading = false;
+    });
   }
 
   showDeleteButton(plan): boolean {

@@ -10,11 +10,19 @@
     </div>
 </div>
 
-<ul class="">
-  <li *ngFor="let workout of workouts">
-    <app-workout-overview-card [workout]=workout [showSaveDeleteButtons]=true (deleted)="deleteWorkout(workout)"></app-workout-overview-card>
-  </li>
-</ul>
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
 
-<app-pagination [paginatedRecords]="paginatedWorkouts" [currentPage]="currentPage" [link]="['/users', username, 'workouts']">
-</app-pagination>
+<div class="" *ngIf="!loading">
+  <ul class="">
+    <li *ngFor="let workout of workouts">
+      <app-workout-overview-card [workout]=workout [showSaveDeleteButtons]=true (deleted)="deleteWorkout(workout)">
+      </app-workout-overview-card>
+    </li>
+  </ul>
+
+  <app-pagination [paginatedRecords]="paginatedWorkouts" [currentPage]="currentPage"
+    [link]="['/users', username, 'workouts']">
+  </app-pagination>
+</div>

@@ -159,3 +159,7 @@ input[type=time] {
     float: right;
     position: relative;
 }
+
+.loading-spinner-container {
+  margin-top: calc(15vh);
+}

@@ -28,6 +28,7 @@ export class PlanDetailComponent implements OnInit {
 
   userIsOwner: boolean = false;
 
+  loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
 
@@ -49,12 +50,14 @@ export class PlanDetailComponent implements OnInit {
 
   private loadOrInitializePlan(id: string) {
     if (id) {
+      this.loading = true;
       this.service.getPlan(id).subscribe(plan => {
         this.plan = plan;
         this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
         if (this.plan.sessions && this.plan.sessions.length > 0) {
           this.selectedSession = this.plan.sessions[0];
         }
+        this.loading = false;
       });
     }
     else {

@@ -30,6 +30,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   newMessageVisible: boolean = false;
 
+  loading: boolean = false;
+  loadingUsers: boolean = false;
+
   constructor(
     private lastMessagesService: LastMessagesService,
     private authService: AuthService,
@@ -66,14 +69,20 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.username = username;
     this.newMessageVisible = false;
     if (username == this.authService.getUsername()) {
-      this.lastMessagesService.get()
-      .subscribe(lastMessages => 
-        this.lastMessages = lastMessages
-                            .sort((a,b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime()));
 
+      this.loading = true;
+      this.lastMessagesService.get()
+      .subscribe(lastMessages => {
+        this.lastMessages = lastMessages
+                            .sort((a,b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
+        this.loading = false;
+      });
+
+      this.loadingUsers = true;
       this.followService.getFollowing(this.username).subscribe(following => 
         {
           this.availableUsersToMessage = following;
+          this.loadingUsers = false;
         });
     }
     else {

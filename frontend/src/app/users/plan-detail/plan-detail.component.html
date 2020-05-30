@@ -1,4 +1,8 @@
-<div *ngIf="plan">
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="plan && !loading">
     <div *ngIf="!userIsOwner">
       <app-plan-card [plan]=plan 
         [showSaveDeleteButtons]=false >

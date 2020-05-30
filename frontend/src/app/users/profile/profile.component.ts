@@ -28,6 +28,9 @@ export class ProfileComponent implements OnInit {
   paginated: Paginated<Action>;
   pageSize = 10;
   currentPage = 1;
+  loading: boolean = false;
+  loadingFollowers: boolean = false;
+  loadingFollowing: boolean = false;
   loadingOlderActions: boolean = false;
 
   imageHidden: boolean = false;
@@ -128,10 +131,12 @@ export class ProfileComponent implements OnInit {
     this.currentPage = 1;
 
     if (this.username) {
+      this.loading = true;
       this.streamsService.getActorStream(this.username, this.currentPage, this.pageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
         this.actions = paginatedActions.results;
+        this.loading = false;
       });
     }
   }
@@ -157,17 +162,21 @@ export class ProfileComponent implements OnInit {
   }
 
   loadFollowers(): void {
+    this.loadingFollowers = true;
     this.followService.getFollowers(this.username).subscribe(followers => 
       {
         this.followers = followers;
         this.isFollowed = followers.filter(user => user.username == this.authService.getUsername()).length > 0;
+        this.loadingFollowers = false;
       });
   }
 
   loadFollowing(): void {
+    this.loadingFollowing = true;
     this.followService.getFollowing(this.username).subscribe(following => 
       {
         this.following = following;
+        this.loadingFollowing = false;
       });
   }
 
