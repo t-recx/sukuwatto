@@ -72,12 +72,8 @@
 
         <div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Overview">
-              <div class="siimple--mb-4 siimple-card"> 
-                <div class="siimple-card-body">
-                    <app-user-progress-charts [username]=username>
-                    </app-user-progress-charts>
-                </div>
-              </div>
+                <app-user-progress-charts [username]=username>
+                </app-user-progress-charts>
 
                 <app-feed [actions]=actions [paginated]=paginated
                     [loadingOlderActions]=loadingOlderActions>

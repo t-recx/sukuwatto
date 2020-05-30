@@ -54,12 +54,12 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         }
 
         let margin = ({ top: 10, right: 20, bottom: 20, left: 30 });
-        let width=290;
+        let width= 290;
         let height= 180;
 
         const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
             .attr('viewBox', '0 0 ' + width + ' ' + height)
-            .style('overflow', 'visible')
+            .style('max-height', '300px')
             ;
 
         let x = d3.scaleUtc()

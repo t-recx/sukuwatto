@@ -4,6 +4,7 @@ import { Mechanics } from '../exercise';
 import { UserProgressData } from '../user-progress-data';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint, UserProgressChartType } from '../user-progress-chart-data';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-user-progress-charts',
@@ -27,6 +28,8 @@ export class UserProgressChartsComponent implements OnInit {
 
     UserProgressChartType = UserProgressChartType;
 
+    loading: boolean = false;
+
     constructor(
         private userProgressService: UserProgressService,
     ) { }
@@ -41,6 +44,8 @@ export class UserProgressChartsComponent implements OnInit {
     }
 
     loadData() {
+        this.loading = true;
+
         this.userProgressService.getUserProgress(this.username).subscribe(p => {
             this.currentIndex = 0;
             this.series = [];
@@ -64,7 +69,7 @@ export class UserProgressChartsComponent implements OnInit {
                     this.series.push(p); 
                 }
 
-                this.userProgressService.getUserBioDataProgress(this.username).subscribe(p => {
+                this.userProgressService.getUserBioDataProgress(this.username).pipe(tap(next => {}, error => {}, () => this.loading = false)).subscribe(p => {
                     this.series.push(p);
                 });
             });
