@@ -27,6 +27,8 @@ export class ExercisesListComponent implements OnInit, OnChanges {
   lastSearchedFilter = '';
   columnOrder = {}
 
+  loading: boolean = false;
+
   exercises: Exercise[];
 
   paramChangedSubscription: Subscription;
@@ -51,12 +53,14 @@ export class ExercisesListComponent implements OnInit, OnChanges {
       this.page = 1;
     }
 
+    this.loading = true;
     this.exercisesService.getExercises(this.page, this.pageSize, this.searchFilter, this.ordering)
     .subscribe(paginated => {
       this.setDescriptions(paginated.results);
       this.paginatedExercises = paginated;
       this.exercises = paginated.results;
       this.lastSearchedFilter = this.searchFilter;
+      this.loading = false;
     });
   }
 

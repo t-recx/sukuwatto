@@ -27,7 +27,11 @@
 <app-user-change-password-modal [visible]=passwordModalVisible (closed)="hidePasswordModal()">
 </app-user-change-password-modal>
 
-<div *ngIf="allowed && user">
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="allowed && user && !loading">
     <div class="toolbar">
         <div class="toolbar-title">Account settings</div>
     </div>
@@ -67,7 +71,10 @@
                             <div class="siimple-form-field">
                                 <div class="siimple-form-field-label">&nbsp;</div>
                                 <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button"
-                                    (click)="showUserBioData()">User Bio Data</button>
+                                    (click)="showUserBioData()">
+                                    <fa-icon [icon]="faWeight" class="siimple--mr-2"></fa-icon>
+                                    Measurements
+                                </button>
                             </div>
                         </div>
                     </div>

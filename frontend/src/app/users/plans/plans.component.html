@@ -9,27 +9,29 @@
     </div>
 </div>
 
-<div *ngIf="adoptedPlans && adoptedPlans.length > 0">
-  <h2 class="siimple-h2">Adopted plans</h2>
-  <ul class="">
-    <li *ngFor="let plan of adoptedPlans">
-      <app-plan-card [plan]=plan 
-        [showSaveDeleteButtons]=true 
-        (deleted)="deletePlan(plan)">
-      </app-plan-card>
-    </li>
-  </ul>
+<div class="loading-spinner-container" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div *ngIf="plans && plans.length > 0">
-  <h2 class="siimple-h2">Public plans</h2>
-  <ul class="">
-    <li class="siimple-card" *ngFor="let plan of plans">
-      <app-plan-card [plan]=plan 
-        [showSaveDeleteButtons]="showDeleteButton(plan)"
-        (deleted)="deletePlan(plan)"
-        (adopted)="loadAdoptedPlans()">
-      </app-plan-card>
-    </li>
-  </ul>
+<div *ngIf="!loading">
+  <div *ngIf="adoptedPlans && adoptedPlans.length > 0">
+    <h2 class="siimple-h2">Adopted plans</h2>
+    <ul class="">
+      <li *ngFor="let plan of adoptedPlans">
+        <app-plan-card [plan]=plan [showSaveDeleteButtons]=true (deleted)="deletePlan(plan)">
+        </app-plan-card>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="plans && plans.length > 0">
+    <h2 class="siimple-h2">Public plans</h2>
+    <ul class="">
+      <li class="siimple-card" *ngFor="let plan of plans">
+        <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
+          (adopted)="loadAdoptedPlans()">
+        </app-plan-card>
+      </li>
+    </ul>
+  </div>
 </div>

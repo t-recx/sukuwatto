@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { WorkoutGroup } from '../workout-group';
-import { faTimesCircle, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faExchangeAlt, faDumbbell } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../plan-session-group-activity';
 import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
@@ -24,6 +24,7 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
 
   faTimesCircle = faTimesCircle;
   faExchangeAlt = faExchangeAlt;
+  faDumbbell = faDumbbell;
 
   activityType = ActivityType;
 

@@ -26,6 +26,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   previousScrollHeight: number = 0;
   loadingOlderMessages: boolean = false;
+  loading: boolean = false;
 
   @ViewChild('scrollframe') scrollFrame: ElementRef;
   @ViewChildren('message') itemElements: QueryList<any>;
@@ -172,6 +173,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     if (username && correspondent_username && username.length > 0 && correspondent_username.length > 0 &&
       username == this.authService.getUsername()) {
       
+      this.loading = true;
       this.usersService.get(correspondent_username).subscribe(users => {
         if (users.length == 1) {
           this.correspondent = users[0];
@@ -180,6 +182,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
           .subscribe(messages => {
             this.paginated = messages;
             this.messages = messages.results;
+
+            this.loading = false;
           });
 
           this.usersService.get(username).subscribe(users_ => {

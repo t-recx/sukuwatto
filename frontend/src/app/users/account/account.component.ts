@@ -8,7 +8,7 @@ import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faSave, faKey, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave, faKey, faTrash, faWeight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-account',
@@ -32,7 +32,9 @@ export class AccountComponent implements OnInit {
   faKey = faKey;
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
+  faWeight = faWeight;
 
+  loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
 
@@ -76,11 +78,18 @@ export class AccountComponent implements OnInit {
     this.triedToSave = false;
 
     if (this.allowed) {
+      this.loading = true;
       this.userService.get(this.username).subscribe(users => {
         if (users && users.length == 1) {
           this.user = users[0];
 
-          this.userService.getEmail().subscribe(email => this.user.email = email);
+          this.userService.getEmail().subscribe(email => {
+            this.user.email = email;
+            this.loading = false;
+          } );
+        }
+        else {
+          this.loading = false;
         }
       });
     }

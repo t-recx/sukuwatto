@@ -16,7 +16,7 @@ import { concatMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { Location } from '@angular/common';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faSave, faTrash, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave, faTrash, faCheckSquare, faLayerGroup, faWeight, faWeightHanging } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -31,6 +31,9 @@ export class WorkoutDetailEditComponent implements OnInit {
   faSave = faSave;
   faTrash = faTrash;
   faCheckSquare = faCheckSquare;
+  faLayerGroup = faLayerGroup;
+  faWeightHanging = faWeightHanging;
+  faWeight = faWeight;
 
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
@@ -45,6 +48,7 @@ export class WorkoutDetailEditComponent implements OnInit {
 
   deleteModalVisible: boolean = false;
 
+  loading: boolean = false;
   saving: boolean = false;
   finishing: boolean = false;
   deleting: boolean = false;
@@ -120,10 +124,12 @@ export class WorkoutDetailEditComponent implements OnInit {
 
   loadOrInitializeWorkout(id: string) {
     if (id) {
+      this.loading = true;
       this.service.getWorkout(id).subscribe(workout => {
         if (workout.user.username == this.authService.getUsername()) {
           this.workout = workout;
         }
+        this.loading = false;
       });
     }
     else {
@@ -132,6 +138,7 @@ export class WorkoutDetailEditComponent implements OnInit {
 
       this.setNextActivityInProgress();
 
+      this.loading = true;
       this.service.getLastWorkout(this.username, null, null, new Date()).subscribe(w =>
         {
           if (w.working_weights) {
@@ -142,6 +149,8 @@ export class WorkoutDetailEditComponent implements OnInit {
             this.workout.working_weights = w.working_weights;
           }
           this.previousWorkout = w;
+
+          this.loading = false;
         });
     }
   }

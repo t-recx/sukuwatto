@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { FileUploadService } from '../file-upload.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/alert/alert.service';
+import { faFileImport } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-image-upload',
@@ -15,6 +16,8 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
   file: any;
   imageMediaURL: string;
+
+  faFileImport = faFileImport;
 
   constructor(
     private uploadService: FileUploadService,

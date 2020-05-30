@@ -1,25 +1,31 @@
-<div *ngIf="progressData && progressData.series.length > 0">
-  <div class="navigation-box" align="center">
+<div class="siimple--mb-4 siimple--mt-4" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
 
-    <button class="siimple-btn siimple-btn--primary navigation-previous" (click)="previous()">
-      <fa-icon [icon]="faArrowLeft"></fa-icon>
-    </button>
+<div class="siimple-card siimple--mb-4" *ngIf="progressData && progressData.series.length > 0 && !loading">
+  <div class="siimple-card-body">
+    <div class="navigation-box" align="center">
 
-    <span class="current-series siimple--text-bold siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
-      {{currentProgressData.name}}
-    </span>
+      <button class="siimple-btn siimple-btn--primary navigation-previous" (click)="previous()">
+        <fa-icon [icon]="faArrowLeft"></fa-icon>
+      </button>
 
-    <button class="siimple-btn siimple-btn--primary navigation-next" (click)="next()">
-      <fa-icon [icon]="faArrowRight"></fa-icon>
-    </button>
-  </div>
+      <span class="current-series siimple--text-bold siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
+        {{currentProgressData.name}}
+      </span>
 
-  <div *ngIf="currentProgressData.type == UserProgressChartType.Line">
-    <app-user-progress-chart [progressData]=currentProgressData>
-    </app-user-progress-chart>
-  </div>
-  <div *ngIf="currentProgressData.type == UserProgressChartType.Pie">
-    <app-pie-chart [progressData]=currentProgressData>
-    </app-pie-chart>
+      <button class="siimple-btn siimple-btn--primary navigation-next" (click)="next()">
+        <fa-icon [icon]="faArrowRight"></fa-icon>
+      </button>
+    </div>
+
+    <div *ngIf="currentProgressData.type == UserProgressChartType.Line">
+      <app-user-progress-chart [progressData]=currentProgressData>
+      </app-user-progress-chart>
+    </div>
+    <div *ngIf="currentProgressData.type == UserProgressChartType.Pie">
+      <app-pie-chart [progressData]=currentProgressData>
+      </app-pie-chart>
+    </div>
   </div>
 </div>

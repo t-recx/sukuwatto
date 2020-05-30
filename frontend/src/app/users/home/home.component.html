@@ -20,8 +20,14 @@
         </div>
     </div>
 
-    <app-feed [actions]=actions [paginated]=paginated
-        [loadingNewActions]=loadingNewActions
-        [loadingOlderActions]=loadingOlderActions>
-    </app-feed>
+    <div class="loading-spinner-container" *ngIf="loading">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <div *ngIf="!loading">
+        <app-feed [actions]=actions [paginated]=paginated
+            [loadingNewActions]=loadingNewActions
+            [loadingOlderActions]=loadingOlderActions>
+        </app-feed>
+    </div>
 </div>

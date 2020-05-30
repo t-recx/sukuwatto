@@ -27,6 +27,8 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   pageSize: number = 10;
   repetitionType = RepetitionType;
 
+  loading: boolean = false;
+
   constructor(
     private workoutsService: WorkoutsService,
     private authService: AuthService,
@@ -61,11 +63,13 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     }
 
     if (username) {
+      this.loading = true;
       this.workoutsService.getWorkouts(username, pageParameter, this.pageSize)
         .subscribe(paginated => {
           this.paginatedWorkouts = paginated;
           this.workouts = paginated.results;
           this.currentPage = Number(pageParameter);
+          this.loading = false;
         });
     }
   }
