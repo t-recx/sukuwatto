@@ -164,11 +164,12 @@ input[type=time] {
   margin-top: calc(15vh);
 }
 
-/*
 .loading-spinner {
   position: absolute;
-  left: 30px;
-  top: 10px;
+  left: 19px;
+  top: 23px;
   z-index: 51;
+  color: white;
+  background-color: #4e91e4;
+  pointer-events: none;
 }
-*/
