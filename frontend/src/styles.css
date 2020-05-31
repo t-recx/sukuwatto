@@ -172,4 +172,11 @@ input[type=time] {
   color: white;
   background-color: #4e91e4;
   pointer-events: none;
+  visibility: hidden;
+  /* we delay the spinner a bit to prevent unnecessary flicking when loading is quick */
+  animation: 0s linear 0.2s forwards delayedShow; 
 }
+
+ @keyframes delayedShow {
+   to { visibility: visible; }
+ }
