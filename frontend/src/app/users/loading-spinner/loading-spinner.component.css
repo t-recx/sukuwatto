@@ -1,0 +1,52 @@
+.loading-spinner {
+  position: absolute;
+  left: 19px;
+  top: 23px;
+  z-index: 51;
+  color: white;
+  background-color: #4e91e4;
+  pointer-events: none;
+  visibility: hidden;
+  /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
+  animation: 0s linear 0.2s forwards delayedShow; 
+}
+
+.loading-spinner-md-only {
+  position: absolute;
+  left: 156px; 
+  top: 28px;
+  z-index: 51;
+  color: white;
+  background-color: #4e91e4;
+  pointer-events: none;
+  visibility: hidden;
+  /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
+  animation: 0s linear 0.2s forwards delayedShow; 
+}
+
+.display-none {
+    display: none;
+}
+
+@media only screen and (max-width: 960px) and (min-width: 768px) {
+    .md-only {
+        display: block !important;
+    }
+}
+
+.loading-spinner-lg-and-higher {
+  position: absolute;
+  left: calc((100% - 960px)/2 + 140px); 
+  top: 28px;
+  z-index: 51;
+  color: white;
+  background-color: #4e91e4;
+  pointer-events: none;
+  visibility: hidden;
+  /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
+  animation: 0s linear 0.2s forwards delayedShow; 
+}
+
+ @keyframes delayedShow {
+   to { visibility: visible; }
+ }
