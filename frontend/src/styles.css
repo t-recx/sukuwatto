@@ -154,6 +154,12 @@ input[type=time] {
     }
 }
 
+@media only screen and (max-width: 960px) {
+    .lg-and-higher-only {
+        display: none;
+    }
+}
+
 .loading-delete-icon {
     display: block;
     float: right;
@@ -163,20 +169,3 @@ input[type=time] {
 .loading-spinner-container {
   margin-top: calc(15vh);
 }
-
-.loading-spinner {
-  position: absolute;
-  left: 19px;
-  top: 23px;
-  z-index: 51;
-  color: white;
-  background-color: #4e91e4;
-  pointer-events: none;
-  visibility: hidden;
-  /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
-  animation: 0s linear 0.2s forwards delayedShow; 
-}
-
- @keyframes delayedShow {
-   to { visibility: visible; }
- }
