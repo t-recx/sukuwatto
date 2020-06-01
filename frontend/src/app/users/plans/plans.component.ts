@@ -24,6 +24,10 @@ export class PlansComponent implements OnInit {
     private authService: AuthService,
   ) { }
 
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
   ngOnInit() {
     this.username = this.route.snapshot.paramMap.get('username');
 

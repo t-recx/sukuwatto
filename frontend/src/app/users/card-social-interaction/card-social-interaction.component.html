@@ -36,8 +36,13 @@
 
     <div class="siimple-form-field siimple--pt-2" *ngIf="createCommentSectionVisible">
         <textarea type="text" class="siimple-textarea siimple-textarea--fluid comment-textarea" rows="2" name="newComment" id="newComment"
+            required
             [(ngModel)]="newCommentText" #newComment="ngModel" placeholder="Write your comment here">
             </textarea>
+
+        <div *ngIf="newComment.invalid && (newComment.dirty || triedToComment)">
+            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+        </div>
     </div>
     <div class="siimple--clearfix">
         <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()">
