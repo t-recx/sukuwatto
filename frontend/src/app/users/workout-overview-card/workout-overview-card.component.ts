@@ -5,6 +5,7 @@ import { WorkoutOverview } from '../workout-activity-resumed';
 import { WorkoutGroup } from '../workout-group';
 import { UnitsService } from '../units.service';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -29,7 +30,12 @@ export class WorkoutOverviewCardComponent implements OnInit {
   constructor(
     private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
+    private authService: AuthService,
   ) { }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 
   ngOnInit() {
     this.deleteModalVisible = false;

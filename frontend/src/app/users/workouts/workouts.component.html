@@ -1,7 +1,7 @@
 <div class="toolbar">
     <div class="toolbar-title">Workouts</div>
 
-    <div class="toolbar-buttons">
+    <div class="toolbar-buttons" *ngIf="isLoggedIn()">
         <button class="siimple-btn siimple-btn--primary toolbar-button" 
           [routerLink]="['/users', username, 'workout']">
             <fa-icon [icon]="faTasks" class="siimple--mr-1"></fa-icon>

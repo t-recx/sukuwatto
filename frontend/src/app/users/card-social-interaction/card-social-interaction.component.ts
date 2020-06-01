@@ -39,6 +39,8 @@ export class CardSocialInteractionComponent implements OnInit {
   createCommentSectionVisible: boolean = false;
   usersLikesModalVisible: boolean = false;
 
+  triedToComment: boolean = false;
+
   constructor(
     private authService: AuthService,
     private contentTypesService: ContentTypesService,
@@ -47,7 +49,8 @@ export class CardSocialInteractionComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.createCommentSectionVisible = this.authService.isLoggedIn();
+    this.createCommentSectionVisible = true;
+    this.triedToComment = false;
 
     this.contentTypesService.get(this.content_type_model).subscribe(contentType => {
         this.content_type_id = contentType.id;
@@ -127,10 +130,16 @@ export class CardSocialInteractionComponent implements OnInit {
 
   comment(): void {
     let comment = new Comment();
+    this.triedToComment = false;
 
     comment.text = this.newCommentText;
     comment.comment_target_content_type = this.content_type_id;
     comment.comment_target_object_id = this.id.toString();
+
+    if (!comment.text || comment.text.trim().length == 0) {
+      this.triedToComment = true;
+      return;
+    }
 
     this.commentsService.createComment(comment).subscribe(x => 
       {

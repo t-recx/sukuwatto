@@ -35,6 +35,10 @@ export class ExercisesComponent implements OnInit, OnDestroy {
     });
   }
 
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
   }
@@ -65,6 +69,6 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   }
 
   navigate(exercise) {
-    this.router.navigate(['/users', this.authService.getUsername(), 'exercise', exercise.id]);
+    this.router.navigate(['/users', this.username, 'exercise', exercise.id]);
   }
 }

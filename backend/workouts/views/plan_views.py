@@ -28,7 +28,7 @@ def adopt_plan(request, pk):
             user = request.user
 
         if user is None or isinstance(user, AnonymousUser):
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         plan.pk = None
         plan.id = None

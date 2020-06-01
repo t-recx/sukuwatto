@@ -35,6 +35,10 @@ export class PlanCardComponent implements OnInit {
     private authService: AuthService,
   ) { }
 
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
   ngOnInit() {
     this.deleteModalVisible = false;
     this.deleting = false;

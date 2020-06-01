@@ -40,6 +40,10 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
       });
   }
 
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
   ngOnInit() {
   }
 
