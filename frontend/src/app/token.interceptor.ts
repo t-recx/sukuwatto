@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
 import { Token } from './token';
 import { Router } from '@angular/router';
@@ -50,7 +50,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
                                 this.router.navigate(['/login']);
 
-                                return throwError(error);
+                                return of(new HttpResponse({status: 200}));
                             })
                         );
                     }
@@ -63,7 +63,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
                     this.router.navigate(['/login']);
 
-                    return throwError(error);
+                    return of(new HttpResponse({status: 200}));
                 }
             } 
             else {
