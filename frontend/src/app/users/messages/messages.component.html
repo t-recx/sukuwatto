@@ -1,75 +1,84 @@
-<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="newMessageVisible">
-    <div class="siimple-modal-content">
-        <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Contact list</div>
-            <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>
-        </div>
-        <div class="siimple-modal-body">
-            <div class="loading-spinner-container" *ngIf="loadingUsers">
-                <app-loading-spinner></app-loading-spinner>
+<div *ngIf="forbidden">
+    <app-forbidden></app-forbidden>
+</div>
+
+<div *ngIf="!forbidden">
+    <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="newMessageVisible">
+        <div class="siimple-modal-content">
+            <div class="siimple-modal-header">
+                <div class="siimple-modal-header-title">Contact list</div>
+                <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>
             </div>
-
-            <div *ngIf="!loadingUsers">
-                <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
-                    actionText="Message" (actionPressed)="messageUser($event)">
-                </app-users-follow-list>
-            </div>
-        </div>
-        <div class="siimple-modal-footer">
-        </div>
-    </div>
-</div>
-
-<div class="toolbar">
-    <div class="toolbar-title">Messages</div>
-
-    <div class="toolbar-buttons">
-        <button (click)="newMessage()" class="siimple-btn siimple-btn--primary toolbar-button">
-            <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
-            New
-        </button>
-    </div>
-</div>
-
-<div class="loading-spinner-container" *ngIf="loading">
-    <app-loading-spinner></app-loading-spinner>
-</div>
-
-<div *ngIf="lastMessages && !loading">
-    <ul class="siimple-list siimple-list--hover">
-        <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages"
-           [routerLink]="['/users', username, 'message', lastMessage.correspondent.username]" >
-            <div class="message-container">
-                <div class="profile-image-container">
-                    <div>
-                        <img *ngIf="lastMessage.correspondent.profile_filename && !imageHidden"
-                            [src]="getProfileImageURL(lastMessage.correspondent)" class="round-image profile-image" (error)="hideImage()" />
-                        <fa-icon *ngIf="!lastMessage.correspondent.profile_filename || imageHidden" [icon]="faUserCircle"
-                            class="siimple--color-primary " size="3x">
-                        </fa-icon>
-                    </div>
+            <div class="siimple-modal-body">
+                <div class="loading-spinner-container" *ngIf="loadingUsers">
+                    <app-loading-spinner></app-loading-spinner>
                 </div>
-                <div class="user-message-container">
-                    <div class="correspondent-message-container">
-                        <div class="correspondent">
-                            <div class="siimple-h6 siimple--mb-0">{{getUserContactName(lastMessage.correspondent)}}</div>
-                        </div>
-                        <div class="message">
-                            <fa-icon *ngIf="wasReply(lastMessage)" [icon]="faReply" class="">
+
+                <div *ngIf="!loadingUsers">
+                    <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
+                        actionText="Message" (actionPressed)="messageUser($event)">
+                    </app-users-follow-list>
+                </div>
+            </div>
+            <div class="siimple-modal-footer">
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="toolbar-title">Messages</div>
+
+        <div class="toolbar-buttons">
+            <button (click)="newMessage()" class="siimple-btn siimple-btn--primary toolbar-button">
+                <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
+                New
+            </button>
+        </div>
+    </div>
+
+    <div class="loading-spinner-container" *ngIf="loading">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <div *ngIf="lastMessages && !loading">
+        <ul class="siimple-list siimple-list--hover">
+            <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages"
+                [routerLink]="['/users', username, 'message', lastMessage.correspondent.username]">
+                <div class="message-container">
+                    <div class="profile-image-container">
+                        <div>
+                            <img *ngIf="lastMessage.correspondent.profile_filename && !imageHidden"
+                                [src]="getProfileImageURL(lastMessage.correspondent)" class="round-image profile-image"
+                                (error)="hideImage()" />
+                            <fa-icon *ngIf="!lastMessage.correspondent.profile_filename || imageHidden"
+                                [icon]="faUserCircle" class="siimple--color-primary " size="3x">
                             </fa-icon>
-                            {{lastMessage.last_message.message}}
                         </div>
                     </div>
-                    <div class="message-info-container">
-                        <div class="time">
-                            <small class="siimple-small">{{getTime(lastMessage)}}</small>
+                    <div class="user-message-container">
+                        <div class="correspondent-message-container">
+                            <div class="correspondent">
+                                <div class="siimple-h6 siimple--mb-0">{{getUserContactName(lastMessage.correspondent)}}
+                                </div>
+                            </div>
+                            <div class="message">
+                                <fa-icon *ngIf="wasReply(lastMessage)" [icon]="faReply" class="">
+                                </fa-icon>
+                                {{lastMessage.last_message.message}}
+                            </div>
                         </div>
-                        <div class="unread-count siimple-tag--rounded siimple-tag--success siimple-tag" *ngIf="lastMessage.unread_count > 0">
-                            {{lastMessage.unread_count}}
+                        <div class="message-info-container">
+                            <div class="time">
+                                <small class="siimple-small">{{getTime(lastMessage)}}</small>
+                            </div>
+                            <div class="unread-count siimple-tag--rounded siimple-tag--success siimple-tag"
+                                *ngIf="lastMessage.unread_count > 0">
+                                {{lastMessage.unread_count}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
 </div>

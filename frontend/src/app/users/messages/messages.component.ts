@@ -32,6 +32,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   loading: boolean = false;
   loadingUsers: boolean = false;
+  forbidden: boolean = false;
 
   constructor(
     private lastMessagesService: LastMessagesService,
@@ -68,6 +69,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   loadParameterDependentData(username: string) {
     this.username = username;
     this.newMessageVisible = false;
+    this.forbidden = false;
     if (username == this.authService.getUsername()) {
 
       this.loading = true;
@@ -87,6 +89,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
     else {
       this.lastMessages = null;
+      this.forbidden = true;
     }
 
     this.imageHidden = false;

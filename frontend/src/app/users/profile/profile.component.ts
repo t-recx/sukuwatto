@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { User } from 'src/app/user';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/environments/environment';
@@ -11,6 +11,7 @@ import { MessagesService } from '../messages.service';
 import { Action } from '../action';
 import { Paginated } from '../paginated';
 import { StreamsService } from '../streams.service';
+import { tap } from 'rxjs/operators';
 
 export enum UserViewProfileTab {
   Overview = 1,
@@ -51,6 +52,8 @@ export class ProfileComponent implements OnInit {
 
   userContentTypeID: number;
 
+  notFound: boolean = false;
+
   faAt = faAt;
   faEnvelope = faEnvelope;
   faUserPlus = faUserPlus;
@@ -69,6 +72,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
+    private router: Router,
     private userService: UserService,
     public authService: AuthService,
     private followService: FollowService,
@@ -93,6 +97,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserData(username: string) {
+    this.notFound = false;
     this.operating = false;
     this.selectedTab = UserViewProfileTab.Overview;
     this.user = null;
@@ -100,19 +105,25 @@ export class ProfileComponent implements OnInit {
     this.birthDate = null;
     this.messageModalVisible = false;
     this.username = username;
-    this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
-    this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
-    this.loadFeed();
-    this.loadFollowers();
-    this.loadFollowing();
     if (this.username) {
-      this.userService.get(this.username).subscribe(users => {
+      this.userService
+      .get(this.username)
+      .subscribe(users => {
         if (users && users.length == 1) {
           this.user = users[0];
           if (this.user.profile_filename) {
             this.profileImageURL = `${environment.mediaUrl}${this.user.profile_filename}`;
           }
           this.birthDate = new Date(this.user.year_birth, this.user.month_birth - 1);
+
+          this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
+          this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
+          this.loadFeed();
+          this.loadFollowers();
+          this.loadFollowing();
+        }
+        else {
+          this.notFound = true;
         }
       });
     }
