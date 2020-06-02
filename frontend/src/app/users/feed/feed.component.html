@@ -59,7 +59,17 @@
 
             <ng-template [ngSwitchCase]="'created'">
                 <span class="action-info">
-                    created a
+                    <ng-container [ngSwitch]=action.action_object.object_type *ngIf="action.action_object">
+                        <ng-template [ngSwitchCase]="'exercise'">
+                            created an
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            created a
+                        </ng-template>
+                    </ng-container>
+                    <span *ngIf="!action.action_object">
+                        created a
+                    </span>
                     <span>
                         <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
                             [object_id]=action.action_object_object_id>
@@ -70,7 +80,17 @@
 
             <ng-template [ngSwitchCase]="'liked'">
                 <span class="action-info">
-                    liked a
+                    <ng-container [ngSwitch]=action.target.object_type *ngIf="action.target">
+                        <ng-template [ngSwitchCase]="'exercise'">
+                            liked an
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            liked a
+                        </ng-template>
+                    </ng-container>
+                    <span *ngIf="!action.target">
+                        liked a
+                    </span>
                     <span>
                         <app-home-object-construct *ngIf="action.action_object" [object]=action.action_object
                             [username]=action.actor.display_name [object_id]=action.action_object_object_id>
@@ -85,7 +105,17 @@
 
             <ng-template [ngSwitchCase]="'commented'">
                 <span class="action-info">
-                    commented a
+                    <ng-container [ngSwitch]=action.target.object_type *ngIf="action.target"> 
+                        <ng-template [ngSwitchCase]="'exercise'">
+                            commented an
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            commented a
+                        </ng-template>
+                    </ng-container>
+                    <span *ngIf="!action.target">
+                        commented a
+                    </span>
                     <span>
                         <app-home-object-construct [object]=action.target [username]=action.actor.display_name
                             [object_id]=action.target_object_id>

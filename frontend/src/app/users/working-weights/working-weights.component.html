@@ -16,10 +16,14 @@
                     </div>
                 </div>
             </div>
-            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newItem()">New working weight</button>
+            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newItem()">
+                <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
+                New working weight
+            </button>
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="hide()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 OK
             </button>
             <span class="siimple--display-sm-none siimple--ml-4">Working weights are the weights you use for reps when performing a set</span>

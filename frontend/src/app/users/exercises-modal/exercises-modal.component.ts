@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Exercise } from '../exercise';
+import { faDumbbell, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercises-modal',
@@ -12,6 +13,9 @@ export class ExercisesModalComponent implements OnInit {
   @Output() closed = new EventEmitter();
 
   newExerciseModalVisible: boolean = false;
+
+  faDumbbell = faDumbbell;
+  faTimes = faTimes;
 
   page: number;
 

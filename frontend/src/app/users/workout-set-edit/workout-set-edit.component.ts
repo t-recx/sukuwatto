@@ -5,6 +5,7 @@ import { Unit, MeasurementType } from '../unit';
 import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
 import { AuthService } from 'src/app/auth.service';
 import { UnitsService } from '../units.service';
+import { faCheck, faTrash, faClone, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-set-edit',
@@ -19,6 +20,11 @@ export class WorkoutSetEditComponent implements OnInit {
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
   @Output() cloneOrders = new EventEmitter()
+
+  faCheck = faCheck;
+  faTrash = faTrash;
+  faClone = faClone;
+  faTimes = faTimes;
 
   units: Unit[];
 

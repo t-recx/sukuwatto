@@ -3,7 +3,7 @@ import { UserService } from 'src/app/user.service';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-change-password-modal',
@@ -28,6 +28,7 @@ export class UserChangePasswordComponent implements OnInit, OnChanges {
 
   faKey = faKey;
   faCircleNotch = faCircleNotch;
+  faTimes = faTimes;
 
   constructor(private userService: UserService,
     private alertService: AlertService) { 

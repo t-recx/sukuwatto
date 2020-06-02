@@ -61,9 +61,11 @@
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 Yes
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
                 Cancel
             </button>
         </div>

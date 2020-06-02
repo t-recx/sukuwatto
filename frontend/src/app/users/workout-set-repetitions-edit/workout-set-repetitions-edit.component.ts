@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-set-repetitions-edit',
@@ -11,6 +12,8 @@ export class WorkoutSetRepetitionsEditComponent implements OnInit {
   @Input() triedToSave: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
+
+  faCheck = faCheck;
 
   constructor() { }
 

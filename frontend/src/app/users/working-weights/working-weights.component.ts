@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Exercise } from '../exercise';
 import { WorkingWeight } from '../working-weight';
-import { faTrash, faInfo } from '@fortawesome/free-solid-svg-icons';
-import { Unit } from '../unit';
+import { faTrash, faInfo, faWeightHanging, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-working-weights',
@@ -18,6 +16,8 @@ export class WorkingWeightsComponent implements OnInit {
   triedToHide: boolean;
   faTrash = faTrash;
   faInfo = faInfo;
+  faWeightHanging = faWeightHanging;
+  faCheck = faCheck;
 
   constructor() { }
 

@@ -8,7 +8,7 @@ import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faSave, faKey, faTrash, faWeight } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-account',
@@ -33,6 +33,8 @@ export class AccountComponent implements OnInit {
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
   faWeight = faWeight;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   loading: boolean = false;
   saving: boolean = false;

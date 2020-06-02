@@ -3,7 +3,7 @@ import { Comment } from '../comment';
 import { CommentsService } from '../comments.service';
 import { AuthService } from 'src/app/auth.service';
 import { Action } from '../action';
-import { faCircleNotch, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faComment, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-comment-card',
@@ -16,6 +16,8 @@ export class CommentCardComponent implements OnInit {
 
   faCircleNotch = faCircleNotch;
   faComment = faComment;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   newComment: string;
   authenticatedUserIsOwner: boolean = false;

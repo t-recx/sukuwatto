@@ -3,6 +3,7 @@ import { Workout } from '../workout';
 import { UserProgressService } from '../user-progress.service';
 import { AuthService } from 'src/app/auth.service';
 import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint } from '../user-progress-chart-data';
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-finish-workout-modal',
@@ -18,6 +19,9 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
 
   progressData: UserProgressChartData = null;
   loading: boolean = false;
+
+  faTimes = faTimes;
+  faCheck = faCheck;
 
   constructor(
     private authService: AuthService,
