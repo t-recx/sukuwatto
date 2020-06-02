@@ -28,6 +28,7 @@ export class PlanCardComponent implements OnInit {
   faExternalLinkAlt = faExternalLinkAlt;
   faCircleNotch = faCircleNotch;
 
+  adopting: boolean = false;
   deleting: boolean = false;
 
   constructor(
@@ -42,6 +43,7 @@ export class PlanCardComponent implements OnInit {
   ngOnInit() {
     this.deleteModalVisible = false;
     this.deleting = false;
+    this.adopting = false;
     if (!this.plan) {
       this.plansService.getPlan(this.id).subscribe(w =>
         {
@@ -61,10 +63,12 @@ export class PlanCardComponent implements OnInit {
   }
 
   adopt() {
+    this.adopting = true;
     this.plansService.adoptPlan(this.plan).subscribe(savedPlan =>
       {
         if (savedPlan && savedPlan.id && savedPlan.id > 0)
         {
+          this.adopting = false;
           this.adopted.emit(this.plan);
         }
       });

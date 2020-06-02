@@ -128,9 +128,18 @@
             </ng-template>
 
             <ng-template [ngSwitchCase]="'created'">
-                <div class="card-container">
-                    <app-plan-card [id]=action.action_object_object_id></app-plan-card>
-                </div>
+                <ng-container [ngSwitch]=action.action_object.object_type>
+                    <ng-template [ngSwitchCase]="'exercise'">
+                        <div class="card-container">
+                            <app-exercise-card [id]=action.action_object_object_id></app-exercise-card>
+                        </div>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'plan'">
+                        <div class="card-container">
+                            <app-plan-card [id]=action.action_object_object_id></app-plan-card>
+                        </div>
+                    </ng-template>
+                </ng-container>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'commented'">

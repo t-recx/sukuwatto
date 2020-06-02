@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from actstream import action
-from workouts.models import Workout, Plan
+from workouts.models import Workout, Plan, Exercise
 from pprint import pprint
 
 def workout_actstream_handler(sender, instance, created, **kwargs):
@@ -14,5 +14,10 @@ def plan_actstream_handler(sender, instance, created, **kwargs):
         else:
             action.send(instance.user, verb='created', action_object=instance)
 
+def exercise_actstream_handler(sender, instance, created, **kwargs):
+    if created: 
+        action.send(instance.user, verb='created', action_object=instance)
+
 post_save.connect(workout_actstream_handler, sender=Workout)
 post_save.connect(plan_actstream_handler, sender=Plan)
+post_save.connect(exercise_actstream_handler, sender=Exercise)

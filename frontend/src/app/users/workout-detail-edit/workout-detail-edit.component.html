@@ -57,7 +57,7 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
                         <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingWeights()">
-                            <fa-icon [icon]="faWeightHanging" class="siimple--mr-2"></fa-icon>
+                            <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
                             Working weights
                         </button>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
                         <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">
-                            <fa-icon [icon]="faWeight" class="siimple--mr-2"></fa-icon>
+                            <fa-icon [icon]="faWeight" class="siimple--mr-1"></fa-icon>
                             User measurements
                         </button>
                     </div>
@@ -136,29 +136,29 @@
                </app-workout-group> 
             </div>
             <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">
-                <fa-icon [icon]="faLayerGroup" class="siimple--mr-2"></fa-icon>
+                <fa-icon [icon]="faLayerGroup" class="siimple--mr-1"></fa-icon>
                 New group
             </button>
         </div>
         <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="save()" 
             [disabled]="saving"
             [class.siimple-btn--disabled]="saving">
-            <fa-icon [icon]="faSave" class="  siimple--mr-2" *ngIf="!saving"></fa-icon>
-            <fa-icon [icon]="faCircleNotch" class=" siimple--mr-2" [spin]=true *ngIf="saving"></fa-icon>
+            <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="saving"></fa-icon>
             Save
         </button>
         <button class="siimple-btn siimple-btn--success siimple--mt-2 siimple--ml-2" (click)="showFinishWorkoutModal()"
             [disabled]="finishing"
             [class.siimple-btn--disabled]="finishing">
-            <fa-icon [icon]="faCheckSquare" class="  siimple--mr-2" *ngIf="!finishing"></fa-icon>
-            <fa-icon [icon]="faCircleNotch" class="  siimple--mr-2" [spin]=true *ngIf="finishing"></fa-icon>
+            <fa-icon [icon]="faCheckSquare" class="  siimple--mr-1" *ngIf="!finishing"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" class="  siimple--mr-1" [spin]=true *ngIf="finishing"></fa-icon>
             Finish
         </button>
         <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()"
             [disabled]="deleting"
             [class.siimple-btn--disabled]="deleting">
-            <fa-icon [icon]="faTrash" class="  siimple--mr-2" *ngIf="!deleting"></fa-icon>
-            <fa-icon [icon]="faCircleNotch" class=" siimple--mr-2" [spin]=true *ngIf="deleting"></fa-icon>
+            <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="deleting"></fa-icon>
             Delete
         </button>
     </form>

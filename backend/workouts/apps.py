@@ -7,5 +7,6 @@ class WorkoutsConfig(AppConfig):
         from actstream import registry
         registry.register(self.get_model('Workout'))
         registry.register(self.get_model('Plan'))
+        registry.register(self.get_model('Exercise'))
 
         import workouts.signals

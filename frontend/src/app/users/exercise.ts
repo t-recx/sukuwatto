@@ -1,3 +1,5 @@
+import { User } from '../user';
+
 export enum Mechanics {
     Compound = 'c',
     Isolated = 'i',
@@ -72,7 +74,8 @@ export class Exercise {
     muscle: string;
     level: Level;
     levelLabel: string;
-    user: number;
+    user: User;
+    creation: Date;
 
     constructor(init?: Partial<Exercise>) {
         Object.assign(this, init);

@@ -79,16 +79,17 @@ class Exercise(models.Model):
         (ADVANCED, 'Advanced'),
     ]
 
-    short_name = models.CharField(max_length=200, null=True)
+    short_name = models.CharField(max_length=200, null=True, blank=True)
     name = models.CharField(max_length=200)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS_CHOICES)
     force = models.CharField(max_length=1, null=True, choices=FORCES)
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
     user = models.ForeignKey(get_user_model(), null=True, on_delete=models.CASCADE)
-    muscle = models.CharField(max_length=200, null=True)
+    muscle = models.CharField(max_length=200, null=True, blank=True)
     level = models.CharField(max_length=1, null=True, choices=LEVELS)
+    creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

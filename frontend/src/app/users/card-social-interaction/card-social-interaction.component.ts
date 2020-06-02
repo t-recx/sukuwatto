@@ -145,6 +145,7 @@ export class CardSocialInteractionComponent implements OnInit {
       {
         this.newCommentText = "";
         this.loadActions();
+        this.triedToComment = false;
       });
   }
 
@@ -152,6 +153,7 @@ export class CardSocialInteractionComponent implements OnInit {
     const index = this.commentActions.indexOf(comment, 0);
     if (index > -1) {
       this.commentActions.splice(index, 1);
+      this.commentsNumber--;
     }
   }
 
