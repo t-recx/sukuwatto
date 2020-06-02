@@ -9,7 +9,7 @@
 
 <div *ngIf="!loading">
     <div *ngIf="!userIsOwner">
-        <app-exercise-card [exercise]=exercise>
+        <app-exercise-card [exercise]=exercise [commentsSectionOpen]=true>
         </app-exercise-card>
     </div>
 

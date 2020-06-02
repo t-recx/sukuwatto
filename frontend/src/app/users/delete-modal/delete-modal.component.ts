@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-delete-modal',
@@ -11,6 +12,9 @@ export class DeleteModalComponent {
   @Input() body: string = 'This will delete your resource and associated data! Are you sure you want to proceed?';
   @Output() deleted = new EventEmitter();
   @Output() canceled = new EventEmitter();
+
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   delete() {
     this.visible = false;

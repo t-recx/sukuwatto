@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class ExerciseCardComponent implements OnInit {
   @Input() exercise: Exercise;
   @Input() id: number;
+  @Input() commentsSectionOpen: boolean = false;
 
   paramChangedSubscription: Subscription;
   username: string;

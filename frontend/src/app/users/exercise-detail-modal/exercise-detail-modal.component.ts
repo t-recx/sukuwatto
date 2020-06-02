@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { Exercise } from '../exercise';
 import { ExercisesService } from '../exercises.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercise-detail-modal',
@@ -15,6 +16,9 @@ export class ExerciseDetailModalComponent implements OnInit, OnChanges {
 
   exercise: Exercise;
   triedToSave: boolean = false;
+
+  faSave = faSave;
+  faTimes = faTimes;
 
   constructor(
     private service: ExercisesService,

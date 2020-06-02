@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth.service';
-import { faStickyNote, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faStickyNote, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-post-detail-card',
@@ -18,6 +18,8 @@ export class PostDetailCardComponent implements OnInit {
 
   faStickyNote = faStickyNote;
   faCircleNotch = faCircleNotch;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   liked: boolean;
   likes: number = 0;

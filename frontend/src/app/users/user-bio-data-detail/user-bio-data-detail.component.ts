@@ -4,6 +4,7 @@ import { UserBioDataService } from '../user-bio-data.service';
 import { Unit, MeasurementType } from '../unit';
 import { AuthService } from 'src/app/auth.service';
 import { UnitsService } from '../units.service';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-bio-data-detail',
@@ -16,6 +17,8 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
   @Output() okayed = new EventEmitter<UserBioData>();
+
+  faCheck = faCheck;
 
   units: Unit[];
   weightUnits: Unit[];

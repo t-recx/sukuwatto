@@ -106,12 +106,15 @@
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="hide()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 OK
             </button>
             <button class="siimple-btn siimple-btn--error" type="button" (click)="remove()">
+                <fa-icon [icon]="faTrash" class="siimple--mr-1"></fa-icon>
                 Delete
             </button>
             <button class="siimple-btn siimple-btn--primary siimple--float-right" type="button" (click)="showCloningModal()">
+                <fa-icon [icon]="faClone" class="siimple--mr-1"></fa-icon>
                 Clone
             </button>
         </div>
@@ -134,9 +137,11 @@
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="hideAndIssueCloningOrder()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 OK
             </button>
             <button class="siimple-btn siimple-btn--error" type="button" (click)="hideCloningModal()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
                 Cancel
             </button>
         </div>
