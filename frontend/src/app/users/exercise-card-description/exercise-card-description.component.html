@@ -1,0 +1,15 @@
+<div *ngIf="exercise.description">
+    <h4 class="siimple-h4 siimple--mt-0">
+        Description
+    </h4>
+    <p class="siimple-p keep-original-formatting">{{exercise.description}}</p>
+</div>
+
+<div *ngIf="exercise.muscle">
+    <h4 class="siimple-h4 siimple--mt-0">
+        Muscles targeted
+    </h4>
+    <ul class="muscle-list">
+        <li>{{exercise.muscle}}</li>
+    </ul>
+</div>

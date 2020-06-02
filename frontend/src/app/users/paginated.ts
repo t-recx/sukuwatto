@@ -4,7 +4,11 @@ export class Paginated<T> {
     previous: string;
     results: T[];
 
-    constructor() {
+    constructor(init: Partial<Paginated<T>> = null) {
         this.results = [];
+
+        if (init) {
+            Object.assign(this, init);
+        }
     }
 }

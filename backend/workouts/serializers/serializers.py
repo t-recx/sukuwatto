@@ -3,14 +3,16 @@ from pprint import pprint
 from rest_framework import serializers
 from workouts.models import Exercise, Unit, UserBioData
 from workouts.exercise_service import ExerciseService
+from users.serializers import UserSerializer
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Exercise
-        fields = ['id', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'user']
-        extra_kwargs = {'user': {'required': False}}
+        fields = ['id', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user']
+        extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
         return Exercise.objects.create(user=self.context.get("request").user, **validated_data)

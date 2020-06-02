@@ -1,0 +1,104 @@
+<div class="siimple-card" *ngIf="exercise">
+    <div class="siimple-card-header">
+        <a class="siimple-link" [routerLink]="['/users', username, 'exercise', exercise.id]">
+            {{exercise.name}}
+        </a>
+    </div>
+    <div class="siimple-card-body">
+        <div class="siimple-grid">
+            <div class="siimple-grid-row">
+                <div *ngIf="exerciseHasClassificationFields()">
+                    <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--lg-7 siimple-grid-col--sm-12"
+                        *ngIf="exerciseHasDescriptionFields()">
+                        <app-exercise-card-description [exercise]=exercise></app-exercise-card-description>
+                    </div>
+
+                    <div class="siimple-grid-col siimple-grid-col--sm-12" 
+                        [class.siimple-grid-col--4]="exerciseHasDescriptionFields()"
+                        [class.siimple-grid-col--lg-5]="exerciseHasDescriptionFields()"
+                        [class.siimple-grid-col--12]="!exerciseHasDescriptionFields()"
+                        >
+                        <table class="siimple-table siimple-table--striped siimple-table--border">
+                            <thead class="siimple-table-header">
+                                <tr class="siimple-table-row">
+                                    <th colspan="2"
+                                        class="siimple-table-cell">Classification</th>
+                                </tr>
+                            </thead>
+                            <tbody class="siimple-table-body">
+                                <tr class="siimple-table-row link-row" *ngIf="exercise.section">
+                                    <td class="siimple-table-cell cell">
+                                        <span class="siimple--text-bold">
+                                        Section
+                                        </span>
+                                    </td>
+                                    <td class="siimple-table-cell cell">
+                                        {{SectionLabel.get(exercise.section)}}
+                                    </td>
+                                </tr>
+                                <tr class="siimple-table-row link-row" *ngIf="exercise.force">
+                                    <td class="siimple-table-cell cell">
+                                        <span class="siimple--text-bold">
+                                        Force
+                                        </span>
+                                    </td>
+                                    <td class="siimple-table-cell cell">
+                                        {{ForceLabel.get(exercise.force)}}
+                                    </td>
+                                </tr>
+                                <tr class="siimple-table-row link-row" *ngIf="exercise.mechanics">
+                                    <td class="siimple-table-cell cell">
+                                        <span class="siimple--text-bold">
+                                            Mechanics
+                                        </span>
+                                    </td>
+                                    <td class="siimple-table-cell cell">
+                                        {{MechanicsLabel.get(exercise.mechanics)}}
+                                    </td>
+                                </tr>
+                                <tr class="siimple-table-row link-row" *ngIf="exercise.modality">
+                                    <td class="siimple-table-cell cell">
+                                        <span class="siimple--text-bold">
+                                        Modality
+                                        </span>
+                                    </td>
+                                    <td class="siimple-table-cell cell">
+                                        {{ModalityLabel.get(exercise.modality)}}
+                                    </td>
+                                </tr>
+                                <tr class="siimple-table-row link-row" *ngIf="exercise.level">
+                                    <td class="siimple-table-cell cell">
+                                        <span class="siimple--text-bold">
+                                        Level
+                                        </span>
+                                    </td>
+                                    <td class="siimple-table-cell cell">
+                                        {{LevelLabel.get(exercise.level)}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="!exerciseHasClassificationFields()" class="siimple-grid-col siimple-grid-col--12">
+                    <app-exercise-card-description [exercise]=exercise></app-exercise-card-description>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="exercise.user">
+            <div class="siimple-rule siimple--mt-3"></div>
+        
+            <div class="owner-user-container">
+                <app-user-tag [username]=exercise.user.username [fetchProfileFilename]=true>
+                </app-user-tag>
+        
+                <small class="siimple-small siimple--ml-2">{{exercise.creation.toString() | timeAgo}}</small>
+            </div>
+        </div>
+    </div>
+    <div class="siimple-card-footer">
+        <app-card-social-interaction content_type_model='exercise' [id]=exercise.id commentsSectionOpen=true></app-card-social-interaction>
+    </div>
+</div>

@@ -40,7 +40,7 @@
             [(ngModel)]="newCommentText" #newComment="ngModel" placeholder="Write your comment here">
             </textarea>
 
-        <div *ngIf="newComment.invalid && (newComment.dirty || triedToComment)">
+        <div *ngIf="newComment.invalid && triedToComment">
             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
         </div>
     </div>

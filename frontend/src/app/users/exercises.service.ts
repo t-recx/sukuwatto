@@ -4,7 +4,7 @@ import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
 import { Exercise } from './exercise';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
 
@@ -52,6 +52,7 @@ export class ExercisesService {
 
     return this.http.get<Paginated<Exercise>>(this.exercisesUrl, options)
       .pipe(
+        map(response => this.getProperlyTypedPaginatedExercises(response)),
         catchError(this.errorService.handleError<Paginated<Exercise>>('getExercises', (e: any) => 
         { 
           this.alertService.error('Unable to fetch exercises');
@@ -62,11 +63,36 @@ export class ExercisesService {
   getExercise(id: number | string): Observable<Exercise> {
     return this.http.get<Exercise>(`${this.exercisesUrl}${id}/`)
       .pipe(
+        map(response => this.getProperlyTypedExercise(response)),
         catchError(this.errorService.handleError<Exercise>('getExercise', (e: any) => 
         { 
           this.alertService.error('Unable to fetch exercise');
         }, new Exercise()))
       );
+  }
+
+  getProperlyTypedPaginatedExercises(response: Paginated<Exercise>): Paginated<Exercise> {
+    const newResponse = new Paginated<Exercise>(response);
+
+    newResponse.results = this.getProperlyTypedExercises(newResponse.results);
+
+    return newResponse;
+  }
+
+  getProperlyTypedExercises(exercises: Exercise[]): Exercise[] {
+    if (exercises) {
+      for (let exercise of exercises) {
+        exercise = this.getProperlyTypedExercise(exercise);
+      }
+    }
+
+    return exercises;
+  }
+
+  getProperlyTypedExercise(exercise: Exercise): Exercise {
+    exercise.creation = new Date(exercise.creation);
+
+    return exercise;
   }
 
   saveExercise(exercise: Exercise): Observable<Exercise> {

@@ -15,6 +15,7 @@ export class ExerciseDetailComponent implements OnInit {
   exercise: Exercise;
   triedToSave: boolean;
   deleteModalVisible: boolean = false;
+  userIsOwner: boolean = false;
 
   loading: boolean = false;
   saving: boolean = false;
@@ -44,10 +45,12 @@ export class ExerciseDetailComponent implements OnInit {
       this.loading = true;
       this.service.getExercise(id).subscribe(exercise => {
         this.exercise = exercise;
+        this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
         this.loading = false;
       });
     } else {
       this.exercise = new Exercise();
+      this.userIsOwner = true;
     }
   }
 
@@ -133,7 +136,7 @@ export class ExerciseDetailComponent implements OnInit {
       if (this.exercise &&
           this.exercise.id &&
       this.authService.isLoggedIn() && 
-      (this.authService.userIsStaff() || this.exercise.user == +this.authService.getUserId())) {
+      (this.authService.userIsStaff() || (this.exercise.user && this.exercise.user.id == +this.authService.getUserId()))) {
         return true;
       }
 

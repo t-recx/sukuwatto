@@ -11,6 +11,8 @@ import { ResetPasswordRequestComponent } from './reset-password-request/reset-pa
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { ExercisesComponent } from './users/exercises/exercises.component';
+import { ExerciseDetailComponent } from './users/exercise-detail/exercise-detail.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
