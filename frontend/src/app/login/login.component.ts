@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { AuthService } from '../auth.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +15,10 @@ export class LoginComponent implements OnInit {
   triedToLogin: boolean;
   signInText: string;
 
+  faCircleNotch = faCircleNotch;
+
   constructor(
     private authService: AuthService,
-    private location: Location,
     private router: Router
   ) { }
 
