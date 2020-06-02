@@ -96,13 +96,13 @@
         </app-plan-progression-strategies> 
 
         <button class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">
-            <fa-icon [icon]="faSave" class="  siimple--mr-2" *ngIf="!saving"></fa-icon>
-            <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-2" *ngIf="saving"></fa-icon>
+            <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
+            <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
             Save
         </button>
         <button *ngIf="plan.id" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()">
-            <fa-icon [icon]="faTrash" class="  siimple--mr-2" *ngIf="!deleting"></fa-icon>
-            <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-2" *ngIf="deleting"></fa-icon>
+            <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
+            <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
             Delete
         </button>
     </form>

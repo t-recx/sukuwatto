@@ -18,14 +18,14 @@
         </app-exercise-detail-skeleton>
 
         <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success" (click)="save()">
-            <fa-icon [icon]="faSave" class="  siimple--mr-2" *ngIf="!saving"></fa-icon>
-            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-2" *ngIf="saving"></fa-icon>
+            <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
             Save
         </button>
         <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2"
             (click)="showDeleteModal()">
-            <fa-icon [icon]="faTrash" class="  siimple--mr-2" *ngIf="!deleting"></fa-icon>
-            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-2" *ngIf="deleting"></fa-icon>
+            <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
             Delete
         </button>
     </div>
