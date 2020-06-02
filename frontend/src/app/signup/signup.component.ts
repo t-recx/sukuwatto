@@ -7,6 +7,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { filter, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { UnitsService } from '../users/units.service';
 import { Unit, MeasurementType } from '../users/unit';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-signup',
@@ -22,6 +23,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   passwordValidations: string[];
   units: Unit[];
   acceptedTerms: boolean = false;
+
+  faCircleNotch = faCircleNotch;
 
   constructor(
     private userService: UserService,
@@ -102,13 +105,12 @@ export class SignupComponent implements OnInit, OnDestroy {
                 let redirect = this.authService.redirectUrl ?
                   this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
 
+                this.signingUp = false;
+                this.signUpText = "Sign up";
                 this.router.navigateByUrl(redirect);
               }
             });
         }
       });
-
-    this.signingUp = false;
-    this.signUpText = "Sign up";
   }
 }

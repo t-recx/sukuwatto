@@ -8,8 +8,9 @@
             (change)="onChange($event)" />
         <label class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--mt-2"
             for="file">
-            <fa-icon [icon]="faFileImport" class="siimple--mr-1"></fa-icon>
-            Browse...
+            <fa-icon [icon]="faFileImport" class="siimple--mr-1" *ngIf="!uploading"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="uploading"></fa-icon>
+            {{uploadText}}
         </label>
     </div>
 </div>

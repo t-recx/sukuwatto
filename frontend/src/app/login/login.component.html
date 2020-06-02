@@ -35,6 +35,7 @@
 
                 <button name="login" type="submit" [disabled]="loggingIn" [class.siimple-btn--disabled]="loggingIn"
                     class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--text-bold">
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="loggingIn"></fa-icon>
                     {{ signInText }}
                 </button>
             </div>

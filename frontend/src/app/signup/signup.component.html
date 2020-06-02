@@ -166,6 +166,7 @@
                     <div class="siimple-form-field">
                         <button class="siimple-btn siimple-btn--success siimple--text-bold" type="submit"
                             [disabled]="signingUp || !acceptedTerms" [class.siimple-btn--disabled]="signingUp || !acceptedTerms">
+                            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="signingUp"></fa-icon>
                             {{ signUpText }}
                         </button>
                     </div>
