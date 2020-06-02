@@ -15,7 +15,7 @@
                                 (change)="clearUnusedParameters()">
                             <label for="{{idExercise}}"></label>
                         </div>
-                        <label class="siimple-label">By Exercise</label>
+                        <label class="siimple-label clickable" for="{{idExercise}}">By Exercise</label>
                     </div>
 
                     <div class="siimple--display-inline-block">
@@ -25,7 +25,7 @@
                                 (change)="clearUnusedParameters()">
                             <label for="{{idCharacteristics}}"></label>
                         </div>
-                        <label class="siimple-label">By Exercise Type</label>
+                        <label class="siimple-label clickable" for="{{idCharacteristics}}">By Exercise Type</label>
                     </div>
 
                     <div *ngIf="progression.validations && progression.validations['progression_type'] && triedToSave">

@@ -81,19 +81,19 @@
                                     [(ngModel)]="user.gender">
                                 <label for="male"></label>
                             </div>
-                            <label class="siimple-label" for="male">Male</label>
+                            <label class="siimple-label clickable" for="male">Male</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="f" id="female" [checked]="user.gender === 'f'"
                                     [(ngModel)]="user.gender">
                                 <label for="female"></label>
                             </div>
-                            <label class="siimple-label" for="female">Female</label>
+                            <label class="siimple-label clickable" for="female">Female</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="n" id="nonbinary"
                                     [checked]="user.gender === 'n'" [(ngModel)]="user.gender">
                                 <label for="nonbinary"></label>
                             </div>
-                            <label class="siimple-label" for="nonbinary">Non-binary</label>
+                            <label class="siimple-label clickable" for="nonbinary">Non-binary</label>
                         </div>
                     </div>
                 </div>
@@ -132,13 +132,13 @@
                                     [(ngModel)]="user.system">
                                 <label for="metric"></label>
                             </div>
-                            <label class="siimple-label" for="metric">Metric</label>
+                            <label class="siimple-label clickable" for="metric">Metric</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="system" value="i" id="imperial"
                                     [checked]="user.system === 'i'" [(ngModel)]="user.system">
                                 <label for="imperial"></label>
                             </div>
-                            <label class="siimple-label" for="imperial">Imperial</label>
+                            <label class="siimple-label clickable" for="imperial">Imperial</label>
 
                             <div *ngIf="!user.system && triedToSignUp">
                                 <div class="siimple-field-helper siimple--color-error siimple--mb-0">This field can't be empty</div>
