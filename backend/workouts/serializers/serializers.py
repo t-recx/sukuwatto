@@ -11,7 +11,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exercise
-        fields = ['id', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user']
+        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user']
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
@@ -23,6 +23,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
         if es.in_use_on_other_users_resources(instance.id, self.context.get("request").user):
             raise serializers.ValidationError("Exercise in usage")
 
+        instance.exercise_type = validated_data.get('exercise_type', instance.exercise_type)
         instance.short_name = validated_data.get('short_name', instance.short_name)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)

@@ -1,5 +1,15 @@
 import { User } from '../user';
 
+export enum ExerciseType {
+    Cardio = 'c',
+    Strength = 's',
+}
+
+export const ExerciseTypeLabel = new Map<string, string>([
+  [ExerciseType.Cardio, 'Cardio'],
+  [ExerciseType.Strength, 'Strength'],
+]);
+
 export enum Mechanics {
     Compound = 'c',
     Isolated = 'i',
@@ -60,6 +70,8 @@ export const LevelLabel = new Map<string, string>([
 
 export class Exercise {
     id: number;
+    exercise_type: ExerciseType;
+    exercise_typeLabel: string;
     short_name: string;
     name: string;
     description: string;

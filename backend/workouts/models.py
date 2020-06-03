@@ -36,9 +36,16 @@ class UserBioData(models.Model):
     notes = models.TextField(null=True, blank=True)
 
 class Exercise(models.Model):
+    CARDIO = 'c'
+    STRENGTH = 's'
+    EXERCISE_TYPES = [
+        (CARDIO, 'Cardio'),
+        (STRENGTH, 'Strength'),
+    ]
+
     COMPOUND = 'c'
     ISOLATED = 'i'
-    MECHANICS_CHOICES = [
+    MECHANICS= [
         (COMPOUND, 'Compound'),
         (ISOLATED, 'Isolated'),
     ]
@@ -79,10 +86,11 @@ class Exercise(models.Model):
         (ADVANCED, 'Advanced'),
     ]
 
+    exercise_type = models.CharField(max_length=1, choices=EXERCISE_TYPES)
     short_name = models.CharField(max_length=200, null=True, blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS_CHOICES)
+    mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=FORCES)
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
@@ -179,7 +187,7 @@ class AbstractProgressionStrategy(models.Model):
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
-    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS_CHOICES)
+    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
     modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=Exercise.SECTIONS)
