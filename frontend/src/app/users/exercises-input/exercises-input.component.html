@@ -4,7 +4,9 @@
         placeholder="Select an exercise"
         readonly (click)="search()">
 
-    <button class="siimple-btn siimple-btn--error round-right erase-button" (click)="clear()">
+    <button 
+    type="button"
+    class="siimple-btn siimple-btn--error round-right erase-button" (click)="clear()">
         <fa-icon [icon]="faEraser"></fa-icon>
     </button>
 </div>
