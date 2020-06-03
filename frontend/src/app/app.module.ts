@@ -19,6 +19,8 @@ import { ResetPasswordRequestComponent } from './reset-password-request/reset-pa
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { MenuLegalComponent } from './menu-legal/menu-legal.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { AutofocusDirective } from './autofocus.directive';
+import { MainLogoComponent } from './main-logo/main-logo.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -37,6 +39,8 @@ export function tokenGetter() {
     CookiePolicyComponent,
     MenuLegalComponent,
     PrivacyPolicyComponent,
+    AutofocusDirective,
+    MainLogoComponent,
   ],
   imports: [
     AlertModule,

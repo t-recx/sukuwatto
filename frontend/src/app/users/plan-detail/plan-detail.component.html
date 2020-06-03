@@ -17,6 +17,7 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Short name</div>
                         <input type="text" class="siimple-input siimple-input--fluid" autofocus required
+                            applyFocus
                             name="short_name" id="short_name" [(ngModel)]="plan.short_name" #short_name="ngModel">
 
                         <div *ngIf="short_name.invalid && (short_name.dirty || triedToSave)">

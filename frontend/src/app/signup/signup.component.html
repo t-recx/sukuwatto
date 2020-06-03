@@ -1,15 +1,6 @@
 <div class="siimple-content siimple-content--extra-small" >
     <div class="siimple-h2 siimple--text-bold siimple--mb-1 " align="center">
-        <div>
-            <span class="clickable" routerLink="/">
-                sukuwatto
-            </span>
-        </div>
-        <div>
-            <span class="clickable" routerLink="/">
-                スクワット
-            </span>
-        </div>
+        <app-main-logo></app-main-logo>
     </div>
     <div>
         <app-alert></app-alert>
@@ -24,6 +15,7 @@
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">First name</div>
                             <input type="text" class="siimple-input siimple-input--fluid" name="first_name"
+                                applyFocus
                                 id="first_name" [(ngModel)]="user.first_name" #first_name="ngModel" maxlength="30"
                                 placeholder="First name" autofocus>
                         </div>

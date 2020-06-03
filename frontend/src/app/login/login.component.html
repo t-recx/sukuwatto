@@ -1,16 +1,7 @@
 <div class="siimple-content siimple-content--extra-small">
     <div class="siimple--px-5 siimple--py-5">
         <div class="siimple-h2 siimple--text-bold siimple--mb-1" align="center">
-            <div>
-                <span class="clickable" routerLink="/">
-                    sukuwatto
-                </span>
-            </div>
-            <div>
-                <span class="clickable" routerLink="/">
-                    スクワット
-                </span>
-            </div>
+            <app-main-logo></app-main-logo>
         </div>
         <div class="siimple-paragraph siimple-paragraph--lead" align="center">
             Sign in to use the website
@@ -23,6 +14,7 @@
                 <div class="siimple-field">
                     <label class="siimple-field-label" for="username">Username</label>
                     <input name="username" id="username" [(ngModel)]="user.username" #username="ngModel" type="text"
+                        applyFocus
                         required class="siimple-input siimple-input--fluid" autofocus>
 
                     <div *ngIf="username.invalid && (username.dirty || triedToLogin)">

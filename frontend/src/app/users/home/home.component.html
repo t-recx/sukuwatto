@@ -3,6 +3,7 @@
         <div class="siimple-form-field">
             <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost" id="newPost"
                 required
+                applyFocus
                 [(ngModel)]="newPostText" #newPost="ngModel" placeholder="What's on your mind?">
             </textarea>
             <div *ngIf="newPost.invalid && triedToPost">
