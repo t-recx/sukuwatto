@@ -7,6 +7,7 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Name</div>
                         <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
+                            applyFocus
                             [(ngModel)]="exercise.name" #name="ngModel">
 
                         <div *ngIf="name.invalid && (name.dirty || triedToSave)">
