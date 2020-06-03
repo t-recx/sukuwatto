@@ -1,13 +1,18 @@
 <div class="search-box">
     <input type="text" class="siimple-input search-box-input" id="search-input"
+        (keydown.enter)="search()"
         applyFocus
         placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel" >
     <div class="search-buttons">
-        <button class="siimple-btn siimple-btn--success" (click)="search()" >
+        <button 
+        type="button"
+        class="siimple-btn siimple-btn--success" (click)="search()" >
             <fa-icon [icon]="faSearch" class="siimple--mr-1"></fa-icon>
             Find
         </button>
-        <button class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()" >
+        <button 
+        type="button"
+        class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()" >
             <fa-icon [icon]="faBackspace" class=""></fa-icon>
         </button>
     </div>
@@ -17,7 +22,7 @@
     <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div *ngIf="!loading && exercises && exercises.length > 0">
+<div *ngIf="exercises && exercises.length > 0">
     <table
         class="phones-only row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
         <thead class="siimple-table-header">

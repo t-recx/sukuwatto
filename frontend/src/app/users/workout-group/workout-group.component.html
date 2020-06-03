@@ -6,7 +6,9 @@
 
         <div class="siimple-card-title group-title">
             <span *ngIf="hasAlternativeGroups">
-                <button class="siimple-btn siimple--mr-1" (click)="exchange()">
+                <button 
+                type="button"
+                class="siimple-btn siimple--mr-1" (click)="exchange()">
                     <fa-icon [icon]="faExchangeAlt">
                     </fa-icon>
                 </button>
