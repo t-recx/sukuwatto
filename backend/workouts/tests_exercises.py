@@ -12,10 +12,10 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
         return '/api/exercises/'
    
     def get_resource_data(self):
-        return { 'name': 'initial' }
+        return { 'short_name':'short', 'name': 'initial', "exercise_type":"s" }
 
     def get_updated_resource_data(self, resource_id):
-        return { 'id': resource_id, 'name': 'changed' } 
+        return { 'id': resource_id, 'short_name':'short', 'name': 'changed', "exercise_type":"s" } 
 
     def assert_resource_updated(self):
         self.assertEqual(Exercise.objects.first().name, 'changed')
@@ -25,7 +25,7 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
 
     def create_plan(self, exid):
         self.client.post('/api/plans/', 
-            {"sessions":[{"groups":[{"exercises":[{"exercise": {"id": exid, "name":"initial"},"order":1,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"warmups":[{"order":1,"exercise":{"id": exid, "name":"initial"},"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"progressions":[],"name":"g","order":1}],"progressions":[],"name":"s"}],"progressions":[{"progression_type":"e","exercise":{"id":exid,"name":"initial"},"percentage_increase":100,"validations":{}}],"short_name":"s","name":"n","description":"d"}
+            {"sessions":[{"groups":[{"exercises":[{"exercise": {"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"order":1,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"warmups":[{"order":1,"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"progressions":[],"short_name":"short", "name":"g","order":1}],"progressions":[],"short_name":"short", "name":"s"}],"progressions":[{"progression_type":"e","exercise":{"id":exid,"short_name":"short", "name":"initial", "exercise_type":"s"},"percentage_increase":100,"validations":{}}],"short_name":"s","short_name":"short", "name":"n","description":"d"}
             , format='json')
 
     def test_updating_exercise_when_user_is_null_should_return_forbidden(self):
@@ -119,13 +119,13 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
             {
                 "groups":[
                     {"sets":[
-                        {"exercise":{"id":exid, "name":"n"},"order":1,"repetition_type":"a"}],
+                        {"exercise":{"id":exid, "short_name":"short", "name":"n", "exercise_type":"s"},"order":1,"repetition_type":"a"}],
                      "warmups":[
-                         {"exercise":{"id":exid, "name":"n"},"order":1,"weight":1,"repetition_type":"a"}],
-                         "name":"g"}],
+                         {"exercise":{"id":exid, "short_name":"short", "name":"n", "exercise_type":"s"},"order":1,"weight":1,"repetition_type":"a"}],
+                         "short_name":"short", "name":"g"}],
                 "working_weights":[
-                    {"exercise":{"id": exid, "name":"initial"},"weight":3,"previous_weight":1}],
-                "status":"p","start":"2020-03-02T19:25:53.753Z","name":"n"}, format='json')
+                    {"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"weight":3,"previous_weight":1}],
+                "status":"p","start":"2020-03-02T19:25:53.753Z","short_name":"short", "name":"n"}, format='json')
 
         try:
             self.delete_resource(exid)
