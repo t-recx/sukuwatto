@@ -71,8 +71,8 @@
                                 <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
                                     AMRAP
                                 </span>
-                                <span *ngIf="multipleWorkingWeightsForExercise(session, workoutActivity.exercise)">
-                                    ({{workoutActivity.working_weight_percentage}}%)
+                                <span *ngIf="multipleWorkingParametersForExercise(session, workoutActivity.exercise)">
+                                    ({{workoutActivity.working_parameter_percentage}}%)
                                 </span>
                             </span>
                         </div>

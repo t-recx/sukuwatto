@@ -154,7 +154,7 @@ class AbstractGroupActivity(models.Model):
     repetition_type = models.CharField(max_length=1, null=True, choices=TYPES)
     number_of_repetitions = models.PositiveIntegerField(null=True)
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
-    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+    working_parameter_percentage = models.DecimalField(max_digits=6, decimal_places=3)
 
     class Meta:
         abstract = True
@@ -183,9 +183,19 @@ class AbstractProgressionStrategy(models.Model):
         (TYPE_CHARACTERISTICS, 'By Characteristics'),
     ]
 
+    PARAMETER_TYPE_WEIGHT = 'w'
+    PARAMETER_TYPE_DISTANCE = 'd'
+    PARAMETER_TYPE_TIME = 't'
+    PARAMETER_TYPES = [
+        (PARAMETER_TYPE_WEIGHT, 'Weight'),
+        (PARAMETER_TYPE_DISTANCE, 'Distance'),
+        (PARAMETER_TYPE_TIME, 'Time'),
+    ]
+
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT, null=True)
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    parameter_type = models.CharField(max_length=1, choices=PARAMETER_TYPES)
+    parameter_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
@@ -241,7 +251,7 @@ class AbstractWorkoutActivity(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     in_progress = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
-    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_parameter_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True
@@ -254,11 +264,11 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupWarmUp, on_delete=models.SET_NULL, null=True)
 
-class WorkingWeight(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_weights")
+class WorkingParameter(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
-    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
-    previous_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    previous_parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit", null=True)
     manually_changed = models.BooleanField(default=False)

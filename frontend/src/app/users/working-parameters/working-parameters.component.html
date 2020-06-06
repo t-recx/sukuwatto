@@ -1,16 +1,16 @@
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Working weights</div>
+            <div class="siimple-modal-header-title">Working parameters</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hide()"></div>
         </div>
         <div class="siimple-modal-body">
             <div class="siimple-grid">
-                <div class="siimple-grid-row" *ngFor="let workingWeight of workingWeights">
-                    <app-working-weight [workingWeight]=workingWeight [triedToSave]=triedToSave [triedToHide]=triedToHide>
-                    </app-working-weight>
+                <div class="siimple-grid-row" *ngFor="let workingParameter of workingParameters">
+                    <app-working-parameter [workingParameter]=workingParameter [triedToSave]=triedToSave [triedToHide]=triedToHide>
+                    </app-working-parameter>
                     <div class="siimple-grid-col siimple-grid-col--2 siimple-grid-col-sm--12">
-                        <button class="siimple-btn siimple-btn--error siimple-btn--fluid" type="button" (click)="remove(workingWeight)">
+                        <button class="siimple-btn siimple-btn--error siimple-btn--fluid" type="button" (click)="remove(workingParameter)">
                             <fa-icon class="siimple--mr-1" [icon]="faTrash"></fa-icon> Remove
                         </button>
                     </div>
@@ -18,7 +18,7 @@
             </div>
             <button class="siimple-btn siimple-btn--primary" type="button" (click)="newItem()">
                 <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
-                New working weight
+                New working parameter
             </button>
         </div>
         <div class="siimple-modal-footer">
@@ -26,7 +26,7 @@
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 OK
             </button>
-            <span class="siimple--display-sm-none siimple--ml-4">Working weights are the weights you use for reps when performing a set</span>
+            <span class="siimple--display-sm-none siimple--ml-4">Working parameters are the weights you use for reps when performing a set</span>
         </div>
     </div>
 </div>

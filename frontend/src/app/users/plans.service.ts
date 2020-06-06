@@ -107,8 +107,8 @@ export class PlansService {
 
   getProperlyTypedProgressions(progressions: ProgressionStrategy[]): ProgressionStrategy[] {
     for (let progression of progressions) {
-      if (progression.weight_increase) {
-        progression.weight_increase = Number(progression.weight_increase);
+      if (progression.parameter_increase) {
+        progression.parameter_increase = Number(progression.parameter_increase);
       }
       if (progression.percentage_increase) {
         progression.percentage_increase = Number(progression.percentage_increase);
@@ -273,7 +273,7 @@ export class PlansService {
       return false;
     }
 
-    if (activity.working_weight_percentage == null) {
+    if (activity.working_parameter_percentage == null) {
       return false;
     }
 
@@ -318,7 +318,7 @@ export class PlansService {
         }
     }
 
-    if (!progression.weight_increase && !progression.percentage_increase) {
+    if (!progression.parameter_increase && !progression.percentage_increase) {
       results.push(new Result<ProgressionStrategy>({
         success: false,
         field: 'method',
@@ -328,7 +328,7 @@ export class PlansService {
       }));
     }
 
-    if (progression.weight_increase)  {
+    if (progression.parameter_increase)  {
       if (!progression.unit) {
         results.push(new Result<ProgressionStrategy>({
           success: false,
@@ -338,6 +338,16 @@ export class PlansService {
           message: 'Select unit',
         }));
       }
+    }
+
+    if (!progression.parameter_type) {
+      results.push(new Result<ProgressionStrategy>({
+        success: false,
+        field: 'parameter_type',
+        object: progression,
+        code: 'VPS6',
+        message: 'Select parameter type',
+      }));
     }
 
     progression.validations = results.getFailedFields();

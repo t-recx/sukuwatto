@@ -1,16 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkingWeight } from '../working-weight';
+import { WorkingParameter } from '../working-parameter';
 import { Exercise } from '../exercise';
 import { Unit, MeasurementType } from '../unit';
 import { AuthService } from 'src/app/auth.service';
 import { UnitsService } from '../units.service';
 @Component({
-  selector: 'app-working-weight',
-  templateUrl: './working-weight.component.html',
-  styleUrls: ['./working-weight.component.css']
+  selector: 'app-working-parameter',
+  templateUrl: './working-parameter.component.html',
+  styleUrls: ['./working-parameter.component.css']
 })
-export class WorkingWeightComponent implements OnInit {
-  @Input() workingWeight: WorkingWeight;
+export class WorkingParameterComponent implements OnInit {
+  @Input() workingParameter: WorkingParameter;
   @Input() triedToSave: boolean;
   @Input() triedToHide: boolean;
 
@@ -24,17 +24,17 @@ export class WorkingWeightComponent implements OnInit {
     this.unitsService.getUnits().subscribe(u => {
       this.units = u.filter(x => x.measurement_type == MeasurementType.Weight);
       let unitSystem = this.authService.getUserUnitSystem();
-      if (!this.workingWeight.unit && unitSystem) {
+      if (!this.workingParameter.unit && unitSystem) {
         let filteredUnits = this.units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Weight);
 
         if (filteredUnits && filteredUnits.length > 0) {
-          this.workingWeight.unit = filteredUnits[0].id;
+          this.workingParameter.unit = filteredUnits[0].id;
         }
       }
     });
   }
 
   onWeightChange(event) {
-    this.workingWeight.manually_changed = true;
+    this.workingParameter.manually_changed = true;
   }
 }

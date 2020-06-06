@@ -152,13 +152,13 @@ export class WorkoutsService {
   }
 
   getProperlyTypedWorkout(workout: Workout): Workout {
-    if (workout.working_weights) {
-      for (let ww of workout.working_weights) {
-        if (ww.weight) {
-          ww.weight = Number(ww.weight);
+    if (workout.working_parameters) {
+      for (let ww of workout.working_parameters) {
+        if (ww.parameter_value) {
+          ww.parameter_value = Number(ww.parameter_value);
         }
-        if (ww.previous_weight) {
-          ww.previous_weight = Number(ww.previous_weight);
+        if (ww.previous_parameter_value) {
+          ww.previous_parameter_value = Number(ww.previous_parameter_value);
         }
       }
     }
@@ -178,8 +178,8 @@ export class WorkoutsService {
         if (wu.weight) {
           wu.weight = Number(wu.weight);
         }
-        if (wu.working_weight_percentage) {
-          wu.working_weight_percentage = Number(wu.working_weight_percentage);
+        if (wu.working_parameter_percentage) {
+          wu.working_parameter_percentage = Number(wu.working_parameter_percentage);
         }
       }
     }
@@ -189,8 +189,8 @@ export class WorkoutsService {
         if (s.weight) {
           s.weight = Number(s.weight);
         }
-        if (s.working_weight_percentage) {
-          s.working_weight_percentage = Number(s.working_weight_percentage);
+        if (s.working_parameter_percentage) {
+          s.working_parameter_percentage = Number(s.working_parameter_percentage);
         }
       }
     }

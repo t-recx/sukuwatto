@@ -1,4 +1,4 @@
-from workouts.models import Exercise, PlanSessionGroupExercise, PlanSessionGroupWarmUp, WorkoutSet, WorkoutWarmUp, WorkingWeight
+from workouts.models import Exercise, PlanSessionGroupExercise, PlanSessionGroupWarmUp, WorkoutSet, WorkoutWarmUp, WorkingParameter
 
 class ExerciseService():
     def in_use_on_other_users_resources(self, exid, user):
@@ -8,7 +8,7 @@ class ExerciseService():
         if PlanSessionGroupWarmUp.objects.filter(exercise__id=exid).exclude(plan_session_group__plan_session__plan__user=user).exists():
             return True
 
-        if WorkingWeight.objects.filter(exercise__id=exid).exclude(workout__user=user).exists():
+        if WorkingParameter.objects.filter(exercise__id=exid).exclude(workout__user=user).exists():
             return True
 
         if WorkoutSet.objects.filter(exercise__id=exid).exclude(workout_group__workout__user=user).exists():
@@ -26,7 +26,7 @@ class ExerciseService():
         if PlanSessionGroupWarmUp.objects.filter(exercise__id=exid).exists():
             return True
 
-        if WorkingWeight.objects.filter(exercise__id=exid).exists():
+        if WorkingParameter.objects.filter(exercise__id=exid).exists():
             return True
 
         if WorkoutSet.objects.filter(exercise__id=exid).exists():

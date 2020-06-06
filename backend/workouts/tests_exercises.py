@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
-from workouts.models import Exercise, PlanSessionGroupExercise, PlanSessionGroupWarmUp, WorkoutSet, WorkoutWarmUp, PlanProgressionStrategy, WorkingWeight, Workout, Plan
+from workouts.models import Exercise, PlanSessionGroupExercise, PlanSessionGroupWarmUp, WorkoutSet, WorkoutWarmUp, PlanProgressionStrategy, WorkingParameter, Workout, Plan
 from sqtrex.tests import CRUDTestCaseMixin
 from django.db.models.deletion import ProtectedError
 
@@ -25,7 +25,7 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
 
     def create_plan(self, exid):
         self.client.post('/api/plans/', 
-            {"sessions":[{"groups":[{"exercises":[{"exercise": {"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"order":1,"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"warmups":[{"order":1,"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"number_of_sets":1,"repetition_type":"a","working_weight_percentage":100}],"progressions":[],"short_name":"short", "name":"g","order":1}],"progressions":[],"short_name":"short", "name":"s"}],"progressions":[{"progression_type":"e","exercise":{"id":exid,"short_name":"short", "name":"initial", "exercise_type":"s"},"percentage_increase":100,"validations":{}}],"short_name":"s","short_name":"short", "name":"n","description":"d"}
+            {"sessions":[{"groups":[{"exercises":[{"exercise": {"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"order":1,"number_of_sets":1,"repetition_type":"a","working_parameter_percentage":100}],"warmups":[{"order":1,"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"number_of_sets":1,"repetition_type":"a","working_parameter_percentage":100}],"progressions":[],"short_name":"short", "name":"g","order":1}],"progressions":[],"short_name":"short", "name":"s"}],"progressions":[{"progression_type":"e","exercise":{"id":exid,"short_name":"short", "name":"initial", "exercise_type":"s"},"percentage_increase":100,"validations":{}}],"short_name":"s","short_name":"short", "name":"n","description":"d"}
             , format='json')
 
     def test_updating_exercise_when_user_is_null_should_return_forbidden(self):
@@ -123,8 +123,8 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
                      "warmups":[
                          {"exercise":{"id":exid, "short_name":"short", "name":"n", "exercise_type":"s"},"order":1,"weight":1,"repetition_type":"a"}],
                          "short_name":"short", "name":"g"}],
-                "working_weights":[
-                    {"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"weight":3,"previous_weight":1}],
+                "working_parameters":[
+                    {"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"parameter_value":3, "previous_parameter_value":1}],
                 "status":"p","start":"2020-03-02T19:25:53.753Z","short_name":"short", "name":"n"}, format='json')
 
         try:
@@ -134,6 +134,6 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
 
         self.assertEqual(Workout.objects.count(), 1)
         self.assertEqual(WorkoutSet.objects.count(), 1)
-        self.assertEqual(WorkingWeight.objects.count(), 1)
+        self.assertEqual(WorkingParameter.objects.count(), 1)
         self.assertEqual(Exercise.objects.count(), 1)
 

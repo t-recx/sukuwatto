@@ -14,11 +14,11 @@
 
     <form class="siimple-card siimple-form" #workoutForm="ngForm">
 
-        <app-working-weights [workingWeights]=workout.working_weights 
-        [visible]=workingWeightsVisible  
+        <app-working-parameters [workingParameters]=workout.working_parameters 
+        [visible]=workingParametersVisible  
             [triedToSave]=triedToSave
-            (closed)="onWorkingWeightsClosed()">
-        </app-working-weights>
+            (closed)="onWorkingParametersClosed()">
+        </app-working-parameters>
 
         <app-user-bio-data-detail [username]=username [start]=workout.start 
             [visible]=userBioDataVisible 
@@ -56,9 +56,9 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingWeights()">
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingParameters()">
                             <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
-                            Working weights
+                            Working parameters
                         </button>
                     </div>
                 </div>

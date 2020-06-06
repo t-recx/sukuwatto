@@ -34,7 +34,7 @@ export class PlanSessionGroupActivity {
     repetition_type: RepetitionType;
     number_of_repetitions: number;
     number_of_repetitions_up_to: number;
-    working_weight_percentage: number;
+    working_parameter_percentage: number;
     exercise: Exercise;
 
     constructor(init?: Partial<PlanSessionGroupActivity>) {

@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from social.serializers import UserSerializer
-from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingWeight, Exercise
+from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingParameter, Exercise
 from workouts.utils import get_differences
 from workouts.serializers.serializers import ExerciseSerializer
 from pprint import pprint
 from django.contrib.auth import get_user_model
 
-class WorkingWeightSerializer(serializers.ModelSerializer):
+class WorkingParameterSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
-    id = serializers.ModelField(model_field=WorkingWeight()._meta.get_field('id'), required=False)
+    id = serializers.ModelField(model_field=WorkingParameter()._meta.get_field('id'), required=False)
     unit_code = serializers.SerializerMethodField()
     previous_unit_code = serializers.SerializerMethodField()
 
@@ -25,8 +25,8 @@ class WorkingWeightSerializer(serializers.ModelSerializer):
         return None
 
     class Meta:
-        model = WorkingWeight
-        fields = ['id', 'exercise', 'weight', 'unit', 'unit_code', 'previous_unit_code', 'previous_weight', 'previous_unit', 'manually_changed']
+        model = WorkingParameter
+        fields = ['id', 'exercise', 'parameter_value', 'unit', 'unit_code', 'previous_unit_code', 'previous_parameter_value', 'previous_unit', 'manually_changed']
     
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
@@ -42,7 +42,7 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutSet
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_parameter_percentage', 'in_progress']
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
@@ -57,7 +57,7 @@ class WorkoutWarmUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutWarmUp
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_parameter_percentage', 'in_progress']
 
 class WorkoutGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutGroup()._meta.get_field('id'), required=False)
@@ -75,12 +75,12 @@ class WorkoutFlatSerializer(serializers.ModelSerializer):
 
 class WorkoutSerializer(serializers.ModelSerializer):
     groups = WorkoutGroupSerializer(many=True, required=False)
-    working_weights = WorkingWeightSerializer(many=True, required=False)
+    working_parameters = WorkingParameterSerializer(many=True, required=False)
     user = UserSerializer(read_only=True)
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_weights', 'user', 'status']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status']
         extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):
@@ -90,30 +90,30 @@ class WorkoutSerializer(serializers.ModelSerializer):
             user = request.user
 
         groups_data = None
-        working_weights_data = None
+        working_parameters_data = None
 
         if 'groups' in validated_data:
             groups_data = validated_data.pop('groups')
 
-        if 'working_weights' in validated_data:
-            working_weights_data = validated_data.pop('working_weights')
+        if 'working_parameters' in validated_data:
+            working_parameters_data = validated_data.pop('working_parameters')
 
         workout = Workout.objects.create(user=user, **validated_data)
 
         if groups_data is not None:
             self.create_groups(workout, groups_data)
 
-        if working_weights_data is not None:
-            self.create_working_weights(workout, working_weights_data)
+        if working_parameters_data is not None:
+            self.create_working_parameters(workout, working_parameters_data)
 
         return workout
 
-    def create_working_weights(self, workout, working_weights_data):
-        for working_weight_data in working_weights_data:
-            exercise = working_weight_data.pop('exercise')
+    def create_working_parameters(self, workout, working_parameters_data):
+        for working_parameter_data in working_parameters_data:
+            exercise = working_parameter_data.pop('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
-            WorkingWeight.objects.create(workout=workout, exercise=exercise_model, 
-                **working_weight_data)
+            WorkingParameter.objects.create(workout=workout, exercise=exercise_model, 
+                **working_parameter_data)
 
     def create_groups(self, workout, groups_data):
         for group_data in groups_data:
@@ -155,13 +155,13 @@ class WorkoutSerializer(serializers.ModelSerializer):
         instance.save()
 
         groups_data = None
-        working_weights_data = None
+        working_parameters_data = None
         
         if 'groups' in validated_data:
             groups_data = validated_data.pop('groups')
 
-        if 'working_weights' in validated_data:
-            working_weights_data = validated_data.pop('working_weights')
+        if 'working_parameters' in validated_data:
+            working_parameters_data = validated_data.pop('working_parameters')
 
         groups = WorkoutGroup.objects.filter(workout=instance)
 
@@ -177,39 +177,39 @@ class WorkoutSerializer(serializers.ModelSerializer):
         else:
             groups.delete()
 
-        working_weights = WorkingWeight.objects.filter(workout=instance)
+        working_parameters = WorkingParameter.objects.filter(workout=instance)
 
-        if working_weights_data is not None:
-            new_data, updated_data, deleted_ids = get_differences(working_weights_data, working_weights.values())
+        if working_parameters_data is not None:
+            new_data, updated_data, deleted_ids = get_differences(working_parameters_data, working_parameters.values())
 
-            self.create_working_weights(instance, new_data)
+            self.create_working_parameters(instance, new_data)
 
-            self.update_working_weights(updated_data)
+            self.update_working_parameters(updated_data)
 
-            working_weights_to_delete = WorkingWeight.objects.filter(id__in=deleted_ids)
-            working_weights_to_delete.delete()
+            working_parameters_to_delete = WorkingParameter.objects.filter(id__in=deleted_ids)
+            working_parameters_to_delete.delete()
         else:
-            working_weights.delete()
+            working_parameters.delete()
 
         return instance
 
-    def update_working_weights(self, working_weights_data):
-        for working_weight_data in working_weights_data:
-            instances = WorkingWeight.objects.filter(pk=working_weight_data.get('id'))
+    def update_working_parameters(self, working_parameters_data):
+        for working_parameter_data in working_parameters_data:
+            instances = WorkingParameter.objects.filter(pk=working_parameter_data.get('id'))
 
             if len(instances) == 0:
                 continue
 
             instance = instances.first()
 
-            exercise = working_weight_data.get('exercise')
+            exercise = working_parameter_data.get('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
             instance.exercise = exercise_model
-            instance.weight = working_weight_data.get('weight', instance.weight)
-            instance.unit = working_weight_data.get('unit', instance.unit)
-            instance.previous_weight = working_weight_data.get('previous_weight', instance.previous_weight)
-            instance.previous_unit = working_weight_data.get('previous_unit', instance.previous_unit)
-            instance.manually_changed = working_weight_data.get('manually_changed', instance.manually_changed)
+            instance.weight = working_parameter_data.get('weight', instance.weight)
+            instance.unit = working_parameter_data.get('unit', instance.unit)
+            instance.previous_parameter_value = working_parameter_data.get('previous_parameter_value', instance.previous_parameter_value)
+            instance.previous_unit = working_parameter_data.get('previous_unit', instance.previous_unit)
+            instance.manually_changed = working_parameter_data.get('manually_changed', instance.manually_changed)
             instance.save()
 
     def update_groups(self, groups_data):
@@ -284,6 +284,6 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.unit = group_data.get('unit', instance.unit)
             instance.done = group_data.get('done', instance.done)
             instance.in_progress = group_data.get('in_progress', instance.in_progress)
-            instance.working_weight_percentage = group_data.get('working_weight_percentage', instance.working_weight_percentage)
+            instance.working_parameter_percentage = group_data.get('working_parameter_percentage', instance.working_parameter_percentage)
             instance.plan_session_group_activity = group_data.get('plan_session_group_activity', instance.plan_session_group_activity)
             instance.save()

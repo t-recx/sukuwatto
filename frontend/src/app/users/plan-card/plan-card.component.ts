@@ -86,8 +86,8 @@ export class PlanCardComponent implements OnInit {
     return ([] as PlanSessionGroupActivity[]).concat(...session.groups.map(x => x.exercises));
   }
 
-  multipleWorkingWeightsForExercise(session: PlanSession, exercise: Exercise): boolean {
-    let distinct = new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => x.working_weight_percentage));
+  multipleWorkingParametersForExercise(session: PlanSession, exercise: Exercise): boolean {
+    let distinct = new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => x.working_parameter_percentage));
 
     return distinct.size > 1;
   }

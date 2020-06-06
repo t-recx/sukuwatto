@@ -84,12 +84,12 @@
             </div>
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Working weight (%)</div>
-                    <input type="number" class="siimple-input siimple-input--fluid" required name="working_weight_percentage"
-                        id="working_weight_percentage" [(ngModel)]="planSessionGroupExercise.working_weight_percentage"
-                        #working_weight_percentage="ngModel" placeholder="% Work Weight">
+                    <div class="siimple-form-field-label">Working parameter (%)</div>
+                    <input type="number" class="siimple-input siimple-input--fluid" required name="working_parameter_percentage"
+                        id="working_parameter_percentage" [(ngModel)]="planSessionGroupExercise.working_parameter_percentage"
+                        #working_parameter_percentage="ngModel" placeholder="% Work Weight">
 
-                    <div *ngIf="working_weight_percentage.invalid && (working_weight_percentage.dirty || triedToSave)">
+                    <div *ngIf="working_parameter_percentage.invalid && (working_parameter_percentage.dirty || triedToSave)">
                         <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                     </div>
                 </div>

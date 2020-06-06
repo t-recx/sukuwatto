@@ -152,11 +152,11 @@ export class UnitsService {
           }
         });
       }
-      if (workout.working_weights) {
-        workout.working_weights.forEach(ww => {
-          this.convertWeightValue(ww);
-          if (ww.previous_weight) {
-            ww.previous_weight = this.convertToUserUnit(ww.previous_weight, ww.previous_unit_code);
+      if (workout.working_parameters) {
+        workout.working_parameters.forEach(ww => {
+          this.convertParameterValue(ww);
+          if (ww.previous_parameter_value) {
+            ww.previous_parameter_value = this.convertToUserUnit(ww.previous_parameter_value, ww.previous_unit_code);
           }
           if (ww.previous_unit_code) {
             ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
@@ -199,6 +199,17 @@ export class UnitsService {
       if (model) {
           if (model.weight) {
               model.weight = this.convertToUserUnit(model.weight, model.unit_code);
+          }
+          if (model.unit_code) {
+              model.unit_code = this.getToUnitCode(model.unit_code);
+          }
+      }
+  }
+
+  convertParameterValue(model: { parameter_value: number, unit_code: string }) {
+      if (model) {
+          if (model.parameter_value) {
+              model.parameter_value = this.convertToUserUnit(model.parameter_value, model.unit_code);
           }
           if (model.unit_code) {
               model.unit_code = this.getToUnitCode(model.unit_code);

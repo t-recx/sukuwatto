@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Workout } from './workout';
 import { PlanSession } from './plan-session';
 import { WorkoutsService } from './workouts.service';
-import { WorkingWeight } from './working-weight';
+import { WorkingParameter } from './working-parameter';
 import { AuthService } from '../auth.service';
 import { Observable, of } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class WorkoutGeneratorService {
     });
   }
 
-  generate(start: Date, workingWeights: WorkingWeight[], plan: Plan, planSession: PlanSession): Observable<Workout> {
+  generate(start: Date, workingParameters: WorkingParameter[], plan: Plan, planSession: PlanSession): Observable<Workout> {
     return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
@@ -49,16 +49,16 @@ export class WorkoutGeneratorService {
               name: this.getWorkoutName(start, planSession),
             });
 
-          workout.working_weights = this.getClonedWorkingWeights(workingWeights);
-          if (workout.working_weights) {
-            workout.working_weights.forEach(ww => {
+          workout.working_parameters = this.getClonedWorkingParameters(workingParameters);
+          if (workout.working_parameters) {
+            workout.working_parameters.forEach(ww => {
                 ww.previous_unit = ww.unit;
                 ww.previous_unit_code = ww.unit_code;
-                ww.previous_weight = ww.weight;
+                ww.previous_parameter_value = ww.parameter_value;
             });
           }
 
-          this.fillOutWorkingWeights(workout.working_weights, planSession);
+          this.fillOutWorkingParameters(workout.working_parameters, planSession);
 
           if (planSession.groups) {
             let sessionOrders = Array.from(new Set(planSession.groups.map(x => x.order))).sort((a, b) => a - b);
@@ -90,9 +90,9 @@ export class WorkoutGeneratorService {
             }
           }
 
-          workout.working_weights = this.getWorkingWeightsWithProgressions(workout.working_weights, workout, plan);
+          workout.working_parameters = this.getWorkingParametersWithProgressions(workout.working_parameters, workout, plan);
 
-          this.updateWeights(workout, workout.working_weights);
+          this.updateWeights(workout, workout.working_parameters);
 
           x.next(workout);
           x.complete();
@@ -122,9 +122,9 @@ export class WorkoutGeneratorService {
               this.generateGroup(planSessionGroup, lastWorkoutGroupForPlanSessionGroup.order ? lastWorkoutGroupForPlanSessionGroup : null)
             ].sort((a, b) => a.order - b.order);
 
-          workout.working_weights = this.getWorkingWeightsWithProgressions(workout.working_weights, workout, plan);
+          workout.working_parameters = this.getWorkingParametersWithProgressions(workout.working_parameters, workout, plan);
 
-          this.updateWeights(workout, workout.working_weights);
+          this.updateWeights(workout, workout.working_parameters);
 
           x.next(workout);
           x.complete();
@@ -142,17 +142,17 @@ export class WorkoutGeneratorService {
       });
   }
 
-  getClonedWorkingWeights(workingWeights: WorkingWeight[]): WorkingWeight[] {
-    return workingWeights.map(ww => new WorkingWeight(ww));
+  getClonedWorkingParameters(workingParameters: WorkingParameter[]): WorkingParameter[] {
+    return workingParameters.map(ww => new WorkingParameter(ww));
   }
 
-  getWorkingWeightsWithProgressions(
-    workingWeights: WorkingWeight[],
+  getWorkingParametersWithProgressions(
+    workingParameters: WorkingParameter[],
     workout: Workout,
-    plan: Plan) : WorkingWeight[] {
-    let newWorkingWeights = this.getClonedWorkingWeights(workingWeights);
-    let userChangedWorkingWeights = newWorkingWeights.filter(x => x.manually_changed);
-    let automaticWorkingWeights = newWorkingWeights.filter(x => !x.manually_changed);
+    plan: Plan) : WorkingParameter[] {
+    let newWorkingParameters = this.getClonedWorkingParameters(workingParameters);
+    let userChangedWorkingParameters = newWorkingParameters.filter(x => x.manually_changed);
+    let automaticWorkingParameters = newWorkingParameters.filter(x => !x.manually_changed);
     let planSession = plan.sessions.filter(p => p.id == workout.plan_session)[0];
 
     for (let group of workout.groups) {
@@ -163,7 +163,7 @@ export class WorkoutGeneratorService {
         }
         const exercise = set.exercise;
 
-        if (!this.progressionStrategyAppliedToExercise(exercise, automaticWorkingWeights)) {
+        if (!this.progressionStrategyAppliedToExercise(exercise, automaticWorkingParameters)) {
           let progressionStrategies: ProgressionStrategy[] = [];
 
           if (planSessionGroup && planSessionGroup.progressions) {
@@ -178,7 +178,7 @@ export class WorkoutGeneratorService {
 
           for (let progressionStrategy of progressionStrategies) {
             if (this.applyProgressionStrategy(exercise,
-              automaticWorkingWeights, progressionStrategy)) {
+              automaticWorkingParameters, progressionStrategy)) {
               break;
             }
           }
@@ -186,7 +186,7 @@ export class WorkoutGeneratorService {
       }
     }
 
-    let joined = userChangedWorkingWeights.concat(automaticWorkingWeights);
+    let joined = userChangedWorkingParameters.concat(automaticWorkingParameters);
 
     let withExercisesInWorkout = joined.filter(ww => workout.groups.filter(g => g.sets.filter(s => s.exercise.id == ww.exercise.id).length > 0).length > 0);
     let withoutExercisesInWorkout = joined.filter(ww => workout.groups.filter(g => g.sets.filter(s => s.exercise.id == ww.exercise.id).length > 0).length == 0);
@@ -213,7 +213,7 @@ export class WorkoutGeneratorService {
     return name;
   }
 
-  updateWeights(workout: Workout, workingWeights: WorkingWeight[]): void {
+  updateWeights(workout: Workout, workingParameters: WorkingParameter[]): void {
     if (workout.groups) {
       for (let group of workout.groups) {
         let sets: WorkoutSet[] = []; 
@@ -227,11 +227,11 @@ export class WorkoutGeneratorService {
         }
 
         for (let set of sets) {
-          let workingWeight = this.getWorkingWeight(workingWeights, set.exercise, 
-            set.working_weight_percentage);
-          if (workingWeight) {
-            set.weight = workingWeight.weight;
-            set.unit = workingWeight.unit;
+          let workingParameter = this.getWorkingParameter(workingParameters, set.exercise, 
+            set.working_parameter_percentage);
+          if (workingParameter) {
+            set.weight = workingParameter.parameter_value;
+            set.unit = workingParameter.unit;
             set.unit_code = this.units.filter(u => u.id == set.unit)[0].abbreviation;
           }
         }
@@ -239,7 +239,7 @@ export class WorkoutGeneratorService {
     }
   }
 
-  fillOutWorkingWeights(workingWeights: WorkingWeight[], planSession: PlanSession): void {
+  fillOutWorkingParameters(workingParameters: WorkingParameter[], planSession: PlanSession): void {
     let exercises: Exercise[] = [];
     let unit: number = null;
     let unit_code: string = null;
@@ -264,30 +264,30 @@ export class WorkoutGeneratorService {
     }
 
     for (let exercise of exercises) {
-      if (workingWeights.filter(x => x.exercise.id == exercise.id).length == 0) {
-        let workingWeight = new WorkingWeight();
+      if (workingParameters.filter(x => x.exercise.id == exercise.id).length == 0) {
+        let workingParameter = new WorkingParameter();
 
-        workingWeight.exercise = exercise;
+        workingParameter.exercise = exercise;
 
         if (unit) {
-          workingWeight.unit = unit;
-          workingWeight.unit_code = unit_code;
+          workingParameter.unit = unit;
+          workingParameter.unit_code = unit_code;
         }
-        workingWeights.push(workingWeight);
+        workingParameters.push(workingParameter);
       }
     }
   }
 
   private applyProgressionStrategy(
     exercise: Exercise,
-    workingWeights: WorkingWeight[],
+    workingParameters: WorkingParameter[],
     progressionStrategy: ProgressionStrategy): boolean {
-    let workingWeight: WorkingWeight;
-    workingWeight = workingWeights.filter(ww => ww.exercise.id == exercise.id)[0];
+    let workingParameter: WorkingParameter;
+    workingParameter = workingParameters.filter(ww => ww.exercise.id == exercise.id)[0];
 
-    if (workingWeight) {
-      if (this.progressionStrategyService.applies(progressionStrategy, exercise, workingWeight.unit)) {
-          this.updateWorkingWeight(workingWeight, progressionStrategy);
+    if (workingParameter) {
+      if (this.progressionStrategyService.applies(progressionStrategy, exercise, workingParameter.unit)) {
+          this.updateWorkingParameter(workingParameter, progressionStrategy);
 
           return true;
       }
@@ -296,15 +296,15 @@ export class WorkoutGeneratorService {
     return false;
   }
 
-  private updateWorkingWeight(workingWeight: WorkingWeight, progressionStrategy: ProgressionStrategy) {
-    workingWeight.previous_weight = workingWeight.weight;
-    workingWeight.previous_unit = workingWeight.unit;
-    if (workingWeight.weight) {
-      if (progressionStrategy.weight_increase && progressionStrategy.unit == workingWeight.unit) {
-        workingWeight.weight += progressionStrategy.weight_increase;
+  private updateWorkingParameter(workingParameter: WorkingParameter, progressionStrategy: ProgressionStrategy) {
+    workingParameter.previous_parameter_value = workingParameter.parameter_value;
+    workingParameter.previous_unit = workingParameter.unit;
+    if (workingParameter.parameter_value) {
+      if (progressionStrategy.parameter_increase && progressionStrategy.unit == workingParameter.unit) {
+        workingParameter.parameter_value += progressionStrategy.parameter_increase;
       }
       else if (progressionStrategy.percentage_increase) {
-        workingWeight.weight = this.getWeightWithPercentage(workingWeight.previous_weight, workingWeight.previous_unit, progressionStrategy.percentage_increase);
+        workingParameter.parameter_value = this.getWeightWithPercentage(workingParameter.previous_parameter_value, workingParameter.previous_unit, progressionStrategy.percentage_increase);
       }
     }
   }
@@ -312,7 +312,7 @@ export class WorkoutGeneratorService {
   private equivalentProgressionExists(progression: ProgressionStrategy, progressions: ProgressionStrategy[], unit: number) {
     return progressions.filter(x => 
         x.id != progression.id &&
-        x.weight_increase &&
+        x.parameter_increase &&
         x.unit == unit &&
         this.progressionStrategyService.matches(x, progression)
       ).length > 0;
@@ -325,7 +325,7 @@ export class WorkoutGeneratorService {
 
     newProgression.unit = toUnitId;
     newProgression.unit_code = toUnit.abbreviation;
-    newProgression.weight_increase = this.unitsService.convert(newProgression.weight_increase, fromUnit, toUnit);
+    newProgression.parameter_increase = this.unitsService.convert(newProgression.parameter_increase, fromUnit, toUnit);
 
     return newProgression;
   }
@@ -334,7 +334,7 @@ export class WorkoutGeneratorService {
     let missingProgressions: ProgressionStrategy[] = [];
 
     progressions.forEach(progression => {
-      if (progression.weight_increase && progression.weight_increase > 0 && progression.unit) {
+      if (progression.parameter_increase && progression.parameter_increase > 0 && progression.unit) {
         this.weightUnits.filter(u => u.id != progression.unit).map (u => {
           if (!this.equivalentProgressionExists(progression, progressions, u.id)) {
             missingProgressions.push(this.getConvertedProgression(progression, progression.unit, u.id));
@@ -388,14 +388,14 @@ export class WorkoutGeneratorService {
     return newActivities;
   }
 
-  private progressionStrategyAppliedToExercise(exercise: Exercise, workingWeights: WorkingWeight[]) {
-    return workingWeights.filter(ww => ww.exercise.id == exercise.id && ww.previous_weight != null && 
-      ww.previous_weight != ww.weight).length > 0;
+  private progressionStrategyAppliedToExercise(exercise: Exercise, workingParameters: WorkingParameter[]) {
+    return workingParameters.filter(ww => ww.exercise.id == exercise.id && ww.previous_parameter_value != null && 
+      ww.previous_parameter_value != ww.parameter_value).length > 0;
   }
 
   private getActivity(sessionActivity: PlanSessionGroupActivity): WorkoutSet {
     let activity = new WorkoutSet({
-      working_weight_percentage: sessionActivity.working_weight_percentage,
+      working_parameter_percentage: sessionActivity.working_parameter_percentage,
       order: sessionActivity.order,
       exercise: sessionActivity.exercise,
       expected_number_of_repetitions: sessionActivity.number_of_repetitions,
@@ -407,23 +407,23 @@ export class WorkoutGeneratorService {
     return activity;
   }
 
-  getWorkingWeight(workingWeights: WorkingWeight[], exercise: Exercise, percentage: number): WorkingWeight {
-    let workingWeight = new WorkingWeight();
-    let filteredWorkingWeight = workingWeights.filter(x => x.exercise.id == exercise.id)[0];
+  getWorkingParameter(workingParameters: WorkingParameter[], exercise: Exercise, percentage: number): WorkingParameter {
+    let workingParameter = new WorkingParameter();
+    let filteredWorkingParameter = workingParameters.filter(x => x.exercise.id == exercise.id)[0];
 
-    workingWeight.exercise = exercise;
+    workingParameter.exercise = exercise;
 
-    if (filteredWorkingWeight) {
-      workingWeight.id = filteredWorkingWeight.id;
-      workingWeight.unit = filteredWorkingWeight.unit;
-      workingWeight.unit_code = this.units.filter(u => u.id == workingWeight.unit)[0].abbreviation;
-      workingWeight.weight = this.getWeightWithPercentage(
-        filteredWorkingWeight.weight,
-        filteredWorkingWeight.unit,
+    if (filteredWorkingParameter) {
+      workingParameter.id = filteredWorkingParameter.id;
+      workingParameter.unit = filteredWorkingParameter.unit;
+      workingParameter.unit_code = this.units.filter(u => u.id == workingParameter.unit)[0].abbreviation;
+      workingParameter.parameter_value = this.getWeightWithPercentage(
+        filteredWorkingParameter.parameter_value,
+        filteredWorkingParameter.unit,
         percentage);
     }
 
-    return workingWeight;
+    return workingParameter;
   }
 
   getWeightWithPercentage(weight: number, unit: number, percentage: number): number {
