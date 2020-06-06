@@ -11,9 +11,13 @@ class Unit(models.Model):
 
     WEIGHT = 'w'
     HEIGHT = 'h'
+    DISTANCE = 'd'
+    TIME = 't'
     MEASUREMENT_TYPE = [
         (WEIGHT, 'Weight'),
         (HEIGHT, 'Height'),
+        (DISTANCE, 'Distance'),
+        (TIME, 'Time'),
     ]
 
     name = models.CharField(max_length=200)
