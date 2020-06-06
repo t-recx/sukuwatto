@@ -178,8 +178,8 @@ export class WorkoutsService {
         if (wu.weight) {
           wu.weight = Number(wu.weight);
         }
-        if (wu.working_parameter_percentage) {
-          wu.working_parameter_percentage = Number(wu.working_parameter_percentage);
+        if (wu.working_weight_percentage) {
+          wu.working_weight_percentage = Number(wu.working_weight_percentage);
         }
       }
     }
@@ -189,8 +189,8 @@ export class WorkoutsService {
         if (s.weight) {
           s.weight = Number(s.weight);
         }
-        if (s.working_parameter_percentage) {
-          s.working_parameter_percentage = Number(s.working_parameter_percentage);
+        if (s.working_weight_percentage) {
+          s.working_weight_percentage = Number(s.working_weight_percentage);
         }
       }
     }

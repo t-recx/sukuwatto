@@ -129,7 +129,9 @@
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Parameter</div>
                         <select class="siimple-select siimple-select--fluid" name="parameter_type" id="parameter_type"
-                            [(ngModel)]="progression.parameter_type" #parameter_type="ngModel">
+                            [(ngModel)]="progression.parameter_type" #parameter_type="ngModel"
+                            (change)="filterUnits()"
+                            >
                             <option [ngValue]="null"></option>
                             <option *ngFor="let parameter_typeModel of parameterTypeLabel | keyvalue" value={{parameter_typeModel.key}}>
                                 {{parameter_typeModel.value}}
@@ -155,7 +157,7 @@
                         <select class="siimple-select siimple-select--fluid" name="unit" id="unit"
                             [(ngModel)]="progression.unit" #unit="ngModel">
                             <option [ngValue]="null"></option>
-                            <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                            <option *ngFor="let unitModel of unitsFiltered" value={{unitModel.id}}>
                                 {{unitModel.name}}
                             </option>
                         </select>

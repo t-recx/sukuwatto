@@ -3,11 +3,15 @@ import { MeasurementSystem } from '../user';
 export enum MeasurementType {
     Weight = 'w',
     Height = 'h',
+    Distance = 'd',
+    Time = 't',
 }
 
 export const MeasurementTypeLabel = new Map<string, string>([
   [MeasurementType.Weight, 'Weight'],
   [MeasurementType.Height, 'Height'],
+  [MeasurementType.Distance, 'Distance'],
+  [MeasurementType.Time, 'Time'],
 ]);
 
 export class Unit {

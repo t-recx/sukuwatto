@@ -176,7 +176,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":1
 
         }
@@ -192,7 +192,7 @@
             "repetition_type":"a",
             "number_of_repetitions":null,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":1
 
         }
@@ -208,7 +208,7 @@
             "repetition_type":"s",
             "number_of_repetitions":8,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":2
 
         }
@@ -224,7 +224,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":3
 
         }
@@ -240,7 +240,7 @@
             "repetition_type":"a",
             "number_of_repetitions":null,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":3
 
         }
@@ -256,7 +256,7 @@
             "repetition_type":"s",
             "number_of_repetitions":8,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":4
 
         }
@@ -272,7 +272,7 @@
             "repetition_type":"s",
             "number_of_repetitions":8,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":5
 
         }
@@ -288,7 +288,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":6
 
         }
@@ -304,7 +304,7 @@
             "repetition_type":"a",
             "number_of_repetitions":null,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":6
 
         }
@@ -320,7 +320,7 @@
             "repetition_type":"s",
             "number_of_repetitions":12,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":7
 
         }
@@ -336,7 +336,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":8
 
         }
@@ -352,7 +352,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":9
 
         }
@@ -368,7 +368,7 @@
             "repetition_type":"a",
             "number_of_repetitions":null,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":9
 
         }
@@ -384,7 +384,7 @@
             "repetition_type":"r",
             "number_of_repetitions":8,
             "number_of_repetitions_up_to":12,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":10
 
         }
@@ -400,7 +400,7 @@
             "repetition_type":"r",
             "number_of_repetitions":8,
             "number_of_repetitions_up_to":12,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":10
 
         }
@@ -416,7 +416,7 @@
             "repetition_type":"s",
             "number_of_repetitions":12,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"100.000",
+            "working_weight_percentage":"100.000",
             "plan_session_group":11
 
         }
@@ -432,7 +432,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"0.000",
+            "working_weight_percentage":"0.000",
             "plan_session_group":1
 
         }
@@ -448,7 +448,7 @@
             "repetition_type":"s",
             "number_of_repetitions":5,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"20.000",
+            "working_weight_percentage":"20.000",
             "plan_session_group":1
 
         }
@@ -464,7 +464,7 @@
             "repetition_type":"s",
             "number_of_repetitions":4,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"40.000",
+            "working_weight_percentage":"40.000",
             "plan_session_group":1
 
         }
@@ -480,7 +480,7 @@
             "repetition_type":"s",
             "number_of_repetitions":3,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"60.000",
+            "working_weight_percentage":"60.000",
             "plan_session_group":1
 
         }
@@ -496,7 +496,7 @@
             "repetition_type":"s",
             "number_of_repetitions":2,
             "number_of_repetitions_up_to":null,
-            "working_parameter_percentage":"80.000",
+            "working_weight_percentage":"80.000",
             "plan_session_group":1
 
         }

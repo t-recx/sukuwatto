@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ProgressionStrategy, ProgressionType, ParameterTypeLabel } from '../plan-progression-strategy';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ProgressionStrategy, ProgressionType, ParameterTypeLabel, ParameterType } from '../plan-progression-strategy';
 import { MechanicsLabel, SectionLabel, ForceLabel, ModalityLabel } from '../exercise';
 import { Unit, MeasurementType } from '../unit';
 import { v4 as uuid } from 'uuid';
@@ -10,11 +10,12 @@ import { UnitsService } from '../units.service';
   templateUrl: './plan-progression-strategy.component.html',
   styleUrls: ['./plan-progression-strategy.component.css']
 })
-export class PlanProgressionStrategyComponent implements OnInit {
+export class PlanProgressionStrategyComponent implements OnInit, OnChanges {
   @Input() progression: ProgressionStrategy;
   @Input() triedToSave: boolean;
 
   units: Unit[];
+  unitsFiltered: Unit[];  
 
   idExercise = uuid();
   idCharacteristics = uuid();
@@ -31,7 +32,18 @@ export class PlanProgressionStrategyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.unitsService.getUnits().subscribe(u => this.units = u.filter(x => x.measurement_type == MeasurementType.Weight));
+    this.unitsService.getUnits()
+    .subscribe(u => { 
+      this.units = u;
+      this.unitsFiltered = u;
+      this.filterUnits();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.progression) {
+      this.filterUnits();
+    }
   }
 
   clearUnusedParameters(): void {
@@ -44,6 +56,27 @@ export class PlanProgressionStrategyComponent implements OnInit {
 
     if (this.progression.progression_type == ProgressionType.ByCharacteristics) {
       this.progression.exercise = null;
+    }
+  }
+
+  filterUnits() {
+    switch (this.progression.parameter_type) {
+      case ParameterType.Distance:
+        this.unitsFiltered = this.units.filter(u => u.measurement_type == MeasurementType.Distance);
+        break;
+      case ParameterType.Time:
+        this.unitsFiltered = this.units.filter(u => u.measurement_type == MeasurementType.Time);
+        break;
+      case ParameterType.Weight:
+        this.unitsFiltered = this.units.filter(u => u.measurement_type == MeasurementType.Weight);
+        break;
+      default:
+        this.unitsFiltered = this.units;
+        break;
+    }
+
+    if (this.unitsFiltered.filter(u => u.id == this.progression.unit).length == 0) {
+      this.progression.unit = this.progression.unit_code = null;
     }
   }
 }

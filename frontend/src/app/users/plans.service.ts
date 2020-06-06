@@ -273,7 +273,7 @@ export class PlansService {
       return false;
     }
 
-    if (activity.working_parameter_percentage == null) {
+    if (activity.working_weight_percentage == null) {
       return false;
     }
 

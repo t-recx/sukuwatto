@@ -139,26 +139,92 @@ class PlanSessionGroup(models.Model):
         return self.name
 
 class AbstractGroupActivity(models.Model):
-    TYPE_STANDARD = 's'
-    TYPE_RANGE = 'r'
-    TYPE_TO_FAILURE = 'f'
-    TYPE_AMRAP = 'a'
-    TYPE_NONE = 'n'
-    TYPES = [
-        (TYPE_STANDARD, 'Standard'),
-        (TYPE_RANGE, 'Range'),
-        (TYPE_TO_FAILURE, 'To Failure'),
-        (TYPE_AMRAP, 'As Many Repetitions As Possible'),
-        (TYPE_NONE, 'None'),
+    REPETITION_TYPE_STANDARD = 's'
+    REPETITION_TYPE_RANGE = 'r'
+    REPETITION_TYPE_TO_FAILURE = 'f'
+    REPETITION_TYPE_AMRAP = 'a'
+    REPETITION_TYPE_NONE = 'n'
+    REPETITION_TYPES = [
+        (REPETITION_TYPE_STANDARD, 'Standard'),
+        (REPETITION_TYPE_RANGE, 'Range'),
+        (REPETITION_TYPE_TO_FAILURE, 'To Failure'),
+        (REPETITION_TYPE_AMRAP, 'As Many Repetitions as Possible'),
+        (REPETITION_TYPE_NONE, 'None'),
     ]
+
+    SPEED_TYPE_NONE = 'n'
+    SPEED_TYPE_STANDARD = 's'
+    SPEED_TYPE_RANGE = 'r'
+    SPEED_TYPE_AFAP = 'a'
+    SPEED_TYPE_PARAMETER = 'p'
+    SPEED_TYPES = [
+        (SPEED_TYPE_NONE, 'None'),
+        (SPEED_TYPE_STANDARD, 'Standard'),
+        (SPEED_TYPE_RANGE, 'Range'),
+        (SPEED_TYPE_AFAP, 'As Fast as Possible'),
+        (SPEED_TYPE_PARAMETER, 'Use working parameter'),
+    ]
+
+    VO2MAX_TYPE_NONE = 'n'
+    VO2MAX_TYPE_STANDARD = 's'
+    VO2MAX_TYPE_RANGE = 'r'
+    VO2MAX_TYPES = [
+        (VO2MAX_TYPE_NONE, 'None'),
+        (VO2MAX_TYPE_STANDARD, 'Standard'),
+        (VO2MAX_TYPE_RANGE, 'Range'),
+    ]
+
+    DISTANCE_TYPE_NONE = 'n'
+    DISTANCE_TYPE_STANDARD = 's'
+    DISTANCE_TYPE_RANGE = 'r'
+    DISTANCE_TYPE_PARAMETER = 'p'
+    DISTANCE_TYPES = [
+        (DISTANCE_TYPE_NONE, 'None'),
+        (DISTANCE_TYPE_STANDARD, 'Standard'),
+        (DISTANCE_TYPE_RANGE, 'Range'),
+        (DISTANCE_TYPE_PARAMETER, 'Parameter'),
+    ]
+
+    TIME_TYPE_NONE = 'n'
+    TIME_TYPE_STANDARD = 's'
+    TIME_TYPE_RANGE = 'r'
+    TIME_TYPE_PARAMETER = 'p'
+    TIME_TYPES = [
+        (TIME_TYPE_NONE, 'None'),
+        (TIME_TYPE_STANDARD, 'Standard'),
+        (TIME_TYPE_RANGE, 'Range'),
+        (TIME_TYPE_PARAMETER, 'Parameter'),
+    ]
+
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
+
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     number_of_sets = models.PositiveIntegerField()
-    repetition_type = models.CharField(max_length=1, null=True, choices=TYPES)
+
+    repetition_type = models.CharField(max_length=1, null=True, choices=REPETITION_TYPES)
     number_of_repetitions = models.PositiveIntegerField(null=True)
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
-    working_parameter_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+
+    speed_type = models.CharField(max_length=1, null=True, choices=SPEED_TYPES)
+    speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    speed_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    vo2max_type = models.CharField(max_length=1, null=True, choices=VO2MAX_TYPES)
+    vo2max = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    vo2max_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    distance_type = models.CharField(max_length=1, null=True, choices=DISTANCE_TYPES)
+    distance = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    distance_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    time_type = models.CharField(max_length=1, null=True, choices=TIME_TYPES)
+    time = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    time_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_distance_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_time_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True
@@ -175,9 +241,15 @@ class AbstractGroupActivity(models.Model):
 
 class PlanSessionGroupExercise(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="exercises", on_delete=models.CASCADE)
+    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='exercise_speed_unit')
+    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='exercise_distance_unit')
+    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='exercise_time_unit')
 
 class PlanSessionGroupWarmUp(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="warmups", on_delete=models.CASCADE)
+    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='warmup_speed_unit')
+    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='warmup_distance_unit')
+    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='warmup_time_unit')
 
 class AbstractProgressionStrategy(models.Model):
     TYPE_EXERCISE = 'e'
@@ -247,7 +319,7 @@ class AbstractWorkoutActivity(models.Model):
     start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
-    repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TYPES)
+    repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.REPETITION_TYPES)
     expected_number_of_repetitions = models.PositiveIntegerField(null=True)
     expected_number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
     number_of_repetitions = models.PositiveIntegerField(null=True)
@@ -255,7 +327,7 @@ class AbstractWorkoutActivity(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     in_progress = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
-    working_parameter_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True

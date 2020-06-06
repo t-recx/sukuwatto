@@ -79,15 +79,15 @@ describe('WorkoutGeneratorService', () => {
                 it('should update sets and warmups according to percentage of working parameter', () => {
                         let weight = 100;
                         let squat = new Exercise({ name: 'aaa',  id: 1, section: Section.Lower });
-                        let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: squat, working_parameter_percentage: 50, number_of_sets: 1, number_of_repetitions: 1 })], warmups: [new PlanSessionGroupExercise({ exercise: squat, working_parameter_percentage: 25, number_of_sets: 1, number_of_repetitions: 1 })] });
+                        let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: squat, working_weight_percentage: 50, number_of_sets: 1, number_of_repetitions: 1 })], warmups: [new PlanSessionGroupExercise({ exercise: squat, working_weight_percentage: 25, number_of_sets: 1, number_of_repetitions: 1 })] });
                         planSession.groups = [group];
                         working_parameters.push(new WorkingParameter({ parameter_value: weight, exercise: squat, unit: userWeightUnitId }));
                         serviceGenerate().subscribe(workout => {
                                 expect(workout.groups[0].sets[0].weight).toEqual(50);
                                 expect(workout.groups[0].warmups[0].weight).toEqual(25);
 
-                                workout.groups[0].sets[0].working_parameter_percentage = 2;
-                                workout.groups[0].warmups[0].working_parameter_percentage = 40;
+                                workout.groups[0].sets[0].working_weight_percentage = 2;
+                                workout.groups[0].warmups[0].working_weight_percentage = 40;
                                 service.updateWeights(workout, working_parameters);
                                 expect(workout.groups[0].sets[0].weight).toEqual(2);
                                 expect(workout.groups[0].warmups[0].weight).toEqual(40);
@@ -339,8 +339,8 @@ describe('WorkoutGeneratorService', () => {
                                 strategyWithDifferentUnit = new ProgressionStrategy({ id: 2, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: weightIncreaseAnotherUnit, unit: anotherUnitId });
                                 anotherStrategy = new ProgressionStrategy({ id: 3, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: weightIncreaseAnotherStrategy, unit: userWeightUnitId });
                                 yetAnotherStrategy = new ProgressionStrategy({ id: 4, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: weightIncreaseYetAnotherStrategy, unit: userWeightUnitId });
-                                group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: coreExercise, working_parameter_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
-                                anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherCoreExercise, working_parameter_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                                group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: coreExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                                anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherCoreExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
                                 planSession.groups = [group, anotherGroup];
 
                                 working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise: coreExercise, unit: userWeightUnitId }));
@@ -440,8 +440,8 @@ describe('WorkoutGeneratorService', () => {
                                         let exercise = new Exercise({ name: 'aaa',  id: 1, section: Section.Core });
                                         let anotherExercise = new Exercise({ name: 'aaa',  id: 2, section: Section.Core });
                                         let strategy = new ProgressionStrategy({ id: 1, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: increase, unit: userWeightUnitId });
-                                        let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: exercise, working_parameter_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
-                                        let anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherExercise, working_parameter_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                                        let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: exercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
+                                        let anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
                                         planSession.groups = [group, anotherGroup];
                                         working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise, unit: userWeightUnitId }));
                                         working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise: anotherExercise, unit: userWeightUnitId }));

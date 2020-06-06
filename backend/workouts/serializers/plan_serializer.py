@@ -10,7 +10,7 @@ class PlanSessionGroupExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanSessionGroupExercise
-        fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_parameter_percentage']
+        fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupWarmUp()._meta.get_field('id'), required=False)
@@ -18,7 +18,7 @@ class PlanSessionGroupWarmUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanSessionGroupExercise
-        fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_parameter_percentage']
+        fields = ['id', 'order', 'exercise', 'number_of_sets', 'repetition_type', 'number_of_repetitions', 'number_of_repetitions_up_to', 'working_weight_percentage']
 
 class PlanProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanProgressionStrategy()._meta.get_field('id'), required=False)
@@ -221,7 +221,7 @@ class PlanSerializer(serializers.ModelSerializer):
             instance.number_of_sets = exercise_data.get('number_of_sets', instance.number_of_sets)
             instance.number_of_repetitions = exercise_data.get('number_of_repetitions', instance.number_of_repetitions)
             instance.number_of_repetitions_up_to = exercise_data.get('number_of_repetitions_up_to', instance.number_of_repetitions_up_to)
-            instance.working_parameter_percentage = exercise_data.get('working_parameter_percentage', instance.working_parameter_percentage)
+            instance.working_weight_percentage = exercise_data.get('working_weight_percentage', instance.working_weight_percentage)
 
             instance.save()
 

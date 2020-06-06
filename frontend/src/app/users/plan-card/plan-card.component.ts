@@ -87,7 +87,7 @@ export class PlanCardComponent implements OnInit {
   }
 
   multipleWorkingParametersForExercise(session: PlanSession, exercise: Exercise): boolean {
-    let distinct = new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => x.working_parameter_percentage));
+    let distinct = new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => x.working_weight_percentage));
 
     return distinct.size > 1;
   }

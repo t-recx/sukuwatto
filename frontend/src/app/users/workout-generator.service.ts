@@ -228,7 +228,7 @@ export class WorkoutGeneratorService {
 
         for (let set of sets) {
           let workingParameter = this.getWorkingParameter(workingParameters, set.exercise, 
-            set.working_parameter_percentage);
+            set.working_weight_percentage);
           if (workingParameter) {
             set.weight = workingParameter.parameter_value;
             set.unit = workingParameter.unit;
@@ -395,7 +395,7 @@ export class WorkoutGeneratorService {
 
   private getActivity(sessionActivity: PlanSessionGroupActivity): WorkoutSet {
     let activity = new WorkoutSet({
-      working_parameter_percentage: sessionActivity.working_parameter_percentage,
+      working_weight_percentage: sessionActivity.working_weight_percentage,
       order: sessionActivity.order,
       exercise: sessionActivity.exercise,
       expected_number_of_repetitions: sessionActivity.number_of_repetitions,

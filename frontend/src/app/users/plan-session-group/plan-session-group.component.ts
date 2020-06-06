@@ -32,7 +32,7 @@ export class PlanSessionGroupComponent implements OnInit {
   newExercise() {
     let newExercise = new PlanSessionGroupExercise();
 
-    newExercise.working_parameter_percentage = 100;
+    newExercise.working_weight_percentage = 100;
 
     this.setOrder(newExercise, this.planSessionGroup.exercises);
 
