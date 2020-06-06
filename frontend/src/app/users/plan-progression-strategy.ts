@@ -15,12 +15,14 @@ export enum ParameterType {
     Weight = 'w',
     Distance = 'd',
     Time = 't',
+    Speed = 's',
 }
 
 export const ParameterTypeLabel = new Map<string, string>([
   [ParameterType.Weight, 'Weight'],
   [ParameterType.Distance, 'Distance'],
   [ParameterType.Time, 'Time'],
+  [ParameterType.Speed, 'Speed'],
 ]);
 
 export class ProgressionStrategy {

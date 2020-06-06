@@ -60,6 +60,10 @@ export class PlanProgressionStrategyComponent implements OnInit, OnChanges {
   }
 
   filterUnits() {
+    if (!this.units) {
+      return;
+    }
+
     switch (this.progression.parameter_type) {
       case ParameterType.Distance:
         this.unitsFiltered = this.units.filter(u => u.measurement_type == MeasurementType.Distance);
@@ -69,6 +73,9 @@ export class PlanProgressionStrategyComponent implements OnInit, OnChanges {
         break;
       case ParameterType.Weight:
         this.unitsFiltered = this.units.filter(u => u.measurement_type == MeasurementType.Weight);
+        break;
+      case ParameterType.Speed:
+        this.unitsFiltered = this.units.filter(u => u.measurement_type == MeasurementType.Speed);
         break;
       default:
         this.unitsFiltered = this.units;

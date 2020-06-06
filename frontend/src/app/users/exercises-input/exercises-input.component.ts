@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, Self } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Self, ElementRef, Renderer2 } from '@angular/core';
 import { faSearch, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Exercise } from '../exercise';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl, NgControl, NG_VALIDATORS, Validator, ValidationErrors } from '@angular/forms';
@@ -62,7 +62,9 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor, Va
   faSearch = faSearch;
   faEraser = faEraser;
 
-  constructor() {
+  constructor(
+    private element: ElementRef,
+  ) {
   }
 
   ngOnInit() {
@@ -70,6 +72,8 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor, Va
 
   select(exercise) {
     this.setExercise(exercise);
+
+    this.element.nativeElement.dispatchEvent(new CustomEvent('change', { bubbles: true }));
   }
 
   search() {

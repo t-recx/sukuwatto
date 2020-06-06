@@ -98,5 +98,25 @@
             "system": "i",
             "measurement_type": "d"
         }
+    },
+    {
+        "model": "workouts.Unit",
+        "pk": 11,
+        "fields": {
+            "name": "Km/hour",
+            "abbreviation": "km",
+            "system": "m",
+            "measurement_type": "s"
+        }
+    },
+    {
+        "model": "workouts.Unit",
+        "pk": 12,
+        "fields": {
+            "name": "Miles/hour",
+            "abbreviation": "mi",
+            "system": "i",
+            "measurement_type": "s"
+        }
     }
 ]

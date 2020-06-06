@@ -13,11 +13,13 @@ class Unit(models.Model):
     HEIGHT = 'h'
     DISTANCE = 'd'
     TIME = 't'
+    SPEED = 's'
     MEASUREMENT_TYPE = [
         (WEIGHT, 'Weight'),
         (HEIGHT, 'Height'),
         (DISTANCE, 'Distance'),
         (TIME, 'Time'),
+        (SPEED, 'Speed'),
     ]
 
     name = models.CharField(max_length=200)
@@ -225,6 +227,7 @@ class AbstractGroupActivity(models.Model):
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     working_distance_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     working_time_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_speed_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True
@@ -262,10 +265,12 @@ class AbstractProgressionStrategy(models.Model):
     PARAMETER_TYPE_WEIGHT = 'w'
     PARAMETER_TYPE_DISTANCE = 'd'
     PARAMETER_TYPE_TIME = 't'
+    PARAMETER_TYPE_SPEED = 's'
     PARAMETER_TYPES = [
         (PARAMETER_TYPE_WEIGHT, 'Weight'),
         (PARAMETER_TYPE_DISTANCE, 'Distance'),
         (PARAMETER_TYPE_TIME, 'Time'),
+        (PARAMETER_TYPE_SPEED, 'Speed'),
     ]
 
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT, null=True)

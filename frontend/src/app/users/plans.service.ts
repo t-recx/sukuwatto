@@ -9,8 +9,9 @@ import { environment } from 'src/environments/environment';
 import { ProgressionStrategy, ProgressionType } from './plan-progression-strategy';
 import { PlanSession } from './plan-session';
 import { PlanSessionGroup } from './plan-session-group';
-import { PlanSessionGroupActivity, RepetitionType } from './plan-session-group-activity';
+import { PlanSessionGroupActivity, RepetitionType, SpeedType, DistanceType, TimeType } from './plan-session-group-activity';
 import { Result, Results } from '../result';
+import { ExerciseType } from './exercise';
 
 @Injectable({
   providedIn: 'root'
@@ -259,22 +260,79 @@ export class PlansService {
       return false;
     }
 
-    if (!activity.repetition_type) {
-      return false;
-    }
-    if ((activity.repetition_type == RepetitionType.Standard || 
-      activity.repetition_type == RepetitionType.Range) &&
-      !activity.number_of_repetitions) {
-      return false;
-    }
+    if (activity.exercise.exercise_type == ExerciseType.Strength) {
+      if (!activity.repetition_type) {
+        return false;
+      }
+      if ((activity.repetition_type == RepetitionType.Standard || 
+        activity.repetition_type == RepetitionType.Range) &&
+        !activity.number_of_repetitions) {
+        return false;
+      }
 
-    if (activity.repetition_type == RepetitionType.Range &&
-      !activity.number_of_repetitions_up_to) {
-      return false;
-    }
+      if (activity.repetition_type == RepetitionType.Range &&
+        !activity.number_of_repetitions_up_to) {
+        return false;
+      }
 
-    if (activity.working_weight_percentage == null) {
-      return false;
+      if (activity.working_weight_percentage == null) {
+        return false;
+      }
+    }
+    else if (activity.exercise.exercise_type == ExerciseType.Cardio) {
+      if (activity.speed_type) {
+        if ((activity.speed_type == SpeedType.Standard ||
+          activity.speed_type == SpeedType.Range) &&
+          !activity.speed) {
+          return false;
+        }
+
+        if (activity.speed_type == SpeedType.Range &&
+          !activity.speed_up_to) {
+          return false;
+        }
+
+        if (activity.speed_type == SpeedType.Parameter &&
+          !activity.working_speed_percentage) {
+          return false;
+        }
+      }
+
+      if (activity.distance_type) {
+        if ((activity.distance_type == DistanceType.Standard ||
+          activity.distance_type == DistanceType.Range) &&
+          !activity.distance) {
+          return false;
+        }
+
+        if (activity.distance_type == DistanceType.Range &&
+          !activity.distance_up_to) {
+          return false;
+        }
+
+        if (activity.distance_type == DistanceType.Parameter &&
+          !activity.working_distance_percentage) {
+          return false;
+        }
+      }
+
+      if (activity.time_type) {
+        if ((activity.time_type == TimeType.Standard ||
+          activity.time_type == TimeType.Range) &&
+          !activity.time) {
+          return false;
+        }
+
+        if (activity.time_type == TimeType.Range &&
+          !activity.time_up_to) {
+          return false;
+        }
+
+        if (activity.time_type == TimeType.Parameter &&
+          !activity.working_time_percentage) {
+          return false;
+        }
+      }
     }
 
     return true;
