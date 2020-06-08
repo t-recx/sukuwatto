@@ -334,6 +334,30 @@ class AbstractWorkoutActivity(models.Model):
     done = models.BooleanField(default=False)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
+    speed_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.SPEED_TYPES)
+    expected_speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_speed_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    vo2max_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.VO2MAX_TYPES)
+    expected_vo2max = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_vo2max_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    vo2max = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    distance_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.DISTANCE_TYPES)
+    expected_distance = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_distance_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    distance = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    time_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TIME_TYPES)
+    expected_time = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_time_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    time = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    working_distance_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_time_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_speed_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+
     class Meta:
         abstract = True
 
@@ -341,9 +365,17 @@ class WorkoutSet(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="sets", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupExercise, on_delete=models.SET_NULL, null=True)
 
+    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_speed_unit')
+    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_distance_unit')
+    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_time_unit')
+
 class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupWarmUp, on_delete=models.SET_NULL, null=True)
+
+    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_speed_unit')
+    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_distance_unit')
+    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_time_unit')
 
 class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")

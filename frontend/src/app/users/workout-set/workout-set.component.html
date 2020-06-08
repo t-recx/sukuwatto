@@ -18,43 +18,161 @@ style="padding: 10px;"
             {{workoutActivity.exercise.name}}
         </span>
     </span>
-    <span>
-        x
-    </span>
-    <span *ngIf="workoutActivity.weight">
-        <span *ngIf="workoutActivity.weight % 1 == 0">
-          {{workoutActivity.weight | number: '1.0-0'}}
-        </span>
-        <span *ngIf="workoutActivity.weight % 1 != 0">
-          {{workoutActivity.weight}}
-        </span>
-        <span *ngFor="let unit of units">
-            <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
-        </span>
-    </span>
-    <span *ngIf="!workoutActivity.weight">
-        (bar)
-    </span>
-    <span *ngIf="workoutActivity.repetition_type!=repetitionType.None">
-        x
-    </span>
-    <span (click)="toggleEditRepetitions($event)">
-        <span *ngIf="workoutActivity.number_of_repetitions">
-            <span>{{workoutActivity.number_of_repetitions}}</span>
-        </span>
-        <span *ngIf="!workoutActivity.number_of_repetitions">
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
-                {{workoutActivity.expected_number_of_repetitions}}
+
+    <span *ngIf="workoutActivity.exercise.exercise_type == 'c'">
+        <span *ngIf="workoutActivity.speed ||
+            (workoutActivity.speed_type && 
+            workoutActivity.speed_type != speedType.None)">
+            <span
+                *ngIf="workoutActivity.speed || workoutActivity.expected_speed">
+                at
             </span>
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
-                {{workoutActivity.expected_number_of_repetitions}} -
-                {{workoutActivity.expected_number_of_repetitions_up_to}}
+
+            <span *ngIf="workoutActivity.speed">
+                <span>{{workoutActivity.speed}}</span>
             </span>
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
-                F
+
+            <span *ngIf="!workoutActivity.speed">
+                <span *ngIf="workoutActivity.speed_type==speedType.Standard ||
+                workoutActivity.speed_type==speedType.Parameter">
+                    {{workoutActivity.expected_speed}}
+                </span>
+                <span *ngIf="workoutActivity.speed_type==speedType.Range">
+                    {{workoutActivity.expected_speed}} -
+                    {{workoutActivity.expected_speed_up_to}}
+                </span>
+                <span *ngIf="workoutActivity.speed_type==speedType.AFAP">
+                    As fast as possible
+                </span>
             </span>
-            <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
-                AMRAP
+
+            <span *ngIf="workoutActivity.speed || workoutActivity.expected_speed">
+                <span *ngFor="let unit of units" >
+                    <span *ngIf="unit.id == workoutActivity.speed_unit">{{unit.abbreviation}}</span>
+                </span>
+            </span>
+        </span>
+
+        <span *ngIf="workoutActivity.vo2max ||
+            (workoutActivity.vo2max_type && 
+            workoutActivity.vo2max_type != vo2MaxType.None)">
+            <span>
+                with
+            </span>
+
+            <span *ngIf="workoutActivity.vo2max">
+                <span>{{workoutActivity.vo2max}}</span>
+            </span>
+
+            <span *ngIf="!workoutActivity.vo2max">
+                <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Standard">
+                    {{workoutActivity.expected_vo2max}}
+                </span>
+                <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Range">
+                    {{workoutActivity.expected_vo2max}} -
+                    {{workoutActivity.expected_vo2max_up_to}}
+                </span>
+            </span>
+
+            <span>
+                (% vo2 max)
+            </span>
+        </span>
+
+        <span *ngIf="workoutActivity.distance ||
+            (workoutActivity.distance_type && 
+            workoutActivity.distance_type != distanceType.None)">
+            <span>
+                for
+            </span>
+
+            <span *ngIf="workoutActivity.distance">
+                <span>{{workoutActivity.distance}}</span>
+            </span>
+
+            <span *ngIf="!workoutActivity.distance">
+                <span *ngIf="workoutActivity.distance_type==distanceType.Standard ||
+                workoutActivity.distance_type==distanceType.Parameter">
+                    {{workoutActivity.expected_distance}}
+                </span>
+                <span *ngIf="workoutActivity.distance_type==distanceType.Range">
+                    {{workoutActivity.expected_distance}} -
+                    {{workoutActivity.expected_distance_up_to}}
+                </span>
+            </span>
+
+            <span *ngFor="let unit of units">
+                <span *ngIf="unit.id == workoutActivity.distance_unit">{{unit.abbreviation}}</span>
+            </span>
+        </span>
+
+        <span *ngIf="workoutActivity.time ||
+            (workoutActivity.time_type && 
+            workoutActivity.time_type != timeType.None)">
+            <span>
+                in
+            </span>
+
+            <span *ngIf="workoutActivity.time">
+                <span>{{workoutActivity.time}}</span>
+            </span>
+
+            <span *ngIf="!workoutActivity.time">
+                <span *ngIf="workoutActivity.time_type==timeType.Standard ||
+                workoutActivity.time_type==timeType.Parameter">
+                    {{workoutActivity.expected_time}}
+                </span>
+                <span *ngIf="workoutActivity.time_type==timeType.Range">
+                    {{workoutActivity.expected_time}} -
+                    {{workoutActivity.expected_time_up_to}}
+                </span>
+            </span>
+
+            <span *ngFor="let unit of units">
+                <span *ngIf="unit.id == workoutActivity.time_unit">{{unit.abbreviation}}</span>
+            </span>
+        </span>
+    </span>
+
+    <span *ngIf="workoutActivity.exercise.exercise_type == 's'">
+        <span>
+            x
+        </span>
+        <span *ngIf="workoutActivity.weight">
+            <span *ngIf="workoutActivity.weight % 1 == 0">
+                {{workoutActivity.weight | number: '1.0-0'}}
+            </span>
+            <span *ngIf="workoutActivity.weight % 1 != 0">
+                {{workoutActivity.weight}}
+            </span>
+            <span *ngFor="let unit of units">
+                <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+            </span>
+        </span>
+        <span *ngIf="!workoutActivity.weight">
+            (bar)
+        </span>
+        <span *ngIf="workoutActivity.repetition_type!=repetitionType.None">
+            x
+        </span>
+        <span (click)="toggleEditRepetitions($event)">
+            <span *ngIf="workoutActivity.number_of_repetitions">
+                <span>{{workoutActivity.number_of_repetitions}}</span>
+            </span>
+            <span *ngIf="!workoutActivity.number_of_repetitions">
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
+                    {{workoutActivity.expected_number_of_repetitions}}
+                </span>
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
+                    {{workoutActivity.expected_number_of_repetitions}} -
+                    {{workoutActivity.expected_number_of_repetitions_up_to}}
+                </span>
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                    F
+                </span>
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                    AMRAP
+                </span>
             </span>
         </span>
     </span>

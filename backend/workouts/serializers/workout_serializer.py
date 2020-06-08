@@ -33,6 +33,9 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
     unit_code = serializers.SerializerMethodField()
+    speed_unit_code = serializers.SerializerMethodField()
+    distance_unit_code = serializers.SerializerMethodField()
+    time_unit_code = serializers.SerializerMethodField()
 
     def get_unit_code(self, obj):
         if obj.unit:
@@ -40,9 +43,37 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
         
         return None
 
+    def get_speed_unit_code(self, obj):
+        if obj.speed_unit:
+            return obj.speed_unit.abbreviation
+        
+        return None
+
+    def get_time_unit_code(self, obj):
+        if obj.time_unit:
+            return obj.time_unit.abbreviation
+        
+        return None
+
+    def get_distance_unit_code(self, obj):
+        if obj.distance_unit:
+            return obj.distance_unit.abbreviation
+        
+        return None
+
     class Meta:
         model = WorkoutSet
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
+            'speed_type', 'expected_speed', 'expected_speed_up_to', 'speed',
+            'vo2max_type', 'expected_vo2max', 'expected_vo2max_up_to', 'vo2max',
+            'distance_type', 'expected_distance', 'expected_distance_up_to', 'distance',
+            'time_type', 'expected_time', 'expected_time_up_to', 'time',
+            'working_distance_percentage',
+            'working_time_percentage',
+            'working_speed_percentage',
+            'speed_unit', 'time_unit', 'distance_unit',
+            'speed_unit_code', 'time_unit_code', 'distance_unit_code'
+        ]
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
@@ -57,7 +88,16 @@ class WorkoutWarmUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutWarmUp
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress']
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
+            'speed_type', 'expected_speed', 'expected_speed_up_to', 'speed',
+            'vo2max_type', 'expected_vo2max', 'expected_vo2max_up_to', 'vo2max',
+            'distance_type', 'expected_distance', 'expected_distance_up_to', 'distance',
+            'time_type', 'expected_time', 'expected_time_up_to', 'time',
+            'working_distance_percentage',
+            'working_time_percentage',
+            'working_speed_percentage',
+            'speed_unit', 'time_unit', 'distance_unit'
+        ]
 
 class WorkoutGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutGroup()._meta.get_field('id'), required=False)
@@ -286,4 +326,33 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.in_progress = group_data.get('in_progress', instance.in_progress)
             instance.working_weight_percentage = group_data.get('working_weight_percentage', instance.working_weight_percentage)
             instance.plan_session_group_activity = group_data.get('plan_session_group_activity', instance.plan_session_group_activity)
+
+            instance.speed_type = group_data.get('speed_type', instance.speed_type)
+            instance.expected_speed = group_data.get('expected_speed', instance.expected_speed)
+            instance.expected_speed_up_to = group_data.get('expected_speed_up_to', instance.expected_speed_up_to)
+            instance.speed = group_data.get('speed', instance.speed)
+
+            instance.vo2max_type = group_data.get('vo2max_type', instance.vo2max_type)
+            instance.expected_vo2max = group_data.get('expected_vo2max', instance.expected_vo2max)
+            instance.expected_vo2max_up_to = group_data.get('expected_vo2max_up_to', instance.expected_vo2max_up_to)
+            instance.vo2max = group_data.get('vo2max', instance.vo2max)
+
+            instance.distance_type = group_data.get('distance_type', instance.distance_type)
+            instance.expected_distance = group_data.get('expected_distance', instance.expected_distance)
+            instance.expected_distance_up_to = group_data.get('expected_distance_up_to', instance.expected_distance_up_to)
+            instance.distance = group_data.get('distance', instance.distance)
+
+            instance.time_type = group_data.get('time_type', instance.time_type)
+            instance.expected_time = group_data.get('expected_time', instance.expected_time)
+            instance.expected_time_up_to = group_data.get('expected_time_up_to', instance.expected_time_up_to)
+            instance.time = group_data.get('time', instance.time)
+
+            instance.working_distance_percentage = group_data.get('working_distance_percentage', instance.working_distance_percentage)
+            instance.working_time_percentage = group_data.get('working_time_percentage', instance.working_time_percentage)
+            instance.working_speed_percentage = group_data.get('working_speed_percentage', instance.working_speed_percentage)
+
+            instance.speed_unit = group_data.get('speed_unit', instance.speed_unit)
+            instance.distance_unit = group_data.get('distance_unit', instance.distance_unit)
+            instance.time_unit = group_data.get('time_unit', instance.time_unit)
+
             instance.save()

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
 import { Exercise } from '../exercise';
-import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
+import { RepetitionType, RepetitionTypeLabel, SpeedType, TimeType, DistanceType, Vo2MaxType } from '../plan-session-group-activity';
 import { faCheck, faEdit, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Unit } from '../unit';
 import { UnitsService } from '../units.service';
@@ -24,7 +24,12 @@ export class WorkoutSetComponent implements OnInit {
   faTimesCircle = faTimesCircle;
   editing: boolean = false;
   editingRepetitions: boolean = false;
+
   repetitionType = RepetitionType;
+  speedType = SpeedType;
+  timeType = TimeType;
+  distanceType = DistanceType;
+  vo2MaxType = Vo2MaxType;
 
   constructor(
     private unitsService: UnitsService,

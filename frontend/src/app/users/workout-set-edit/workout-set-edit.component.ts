@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
-import { Exercise } from '../exercise';
+import { Exercise, ExerciseType } from '../exercise';
 import { Unit, MeasurementType } from '../unit';
-import { RepetitionType, RepetitionTypeLabel } from '../plan-session-group-activity';
+import { RepetitionType, RepetitionTypeLabel, SpeedType, Vo2MaxType, DistanceType, TimeType, SpeedTypeLabel, Vo2MaxTypeLabel, TimeTypeLabel, DistanceTypeLabel } from '../plan-session-group-activity';
 import { AuthService } from 'src/app/auth.service';
 import { UnitsService } from '../units.service';
 import { faCheck, faTrash, faClone, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -27,9 +27,22 @@ export class WorkoutSetEditComponent implements OnInit {
   faTimes = faTimes;
 
   units: Unit[];
+  speed_units: Unit[];
+  time_units: Unit[];
+  distance_units: Unit[];
 
   repetitionType = RepetitionType;
   repetitionTypeLabel = RepetitionTypeLabel;
+
+  speedType = SpeedType;
+  timeType = TimeType;
+  distanceType = DistanceType;
+  vo2MaxType = Vo2MaxType;
+
+  speedTypeLabel = SpeedTypeLabel;
+  vo2MaxTypeLabel = Vo2MaxTypeLabel;
+  timeTypeLabel = TimeTypeLabel;
+  distanceTypeLabel = DistanceTypeLabel;
 
   cloningModalVisible: boolean = false;
   number_of_cloned_activities: number = 1;
@@ -48,15 +61,49 @@ export class WorkoutSetEditComponent implements OnInit {
 
   loadUnits() {
     this.unitsService.getUnits().subscribe(u => {
+      let unitSystem = this.authService.getUserUnitSystem();
+
       this.units = u.filter(u => u.measurement_type == MeasurementType.Weight);
 
-      let unitSystem = this.authService.getUserUnitSystem();
       if (!this.workoutActivity.unit && unitSystem) {
         let filteredUnits = this.units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Weight);
 
         if (filteredUnits && filteredUnits.length > 0) {
           this.workoutActivity.unit = filteredUnits[0].id;
           this.workoutActivity.unit_code = filteredUnits[0].abbreviation;
+        }
+      }
+
+      this.distance_units = u.filter(u => u.measurement_type == MeasurementType.Distance);
+
+      if (!this.workoutActivity.distance_unit && unitSystem) {
+        let filteredUnits = this.distance_units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Distance);
+
+        if (filteredUnits && filteredUnits.length > 0) {
+          this.workoutActivity.distance_unit = filteredUnits[0].id;
+          this.workoutActivity.distance_unit_code = filteredUnits[0].abbreviation;
+        }
+      }
+
+      this.time_units = u.filter(u => u.measurement_type == MeasurementType.Time);
+
+      if (!this.workoutActivity.time_unit && unitSystem) {
+        let filteredUnits = this.time_units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Time);
+
+        if (filteredUnits && filteredUnits.length > 0) {
+          this.workoutActivity.time_unit = filteredUnits[0].id;
+          this.workoutActivity.time_unit_code = filteredUnits[0].abbreviation;
+        }
+      }
+
+      this.speed_units = u.filter(u => u.measurement_type == MeasurementType.Speed);
+
+      if (!this.workoutActivity.speed_unit && unitSystem) {
+        let filteredUnits = this.speed_units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Speed);
+
+        if (filteredUnits && filteredUnits.length > 0) {
+          this.workoutActivity.speed_unit = filteredUnits[0].id;
+          this.workoutActivity.speed_unit_code = filteredUnits[0].abbreviation;
         }
       }
     });
@@ -78,7 +125,54 @@ export class WorkoutSetEditComponent implements OnInit {
       this.workoutActivity.expected_number_of_repetitions = null;
       this.workoutActivity.expected_number_of_repetitions_up_to = null;
     }
+  }
 
+  speedTypeChange() {
+    if (this.workoutActivity.speed_type != SpeedType.Range) {
+      this.workoutActivity.expected_speed_up_to = null;
+    }
+
+    if (this.workoutActivity.speed_type != SpeedType.Range &&
+      this.workoutActivity.speed_type != SpeedType.Standard) {
+      this.workoutActivity.expected_speed = null;
+      this.workoutActivity.expected_speed_up_to = null;
+    }
+  }
+
+  timeTypeChange() {
+    if (this.workoutActivity.time_type != TimeType.Range) {
+      this.workoutActivity.expected_time_up_to = null;
+    }
+
+    if (this.workoutActivity.time_type != TimeType.Range &&
+      this.workoutActivity.time_type != TimeType.Standard) {
+      this.workoutActivity.expected_time = null;
+      this.workoutActivity.expected_time_up_to = null;
+    }
+  }
+
+  distanceTypeChange() {
+    if (this.workoutActivity.distance_type != DistanceType.Range) {
+      this.workoutActivity.expected_distance_up_to = null;
+    }
+
+    if (this.workoutActivity.distance_type != DistanceType.Range &&
+      this.workoutActivity.distance_type != DistanceType.Standard) {
+      this.workoutActivity.expected_distance = null;
+      this.workoutActivity.expected_distance_up_to = null;
+    }
+  }
+
+  vo2maxTypeChange() {
+    if (this.workoutActivity.vo2max_type != Vo2MaxType.Range) {
+      this.workoutActivity.expected_vo2max_up_to = null;
+    }
+
+    if (this.workoutActivity.vo2max_type != Vo2MaxType.Range &&
+      this.workoutActivity.vo2max_type != Vo2MaxType.Standard) {
+      this.workoutActivity.expected_vo2max = null;
+      this.workoutActivity.expected_vo2max_up_to = null;
+    }
   }
 
   hide(): boolean {
@@ -101,23 +195,76 @@ export class WorkoutSetEditComponent implements OnInit {
     if (!this.workoutActivity.exercise) {
       return false;
     }
-    // if (!this.workoutActivity.weight) {
-    //   return false;
-    // }
-    if (!this.workoutActivity.unit) {
-      return false;
+
+    if (this.workoutActivity.exercise.exercise_type == ExerciseType.Strength) {
+      if (!this.workoutActivity.unit) {
+        return false;
+      }
+      if (!this.workoutActivity.repetition_type) {
+        return false;
+      }
+      if ((this.workoutActivity.repetition_type == RepetitionType.Standard || 
+        this.workoutActivity.repetition_type == RepetitionType.Range) &&
+        !this.workoutActivity.expected_number_of_repetitions) {
+        return false;
+      }
+      if (this.workoutActivity.repetition_type == RepetitionType.Range &&
+        !this.workoutActivity.expected_number_of_repetitions_up_to) {
+        return false;
+      }
     }
-    if (!this.workoutActivity.repetition_type) {
-      return false;
-    }
-    if ((this.workoutActivity.repetition_type == RepetitionType.Standard || 
-      this.workoutActivity.repetition_type == RepetitionType.Range) &&
-      !this.workoutActivity.expected_number_of_repetitions) {
-      return false;
-    }
-    if (this.workoutActivity.repetition_type == RepetitionType.Range &&
-      !this.workoutActivity.expected_number_of_repetitions_up_to) {
-      return false;
+    else if (this.workoutActivity.exercise.exercise_type == ExerciseType.Cardio) {
+      if (this.workoutActivity.speed_type &&
+        this.workoutActivity.speed_type != SpeedType.None) {
+        if ((this.workoutActivity.speed_type == SpeedType.Standard ||
+          this.workoutActivity.speed_type == SpeedType.Range) &&
+          !this.workoutActivity.expected_speed) {
+          return false;
+        }
+        if (this.workoutActivity.speed_type == SpeedType.Range &&
+          !this.workoutActivity.expected_speed_up_to) {
+          return false;
+        }
+      }
+
+      if (this.workoutActivity.vo2max_type &&
+        this.workoutActivity.vo2max_type != Vo2MaxType.None) {
+        if ((this.workoutActivity.vo2max_type == Vo2MaxType.Standard ||
+          this.workoutActivity.vo2max_type == Vo2MaxType.Range) &&
+          !this.workoutActivity.expected_vo2max) {
+          return false;
+        }
+        if (this.workoutActivity.vo2max_type == Vo2MaxType.Range &&
+          !this.workoutActivity.expected_vo2max_up_to) {
+          return false;
+        }
+      }
+
+      if (this.workoutActivity.distance_type &&
+        this.workoutActivity.distance_type != DistanceType.None) {
+        if ((this.workoutActivity.distance_type == DistanceType.Standard ||
+          this.workoutActivity.distance_type == DistanceType.Range) &&
+          !this.workoutActivity.expected_distance) {
+          return false;
+        }
+        if (this.workoutActivity.distance_type == DistanceType.Range &&
+          !this.workoutActivity.expected_distance_up_to) {
+          return false;
+        }
+      }
+
+      if (this.workoutActivity.time_type &&
+        this.workoutActivity.time_type != TimeType.None) {
+        if ((this.workoutActivity.time_type == TimeType.Standard ||
+          this.workoutActivity.time_type == TimeType.Range) &&
+          !this.workoutActivity.expected_time) {
+          return false;
+        }
+        if (this.workoutActivity.time_type == TimeType.Range &&
+          !this.workoutActivity.expected_time_up_to) {
+          return false;
+        }
+      }
     }
 
     return true;
