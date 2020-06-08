@@ -35,6 +35,10 @@ export class WorkingParametersComponent implements OnInit {
         if (!workingParameter.exercise) {
           return false;
         }
+
+        if (!workingParameter.parameter_type) {
+          return false;
+        }
       }
     }
 

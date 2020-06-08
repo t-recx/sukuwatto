@@ -27,6 +27,8 @@ export class User {
     month_birth: number;
     biography: string;
     default_weight_unit: number;
+    default_speed_unit: number;
+    default_distance_unit: number;
     system: MeasurementSystem;
     profile_filename: string;
     is_staff: boolean;

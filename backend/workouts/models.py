@@ -381,6 +381,7 @@ class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    parameter_type = models.CharField(max_length=1, choices=AbstractProgressionStrategy.PARAMETER_TYPES)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     previous_parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit", null=True)

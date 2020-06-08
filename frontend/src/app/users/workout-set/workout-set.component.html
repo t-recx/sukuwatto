@@ -47,9 +47,7 @@ style="padding: 10px;"
             </span>
 
             <span *ngIf="workoutActivity.speed || workoutActivity.expected_speed">
-                <span *ngFor="let unit of units" >
-                    <span *ngIf="unit.id == workoutActivity.speed_unit">{{unit.abbreviation}}</span>
-                </span>
+                {{workoutActivity.speed_unit_code}}
             </span>
         </span>
 
@@ -101,8 +99,8 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngFor="let unit of units">
-                <span *ngIf="unit.id == workoutActivity.distance_unit">{{unit.abbreviation}}</span>
+            <span *ngIf="workoutActivity.distance || workoutActivity.expected_distance">
+                {{workoutActivity.distance_unit_code}}
             </span>
         </span>
 
@@ -128,8 +126,8 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngFor="let unit of units">
-                <span *ngIf="unit.id == workoutActivity.time_unit">{{unit.abbreviation}}</span>
+            <span *ngIf="workoutActivity.time || workoutActivity.expected_time">
+                {{workoutActivity.time_unit_code}}
             </span>
         </span>
     </span>
@@ -145,8 +143,8 @@ style="padding: 10px;"
             <span *ngIf="workoutActivity.weight % 1 != 0">
                 {{workoutActivity.weight}}
             </span>
-            <span *ngFor="let unit of units">
-                <span *ngIf="unit.id == workoutActivity.unit">{{unit.abbreviation}}</span>
+            <span>
+                {{workoutActivity.unit_code}}
             </span>
         </span>
         <span *ngIf="!workoutActivity.weight">

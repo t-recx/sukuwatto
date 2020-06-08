@@ -68,6 +68,12 @@ export class UnitsService {
           case 'cm':
             toUnitCode = 'ft';
             break;
+          case 'km':
+            toUnitCode = 'mi';
+            break;
+          case 'm':
+            toUnitCode = 'yd';
+            break;
         }
       }
       else if (this.authService.getUserUnitSystem() == MeasurementSystem.Metric) {
@@ -77,6 +83,12 @@ export class UnitsService {
             break;
           case 'lb':
             toUnitCode = 'kg';
+            break;
+          case 'mi':
+            toUnitCode = 'km';
+            break;
+          case 'yd':
+            toUnitCode = 'm';
             break;
         }
       }
@@ -145,10 +157,18 @@ export class UnitsService {
       if (workout.groups) {
         workout.groups.forEach(group => {
           if (group.sets) {
-            group.sets.forEach(s => this.convertWeightValue(s));
+            group.sets.forEach(s => {
+              this.convertWeightValue(s);
+              this.convertSpeedValue(s);
+              this.convertDistanceValue(s);
+            });
           }
           if (group.warmups) {
-            group.warmups.forEach(s => this.convertWeightValue(s));
+            group.warmups.forEach(s => {
+              this.convertWeightValue(s);
+              this.convertSpeedValue(s);
+              this.convertDistanceValue(s);
+            });
           }
         });
       }
@@ -202,6 +222,42 @@ export class UnitsService {
           }
           if (model.unit_code) {
               model.unit_code = this.getToUnitCode(model.unit_code);
+          }
+      }
+  }
+
+  convertDistanceValue(model: { distance: number, expected_distance: number, expected_distance_up_to: number, distance_unit_code: string }) {
+      if (model) {
+          if (model.distance) {
+              model.distance = this.convertToUserUnit(model.distance, model.distance_unit_code);
+          }
+          if (model.expected_distance) {
+              model.expected_distance = this.convertToUserUnit(model.expected_distance, model.distance_unit_code);
+          }
+          if (model.expected_distance_up_to) {
+              model.expected_distance_up_to = this.convertToUserUnit(model.expected_distance_up_to, model.distance_unit_code);
+          }
+
+          if (model.distance_unit_code) {
+              model.distance_unit_code = this.getToUnitCode(model.distance_unit_code);
+          }
+      }
+  }
+
+  convertSpeedValue(model: { speed: number, expected_speed: number, expected_speed_up_to: number, speed_unit_code: string }) {
+      if (model) {
+          if (model.speed) {
+              model.speed = this.convertToUserUnit(model.speed, model.speed_unit_code);
+          }
+          if (model.expected_speed) {
+              model.expected_speed = this.convertToUserUnit(model.expected_speed, model.speed_unit_code);
+          }
+          if (model.expected_speed_up_to) {
+              model.expected_speed_up_to = this.convertToUserUnit(model.expected_speed_up_to, model.speed_unit_code);
+          }
+
+          if (model.speed_unit_code) {
+              model.speed_unit_code = this.getToUnitCode(model.speed_unit_code);
           }
       }
   }

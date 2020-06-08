@@ -405,7 +405,7 @@ export class WorkoutDetailEditComponent implements OnInit {
 
   onWorkingParametersClosed() {
     this.workingParametersVisible = false;
-    this.workoutGeneratorService.updateWeights(this.workout, this.workout.working_parameters);
+    this.workoutGeneratorService.updateValues(this.workout, this.workout.working_parameters);
   }
 
   valid(workout: Workout): boolean {

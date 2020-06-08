@@ -6,6 +6,7 @@ import { WorkoutGroup } from '../workout-group';
 import { UnitsService } from '../units.service';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
+import { ExerciseType } from '../exercise';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -46,14 +47,14 @@ export class WorkoutOverviewCardComponent implements OnInit {
       this.workoutsService.getWorkout(this.id).subscribe(w =>
         {
           this.workout = w;
-          this.workoutActivities = this.getResumedActivities(w);
+          this.workoutActivities = this.getResumedStrengthActivities(w);
           if (this.workout.start) {
             this.dateString = (new Date(this.workout.start)).toLocaleDateString();
           }
         });
     }
     else {
-      this.workoutActivities = this.getResumedActivities(this.workout);
+      this.workoutActivities = this.getResumedStrengthActivities(this.workout);
 
       if (this.workout.start) {
         this.dateString = (new Date(this.workout.start)).toLocaleDateString();
@@ -61,28 +62,28 @@ export class WorkoutOverviewCardComponent implements OnInit {
     }
   }
 
-  getProductiveGroups(groups: WorkoutGroup[]): WorkoutGroup[] {
+  getProductiveStrengthGroups(groups: WorkoutGroup[]): WorkoutGroup[] {
     let productiveGroups: WorkoutGroup[] = [];
 
-    productiveGroups = groups.filter(g => g.sets.filter(s => s.done).length > 0);
+    productiveGroups = groups.filter(g => g.sets.filter(s => s.done && s.exercise.exercise_type == ExerciseType.Strength).length > 0);
 
     return productiveGroups;
   }
 
-  getResumedActivities(workout: Workout): WorkoutOverview[] {
+  getResumedStrengthActivities(workout: Workout): WorkoutOverview[] {
     let activities: WorkoutOverview[] = [];
-    let groups = this.getProductiveGroups(workout.groups);
+    let groups = this.getProductiveStrengthGroups(workout.groups);
 
     for (let group of groups) {
-      activities.push(...this.getResumedActivitiesGroup(group));
+      activities.push(...this.getResumedStrengthActivitiesGroup(group));
     }
 
     return activities;
   }
 
-  getResumedActivitiesGroup(group: WorkoutGroup): WorkoutOverview[] {
+  getResumedStrengthActivitiesGroup(group: WorkoutGroup): WorkoutOverview[] {
     let activities: WorkoutOverview[] = [];
-    let doneSets = group.sets.filter(s => s.done);
+    let doneSets = group.sets.filter(s => s.done && s.exercise.exercise_type == ExerciseType.Strength);
 
     for (let exercise_id of new Set(doneSets.map(s => s.exercise.id))) {
       let exercise = doneSets.filter(s => s.exercise.id == exercise_id)[0].exercise;

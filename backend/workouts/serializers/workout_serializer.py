@@ -26,7 +26,7 @@ class WorkingParameterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkingParameter
-        fields = ['id', 'exercise', 'parameter_value', 'unit', 'unit_code', 'previous_unit_code', 'previous_parameter_value', 'previous_unit', 'manually_changed']
+        fields = ['id', 'exercise', 'parameter_value', 'parameter_type', 'unit', 'unit_code', 'previous_unit_code', 'previous_parameter_value', 'previous_unit', 'manually_changed']
     
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
@@ -245,7 +245,8 @@ class WorkoutSerializer(serializers.ModelSerializer):
             exercise = working_parameter_data.get('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
             instance.exercise = exercise_model
-            instance.weight = working_parameter_data.get('weight', instance.weight)
+            instance.parameter_value = working_parameter_data.get('parameter_value', instance.parameter_value)
+            instance.parameter_type = working_parameter_data.get('parameter_type', instance.parameter_type)
             instance.unit = working_parameter_data.get('unit', instance.unit)
             instance.previous_parameter_value = working_parameter_data.get('previous_parameter_value', instance.previous_parameter_value)
             instance.previous_unit = working_parameter_data.get('previous_unit', instance.previous_unit)

@@ -26,6 +26,8 @@ class CustomUser(AbstractUser):
     biography = models.TextField(null=True)
     profile_filename = models.CharField(max_length=1024, null=True)
     default_weight_unit = models.IntegerField(null=True)
+    default_speed_unit = models.IntegerField(null=True)
+    default_distance_unit = models.IntegerField(null=True)
 
     def __str__(self):
         return self.username

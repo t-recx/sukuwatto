@@ -80,11 +80,25 @@ export class SignupComponent implements OnInit, OnDestroy {
       return false;
     }
     else {
-      const unit = this.units.filter(x => x.measurement_type == MeasurementType.Weight && 
+      const weightUnit = this.units.filter(x => x.measurement_type == MeasurementType.Weight && 
         x.system == this.user.system)[0];
 
-      if (unit) {
-        this.user.default_weight_unit = unit.id;
+      if (weightUnit) {
+        this.user.default_weight_unit = weightUnit.id;
+      }
+
+      const speedUnit = this.units.filter(x => x.measurement_type == MeasurementType.Speed && 
+        x.system == this.user.system)[0];
+
+      if (speedUnit) {
+        this.user.default_speed_unit = speedUnit.id;
+      }
+
+      const distanceUnit = this.units.filter(x => x.measurement_type == MeasurementType.Distance && 
+        x.system == this.user.system)[0];
+
+      if (distanceUnit) {
+        this.user.default_distance_unit = distanceUnit.id;
       }
     }
 

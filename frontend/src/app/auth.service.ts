@@ -53,6 +53,8 @@ export class AuthService {
         this.setUsername(null);
         this.setUnitSystem(null);
         this.setUserWeightUnitId(null);
+        this.setUserDistanceUnitId(null);
+        this.setUserSpeedUnitId(null);
         this.setUserID(null);
         this.setIsStaff(null);
       }),
@@ -97,6 +99,8 @@ export class AuthService {
       if (users.length > 0) { 
         this.setUnitSystem(users[0].system);
         this.setUserWeightUnitId(users[0].default_weight_unit.toString());
+        this.setUserDistanceUnitId(users[0].default_distance_unit.toString());
+        this.setUserSpeedUnitId(users[0].default_speed_unit.toString());
 
         this.setUserID(users[0].id.toString());
         this.setIsStaff(users[0].is_staff);
@@ -145,8 +149,24 @@ export class AuthService {
     return this.getLocalStorageItem('weight_unit_id');
   }
 
+  public getUserDistanceUnitId(): string {
+    return this.getLocalStorageItem('distance_unit_id');
+  }
+
+  public getUserSpeedUnitId(): string {
+    return this.getLocalStorageItem('speed_unit_id');
+  }
+
   public setUserWeightUnitId(unit: string) {
     this.setLocalStorageItem('weight_unit_id', unit);
+  }
+
+  public setUserDistanceUnitId(unit: string) {
+    this.setLocalStorageItem('distance_unit_id', unit);
+  }
+
+  public setUserSpeedUnitId(unit: string) {
+    this.setLocalStorageItem('speed_unit_id', unit);
   }
 
   public setUnitSystem(system: string) {

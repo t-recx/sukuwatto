@@ -10,7 +10,7 @@ import { WorkingParameter } from './working-parameter';
 import { PlanSessionGroup } from './plan-session-group';
 import { WorkoutGroup } from './workout-group';
 import { PlanSessionGroupActivity } from './plan-session-group-activity';
-import { Exercise, Section } from './exercise';
+import { Exercise, Section, ExerciseType } from './exercise';
 import { PlanSessionGroupExercise } from './plan-session-group-exercise';
 import { UnitsService } from './units.service';
 import { Unit, MeasurementType } from './unit';
@@ -35,6 +35,10 @@ describe('WorkoutGeneratorService', () => {
         let userWeightUnit: Unit = new Unit({ id: 60, measurement_type: MeasurementType.Weight });
         let anotherUnit: Unit = new Unit({ id: 30, measurement_type: MeasurementType.Weight });
         let convertedWeight: number = 3948;
+        let userSpeedUnitId: number = 90;
+        let userDistanceUnitId: number = 120;
+        let userSpeedUnit: Unit = new Unit({ id: 90, measurement_type: MeasurementType.Speed });
+        let userDistanceUnit: Unit = new Unit({ id: 120, measurement_type: MeasurementType.Distance });
 
         let service: WorkoutGeneratorService;
         let workoutServiceSpy: jasmine.SpyObj<WorkoutsService>;
@@ -60,7 +64,7 @@ describe('WorkoutGeneratorService', () => {
                 plan.sessions = [planSession];
 
                 workoutServiceSpy = jasmine.createSpyObj('WorkoutsService', ['getLastWorkout']);
-                authServiceSpy = jasmine.createSpyObj('AuthService', ['getUsername', 'getUserWeightUnitId']);
+                authServiceSpy = jasmine.createSpyObj('AuthService', ['getUsername', 'getUserWeightUnitId', 'getUserSpeedUnitId', 'getUserDistanceUnitId']);
                 unitServiceSpy = jasmine.createSpyObj('UnitsService', ['convert', 'getUnits']);
                 progressionStrategyService = new ProgressionStrategyService();
 
@@ -69,7 +73,9 @@ describe('WorkoutGeneratorService', () => {
                 workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
                 authServiceSpy.getUsername.and.returnValue(username);
                 authServiceSpy.getUserWeightUnitId.and.returnValue(userWeightUnitId.toString());
-                unitServiceSpy.getUnits.and.returnValue(of([userWeightUnit, anotherUnit]));
+                authServiceSpy.getUserSpeedUnitId.and.returnValue(userSpeedUnitId.toString());
+                authServiceSpy.getUserDistanceUnitId.and.returnValue(userDistanceUnitId.toString());
+                unitServiceSpy.getUnits.and.returnValue(of([userWeightUnit, anotherUnit, userSpeedUnit, userDistanceUnit]));
                 unitServiceSpy.convert.and.returnValue(convertedWeight);
 
                 service = new WorkoutGeneratorService(workoutServiceSpy, authServiceSpy, unitServiceSpy, progressionStrategyService);
@@ -78,23 +84,23 @@ describe('WorkoutGeneratorService', () => {
         describe('#updateWeights', () => {
                 it('should update sets and warmups according to percentage of working parameter', () => {
                         let weight = 100;
-                        let squat = new Exercise({ name: 'aaa',  id: 1, section: Section.Lower });
+                        let squat = new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1, section: Section.Lower });
                         let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: squat, working_weight_percentage: 50, number_of_sets: 1, number_of_repetitions: 1 })], warmups: [new PlanSessionGroupExercise({ exercise: squat, working_weight_percentage: 25, number_of_sets: 1, number_of_repetitions: 1 })] });
                         planSession.groups = [group];
-                        working_parameters.push(new WorkingParameter({ parameter_value: weight, exercise: squat, unit: userWeightUnitId }));
+                        working_parameters.push(new WorkingParameter({ parameter_type: ParameterType.Weight, parameter_value: weight, exercise: squat, unit: userWeightUnitId }));
                         serviceGenerate().subscribe(workout => {
                                 expect(workout.groups[0].sets[0].weight).toEqual(50);
                                 expect(workout.groups[0].warmups[0].weight).toEqual(25);
 
                                 workout.groups[0].sets[0].working_weight_percentage = 2;
                                 workout.groups[0].warmups[0].working_weight_percentage = 40;
-                                service.updateWeights(workout, working_parameters);
+                                service.updateValues(workout, working_parameters);
                                 expect(workout.groups[0].sets[0].weight).toEqual(2);
                                 expect(workout.groups[0].warmups[0].weight).toEqual(40);
 
                                 working_parameters[0].parameter_value = 200;
 
-                                service.updateWeights(workout, working_parameters);
+                                service.updateValues(workout, working_parameters);
                                 expect(workout.groups[0].sets[0].weight).toEqual(4);
                                 expect(workout.groups[0].warmups[0].weight).toEqual(80);
 
@@ -129,13 +135,13 @@ describe('WorkoutGeneratorService', () => {
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
                                                         number_of_sets: 2,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
                                                         number_of_sets: 1,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                         ]
@@ -146,7 +152,7 @@ describe('WorkoutGeneratorService', () => {
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
                                                         number_of_sets: 3,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                         ]
@@ -219,14 +225,14 @@ describe('WorkoutGeneratorService', () => {
                                                                 id: 1,
                                                                 order: 1,
                                                                 number_of_sets: 1,
-                                                                exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                                exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                         }
                                                         ),
                                                         new PlanSessionGroupActivity({
                                                                 id: 2,
                                                                 order: 1,
                                                                 number_of_sets: 1,
-                                                                exercise: new Exercise({ name: 'aaa',  id: 2 })
+                                                                exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2 })
                                                         }
                                                         ),
                                                 ]
@@ -271,14 +277,14 @@ describe('WorkoutGeneratorService', () => {
                                                         id: 1,
                                                         order: 1,
                                                         number_of_sets: 3,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         id: 2,
                                                         order: 2,
                                                         number_of_sets: 1,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                         ]
@@ -291,7 +297,7 @@ describe('WorkoutGeneratorService', () => {
                                                         id: 3,
                                                         order: 1,
                                                         number_of_sets: 1,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                         ]
@@ -333,8 +339,8 @@ describe('WorkoutGeneratorService', () => {
                                 weightIncreaseAnotherStrategy = 2983;
                                 weightIncreaseYetAnotherStrategy = 2011;
 
-                                coreExercise = new Exercise({ name: 'aaa',  id: 1, section: Section.Core });
-                                anotherCoreExercise = new Exercise({ name: 'aaa',  id: 2, section: Section.Core });
+                                coreExercise = new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1, section: Section.Core });
+                                anotherCoreExercise = new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2, section: Section.Core });
                                 strategy = new ProgressionStrategy({ id: 1, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: weightIncrease, unit: userWeightUnitId });
                                 strategyWithDifferentUnit = new ProgressionStrategy({ id: 2, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: weightIncreaseAnotherUnit, unit: anotherUnitId });
                                 anotherStrategy = new ProgressionStrategy({ id: 3, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: weightIncreaseAnotherStrategy, unit: userWeightUnitId });
@@ -343,8 +349,8 @@ describe('WorkoutGeneratorService', () => {
                                 anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherCoreExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
                                 planSession.groups = [group, anotherGroup];
 
-                                working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise: coreExercise, unit: userWeightUnitId }));
-                                working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise: anotherCoreExercise, unit: userWeightUnitId }));
+                                working_parameters.push(new WorkingParameter({ parameter_type: ParameterType.Weight, parameter_value: previousWeight, exercise: coreExercise, unit: userWeightUnitId }));
+                                working_parameters.push(new WorkingParameter({ parameter_type: ParameterType.Weight, parameter_value: previousWeight, exercise: anotherCoreExercise, unit: userWeightUnitId }));
 
                                 serviceGenerate().subscribe(workout => {
                                         lastWorkout = workout;
@@ -437,14 +443,14 @@ describe('WorkoutGeneratorService', () => {
                                 it('should not affect exercises on other groups', () => {
                                         let previousWeight = 10;
                                         let increase = 2;
-                                        let exercise = new Exercise({ name: 'aaa',  id: 1, section: Section.Core });
-                                        let anotherExercise = new Exercise({ name: 'aaa',  id: 2, section: Section.Core });
+                                        let exercise = new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1, section: Section.Core });
+                                        let anotherExercise = new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2, section: Section.Core });
                                         let strategy = new ProgressionStrategy({ id: 1, parameter_type: ParameterType.Weight, progression_type: ProgressionType.ByCharacteristics, section: Section.Core, parameter_increase: increase, unit: userWeightUnitId });
                                         let group = new PlanSessionGroup({ id: 1, order: 1, exercises: [new PlanSessionGroupExercise({ exercise: exercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
                                         let anotherGroup = new PlanSessionGroup({ id: 2, order: 2, exercises: [new PlanSessionGroupExercise({ exercise: anotherExercise, working_weight_percentage: 100, number_of_sets: 1, number_of_repetitions: 1 })] })
                                         planSession.groups = [group, anotherGroup];
-                                        working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise, unit: userWeightUnitId }));
-                                        working_parameters.push(new WorkingParameter({ parameter_value: previousWeight, exercise: anotherExercise, unit: userWeightUnitId }));
+                                        working_parameters.push(new WorkingParameter({ parameter_type: ParameterType.Weight, parameter_value: previousWeight, exercise, unit: userWeightUnitId }));
+                                        working_parameters.push(new WorkingParameter({ parameter_type: ParameterType.Weight, parameter_value: previousWeight, exercise: anotherExercise, unit: userWeightUnitId }));
                                         serviceGenerate().subscribe(workout => {
                                                 lastWorkout = workout;
                                                 workoutServiceSpy.getLastWorkout.and.returnValue(of(lastWorkout));
@@ -468,7 +474,7 @@ describe('WorkoutGeneratorService', () => {
 
                 describe('when working parameters partially filled', () => {
                         beforeEach(() => {
-                                working_parameters = [new WorkingParameter({ unit: anotherUnitId, parameter_value: 20, exercise: new Exercise({ name: 'aaa',  id: 1 }) })];
+                                working_parameters = [new WorkingParameter({ parameter_type: ParameterType.Weight, unit: anotherUnitId, parameter_value: 20, exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 }) })];
                         });
 
                         it('should fill the missing exercises', () => {
@@ -477,15 +483,15 @@ describe('WorkoutGeneratorService', () => {
                                         exercises: [
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2 })
                                                 }),
                                                 new PlanSessionGroupActivity({
                                                         order: 3,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 3 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 3 })
                                                 }),
                                         ]
                                 });
@@ -513,17 +519,17 @@ describe('WorkoutGeneratorService', () => {
                                         exercises: [
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 1 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 1 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 3,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                         ]
@@ -533,17 +539,17 @@ describe('WorkoutGeneratorService', () => {
                                         exercises: [
                                                 new PlanSessionGroupActivity({
                                                         order: 1,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 2 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 2 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 2,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 3 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 3 })
                                                 }
                                                 ),
                                                 new PlanSessionGroupActivity({
                                                         order: 3,
-                                                        exercise: new Exercise({ name: 'aaa',  id: 4 })
+                                                        exercise: new Exercise({ exercise_type: ExerciseType.Strength,  name: 'aaa',  id: 4 })
                                                 }
                                                 ),
                                         ]

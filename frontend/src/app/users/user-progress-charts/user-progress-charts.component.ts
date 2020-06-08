@@ -46,7 +46,7 @@ export class UserProgressChartsComponent implements OnInit {
     loadData() {
         this.loading = true;
 
-        this.userProgressService.getUserProgress(this.username).subscribe(p => {
+        this.userProgressService.getUserStrengthProgress(this.username).subscribe(p => {
             this.currentIndex = 0;
             this.series = [];
 

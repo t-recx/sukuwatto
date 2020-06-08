@@ -88,7 +88,7 @@ export class WorkoutSetEditComponent implements OnInit {
       this.time_units = u.filter(u => u.measurement_type == MeasurementType.Time);
 
       if (!this.workoutActivity.time_unit && unitSystem) {
-        let filteredUnits = this.time_units.filter(u => u.system == unitSystem && u.measurement_type == MeasurementType.Time);
+        let filteredUnits = this.time_units.filter(u => u.measurement_type == MeasurementType.Time);
 
         if (filteredUnits && filteredUnits.length > 0) {
           this.workoutActivity.time_unit = filteredUnits[0].id;
@@ -109,9 +109,33 @@ export class WorkoutSetEditComponent implements OnInit {
     });
   }
 
-  updateUnitCode() {
+  updateUnitCodes() {
     if (this.workoutActivity.unit) {
       this.workoutActivity.unit_code = this.units.filter(u => u.id == this.workoutActivity.unit)[0].abbreviation;
+    }
+    else {
+      this.workoutActivity.unit_code = null;
+    }
+
+    if (this.workoutActivity.speed_unit) {
+      this.workoutActivity.speed_unit_code = this.speed_units.filter(u => u.id == this.workoutActivity.speed_unit)[0].abbreviation;
+    }
+    else {
+      this.workoutActivity.speed_unit_code = null;
+    }
+
+    if (this.workoutActivity.distance_unit) {
+      this.workoutActivity.distance_unit_code = this.distance_units.filter(u => u.id == this.workoutActivity.distance_unit)[0].abbreviation;
+    }
+    else {
+      this.workoutActivity.distance_unit_code = null;
+    }
+
+    if (this.workoutActivity.time_unit) {
+      this.workoutActivity.time_unit_code = this.time_units.filter(u => u.id == this.workoutActivity.time_unit)[0].abbreviation;
+    }
+    else {
+      this.workoutActivity.time_unit_code = null;
     }
   }
 
@@ -182,7 +206,7 @@ export class WorkoutSetEditComponent implements OnInit {
       return false;
     }
 
-    this.updateUnitCode();
+    this.updateUnitCodes();
 
     this.visible = false;
     this.triedToHide = false;
