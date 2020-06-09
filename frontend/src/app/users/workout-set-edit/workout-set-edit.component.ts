@@ -187,7 +187,7 @@ export class WorkoutSetEditComponent implements OnInit {
     }
   }
 
-  vo2maxTypeChange() {
+  vo2MaxTypeChange() {
     if (this.workoutActivity.vo2max_type != Vo2MaxType.Range) {
       this.workoutActivity.expected_vo2max_up_to = null;
     }

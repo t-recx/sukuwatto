@@ -42,38 +42,12 @@ style="padding: 10px;"
                     {{workoutActivity.expected_speed_up_to}}
                 </span>
                 <span *ngIf="workoutActivity.speed_type==speedType.AFAP">
-                    As fast as possible
+                    AFAP
                 </span>
             </span>
 
             <span *ngIf="workoutActivity.speed || workoutActivity.expected_speed">
                 {{workoutActivity.speed_unit_code}}
-            </span>
-        </span>
-
-        <span *ngIf="workoutActivity.vo2max ||
-            (workoutActivity.vo2max_type && 
-            workoutActivity.vo2max_type != vo2MaxType.None)">
-            <span>
-                with
-            </span>
-
-            <span *ngIf="workoutActivity.vo2max">
-                <span>{{workoutActivity.vo2max}}</span>
-            </span>
-
-            <span *ngIf="!workoutActivity.vo2max">
-                <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Standard">
-                    {{workoutActivity.expected_vo2max}}
-                </span>
-                <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Range">
-                    {{workoutActivity.expected_vo2max}} -
-                    {{workoutActivity.expected_vo2max_up_to}}
-                </span>
-            </span>
-
-            <span>
-                (% vo2 max)
             </span>
         </span>
 
@@ -107,27 +81,79 @@ style="padding: 10px;"
         <span *ngIf="workoutActivity.time ||
             (workoutActivity.time_type && 
             workoutActivity.time_type != timeType.None)">
-            <span>
-                in
+            <span *ngIf="workoutActivity.distance ||
+                (workoutActivity.distance_type && 
+                workoutActivity.distance_type != distanceType.None); else alternativeTimeIntroduction">
+                <span>
+                    in
+                </span>
             </span>
 
+            <ng-template #alternativeTimeIntroduction>
+                for
+            </ng-template>
+
             <span *ngIf="workoutActivity.time">
-                <span>{{workoutActivity.time}}</span>
+                <span *ngIf="workoutActivity.time % 1 == 0">
+                    {{workoutActivity.time | number: '1.0-0'}}
+                </span>
+                <span *ngIf="workoutActivity.time % 1 != 0">
+                    {{workoutActivity.time}}
+                </span>
             </span>
 
             <span *ngIf="!workoutActivity.time">
                 <span *ngIf="workoutActivity.time_type==timeType.Standard ||
+                workoutActivity.time_type==timeType.Range ||
                 workoutActivity.time_type==timeType.Parameter">
-                    {{workoutActivity.expected_time}}
+                    <span *ngIf="workoutActivity.expected_time % 1 == 0">
+                        {{workoutActivity.expected_time | number: '1.0-0'}}
+                    </span>
+                    <span *ngIf="workoutActivity.expected_time % 1 != 0">
+                        {{workoutActivity.expected_time}}
+                    </span>
                 </span>
                 <span *ngIf="workoutActivity.time_type==timeType.Range">
-                    {{workoutActivity.expected_time}} -
-                    {{workoutActivity.expected_time_up_to}}
+                    <span>
+                        -
+                    </span>
+                    <span *ngIf="workoutActivity.expected_time_up_to % 1 == 0">
+                        {{workoutActivity.expected_time_up_to | number: '1.0-0'}}
+                    </span>
+                    <span *ngIf="workoutActivity.expected_time_up_to % 1 != 0">
+                        {{workoutActivity.expected_time_up_to}}
+                    </span>
                 </span>
             </span>
 
             <span *ngIf="workoutActivity.time || workoutActivity.expected_time">
                 {{workoutActivity.time_unit_code}}
+            </span>
+        </span>
+
+        <span *ngIf="workoutActivity.vo2max ||
+            (workoutActivity.vo2max_type && 
+            workoutActivity.vo2max_type != vo2MaxType.None)">
+            <span>
+                with
+            </span>
+
+            <span *ngIf="workoutActivity.vo2max">
+                <span>{{workoutActivity.vo2max}}%</span>
+            </span>
+
+            <span *ngIf="!workoutActivity.vo2max">
+                <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Standard">
+                    {{workoutActivity.expected_vo2max}}%
+                </span>
+                <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Range">
+                    {{workoutActivity.expected_vo2max}}% -
+                    {{workoutActivity.expected_vo2max_up_to}}%
+                </span>
+            </span>
+
+            <span>
+                (vo2 max)
             </span>
         </span>
     </span>

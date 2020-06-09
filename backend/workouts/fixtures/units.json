@@ -104,7 +104,7 @@
         "pk": 11,
         "fields": {
             "name": "Km/hour",
-            "abbreviation": "km",
+            "abbreviation": "km/h",
             "system": "m",
             "measurement_type": "s"
         }
@@ -114,7 +114,7 @@
         "pk": 12,
         "fields": {
             "name": "Miles/hour",
-            "abbreviation": "mi",
+            "abbreviation": "mph",
             "system": "i",
             "measurement_type": "s"
         }

@@ -71,6 +71,9 @@ export class UnitsService {
           case 'km':
             toUnitCode = 'mi';
             break;
+          case 'km/h':
+            toUnitCode = 'mi';
+            break;
           case 'm':
             toUnitCode = 'yd';
             break;
@@ -89,6 +92,9 @@ export class UnitsService {
             break;
           case 'yd':
             toUnitCode = 'm';
+            break;
+           case 'mph':
+            toUnitCode = 'km';
             break;
         }
       }

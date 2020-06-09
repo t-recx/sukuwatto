@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
-import { Exercise } from '../exercise';
+import { Exercise, ExerciseType } from '../exercise';
 import { RepetitionType, RepetitionTypeLabel, SpeedType, TimeType, DistanceType, Vo2MaxType } from '../plan-session-group-activity';
 import { faCheck, faEdit, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Unit } from '../unit';
@@ -70,15 +70,17 @@ export class WorkoutSetComponent implements OnInit {
         this.workoutActivity.end = null;
       }
 
-      if (this.workoutActivity.done && !this.workoutActivity.number_of_repetitions) {
-        if (this.workoutActivity.repetition_type == RepetitionType.Standard) {
-          this.workoutActivity.expected_number_of_repetitions;
-        }
-        else if (this.workoutActivity.repetition_type == RepetitionType.Range) {
-          this.editingRepetitions = true;
-        }
-        else if (this.workoutActivity.repetition_type != RepetitionType.None) {
-          this.editingRepetitions = true;
+      if (this.workoutActivity.exercise && this.workoutActivity.exercise.exercise_type == ExerciseType.Strength) {
+        if (this.workoutActivity.done && !this.workoutActivity.number_of_repetitions) {
+          if (this.workoutActivity.repetition_type == RepetitionType.Standard) {
+            this.workoutActivity.expected_number_of_repetitions;
+          }
+          else if (this.workoutActivity.repetition_type == RepetitionType.Range) {
+            this.editingRepetitions = true;
+          }
+          else if (this.workoutActivity.repetition_type != RepetitionType.None) {
+            this.editingRepetitions = true;
+          }
         }
       }
 
