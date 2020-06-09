@@ -54,25 +54,187 @@
                                     <span>
                                         {{workoutActivity.number_of_sets}}
                                     </span>
+                                </span>
+
+                                <span *ngIf="workoutActivity.exercise.exercise_type == 'c'">
+                                    <span *ngIf="workoutActivity.speed ||
+                                        (workoutActivity.speed_type && 
+                                        workoutActivity.speed_type != speedType.Parameter &&
+                                        workoutActivity.speed_type != speedType.None)">
+                                        <span
+                                            *ngIf="workoutActivity.speed || workoutActivity.speed">
+                                            at
+                                        </span>
+
+                                        <span *ngIf="!workoutActivity.speed">
+                                            <span *ngIf="workoutActivity.speed_type==speedType.Standard">
+                                                {{workoutActivity.speed}}
+                                            </span>
+                                            <span *ngIf="workoutActivity.speed_type==speedType.Range">
+                                                {{workoutActivity.speed}} -
+                                                {{workoutActivity.speed_up_to}}
+                                            </span>
+                                            <span *ngIf="workoutActivity.speed_type==speedType.AFAP">
+                                                AFAP
+                                            </span>
+                                        </span>
+
+                                        <span *ngIf="workoutActivity.speed">
+                                            {{getUnitCode(workoutActivity.speed_unit)}}
+                                        </span>
+
+                                        <span *ngIf="
+                                            workoutActivity.working_speed_percentage &&
+                                            (workoutActivity.working_speed_percentage != 100 ||
+                                            multipleWorkingSpeedsForExercise(session, workoutActivity.exercise))">
+                                            ({{workoutActivity.working_speed_percentage}}%)
+                                        </span>
+                                    </span>
+
+                                    <span *ngIf="workoutActivity.distance ||
+                                        (workoutActivity.distance_type && 
+                                        workoutActivity.distance_type != distanceType.Parameter &&
+                                        workoutActivity.distance_type != distanceType.None)">
+                                        <span>
+                                            for
+                                        </span>
+
+                                        <span *ngIf="workoutActivity.distance">
+                                            <span>{{workoutActivity.distance}}</span>
+                                        </span>
+
+                                        <span *ngIf="!workoutActivity.distance">
+                                            <span *ngIf="workoutActivity.distance_type==distanceType.Standard">
+                                                {{workoutActivity.distance}}
+                                            </span>
+                                            <span *ngIf="workoutActivity.distance_type==distanceType.Range">
+                                                {{workoutActivity.distance}} -
+                                                {{workoutActivity.distance_up_to}}
+                                            </span>
+                                        </span>
+
+                                        <span *ngIf="workoutActivity.distance">
+                                            {{getUnitCode(workoutActivity.distance_unit)}}
+                                        </span>
+
+                                        <span *ngIf="
+                                            workoutActivity.working_distance_percentage &&
+                                            (workoutActivity.working_distance_percentage != 100 ||
+                                            multipleWorkingDistancesForExercise(session, workoutActivity.exercise))">
+                                            ({{workoutActivity.working_distance_percentage}}%)
+                                        </span>
+                                    </span>
+
+                                    <span *ngIf="workoutActivity.time ||
+                                        (workoutActivity.time_type && 
+                                        workoutActivity.time_type != timeType.Parameter &&
+                                        workoutActivity.time_type != timeType.None)">
+                                        <span *ngIf="workoutActivity.distance ||
+                                            (workoutActivity.distance_type && 
+                                            workoutActivity.distance_type != distanceType.None); else alternativeTimeIntroduction">
+                                            <span>
+                                                in
+                                            </span>
+                                        </span>
+
+                                        <ng-template #alternativeTimeIntroduction>
+                                            for
+                                        </ng-template>
+
+                                        <span *ngIf="workoutActivity.time">
+                                            <span *ngIf="workoutActivity.time % 1 == 0">
+                                                {{workoutActivity.time | number: '1.0-0'}}
+                                            </span>
+                                            <span *ngIf="workoutActivity.time % 1 != 0">
+                                                {{workoutActivity.time}}
+                                            </span>
+                                        </span>
+
+                                        <span *ngIf="!workoutActivity.time">
+                                            <span *ngIf="workoutActivity.time_type==timeType.Standard ||
+                                            workoutActivity.time_type==timeType.Range">
+                                                <span *ngIf="workoutActivity.time % 1 == 0">
+                                                    {{workoutActivity.time | number: '1.0-0'}}
+                                                </span>
+                                                <span *ngIf="workoutActivity.time % 1 != 0">
+                                                    {{workoutActivity.time}}
+                                                </span>
+                                            </span>
+                                            <span *ngIf="workoutActivity.time_type==timeType.Range">
+                                                <span>
+                                                    -
+                                                </span>
+                                                <span *ngIf="workoutActivity.time_up_to % 1 == 0">
+                                                    {{workoutActivity.time_up_to | number: '1.0-0'}}
+                                                </span>
+                                                <span *ngIf="workoutActivity.time_up_to % 1 != 0">
+                                                    {{workoutActivity.time_up_to}}
+                                                </span>
+                                            </span>
+                                        </span>
+
+                                        <span *ngIf="workoutActivity.time">
+                                            {{getUnitCode(workoutActivity.time_unit)}}
+                                        </span>
+
+                                        <span *ngIf="
+                                            workoutActivity.working_time_percentage &&
+                                            (workoutActivity.working_time_percentage != 100 ||
+                                            multipleWorkingTimesForExercise(session, workoutActivity.exercise))">
+                                            ({{workoutActivity.working_time_percentage}}%)
+                                        </span>
+                                    </span>
+
+                                    <span *ngIf="workoutActivity.vo2max ||
+                                        (workoutActivity.vo2max_type && 
+                                        workoutActivity.vo2max_type != vo2MaxType.None)">
+                                        <span>
+                                            with
+                                        </span>
+
+                                        <span *ngIf="workoutActivity.vo2max">
+                                            <span>{{workoutActivity.vo2max}}%</span>
+                                        </span>
+
+                                        <span *ngIf="!workoutActivity.vo2max">
+                                            <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Standard">
+                                                {{workoutActivity.vo2max}}%
+                                            </span>
+                                            <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Range">
+                                                {{workoutActivity.vo2max}}% -
+                                                {{workoutActivity.vo2max_up_to}}%
+                                            </span>
+                                        </span>
+
+                                        <span>
+                                            (vo2 max)
+                                        </span>
+                                    </span>
+                                </span>
+
+                                <span *ngIf="workoutActivity.exercise.exercise_type == 's'">
                                     <span>
                                         x
                                     </span>
-                                </span>
-                                <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
-                                    {{workoutActivity.number_of_repetitions}}
-                                </span>
-                                <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
-                                    {{workoutActivity.number_of_repetitions}} -
-                                    {{workoutActivity.number_of_repetitions_up_to}}
-                                </span>
-                                <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
-                                    F
-                                </span>
-                                <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
-                                    AMRAP
-                                </span>
-                                <span *ngIf="multipleWorkingParametersForExercise(session, workoutActivity.exercise)">
-                                    ({{workoutActivity.working_weight_percentage}}%)
+                                    <span *ngIf="workoutActivity.repetition_type==repetitionType.Standard">
+                                        {{workoutActivity.number_of_repetitions}}
+                                    </span>
+                                    <span *ngIf="workoutActivity.repetition_type==repetitionType.Range">
+                                        {{workoutActivity.number_of_repetitions}} -
+                                        {{workoutActivity.number_of_repetitions_up_to}}
+                                    </span>
+                                    <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                                        F
+                                    </span>
+                                    <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                                        AMRAP
+                                    </span>
+                                    <span *ngIf="
+                                        workoutActivity.working_weight_percentage &&
+                                        (workoutActivity.working_weight_percentage != 100 ||
+                                        multipleWorkingWeightsForExercise(session, workoutActivity.exercise))">
+                                        ({{workoutActivity.working_weight_percentage}}%)
+                                    </span>
                                 </span>
                             </span>
                         </div>

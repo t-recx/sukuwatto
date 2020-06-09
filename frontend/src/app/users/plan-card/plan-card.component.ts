@@ -3,10 +3,12 @@ import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { AuthService } from 'src/app/auth.service';
 import { faChild, faExternalLinkAlt, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { RepetitionType, PlanSessionGroupActivity } from '../plan-session-group-activity';
+import { RepetitionType, PlanSessionGroupActivity, Vo2MaxType, SpeedType, DistanceType, TimeType } from '../plan-session-group-activity';
 import { PlanSession } from '../plan-session';
 import { Exercise } from '../exercise';
 import { PlanSessionGroup } from '../plan-session-group';
+import { UnitsService } from '../units.service';
+import { Unit } from '../unit';
 
 @Component({
   selector: 'app-plan-card',
@@ -24,26 +26,41 @@ export class PlanCardComponent implements OnInit {
   deleteModalVisible: boolean = false;
 
   repetitionType = RepetitionType;
+  speedType = SpeedType;
+  distanceType = DistanceType;
+  timeType = TimeType;
+  vo2MaxType = Vo2MaxType;
+
   faChild = faChild;
   faExternalLinkAlt = faExternalLinkAlt;
   faCircleNotch = faCircleNotch;
 
   adopting: boolean = false;
   deleting: boolean = false;
+  units: Unit[];
 
   constructor(
     private plansService: PlansService,
     private authService: AuthService,
+    private unitsService: UnitsService,
   ) { }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
   }
 
+  getUnitCode(id: number): string {
+    return this.units.filter(x => x.id == id)[0].abbreviation;
+  }
+
   ngOnInit() {
+    this.unitsService.getUnits().subscribe(units => this.units = units);
+      
     this.deleteModalVisible = false;
     this.deleting = false;
     this.adopting = false;
+
+    // todo convert plan units
     if (!this.plan) {
       this.plansService.getPlan(this.id).subscribe(w =>
         {
@@ -86,10 +103,24 @@ export class PlanCardComponent implements OnInit {
     return ([] as PlanSessionGroupActivity[]).concat(...session.groups.map(x => x.exercises));
   }
 
-  multipleWorkingParametersForExercise(session: PlanSession, exercise: Exercise): boolean {
-    let distinct = new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => x.working_weight_percentage));
+  getDistinct(session: PlanSession, exercise: Exercise, callbackfn: (value: PlanSessionGroupActivity) => number) {
+    return new Set(this.getActivities(session).filter(x => x.exercise.id == exercise.id).map(x => callbackfn(x)));
+  }
 
-    return distinct.size > 1;
+  multipleWorkingWeightsForExercise(session: PlanSession, exercise: Exercise): boolean {
+    return this.getDistinct(session, exercise, x => x.working_weight_percentage).size > 1;
+  }
+
+  multipleWorkingDistancesForExercise(session: PlanSession, exercise: Exercise): boolean {
+    return this.getDistinct(session, exercise, x => x.working_distance_percentage).size > 1;
+  }
+
+  multipleWorkingSpeedsForExercise(session: PlanSession, exercise: Exercise): boolean {
+    return this.getDistinct(session, exercise, x => x.working_speed_percentage).size > 1;
+  }
+
+  multipleWorkingTimesForExercise(session: PlanSession, exercise: Exercise): boolean {
+    return this.getDistinct(session, exercise, x => x.working_time_percentage).size > 1;
   }
 
   getGroupOrders(session: PlanSession) {
