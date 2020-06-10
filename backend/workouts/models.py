@@ -1,43 +1,31 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-class Unit(models.Model):
-    METRIC = 'm'
-    IMPERIAL = 'i'
-    SYSTEMS = [
-        (METRIC, 'Metric'),
-        (IMPERIAL, 'Imperial'),
-    ]
-
-    WEIGHT = 'w'
-    HEIGHT = 'h'
-    DISTANCE = 'd'
-    TIME = 't'
-    SPEED = 's'
-    MEASUREMENT_TYPE = [
-        (WEIGHT, 'Weight'),
-        (HEIGHT, 'Height'),
-        (DISTANCE, 'Distance'),
-        (TIME, 'Time'),
-        (SPEED, 'Speed'),
-    ]
-
-    name = models.CharField(max_length=200)
-    abbreviation = models.CharField(max_length=200)
-    system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
-    measurement_type = models.CharField(max_length=1, null=True, choices=MEASUREMENT_TYPE)
+class Unit(models.IntegerChoices):
+    KILOGRAM = 1
+    POUND = 2
+    CENTIMETER = 3
+    FEET = 4
+    KILOMETER = 5
+    MILE = 6
+    MINUTE = 7
+    METER = 8
+    SECOND = 9
+    YARD = 10
+    KMH = 11
+    MPH = 12
 
 class UserBioData(models.Model):
     date = models.DateTimeField()
     weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="weight_unit")
+    weight_unit = models.IntegerField(choices=Unit.choices, null=True)
     height = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    height_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="height_unit")
+    height_unit = models.IntegerField(choices=Unit.choices, null=True)
     body_fat_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     water_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     muscle_mass_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     bone_mass_weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    bone_mass_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="bone_mass_weight_unit")
+    bone_mass_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
 
@@ -244,15 +232,15 @@ class AbstractGroupActivity(models.Model):
 
 class PlanSessionGroupExercise(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="exercises", on_delete=models.CASCADE)
-    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='exercise_speed_unit')
-    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='exercise_distance_unit')
-    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='exercise_time_unit')
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class PlanSessionGroupWarmUp(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="warmups", on_delete=models.CASCADE)
-    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='warmup_speed_unit')
-    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='warmup_distance_unit')
-    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='warmup_time_unit')
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class AbstractProgressionStrategy(models.Model):
     TYPE_EXERCISE = 'e'
@@ -277,7 +265,7 @@ class AbstractProgressionStrategy(models.Model):
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     parameter_type = models.CharField(max_length=1, choices=PARAMETER_TYPES)
     parameter_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
+    unit = models.IntegerField(choices=Unit.choices, null=True)
     mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
     modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
@@ -366,34 +354,34 @@ class WorkoutSet(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="sets", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupExercise, on_delete=models.SET_NULL, null=True)
 
-    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_weight_unit')
-    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_speed_unit')
-    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_distance_unit')
-    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_time_unit')
-    plan_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_weight_unit')
-    plan_speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_speed_unit')
-    plan_distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_distance_unit')
-    plan_time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_time_unit')
+    weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupWarmUp, on_delete=models.SET_NULL, null=True)
 
-    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_weight_unit')
-    speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_speed_unit')
-    distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_distance_unit')
-    plan_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_weight_unit')
-    time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_time_unit')
-    plan_speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_speed_unit')
-    plan_distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_distance_unit')
-    plan_time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_time_unit')
+    weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     parameter_type = models.CharField(max_length=1, choices=AbstractProgressionStrategy.PARAMETER_TYPES)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
+    unit = models.IntegerField(choices=Unit.choices, null=True)
     previous_parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit", null=True)
+    previous_unit = models.IntegerField(choices=Unit.choices, null=True)
     manually_changed = models.BooleanField(default=False)

@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { ErrorService } from '../error.service';
 import { Observable } from 'rxjs';
-import { Unit } from './unit';
-import { catchError, shareReplay } from 'rxjs/operators';
-import { AlertService } from '../alert/alert.service';
+import { Unit, MeasurementType } from './unit';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { MeasurementSystem } from '../user';
@@ -17,40 +13,109 @@ import { UserBioData } from './user-bio-data';
   providedIn: 'root'
 })
 export class UnitsService {
-  private unitsUrl = `${environment.apiUrl}/units/`;
-  private cache$: Observable<Unit[]>;
   private units: Unit[];
 
   constructor(
-    private http: HttpClient,
-    private errorService: ErrorService,
-    private alertService: AlertService,
     private authService: AuthService,
   ) {
     Classes.addDefaults();
-    this.loadUnits();
+    this.initUnits();
   }
 
-  loadUnits() {
-    this.getUnits().subscribe(u => this.units = u);
+  initUnits() {
+    this.units = [
+      {
+        id: 1,
+        name: "Kilogram",
+        abbreviation: "kg",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Weight
+      },
+      {
+        id: 2,
+        name: "Pound",
+        abbreviation: "lb",
+        system: MeasurementSystem.Imperial,
+        measurement_type: MeasurementType.Weight
+      },
+      {
+        id: 3,
+        name: "Centimeter",
+        abbreviation: "cm",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Height
+      },
+      {
+        id: 4,
+        name: "Feet",
+        abbreviation: "ft",
+        system: MeasurementSystem.Imperial,
+        measurement_type: MeasurementType.Height
+      },
+      {
+        id: 5,
+        name: "Kilometer",
+        abbreviation: "km",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Distance
+      },
+      {
+        id: 6,
+        name: "Mile",
+        abbreviation: "mi",
+        system: MeasurementSystem.Imperial,
+        measurement_type: MeasurementType.Distance
+      },
+      {
+        id: 7,
+        name: "Minute",
+        abbreviation: "min",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Time
+      },
+      {
+        id: 8,
+        name: "Meter",
+        abbreviation: "m",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Distance
+      },
+      {
+        id: 9,
+        name: "Second",
+        abbreviation: "s",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Time
+      },
+      {
+        id: 10,
+        name: "Yard",
+        abbreviation: "yd",
+        system: MeasurementSystem.Imperial,
+        measurement_type: MeasurementType.Distance
+      },
+      {
+        id: 11,
+        name: "Km/hour",
+        abbreviation: "km/h",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Speed
+      },
+      {
+        id: 12,
+        name: "Miles/hour",
+        abbreviation: "mph",
+        system: MeasurementSystem.Imperial,
+        measurement_type: MeasurementType.Speed
+      }
+    ];
   }
 
   getUnits(): Observable<Unit[]> {
-    if (!this.cache$) {
-      this.cache$ =
-        this.requestUnits().pipe(
-          shareReplay({ bufferSize: 1, refCount: true }),
-          catchError(this.errorService.handleError<Unit[]>('getUnits', (e: any) => {
-            this.alertService.error('Unable to fetch units');
-          }, []))
-        );
-    }
-
-    return this.cache$;
-  }
-
-  requestUnits(): Observable<Unit[]> {
-    return this.http.get<Unit[]>(this.unitsUrl);
+    return new Observable<Unit[]>(obs => {
+      obs.next(this.units);
+      obs.complete();
+    });
   }
 
   getUserWeightUnitCode(): string {

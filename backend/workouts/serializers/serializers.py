@@ -38,11 +38,6 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
         return instance
 
-class UnitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Unit
-        fields = ['id', 'name', 'abbreviation', 'system', 'measurement_type']
-
 class UserBioDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserBioData

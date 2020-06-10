@@ -1,0 +1,17 @@
+.input-aux-label {
+  font-family: "Ubuntu", "Roboto", sans-serif;
+  width: 64px;
+  height: 30px;
+  position: absolute; 
+  top: 0;
+  right: 0;
+  color: #a1b0cf;
+  line-height: 34px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.input-container {
+  position: relative; /* for absolute child element */
+  display: inline-block; /* to take the width of the input */
+}

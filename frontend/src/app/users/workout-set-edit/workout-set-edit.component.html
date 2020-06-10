@@ -31,10 +31,16 @@
                                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12">
                                     <div class="siimple-form-field">
                                         <!-- <div class="siimple-form-field-label">Reps</div> -->
-                                        <input type="number" class="siimple-input siimple-input--fluid" required
-                                            name="number_of_repetitions" id="number_of_repetitions"
-                                            [(ngModel)]="workoutActivity.number_of_repetitions"
-                                            #number_of_repetitions="ngModel" placeholder="Reps">
+                                        <div class="input-container">
+                                            <input type="number" class="siimple-input siimple-input--fluid" required
+                                                name="number_of_repetitions" id="number_of_repetitions"
+                                                [(ngModel)]="workoutActivity.number_of_repetitions"
+                                                #number_of_repetitions="ngModel" placeholder="Reps">
+                                            <label class="input-aux-label" 
+                                             *ngIf="workoutActivity.number_of_repetitions"> 
+                                                Reps
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6">
