@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { WorkingWeight } from '../working-weight';
+import { WorkingParameter } from '../working-parameter';
 import { faTrash, faInfo, faWeightHanging, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-working-weights',
-  templateUrl: './working-weights.component.html',
-  styleUrls: ['./working-weights.component.css']
+  selector: 'app-working-parameters',
+  templateUrl: './working-parameters.component.html',
+  styleUrls: ['./working-parameters.component.css']
 })
-export class WorkingWeightsComponent implements OnInit {
-  @Input() workingWeights: WorkingWeight[];
+export class WorkingParametersComponent implements OnInit {
+  @Input() workingParameters: WorkingParameter[];
   @Input() triedToSave: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
@@ -26,13 +26,17 @@ export class WorkingWeightsComponent implements OnInit {
   }
 
   newItem(): void {
-    this.workingWeights.push(new WorkingWeight());
+    this.workingParameters.push(new WorkingParameter());
   }
 
   valid(): boolean {
-    if (this.workingWeights) {
-      for(let workingWeight of this.workingWeights) {
-        if (!workingWeight.exercise) {
+    if (this.workingParameters) {
+      for(let workingParameter of this.workingParameters) {
+        if (!workingParameter.exercise) {
+          return false;
+        }
+
+        if (!workingParameter.parameter_type) {
           return false;
         }
       }
@@ -53,10 +57,10 @@ export class WorkingWeightsComponent implements OnInit {
     this.closed.emit();
   }
 
-  remove(workingWeight: WorkingWeight): void {
-    const index = this.workingWeights.indexOf(workingWeight, 0);
+  remove(workingParameter: WorkingParameter): void {
+    const index = this.workingParameters.indexOf(workingParameter, 0);
     if (index > -1) {
-      this.workingWeights.splice(index, 1);
+      this.workingParameters.splice(index, 1);
     }
   }
 }

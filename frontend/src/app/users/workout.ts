@@ -1,5 +1,5 @@
 import { WorkoutGroup } from './workout-group';
-import { WorkingWeight } from './working-weight';
+import { WorkingParameter } from './working-parameter';
 import { User } from '../user';
 
 export enum WorkoutStatus {
@@ -21,13 +21,13 @@ export class Workout {
     plan: number;
     plan_session: number;
     groups: WorkoutGroup[];
-    working_weights: WorkingWeight[];
+    working_parameters: WorkingParameter[];
     user: User;
     status: WorkoutStatus;
 
     constructor(init?: Partial<Workout>) {
         this.groups = [];
-        this.working_weights = [];
+        this.working_parameters = [];
         this.status = WorkoutStatus.InProgress;
 
         Object.assign(this, init);

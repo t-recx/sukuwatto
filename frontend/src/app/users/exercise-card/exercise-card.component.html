@@ -26,6 +26,16 @@
                                 </tr>
                             </thead>
                             <tbody class="siimple-table-body">
+                                <tr class="siimple-table-row link-row" *ngIf="exercise.exercise_type">
+                                    <td class="siimple-table-cell cell">
+                                        <span class="siimple--text-bold">
+                                        Type
+                                        </span>
+                                    </td>
+                                    <td class="siimple-table-cell cell">
+                                        {{ExerciseTypeLabel.get(exercise.exercise_type)}}
+                                    </td>
+                                </tr>
                                 <tr class="siimple-table-row link-row" *ngIf="exercise.section">
                                     <td class="siimple-table-cell cell">
                                         <span class="siimple--text-bold">

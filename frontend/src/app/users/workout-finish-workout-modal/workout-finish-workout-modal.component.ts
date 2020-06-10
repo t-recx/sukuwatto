@@ -44,7 +44,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
 
     if (this.authService.isLoggedIn()) {
       this.userProgressService
-      .getFinishWorkoutProgress(this.authService.getUsername(), this.workout)
+      .getFinishWorkoutStrengthProgress(this.authService.getUsername(), this.workout)
         .subscribe(pd => {
           if (pd.series && pd.series.length > 0) {
             let npd = new UserProgressChartData();

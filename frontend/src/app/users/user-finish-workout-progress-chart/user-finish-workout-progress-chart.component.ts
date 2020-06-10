@@ -48,7 +48,7 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
     }
     
     isPR(series: UserProgressChartSeries): boolean {
-        return series.dataPoints.filter(x => x.weight == this.getWorkoutTopValue(series)).length == 1;
+        return series.dataPoints.filter(x => x.weight >= this.getWorkoutTopValue(series)).length == 1;
     }
 
     private createChart() {

@@ -9,8 +9,10 @@ import { environment } from 'src/environments/environment';
 import { ProgressionStrategy, ProgressionType } from './plan-progression-strategy';
 import { PlanSession } from './plan-session';
 import { PlanSessionGroup } from './plan-session-group';
-import { PlanSessionGroupActivity, RepetitionType } from './plan-session-group-activity';
+import { PlanSessionGroupActivity, RepetitionType, SpeedType, DistanceType, TimeType } from './plan-session-group-activity';
 import { Result, Results } from '../result';
+import { ExerciseType } from './exercise';
+import { PlanSessionGroupWarmUp } from './plan-session-group-warmup';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +98,8 @@ export class PlansService {
           if (session.groups) {
             for (let group of session.groups) {
               group.progressions = this.getProperlyTypedProgressions(group.progressions);
+              group.exercises = this.getProperlyTypedActivities(group.exercises);
+              group.warmups = this.getProperlyTypedActivities(group.warmups);
             }
           }
         }
@@ -105,10 +109,31 @@ export class PlansService {
     return plan;
   }
 
+  getProperlyTypedActivities(activities: PlanSessionGroupActivity[]): PlanSessionGroupActivity[] {
+    if (activities) {
+      activities.forEach(activity => {
+        activity.speed = activity.speed ? +activity.speed : activity.speed;
+        activity.speed_up_to = activity.speed_up_to ? +activity.speed_up_to : activity.speed_up_to;
+        activity.time = activity.time ? +activity.time : activity.time;
+        activity.time_up_to = activity.time_up_to ? +activity.time_up_to : activity.time_up_to;
+        activity.distance = activity.distance ? +activity.distance : activity.distance;
+        activity.distance_up_to = activity.distance_up_to ? +activity.distance_up_to : activity.distance_up_to;
+        activity.vo2max = activity.vo2max ? +activity.vo2max : activity.vo2max;
+        activity.vo2max_up_to = activity.vo2max_up_to ? +activity.vo2max_up_to : activity.vo2max_up_to;
+        activity.working_weight_percentage = activity.working_weight_percentage ? +activity.working_weight_percentage : activity.working_weight_percentage;
+        activity.working_distance_percentage = activity.working_distance_percentage ? +activity.working_distance_percentage : activity.working_distance_percentage;
+        activity.working_time_percentage = activity.working_time_percentage ? +activity.working_time_percentage : activity.working_time_percentage;
+        activity.working_speed_percentage = activity.working_speed_percentage ? +activity.working_speed_percentage : activity.working_speed_percentage;
+      });
+    }
+
+    return activities;
+  }
+
   getProperlyTypedProgressions(progressions: ProgressionStrategy[]): ProgressionStrategy[] {
     for (let progression of progressions) {
-      if (progression.weight_increase) {
-        progression.weight_increase = Number(progression.weight_increase);
+      if (progression.parameter_increase) {
+        progression.parameter_increase = Number(progression.parameter_increase);
       }
       if (progression.percentage_increase) {
         progression.percentage_increase = Number(progression.percentage_increase);
@@ -259,22 +284,79 @@ export class PlansService {
       return false;
     }
 
-    if (!activity.repetition_type) {
-      return false;
-    }
-    if ((activity.repetition_type == RepetitionType.Standard || 
-      activity.repetition_type == RepetitionType.Range) &&
-      !activity.number_of_repetitions) {
-      return false;
-    }
+    if (activity.exercise.exercise_type == ExerciseType.Strength) {
+      if (!activity.repetition_type) {
+        return false;
+      }
+      if ((activity.repetition_type == RepetitionType.Standard || 
+        activity.repetition_type == RepetitionType.Range) &&
+        !activity.number_of_repetitions) {
+        return false;
+      }
 
-    if (activity.repetition_type == RepetitionType.Range &&
-      !activity.number_of_repetitions_up_to) {
-      return false;
-    }
+      if (activity.repetition_type == RepetitionType.Range &&
+        !activity.number_of_repetitions_up_to) {
+        return false;
+      }
 
-    if (activity.working_weight_percentage == null) {
-      return false;
+      if (activity.working_weight_percentage == null) {
+        return false;
+      }
+    }
+    else if (activity.exercise.exercise_type == ExerciseType.Cardio) {
+      if (activity.speed_type) {
+        if ((activity.speed_type == SpeedType.Standard ||
+          activity.speed_type == SpeedType.Range) &&
+          !activity.speed) {
+          return false;
+        }
+
+        if (activity.speed_type == SpeedType.Range &&
+          !activity.speed_up_to) {
+          return false;
+        }
+
+        if (activity.speed_type == SpeedType.Parameter &&
+          !activity.working_speed_percentage) {
+          return false;
+        }
+      }
+
+      if (activity.distance_type) {
+        if ((activity.distance_type == DistanceType.Standard ||
+          activity.distance_type == DistanceType.Range) &&
+          !activity.distance) {
+          return false;
+        }
+
+        if (activity.distance_type == DistanceType.Range &&
+          !activity.distance_up_to) {
+          return false;
+        }
+
+        if (activity.distance_type == DistanceType.Parameter &&
+          !activity.working_distance_percentage) {
+          return false;
+        }
+      }
+
+      if (activity.time_type) {
+        if ((activity.time_type == TimeType.Standard ||
+          activity.time_type == TimeType.Range) &&
+          !activity.time) {
+          return false;
+        }
+
+        if (activity.time_type == TimeType.Range &&
+          !activity.time_up_to) {
+          return false;
+        }
+
+        if (activity.time_type == TimeType.Parameter &&
+          !activity.working_time_percentage) {
+          return false;
+        }
+      }
     }
 
     return true;
@@ -318,7 +400,7 @@ export class PlansService {
         }
     }
 
-    if (!progression.weight_increase && !progression.percentage_increase) {
+    if (!progression.parameter_increase && !progression.percentage_increase) {
       results.push(new Result<ProgressionStrategy>({
         success: false,
         field: 'method',
@@ -328,7 +410,7 @@ export class PlansService {
       }));
     }
 
-    if (progression.weight_increase)  {
+    if (progression.parameter_increase)  {
       if (!progression.unit) {
         results.push(new Result<ProgressionStrategy>({
           success: false,
@@ -338,6 +420,16 @@ export class PlansService {
           message: 'Select unit',
         }));
       }
+    }
+
+    if (!progression.parameter_type) {
+      results.push(new Result<ProgressionStrategy>({
+        success: false,
+        field: 'parameter_type',
+        object: progression,
+        code: 'VPS6',
+        message: 'Select parameter type',
+      }));
     }
 
     progression.validations = results.getFailedFields();

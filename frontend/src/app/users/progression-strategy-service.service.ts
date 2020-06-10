@@ -10,7 +10,7 @@ export class ProgressionStrategyService {
   constructor() { }
 
   applies(progressionStrategy: ProgressionStrategy, exercise: Exercise, unit: number): boolean {
-    if (progressionStrategy.weight_increase && progressionStrategy.unit != unit) {
+    if (progressionStrategy.parameter_increase && progressionStrategy.unit != unit) {
       return false;
     }
 
@@ -26,6 +26,7 @@ export class ProgressionStrategyService {
 
   matches(a: ProgressionStrategy, b: ProgressionStrategy): boolean {
     return a.progression_type == b.progression_type &&
+      a.parameter_type == b.parameter_type &&
       (a.exercise && b.exercise && a.exercise.id == b.exercise.id) ||
       (
         a.section == b.section &&

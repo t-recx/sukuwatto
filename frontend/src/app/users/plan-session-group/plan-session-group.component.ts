@@ -32,6 +32,7 @@ export class PlanSessionGroupComponent implements OnInit {
   newExercise() {
     let newExercise = new PlanSessionGroupExercise();
 
+    newExercise.number_of_sets = 1;
     newExercise.working_weight_percentage = 100;
 
     this.setOrder(newExercise, this.planSessionGroup.exercises);
@@ -50,6 +51,8 @@ export class PlanSessionGroupComponent implements OnInit {
 
   newWarmUp() {
     let newWarmUp = new PlanSessionGroupWarmUp();
+
+    newWarmUp.number_of_sets = 1;
 
     this.setOrder(newWarmUp, this.planSessionGroup.warmups);
 

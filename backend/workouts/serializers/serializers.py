@@ -11,7 +11,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exercise
-        fields = ['id', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user']
+        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user']
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
@@ -23,6 +23,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
         if es.in_use_on_other_users_resources(instance.id, self.context.get("request").user):
             raise serializers.ValidationError("Exercise in usage")
 
+        instance.exercise_type = validated_data.get('exercise_type', instance.exercise_type)
         instance.short_name = validated_data.get('short_name', instance.short_name)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
@@ -37,40 +38,12 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
         return instance
 
-class UnitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Unit
-        fields = ['id', 'name', 'abbreviation', 'system', 'measurement_type']
-
 class UserBioDataSerializer(serializers.ModelSerializer):
-    weight_unit_code = serializers.SerializerMethodField()
-    height_unit_code = serializers.SerializerMethodField()
-    bone_mass_weight_unit_code = serializers.SerializerMethodField()
-
-    def get_weight_unit_code(self, obj):
-        if obj.weight_unit:
-            return obj.weight_unit.abbreviation
-        
-        return None
-
-    def get_height_unit_code(self, obj):
-        if obj.height_unit:
-            return obj.height_unit.abbreviation
-        
-        return None
-
-    def get_bone_mass_weight_unit_code(self, obj):
-        if obj.bone_mass_weight_unit:
-            return obj.bone_mass_weight_unit.abbreviation
-        
-        return None
-
     class Meta:
         model = UserBioData
         fields = ['id', 'date', 'weight', 'weight_unit', 'height', 'height_unit', 
             'body_fat_percentage', 'water_weight_percentage', 'muscle_mass_percentage',
-            'bone_mass_weight', 'bone_mass_weight_unit', 'notes',
-            'weight_unit_code', 'height_unit_code', 'bone_mass_weight_unit_code']
+            'bone_mass_weight', 'bone_mass_weight_unit', 'notes']
 
     def validate_date(self, value):
         if value is None:

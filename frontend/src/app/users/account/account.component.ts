@@ -24,6 +24,7 @@ export class AccountComponent implements OnInit {
   passwordModalVisible: boolean;
   userBioData: UserBioData;
   bioDataDate: Date;
+  units: Unit[];
   weightUnits: Unit[];
   heightUnits: Unit[];
   userBioDataVisible: boolean;
@@ -99,6 +100,7 @@ export class AccountComponent implements OnInit {
 
   loadUnits(): void {
     this.unitsService.getUnits().subscribe(units => {
+      this.units = units;
       this.weightUnits = units.filter(u => u.measurement_type == MeasurementType.Weight);
       this.heightUnits = units.filter(u => u.measurement_type == MeasurementType.Height);
     });
@@ -138,6 +140,20 @@ export class AccountComponent implements OnInit {
 
       if (unit) {
         this.user.default_weight_unit = unit.id;
+      }
+
+      const speedUnit = this.units.filter(x => x.measurement_type == MeasurementType.Speed && 
+        x.system == this.user.system)[0];
+
+      if (speedUnit) {
+        this.user.default_speed_unit = speedUnit.id;
+      }
+
+      const distanceUnit = this.units.filter(x => x.measurement_type == MeasurementType.Distance && 
+        x.system == this.user.system)[0];
+
+      if (distanceUnit) {
+        this.user.default_distance_unit = distanceUnit.id;
       }
     }
 

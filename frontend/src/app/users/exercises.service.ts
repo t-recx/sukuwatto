@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
-import { Exercise } from './exercise';
+import { Exercise, ExerciseType } from './exercise';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
@@ -96,8 +96,17 @@ export class ExercisesService {
   }
 
   saveExercise(exercise: Exercise): Observable<Exercise> {
-    if (exercise.id && exercise.id > 0)
+    if (exercise.exercise_type == ExerciseType.Cardio) {
+      exercise.force = null;
+      exercise.mechanics = null;
+      exercise.modality = null;
+      exercise.section = null;
+      exercise.muscle = null;
+    }
+
+    if (exercise.id && exercise.id > 0) {
       return this.updateExercise(exercise);
+    }
 
     return this.createExercise(exercise);
   }

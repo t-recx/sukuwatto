@@ -9,7 +9,7 @@ import { WorkoutGroup } from '../workout-group';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
 import { Subject, Observable } from 'rxjs';
-import { WorkingWeight } from '../working-weight';
+import { WorkingParameter } from '../working-parameter';
 import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
 import { concatMap } from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class WorkoutDetailEditComponent implements OnInit {
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
   triedToSave: boolean;
-  workingWeightsVisible: boolean = false;
+  workingParametersVisible: boolean = false;
   userBioDataVisible: boolean = false;
   userBioData: UserBioData = null;
   finishWorkoutVisible: boolean = false;
@@ -141,12 +141,12 @@ export class WorkoutDetailEditComponent implements OnInit {
       this.loading = true;
       this.service.getLastWorkout(this.username, null, null, new Date()).subscribe(w =>
         {
-          if (w.working_weights) {
-            for (const workingWeight of w.working_weights) {
-              delete workingWeight.id;
-              workingWeight.manually_changed = false;
+          if (w.working_parameters) {
+            for (const workingParameter of w.working_parameters) {
+              delete workingParameter.id;
+              workingParameter.manually_changed = false;
             }
-            this.workout.working_weights = w.working_weights;
+            this.workout.working_parameters = w.working_parameters;
           }
           this.previousWorkout = w;
 
@@ -308,8 +308,8 @@ export class WorkoutDetailEditComponent implements OnInit {
     activity.start = new Date();
   }
 
-  showWorkingWeights() {
-    this.workingWeightsVisible = true;    
+  showWorkingParameters() {
+    this.workingParametersVisible = true;    
   }
 
   showUserBioData() {
@@ -329,7 +329,7 @@ export class WorkoutDetailEditComponent implements OnInit {
     let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
 
     if (plan && planSession && (this.workout.id == null || this.workout.id <= 0)) {
-      this.workoutGeneratorService.generate(this.workout.start, this.workout.working_weights, plan, planSession)
+      this.workoutGeneratorService.generate(this.workout.start, this.workout.working_parameters, plan, planSession)
       .subscribe(newWorkout => { 
         this.workout = newWorkout; 
         this.setNextActivityInProgress();
@@ -403,9 +403,9 @@ export class WorkoutDetailEditComponent implements OnInit {
     });
   }
 
-  onWorkingWeightsClosed() {
-    this.workingWeightsVisible = false;
-    this.workoutGeneratorService.updateWeights(this.workout, this.workout.working_weights);
+  onWorkingParametersClosed() {
+    this.workingParametersVisible = false;
+    this.workoutGeneratorService.updateValues(this.workout, this.workout.working_parameters);
   }
 
   valid(workout: Workout): boolean {
@@ -428,10 +428,10 @@ export class WorkoutDetailEditComponent implements OnInit {
     return true;
   }
 
-  validWorkingWeights(workingWeights: WorkingWeight[]): boolean {
-    if (workingWeights) {
-      for(let workingWeight of workingWeights) {
-        if (!workingWeight.exercise) {
+  validWorkingParameters(workingParameters: WorkingParameter[]): boolean {
+    if (workingParameters) {
+      for(let workingParameter of workingParameters) {
+        if (!workingParameter.exercise) {
           return false;
         }
       }

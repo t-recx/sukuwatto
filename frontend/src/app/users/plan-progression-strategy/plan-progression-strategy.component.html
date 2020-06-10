@@ -125,21 +125,39 @@
                     </div>
                 </div>
 
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Weight increase</div>
-                        <input type="number" class="siimple-input siimple-input--fluid" name="weight_increase"
-                            id="weight_increase" [(ngModel)]="progression.weight_increase" #weight_increase="ngModel"
-                            placeholder="Weight increase">
+                        <div class="siimple-form-field-label">Parameter</div>
+                        <select class="siimple-select siimple-select--fluid" name="parameter_type" id="parameter_type"
+                            [(ngModel)]="progression.parameter_type" #parameter_type="ngModel"
+                            (change)="filterUnits()"
+                            >
+                            <option [ngValue]="null"></option>
+                            <option *ngFor="let parameter_typeModel of parameterTypeLabel | keyvalue" value={{parameter_typeModel.key}}>
+                                {{parameter_typeModel.value}}
+                            </option>
+                        </select>
+                        <div *ngIf="progression.validations && progression.validations['parameter_type'] && triedToSave">
+                            <div class="siimple-field-helper siimple--color-error">
+                                {{progression.validations['parameter_type']}}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Nominal increase</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" name="parameter_increase"
+                            id="parameter_increase" [(ngModel)]="progression.parameter_increase" #parameter_increase="ngModel"
+                            placeholder="Nominal increase">
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Unit</div>
                         <select class="siimple-select siimple-select--fluid" name="unit" id="unit"
                             [(ngModel)]="progression.unit" #unit="ngModel">
                             <option [ngValue]="null"></option>
-                            <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                            <option *ngFor="let unitModel of unitsFiltered" value={{unitModel.id}}>
                                 {{unitModel.name}}
                             </option>
                         </select>
@@ -150,7 +168,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Percentage increase</div>
                         <input type="number" class="siimple-input siimple-input--fluid" name="percentage_increase"

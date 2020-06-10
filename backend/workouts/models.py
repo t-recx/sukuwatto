@@ -1,44 +1,45 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-class Unit(models.Model):
-    METRIC = 'm'
-    IMPERIAL = 'i'
-    SYSTEMS = [
-        (METRIC, 'Metric'),
-        (IMPERIAL, 'Imperial'),
-    ]
-
-    WEIGHT = 'w'
-    HEIGHT = 'h'
-    MEASUREMENT_TYPE = [
-        (WEIGHT, 'Weight'),
-        (HEIGHT, 'Height'),
-    ]
-
-    name = models.CharField(max_length=200)
-    abbreviation = models.CharField(max_length=200)
-    system = models.CharField(max_length=1, null=True, choices=SYSTEMS)
-    measurement_type = models.CharField(max_length=1, null=True, choices=MEASUREMENT_TYPE)
+class Unit(models.IntegerChoices):
+    KILOGRAM = 1
+    POUND = 2
+    CENTIMETER = 3
+    FEET = 4
+    KILOMETER = 5
+    MILE = 6
+    MINUTE = 7
+    METER = 8
+    SECOND = 9
+    YARD = 10
+    KMH = 11
+    MPH = 12
 
 class UserBioData(models.Model):
     date = models.DateTimeField()
     weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="weight_unit")
+    weight_unit = models.IntegerField(choices=Unit.choices, null=True)
     height = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    height_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="height_unit")
+    height_unit = models.IntegerField(choices=Unit.choices, null=True)
     body_fat_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     water_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     muscle_mass_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     bone_mass_weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    bone_mass_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name="bone_mass_weight_unit")
+    bone_mass_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
 
 class Exercise(models.Model):
+    CARDIO = 'c'
+    STRENGTH = 's'
+    EXERCISE_TYPES = [
+        (CARDIO, 'Cardio'),
+        (STRENGTH, 'Strength'),
+    ]
+
     COMPOUND = 'c'
     ISOLATED = 'i'
-    MECHANICS_CHOICES = [
+    MECHANICS= [
         (COMPOUND, 'Compound'),
         (ISOLATED, 'Isolated'),
     ]
@@ -79,10 +80,11 @@ class Exercise(models.Model):
         (ADVANCED, 'Advanced'),
     ]
 
+    exercise_type = models.CharField(max_length=1, choices=EXERCISE_TYPES)
     short_name = models.CharField(max_length=200, null=True, blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS_CHOICES)
+    mechanics = models.CharField(max_length=1, null=True, choices=MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=FORCES)
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
@@ -96,12 +98,12 @@ class Exercise(models.Model):
 
 class Plan(models.Model):
     # Example: PPL, SS, SL
-    short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)')
+    short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)', blank=True)
     name = models.CharField(max_length=200, help_text='Enter the workout plan template''s name (ex: Push Pull Legs, Starting Strength)')
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
-    website = models.CharField(max_length=400, null=True)
+    website = models.CharField(max_length=400, null=True, blank=True)
     creation = models.DateTimeField(auto_now_add=True)
     public = models.BooleanField(default=False)
 
@@ -127,26 +129,93 @@ class PlanSessionGroup(models.Model):
         return self.name
 
 class AbstractGroupActivity(models.Model):
-    TYPE_STANDARD = 's'
-    TYPE_RANGE = 'r'
-    TYPE_TO_FAILURE = 'f'
-    TYPE_AMRAP = 'a'
-    TYPE_NONE = 'n'
-    TYPES = [
-        (TYPE_STANDARD, 'Standard'),
-        (TYPE_RANGE, 'Range'),
-        (TYPE_TO_FAILURE, 'To Failure'),
-        (TYPE_AMRAP, 'As Many Repetitions As Possible'),
-        (TYPE_NONE, 'None'),
+    REPETITION_TYPE_STANDARD = 's'
+    REPETITION_TYPE_RANGE = 'r'
+    REPETITION_TYPE_TO_FAILURE = 'f'
+    REPETITION_TYPE_AMRAP = 'a'
+    REPETITION_TYPE_NONE = 'n'
+    REPETITION_TYPES = [
+        (REPETITION_TYPE_STANDARD, 'Standard'),
+        (REPETITION_TYPE_RANGE, 'Range'),
+        (REPETITION_TYPE_TO_FAILURE, 'To Failure'),
+        (REPETITION_TYPE_AMRAP, 'As Many Repetitions as Possible'),
+        (REPETITION_TYPE_NONE, 'None'),
     ]
+
+    SPEED_TYPE_NONE = 'n'
+    SPEED_TYPE_STANDARD = 's'
+    SPEED_TYPE_RANGE = 'r'
+    SPEED_TYPE_AFAP = 'a'
+    SPEED_TYPE_PARAMETER = 'p'
+    SPEED_TYPES = [
+        (SPEED_TYPE_NONE, 'None'),
+        (SPEED_TYPE_STANDARD, 'Standard'),
+        (SPEED_TYPE_RANGE, 'Range'),
+        (SPEED_TYPE_AFAP, 'As Fast as Possible'),
+        (SPEED_TYPE_PARAMETER, 'Use working parameter'),
+    ]
+
+    VO2MAX_TYPE_NONE = 'n'
+    VO2MAX_TYPE_STANDARD = 's'
+    VO2MAX_TYPE_RANGE = 'r'
+    VO2MAX_TYPES = [
+        (VO2MAX_TYPE_NONE, 'None'),
+        (VO2MAX_TYPE_STANDARD, 'Standard'),
+        (VO2MAX_TYPE_RANGE, 'Range'),
+    ]
+
+    DISTANCE_TYPE_NONE = 'n'
+    DISTANCE_TYPE_STANDARD = 's'
+    DISTANCE_TYPE_RANGE = 'r'
+    DISTANCE_TYPE_PARAMETER = 'p'
+    DISTANCE_TYPES = [
+        (DISTANCE_TYPE_NONE, 'None'),
+        (DISTANCE_TYPE_STANDARD, 'Standard'),
+        (DISTANCE_TYPE_RANGE, 'Range'),
+        (DISTANCE_TYPE_PARAMETER, 'Parameter'),
+    ]
+
+    TIME_TYPE_NONE = 'n'
+    TIME_TYPE_STANDARD = 's'
+    TIME_TYPE_RANGE = 'r'
+    TIME_TYPE_PARAMETER = 'p'
+    TIME_TYPES = [
+        (TIME_TYPE_NONE, 'None'),
+        (TIME_TYPE_STANDARD, 'Standard'),
+        (TIME_TYPE_RANGE, 'Range'),
+        (TIME_TYPE_PARAMETER, 'Parameter'),
+    ]
+
     # same order used in two records means they'll alternate
     order = models.PositiveIntegerField()
+
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
     number_of_sets = models.PositiveIntegerField()
-    repetition_type = models.CharField(max_length=1, null=True, choices=TYPES)
+
+    repetition_type = models.CharField(max_length=1, null=True, choices=REPETITION_TYPES)
     number_of_repetitions = models.PositiveIntegerField(null=True)
     number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
-    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3)
+
+    speed_type = models.CharField(max_length=1, null=True, choices=SPEED_TYPES)
+    speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    speed_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    vo2max_type = models.CharField(max_length=1, null=True, choices=VO2MAX_TYPES)
+    vo2max = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    vo2max_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    distance_type = models.CharField(max_length=1, null=True, choices=DISTANCE_TYPES)
+    distance = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    distance_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    time_type = models.CharField(max_length=1, null=True, choices=TIME_TYPES)
+    time = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    time_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_distance_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_time_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_speed_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True
@@ -163,9 +232,15 @@ class AbstractGroupActivity(models.Model):
 
 class PlanSessionGroupExercise(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="exercises", on_delete=models.CASCADE)
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class PlanSessionGroupWarmUp(AbstractGroupActivity):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="warmups", on_delete=models.CASCADE)
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class AbstractProgressionStrategy(models.Model):
     TYPE_EXERCISE = 'e'
@@ -175,11 +250,23 @@ class AbstractProgressionStrategy(models.Model):
         (TYPE_CHARACTERISTICS, 'By Characteristics'),
     ]
 
+    PARAMETER_TYPE_WEIGHT = 'w'
+    PARAMETER_TYPE_DISTANCE = 'd'
+    PARAMETER_TYPE_TIME = 't'
+    PARAMETER_TYPE_SPEED = 's'
+    PARAMETER_TYPES = [
+        (PARAMETER_TYPE_WEIGHT, 'Weight'),
+        (PARAMETER_TYPE_DISTANCE, 'Distance'),
+        (PARAMETER_TYPE_TIME, 'Time'),
+        (PARAMETER_TYPE_SPEED, 'Speed'),
+    ]
+
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT, null=True)
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    weight_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
-    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS_CHOICES)
+    parameter_type = models.CharField(max_length=1, choices=PARAMETER_TYPES)
+    parameter_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    unit = models.IntegerField(choices=Unit.choices, null=True)
+    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
     modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=Exercise.SECTIONS)
@@ -225,15 +312,40 @@ class AbstractWorkoutActivity(models.Model):
     start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
-    repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TYPES)
+    repetition_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.REPETITION_TYPES)
     expected_number_of_repetitions = models.PositiveIntegerField(null=True)
     expected_number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
     number_of_repetitions = models.PositiveIntegerField(null=True)
-    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     in_progress = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+
+    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    expected_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+
+    speed_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.SPEED_TYPES)
+    expected_speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_speed_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    vo2max_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.VO2MAX_TYPES)
+    expected_vo2max = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_vo2max_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    vo2max = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    distance_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.DISTANCE_TYPES)
+    expected_distance = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_distance_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    distance = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    time_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.TIME_TYPES)
+    expected_time = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    expected_time_up_to = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+    time = models.DecimalField(null=True, max_digits=6, decimal_places=3)
+
+    working_distance_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_time_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+    working_speed_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     class Meta:
         abstract = True
@@ -242,15 +354,34 @@ class WorkoutSet(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="sets", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupExercise, on_delete=models.SET_NULL, null=True)
 
+    weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
+
 class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupWarmUp, on_delete=models.SET_NULL, null=True)
 
-class WorkingWeight(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_weights")
+    weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
+    time_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
+    plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
+
+class WorkingParameter(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
-    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
-    previous_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    previous_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="previous_unit", null=True)
+    parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    parameter_type = models.CharField(max_length=1, choices=AbstractProgressionStrategy.PARAMETER_TYPES)
+    unit = models.IntegerField(choices=Unit.choices, null=True)
+    previous_parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    previous_unit = models.IntegerField(choices=Unit.choices, null=True)
     manually_changed = models.BooleanField(default=False)

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel } from '../exercise';
+import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel, ExerciseTypeLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ export class ExerciseCardComponent implements OnInit {
   paramChangedSubscription: Subscription;
   username: string;
 
+  ExerciseTypeLabel = ExerciseTypeLabel;
   SectionLabel = SectionLabel;
   ForceLabel = ForceLabel;
   MechanicsLabel = MechanicsLabel;

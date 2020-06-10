@@ -11,12 +11,26 @@ export const ProgressionTypeLabel = new Map<string, string>([
   [ProgressionType.ByCharacteristics, 'By Characteristics'],
 ]);
 
+export enum ParameterType {
+    Weight = 'w',
+    Distance = 'd',
+    Time = 't',
+    Speed = 's',
+}
+
+export const ParameterTypeLabel = new Map<string, string>([
+  [ParameterType.Weight, 'Weight'],
+  [ParameterType.Distance, 'Distance'],
+  [ParameterType.Time, 'Time'],
+  [ParameterType.Speed, 'Speed'],
+]);
+
 export class ProgressionStrategy {
     id: number;
-    weight_increase: number;
+    parameter_increase: number;
+    parameter_type: ParameterType;
     percentage_increase: number;
     unit: number;
-    unit_code: string;
     progression_type: ProgressionType;
     exercise: Exercise;
     section: Section;

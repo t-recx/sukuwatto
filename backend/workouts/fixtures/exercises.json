@@ -3,6 +3,7 @@
         "model": "workouts.exercise",
         "pk": 1,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Lower",
             "short_name": "Full Reverse Crunch",
@@ -18,6 +19,7 @@
         "model": "workouts.exercise",
         "pk": 2,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Lower",
             "short_name": "Incline Hip Thrust",
@@ -33,6 +35,7 @@
         "model": "workouts.exercise",
         "pk": 3,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Lower",
             "short_name": "Incline Reverse Crunch",
@@ -48,6 +51,7 @@
         "model": "workouts.exercise",
         "pk": 4,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Lower",
             "short_name": "Lying Hip Thrust",
@@ -63,6 +67,7 @@
         "model": "workouts.exercise",
         "pk": 5,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Lower",
             "short_name": "Reverse Crunch",
@@ -78,6 +83,7 @@
         "model": "workouts.exercise",
         "pk": 6,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Lower",
             "short_name": "Reverse Medicine Ball Crunch",
@@ -93,6 +99,7 @@
         "model": "workouts.exercise",
         "pk": 7,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Alternating Heel Touch",
@@ -108,6 +115,7 @@
         "model": "workouts.exercise",
         "pk": 8,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Bent-Knee Medicine Ball Hip Rotation",
@@ -123,6 +131,7 @@
         "model": "workouts.exercise",
         "pk": 9,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Cbl Chop",
@@ -138,6 +147,7 @@
         "model": "workouts.exercise",
         "pk": 10,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Cross Crunch",
@@ -153,6 +163,7 @@
         "model": "workouts.exercise",
         "pk": 11,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Cross Crunch w/ Medicine Ball",
@@ -168,6 +179,7 @@
         "model": "workouts.exercise",
         "pk": 12,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Decline Cross Sit-Up",
@@ -183,6 +195,7 @@
         "model": "workouts.exercise",
         "pk": 13,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Decline Sit-Up w/ Twist",
@@ -198,6 +211,7 @@
         "model": "workouts.exercise",
         "pk": 14,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Reverse Cbl Chop",
@@ -213,6 +227,7 @@
         "model": "workouts.exercise",
         "pk": 15,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Seated Medicine Ball Twist",
@@ -228,6 +243,7 @@
         "model": "workouts.exercise",
         "pk": 16,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Obliques",
             "short_name": "Trunk Rotator",
@@ -243,6 +259,7 @@
         "model": "workouts.exercise",
         "pk": 17,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Front Plank (from knees)",
@@ -258,6 +275,7 @@
         "model": "workouts.exercise",
         "pk": 18,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Front Plank (from toes)",
@@ -273,6 +291,7 @@
         "model": "workouts.exercise",
         "pk": 19,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Front Plank (tripod - 1 arm and 2 legs or 2 legs and 1 arm)",
@@ -288,6 +307,7 @@
         "model": "workouts.exercise",
         "pk": 20,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Side-Plank (from knees)",
@@ -303,6 +323,7 @@
         "model": "workouts.exercise",
         "pk": 21,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Side-Plank (hip lift)",
@@ -318,6 +339,7 @@
         "model": "workouts.exercise",
         "pk": 22,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Side-Plank (from toes)",
@@ -333,6 +355,7 @@
         "model": "workouts.exercise",
         "pk": 23,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Ab Cycle",
@@ -348,6 +371,7 @@
         "model": "workouts.exercise",
         "pk": 24,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Kneeling Ab Rollout",
@@ -363,6 +387,7 @@
         "model": "workouts.exercise",
         "pk": 25,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Medicine Ball V-Up",
@@ -378,6 +403,7 @@
         "model": "workouts.exercise",
         "pk": 26,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "V-Up",
@@ -393,6 +419,7 @@
         "model": "workouts.exercise",
         "pk": 27,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Total",
             "short_name": "Weighted V-Up",
@@ -408,6 +435,7 @@
         "model": "workouts.exercise",
         "pk": 28,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Bent Knee Sit-Up",
@@ -423,6 +451,7 @@
         "model": "workouts.exercise",
         "pk": 29,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Bent-Knee Crunch",
@@ -438,6 +467,7 @@
         "model": "workouts.exercise",
         "pk": 30,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Crunch",
@@ -453,6 +483,7 @@
         "model": "workouts.exercise",
         "pk": 31,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Crunch",
@@ -468,6 +499,7 @@
         "model": "workouts.exercise",
         "pk": 32,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Decline Crunch",
@@ -483,6 +515,7 @@
         "model": "workouts.exercise",
         "pk": 33,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Decline Sit-Up",
@@ -498,6 +531,7 @@
         "model": "workouts.exercise",
         "pk": 34,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Heel Touch",
@@ -513,6 +547,7 @@
         "model": "workouts.exercise",
         "pk": 35,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Sit-Up",
@@ -528,6 +563,7 @@
         "model": "workouts.exercise",
         "pk": 36,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Abdominals - Upper",
             "short_name": "Weighted Crunch",
@@ -543,6 +579,7 @@
         "model": "workouts.exercise",
         "pk": 37,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Assisted Pull-Up",
@@ -558,6 +595,7 @@
         "model": "workouts.exercise",
         "pk": 38,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Close-Grip Lat Pulldown",
@@ -573,6 +611,7 @@
         "model": "workouts.exercise",
         "pk": 39,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Inverted Pull-Up",
@@ -588,6 +627,7 @@
         "model": "workouts.exercise",
         "pk": 40,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Lat Pulldown",
@@ -603,6 +643,7 @@
         "model": "workouts.exercise",
         "pk": 41,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Pull-Up",
@@ -618,6 +659,7 @@
         "model": "workouts.exercise",
         "pk": 42,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Reverse-Grip Lat Pullown",
@@ -633,6 +675,7 @@
         "model": "workouts.exercise",
         "pk": 43,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Reverse-Grip Pull-Up",
@@ -648,6 +691,7 @@
         "model": "workouts.exercise",
         "pk": 44,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "V-Bar Pull-Up",
@@ -663,6 +707,7 @@
         "model": "workouts.exercise",
         "pk": 45,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
             "short_name": "Wide-Grip Lat Pulldown",
@@ -678,6 +723,7 @@
         "model": "workouts.exercise",
         "pk": 46,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Alternating DB Row",
@@ -693,6 +739,7 @@
         "model": "workouts.exercise",
         "pk": 47,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Row",
@@ -708,6 +755,7 @@
         "model": "workouts.exercise",
         "pk": 48,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over DB Row",
@@ -723,6 +771,7 @@
         "model": "workouts.exercise",
         "pk": 49,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Hammer DB Row",
@@ -738,6 +787,7 @@
         "model": "workouts.exercise",
         "pk": 50,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Long Row",
@@ -753,6 +803,7 @@
         "model": "workouts.exercise",
         "pk": 51,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Reverse-Grip Row",
@@ -768,6 +819,7 @@
         "model": "workouts.exercise",
         "pk": 52,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Single-Arm Long Row",
@@ -783,6 +835,7 @@
         "model": "workouts.exercise",
         "pk": 53,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Machine Row",
@@ -798,6 +851,7 @@
         "model": "workouts.exercise",
         "pk": 54,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "One Arm DB Row",
@@ -813,6 +867,7 @@
         "model": "workouts.exercise",
         "pk": 55,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Reverse Incline DB Row",
@@ -828,6 +883,7 @@
         "model": "workouts.exercise",
         "pk": 56,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Rope Cbl Row",
@@ -843,6 +899,7 @@
         "model": "workouts.exercise",
         "pk": 57,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Seated Cbl Row",
@@ -858,6 +915,7 @@
         "model": "workouts.exercise",
         "pk": 58,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Seated Row",
@@ -873,6 +931,7 @@
         "model": "workouts.exercise",
         "pk": 59,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Single-Arm Cbl Row",
@@ -888,6 +947,7 @@
         "model": "workouts.exercise",
         "pk": 60,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Single-Arm DB Row",
@@ -903,6 +963,7 @@
         "model": "workouts.exercise",
         "pk": 61,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Single-Arm Lat Pulldown",
@@ -918,6 +979,7 @@
         "model": "workouts.exercise",
         "pk": 62,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Standing Cbl Row",
@@ -933,6 +995,7 @@
         "model": "workouts.exercise",
         "pk": 63,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Standing Single-Arm Cbl Row",
@@ -948,6 +1011,7 @@
         "model": "workouts.exercise",
         "pk": 64,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Alternating DB Curl",
@@ -963,6 +1027,7 @@
         "model": "workouts.exercise",
         "pk": 65,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Alternating Hammer Curl",
@@ -978,6 +1043,7 @@
         "model": "workouts.exercise",
         "pk": 66,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Curl",
@@ -993,6 +1059,7 @@
         "model": "workouts.exercise",
         "pk": 67,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Bicep Curl",
@@ -1008,6 +1075,7 @@
         "model": "workouts.exercise",
         "pk": 68,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Bottom/Top/Full Curls",
@@ -1023,6 +1091,7 @@
         "model": "workouts.exercise",
         "pk": 69,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Cbl Curl",
@@ -1038,6 +1107,7 @@
         "model": "workouts.exercise",
         "pk": 70,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Concentration DB Curl",
@@ -1053,6 +1123,7 @@
         "model": "workouts.exercise",
         "pk": 71,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Cross Body Hammer Curl",
@@ -1068,6 +1139,7 @@
         "model": "workouts.exercise",
         "pk": 72,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "DB Curl",
@@ -1083,6 +1155,7 @@
         "model": "workouts.exercise",
         "pk": 73,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "EZ-Bar Curl",
@@ -1098,6 +1171,7 @@
         "model": "workouts.exercise",
         "pk": 74,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Hammer Curl",
@@ -1113,6 +1187,7 @@
         "model": "workouts.exercise",
         "pk": 75,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Incline Alternating DB Curl",
@@ -1128,6 +1203,7 @@
         "model": "workouts.exercise",
         "pk": 76,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Incline Alternating Hammer Curl",
@@ -1143,6 +1219,7 @@
         "model": "workouts.exercise",
         "pk": 77,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Incline DB Curl",
@@ -1158,6 +1235,7 @@
         "model": "workouts.exercise",
         "pk": 78,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Incline Hammer Curl",
@@ -1173,6 +1251,7 @@
         "model": "workouts.exercise",
         "pk": 79,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Kneeling Cbl Curl",
@@ -1188,6 +1267,7 @@
         "model": "workouts.exercise",
         "pk": 80,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Lying Cbl Curl",
@@ -1203,6 +1283,7 @@
         "model": "workouts.exercise",
         "pk": 81,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Lying Double Biceps Cbl Curl",
@@ -1218,6 +1299,7 @@
         "model": "workouts.exercise",
         "pk": 82,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Lying High Cbl Curl",
@@ -1233,6 +1315,7 @@
         "model": "workouts.exercise",
         "pk": 83,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Machine Curl",
@@ -1248,6 +1331,7 @@
         "model": "workouts.exercise",
         "pk": 84,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Overhead Double Biceps Cbl Curl",
@@ -1263,6 +1347,7 @@
         "model": "workouts.exercise",
         "pk": 85,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Overhead Rope Cbl Curl",
@@ -1278,6 +1363,7 @@
         "model": "workouts.exercise",
         "pk": 86,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Preacher Curl",
@@ -1293,6 +1379,7 @@
         "model": "workouts.exercise",
         "pk": 87,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Preacher Cbl Curl",
@@ -1308,6 +1395,7 @@
         "model": "workouts.exercise",
         "pk": 88,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Preacher DB Curl",
@@ -1323,6 +1411,7 @@
         "model": "workouts.exercise",
         "pk": 89,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Preacher EZ-Bar Curl",
@@ -1338,6 +1427,7 @@
         "model": "workouts.exercise",
         "pk": 90,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Preacher Hammer DB Curl",
@@ -1353,6 +1443,7 @@
         "model": "workouts.exercise",
         "pk": 91,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Preacher Single-Arm DB Curl",
@@ -1368,6 +1459,7 @@
         "model": "workouts.exercise",
         "pk": 92,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Reverse Curl",
@@ -1383,6 +1475,7 @@
         "model": "workouts.exercise",
         "pk": 93,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Rope Cbl Curl",
@@ -1398,6 +1491,7 @@
         "model": "workouts.exercise",
         "pk": 94,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Seated Alternating Curl",
@@ -1413,6 +1507,7 @@
         "model": "workouts.exercise",
         "pk": 95,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Seated Alternating Hammer Curl",
@@ -1428,6 +1523,7 @@
         "model": "workouts.exercise",
         "pk": 96,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Seated DB Curl",
@@ -1443,6 +1539,7 @@
         "model": "workouts.exercise",
         "pk": 97,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Seated Hammer Curl",
@@ -1458,6 +1555,7 @@
         "model": "workouts.exercise",
         "pk": 98,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Single-Arm Curl",
@@ -1473,6 +1571,7 @@
         "model": "workouts.exercise",
         "pk": 99,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Single-Arm Cbl Curl",
@@ -1488,6 +1587,7 @@
         "model": "workouts.exercise",
         "pk": 100,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Single-Arm DB Curl w/ Incline Bench",
@@ -1503,6 +1603,7 @@
         "model": "workouts.exercise",
         "pk": 101,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Biceps",
             "short_name": "Spider Curl",
@@ -1518,6 +1619,7 @@
         "model": "workouts.exercise",
         "pk": 102,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Raise",
@@ -1533,6 +1635,7 @@
         "model": "workouts.exercise",
         "pk": 103,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Press",
@@ -1548,6 +1651,7 @@
         "model": "workouts.exercise",
         "pk": 104,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Raise - Seated",
@@ -1563,6 +1667,7 @@
         "model": "workouts.exercise",
         "pk": 105,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Raise - Standing",
@@ -1578,6 +1683,7 @@
         "model": "workouts.exercise",
         "pk": 106,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "DB Calf Raise",
@@ -1593,6 +1699,7 @@
         "model": "workouts.exercise",
         "pk": 107,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Single-Leg Calf Press",
@@ -1608,6 +1715,7 @@
         "model": "workouts.exercise",
         "pk": 108,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Single-Leg DB Calf Raise",
@@ -1623,6 +1731,7 @@
         "model": "workouts.exercise",
         "pk": 109,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Gastrocnemius",
             "short_name": "Smith Machine Calf Raise",
@@ -1638,6 +1747,7 @@
         "model": "workouts.exercise",
         "pk": 110,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Soleus",
             "short_name": "Seated Calf Raise",
@@ -1653,6 +1763,7 @@
         "model": "workouts.exercise",
         "pk": 111,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Calves - Soleus",
             "short_name": "Seated Single-Leg Calf Raise",
@@ -1668,6 +1779,7 @@
         "model": "workouts.exercise",
         "pk": 112,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Alternating DB Bench Press",
@@ -1683,6 +1795,7 @@
         "model": "workouts.exercise",
         "pk": 113,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Bench Press",
@@ -1698,6 +1811,7 @@
         "model": "workouts.exercise",
         "pk": 114,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Chest Press",
@@ -1713,6 +1827,7 @@
         "model": "workouts.exercise",
         "pk": 115,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Decline DB Bench Press",
@@ -1728,6 +1843,7 @@
         "model": "workouts.exercise",
         "pk": 116,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Decline Smith Machine Bench Press",
@@ -1743,6 +1859,7 @@
         "model": "workouts.exercise",
         "pk": 117,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "DB Bench Press",
@@ -1758,6 +1875,7 @@
         "model": "workouts.exercise",
         "pk": 118,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "DB Push-Up",
@@ -1773,6 +1891,7 @@
         "model": "workouts.exercise",
         "pk": 119,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Elevated Push-Up",
@@ -1788,6 +1907,7 @@
         "model": "workouts.exercise",
         "pk": 120,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Flat Bench Press",
@@ -1803,6 +1923,7 @@
         "model": "workouts.exercise",
         "pk": 121,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Alternating DB Bench Press",
@@ -1818,6 +1939,7 @@
         "model": "workouts.exercise",
         "pk": 122,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Bench Press",
@@ -1833,6 +1955,7 @@
         "model": "workouts.exercise",
         "pk": 123,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Bench Press",
@@ -1848,6 +1971,7 @@
         "model": "workouts.exercise",
         "pk": 124,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline DB Bench Press",
@@ -1863,6 +1987,7 @@
         "model": "workouts.exercise",
         "pk": 125,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Hammer DB Bench Press",
@@ -1878,6 +2003,7 @@
         "model": "workouts.exercise",
         "pk": 126,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Single-Arm DB Bench Press",
@@ -1893,6 +2019,7 @@
         "model": "workouts.exercise",
         "pk": 127,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Smith Machine Bench Press",
@@ -1908,6 +2035,7 @@
         "model": "workouts.exercise",
         "pk": 128,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Twisting DB Bench Press",
@@ -1923,6 +2051,7 @@
         "model": "workouts.exercise",
         "pk": 129,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Kneeling Push-Up",
@@ -1938,6 +2067,7 @@
         "model": "workouts.exercise",
         "pk": 130,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Machine Bench Press",
@@ -1953,6 +2083,7 @@
         "model": "workouts.exercise",
         "pk": 131,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Machine Vertical Bench Press",
@@ -1968,6 +2099,7 @@
         "model": "workouts.exercise",
         "pk": 132,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Medicine Ball Crossover Push-Up",
@@ -1983,6 +2115,7 @@
         "model": "workouts.exercise",
         "pk": 133,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Push-Up",
@@ -1998,6 +2131,7 @@
         "model": "workouts.exercise",
         "pk": 134,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Single-Arm DB Bench Press",
@@ -2013,6 +2147,7 @@
         "model": "workouts.exercise",
         "pk": 135,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Smith Machine Bench Press",
@@ -2028,6 +2163,7 @@
         "model": "workouts.exercise",
         "pk": 136,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Twisting DB Bench Press",
@@ -2043,6 +2179,7 @@
         "model": "workouts.exercise",
         "pk": 137,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Wide-Grip Push-Up",
@@ -2058,6 +2195,7 @@
         "model": "workouts.exercise",
         "pk": 138,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Cbl Crossover",
@@ -2073,6 +2211,7 @@
         "model": "workouts.exercise",
         "pk": 139,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Cbl Fly",
@@ -2088,6 +2227,7 @@
         "model": "workouts.exercise",
         "pk": 140,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Decline DB Fly",
@@ -2103,6 +2243,7 @@
         "model": "workouts.exercise",
         "pk": 141,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "DB Fly",
@@ -2118,6 +2259,7 @@
         "model": "workouts.exercise",
         "pk": 142,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "High Cbl Crossover",
@@ -2133,6 +2275,7 @@
         "model": "workouts.exercise",
         "pk": 143,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Cbl Fly",
@@ -2148,6 +2291,7 @@
         "model": "workouts.exercise",
         "pk": 144,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline DB Fly",
@@ -2163,6 +2307,7 @@
         "model": "workouts.exercise",
         "pk": 145,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Incline Twisting DB Fly",
@@ -2178,6 +2323,7 @@
         "model": "workouts.exercise",
         "pk": 146,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Low Cbl Crossover",
@@ -2193,6 +2339,7 @@
         "model": "workouts.exercise",
         "pk": 147,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Pec Deck",
@@ -2208,6 +2355,7 @@
         "model": "workouts.exercise",
         "pk": 148,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Chest - Pectoralis",
             "short_name": "Pec Deck Fly",
@@ -2223,6 +2371,7 @@
         "model": "workouts.exercise",
         "pk": 149,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Bent-Knee Single-Leg Hip Lift",
@@ -2238,6 +2387,7 @@
         "model": "workouts.exercise",
         "pk": 150,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Elevated Hip Lift",
@@ -2253,6 +2403,7 @@
         "model": "workouts.exercise",
         "pk": 151,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Elevated Single-Leg Hip Lift",
@@ -2268,6 +2419,7 @@
         "model": "workouts.exercise",
         "pk": 152,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Hip Lift",
@@ -2283,6 +2435,7 @@
         "model": "workouts.exercise",
         "pk": 153,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Single-Leg Hip Lift",
@@ -2298,6 +2451,7 @@
         "model": "workouts.exercise",
         "pk": 154,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Deadlift",
@@ -2313,6 +2467,7 @@
         "model": "workouts.exercise",
         "pk": 155,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Leg Curl",
@@ -2328,6 +2483,7 @@
         "model": "workouts.exercise",
         "pk": 156,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Lying Alternating Leg Curl",
@@ -2343,6 +2499,7 @@
         "model": "workouts.exercise",
         "pk": 157,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Lying Leg Curl",
@@ -2358,6 +2515,7 @@
         "model": "workouts.exercise",
         "pk": 158,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Lying Single-Leg Curl",
@@ -2373,6 +2531,7 @@
         "model": "workouts.exercise",
         "pk": 159,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Seated Leg Curl",
@@ -2388,6 +2547,7 @@
         "model": "workouts.exercise",
         "pk": 160,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Diagonal Lunge",
@@ -2403,6 +2563,7 @@
         "model": "workouts.exercise",
         "pk": 161,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Hack Squat",
@@ -2418,6 +2579,7 @@
         "model": "workouts.exercise",
         "pk": 162,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lunge",
@@ -2433,6 +2595,7 @@
         "model": "workouts.exercise",
         "pk": 163,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Reverse Lunge",
@@ -2448,6 +2611,7 @@
         "model": "workouts.exercise",
         "pk": 164,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Side Lunge",
@@ -2463,6 +2627,7 @@
         "model": "workouts.exercise",
         "pk": 165,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Split Squat",
@@ -2478,6 +2643,7 @@
         "model": "workouts.exercise",
         "pk": 166,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Squat",
@@ -2493,6 +2659,7 @@
         "model": "workouts.exercise",
         "pk": 167,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Step-Up",
@@ -2508,6 +2675,7 @@
         "model": "workouts.exercise",
         "pk": 168,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Walking Lunge",
@@ -2523,6 +2691,7 @@
         "model": "workouts.exercise",
         "pk": 169,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Diagonal Lunge",
@@ -2538,6 +2707,7 @@
         "model": "workouts.exercise",
         "pk": 170,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Diagonal Lunge",
@@ -2553,6 +2723,7 @@
         "model": "workouts.exercise",
         "pk": 171,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Lunge",
@@ -2568,6 +2739,7 @@
         "model": "workouts.exercise",
         "pk": 172,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Reverse Lunge",
@@ -2583,6 +2755,7 @@
         "model": "workouts.exercise",
         "pk": 173,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Side Lunge",
@@ -2598,6 +2771,7 @@
         "model": "workouts.exercise",
         "pk": 174,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Split Squat",
@@ -2613,6 +2787,7 @@
         "model": "workouts.exercise",
         "pk": 175,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Squat",
@@ -2628,6 +2803,7 @@
         "model": "workouts.exercise",
         "pk": 176,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Step-Up",
@@ -2643,6 +2819,7 @@
         "model": "workouts.exercise",
         "pk": 177,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "DB Walking Lunge",
@@ -2658,6 +2835,7 @@
         "model": "workouts.exercise",
         "pk": 178,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Forward Lunge",
@@ -2673,6 +2851,7 @@
         "model": "workouts.exercise",
         "pk": 179,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Squat",
@@ -2688,6 +2867,7 @@
         "model": "workouts.exercise",
         "pk": 180,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Step-Up",
@@ -2703,6 +2883,7 @@
         "model": "workouts.exercise",
         "pk": 181,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Squat",
@@ -2718,6 +2899,7 @@
         "model": "workouts.exercise",
         "pk": 182,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Step-Up",
@@ -2733,6 +2915,7 @@
         "model": "workouts.exercise",
         "pk": 183,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Leg Press",
@@ -2748,6 +2931,7 @@
         "model": "workouts.exercise",
         "pk": 184,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lunge",
@@ -2763,6 +2947,7 @@
         "model": "workouts.exercise",
         "pk": 185,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Lying Machine Squat",
@@ -2778,6 +2963,7 @@
         "model": "workouts.exercise",
         "pk": 186,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Machine Hack Squat",
@@ -2793,6 +2979,7 @@
         "model": "workouts.exercise",
         "pk": 187,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Reverse Lunge",
@@ -2808,6 +2995,7 @@
         "model": "workouts.exercise",
         "pk": 188,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Arm Side Squat",
@@ -2823,6 +3011,7 @@
         "model": "workouts.exercise",
         "pk": 189,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Arm DB Side Squat",
@@ -2838,6 +3027,7 @@
         "model": "workouts.exercise",
         "pk": 190,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Squat",
@@ -2853,6 +3043,7 @@
         "model": "workouts.exercise",
         "pk": 191,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Box Squat",
@@ -2868,6 +3059,7 @@
         "model": "workouts.exercise",
         "pk": 192,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg DB Box Squat",
@@ -2883,6 +3075,7 @@
         "model": "workouts.exercise",
         "pk": 193,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg DB Squat",
@@ -2898,6 +3091,7 @@
         "model": "workouts.exercise",
         "pk": 194,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Squat",
@@ -2913,6 +3107,7 @@
         "model": "workouts.exercise",
         "pk": 195,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Smith Machine Squat",
@@ -2928,6 +3123,7 @@
         "model": "workouts.exercise",
         "pk": 196,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Split Squat",
@@ -2943,6 +3139,7 @@
         "model": "workouts.exercise",
         "pk": 197,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Step-Up",
@@ -2958,6 +3155,7 @@
         "model": "workouts.exercise",
         "pk": 198,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Walking Lunge",
@@ -2973,6 +3171,7 @@
         "model": "workouts.exercise",
         "pk": 199,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Alternating Leg Extension",
@@ -2988,6 +3187,7 @@
         "model": "workouts.exercise",
         "pk": 200,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Leg Extension",
@@ -3003,6 +3203,7 @@
         "model": "workouts.exercise",
         "pk": 201,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Extension",
@@ -3018,6 +3219,7 @@
         "model": "workouts.exercise",
         "pk": 202,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Lower Back - Erector Spinae",
             "short_name": "Alternating Superman",
@@ -3033,6 +3235,7 @@
         "model": "workouts.exercise",
         "pk": 203,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Lower Back - Erector Spinae",
             "short_name": "Back Raise",
@@ -3048,6 +3251,7 @@
         "model": "workouts.exercise",
         "pk": 204,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Lower Back - Erector Spinae",
             "short_name": "Quadruped Alternating Superman",
@@ -3063,6 +3267,7 @@
         "model": "workouts.exercise",
         "pk": 205,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Lower Back - Erector Spinae",
             "short_name": "Superman",
@@ -3078,6 +3283,7 @@
         "model": "workouts.exercise",
         "pk": 206,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Lower Back - Erector Spinae",
             "short_name": "Superman Hold",
@@ -3093,6 +3299,7 @@
         "model": "workouts.exercise",
         "pk": 207,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Arnold DB Press",
@@ -3108,6 +3315,7 @@
         "model": "workouts.exercise",
         "pk": 208,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Shoulder Press",
@@ -3123,6 +3331,7 @@
         "model": "workouts.exercise",
         "pk": 209,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Alternating Shoulder Press",
@@ -3138,6 +3347,7 @@
         "model": "workouts.exercise",
         "pk": 210,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Front Raise",
@@ -3153,6 +3363,7 @@
         "model": "workouts.exercise",
         "pk": 211,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Shoulder Press",
@@ -3168,6 +3379,7 @@
         "model": "workouts.exercise",
         "pk": 212,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Twisting Shoulder Press",
@@ -3183,6 +3395,7 @@
         "model": "workouts.exercise",
         "pk": 213,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Machine Shoulder Press",
@@ -3198,6 +3411,7 @@
         "model": "workouts.exercise",
         "pk": 214,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Seated DB Rear Delt Elbow Raise",
@@ -3213,6 +3427,7 @@
         "model": "workouts.exercise",
         "pk": 215,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Single-Arm DB Shoulder Press",
@@ -3228,6 +3443,7 @@
         "model": "workouts.exercise",
         "pk": 216,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Smith Machine Shoulder Press",
@@ -3243,6 +3459,7 @@
         "model": "workouts.exercise",
         "pk": 217,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Front Raise",
@@ -3258,6 +3475,7 @@
         "model": "workouts.exercise",
         "pk": 218,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Bent-Over Cbl Rear Delt Raise",
@@ -3273,6 +3491,7 @@
         "model": "workouts.exercise",
         "pk": 219,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Bent-Over DB Rear Delt Raise",
@@ -3288,6 +3507,7 @@
         "model": "workouts.exercise",
         "pk": 220,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Cbl Front Raise",
@@ -3303,6 +3523,7 @@
         "model": "workouts.exercise",
         "pk": 221,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Cbl Lateral Raise",
@@ -3318,6 +3539,7 @@
         "model": "workouts.exercise",
         "pk": 222,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Lateral Raise",
@@ -3333,6 +3555,7 @@
         "model": "workouts.exercise",
         "pk": 223,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Front Plate Raise",
@@ -3348,6 +3571,7 @@
         "model": "workouts.exercise",
         "pk": 224,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Kneeling Single-Arm Cbl Rear Delt Raise",
@@ -3363,6 +3587,7 @@
         "model": "workouts.exercise",
         "pk": 225,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Lying DB External Rotation",
@@ -3378,6 +3603,7 @@
         "model": "workouts.exercise",
         "pk": 226,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Lying DB Rear Delt Raise",
@@ -3393,6 +3619,7 @@
         "model": "workouts.exercise",
         "pk": 227,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Lying Single-Arm DB Rear Delt Raise",
@@ -3408,6 +3635,7 @@
         "model": "workouts.exercise",
         "pk": 228,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Pec Deck Real Delt Extensions",
@@ -3423,6 +3651,7 @@
         "model": "workouts.exercise",
         "pk": 229,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Reverse Incline DB Rear Delt Raise",
@@ -3438,6 +3667,7 @@
         "model": "workouts.exercise",
         "pk": 230,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Seated DB Rear Delt Raise",
@@ -3453,6 +3683,7 @@
         "model": "workouts.exercise",
         "pk": 231,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Single-Arm Cbl Lateral Raise",
@@ -3468,6 +3699,7 @@
         "model": "workouts.exercise",
         "pk": 232,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Rotator Cuff",
             "short_name": "Cbl External Rotation",
@@ -3483,6 +3715,7 @@
         "model": "workouts.exercise",
         "pk": 233,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Close-Grip Bench Press",
@@ -3498,6 +3731,7 @@
         "model": "workouts.exercise",
         "pk": 234,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Forward Lean Dips",
@@ -3513,6 +3747,7 @@
         "model": "workouts.exercise",
         "pk": 235,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Assisted Dips",
@@ -3528,6 +3763,7 @@
         "model": "workouts.exercise",
         "pk": 236,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Bench Dips",
@@ -3543,6 +3779,7 @@
         "model": "workouts.exercise",
         "pk": 237,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Diamond Push-Up",
@@ -3558,6 +3795,7 @@
         "model": "workouts.exercise",
         "pk": 238,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Dips",
@@ -3573,6 +3811,7 @@
         "model": "workouts.exercise",
         "pk": 239,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Machine Dips",
@@ -3588,6 +3827,7 @@
         "model": "workouts.exercise",
         "pk": 240,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Decline DB Triceps Extension",
@@ -3603,6 +3843,7 @@
         "model": "workouts.exercise",
         "pk": 241,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Decline EZ-Bar Tricep Extension",
@@ -3618,6 +3859,7 @@
         "model": "workouts.exercise",
         "pk": 242,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Decline Single DB Triceps Extension",
@@ -3633,6 +3875,7 @@
         "model": "workouts.exercise",
         "pk": 243,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Decline Single-Arm DB Triceps Extension",
@@ -3648,6 +3891,7 @@
         "model": "workouts.exercise",
         "pk": 244,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "DB Kickback",
@@ -3663,6 +3907,7 @@
         "model": "workouts.exercise",
         "pk": 245,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Incline EZ-Bar Tricep Extension",
@@ -3678,6 +3923,7 @@
         "model": "workouts.exercise",
         "pk": 246,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Kneeling Cbl Triceps Extension",
@@ -3693,6 +3939,7 @@
         "model": "workouts.exercise",
         "pk": 247,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Leaning Overhead Tricep Extension",
@@ -3708,6 +3955,7 @@
         "model": "workouts.exercise",
         "pk": 248,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Low Cbl Triceps Extension",
@@ -3723,6 +3971,7 @@
         "model": "workouts.exercise",
         "pk": 249,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying Cbl Triceps Extension",
@@ -3738,6 +3987,7 @@
         "model": "workouts.exercise",
         "pk": 250,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying EZ-Bar Triceps Extension",
@@ -3753,6 +4003,7 @@
         "model": "workouts.exercise",
         "pk": 251,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying Overhead EZ-Bar Tricep Extension",
@@ -3768,6 +4019,7 @@
         "model": "workouts.exercise",
         "pk": 252,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying Reverse EZ-Bar Triceps Extension",
@@ -3783,6 +4035,7 @@
         "model": "workouts.exercise",
         "pk": 253,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying Single DB Triceps Extension",
@@ -3798,6 +4051,7 @@
         "model": "workouts.exercise",
         "pk": 254,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying Single-Arm DB Triceps Extension",
@@ -3813,6 +4067,7 @@
         "model": "workouts.exercise",
         "pk": 255,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Lying Tricep Extensions",
@@ -3828,6 +4083,7 @@
         "model": "workouts.exercise",
         "pk": 256,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Overhead DB Triceps Extension",
@@ -3843,6 +4099,7 @@
         "model": "workouts.exercise",
         "pk": 257,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Overhead EZ-Bar Triceps Extension",
@@ -3858,6 +4115,7 @@
         "model": "workouts.exercise",
         "pk": 258,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Overhead Rope Cbl Tricep Extension",
@@ -3873,6 +4131,7 @@
         "model": "workouts.exercise",
         "pk": 259,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Overhead Single DB Tricep Extension",
@@ -3888,6 +4147,7 @@
         "model": "workouts.exercise",
         "pk": 260,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Overhead Single-Arm Cbl Tricep Extension",
@@ -3903,6 +4163,7 @@
         "model": "workouts.exercise",
         "pk": 261,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Overhead Single-Arm DB Tricep Extension",
@@ -3918,6 +4179,7 @@
         "model": "workouts.exercise",
         "pk": 262,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Reverse Tricep Pushdown",
@@ -3933,6 +4195,7 @@
         "model": "workouts.exercise",
         "pk": 263,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Rope Triceps Pushdown",
@@ -3948,6 +4211,7 @@
         "model": "workouts.exercise",
         "pk": 264,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Single-Arm Towel Triceps Pushdown",
@@ -3963,6 +4227,7 @@
         "model": "workouts.exercise",
         "pk": 265,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Single-Arm Triceps Pushdown",
@@ -3978,6 +4243,7 @@
         "model": "workouts.exercise",
         "pk": 266,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Towel Triceps Pushdown",
@@ -3993,6 +4259,7 @@
         "model": "workouts.exercise",
         "pk": 267,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Tricep Extensions",
@@ -4008,6 +4275,7 @@
         "model": "workouts.exercise",
         "pk": 268,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Tricep Pushdown",
@@ -4023,6 +4291,7 @@
         "model": "workouts.exercise",
         "pk": 269,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "Tricep Pushdown",
@@ -4038,6 +4307,7 @@
         "model": "workouts.exercise",
         "pk": 270,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Triceps",
             "short_name": "V-Bar Tricep Pushdown",
@@ -4053,6 +4323,7 @@
         "model": "workouts.exercise",
         "pk": 271,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs - Hamstrings",
             "short_name": "Romanian Deadlift",
@@ -4068,6 +4339,7 @@
         "model": "workouts.exercise",
         "pk": 272,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Overhead Press",
@@ -4083,6 +4355,7 @@
         "model": "workouts.exercise",
         "pk": 273,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "Shrug",
@@ -4098,6 +4371,7 @@
         "model": "workouts.exercise",
         "pk": 274,
         "fields": {
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Shrug",

@@ -7,6 +7,7 @@ import { UnitsService } from './units.service';
 import { UserBioDataService } from './user-bio-data.service';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSeries, UserProgressChartType } from './user-progress-chart-data';
 import { Workout } from './workout';
+import { ExerciseType } from './exercise';
 
 @Injectable({
   providedIn: 'root'
@@ -60,8 +61,8 @@ export class UserProgressService {
       ));
   }
 
-  getFinishWorkoutProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {
-    return this.getUserProgress(username, [finishedWorkout]).pipe(
+  getFinishWorkoutStrengthProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {
+    return this.getUserStrengthProgress(username, [finishedWorkout]).pipe(
       concatMap(userProgress => new Observable<UserProgressData>(obs => {
         let data = new UserProgressData();
 
@@ -71,7 +72,7 @@ export class UserProgressService {
           .groups
           .filter(g => g
             .sets
-            .filter(gs => gs.done && gs.exercise.id == s.exercise.id).length > 0).length > 0);
+            .filter(gs => gs.done && gs.exercise.id == s.exercise.id && gs.exercise.exercise_type == ExerciseType.Strength).length > 0).length > 0);
             
         let filteredSeries: UserProgressSeries[] = [];
         let filteredDates = [];
@@ -97,7 +98,7 @@ export class UserProgressService {
     );
   }
 
-  getUserProgress(username: string, additionalWorkouts: Workout[] = []): Observable<UserProgressData> {
+  getUserStrengthProgress(username: string, additionalWorkouts: Workout[] = []): Observable<UserProgressData> {
     return this.workoutsService.getWorkouts(username, 1, 1000).pipe(
       concatMap(paginatedWorkouts =>
         new Observable<UserProgressData>(obs => {
@@ -114,10 +115,12 @@ export class UserProgressService {
                   w.groups
                     .flatMap(g =>
                       [...new Set(g.sets
+                        .filter(s => s.exercise.exercise_type == ExerciseType.Strength)
                         .filter(s => s.done)
                         .map(s => s.exercise.id))].flatMap(id => 
                           [g.sets
                           .filter(s => s.exercise.id == id)
+                          .filter(s => s.exercise.exercise_type == ExerciseType.Strength)
                           .sort((a,b) => b.weight - a.weight)[0]]
                           .filter(x => x)
                           .map(x => new UserProgressDataPoint(x.exercise, x.weight, w.start))

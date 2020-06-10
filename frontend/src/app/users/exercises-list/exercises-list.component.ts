@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel } from '../exercise';
+import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel, ExerciseTypeLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
 import { Subject, Subscription } from 'rxjs';
 import { Paginated } from '../paginated';
@@ -146,6 +146,7 @@ export class ExercisesListComponent implements OnInit, OnChanges {
   setDescriptions(exercises: Exercise[]) {
     if (exercises) {
       exercises.forEach(e => {
+        e.exercise_typeLabel = this.getExerciseTypeLabel(e.exercise_type);
         e.sectionLabel = this.getSectionLabel(e.section);
         e.forceLabel = this.getForceLabel(e.force);
         e.mechanicsLabel = this.getMechanicsLabel(e.mechanics);
@@ -153,6 +154,10 @@ export class ExercisesListComponent implements OnInit, OnChanges {
         e.levelLabel = this.getLevelLabel(e.level);
       });
     }
+  }
+
+  getExerciseTypeLabel(exercise_type: string): string {
+    return ExerciseTypeLabel.get(exercise_type);
   }
 
   getSectionLabel(section: string): string {
