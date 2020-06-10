@@ -98,12 +98,12 @@ class Exercise(models.Model):
 
 class Plan(models.Model):
     # Example: PPL, SS, SL
-    short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)')
+    short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)', blank=True)
     name = models.CharField(max_length=200, help_text='Enter the workout plan template''s name (ex: Push Pull Legs, Starting Strength)')
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
-    website = models.CharField(max_length=400, null=True)
+    website = models.CharField(max_length=400, null=True, blank=True)
     creation = models.DateTimeField(auto_now_add=True)
     public = models.BooleanField(default=False)
 

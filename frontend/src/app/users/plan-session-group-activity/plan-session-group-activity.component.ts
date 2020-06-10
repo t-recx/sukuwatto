@@ -70,7 +70,12 @@ export class PlanSessionGroupExerciseComponent implements OnInit {
       this.planSessionGroupExercise.speed_up_to = null;
     }
 
-    if (this.planSessionGroupExercise.speed_type != SpeedType.Parameter) {
+    if (this.planSessionGroupExercise.speed_type == SpeedType.Parameter) {
+      if (this.planSessionGroupExercise.working_speed_percentage == null) {
+        this.planSessionGroupExercise.working_speed_percentage = 100;
+      }
+    }
+    else {
       this.planSessionGroupExercise.working_speed_percentage = null;
     }
   }
@@ -86,7 +91,12 @@ export class PlanSessionGroupExerciseComponent implements OnInit {
       this.planSessionGroupExercise.distance_up_to = null;
     }
 
-    if (this.planSessionGroupExercise.distance_type != DistanceType.Parameter) {
+    if (this.planSessionGroupExercise.distance_type == DistanceType.Parameter) {
+      if (this.planSessionGroupExercise.working_distance_percentage == null) {
+        this.planSessionGroupExercise.working_distance_percentage = 100;
+      }
+    }
+    else {
       this.planSessionGroupExercise.working_distance_percentage = null;
     }
   }
@@ -102,7 +112,12 @@ export class PlanSessionGroupExerciseComponent implements OnInit {
       this.planSessionGroupExercise.time_up_to = null;
     }
 
-    if (this.planSessionGroupExercise.time_type != TimeType.Parameter) {
+    if (this.planSessionGroupExercise.time_type == TimeType.Parameter) {
+      if (this.planSessionGroupExercise.working_time_percentage == null) {
+        this.planSessionGroupExercise.working_time_percentage = 100;
+      }
+    }
+    else {
       this.planSessionGroupExercise.working_time_percentage = null;
     }
   }

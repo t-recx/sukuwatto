@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { WorkingParameter } from '../working-parameter';
 import { Exercise, ExerciseType } from '../exercise';
 import { Unit, MeasurementType } from '../unit';
@@ -10,7 +10,7 @@ import { ParameterTypeLabel, ParameterType } from '../plan-progression-strategy'
   templateUrl: './working-parameter.component.html',
   styleUrls: ['./working-parameter.component.css']
 })
-export class WorkingParameterComponent implements OnInit {
+export class WorkingParameterComponent implements OnInit, OnChanges {
   @Input() workingParameter: WorkingParameter;
   @Input() triedToSave: boolean;
   @Input() triedToHide: boolean;
@@ -21,11 +21,9 @@ export class WorkingParameterComponent implements OnInit {
   parameterTypeLabel = ParameterTypeLabel;
 
   constructor(
-    private unitsService: UnitsService,
-    private authService: AuthService) { }
-
-  ngOnInit() {
-    this.unitsService.getUnits().subscribe(u => {
+    unitsService: UnitsService,
+    private authService: AuthService) {
+    unitsService.getUnits().subscribe(u => {
       this.units = u.filter(x => 
           x.measurement_type == MeasurementType.Weight ||
           x.measurement_type == MeasurementType.Speed ||
@@ -35,11 +33,29 @@ export class WorkingParameterComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.workingParameter) {
+      this.filterUnits();
+    }
+  }
+
+  ngOnInit() {
+  }
+
   onWeightChange(event) {
     this.workingParameter.manually_changed = true;
   }
 
   filterUnits() {
+    if (!this.units) {
+      return;
+    }
+
+    if (!this.workingParameter || !this.workingParameter.parameter_type) {
+      this.filteredUnits = this.units;
+      return;
+    }
+
     let defaultUnit;
 
     switch (this.workingParameter.parameter_type) {

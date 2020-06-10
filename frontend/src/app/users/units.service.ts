@@ -228,6 +228,11 @@ export class UnitsService {
       toUnitCode = toUnit;
     }
 
+    fromUnitCode = fromUnitCode == 'mph' ? 'mi' : fromUnitCode;
+    fromUnitCode = fromUnitCode == 'km/h' ? 'km' : fromUnitCode;
+    toUnitCode = toUnitCode == 'mph' ? 'mi' : toUnitCode;
+    toUnitCode = toUnitCode == 'km/h' ? 'km' : toUnitCode;
+
     if (toUnitCode != fromUnitCode) {
       let num = uz(value + fromUnitCode).convert(toUnitCode).value;
 

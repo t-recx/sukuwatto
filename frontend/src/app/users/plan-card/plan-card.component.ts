@@ -9,6 +9,7 @@ import { Exercise } from '../exercise';
 import { PlanSessionGroup } from '../plan-session-group';
 import { UnitsService } from '../units.service';
 import { Unit } from '../unit';
+import { ParameterType } from '../plan-progression-strategy';
 
 @Component({
   selector: 'app-plan-card',
@@ -30,6 +31,7 @@ export class PlanCardComponent implements OnInit {
   distanceType = DistanceType;
   timeType = TimeType;
   vo2MaxType = Vo2MaxType;
+  parameterType = ParameterType;
 
   faChild = faChild;
   faExternalLinkAlt = faExternalLinkAlt;
@@ -151,5 +153,37 @@ export class PlanCardComponent implements OnInit {
     }
 
     return website;
+  }
+
+  showWorkingPercentage(session, exercise, percentage) {
+    return percentage &&
+          (percentage != 100 ||
+          this.multipleWorkingWeightsForExercise(session, exercise));
+  }
+
+  showParameterBlock(session, activity: PlanSessionGroupActivity, type: ParameterType) {
+    let parameter;
+    let parameter_type_filled = false;
+    let percentage;
+
+    switch(type) {
+      case ParameterType.Distance:
+        parameter= activity.distance;
+        parameter_type_filled = activity.distance_type != this.distanceType.None;
+        percentage = activity.working_distance_percentage;
+        break;
+      case ParameterType.Speed:
+        parameter= activity.speed;
+        parameter_type_filled = activity.speed_type != this.speedType.None;
+        percentage = activity.working_speed_percentage;
+        break;
+      case ParameterType.Time:
+        parameter= activity.time;
+        parameter_type_filled = activity.time_type != this.timeType.None;
+        percentage = activity.working_time_percentage;
+        break;
+    }
+
+    return parameter || (parameter_type_filled && this.showWorkingPercentage(session, activity.exercise, percentage));
   }
 }
