@@ -124,7 +124,7 @@ class ExerciseTestCase(CRUDTestCaseMixin, APITestCase):
                          {"exercise":{"id":exid, "short_name":"short", "name":"n", "exercise_type":"s"},"order":1,"weight":1,"repetition_type":"a"}],
                          "short_name":"short", "name":"g"}],
                 "working_parameters":[
-                    {"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"parameter_value":3, "previous_parameter_value":1}],
+                    {"exercise":{"id": exid, "short_name":"short", "name":"initial", "exercise_type":"s"},"parameter_value":3, "parameter_type": "w", "previous_parameter_value":1}],
                 "status":"p","start":"2020-03-02T19:25:53.753Z","short_name":"short", "name":"n"}, format='json')
 
         try:
