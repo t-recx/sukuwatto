@@ -83,7 +83,7 @@ export class PlanProgressionStrategyComponent implements OnInit, OnChanges {
     }
 
     if (this.unitsFiltered.filter(u => u.id == this.progression.unit).length == 0) {
-      this.progression.unit = this.progression.unit_code = null;
+      this.progression.unit = null;
     }
   }
 }

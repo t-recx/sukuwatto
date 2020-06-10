@@ -7,5 +7,5 @@ export class WorkoutOverview {
     exercise: Exercise;
     repetition_type: RepetitionType;
     weight: number;
-    unit_code: string;
+    weight_unit: number;
 }

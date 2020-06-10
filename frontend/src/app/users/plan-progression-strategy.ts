@@ -31,7 +31,6 @@ export class ProgressionStrategy {
     parameter_type: ParameterType;
     percentage_increase: number;
     unit: number;
-    unit_code: string;
     progression_type: ProgressionType;
     exercise: Exercise;
     section: Section;

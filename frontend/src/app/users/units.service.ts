@@ -17,25 +17,30 @@ import { UserBioData } from './user-bio-data';
   providedIn: 'root'
 })
 export class UnitsService {
-  private unitsUrl= `${environment.apiUrl}/units/`;
+  private unitsUrl = `${environment.apiUrl}/units/`;
   private cache$: Observable<Unit[]>;
+  private units: Unit[];
 
   constructor(
     private http: HttpClient,
     private errorService: ErrorService,
     private alertService: AlertService,
     private authService: AuthService,
-  ) { 
+  ) {
     Classes.addDefaults();
+    this.loadUnits();
   }
 
-  getUnits (): Observable<Unit[]> {
+  loadUnits() {
+    this.getUnits().subscribe(u => this.units = u);
+  }
+
+  getUnits(): Observable<Unit[]> {
     if (!this.cache$) {
       this.cache$ =
         this.requestUnits().pipe(
           shareReplay({ bufferSize: 1, refCount: true }),
-          catchError(this.errorService.handleError<Unit[]>('getUnits', (e: any) => 
-          { 
+          catchError(this.errorService.handleError<Unit[]>('getUnits', (e: any) => {
             this.alertService.error('Unable to fetch units');
           }, []))
         );
@@ -49,11 +54,17 @@ export class UnitsService {
   }
 
   getUserWeightUnitCode(): string {
-      if (this.authService.getUserUnitSystem() == MeasurementSystem.Imperial) {
-          return 'lb';
-      }
+    if (this.authService.getUserUnitSystem() == MeasurementSystem.Imperial) {
+      return 'lb';
+    }
 
-      return 'kg';
+    return 'kg';
+  }
+
+  getToUnit(fromUnit: number) {
+    const toUnitCode = this.getToUnitCode(this.getUnitCode(fromUnit));
+
+    return this.units.filter(u => u.abbreviation == toUnitCode)[0].id;
   }
 
   getToUnitCode(fromUnit: string) {
@@ -61,7 +72,7 @@ export class UnitsService {
 
     if (this.authService.isLoggedIn()) {
       if (this.authService.getUserUnitSystem() == MeasurementSystem.Imperial) {
-        switch(fromUnit) {
+        switch (fromUnit) {
           case 'kg':
             toUnitCode = 'lb';
             break;
@@ -80,7 +91,7 @@ export class UnitsService {
         }
       }
       else if (this.authService.getUserUnitSystem() == MeasurementSystem.Metric) {
-        switch(fromUnit) {
+        switch (fromUnit) {
           case 'ft':
             toUnitCode = 'cm';
             break;
@@ -93,7 +104,7 @@ export class UnitsService {
           case 'yd':
             toUnitCode = 'm';
             break;
-           case 'mph':
+          case 'mph':
             toUnitCode = 'km';
             break;
         }
@@ -103,11 +114,14 @@ export class UnitsService {
     return toUnitCode;
   }
 
-  convertToUserUnit(value:any, fromUnit:any) {
+  convertToUserUnit(value: any, fromUnit: any) {
     let fromUnitCode = '';
 
     if (fromUnit.abbreviation) {
       fromUnitCode = fromUnit.abbreviation;
+    }
+    else if (typeof fromUnit === 'number') {
+      fromUnitCode = this.getUnitCode(fromUnit);
     }
     else {
       fromUnitCode = fromUnit;
@@ -124,11 +138,14 @@ export class UnitsService {
     return value;
   }
 
-  convert(value:any, fromUnit:any, toUnit:any) {
+  convert(value: any, fromUnit: any, toUnit: any) {
     let fromUnitCode = '';
 
     if (fromUnit.abbreviation) {
       fromUnitCode = fromUnit.abbreviation;
+    }
+    else if (typeof fromUnit === 'number') {
+      fromUnitCode = this.getUnitCode(fromUnit);
     }
     else {
       fromUnitCode = fromUnit;
@@ -138,6 +155,9 @@ export class UnitsService {
 
     if (toUnit.abbreviation) {
       toUnitCode = toUnit.abbreviation;
+    }
+    else if (typeof toUnit === 'number') {
+      toUnitCode = this.getUnitCode(toUnit);
     }
     else {
       toUnitCode = toUnit;
@@ -182,10 +202,10 @@ export class UnitsService {
         workout.working_parameters.forEach(ww => {
           this.convertParameterValue(ww);
           if (ww.previous_parameter_value) {
-            ww.previous_parameter_value = this.convertToUserUnit(ww.previous_parameter_value, ww.previous_unit_code);
+            ww.previous_parameter_value = this.convertToUserUnit(ww.previous_parameter_value, ww.previous_unit);
           }
-          if (ww.previous_unit_code) {
-            ww.previous_unit_code = this.getToUnitCode(ww.previous_unit_code);
+          if (ww.previous_unit) {
+            ww.previous_unit = this.getToUnit(ww.previous_unit);
           }
         });
       }
@@ -204,78 +224,88 @@ export class UnitsService {
 
   convertUserBioData(userBioData: UserBioData) {
     if (!userBioData) {
-      if (userBioData.weight && userBioData.weight_unit_code) {
-        userBioData.weight = this.convertToUserUnit(userBioData.weight, userBioData.weight_unit_code);
-        userBioData.weight_unit_code = this.getToUnitCode(userBioData.weight_unit_code);
+      if (userBioData.weight && userBioData.weight_unit) {
+        userBioData.weight = this.convertToUserUnit(userBioData.weight, userBioData.weight_unit);
+        userBioData.weight_unit = this.getToUnit(userBioData.weight_unit);
       }
 
-      if (userBioData.height && userBioData.height_unit_code) {
-        userBioData.height = this.convertToUserUnit(userBioData.height, userBioData.height_unit_code);
-        userBioData.height_unit_code = this.getToUnitCode(userBioData.height_unit_code);
+      if (userBioData.height && userBioData.height_unit) {
+        userBioData.height = this.convertToUserUnit(userBioData.height, userBioData.height_unit);
+        userBioData.height_unit = this.getToUnit(userBioData.height_unit);
       }
 
-      if (userBioData.bone_mass_weight && userBioData.bone_mass_weight_unit_code) {
-        userBioData.bone_mass_weight = this.convertToUserUnit(userBioData.bone_mass_weight, userBioData.bone_mass_weight_unit_code);
-        userBioData.bone_mass_weight_unit_code = this.getToUnitCode(userBioData.bone_mass_weight_unit_code);
+      if (userBioData.bone_mass_weight && userBioData.bone_mass_weight_unit) {
+        userBioData.bone_mass_weight = this.convertToUserUnit(userBioData.bone_mass_weight, userBioData.bone_mass_weight_unit);
+        userBioData.bone_mass_weight_unit = this.getToUnit(userBioData.bone_mass_weight_unit);
       }
     }
   }
 
-  convertWeightValue(model: { weight: number, unit_code: string }) {
-      if (model) {
-          if (model.weight) {
-              model.weight = this.convertToUserUnit(model.weight, model.unit_code);
-          }
-          if (model.unit_code) {
-              model.unit_code = this.getToUnitCode(model.unit_code);
-          }
+  convertWeightValue(model: { weight: number, weight_unit: number }) {
+    if (model) {
+      if (model.weight) {
+        model.weight = this.convertToUserUnit(model.weight, model.weight_unit);
       }
+      if (model.weight_unit) {
+        model.weight_unit = this.getToUnit(model.weight_unit);
+      }
+    }
   }
 
-  convertDistanceValue(model: { distance: number, expected_distance: number, expected_distance_up_to: number, distance_unit_code: string }) {
-      if (model) {
-          if (model.distance) {
-              model.distance = this.convertToUserUnit(model.distance, model.distance_unit_code);
-          }
-          if (model.expected_distance) {
-              model.expected_distance = this.convertToUserUnit(model.expected_distance, model.distance_unit_code);
-          }
-          if (model.expected_distance_up_to) {
-              model.expected_distance_up_to = this.convertToUserUnit(model.expected_distance_up_to, model.distance_unit_code);
-          }
-
-          if (model.distance_unit_code) {
-              model.distance_unit_code = this.getToUnitCode(model.distance_unit_code);
-          }
+  convertDistanceValue(model: { distance: number, expected_distance: number, expected_distance_up_to: number, distance_unit: number, plan_distance_unit: number }) {
+    if (model) {
+      if (model.plan_distance_unit) {
+        if (model.expected_distance) {
+          model.expected_distance = this.convertToUserUnit(model.expected_distance, model.plan_distance_unit);
+        }
+        if (model.expected_distance_up_to) {
+          model.expected_distance_up_to = this.convertToUserUnit(model.expected_distance_up_to, model.plan_distance_unit);
+        }
+        model.plan_distance_unit = this.getToUnit(model.plan_distance_unit);
       }
+
+      if (model.distance_unit) {
+        if (model.distance) {
+          model.distance = this.convertToUserUnit(model.distance, model.distance_unit);
+        }
+        model.distance_unit = this.getToUnit(model.distance_unit);
+      }
+    }
   }
 
-  convertSpeedValue(model: { speed: number, expected_speed: number, expected_speed_up_to: number, speed_unit_code: string }) {
-      if (model) {
-          if (model.speed) {
-              model.speed = this.convertToUserUnit(model.speed, model.speed_unit_code);
-          }
-          if (model.expected_speed) {
-              model.expected_speed = this.convertToUserUnit(model.expected_speed, model.speed_unit_code);
-          }
-          if (model.expected_speed_up_to) {
-              model.expected_speed_up_to = this.convertToUserUnit(model.expected_speed_up_to, model.speed_unit_code);
-          }
-
-          if (model.speed_unit_code) {
-              model.speed_unit_code = this.getToUnitCode(model.speed_unit_code);
-          }
+  convertSpeedValue(model: { speed: number, expected_speed: number, expected_speed_up_to: number, speed_unit: number, plan_speed_unit: number }) {
+    if (model) {
+      if (model.plan_speed_unit) {
+        if (model.expected_speed) {
+          model.expected_speed = this.convertToUserUnit(model.expected_speed, model.plan_speed_unit);
+        }
+        if (model.expected_speed_up_to) {
+          model.expected_speed_up_to = this.convertToUserUnit(model.expected_speed_up_to, model.plan_speed_unit);
+        }
+        model.plan_speed_unit = this.getToUnit(model.plan_speed_unit);
       }
+
+      if (model.speed_unit) {
+        if (model.speed) {
+          model.speed = this.convertToUserUnit(model.speed, model.speed_unit);
+        }
+        model.speed_unit = this.getToUnit(model.speed_unit);
+      }
+    }
   }
 
-  convertParameterValue(model: { parameter_value: number, unit_code: string }) {
-      if (model) {
-          if (model.parameter_value) {
-              model.parameter_value = this.convertToUserUnit(model.parameter_value, model.unit_code);
-          }
-          if (model.unit_code) {
-              model.unit_code = this.getToUnitCode(model.unit_code);
-          }
+  convertParameterValue(model: { parameter_value: number, unit: number }) {
+    if (model) {
+      if (model.parameter_value) {
+        model.parameter_value = this.convertToUserUnit(model.parameter_value, model.unit);
       }
+      if (model.unit) {
+        model.unit = this.getToUnit(model.unit);
+      }
+    }
+  }
+
+  getUnitCode(id: number): string {
+    return this.units.filter(x => x.id == id)[0].abbreviation;
   }
 }

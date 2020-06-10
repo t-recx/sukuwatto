@@ -9,14 +9,8 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Exercise</div>
-                            <exercises-input
-                                    [(ngModel)]="workoutActivity.exercise" 
-                                    #exercise="ngModel"
-                                    name="exercise"
-                                    id="exercise"
-                                    required
-                                >
+                            <exercises-input [(ngModel)]="workoutActivity.exercise" #exercise="ngModel" name="exercise"
+                                id="exercise" required>
                             </exercises-input>
                             <div *ngIf="exercise.invalid && (exercise.dirty || triedToHide)">
                                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
@@ -25,338 +19,536 @@
                     </div>
                 </div>
 
-                <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 's'">
-                    <div class="siimple-grid-row">
-                        <div class="siimple-grid-col siimple-grid-col--6">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Weight</div>
-                                <input type="number" class="siimple-input siimple-input--fluid" name="weight" id="weight"
-                                    [(ngModel)]="workoutActivity.weight" #weight="ngModel" placeholder="Weight">
-                                <div *ngIf="weight.invalid && (weight.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="siimple-grid-col siimple-grid-col--6">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Unit</div>
-                                <select class="siimple-select siimple-select--fluid" name="unit" id="unit"
-                                    required
-                                    [(ngModel)]="workoutActivity.unit" #unit="ngModel">
-                                    <option *ngFor="let unitModel of units" value={{unitModel.id}}>
-                                        {{unitModel.name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="unit.invalid && (unit.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="siimple-card" *ngIf="workoutActivity.exercise && workoutActivity.exercise.id > 0">
+                    <!--
+                    <div class="siimple-card-header">
+                        Executed
                     </div>
-                    <div class="siimple-grid-row">
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Repetition type</div>
-                                <select class="siimple-select siimple-select--fluid" name="repetition_type" id="repetition_type"
-                                    required [(ngModel)]="workoutActivity.repetition_type" #repetition_type="ngModel"
-                                    (change)="repetitionTypeChange()">
-                                    <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
-                                        value={{repetition_typeModel.key}}>
-                                        {{repetition_typeModel.value}}
-                                    </option>
-                                </select>
-                                <div *ngIf="repetition_type.invalid && (repetition_type.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    -->
+                    <div class="siimple-card-body">
+                        <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 's'">
+                            <div class="siimple-grid-row">
+                                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Reps</div> -->
+                                        <input type="number" class="siimple-input siimple-input--fluid" required
+                                            name="number_of_repetitions" id="number_of_repetitions"
+                                            [(ngModel)]="workoutActivity.number_of_repetitions"
+                                            #number_of_repetitions="ngModel" placeholder="Reps">
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Weight</div> -->
+                                        <input type="number" class="siimple-input siimple-input--fluid" name="weight"
+                                            id="weight" [(ngModel)]="workoutActivity.weight" #weight="ngModel"
+                                            placeholder="Weight">
+                                        <div *ngIf="weight.invalid && (weight.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Unit</div> -->
+                                        <select class="siimple-select siimple-select--fluid" name="weight_unit"
+                                            id="weight_unit" required [(ngModel)]="workoutActivity.weight_unit"
+                                            #weight_unit="ngModel">
+                                            <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                                {{unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="weight_unit.invalid && (weight_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="siimple-grid-row"
-                        *ngIf="workoutActivity.repetition_type == repetitionType.Standard || workoutActivity.repetition_type == repetitionType.Range">
-                        <div class="siimple-grid-col"
-                            [class.siimple-grid-col--12]="workoutActivity.repetition_type == repetitionType.Standard"
-                            [class.siimple-grid-col--6]="workoutActivity.repetition_type == repetitionType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Repetition number</div>
-                                <input type="number" class="siimple-input siimple-input--fluid" name="expected_number_of_repetitions"
-                                    required id="expected_number_of_repetitions"
-                                    [(ngModel)]="workoutActivity.expected_number_of_repetitions"
-                                    #expected_number_of_repetitions="ngModel" placeholder="Repetition number">
-                                <div
-                                    *ngIf="expected_number_of_repetitions.invalid && (expected_number_of_repetitions.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+
+                        <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c'">
+                            <div class="siimple-grid-row">
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Time</div> -->
+                                        <input type="number" class="siimple-input siimple-input--fluid" name="time"
+                                            required id="time" [(ngModel)]="workoutActivity.time" #time="ngModel"
+                                            placeholder="Time">
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="siimple-grid-col siimple-grid-col--6"
-                            *ngIf="workoutActivity.repetition_type == repetitionType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Up to</div>
-                                <input type="number" required class="siimple-input siimple-input--fluid"
-                                    name="number_of_repetitions_up_to" id="number_of_repetitions_up_to"
-                                    [(ngModel)]="workoutActivity.expected_number_of_repetitions_up_to"
-                                    #number_of_repetitions_up_to="ngModel" placeholder="Up to">
-                                <div *ngIf="number_of_repetitions_up_to.invalid && (number_of_repetitions_up_to.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Unit</div> -->
+                                        <select class="siimple-select siimple-select--fluid" name="time_unit"
+                                            id="time_unit" required [(ngModel)]="workoutActivity.time_unit"
+                                            #time_unit="ngModel">
+                                            <option *ngFor="let time_unitModel of time_units"
+                                                value={{time_unitModel.id}}>
+                                                {{time_unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="time_unit.invalid && (time_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Distance</div> -->
+                                        <input type="number" class="siimple-input siimple-input--fluid" name="distance"
+                                            required id="distance" [(ngModel)]="workoutActivity.distance"
+                                            #distance="ngModel" placeholder="Distance">
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Unit</div> -->
+                                        <select class="siimple-select siimple-select--fluid" name="distance_unit"
+                                            id="distance_unit" required [(ngModel)]="workoutActivity.distance_unit"
+                                            #distance_unit="ngModel">
+                                            <option *ngFor="let distance_unitModel of distance_units"
+                                                value={{distance_unitModel.id}}>
+                                                {{distance_unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="distance_unit.invalid && (distance_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Speed</div> -->
+                                        <input type="number" class="siimple-input siimple-input--fluid" name="speed"
+                                            required id="speed" [(ngModel)]="workoutActivity.speed" #speed="ngModel"
+                                            placeholder="Speed">
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">Unit</div> -->
+                                        <select class="siimple-select siimple-select--fluid" name="speed_unit"
+                                            id="speed_unit" required [(ngModel)]="workoutActivity.speed_unit"
+                                            #speed_unit="ngModel">
+                                            <option *ngFor="let speed_unitModel of speed_units"
+                                                value={{speed_unitModel.id}}>
+                                                {{speed_unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="speed_unit.invalid && (speed_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-sm--12">
+                                    <div class="siimple-form-field">
+                                        <!-- <div class="siimple-form-field-label">VO2 max %</div> -->
+                                        <input type="number" class="siimple-input siimple-input--fluid" name="vo2max"
+                                            required id="vo2max" [(ngModel)]="workoutActivity.vo2max" #vo2max="ngModel"
+                                            placeholder="VO2 max">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c'">
-                    <div class="siimple-grid-row">
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Speed type</div>
-                                <select class="siimple-select siimple-select--fluid" name="speed_type" id="speed_type"
-                                    required [(ngModel)]="workoutActivity.speed_type" #speed_type="ngModel"
-                                    (change)="speedTypeChange()">
-                                    <option *ngFor="let speed_typeModel of speedTypeLabel | keyvalue"
-                                        value={{speed_typeModel.key}}>
-                                        {{speed_typeModel.value}}
-                                    </option>
-                                </select>
-                                <div *ngIf="speed_type.invalid && (speed_type.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
+                <!--
+                <div class="siimple-card" *ngIf="workoutActivity.exercise && workoutActivity.exercise.id > 0 &&
+                    workoutActivity.plan_session_group_activity">
+                    <div class=" siimple-card-header">
+                        Planned
                     </div>
-                    <div class="siimple-grid-row"
-                        *ngIf="workoutActivity.speed_type == speedType.Standard || workoutActivity.speed_type == speedType.Range">
-                        <div class="siimple-grid-col"
-                            [class.siimple-grid-col--12]="workoutActivity.speed_type == speedType.Standard"
-                            [class.siimple-grid-col--6]="workoutActivity.speed_type == speedType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Speed</div>
-                                <input type="number" class="siimple-input siimple-input--fluid" name="expected_speed"
-                                    required id="expected_speed"
-                                    [(ngModel)]="workoutActivity.expected_speed"
-                                    #expected_speed="ngModel" placeholder="Speed">
-                                <div
-                                    *ngIf="expected_speed.invalid && (expected_speed.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-card-body">
+                        <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 's'">
+                            <div class="siimple-grid-row">
+                                <div class="siimple-grid-col siimple-grid-col--6">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Weight</div>
+                                        <input type="number" class="siimple-input siimple-input--fluid"
+                                            name="expected_weight" id="expected_weight"
+                                            [(ngModel)]="workoutActivity.expected_weight" #expected_weight="ngModel"
+                                            placeholder="Weight">
+                                        <div *ngIf="expected_weight.invalid && (expected_weight.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--6">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Unit</div>
+                                        <select class="siimple-select siimple-select--fluid" name="plan_weight_unit"
+                                            id="plan_weight_unit" required
+                                            [(ngModel)]="workoutActivity.plan_weight_unit" #plan_weight_unit="ngModel">
+                                            <option *ngFor="let unitModel of units" value={{unitModel.id}}>
+                                                {{unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div
+                                            *ngIf="plan_weight_unit.invalid && (plan_weight_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="siimple-grid-col siimple-grid-col--6"
-                            *ngIf="workoutActivity.speed_type == speedType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Up to</div>
-                                <input type="number" required class="siimple-input siimple-input--fluid"
-                                    name="speed_up_to" id="speed_up_to"
-                                    [(ngModel)]="workoutActivity.expected_speed_up_to"
-                                    #speed_up_to="ngModel" placeholder="Up to">
-                                <div *ngIf="speed_up_to.invalid && (speed_up_to.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-grid-row">
+                                <div class="siimple-grid-col siimple-grid-col--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Repetition type</div>
+                                        <select class="siimple-select siimple-select--fluid" name="repetition_type"
+                                            id="repetition_type" required [(ngModel)]="workoutActivity.repetition_type"
+                                            #repetition_type="ngModel" (change)="repetitionTypeChange()">
+                                            <option *ngFor="let repetition_typeModel of repetitionTypeLabel | keyvalue"
+                                                value={{repetition_typeModel.key}}>
+                                                {{repetition_typeModel.value}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="repetition_type.invalid && (repetition_type.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="siimple-grid-row"
+                                *ngIf="workoutActivity.repetition_type == repetitionType.Standard || workoutActivity.repetition_type == repetitionType.Range">
+                                <div class="siimple-grid-col"
+                                    [class.siimple-grid-col--12]="workoutActivity.repetition_type == repetitionType.Standard"
+                                    [class.siimple-grid-col--6]="workoutActivity.repetition_type == repetitionType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Repetition number</div>
+                                        <input type="number" class="siimple-input siimple-input--fluid"
+                                            name="expected_number_of_repetitions" required
+                                            id="expected_number_of_repetitions"
+                                            [(ngModel)]="workoutActivity.expected_number_of_repetitions"
+                                            #expected_number_of_repetitions="ngModel" placeholder="Repetition number">
+                                        <div
+                                            *ngIf="expected_number_of_repetitions.invalid && (expected_number_of_repetitions.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--6"
+                                    *ngIf="workoutActivity.repetition_type == repetitionType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Up to</div>
+                                        <input type="number" required class="siimple-input siimple-input--fluid"
+                                            name="number_of_repetitions_up_to" id="number_of_repetitions_up_to"
+                                            [(ngModel)]="workoutActivity.expected_number_of_repetitions_up_to"
+                                            #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+                                        <div
+                                            *ngIf="number_of_repetitions_up_to.invalid && (number_of_repetitions_up_to.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Speed unit</div>
-                                <select class="siimple-select siimple-select--fluid" name="speed_unit" id="speed_unit"
-                                    required
-                                    [(ngModel)]="workoutActivity.speed_unit" #speed_unit="ngModel">
-                                    <option *ngFor="let speed_unitModel of speed_units" value={{speed_unitModel.id}}>
-                                        {{speed_unitModel.name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="speed_unit.invalid && (speed_unit.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c'">
+                            <div class="siimple-grid-row">
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Time type</div>
+                                        <select class="siimple-select siimple-select--fluid" name="time_type"
+                                            id="time_type" required [(ngModel)]="workoutActivity.time_type"
+                                            #time_type="ngModel" (change)="timeTypeChange()">
+                                            <option *ngFor="let time_typeModel of timeTypeLabel | keyvalue"
+                                                value={{time_typeModel.key}}>
+                                                {{time_typeModel.value}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="time_type.invalid && (time_type.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="siimple-grid-row">
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Time type</div>
-                                <select class="siimple-select siimple-select--fluid" name="time_type" id="time_type"
-                                    required [(ngModel)]="workoutActivity.time_type" #time_type="ngModel"
-                                    (change)="timeTypeChange()">
-                                    <option *ngFor="let time_typeModel of timeTypeLabel | keyvalue"
-                                        value={{time_typeModel.key}}>
-                                        {{time_typeModel.value}}
-                                    </option>
-                                </select>
-                                <div *ngIf="time_type.invalid && (time_type.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Distance type</div>
+                                        <select class="siimple-select siimple-select--fluid" name="distance_type"
+                                            id="distance_type" required [(ngModel)]="workoutActivity.distance_type"
+                                            #distance_type="ngModel" (change)="distanceTypeChange()">
+                                            <option *ngFor="let distance_typeModel of distanceTypeLabel | keyvalue"
+                                                value={{distance_typeModel.key}}>
+                                                {{distance_typeModel.value}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="distance_type.invalid && (distance_type.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="siimple-grid-row"
-                        *ngIf="workoutActivity.time_type == timeType.Standard || workoutActivity.time_type == timeType.Range">
-                        <div class="siimple-grid-col"
-                            [class.siimple-grid-col--12]="workoutActivity.time_type == timeType.Standard"
-                            [class.siimple-grid-col--6]="workoutActivity.time_type == timeType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Time</div>
-                                <input type="number" class="siimple-input siimple-input--fluid" name="expected_time"
-                                    required id="expected_time"
-                                    [(ngModel)]="workoutActivity.expected_time"
-                                    #expected_time="ngModel" placeholder="Time">
-                                <div
-                                    *ngIf="expected_time.invalid && (expected_time.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="siimple-grid-col siimple-grid-col--6"
-                            *ngIf="workoutActivity.time_type == timeType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Up to</div>
-                                <input type="number" required class="siimple-input siimple-input--fluid"
-                                    name="time_up_to" id="time_up_to"
-                                    [(ngModel)]="workoutActivity.expected_time_up_to"
-                                    #time_up_to="ngModel" placeholder="Up to">
-                                <div *ngIf="time_up_to.invalid && (time_up_to.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Time unit</div>
-                                <select class="siimple-select siimple-select--fluid" name="time_unit" id="time_unit"
-                                    required
-                                    [(ngModel)]="workoutActivity.time_unit" #time_unit="ngModel">
-                                    <option *ngFor="let time_unitModel of time_units" value={{time_unitModel.id}}>
-                                        {{time_unitModel.name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="time_unit.invalid && (time_unit.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Speed type</div>
+                                        <select class="siimple-select siimple-select--fluid" name="speed_type"
+                                            id="speed_type" required [(ngModel)]="workoutActivity.speed_type"
+                                            #speed_type="ngModel" (change)="speedTypeChange()">
+                                            <option *ngFor="let speed_typeModel of speedTypeLabel | keyvalue"
+                                                value={{speed_typeModel.key}}>
+                                                {{speed_typeModel.value}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="speed_type.invalid && (speed_type.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="siimple-grid-row">
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Distance type</div>
-                                <select class="siimple-select siimple-select--fluid" name="distance_type" id="distance_type"
-                                    required [(ngModel)]="workoutActivity.distance_type" #distance_type="ngModel"
-                                    (change)="distanceTypeChange()">
-                                    <option *ngFor="let distance_typeModel of distanceTypeLabel | keyvalue"
-                                        value={{distance_typeModel.key}}>
-                                        {{distance_typeModel.value}}
-                                    </option>
-                                </select>
-                                <div *ngIf="distance_type.invalid && (distance_type.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Vo2Max type</div>
+                                        <select class="siimple-select siimple-select--fluid" name="vo2max_type"
+                                            id="vo2max_type" required [(ngModel)]="workoutActivity.vo2max_type"
+                                            #vo2max_type="ngModel" (change)="vo2MaxTypeChange()">
+                                            <option *ngFor="let vo2max_typeModel of vo2MaxTypeLabel | keyvalue"
+                                                value={{vo2max_typeModel.key}}>
+                                                {{vo2max_typeModel.value}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="vo2max_type.invalid && (vo2max_type.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="siimple-grid-row"
-                        *ngIf="workoutActivity.distance_type == distanceType.Standard || workoutActivity.distance_type == distanceType.Range">
-                        <div class="siimple-grid-col"
-                            [class.siimple-grid-col--12]="workoutActivity.distance_type == distanceType.Standard"
-                            [class.siimple-grid-col--6]="workoutActivity.distance_type == distanceType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Distance</div>
-                                <input type="number" class="siimple-input siimple-input--fluid" name="expected_distance"
-                                    required id="expected_distance"
-                                    [(ngModel)]="workoutActivity.expected_distance"
-                                    #expected_distance="ngModel" placeholder="Distance">
-                                <div
-                                    *ngIf="expected_distance.invalid && (expected_distance.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="siimple-grid-col siimple-grid-col--6"
-                            *ngIf="workoutActivity.distance_type == distanceType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Up to</div>
-                                <input type="number" required class="siimple-input siimple-input--fluid"
-                                    name="distance_up_to" id="distance_up_to"
-                                    [(ngModel)]="workoutActivity.expected_distance_up_to"
-                                    #distance_up_to="ngModel" placeholder="Up to">
-                                <div *ngIf="distance_up_to.invalid && (distance_up_to.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Distance unit</div>
-                                <select class="siimple-select siimple-select--fluid" name="distance_unit" id="distance_unit"
-                                    required
-                                    [(ngModel)]="workoutActivity.distance_unit" #distance_unit="ngModel">
-                                    <option *ngFor="let distance_unitModel of distance_units" value={{distance_unitModel.id}}>
-                                        {{distance_unitModel.name}}
-                                    </option>
-                                </select>
-                                <div *ngIf="distance_unit.invalid && (distance_unit.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-grid-row"
+                                *ngIf="workoutActivity.speed_type == speedType.Standard || workoutActivity.speed_type == speedType.Range">
+                                <div class="siimple-grid-col"
+                                    [class.siimple-grid-col--12]="workoutActivity.speed_type == speedType.Standard"
+                                    [class.siimple-grid-col--6]="workoutActivity.speed_type == speedType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Speed</div>
+                                        <input type="number" class="siimple-input siimple-input--fluid"
+                                            name="expected_speed" required id="expected_speed"
+                                            [(ngModel)]="workoutActivity.expected_speed" #expected_speed="ngModel"
+                                            placeholder="Speed">
+                                        <div *ngIf="expected_speed.invalid && (expected_speed.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="siimple-grid-col siimple-grid-col--6"
+                                    *ngIf="workoutActivity.speed_type == speedType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Up to</div>
+                                        <input type="number" required class="siimple-input siimple-input--fluid"
+                                            name="speed_up_to" id="speed_up_to"
+                                            [(ngModel)]="workoutActivity.expected_speed_up_to" #speed_up_to="ngModel"
+                                            placeholder="Up to">
+                                        <div *ngIf="speed_up_to.invalid && (speed_up_to.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                    <div class="siimple-grid-row">
-                        <div class="siimple-grid-col siimple-grid-col--12">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Vo2Max type</div>
-                                <select class="siimple-select siimple-select--fluid" name="vo2max_type" id="vo2max_type"
-                                    required [(ngModel)]="workoutActivity.vo2max_type" #vo2max_type="ngModel"
-                                    (change)="vo2MaxTypeChange()">
-                                    <option *ngFor="let vo2max_typeModel of vo2MaxTypeLabel | keyvalue"
-                                        value={{vo2max_typeModel.key}}>
-                                        {{vo2max_typeModel.value}}
-                                    </option>
-                                </select>
-                                <div *ngIf="vo2max_type.invalid && (vo2max_type.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-grid-col siimple-grid-col--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Speed unit</div>
+                                        <select class="siimple-select siimple-select--fluid" name="plan_speed_unit"
+                                            id="plan_speed_unit" required [(ngModel)]="workoutActivity.plan_speed_unit"
+                                            #plan_speed_unit="ngModel">
+                                            <option *ngFor="let plan_speed_unitModel of speed_units"
+                                                value={{plan_speed_unitModel.id}}>
+                                                {{plan_speed_unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="plan_speed_unit.invalid && (plan_speed_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="siimple-grid-row"
-                        *ngIf="workoutActivity.vo2max_type == vo2MaxType.Standard || workoutActivity.vo2max_type == vo2MaxType.Range">
-                        <div class="siimple-grid-col"
-                            [class.siimple-grid-col--12]="workoutActivity.vo2max_type == vo2MaxType.Standard"
-                            [class.siimple-grid-col--6]="workoutActivity.vo2max_type == vo2MaxType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Vo2Max %</div>
-                                <input type="number" class="siimple-input siimple-input--fluid" name="expected_vo2max"
-                                    required id="expected_vo2max"
-                                    [(ngModel)]="workoutActivity.expected_vo2max"
-                                    #expected_vo2max="ngModel" placeholder="Vo2Max %">
-                                <div
-                                    *ngIf="expected_vo2max.invalid && (expected_vo2max.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+
+                            <div class="siimple-grid-row"
+                                *ngIf="workoutActivity.time_type == timeType.Standard || workoutActivity.time_type == timeType.Range">
+                                <div class="siimple-grid-col"
+                                    [class.siimple-grid-col--12]="workoutActivity.time_type == timeType.Standard"
+                                    [class.siimple-grid-col--6]="workoutActivity.time_type == timeType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Time</div>
+                                        <input type="number" class="siimple-input siimple-input--fluid"
+                                            name="expected_time" required id="expected_time"
+                                            [(ngModel)]="workoutActivity.expected_time" #expected_time="ngModel"
+                                            placeholder="Time">
+                                        <div *ngIf="expected_time.invalid && (expected_time.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--6"
+                                    *ngIf="workoutActivity.time_type == timeType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Up to</div>
+                                        <input type="number" required class="siimple-input siimple-input--fluid"
+                                            name="time_up_to" id="time_up_to"
+                                            [(ngModel)]="workoutActivity.expected_time_up_to" #time_up_to="ngModel"
+                                            placeholder="Up to">
+                                        <div *ngIf="time_up_to.invalid && (time_up_to.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="siimple-grid-col siimple-grid-col--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Time unit</div>
+                                        <select class="siimple-select siimple-select--fluid" name="plan_time_unit"
+                                            id="plan_time_unit" required [(ngModel)]="workoutActivity.plan_time_unit"
+                                            #plan_time_unit="ngModel">
+                                            <option *ngFor="let plan_time_unitModel of time_units"
+                                                value={{plan_time_unitModel.id}}>
+                                                {{plan_time_unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="plan_time_unit.invalid && (plan_time_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="siimple-grid-col siimple-grid-col--6"
-                            *ngIf="workoutActivity.vo2max_type == vo2MaxType.Range">
-                            <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Up to</div>
-                                <input type="number" required class="siimple-input siimple-input--fluid"
-                                    name="vo2max_up_to" id="vo2max_up_to"
-                                    [(ngModel)]="workoutActivity.expected_vo2max_up_to"
-                                    #vo2max_up_to="ngModel" placeholder="Up to">
-                                <div *ngIf="vo2max_up_to.invalid && (vo2max_up_to.dirty || triedToHide)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+
+                            <div class="siimple-grid-row"
+                                *ngIf="workoutActivity.distance_type == distanceType.Standard || workoutActivity.distance_type == distanceType.Range">
+                                <div class="siimple-grid-col"
+                                    [class.siimple-grid-col--12]="workoutActivity.distance_type == distanceType.Standard"
+                                    [class.siimple-grid-col--6]="workoutActivity.distance_type == distanceType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Distance</div>
+                                        <input type="number" class="siimple-input siimple-input--fluid"
+                                            name="expected_distance" required id="expected_distance"
+                                            [(ngModel)]="workoutActivity.expected_distance" #expected_distance="ngModel"
+                                            placeholder="Distance">
+                                        <div
+                                            *ngIf="expected_distance.invalid && (expected_distance.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--6"
+                                    *ngIf="workoutActivity.distance_type == distanceType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Up to</div>
+                                        <input type="number" required class="siimple-input siimple-input--fluid"
+                                            name="distance_up_to" id="distance_up_to"
+                                            [(ngModel)]="workoutActivity.expected_distance_up_to"
+                                            #distance_up_to="ngModel" placeholder="Up to">
+                                        <div *ngIf="distance_up_to.invalid && (distance_up_to.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="siimple-grid-col siimple-grid-col--12">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Distance unit</div>
+                                        <select class="siimple-select siimple-select--fluid" name="plan_distance_unit"
+                                            id="plan_distance_unit" required
+                                            [(ngModel)]="workoutActivity.plan_distance_unit"
+                                            #plan_distance_unit="ngModel">
+                                            <option *ngFor="let plan_distance_unitModel of distance_units"
+                                                value={{plan_distance_unitModel.id}}>
+                                                {{plan_distance_unitModel.name}}
+                                            </option>
+                                        </select>
+                                        <div
+                                            *ngIf="plan_distance_unit.invalid && (plan_distance_unit.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="siimple-grid-row"
+                                *ngIf="workoutActivity.vo2max_type == vo2MaxType.Standard || workoutActivity.vo2max_type == vo2MaxType.Range">
+                                <div class="siimple-grid-col"
+                                    [class.siimple-grid-col--12]="workoutActivity.vo2max_type == vo2MaxType.Standard"
+                                    [class.siimple-grid-col--6]="workoutActivity.vo2max_type == vo2MaxType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Vo2Max %</div>
+                                        <input type="number" class="siimple-input siimple-input--fluid"
+                                            name="expected_vo2max" required id="expected_vo2max"
+                                            [(ngModel)]="workoutActivity.expected_vo2max" #expected_vo2max="ngModel"
+                                            placeholder="Vo2Max %">
+                                        <div *ngIf="expected_vo2max.invalid && (expected_vo2max.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="siimple-grid-col siimple-grid-col--6"
+                                    *ngIf="workoutActivity.vo2max_type == vo2MaxType.Range">
+                                    <div class="siimple-form-field">
+                                        <div class="siimple-form-field-label">Up to</div>
+                                        <input type="number" required class="siimple-input siimple-input--fluid"
+                                            name="vo2max_up_to" id="vo2max_up_to"
+                                            [(ngModel)]="workoutActivity.expected_vo2max_up_to" #vo2max_up_to="ngModel"
+                                            placeholder="Up to">
+                                        <div *ngIf="vo2max_up_to.invalid && (vo2max_up_to.dirty || triedToHide)">
+                                            <div class="siimple-field-helper siimple--color-error">
+                                                This field can't be empty
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
+                -->
             </div>
         </div>
+
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="hide()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
@@ -366,7 +558,8 @@
                 <fa-icon [icon]="faTrash" class="siimple--mr-1"></fa-icon>
                 Delete
             </button>
-            <button class="siimple-btn siimple-btn--primary siimple--float-right" type="button" (click)="showCloningModal()">
+            <button class="siimple-btn siimple-btn--primary siimple--float-right" type="button"
+                (click)="showCloningModal()">
                 <fa-icon [icon]="faClone" class="siimple--mr-1"></fa-icon>
                 Clone
             </button>
@@ -383,13 +576,15 @@
         <div class="siimple-modal-body">
             <div class="siimple-form-field">
                 <div class="siimple-form-field-label">Number of activies</div>
-                <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_cloned_activities"
-                    id="number_of_cloned_activities" [(ngModel)]="number_of_cloned_activities"
-                    #number_of_repetitions="ngModel" placeholder="Number of activities">
+                <input type="number" class="siimple-input siimple-input--fluid" required
+                    name="number_of_cloned_activities_input" id="number_of_cloned_activities_input"
+                    [(ngModel)]="number_of_cloned_activities" #number_of_cloned_activities_input="ngModel"
+                    placeholder="Number of activities">
             </div>
         </div>
         <div class="siimple-modal-footer">
-            <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="hideAndIssueCloningOrder()">
+            <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button"
+                (click)="hideAndIssueCloningOrder()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 OK
             </button>

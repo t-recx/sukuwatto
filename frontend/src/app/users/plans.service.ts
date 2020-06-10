@@ -12,6 +12,7 @@ import { PlanSessionGroup } from './plan-session-group';
 import { PlanSessionGroupActivity, RepetitionType, SpeedType, DistanceType, TimeType } from './plan-session-group-activity';
 import { Result, Results } from '../result';
 import { ExerciseType } from './exercise';
+import { PlanSessionGroupWarmUp } from './plan-session-group-warmup';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,8 @@ export class PlansService {
           if (session.groups) {
             for (let group of session.groups) {
               group.progressions = this.getProperlyTypedProgressions(group.progressions);
+              group.exercises = this.getProperlyTypedActivities(group.exercises);
+              group.warmups = this.getProperlyTypedActivities(group.warmups);
             }
           }
         }
@@ -104,6 +107,27 @@ export class PlansService {
     }
 
     return plan;
+  }
+
+  getProperlyTypedActivities(activities: PlanSessionGroupActivity[]): PlanSessionGroupActivity[] {
+    if (activities) {
+      activities.forEach(activity => {
+        activity.speed = activity.speed ? +activity.speed : activity.speed;
+        activity.speed_up_to = activity.speed_up_to ? +activity.speed_up_to : activity.speed_up_to;
+        activity.time = activity.time ? +activity.time : activity.time;
+        activity.time_up_to = activity.time_up_to ? +activity.time_up_to : activity.time_up_to;
+        activity.distance = activity.distance ? +activity.distance : activity.distance;
+        activity.distance_up_to = activity.distance_up_to ? +activity.distance_up_to : activity.distance_up_to;
+        activity.vo2max = activity.vo2max ? +activity.vo2max : activity.vo2max;
+        activity.vo2max_up_to = activity.vo2max_up_to ? +activity.vo2max_up_to : activity.vo2max_up_to;
+        activity.working_weight_percentage = activity.working_weight_percentage ? +activity.working_weight_percentage : activity.working_weight_percentage;
+        activity.working_distance_percentage = activity.working_distance_percentage ? +activity.working_distance_percentage : activity.working_distance_percentage;
+        activity.working_time_percentage = activity.working_time_percentage ? +activity.working_time_percentage : activity.working_time_percentage;
+        activity.working_speed_percentage = activity.working_speed_percentage ? +activity.working_speed_percentage : activity.working_speed_percentage;
+      });
+    }
+
+    return activities;
   }
 
   getProperlyTypedProgressions(progressions: ProgressionStrategy[]): ProgressionStrategy[] {

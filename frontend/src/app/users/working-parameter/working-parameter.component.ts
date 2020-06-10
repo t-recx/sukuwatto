@@ -64,12 +64,11 @@ export class WorkingParameterComponent implements OnInit {
     if (!this.workingParameter.unit) {
       if (this.filteredUnits.filter(x => x.id == this.workingParameter.unit).length == 0) {
         this.workingParameter.unit = defaultUnit.id;
-        this.workingParameter.unit_code = defaultUnit.abbreviation;
       }
     }
     else {
       if (this.filteredUnits.filter(x => x.id == this.workingParameter.unit).length == 0) {
-        this.workingParameter.unit = this.workingParameter.unit_code = null;
+        this.workingParameter.unit = null;
       }
     }
   }

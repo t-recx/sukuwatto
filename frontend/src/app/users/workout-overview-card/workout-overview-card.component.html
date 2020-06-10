@@ -38,7 +38,7 @@
                                 {{workoutActivity.weight}}
                             </span>
                             <span>
-                                {{workoutActivity.unit_code}}
+                                {{getUnitCode(workoutActivity.weight_unit)}}
                             </span>
                         </span>
                         <span *ngIf="!workoutActivity.weight">

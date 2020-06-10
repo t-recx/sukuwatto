@@ -92,14 +92,14 @@ export class WorkoutOverviewCardComponent implements OnInit {
         let setsWithWeight = setsWithExercise.filter(s => s.weight == weight);
         for (let numberReps of new Set(setsWithWeight.map(s => s.number_of_repetitions))) {
           let setsWithNumberReps = setsWithWeight.filter(s => s.number_of_repetitions == numberReps);
-          for (let unit_code of new Set(setsWithNumberReps.map(s => s.unit_code))) {
-            let setsWithUnit = setsWithNumberReps.filter(s => s.unit_code == unit_code);
+          for (let unit of new Set(setsWithNumberReps.map(s => s.weight_unit))) {
+            let setsWithUnit = setsWithNumberReps.filter(s => s.weight_unit == unit);
             let activity = new WorkoutOverview();
 
             activity.exercise = {...exercise};
             activity.weight = weight;
             activity.number_of_repetitions = numberReps;
-            activity.unit_code = unit_code;
+            activity.weight_unit = unit;
             activity.number_of_sets = setsWithUnit.length;
             this.unitsService.convertWorkoutOverview(activity);
 
@@ -120,5 +120,9 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   toggleDeleteModal(): void {
     this.deleteModalVisible = !this.deleteModalVisible;
+  }
+
+  getUnitCode(unit: number): string {
+    return this.unitsService.getUnitCode(unit);
   }
 }

@@ -328,11 +328,12 @@ class AbstractWorkoutActivity(models.Model):
     expected_number_of_repetitions = models.PositiveIntegerField(null=True)
     expected_number_of_repetitions_up_to = models.PositiveIntegerField(null=True)
     number_of_repetitions = models.PositiveIntegerField(null=True)
-    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True)
     in_progress = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
+
+    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    expected_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
 
     speed_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.SPEED_TYPES)
     expected_speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
@@ -365,17 +366,27 @@ class WorkoutSet(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="sets", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupExercise, on_delete=models.SET_NULL, null=True)
 
+    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_weight_unit')
     speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_speed_unit')
     distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_distance_unit')
     time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_time_unit')
+    plan_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_weight_unit')
+    plan_speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_speed_unit')
+    plan_distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_distance_unit')
+    plan_time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_set_plan_time_unit')
 
 class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
     plan_session_group_activity = models.ForeignKey(PlanSessionGroupWarmUp, on_delete=models.SET_NULL, null=True)
 
+    weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_weight_unit')
     speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_speed_unit')
     distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_distance_unit')
+    plan_weight_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_weight_unit')
     time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_time_unit')
+    plan_speed_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_speed_unit')
+    plan_distance_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_distance_unit')
+    plan_time_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, related_name='workout_warmup_plan_time_unit')
 
 class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")

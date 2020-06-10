@@ -49,8 +49,8 @@ export class PlanCardComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  getUnitCode(id: number): string {
-    return this.units.filter(x => x.id == id)[0].abbreviation;
+  getUnitCode(unit: number): string {
+    return this.unitsService.getUnitCode(unit);
   }
 
   ngOnInit() {

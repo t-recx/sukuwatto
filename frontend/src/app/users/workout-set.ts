@@ -11,8 +11,9 @@ export class WorkoutSet {
     expected_number_of_repetitions_up_to: number;
     number_of_repetitions: number;
     weight: number;
-    unit: number;
-    unit_code: string;
+    expected_weight: number;
+    weight_unit: number;
+    plan_weight_unit: number;
     in_progress: boolean;
     done: boolean;
     order: number;
@@ -24,7 +25,7 @@ export class WorkoutSet {
     expected_speed_up_to: number;
     speed: number;
     speed_unit: number;
-    speed_unit_code: string;
+    plan_speed_unit: number;
 
     vo2max_type: Vo2MaxType;
     expected_vo2max: number;
@@ -36,14 +37,14 @@ export class WorkoutSet {
     expected_distance_up_to: number;
     distance: number;
     distance_unit: number;
-    distance_unit_code: string;
+    plan_distance_unit: number;
 
     time_type: TimeType;
     expected_time: number;
     expected_time_up_to: number;
     time: number;
     time_unit: number;
-    time_unit_code: string;
+    plan_time_unit: number;
 
     working_time_percentage: number;
     working_distance_percentage: number;

@@ -42,7 +42,7 @@
             *ngIf="planSessionGroupExercise.exercise && planSessionGroupExercise.exercise.exercise_type == 's'">
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Repetition Type</div>
+                    <div class="siimple-form-field-label">Repetition type</div>
                     <select class="siimple-select siimple-select--fluid" name="repetition_type" required
                         id="repetition_type" [(ngModel)]="planSessionGroupExercise.repetition_type"
                         #repetition_type="ngModel" (change)="repetitionTypeChange()">
@@ -103,7 +103,7 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Speed Type</div>
+                        <div class="siimple-form-field-label">Speed type</div>
                         <select class="siimple-select siimple-select--fluid" name="speed_type" required id="speed_type"
                             [(ngModel)]="planSessionGroupExercise.speed_type" #speed_type="ngModel"
                             (change)="speedTypeChange()">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Distance Type</div>
+                        <div class="siimple-form-field-label">Distance type</div>
                         <select class="siimple-select siimple-select--fluid" name="distance_type" required
                             id="distance_type" [(ngModel)]="planSessionGroupExercise.distance_type"
                             #distance_type="ngModel" (change)="distanceTypeChange()">
@@ -129,7 +129,7 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Time Type</div>
+                        <div class="siimple-form-field-label">Time type</div>
                         <select class="siimple-select siimple-select--fluid" name="time_type" required id="time_type"
                             [(ngModel)]="planSessionGroupExercise.time_type" #time_type="ngModel"
                             (change)="timeTypeChange()">
@@ -143,7 +143,7 @@
 
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">VO2 Max Type</div>
+                        <div class="siimple-form-field-label">VO2 max type</div>
                         <select class="siimple-select siimple-select--fluid" name="vo2Max_type" required
                             id="vo2Max_type" [(ngModel)]="planSessionGroupExercise.vo2max_type" #vo2Max_type="ngModel"
                             (change)="vo2MaxTypeChange()">
@@ -347,10 +347,10 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.vo2max_type == vo2MaxTypeEnum.Standard || planSessionGroupExercise.vo2max_type == vo2MaxTypeEnum.Range ">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">VO2 Max.</div>
+                        <div class="siimple-form-field-label">VO2 max</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required name="vo2max"
                             id="vo2max" [(ngModel)]="planSessionGroupExercise.vo2max" #vo2max="ngModel"
-                            placeholder="Vo2 Max.">
+                            placeholder="Vo2 max">
 
                         <div *ngIf="vo2max.invalid && (vo2max.dirty || triedToSave)">
                             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>

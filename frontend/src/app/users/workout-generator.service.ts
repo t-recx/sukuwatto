@@ -61,7 +61,6 @@ export class WorkoutGeneratorService {
           if (workout.working_parameters) {
             workout.working_parameters.forEach(ww => {
                 ww.previous_unit = ww.unit;
-                ww.previous_unit_code = ww.unit_code;
                 ww.previous_parameter_value = ww.parameter_value;
             });
           }
@@ -244,8 +243,8 @@ export class WorkoutGeneratorService {
               set.working_weight_percentage, ParameterType.Weight);
             if (workingParameter) {
               set.weight = workingParameter.parameter_value;
-              set.unit = workingParameter.unit;
-              set.unit_code = this.units.filter(u => u.id == set.unit)[0].abbreviation;
+              set.weight_unit = workingParameter.unit;
+              set.plan_weight_unit = workingParameter.unit;
             }
           }
           else if (set.exercise.exercise_type == ExerciseType.Cardio) {
@@ -256,7 +255,7 @@ export class WorkoutGeneratorService {
               if (workingParameter) {
                 set.distance = workingParameter.parameter_value;
                 set.distance_unit = workingParameter.unit;
-                set.distance_unit_code = this.units.filter(u => u.id == set.distance_unit)[0].abbreviation;
+                set.plan_distance_unit = workingParameter.unit;
               }
             }
 
@@ -267,7 +266,7 @@ export class WorkoutGeneratorService {
               if (workingParameter) {
                 set.speed = workingParameter.parameter_value;
                 set.speed_unit = workingParameter.unit;
-                set.speed_unit_code = this.units.filter(u => u.id == set.speed_unit)[0].abbreviation;
+                set.plan_speed_unit = workingParameter.unit;
               }
             }
 
@@ -278,7 +277,7 @@ export class WorkoutGeneratorService {
               if (workingParameter) {
                 set.time = workingParameter.parameter_value;
                 set.time_unit = workingParameter.unit;
-                set.time_unit_code = this.units.filter(u => u.id == set.time_unit)[0].abbreviation;
+                set.plan_time_unit = workingParameter.unit;
               }
             }
           }
@@ -291,33 +290,25 @@ export class WorkoutGeneratorService {
     let exercises: Exercise[] = [];
     let activities: PlanSessionGroupActivity[] = [];
     let weightUnit: number = null;
-    let weightUnitCode: string = null;
     let speedUnit: number = null;
-    let speedUnitCode: string = null;
     let distanceUnit: number = null;
-    let distanceUnitCode: string = null;
     let timeUnit: number = null;
-    let timeUnitCode: string = null;
 
     if (this.authService.getUserWeightUnitId()) {
       weightUnit = +this.authService.getUserWeightUnitId();
-      weightUnitCode = this.units.filter(u => u.id == weightUnit)[0].abbreviation;
     }
 
     if (this.authService.getUserSpeedUnitId()) {
       speedUnit = +this.authService.getUserSpeedUnitId();
-      speedUnitCode = this.units.filter(u => u.id == speedUnit)[0].abbreviation;
     }
 
     if (this.authService.getUserDistanceUnitId()) {
       distanceUnit = +this.authService.getUserDistanceUnitId();
-      distanceUnitCode = this.units.filter(u => u.id == distanceUnit)[0].abbreviation;
     }
 
     let minutesUnit = this.units.filter(u => u.abbreviation == 'min')[0];
     if (minutesUnit) {
       timeUnit = minutesUnit.id;
-      timeUnitCode = minutesUnit.abbreviation;
     }
 
     for (let group of planSession.groups) {
@@ -348,7 +339,6 @@ export class WorkoutGeneratorService {
 
           if (weightUnit) {
             workingParameter.unit = weightUnit;
-            workingParameter.unit_code = weightUnitCode;
           }
 
           workingParameters.push(workingParameter);
@@ -369,7 +359,6 @@ export class WorkoutGeneratorService {
 
             if (speedUnit) {
               workingParameter.unit = speedUnit;
-              workingParameter.unit_code = speedUnitCode;
             }
 
             workingParameters.push(workingParameter);
@@ -388,7 +377,6 @@ export class WorkoutGeneratorService {
 
             if (distanceUnit) {
               workingParameter.unit = distanceUnit;
-              workingParameter.unit_code = distanceUnitCode;
             }
 
             workingParameters.push(workingParameter);
@@ -407,7 +395,6 @@ export class WorkoutGeneratorService {
 
             if (timeUnit) {
               workingParameter.unit = timeUnit;
-              workingParameter.unit_code = timeUnitCode;
             }
 
             workingParameters.push(workingParameter);
@@ -465,7 +452,6 @@ export class WorkoutGeneratorService {
     let toUnit= this.units.filter(u => u.id == toUnitId)[0];
 
     newProgression.unit = toUnitId;
-    newProgression.unit_code = toUnit.abbreviation;
     newProgression.parameter_increase = this.unitsService.convert(newProgression.parameter_increase, fromUnit, toUnit);
 
     return newProgression;
@@ -552,10 +538,6 @@ export class WorkoutGeneratorService {
   }
 
   private getActivity(sessionActivity: PlanSessionGroupActivity): WorkoutSet {
-    const distanceUnit = this.units.filter(u => u.id == sessionActivity.distance_unit)[0];
-    const timeUnit = this.units.filter(u => u.id == sessionActivity.time_unit)[0];
-    const speedUnit = this.units.filter(u => u.id == sessionActivity.speed_unit)[0];
-
     let activity = new WorkoutSet({
       working_weight_percentage: sessionActivity.working_weight_percentage,
       order: sessionActivity.order,
@@ -569,21 +551,21 @@ export class WorkoutGeneratorService {
       expected_distance_up_to: sessionActivity.distance_up_to,
       distance_type: sessionActivity.distance_type,
       distance_unit: sessionActivity.distance_unit,
-      distance_unit_code: distanceUnit ? distanceUnit.abbreviation : null,
+      plan_distance_unit: sessionActivity.distance_unit,
       working_distance_percentage: sessionActivity.working_distance_percentage,
       
       expected_speed: sessionActivity.speed,
       expected_speed_up_to: sessionActivity.speed_up_to,
       speed_type: sessionActivity.speed_type,
       speed_unit: sessionActivity.speed_unit,
-      speed_unit_code: speedUnit ? speedUnit.abbreviation : null,
+      plan_speed_unit: sessionActivity.speed_unit,
       working_speed_percentage: sessionActivity.working_speed_percentage,
 
       expected_time: sessionActivity.time,
       expected_time_up_to: sessionActivity.time_up_to,
       time_type: sessionActivity.time_type,
       time_unit: sessionActivity.time_unit,
-      time_unit_code: timeUnit ? timeUnit.abbreviation : null,
+      plan_time_unit: sessionActivity.time_unit,
       working_time_percentage: sessionActivity.working_time_percentage,
 
       expected_vo2max: sessionActivity.vo2max,
@@ -602,7 +584,6 @@ export class WorkoutGeneratorService {
 
     if (filteredWorkingParameter) {
       let workingParameter = new WorkingParameter(filteredWorkingParameter);
-      workingParameter.unit_code = this.units.filter(u => u.id == workingParameter.unit)[0].abbreviation;
       workingParameter.parameter_value = this.getValueWithPercentage(
         filteredWorkingParameter.parameter_value,
         percentage);

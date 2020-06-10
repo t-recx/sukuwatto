@@ -8,6 +8,7 @@ import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
 import { WorkoutGroup } from './workout-group';
+import { WorkoutSet } from './workout-set';
 
 @Injectable({
   providedIn: 'root'
@@ -173,26 +174,26 @@ export class WorkoutsService {
   }
 
   getProperlyTypedWorkoutGroup(g: WorkoutGroup): WorkoutGroup {
-    if (g.warmups) {
-      for (let wu of g.warmups) {
-        if (wu.weight) {
-          wu.weight = Number(wu.weight);
-        }
-        if (wu.working_weight_percentage) {
-          wu.working_weight_percentage = Number(wu.working_weight_percentage);
-        }
-      }
-    }
+    g.warmups = this.getProperlyTypedWorkoutActivities(g.warmups);
+    g.sets = this.getProperlyTypedWorkoutActivities(g.sets);
 
-    if (g.sets) {
-      for (let s of g.sets) {
-        if (s.weight) {
-          s.weight = Number(s.weight);
-        }
-        if (s.working_weight_percentage) {
-          s.working_weight_percentage = Number(s.working_weight_percentage);
-        }
-      }
+    return g;
+  }
+
+  getProperlyTypedWorkoutActivities(g: WorkoutSet[]): WorkoutSet[] {
+    if (g) {
+      g.forEach(activity => {
+        activity.speed = activity.speed ? +activity.speed : activity.speed;
+        activity.distance = activity.distance ? +activity.distance : activity.distance;
+        activity.time = activity.time ? +activity.time : activity.time;
+        activity.vo2max = activity.vo2max ? +activity.vo2max : activity.vo2max;
+        activity.weight = activity.weight ? +activity.weight : activity.weight;
+
+        activity.working_weight_percentage = activity.working_weight_percentage ? +activity.working_weight_percentage : activity.working_weight_percentage;
+        activity.working_speed_percentage = activity.working_speed_percentage ? +activity.working_speed_percentage : activity.working_speed_percentage;
+        activity.working_time_percentage = activity.working_time_percentage ? +activity.working_time_percentage : activity.working_time_percentage;
+        activity.working_distance_percentage = activity.working_distance_percentage ? +activity.working_distance_percentage : activity.working_distance_percentage;
+      });
     }
 
     return g;

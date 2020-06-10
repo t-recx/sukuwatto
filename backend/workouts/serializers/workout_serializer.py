@@ -9,61 +9,20 @@ from django.contrib.auth import get_user_model
 class WorkingParameterSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkingParameter()._meta.get_field('id'), required=False)
-    unit_code = serializers.SerializerMethodField()
-    previous_unit_code = serializers.SerializerMethodField()
-
-    def get_unit_code(self, obj):
-        if obj.unit:
-            return obj.unit.abbreviation
-        
-        return None
-
-    def get_previous_unit_code(self, obj):
-        if obj.previous_unit:
-            return obj.previous_unit.abbreviation
-        
-        return None
 
     class Meta:
         model = WorkingParameter
-        fields = ['id', 'exercise', 'parameter_value', 'parameter_type', 'unit', 'unit_code', 'previous_unit_code', 'previous_parameter_value', 'previous_unit', 'manually_changed']
+        fields = ['id', 'exercise', 'parameter_value', 'parameter_type', 'unit', 'previous_parameter_value', 'previous_unit', 'manually_changed']
     
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
-    unit_code = serializers.SerializerMethodField()
-    speed_unit_code = serializers.SerializerMethodField()
-    distance_unit_code = serializers.SerializerMethodField()
-    time_unit_code = serializers.SerializerMethodField()
-
-    def get_unit_code(self, obj):
-        if obj.unit:
-            return obj.unit.abbreviation
-        
-        return None
-
-    def get_speed_unit_code(self, obj):
-        if obj.speed_unit:
-            return obj.speed_unit.abbreviation
-        
-        return None
-
-    def get_time_unit_code(self, obj):
-        if obj.time_unit:
-            return obj.time_unit.abbreviation
-        
-        return None
-
-    def get_distance_unit_code(self, obj):
-        if obj.distance_unit:
-            return obj.distance_unit.abbreviation
-        
-        return None
 
     class Meta:
         model = WorkoutSet
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 
+            'weight', 'expected_weight', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
             'speed_type', 'expected_speed', 'expected_speed_up_to', 'speed',
             'vo2max_type', 'expected_vo2max', 'expected_vo2max_up_to', 'vo2max',
             'distance_type', 'expected_distance', 'expected_distance_up_to', 'distance',
@@ -71,24 +30,18 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
             'working_distance_percentage',
             'working_time_percentage',
             'working_speed_percentage',
-            'speed_unit', 'time_unit', 'distance_unit',
-            'speed_unit_code', 'time_unit_code', 'distance_unit_code'
+            'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
+            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit'
         ]
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutWarmUp()._meta.get_field('id'), required=False)
-    unit_code = serializers.SerializerMethodField()
-
-    def get_unit_code(self, obj):
-        if obj.unit:
-            return obj.unit.abbreviation
-        
-        return None
 
     class Meta:
         model = WorkoutWarmUp
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 'weight', 'unit', 'unit_code', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 
+            'weight', 'expected_weight', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
             'speed_type', 'expected_speed', 'expected_speed_up_to', 'speed',
             'vo2max_type', 'expected_vo2max', 'expected_vo2max_up_to', 'vo2max',
             'distance_type', 'expected_distance', 'expected_distance_up_to', 'distance',
@@ -96,7 +49,8 @@ class WorkoutWarmUpSerializer(serializers.ModelSerializer):
             'working_distance_percentage',
             'working_time_percentage',
             'working_speed_percentage',
-            'speed_unit', 'time_unit', 'distance_unit'
+            'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
+            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit'
         ]
 
 class WorkoutGroupSerializer(serializers.ModelSerializer):
@@ -321,12 +275,15 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.expected_number_of_repetitions = group_data.get('expected_number_of_repetitions', instance.expected_number_of_repetitions)
             instance.expected_number_of_repetitions_up_to = group_data.get('expected_number_of_repetitions_up_to', instance.expected_number_of_repetitions_up_to)
             instance.number_of_repetitions = group_data.get('number_of_repetitions', instance.number_of_repetitions)
-            instance.weight = group_data.get('weight', instance.weight)
-            instance.unit = group_data.get('unit', instance.unit)
             instance.done = group_data.get('done', instance.done)
             instance.in_progress = group_data.get('in_progress', instance.in_progress)
             instance.working_weight_percentage = group_data.get('working_weight_percentage', instance.working_weight_percentage)
             instance.plan_session_group_activity = group_data.get('plan_session_group_activity', instance.plan_session_group_activity)
+
+            instance.weight = group_data.get('weight', instance.weight)
+            instance.expected_weight = group_data.get('expected_weight', instance.expected_weight)
+            instance.weight_unit = group_data.get('weight_unit', instance.weight_unit)
+            instance.plan_weight_unit = group_data.get('plan_weight_unit', instance.plan_weight_unit)
 
             instance.speed_type = group_data.get('speed_type', instance.speed_type)
             instance.expected_speed = group_data.get('expected_speed', instance.expected_speed)
@@ -355,5 +312,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.speed_unit = group_data.get('speed_unit', instance.speed_unit)
             instance.distance_unit = group_data.get('distance_unit', instance.distance_unit)
             instance.time_unit = group_data.get('time_unit', instance.time_unit)
+
+            instance.plan_speed_unit = group_data.get('plan_speed_unit', instance.plan_speed_unit)
+            instance.plan_distance_unit = group_data.get('plan_distance_unit', instance.plan_distance_unit)
+            instance.plan_time_unit = group_data.get('plan_time_unit', instance.plan_time_unit)
 
             instance.save()
