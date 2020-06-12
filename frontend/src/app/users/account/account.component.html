@@ -199,7 +199,7 @@
         <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
         Change password
     </button>
-    <button class="siimple-btn siimple-btn--error siimple--ml-2" (click)="showDeleteModal()">
+    <button class="siimple-btn siimple-btn--error siimple--ml-2 delete-button" (click)="showDeleteModal()">
         <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
         <fa-icon [icon]="faCircleNotch" [spin]=true  class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
         Delete account

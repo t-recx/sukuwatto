@@ -2,7 +2,37 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:400,700);
 
 input, select, textarea, button {
-  font-family: "Ubuntu", "Roboto", sans-serif;
+  font-family: "Ubuntu", "Roboto", sans-serif; 
+}
+
+.siimple-input-date {
+    height: 34px;
+    background-color: #eef2f7;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 34px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #546778;
+    outline: 0;
+}
+
+.siimple-input-time {
+    height: 34px;
+    background-color: #eef2f7;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 34px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #546778;
+    outline: 0;
 }
 
 .site-body {

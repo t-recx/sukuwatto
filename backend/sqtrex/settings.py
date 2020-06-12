@@ -190,9 +190,9 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 
     'AUTH_COOKIE': 'Authorization',
-    'AUTH_COOKIE_SECURE': True, # change this with https
+    'AUTH_COOKIE_SECURE': bool(int(os.environ.get("AUTH_COOKIE_SECURE", default=1))),
     'AUTH_COOKIE_PATH': '/',
-    'AUTH_COOKIE_SAMESITE': 'Lax',
+    'AUTH_COOKIE_SAMESITE': os.environ.get("AUTH_COOKIE_SAMESITE"),
 }
 
 

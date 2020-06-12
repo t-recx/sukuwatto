@@ -14,7 +14,7 @@
                     <div
                         class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
                         <div class="siimple-form-field">
-                            <input type="date" class="siimple-input siimple-input--fluid" required name="end" id="end"
+                            <input type="date" class="siimple-input-date siimple-input--fluid" required name="end" id="end"
                                 [ngModel]="workout.end | date:'yyyy-MM-dd'" (ngModelChange)="setWorkoutEndDate($event)"
                                 #end="ngModel">
 
@@ -26,7 +26,7 @@
                     <div
                         class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
                         <div class="siimple-form-field">
-                            <input type="time" class="siimple-input siimple-input--fluid" required name="end_time"
+                            <input type="time" class="siimple-input-time siimple-input--fluid" required name="end_time"
                                 id="end_time" [ngModel]="workout.end | date:'HH:mm'"
                                 (ngModelChange)="setWorkoutEndTime($event)" #end_time="ngModel">
 
