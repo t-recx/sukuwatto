@@ -15,7 +15,7 @@
                     <label class="siimple-field-label" for="username">Username</label>
                     <input name="username" id="username" [(ngModel)]="user.username" #username="ngModel" type="text"
                         applyFocus
-                        required class="siimple-input siimple-input--fluid" autofocus>
+                        required class="siimple-input siimple-input--fluid" >
 
                     <div *ngIf="username.invalid && (username.dirty || triedToLogin)">
                         <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>

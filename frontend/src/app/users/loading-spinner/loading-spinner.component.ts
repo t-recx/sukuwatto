@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -9,9 +10,12 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 export class LoadingSpinnerComponent implements OnInit {
   faCircleNotch = faCircleNotch;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 }
