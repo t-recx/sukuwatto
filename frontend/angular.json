@@ -58,6 +58,58 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "android": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.android.ts"
+                },
+                {
+                  "replace": "src/index.html",
+                  "with": "src/index.android.html"
+                },
+                {
+                  "replace": "src/main.ts",
+                  "with": "src/main.android.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "android-dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.android.ts"
+                },
+                {
+                  "replace": "src/index.html",
+                  "with": "src/index.android.html"
+                },
+                {
+                  "replace": "src/main.ts",
+                  "with": "src/main.android.ts"
+                }
+              ]
             }
           }
         },
@@ -69,7 +121,14 @@
           "configurations": {
             "production": {
               "browserTarget": "frontend:build:production"
+            },
+            "android": {
+              "browserTarget": "frontend:build:android"
+            },
+            "android-dev": {
+              "browserTarget": "frontend:build:android-dev"
             }
+
           }
         },
         "extract-i18n": {
@@ -117,6 +176,12 @@
           "configurations": {
             "production": {
               "devServerTarget": "frontend:serve:production"
+            },
+            "android": {
+              "devServerTarget": "frontend:serve:android"
+            },
+            "android-dev": {
+              "devServerTarget": "frontend:serve:android-dev"
             }
           }
         }
