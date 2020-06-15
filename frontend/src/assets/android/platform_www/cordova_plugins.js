@@ -13,10 +13,24 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
       "pluginId": "cordova-plugin-geolocation",
       "runs": true
+    },
+    {
+      "id": "cordova-plugin-background-geolocation.BackgroundGeolocation",
+      "file": "plugins/cordova-plugin-background-geolocation/www/BackgroundGeolocation.js",
+      "pluginId": "cordova-plugin-background-geolocation",
+      "clobbers": [
+        "BackgroundGeolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-background-geolocation.radio",
+      "file": "plugins/cordova-plugin-background-geolocation/www/radio.js",
+      "pluginId": "cordova-plugin-background-geolocation"
     }
   ];
   module.exports.metadata = {
     "cordova-plugin-whitelist": "1.3.4",
-    "cordova-plugin-geolocation": "4.0.2"
+    "cordova-plugin-geolocation": "4.0.2",
+    "cordova-plugin-background-geolocation": "3.1.0"
   };
 });
