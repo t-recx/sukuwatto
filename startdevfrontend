@@ -1,2 +1,7 @@
-cd frontend; ng serve --open; cd..
+echo 'Starting frontend'
+echo 'Host: ' 
+echo ${2:-192.168.1.70}
+echo 'Additional configuration: '
+echo ${1}
 
+cd frontend; ng serve --host ${2:-192.168.1.70} ${1} --ssl --ssl-key ../backend/ssl/sukuwatto.key --ssl-cert ../backend/ssl/sukuwatto.crt; cd ..

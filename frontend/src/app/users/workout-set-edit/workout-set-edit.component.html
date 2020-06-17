@@ -77,6 +77,14 @@
                         </div>
 
                         <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c'">
+
+                            <div class="siimple-grid-row">
+                                <div class="siimple-grid-col siimple-grid-col-12">
+                                    <app-workout-set-geolocation>
+                                    </app-workout-set-geolocation>
+                                </div>
+                            </div>
+
                             <div class="siimple-grid-row">
                                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
                                     <div class="siimple-form-field form-field">

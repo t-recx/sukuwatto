@@ -5,7 +5,7 @@
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--5 siimple--py-0">
                     <div class="siimple-form-field siimple--mb-0">
                         <div class="siimple-form-field-label">Order</div>
-                        <input type="number" class="siimple-input siimple-input--fluid" autofocus required name="order"
+                        <input type="number" class="siimple-input siimple-input--fluid"  required name="order"
                             id="order" [(ngModel)]="planSessionGroup.order" #order="ngModel">
 
                         <div *ngIf="order.invalid && (order.dirty || triedToSave)">

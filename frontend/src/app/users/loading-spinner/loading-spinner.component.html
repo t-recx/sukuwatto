@@ -1,4 +1,6 @@
-<div class="loading-spinner md-and-lower-only">
+<div class="loading-spinner md-and-lower-only "
+    [class.notch-loading-not-logged-in]="!isLoggedIn()"
+>
     <fa-icon [spin]=true [icon]="faCircleNotch"></fa-icon>
 </div>
 

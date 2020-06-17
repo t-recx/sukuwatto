@@ -10,7 +10,7 @@
                     <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Date</div>
-                            <input type="date" class="siimple-input siimple-input--fluid" name="date" id="date"
+                            <input type="date" class="siimple-input-date siimple-input--fluid" name="date" id="date"
                                 required
                                 [ngModel]="userBioData.date | date:'yyyy-MM-dd'" 
                                 (ngModelChange)="setUserBioDataDate($event)"
@@ -24,7 +24,7 @@
                     <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Time</div>
-                            <input type="time" class="siimple-input siimple-input--fluid" name="start_time" id="start_time"
+                            <input type="time" class="siimple-input-time siimple-input--fluid" name="start_time" id="start_time"
                                 required
                                 [ngModel]="userBioData.date | date:'HH:mm'" 
                                 (ngModelChange)="setUserBioDataTime($event)"

@@ -13,6 +13,7 @@
         <small class="siimple-small">...</small>
       </span>
       <button *ngIf="hasPreviousPage" class="siimple-btn siimple--mr-2"
+        [class.small-screen-disappear]="currentPage > 3"
         type="button"
         [routerLink]="link.concat([previousPage])" [queryParams]=queryParams>{{previousPage}}</button>
       <button class="siimple-btn siimple-btn--primary siimple--mr-2 "

@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
-  mediaUrl: 'https://sukuwatto',
-  apiUrl: 'https://sukuwatto/api',
-  wsUrl: 'wss://sukuwatto/ws',
+  application: false,
+  mediaUrl: 'https://sukuwatto.pt',
+  apiUrl: 'https://sukuwatto.pt/api',
+  wsUrl: 'wss://sukuwatto.pt/ws',
   maxFileSizeUpload: 1000000,
 };

@@ -58,7 +58,7 @@
                                 <div class="siimple-form-field-label">First name</div>
                                 <input type="text" class="siimple-input siimple-input--fluid" name="first_name"
                                     id="first_name" [(ngModel)]="user.first_name" #first_name="ngModel" maxlength="30"
-                                    placeholder="First name" autofocus>
+                                    placeholder="First name" >
                             </div>
                         </div>
                         <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-6 siimple--py-0">
@@ -199,7 +199,7 @@
         <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
         Change password
     </button>
-    <button class="siimple-btn siimple-btn--error siimple--ml-2" (click)="showDeleteModal()">
+    <button class="siimple-btn siimple-btn--error siimple--ml-2 delete-button" (click)="showDeleteModal()">
         <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
         <fa-icon [icon]="faCircleNotch" [spin]=true  class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
         Delete account

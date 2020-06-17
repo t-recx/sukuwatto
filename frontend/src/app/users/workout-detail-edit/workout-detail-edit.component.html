@@ -67,7 +67,7 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Date</div>
-                        <input type="date" class="siimple-input siimple-input--fluid" required name="start" id="start"
+                        <input type="date" class="siimple-input-date siimple-input--fluid" required name="start" id="start"
                             [ngModel]="workout.start | date:'yyyy-MM-dd'" 
                             (ngModelChange)="setWorkoutStartDate($event)"
                             #start="ngModel">
@@ -80,7 +80,7 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Time</div>
-                        <input type="time" class="siimple-input siimple-input--fluid" required name="start_time" id="start_time"
+                        <input type="time" class="siimple-input-time siimple-input--fluid" required name="start_time" id="start_time"
                             [ngModel]="workout.start | date:'HH:mm'" 
                             (ngModelChange)="setWorkoutStartTime($event)"
                             #start_time="ngModel">

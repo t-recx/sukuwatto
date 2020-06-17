@@ -11,6 +11,10 @@
   animation: 0s linear 0.2s forwards delayedShow; 
 }
 
+.notch-loading-not-logged-in {
+  left: 128px !important;
+}
+
 .loading-spinner-md-only {
   position: absolute;
   left: 156px; 
