@@ -3,6 +3,7 @@ import { User } from '../user';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,8 @@ export class LoginComponent implements OnInit {
   triedToLogin: boolean;
   signInText: string;
 
+  environmentTypeLabel: string;
+
   faCircleNotch = faCircleNotch;
 
   constructor(
@@ -26,6 +29,8 @@ export class LoginComponent implements OnInit {
     this.user = new User();
     this.loggingIn = false;
     this.signInText = "Sign in"; 
+
+    this.environmentTypeLabel = environment.application ? 'app' : 'website';
   }
 
   login(): void {

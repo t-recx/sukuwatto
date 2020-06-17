@@ -9,6 +9,6 @@ killgroup(){
   kill 0
 }
 
-./startdevbackend $2 $3 &
-./startdevfrontend $4 $1 &
+./startdevbackend &
+./startdevfrontend ${1} &
 wait

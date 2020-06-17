@@ -2,6 +2,12 @@
 source devsettings
 source ../bin/activate
 
+echo 'Starting backend'
+echo 'Host/Port: '
+echo ${1:-192.168.1.70:8000}
+echo 'SSL host: '
+echo ${2:-8443}
+
 python backend/manage.py migrate
 
 trap killgroup SIGINT

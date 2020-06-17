@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   application: true,
   mediaUrl: 'https://192.168.1.70:8443',
   apiUrl: 'https://192.168.1.70:8443/api',

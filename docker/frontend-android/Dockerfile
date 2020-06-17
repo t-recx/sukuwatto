@@ -1,5 +1,5 @@
 FROM node:10 
-ENV REFRESHED_AT 2020-06-15
+ENV REFRESHED_AT 2020-06-17
 
 WORKDIR /usr/src/app
 COPY package.json ./
