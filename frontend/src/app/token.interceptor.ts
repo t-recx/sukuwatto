@@ -59,11 +59,16 @@ export class TokenInterceptor implements HttpInterceptor {
                     }
                 }
                 else {
-                    this.authService.redirectUrl = this.lastUrlBeforeRefresh;
+                    if (request.url.endsWith('/api/token/')) {
+                        return throwError(error);
+                    }
+                    else {
+                        this.authService.redirectUrl = this.lastUrlBeforeRefresh;
 
-                    this.router.navigate(['/login']);
+                        this.router.navigate(['/login']);
 
-                    return of(new HttpResponse({status: 200}));
+                        return of(new HttpResponse({status: 200}));
+                    }
                 }
             } 
             else {

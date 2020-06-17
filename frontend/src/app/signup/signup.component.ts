@@ -125,6 +125,10 @@ export class SignupComponent implements OnInit, OnDestroy {
               }
             });
         }
+        else {
+          this.signingUp = false;
+          this.signUpText = "Sign up";
+        }
       });
   }
 }

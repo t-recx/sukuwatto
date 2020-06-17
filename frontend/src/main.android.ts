@@ -8,9 +8,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-alert('aaaa');
 let onDeviceReady = () => {
-  alert('bbbb');
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
 };

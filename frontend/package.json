@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "build-android": "ng build --configuration=android",
+    "build-android": "./build-android.sh",
+    "build-android-dev": "./build-android-dev.sh",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  mediaUrl: 'http://192.168.1.70:8000',
-  apiUrl: 'http://192.168.1.70:8000/api',
-  wsUrl: 'ws://192.168.1.70:8000/ws',
+  application: false,
+  mediaUrl: 'https://192.168.1.70:8443',
+  apiUrl: 'https://192.168.1.70:8443/api',
+  wsUrl: 'wss://192.168.1.70:8443/ws',
   maxFileSizeUpload: 1000000,
 };
 

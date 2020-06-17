@@ -32,8 +32,10 @@ export class AuthService {
     return this.http.post<Token>(`${environment.apiUrl}/token/`, user, this.httpOptions)
       .pipe(
         tap((newToken: Token) => {
-          this.setSession(user, newToken);
-          this.setUserData(user.username);
+          if (newToken) {
+            this.setSession(user, newToken);
+            this.setUserData(user.username);
+          }
         }),
         catchError(this.errorService.handleError<Token>('login', (e: any) => {
           if (e && e.status && e.status == 401) {
@@ -42,7 +44,7 @@ export class AuthService {
           else {
             this.alertService.error('Unable to sign in, try again later');
           }
-        }))
+        }, null))
       );
   }
 

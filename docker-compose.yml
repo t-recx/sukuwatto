@@ -42,10 +42,17 @@ services:
       dockerfile: ../docker/frontend/Dockerfile
     volumes:
       - frontend_data:/usr/src/app/dist/frontend
+  frontend-android:
+    build:
+      context: ./frontend/
+      dockerfile: ../docker/frontend-android/Dockerfile
+    volumes:
+      - frontend-android_data:/usr/src/app/dist/frontend
   nginx:
     build: ./docker/nginx
     volumes:
       - frontend_data:/usr/src/app/dist/frontend
+      - frontend-android_data:/usr/src/app/dist/frontend-android
       - media_volume:/home/app/web/media
       - ssl_volume:/home/app/web/ssl
     ports:
@@ -53,6 +60,7 @@ services:
       - 443:443
     depends_on:
       - frontend
+      - frontend-android
       - wsgi
       - asgi
     restart: always
@@ -65,5 +73,6 @@ services:
 volumes:
   postgres_data:
   frontend_data:
+  frontend-android_data:
   media_volume:
   ssl_volume:

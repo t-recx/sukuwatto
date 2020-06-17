@@ -1,5 +1,16 @@
+#!/bin/bash
 source devsettings
 source ../bin/activate
 
 python backend/manage.py migrate
-python backend/manage.py runserver
+
+trap killgroup SIGINT
+
+killgroup(){
+  echo killing...
+  kill 0
+}
+
+python backend/manage.py runserver ${1:-192.168.1.70:8000}  &
+socat openssl-listen:${2:-8443},fork,reuseaddr,cert=backend/ssl/cert.pem,verify=0 tcp:${1:-192.168.1.70:8000} &
+wait

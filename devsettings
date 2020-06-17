@@ -1,7 +1,7 @@
 export DEBUG="1"
 export SECRET_KEY="foo"
 export DJANGO_ALLOWED_HOSTS="* localhost 127.0.0.1 192.168.1.70 [::1]"
-export CORS_ORIGIN_WHITELIST="http://localhost:4200 http://192.168.1.70:4200"
+export CORS_ORIGIN_WHITELIST="http://localhost:4200 http://192.168.1.70:4200 https://192.168.1.70:4200"
 export CORS_ORIGIN_ALLOW_ALL="1"
 export CHANNELS_BACKEND="channels_redis.core.RedisChannelLayer"
 export CHANNELS_HOST="redis"
@@ -9,5 +9,7 @@ export CHANNELS_PORT="6379"
 export DATABASE="sqlite3"
 export SECURE_SSL_REDIRECT="0"
 export CSRF_COOKIE_SECURE="0"
+export CSRF_COOKIE_DOMAIN=192.168.1.70
 export AUTH_COOKIE_SECURE="0"
 export AUTH_COOKIE_SAMESITE="Lax"
+export AUTH_COOKIE_DOMAIN=192.168.1.70

@@ -59,6 +59,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_COOKIE_SECURE = bool(int(os.environ.get("CSRF_COOKIE_SECURE", default=1)))
 
+CSRF_COOKIE_DOMAIN = os.environ.get("CSRF_COOKIE_DOMAIN")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -191,6 +193,7 @@ SIMPLE_JWT = {
 
     'AUTH_COOKIE': 'Authorization',
     'AUTH_COOKIE_SECURE': bool(int(os.environ.get("AUTH_COOKIE_SECURE", default=1))),
+    'AUTH_COOKIE_DOMAIN': os.environ.get("AUTH_COOKIE_DOMAIN"),
     'AUTH_COOKIE_PATH': '/',
     'AUTH_COOKIE_SAMESITE': os.environ.get("AUTH_COOKIE_SAMESITE"),
 }

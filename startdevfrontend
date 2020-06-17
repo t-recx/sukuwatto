@@ -1,2 +1,1 @@
-cd frontend; ng serve --open; cd..
-
+cd frontend; ng serve --host ${1:-192.168.1.70} ${2} --ssl --ssl-key ../backend/ssl/sukuwatto.key --ssl-cert ../backend/ssl/sukuwatto.crt; cd ..
