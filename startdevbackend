@@ -4,7 +4,7 @@ source ../bin/activate
 
 echo 'Starting backend'
 echo 'Host/Port: '
-echo ${1:-192.168.1.70:8000}
+echo ${1:-127.0.0.1:8000}
 echo 'SSL host: '
 echo ${2:-8443}
 
@@ -17,6 +17,7 @@ killgroup(){
   kill 0
 }
 
-python backend/manage.py runserver ${1:-192.168.1.70:8000}  &
-socat openssl-listen:${2:-8443},fork,reuseaddr,cert=backend/ssl/cert.pem,verify=0 tcp:${1:-192.168.1.70:8000} &
+python backend/manage.py runserver ${1:-127.0.0.1:8000}  &
+echo "socat openssl-listen:${2:-8443},fork,reuseaddr,cert=backend/ssl/cert.pem,verify=0 tcp:${1:-127.0.0.1:8000} &"
+socat openssl-listen:${2:-8443},fork,reuseaddr,cert=backend/ssl/cert.pem,verify=0 tcp:${1:-127.0.0.1:8000} &
 wait

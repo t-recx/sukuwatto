@@ -2,12 +2,14 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { environmentDevHost } from 'src/environments/hosts';
+
 export const environment = {
   production: false,
   application: false,
-  mediaUrl: 'https://192.168.1.70:8443',
-  apiUrl: 'https://192.168.1.70:8443/api',
-  wsUrl: 'wss://192.168.1.70:8443/ws',
+  mediaUrl: 'https://' + environmentDevHost + ':8443',
+  apiUrl: 'https://' + environmentDevHost + ':8443/api',
+  wsUrl: 'wss://' + environmentDevHost + ':8443/ws',
   maxFileSizeUpload: 1000000,
 };
 
