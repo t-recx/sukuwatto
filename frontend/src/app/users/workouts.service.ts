@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
 import { WorkoutGroup } from './workout-group';
 import { WorkoutSet } from './workout-set';
+import { WorkoutSetPosition } from './workout-set-position';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class WorkoutsService {
   private workoutsUrl= `${environment.apiUrl}/workouts/`;
   private workoutLast= `${environment.apiUrl}/workout-last/`;
   private workoutGroupLast= `${environment.apiUrl}/workout-group-last/`;
+  private workoutLastWorkoutPosition = `${environment.apiUrl}/workout-last-position/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -60,6 +62,30 @@ export class WorkoutsService {
         { 
           this.alertService.error('Unable to fetch workouts');
         }, new Paginated<Workout>()))
+      );
+  }
+
+  getLastWorkoutPosition(username: string) {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (username) {
+      options = {params: params};
+    }
+
+    return this.http.get<WorkoutSetPosition>(`${this.workoutLastWorkoutPosition}`, options)
+      .pipe(
+        map(response => {
+          return this.getProperlyTypedWorkoutSetPosition(response);
+        }),
+        catchError(this.errorService.handleError<WorkoutSetPosition>('getLastWorkoutPosition', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch last workout position');
+        }, new WorkoutSetPosition()))
       );
   }
 
@@ -152,6 +178,31 @@ export class WorkoutsService {
     return workouts;
   }
 
+  getProperlyTypedWorkoutSetPosition(position: WorkoutSetPosition): WorkoutSetPosition {
+    if (position) {
+      if (position.altitude) {
+        position.altitude = Number(position.altitude);
+      }
+      if (position.latitude) {
+        position.latitude = Number(position.latitude);
+      }
+      if (position.longitude) {
+        position.longitude = Number(position.longitude);
+      }
+      if (position.heading) {
+        position.heading = Number(position.heading);
+      }
+      if (position.accuracy) {
+        position.accuracy = Number(position.accuracy);
+      }
+      if (position.timestamp) {
+        position.timestamp = Number(position.timestamp);
+      }
+    }
+
+    return position;
+  }
+
   getProperlyTypedWorkout(workout: Workout): Workout {
     if (workout.working_parameters) {
       for (let ww of workout.working_parameters) {
@@ -193,6 +244,12 @@ export class WorkoutsService {
         activity.working_speed_percentage = activity.working_speed_percentage ? +activity.working_speed_percentage : activity.working_speed_percentage;
         activity.working_time_percentage = activity.working_time_percentage ? +activity.working_time_percentage : activity.working_time_percentage;
         activity.working_distance_percentage = activity.working_distance_percentage ? +activity.working_distance_percentage : activity.working_distance_percentage;
+
+        if (activity.positions) {
+          activity.positions.forEach(p => {
+            p = this.getProperlyTypedWorkoutSetPosition(p);
+          });
+        }
       });
     }
 

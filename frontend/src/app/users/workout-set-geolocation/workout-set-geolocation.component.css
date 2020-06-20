@@ -1,4 +1,25 @@
 .map {
+  position: relative;
   height: 300px;
   padding: 0;
+}
+
+.start-button {
+  position: absolute;
+  bottom: 10px;
+  left:0;
+  right:0;
+  margin: auto;
+}
+
+.stop-button {
+  position: absolute;
+  bottom: 10px;
+  right:10px;
+}
+
+.stop-tracking-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

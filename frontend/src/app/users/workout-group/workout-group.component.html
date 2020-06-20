@@ -37,9 +37,18 @@
                         <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.sets [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
                         </app-workout-set>
 
-                        <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c'">
-                            <app-workout-set-geolocation  (statusChanged)="setStatusChanged()" [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
-                            </app-workout-set-geolocation>
+                        <app-workout-set-geolocation 
+                            *ngIf="workoutActivity.exercise.exercise_type == exerciseType.Cardio &&
+                                (workoutActivity.tracking == null || workoutActivity.tracking)">
+                        </app-workout-set-geolocation>
+
+                        <div *ngIf="workoutActivity.tracking != null && !workoutActivity.tracking">
+                            <button class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
+                                Track
+                            </button>
+                            <button class="siimple-btn siimple-btn--primary" (click)="time()">
+                                Time
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -55,6 +64,20 @@
                     <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups" style="padding: 0px;">
                         <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.warmups [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
                         </app-workout-set>
+
+                        <app-workout-set-geolocation 
+                            *ngIf="workoutActivity.exercise.exercise_type == exerciseType.Cardio &&
+                                (workoutActivity.tracking == null || workoutActivity.tracking)">
+                        </app-workout-set-geolocation>
+
+                        <div *ngIf="workoutActivity.tracking != null && !workoutActivity.tracking">
+                            <button class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
+                                Track
+                            </button>
+                            <button class="siimple-btn siimple-btn--primary" (click)="time()">
+                                Time
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"

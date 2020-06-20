@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from workouts.models import Workout, WorkingParameter, WorkoutWarmUp, WorkoutSet, WorkoutGroup
-from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
+from workouts.models import Workout, WorkingParameter, WorkoutWarmUp, WorkoutSet, WorkoutGroup, WorkoutSetPosition
+from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from sqtrex.pagination import StandardResultsSetPagination
@@ -17,6 +17,23 @@ class WorkoutViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user__username']
     pagination_class = StandardResultsSetPagination
+
+@api_view(['GET'])
+def get_last_workout_position(request):
+    if request.method == 'GET':
+        queryset = WorkoutSetPosition.objects.all().order_by('-timestamp')
+
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            queryset = queryset.filter(workout_activity__workout_group__workout__username=username)
+
+        queryset = queryset.first()
+
+        serializer = WorkoutSetPositionSerializer(queryset)
+
+        return Response(serializer.data)
+
 
 @api_view(['GET'])
 def get_last_workout(request):

@@ -1,5 +1,29 @@
-<div class="map"
-     leaflet
-     [leafletOptions]="options" 
-     *ngIf="options">
+<div class="map" 
+    leaflet 
+    [leafletLayers]="layers"
+    (leafletMapReady)="onMapReady($event)"
+    [(leafletZoom)]="zoom" 
+    [leafletFitBounds]="fitBounds"
+    [(leafletCenter)]="center" 
+    [leafletLayersControl]="layersControl" 
+    *ngIf="options">
+    <div *ngIf="route" [leafletLayer]="route"></div>
 </div>
+
+<button class="siimple-btn stop-tracking-button" (click)="disableTracking()">
+    <fa-icon [icon]="faTimes"></fa-icon>
+</button>
+
+<button class="start-button siimple-btn siimple-btn--success"
+    (click)="startTracking()"
+    *ngIf="!collectingPositions">
+    <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
+    Start
+</button>
+
+<button class="stop-button siimple-btn siimple-btn--error"
+    (click)="stopTracking()"
+    *ngIf="collectingPositions">
+    <fa-icon [icon]="faStop" class="siimple--mr-1"></fa-icon>
+    Stop
+</button>
