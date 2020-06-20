@@ -1,13 +1,5 @@
-<h5 class="siimple-h5">GEOLOCATION!</h5>
-
-<p>Positions received: {{positions.length}}</p>
-<p>Distinct positions received: {{distinctPositions.length}}</p>
-
-<p>Distinct Positions list:</p>
-<ul>
-    <li *ngFor="let position of distinctPositions">
-        lat: {{position.coords.latitude}}
-        lng: {{position.coords.longitude}}
-        timestamp: {{position.timestamp}}
-    </li>
-</ul>
+<div class="map"
+     leaflet
+     [leafletOptions]="options" 
+     *ngIf="options">
+</div>

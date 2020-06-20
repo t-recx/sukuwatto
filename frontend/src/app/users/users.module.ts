@@ -1,5 +1,6 @@
 import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -84,6 +85,7 @@ export class TimeAgoExtendsPipe extends TimeAgoPipe {}
     UsersRoutingModule,
     FontAwesomeModule,
     FormsModule,
+    LeafletModule,
   ]
 })
 export class UsersModule { }

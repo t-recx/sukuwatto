@@ -13,6 +13,7 @@ killgroup(){
 
 HOST=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 sed -i "s/localhost/${HOST}/g" frontend/src/environments/hosts.ts
+sed "s/localhost/${HOST}/g" devsettings.def > devsettings
 
 ./startdevbackend ${2:-${HOST}:8000} ${3:-8443} &
 ./startdevfrontend ${4:-${HOST}} ${1} &

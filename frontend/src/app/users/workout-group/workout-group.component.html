@@ -36,6 +36,11 @@
                     <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets" style="padding: 0px;">
                         <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.sets [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
                         </app-workout-set>
+
+                        <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c'">
+                            <app-workout-set-geolocation  (statusChanged)="setStatusChanged()" [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
+                            </app-workout-set-geolocation>
+                        </div>
                     </div>
                 </div>
                 <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
