@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { Map, LatLng, LatLngBounds, tileLayer, latLng, polyline, point } from 'leaflet';
+import { Component, OnInit, OnDestroy, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { Map, LatLng, LatLngBounds, tileLayer, latLng, polyline, point, Polyline } from 'leaflet';
 import { WorkoutSet } from '../workout-set';
-import { EventEmitter } from 'protractor';
 import { WorkoutSetPosition } from '../workout-set-position';
 import { WorkoutsService } from '../workouts.service';
 import { AuthService } from 'src/app/auth.service';
@@ -16,8 +15,6 @@ import { environment } from 'src/environments/environment';
 })
 export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   @Input() workoutActivity: WorkoutSet;
-  @Input() triedToSave: boolean;
-  @Output() statusChanged = new EventEmitter();
 
   trackingType: GeoTrackingType = GeoTrackingType.None;
   collectingPositions: boolean = false;
@@ -26,20 +23,22 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
   BackgroundGeolocation = window['BackgroundGeolocation'];
 
-  center: LatLng;
   zoom: number = 7;
-  fitBounds: LatLngBounds;
 
   layers: any;
   layersControl: any;
 
-  route = null;
+  route: Polyline<any, any> = null;
+
+  center: LatLng;
 
   faPlay = faPlay;
   faStop = faStop;
   faTimes = faTimes;
 
   watchId: number = null;
+
+  initialized: boolean = false;
 
   constructor(
     private alertService: AlertService,
@@ -52,18 +51,26 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     this.workoutActivity.tracking = false;
   }
 
+
+  centerOnPosition(position: WorkoutSetPosition) {
+    this.center = latLng(position.latitude, position.longitude);
+  }
+
   startTracking() {
     if (this.BackgroundGeolocation) {
-      this.startBackgroundGeolocationTracking();
       // we're on a phone      
+      this.trackingType = GeoTrackingType.BackgroundGeolocation;
+      this.startBackgroundGeolocationTracking();
     }
     else if (navigator.geolocation) {
       // we have a geolocation compatible browser
+      this.trackingType = GeoTrackingType.Navigator;
       this.startNavigatorTracking();
     }
     else {
       // ... can't track positions ...
-      this.alertService.error("Cant start tracking: Unable to detect location device");
+      this.trackingType = GeoTrackingType.None;
+      this.alertService.error('Can\'t start tracking: Unable to detect location device');
     }
   }
 
@@ -118,11 +125,11 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       this.stopTracking();
     });
 
-    this.BackgroundGeolocation.on('authorization', function (status) {
+    this.BackgroundGeolocation.on('authorization', (status) => {
       if (status !== this.BackgroundGeolocation.AUTHORIZED) {
         // we need to set delay or otherwise alert may not be shown
         setTimeout(function () {
-          var showSettings = confirm('Sukuwatto requires location tracking permission. Would you like to open app settings?');
+          const showSettings = confirm('Sukuwatto requires location tracking permission. Would you like to open app settings?');
 
           if (showSettings) {
             return this.BackgroundGeolocation.showAppSettings();
@@ -167,13 +174,14 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     }, e => {
       // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/index.html#positionerror
       this.alertPositionError(e.code);
-
       this.stopTracking();
     }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
 
   }
 
   private alertPositionError(code) {
+    this.alertService.clear();
+
     switch (code) {
       case 1: // permission denied
         this.alertService.error('Unable to obtain position: Permission denied');
@@ -197,14 +205,14 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
           navigator.geolocation.clearWatch(this.watchId);
         }
         break;
-      default:
-        this.collectingPositions = false;
-        break;
     }
+
+    this.collectingPositions = false;
+    this.trackingType = GeoTrackingType.None;
   }
 
   onMapReady(map: Map) {
-    if (this.route) {
+    if (this.route  && this.route.getLatLngs().length > 1) {
       map.fitBounds(this.route.getBounds(), {
         padding: point(24, 24),
         maxZoom: 12,
@@ -215,17 +223,18 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       if (this.authService.isLoggedIn()) {
         this.workoutsService.getLastWorkoutPosition(this.authService.getUsername())
         .subscribe(position => {
-          this.centerOnPosition(position);
+          if (position.latitude) {
+            map.setView(latLng(position.latitude, position.longitude), this.zoom);
+          }
+          else {
+            map.setView(latLng(0, 0), this.zoom);
+          }
         });
       }
       else {
-        this.center = latLng(0, 0);
+       map.setView(latLng(0, 0), this.zoom);
       }
     }
-  }
-
-  centerOnPosition(position: WorkoutSetPosition ) {
-    this.center = latLng(position.latitude, position.longitude, position.altitude);
   }
 
   ngOnInit(): void {
@@ -237,6 +246,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
   private initMap(): void {
     // Define our base layers so we can reference them multiple times
+    this.updateRoute();
+    
     let streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       detectRetina: true,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -253,9 +264,15 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.updateRoute();
-
     this.layers = [ streetMaps ];
+
+    this.options = {
+    layers: [
+      streetMaps
+    ],
+    zoom: this.zoom,
+    center: latLng([ 0, 0 ])
+  };
   }
 
   private updateRoute() {

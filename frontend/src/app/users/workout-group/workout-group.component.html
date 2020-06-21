@@ -31,61 +31,23 @@
         </div>
 
         <div>
-            <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
-                <div class="siimple-list siimple-list--hover">
-                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.sets" style="padding: 0px;">
-                        <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.sets [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
-                        </app-workout-set>
+            <app-workout-group-tab-content 
+                [selectedActivityType]="selectedActivityType"
+                [activityType]="activityType.Exercise"
+                [activities]="group.sets"
+                [triedToSave]="triedToSave"
+                (statusChanged)="setStatusChanged()"
+                (newActivity)="newSet()">
+            </app-workout-group-tab-content>
 
-                        <app-workout-set-geolocation 
-                            *ngIf="workoutActivity.exercise.exercise_type == exerciseType.Cardio &&
-                                (workoutActivity.tracking == null || workoutActivity.tracking)">
-                        </app-workout-set-geolocation>
-
-                        <div *ngIf="workoutActivity.tracking != null && !workoutActivity.tracking">
-                            <button class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
-                                Track
-                            </button>
-                            <button class="siimple-btn siimple-btn--primary" (click)="time()">
-                                Time
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
-                    (click)="newSet()">
-                    <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
-                    New set
-                </button>
-            </div>
-
-            <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
-                <div class="siimple-list siimple-list--hover">
-                    <div class="siimple-list-item" *ngFor="let workoutActivity of group.warmups" style="padding: 0px;">
-                        <app-workout-set (statusChanged)="setStatusChanged()" [sets]=group.warmups [workoutActivity]=workoutActivity [triedToSave]=triedToSave>
-                        </app-workout-set>
-
-                        <app-workout-set-geolocation 
-                            *ngIf="workoutActivity.exercise.exercise_type == exerciseType.Cardio &&
-                                (workoutActivity.tracking == null || workoutActivity.tracking)">
-                        </app-workout-set-geolocation>
-
-                        <div *ngIf="workoutActivity.tracking != null && !workoutActivity.tracking">
-                            <button class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
-                                Track
-                            </button>
-                            <button class="siimple-btn siimple-btn--primary" (click)="time()">
-                                Time
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button"
-                    (click)="newWarmUp()">
-                    <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
-                    New warmup
-                </button>
-            </div>
+            <app-workout-group-tab-content 
+                [selectedActivityType]="selectedActivityType"
+                [activityType]="activityType.WarmUp"
+                [activities]="group.warmups"
+                [triedToSave]="triedToSave"
+                (statusChanged)="setStatusChanged()"
+                (newActivity)="newWarmUp()">
+            </app-workout-group-tab-content>
         </div>
     </div>
 </div>

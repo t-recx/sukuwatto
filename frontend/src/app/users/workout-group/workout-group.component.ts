@@ -46,14 +46,6 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
     this.workoutActivityStatusChangedSubscription.unsubscribe();
   }
 
-  track(activity: WorkoutSet): void {
-    activity.tracking = true;
-  }
-
-  time(): void {
-    // todo: show timer here
-  }
-
   selectCurrentActivityType(init: boolean): void {
     let numberWarmUpsNotDone = 0; 
     let numberExercisesDone = 0; 

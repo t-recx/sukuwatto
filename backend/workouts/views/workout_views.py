@@ -26,7 +26,7 @@ def get_last_workout_position(request):
         username = request.query_params.get('username', None)
 
         if username is not None:
-            queryset = queryset.filter(workout_activity__workout_group__workout__username=username)
+            queryset = queryset.filter(workout_activity__workout_group__workout__user__username=username)
 
         queryset = queryset.first()
 

@@ -2,24 +2,28 @@
   position: relative;
   height: 300px;
   padding: 0;
+  z-index: 10;
 }
 
 .start-button {
   position: absolute;
-  bottom: 10px;
+  bottom: 25px;
   left:0;
   right:0;
   margin: auto;
+  z-index: 401;
 }
 
 .stop-button {
   position: absolute;
-  bottom: 10px;
+  bottom: 25px;
   right:10px;
+  z-index: 401;
 }
 
 .stop-tracking-button {
   position: absolute;
   right: 10px;
   top: 10px;
+  z-index: 401;
 }

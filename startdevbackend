@@ -8,6 +8,7 @@ echo ${1:-127.0.0.1:8000}
 echo 'SSL host: '
 echo ${2:-8443}
 
+python backend/manage.py makemigrations
 python backend/manage.py migrate
 
 trap killgroup SIGINT

@@ -387,11 +387,14 @@ class AbstractActivityPosition(models.Model):
     speed = models.DecimalField(max_digits=9, decimal_places=3, null=True)
     timestamp = models.IntegerField(null=True)
 
+    class Meta:
+        abstract = True
+
 class WorkoutSetPosition(AbstractActivityPosition):
-    workout_activity = models.ForeignKey(WorkoutSet, on_delete=models.CASCADE)
+    workout_activity = models.ForeignKey(WorkoutSet, related_name="positions", on_delete=models.CASCADE)
 
 class WorkoutWarmUpPosition(AbstractActivityPosition):
-    workout_activity = models.ForeignKey(WorkoutWarmUp, on_delete=models.CASCADE)
+    workout_activity = models.ForeignKey(WorkoutWarmUp, related_name="positions", on_delete=models.CASCADE)
 
 class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")
