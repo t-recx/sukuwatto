@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivityType } from '../plan-session-group-activity';
 import { WorkoutSet } from '../workout-set';
-import { faDumbbell, faMapMarkedAlt, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell, faMapMarkedAlt, faStopwatch, faStop } from '@fortawesome/free-solid-svg-icons';
 import { ExerciseType } from '../exercise';
 
 @Component({
@@ -19,10 +19,13 @@ export class WorkoutGroupTabContentComponent implements OnInit {
 
   ActivityType = ActivityType;
   exerciseType = ExerciseType;
-  faDumbbell = faDumbbell;
 
+  faDumbbell = faDumbbell;
   faMapMarkedAlt = faMapMarkedAlt;
   faStopwatch = faStopwatch;
+  faStop = faStop;
+
+  timing: boolean = false;
 
   constructor() { }
 
@@ -35,10 +38,6 @@ export class WorkoutGroupTabContentComponent implements OnInit {
 
   track(activity: WorkoutSet): void {
     activity.tracking = true;
-  }
-
-  time(activity: WorkoutSet): void {
-    // todo: show timer here
   }
 
   setStatusChanged() {

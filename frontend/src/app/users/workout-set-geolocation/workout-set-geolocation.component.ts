@@ -4,7 +4,7 @@ import { WorkoutSet } from '../workout-set';
 import { WorkoutSetPosition } from '../workout-set-position';
 import { WorkoutsService } from '../workouts.service';
 import { AuthService } from 'src/app/auth.service';
-import { faPlay, faStop, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/alert/alert.service';
 import { environment } from 'src/environments/environment';
 
@@ -37,6 +37,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   faPlay = faPlay;
   faStop = faStop;
   faTimes = faTimes;
+  faCheck = faCheck;
 
   watchId: number = null;
 
@@ -73,6 +74,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       // ... can't track positions ...
       this.trackingType = GeoTrackingType.None;
       this.alertService.error('Can\'t start tracking: Unable to detect location device');
+    }
+
+    if (this.trackingType != GeoTrackingType.None) {
+      this.workoutActivity.done = false;
     }
   }
 
@@ -226,6 +231,11 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     this.collectingPositions = false;
     this.trackingType = GeoTrackingType.None;
+  }
+
+  finishActivity() {
+    this.stopTracking();
+    this.workoutActivity.done = true;
   }
 
   onMapReady(map: Map) {
