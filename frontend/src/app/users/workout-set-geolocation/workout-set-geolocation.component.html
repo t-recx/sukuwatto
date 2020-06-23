@@ -2,6 +2,7 @@
     leaflet 
     [(leafletCenter)]="center"
     [leafletOptions]="options"
+    [leafletFitBounds]="fitBounds"
     (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 

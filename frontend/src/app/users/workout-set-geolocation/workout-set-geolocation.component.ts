@@ -19,18 +19,20 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   trackingType: GeoTrackingType = GeoTrackingType.None;
   collectingPositions: boolean = false;
 
+  fitBounds: LatLngBounds = null;
+
   options: any;
 
   BackgroundGeolocation = window['BackgroundGeolocation'];
 
-  zoom: number = 7;
+  zoom: number = 8;
 
   layers: any;
   layersControl: any;
 
   route: Polyline<any, any> = null;
 
-  center: LatLng;
+  center: LatLng = latLng(0, 0);
 
   faPlay = faPlay;
   faStop = faStop;
@@ -92,24 +94,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     this.BackgroundGeolocation.on('location', (p) => {
       this.BackgroundGeolocation.startTask((taskKey) => {
-        if (!this.workoutActivity.positions) {
-          this.workoutActivity.positions = [];
-        }
-
-        const newPosition = new WorkoutSetPosition(
-          {
-            accuracy: p.accuracy,
-            altitude: p.altitude,
-            latitude: p.latitude,
-            longitude: p.longitude,
-            speed: p.speed,
-            timestamp: p.time
-          });
-
-        this.workoutActivity.positions.push(newPosition);
-
-        this.updateRoute();
-        this.centerOnPosition(newPosition);
+        this.addPositionToRoute(p);
 
         this.BackgroundGeolocation.endTask(taskKey);
       });
@@ -148,38 +133,69 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   }
 
   startNavigatorTracking() {
-    this.watchId = navigator.geolocation.watchPosition(p => {
-      this.workoutActivity.tracking = true;
-      this.collectingPositions = true;
+    // We'll do a poll of the current position first, if it's okay
+    // then we'll set up a watch
+    // otherwise, we don't do anything.
+    // I have to do this because if the watch errors, it's impossible to stop the watch
+    // since there's no watchId
+    navigator.geolocation.getCurrentPosition(position => {
+      this.addPositionToRoute(position);
 
-      if (!this.workoutActivity.positions) {
-        this.workoutActivity.positions = [];
-      }
+      this.watchId = navigator.geolocation.watchPosition(p => {
+        this.workoutActivity.tracking = true;
+        this.collectingPositions = true;
 
-      const newPosition = new WorkoutSetPosition(
+        this.addPositionToRoute(p);
+      }, e => {
+        this.alertPositionError(e.code);
+      }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+    }, e => {
+      this.alertPositionError(e.code);
+      this.stopTracking();
+    }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+  }
+
+  private addPositionToRoute(p: Position | any) {
+    if (!this.workoutActivity.positions) {
+      this.workoutActivity.positions = [];
+    }
+
+    let newPosition;
+
+    if (p.coords) {
+      newPosition = new WorkoutSetPosition(
         {
           accuracy: p.coords.accuracy,
           altitude: p.coords.altitude,
           latitude: p.coords.latitude,
           longitude: p.coords.longitude,
-          heading: p.coords.heading,
           speed: p.coords.speed,
           timestamp: p.timestamp
-        }
-      );
-      this.workoutActivity.positions.push(newPosition);
+        });
+    }
+    else {
+      newPosition = new WorkoutSetPosition(
+        {
+          accuracy: p.accuracy,
+          altitude: p.altitude,
+          latitude: p.latitude,
+          longitude: p.longitude,
+          speed: p.speed,
+          timestamp: p.time
+        });
+    }
 
-      this.updateRoute();
-      this.centerOnPosition(newPosition);
-    }, e => {
-      // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/index.html#positionerror
-      this.alertPositionError(e.code);
-      this.stopTracking();
-    }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+    this.workoutActivity.positions.push(newPosition);
 
+    this.updateRoute();
+    this.centerOnPosition(newPosition);
+
+    return newPosition;
   }
 
   private alertPositionError(code) {
+    // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/index.html#positionerror
+
     this.alertService.clear();
 
     switch (code) {
@@ -198,6 +214,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   stopTracking() {
     switch (this.trackingType) {
       case GeoTrackingType.BackgroundGeolocation:
+        this.BackgroundGeolocation.stop();
         this.BackgroundGeolocation.removeAllListeners();
         break;
       case GeoTrackingType.Navigator:
@@ -212,14 +229,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   }
 
   onMapReady(map: Map) {
-    if (this.route  && this.route.getLatLngs().length > 1) {
-      map.fitBounds(this.route.getBounds(), {
-        padding: point(24, 24),
-        maxZoom: 12,
-        animate: true
-      });
-    }
-    else {
+    if (!this.route || this.route.getLatLngs().length == 0) {
+      this.zoom = 16;
       if (this.authService.isLoggedIn()) {
         this.workoutsService.getLastWorkoutPosition(this.authService.getUsername())
         .subscribe(position => {
@@ -242,6 +253,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.stopTracking();
   }
 
   private initMap(): void {
@@ -267,12 +279,16 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     this.layers = [ streetMaps ];
 
     this.options = {
-    layers: [
-      streetMaps
-    ],
-    zoom: this.zoom,
-    center: latLng([ 0, 0 ])
-  };
+      layers: [
+        streetMaps
+      ],
+      zoom: 0,
+      center: latLng([ 0, 0 ])
+    };
+
+    if (this.route && this.route.getLatLngs().length > 1) {
+      this.fitBounds = this.route.getBounds();
+    }
   }
 
   private updateRoute() {

@@ -3,8 +3,8 @@ from social.serializers import UserSerializer
 from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingParameter, Exercise, WorkoutSetPosition, WorkoutWarmUpPosition
 from workouts.utils import get_differences
 from workouts.serializers.serializers import ExerciseSerializer
-from pprint import pprint
 from django.contrib.auth import get_user_model
+import pprint
 
 class WorkingParameterSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
@@ -155,8 +155,8 @@ class WorkoutSerializer(serializers.ModelSerializer):
             exercise = activity_data.pop('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
 
-            if 'positions' in activities_data:
-                positions_data = activities_data.pop('positions')
+            if 'positions' in activity_data:
+                positions_data = activity_data.pop('positions')
 
             activity = model.objects.create(workout_group=workout_group, exercise=exercise_model, 
                 **activity_data)
@@ -387,12 +387,12 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
             instance = instances.first()
 
-            instance.accuracy = group_data.get('accuracy', instance.accuracy)
-            instance.altitude = group_data.get('altitude', instance.altitude)
-            instance.heading = group_data.get('heading', instance.heading)
-            instance.latitude = group_data.get('latitude', instance.latitude)
-            instance.longitude = group_data.get('longitude', instance.longitude)
-            instance.speed = group_data.get('speed', instance.speed)
-            instance.timestamp = group_data.get('timestamp', instance.timestamp)
+            instance.accuracy = position_data.get('accuracy', instance.accuracy)
+            instance.altitude = position_data.get('altitude', instance.altitude)
+            instance.heading = position_data.get('heading', instance.heading)
+            instance.latitude = position_data.get('latitude', instance.latitude)
+            instance.longitude = position_data.get('longitude', instance.longitude)
+            instance.speed = position_data.get('speed', instance.speed)
+            instance.timestamp = position_data.get('timestamp', instance.timestamp)
 
             instance.save()

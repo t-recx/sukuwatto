@@ -379,12 +379,12 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
     plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
 class AbstractActivityPosition(models.Model):
-    accuracy = models.DecimalField(max_digits=9, decimal_places=3, null=True)
-    altitude = models.DecimalField(max_digits=9, decimal_places=3, null=True)
-    heading = models.DecimalField(max_digits=9, decimal_places=3, null=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=3, null=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=3, null=True)
-    speed = models.DecimalField(max_digits=9, decimal_places=3, null=True)
+    accuracy = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    altitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    heading = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    latitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    longitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    speed = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     timestamp = models.IntegerField(null=True)
 
     class Meta:
