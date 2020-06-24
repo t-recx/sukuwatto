@@ -24,6 +24,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
   selectedTrackedActivity: WorkoutSet;
   selectedTrackedActivityIndex: number;
 
+  cardioWorkoutActivities: WorkoutSet[];
   strengthWorkoutActivities: WorkoutOverview[] = [];
 
   deleteModalVisible: boolean = false;
@@ -64,6 +65,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
   loadWorkoutData(workout: Workout) {
     this.setTrackedActivities(workout);
+    this.setCardioWorkoutActivities(workout);
 
     this.strengthWorkoutActivities = this.getResumedStrengthActivities(workout);
 
@@ -72,15 +74,51 @@ export class WorkoutOverviewCardComponent implements OnInit {
     }
   }
 
+  isTracked(s: WorkoutSet): boolean {
+    return s.tracking && s.positions && s.positions.length > 0;
+  }
+
   setTrackedActivities(workout: Workout) {
     this.trackedActivities = workout
       .groups
       .flatMap(g => 
         g
         .sets
-        .filter(s => s.tracking && s.positions && s.positions.length > 0).map(s => s));
+        .filter(s => s.done && this.isTracked(s)).map(s => s));
     this.selectedTrackedActivity = this.trackedActivities[0];
     this.selectedTrackedActivityIndex = 0;
+  }
+
+  showDistanceColumn: boolean = false;
+  showTimeColumn: boolean = false;
+  showSpeedColumn: boolean = false;
+  showVo2MaxColumn: boolean = false;
+
+  setCardioWorkoutActivities(workout: Workout) {
+    this.cardioWorkoutActivities = 
+      workout
+      .groups
+      .flatMap(g =>
+        g
+        .sets
+        .filter(s => !this.isTracked(s) && s.done && s.exercise.exercise_type == ExerciseType.Cardio).map(s => s));
+
+    this.setCardioColumnsVisibility(this.cardioWorkoutActivities);
+  }
+
+  setCardioColumnsVisibility(activities: WorkoutSet[]) {
+    if (activities && activities.length > 0) {
+      this.showDistanceColumn = activities.filter(s => s.distance && s.distance > 0).length > 0;
+      this.showTimeColumn = activities.filter(s => s.time && s.time > 0).length > 0;
+      this.showSpeedColumn = activities.filter(s => s.speed && s.speed > 0).length > 0;
+      this.showVo2MaxColumn = activities.filter(s => s.vo2max && s.vo2max > 0 ).length > 0;
+    }
+    else {
+      this.showDistanceColumn = false;
+      this.showTimeColumn = false;
+      this.showSpeedColumn = false;
+      this.showVo2MaxColumn = false;
+    }
   }
 
   selectPreviousTrackedActivity() {

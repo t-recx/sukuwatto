@@ -1,3 +1,11 @@
+.exercise-cardio-column-header {
+    /* width: 100%; */
+}
+
+.cardio-value-column {
+    white-space: nowrap;
+}
+
 .workout-card-header-link {
     text-overflow: ellipsis;
     overflow: hidden;

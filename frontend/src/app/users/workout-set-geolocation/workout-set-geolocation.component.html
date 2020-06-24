@@ -3,11 +3,14 @@
     <div *ngIf="route" [leafletLayer]="route"></div>
 
     <div *ngIf="allowEdit">
-        <button class="siimple-btn siimple-btn--primary stop-tracking-button" (click)="disableTracking()">
+        <button 
+            type="button"
+            class="siimple-btn siimple-btn--primary stop-tracking-button" (click)="disableTracking()">
             <fa-icon [icon]="faTimes"></fa-icon>
         </button>
     
         <button class="start-button siimple-btn siimple-btn--success" (click)="startTracking()"
+            type="button"
             *ngIf="!collectingPositions">
             <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
             Start
@@ -15,12 +18,14 @@
     
         <div class="stop-finish-bar">
             <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()"
+                type="button"
                 *ngIf="collectingPositions">
                 <fa-icon [icon]="faStop" class="siimple--mr-1"></fa-icon>
                 Stop
             </button>
     
             <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
+                type="button"
                 *ngIf="collectingPositions">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 Finish

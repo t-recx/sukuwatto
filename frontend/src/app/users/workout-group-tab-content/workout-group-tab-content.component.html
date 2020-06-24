@@ -14,7 +14,9 @@
                 </app-workout-set-geolocation>
             
                 <div *ngIf="workoutActivity.tracking != null && !workoutActivity.tracking">
-                    <button class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
+                    <button 
+                    type="button"
+                    class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
                         <fa-icon [icon]="faMapMarkedAlt" class="siimple--mr-1"></fa-icon>
                         Track
                     </button>
