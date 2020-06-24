@@ -4,7 +4,7 @@ import { WorkoutSet } from '../workout-set';
 import { WorkoutSetPosition } from '../workout-set-position';
 import { WorkoutsService } from '../workouts.service';
 import { AuthService } from 'src/app/auth.service';
-import { faPlay, faStop, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faTimes, faCheck, faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/alert/alert.service';
 import { environment } from 'src/environments/environment';
 
@@ -23,6 +23,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   collectingPositions: boolean = false;
 
   fitBounds: LatLngBounds = null;
+  startText: string = "Start";
 
   options: any;
 
@@ -41,6 +42,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   faStop = faStop;
   faTimes = faTimes;
   faCheck = faCheck;
+  faDotCircle = faDotCircle;
+
+  userOperatingMap: boolean = false;
 
   watchId: number = null;
 
@@ -77,6 +81,14 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     this.center = latLng(position.latitude, position.longitude);
   }
 
+  recenter() {
+    this.userOperatingMap = false;
+
+    if (this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
+      this.centerOnPosition(this.workoutActivity.positions[this.workoutActivity.positions.length - 1]);
+    }
+  }
+
   startTracking() {
     if (this.BackgroundGeolocation) {
       // we're on a phone      
@@ -97,6 +109,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     if (this.trackingType != GeoTrackingType.None) {
       this.workoutActivity.done = false;
     }
+
+    this.userOperatingMap = false;
   }
 
   startBackgroundGeolocationTracking() {
@@ -162,12 +176,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     // I have to do this because if the watch errors, it's impossible to stop the watch
     // since there's no watchId
     navigator.geolocation.getCurrentPosition(position => {
+      this.workoutActivity.tracking = true;
+      this.collectingPositions = true;
+
       this.addPositionToRoute(position);
 
       this.watchId = navigator.geolocation.watchPosition(p => {
-        this.workoutActivity.tracking = true;
-        this.collectingPositions = true;
-
         this.addPositionToRoute(p);
       }, e => {
         this.alertPositionError(e.code);
@@ -211,7 +225,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     this.workoutActivity.positions.push(newPosition);
 
     this.updateRoute();
-    this.centerOnPosition(newPosition);
+
+    if (!this.userOperatingMap) {
+      this.centerOnPosition(newPosition);
+    }
 
     return newPosition;
   }
@@ -249,6 +266,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     this.collectingPositions = false;
     this.trackingType = GeoTrackingType.None;
+    this.fitToRouteBounds();
   }
 
   finishActivity() {
@@ -318,6 +336,22 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       center: latLng([ 0, 0 ])
     };
 
+    this.fitToRouteBounds();
+  }
+
+  mapMove(e: any) {
+    if (e.originalEvent) {
+      this.userOperatingMap = true;
+    }
+  }
+
+  mapZoom(e: any) {
+    if (e.originalEvent) {
+      this.userOperatingMap = true;
+    }
+  }
+
+  private fitToRouteBounds() {
     if (this.route && this.route.getLatLngs().length > 1) {
       this.fitBounds = this.route.getBounds();
     }
@@ -327,6 +361,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     if (this.workoutActivity.positions &&
       this.workoutActivity.positions.length > 0) {
       this.route = this.getRoute(this.workoutActivity.positions);
+      this.startText = 'Continue';
+    }
+    else {
+      this.startText = 'Start';
     }
   }
 

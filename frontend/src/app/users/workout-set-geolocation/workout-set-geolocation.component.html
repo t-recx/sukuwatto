@@ -1,4 +1,7 @@
-<div class="map" leaflet [(leafletCenter)]="center" [leafletOptions]="options" [leafletFitBounds]="fitBounds"
+<div class="map" leaflet 
+    (leafletMapMove)="mapMove($event)"
+    (leafletMapZoom)="mapZoom($event)"
+    [(leafletCenter)]="center" [leafletOptions]="options" [leafletFitBounds]="fitBounds"
     (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 
@@ -15,7 +18,14 @@
             type="button"
             *ngIf="!collectingPositions">
             <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
-            Start
+            {{startText}}
+        </button>
+
+        <button class="recenter-button siimple-btn siimple-btn--primary"
+            type="button"
+            (click)="recenter()"
+            *ngIf="collectingPositions && userOperatingMap">
+            <fa-icon [icon]="faDotCircle"></fa-icon>
         </button>
     
         <div class="stop-finish-bar">
