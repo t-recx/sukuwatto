@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
 import { Exercise, ExerciseType } from '../exercise';
 import { RepetitionType, RepetitionTypeLabel, SpeedType, TimeType, DistanceType, Vo2MaxType } from '../plan-session-group-activity';
-import { faCheck, faEdit, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEdit, faTimesCircle, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { Unit } from '../unit';
 import { UnitsService } from '../units.service';
 
@@ -22,6 +22,8 @@ export class WorkoutSetComponent implements OnInit {
   faCheck = faCheck;
   faEdit = faEdit;
   faTimesCircle = faTimesCircle;
+  faMapMarkedAlt = faMapMarkedAlt;
+
   editing: boolean = false;
   editingRepetitions: boolean = false;
 
@@ -40,6 +42,10 @@ export class WorkoutSetComponent implements OnInit {
       this.editing = true;
     }
     this.unitsService.getUnits().subscribe(u => this.units = u);
+  }
+
+  track(): void {
+    this.workoutActivity.tracking = true;
   }
 
   toggleEdit(event) {

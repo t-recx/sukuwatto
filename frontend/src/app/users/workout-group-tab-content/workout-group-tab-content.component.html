@@ -6,21 +6,14 @@
             </app-workout-set>
 
             <div class="geo-container"
-            *ngIf="workoutActivity.exercise.exercise_type == exerciseType.Cardio">
+                *ngIf="(workoutActivity.tracking == null || workoutActivity.tracking) &&
+                    workoutActivity.exercise.exercise_type == exerciseType.Cardio">
                 <app-workout-set-geolocation *ngIf="workoutActivity.tracking == null || workoutActivity.tracking"
                     [workoutActivity]="workoutActivity"
                     [allowEdit]="true"
+                    [zoomControl]="false"
                 >
                 </app-workout-set-geolocation>
-            
-                <div *ngIf="workoutActivity.tracking != null && !workoutActivity.tracking">
-                    <button 
-                    type="button"
-                    class="siimple-btn siimple-btn--success" (click)="track(workoutActivity)">
-                        <fa-icon [icon]="faMapMarkedAlt" class="siimple--mr-1"></fa-icon>
-                        Track
-                    </button>
-                </div>
             </div>
         </div>
     </div>
