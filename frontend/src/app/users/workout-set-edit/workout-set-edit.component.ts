@@ -19,7 +19,7 @@ export class WorkoutSetEditComponent implements OnInit {
   @Input() triedToHide: boolean;
   @Input() visible: boolean;
   @Output() closed = new EventEmitter();
-  @Output() cloneOrders = new EventEmitter()
+  @Output() cloneOrders = new EventEmitter();
 
   faCheck = faCheck;
   faTrash = faTrash;
@@ -46,6 +46,7 @@ export class WorkoutSetEditComponent implements OnInit {
 
   cloningModalVisible: boolean = false;
   number_of_cloned_activities: number = 1;
+  clonePositions: boolean = false;
 
   constructor(
     private unitsService: UnitsService,
@@ -57,6 +58,10 @@ export class WorkoutSetEditComponent implements OnInit {
     this.number_of_cloned_activities = 1;
 
     this.loadUnits();
+  }
+
+  toggleClonePositions() {
+    this.clonePositions = !this.clonePositions;
   }
 
   loadUnits() {
@@ -294,7 +299,7 @@ export class WorkoutSetEditComponent implements OnInit {
     this.cloningModalVisible = false;
 
     if (this.hide()) {
-      this.cloneOrders.emit(this.number_of_cloned_activities);
+      this.cloneOrders.emit({ numberOfActivities: this.number_of_cloned_activities, clonePositions: this.clonePositions});
     }
   }
 }

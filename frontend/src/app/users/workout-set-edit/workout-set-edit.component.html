@@ -221,6 +221,16 @@
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
                 Cancel
             </button>
+
+            <div class="siimple-form-field siimple--float-right" *ngIf="workoutActivity.positions && workoutActivity.positions.length > 0">
+                <div class="siimple-checkbox siimple-checkbox--primary">
+                    <input type="checkbox" id="clone-positions-checkbox" [(ngModel)]="clonePositions" name="clone-positions-checkbox">
+                    <label for="terms-checkbox"></label>
+                </div>
+                <label class="siimple-label">
+                    <span class="clickable" (click)="toggleClonePositions()">Clone positions</span> 
+                </label>
+            </div>
         </div>
     </div>
 </div>
