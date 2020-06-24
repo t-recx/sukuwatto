@@ -138,8 +138,13 @@ export class WorkoutSetComponent implements OnInit {
     this.editingRepetitions = false;
   }
 
-  onCloneOrder(n: number): void {
+  onCloneOrder(request: any): void {
+    let n: number;
+    let clonePositions: boolean = false;
     let order: number = 1;
+
+    n = request.numberOfActivities;
+    clonePositions = request.clonePositions; 
 
     for (let index = 0; index < n; index++) {
       if (this.sets && this.sets.length > 0) {
@@ -147,7 +152,13 @@ export class WorkoutSetComponent implements OnInit {
         order += 1;
       }
 
-      this.sets.push(new WorkoutSet({...this.workoutActivity, order}));
+      let positions = [];
+
+      if (clonePositions) {
+        positions = this.workoutActivity.positions;
+      }
+
+      this.sets.push(new WorkoutSet({...this.workoutActivity, order, positions}));
     }
   }
 
