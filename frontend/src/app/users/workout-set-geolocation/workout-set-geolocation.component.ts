@@ -46,6 +46,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
   initialized: boolean = false;
 
+  deleteModalVisible: boolean = false;
+
   constructor(
     private alertService: AlertService,
     private authService: AuthService,
@@ -53,10 +55,23 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  disableTracking() {
-    this.workoutActivity.tracking = false;
+  toggleDeleteModal() {
+    this.deleteModalVisible = !this.deleteModalVisible;
   }
 
+  disableTrackingAndClearPositions() {
+    this.workoutActivity.tracking = false;
+    this.workoutActivity.positions = [];
+  }
+
+  disableTracking() {
+    if (this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
+      this.toggleDeleteModal();
+    }
+    else {
+      this.disableTrackingAndClearPositions();
+    }
+  }
 
   centerOnPosition(position: WorkoutSetPosition) {
     this.center = latLng(position.latitude, position.longitude);

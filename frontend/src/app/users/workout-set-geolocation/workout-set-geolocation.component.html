@@ -35,3 +35,12 @@
         </div>
     </div>
 </div>
+
+<app-delete-modal 
+    [(visible)]="deleteModalVisible"
+    title='Stop tracking'
+    body='This will stop tracking and remove existing positions. Are you sure you want to proceed?'
+    (deleted)="disableTrackingAndClearPositions()"
+    (canceled)="toggleDeleteModal()"
+    >
+</app-delete-modal>
