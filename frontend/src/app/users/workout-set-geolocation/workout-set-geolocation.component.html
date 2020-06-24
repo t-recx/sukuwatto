@@ -2,27 +2,29 @@
     (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 
-    <button class="siimple-btn siimple-btn--primary stop-tracking-button" (click)="disableTracking()">
-        <fa-icon [icon]="faTimes"></fa-icon>
-    </button>
-
-    <button class="start-button siimple-btn siimple-btn--success" (click)="startTracking()"
-        *ngIf="!collectingPositions">
-        <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
-        Start
-    </button>
-
-    <div class="stop-finish-bar">
-        <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()"
-            *ngIf="collectingPositions">
-            <fa-icon [icon]="faStop" class="siimple--mr-1"></fa-icon>
-            Stop
+    <div *ngIf="allowEdit">
+        <button class="siimple-btn siimple-btn--primary stop-tracking-button" (click)="disableTracking()">
+            <fa-icon [icon]="faTimes"></fa-icon>
         </button>
-
-        <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
-            *ngIf="collectingPositions">
-            <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-            Finish
+    
+        <button class="start-button siimple-btn siimple-btn--success" (click)="startTracking()"
+            *ngIf="!collectingPositions">
+            <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
+            Start
         </button>
+    
+        <div class="stop-finish-bar">
+            <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()"
+                *ngIf="collectingPositions">
+                <fa-icon [icon]="faStop" class="siimple--mr-1"></fa-icon>
+                Stop
+            </button>
+    
+            <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
+                *ngIf="collectingPositions">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                Finish
+            </button>
+        </div>
     </div>
 </div>

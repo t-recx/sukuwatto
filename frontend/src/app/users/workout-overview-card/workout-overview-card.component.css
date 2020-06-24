@@ -5,3 +5,33 @@
     max-width: calc(100% - 100px);
     display: inline-flex;
 }
+
+.tracked-activities-toolbar-container {
+    display: flex;
+}
+
+.tracked-activity-container {
+   width: 100%;
+   padding-top: 2px;
+}
+
+.tracked-activity-title-container {
+   width: 100%;
+}
+
+.tracked-activity-title-no-arrows {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.activity-previous-arrow {
+    display: flex;
+    align-items: center;
+    border-bottom-left-radius: 0px !important;
+}
+
+.activity-next-arrow {
+    display: flex;
+    align-items: center;
+    border-bottom-right-radius: 0px !important;
+}

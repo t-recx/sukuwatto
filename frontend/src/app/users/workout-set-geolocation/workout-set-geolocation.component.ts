@@ -15,6 +15,9 @@ import { environment } from 'src/environments/environment';
 })
 export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   @Input() workoutActivity: WorkoutSet;
+  @Input() allowEdit: boolean;
+  @Input() zoomControl: boolean = true;
+  @Input() disableInput: boolean = false;
 
   trackingType: GeoTrackingType = GeoTrackingType.None;
   collectingPositions: boolean = false;
@@ -293,6 +296,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
         streetMaps
       ],
       zoom: 0,
+      zoomControl: this.zoomControl,
+      scrollWheelZoom: this.disableInput ? false : true,
+      dragging: this.disableInput ? false : true,
+      tap: this.disableInput ? false : true,
       center: latLng([ 0, 0 ])
     };
 
