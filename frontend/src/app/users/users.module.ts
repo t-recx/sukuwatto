@@ -1,5 +1,6 @@
 import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -69,6 +70,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AutofocusDirective } from './autofocus.directive';
 import { WorkoutSetGeolocationComponent } from './workout-set-geolocation/workout-set-geolocation.component';
+import { WorkoutGroupTabContentComponent } from './workout-group-tab-content/workout-group-tab-content.component';
 
 @Pipe({
     name: 'timeAgo',
@@ -77,13 +79,14 @@ import { WorkoutSetGeolocationComponent } from './workout-set-geolocation/workou
 export class TimeAgoExtendsPipe extends TimeAgoPipe {}
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailEditComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingParametersComponent, WorkingParameterComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoExtendsPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent, DeleteModalComponent, FeedComponent, ExercisesListComponent, ExercisesModalComponent, ExercisesInputComponent, ExerciseDetailSkeletonComponent, ExerciseDetailModalComponent, UnitConvertPipe, PlanCardComponent, UserChangePasswordComponent, FooterComponent, UserProgressChartComponent, UserProgressChartsComponent, PieChartComponent, WorkoutFinishWorkoutModalComponent, UserFinishWorkoutProgressChartComponent, WorkoutDetailComponent, LoadingSpinnerComponent, ExerciseCardComponent, ExerciseCardDescriptionComponent, PageNotFoundComponent, ForbiddenComponent, AutofocusDirective, WorkoutSetGeolocationComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailEditComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingParametersComponent, WorkingParameterComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoExtendsPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent, DeleteModalComponent, FeedComponent, ExercisesListComponent, ExercisesModalComponent, ExercisesInputComponent, ExerciseDetailSkeletonComponent, ExerciseDetailModalComponent, UnitConvertPipe, PlanCardComponent, UserChangePasswordComponent, FooterComponent, UserProgressChartComponent, UserProgressChartsComponent, PieChartComponent, WorkoutFinishWorkoutModalComponent, UserFinishWorkoutProgressChartComponent, WorkoutDetailComponent, LoadingSpinnerComponent, ExerciseCardComponent, ExerciseCardDescriptionComponent, PageNotFoundComponent, ForbiddenComponent, AutofocusDirective, WorkoutSetGeolocationComponent, WorkoutGroupTabContentComponent],
   imports: [
     AlertModule,
     CommonModule,
     UsersRoutingModule,
     FontAwesomeModule,
     FormsModule,
+    LeafletModule,
   ]
 })
 export class UsersModule { }

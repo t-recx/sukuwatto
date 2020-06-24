@@ -239,5 +239,13 @@ style="padding: 10px;"
         </span>
     </span>
 
-    <fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right"></fa-icon>
+    <fa-icon *ngIf="workoutActivity.done" [icon]="faCheck" class="siimple--float-right siimple--ml-1 "></fa-icon>
+
+    <button class="siimple-btn siimple-btn--success siimple-btn--small siimple--float-right" 
+        *ngIf="!workoutActivity.done && workoutActivity.tracking != null && !workoutActivity.tracking" 
+        type="button" (click)="track(); $event.stopPropagation()">
+        <fa-icon [icon]="faMapMarkedAlt" class="siimple--mr-1"></fa-icon>
+        Track
+    </button>
+
 </div>

@@ -1,0 +1,29 @@
+.map {
+  position: relative;
+  height: 300px;
+  padding: 0;
+  z-index: 10;
+}
+
+.start-button {
+  position: absolute;
+  bottom: 25px;
+  left:0;
+  right:0;
+  margin: auto;
+  z-index: 401;
+}
+
+.stop-finish-bar {
+  position: absolute;
+  bottom: 25px;
+  right:10px;
+  z-index: 401;
+}
+
+.stop-tracking-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 401;
+}

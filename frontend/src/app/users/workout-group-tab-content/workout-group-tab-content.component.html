@@ -1,0 +1,30 @@
+<div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType">
+    <div class="siimple-list siimple-list--hover">
+        <div class="siimple-list-item" *ngFor="let workoutActivity of activities" style="padding: 0px;">
+            <app-workout-set (statusChanged)="setStatusChanged()" [sets]=activities [workoutActivity]=workoutActivity
+                [triedToSave]=triedToSave>
+            </app-workout-set>
+
+            <div class="geo-container"
+                *ngIf="(workoutActivity.tracking == null || workoutActivity.tracking) &&
+                    workoutActivity.exercise.exercise_type == exerciseType.Cardio">
+                <app-workout-set-geolocation *ngIf="workoutActivity.tracking == null || workoutActivity.tracking"
+                    [workoutActivity]="workoutActivity"
+                    [allowEdit]="true"
+                    [zoomControl]="false"
+                >
+                </app-workout-set-geolocation>
+            </div>
+        </div>
+    </div>
+    <button class="siimple-btn siimple-btn--primary siimple--mt-2 " type="button" (click)="new()">
+        <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
+        New
+        <span *ngIf="activityType==ActivityType.Exercise">
+            set
+        </span>
+        <span *ngIf="activityType==ActivityType.WarmUp">
+            warmup
+        </span>
+    </button>
+</div>

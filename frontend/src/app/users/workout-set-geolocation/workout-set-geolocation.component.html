@@ -1,13 +1,37 @@
-<h5 class="siimple-h5">GEOLOCATION!</h5>
+<div class="map" leaflet [(leafletCenter)]="center" [leafletOptions]="options" [leafletFitBounds]="fitBounds"
+    (leafletMapReady)="onMapReady($event)">
+    <div *ngIf="route" [leafletLayer]="route"></div>
 
-<p>Positions received: {{positions.length}}</p>
-<p>Distinct positions received: {{distinctPositions.length}}</p>
-
-<p>Distinct Positions list:</p>
-<ul>
-    <li *ngFor="let position of distinctPositions">
-        lat: {{position.coords.latitude}}
-        lng: {{position.coords.longitude}}
-        timestamp: {{position.timestamp}}
-    </li>
-</ul>
+    <div *ngIf="allowEdit">
+        <button 
+            type="button"
+            class="siimple-btn 
+            siimple-btn--small
+            siimple-btn--dark stop-tracking-button" (click)="disableTracking()">
+            <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+    
+        <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()"
+            type="button"
+            *ngIf="!collectingPositions">
+            <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
+            Start
+        </button>
+    
+        <div class="stop-finish-bar">
+            <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()"
+                type="button"
+                *ngIf="collectingPositions">
+                <fa-icon [icon]="faStop" class="siimple--mr-1"></fa-icon>
+                Stop
+            </button>
+    
+            <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
+                type="button"
+                *ngIf="collectingPositions">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                Finish
+            </button>
+        </div>
+    </div>
+</div>

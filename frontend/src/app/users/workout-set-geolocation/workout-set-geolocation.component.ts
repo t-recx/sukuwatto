@@ -1,5 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { Map, LatLng, LatLngBounds, tileLayer, latLng, polyline, point, Polyline } from 'leaflet';
+import { WorkoutSet } from '../workout-set';
+import { WorkoutSetPosition } from '../workout-set-position';
+import { WorkoutsService } from '../workouts.service';
+import { AuthService } from 'src/app/auth.service';
+import { faPlay, faStop, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/alert/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workout-set-geolocation',
@@ -7,99 +14,116 @@ import { AlertService } from 'src/app/alert/alert.service';
   styleUrls: ['./workout-set-geolocation.component.css']
 })
 export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
+  @Input() workoutActivity: WorkoutSet;
+  @Input() allowEdit: boolean;
+  @Input() zoomControl: boolean = true;
+  @Input() disableInput: boolean = false;
 
-  title: string = "android";
-  ready: boolean = false;
-  positions: Position[] = [];
-  distinctPositions: Position[] = [];
-  watchId: number;
+  trackingType: GeoTrackingType = GeoTrackingType.None;
+  collectingPositions: boolean = false;
+
+  fitBounds: LatLngBounds = null;
+
+  options: any;
 
   BackgroundGeolocation = window['BackgroundGeolocation'];
 
-  constructor(private alertService: AlertService) {
+  zoom: number = 8;
+
+  layers: any;
+  layersControl: any;
+
+  route: Polyline<any, any> = null;
+
+  center: LatLng = latLng(0, 0);
+
+  faPlay = faPlay;
+  faStop = faStop;
+  faTimes = faTimes;
+  faCheck = faCheck;
+
+  watchId: number = null;
+
+  initialized: boolean = false;
+
+  constructor(
+    private alertService: AlertService,
+    private authService: AuthService,
+    private workoutsService: WorkoutsService,
+  ) {
   }
 
-  ngOnDestroy(): void {
-    //this.stopWatchingPosition();
-    this.BackgroundGeolocation.removeAllListeners();
+  disableTracking() {
+    this.workoutActivity.tracking = false;
   }
 
-  stopWatchingPosition() {
-    if (this.watchId) {
-      navigator.geolocation.clearWatch(this.watchId);
+
+  centerOnPosition(position: WorkoutSetPosition) {
+    this.center = latLng(position.latitude, position.longitude);
+  }
+
+  startTracking() {
+    if (this.BackgroundGeolocation) {
+      // we're on a phone      
+      this.trackingType = GeoTrackingType.BackgroundGeolocation;
+      this.startBackgroundGeolocationTracking();
+    }
+    else if (navigator.geolocation) {
+      // we have a geolocation compatible browser
+      this.trackingType = GeoTrackingType.Navigator;
+      this.startNavigatorTracking();
+    }
+    else {
+      // ... can't track positions ...
+      this.trackingType = GeoTrackingType.None;
+      this.alertService.error('Can\'t start tracking: Unable to detect location device');
+    }
+
+    if (this.trackingType != GeoTrackingType.None) {
+      this.workoutActivity.done = false;
     }
   }
 
-  ngOnInit(): void {
-  alert('cccc');
-    //this.startWatchingPosition();
-    this.backgroundGeolocationStart();
-  }
-
-  backgroundGeolocationStart() {
+  startBackgroundGeolocationTracking() {
     this.BackgroundGeolocation.configure({
       locationProvider: this.BackgroundGeolocation.ACTIVITY_PROVIDER,
       desiredAccuracy: this.BackgroundGeolocation.HIGH_ACCURACY,
-      stationaryRadius: 50,
+      stationaryRadius: 10,
       distanceFilter: 50,
-      notificationTitle: 'Background tracking',
-      notificationText: 'enabled',
-      debug: true,
-      interval: 10000,
+      notificationTitle: 'Sukuwatto',
+      notificationText: 'Tracking GPS location',
+      debug: !environment.production,
+      interval: 5000,
       fastestInterval: 5000,
-      activitiesInterval: 10000,
-      // url: 'http://192.168.81.15:3000/location',
-      // httpHeaders: {
-      //   'X-FOO': 'bar'
-      // },
-      // // customize post properties
-      // postTemplate: {
-      //   lat: '@latitude',
-      //   lon: '@longitude',
-      //   foo: 'bar' // you can also add your own properties
-      // }
+      activitiesInterval: 5000,
+      activityType: 'Fitness',
+      maxLocations: 30000,
     });
 
-    this.BackgroundGeolocation.on('location',  (p) => {
-      // handle your locations here
-      // to perform long running operation on iOS
-      // you need to create background task
-
-      this.BackgroundGeolocation.startTask( (taskKey) => {
-        // execute long running task
-        // eg. ajax post location
-        // IMPORTANT: task has to be ended by endTask
-
-        this.positions.push(p);
-        this.addDistinctPosition(p);
-        alert(p);
+    this.BackgroundGeolocation.on('location', (p) => {
+      this.BackgroundGeolocation.startTask((taskKey) => {
+        this.addPositionToRoute(p);
 
         this.BackgroundGeolocation.endTask(taskKey);
       });
     });
 
-    this.BackgroundGeolocation.on('stationary',  (stationaryLocation)  => {
-      // handle stationary locations here
-    });
-
     this.BackgroundGeolocation.on('error',  (error) => {
-      alert('[ERROR] this.BackgroundGeolocation error: ' + error.code + ' - ' + error.message);
-    });
+      console.log('[ERROR] this.BackgroundGeolocation error: ' + error.code + ' - ' + error.message);
 
-    this.BackgroundGeolocation.on('start',  () => {
-      alert('[INFO] this.BackgroundGeolocation service has been started');
+      this.alertPositionError(error.code);
     });
 
     this.BackgroundGeolocation.on('stop', () => {
-      alert('[INFO] this.BackgroundGeolocation service has been stopped');
+      this.stopTracking();
     });
 
     this.BackgroundGeolocation.on('authorization', (status) => {
-      alert('[INFO] this.BackgroundGeolocation authorization status: ' + status);
       if (status !== this.BackgroundGeolocation.AUTHORIZED) {
         // we need to set delay or otherwise alert may not be shown
         setTimeout(function () {
-          var showSettings = confirm('App requires location tracking permission. Would you like to open app settings?');
+          const showSettings = confirm('Sukuwatto requires location tracking permission. Would you like to open app settings?');
+
           if (showSettings) {
             return this.BackgroundGeolocation.showAppSettings();
           }
@@ -107,91 +131,205 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.BackgroundGeolocation.on('background', () => {
-      alert('[INFO] App is in background');
-      // you can also reconfigure service (changes will be applied immediately)
-      this.BackgroundGeolocation.configure({ debug: true });
-    });
-
-    this.BackgroundGeolocation.on('foreground', () => {
-      alert('[INFO] App is in foreground');
-      this.BackgroundGeolocation.configure({ debug: false });
-    });
-
-    this.BackgroundGeolocation.on('abort_requested', () => {
-      alert('[INFO] Server responded with 285 Updates Not Required');
-
-      // Here we can decide whether we want stop the updates or not.
-      // If you've configured the server to return 285, then it means the server does not require further update.
-      // So the normal thing to do here would be to `this.BackgroundGeolocation.stop()`.
-      // But you might be counting on it to receive location updates in the UI, so you could just reconfigure and set `url` to null.
-    });
-
-    this.BackgroundGeolocation.on('http_authorization', () => {
-      alert('[INFO] App needs to authorize the http requests');
-    });
-
-        alert(this.BackgroundGeolocation);
     this.BackgroundGeolocation.checkStatus((status) => {
-      alert('[INFO] this.BackgroundGeolocation service is running ' + status.isRunning);
-      alert('[INFO] this.BackgroundGeolocation services enabled ' + status.locationServicesEnabled);
-      alert('[INFO] this.BackgroundGeolocation auth status: ' + status.authorization);
-
-      // you don't need to check status before start (this is just the example)
       if (!status.isRunning) {
-        alert('triggering start?');
-        alert(this.BackgroundGeolocation);
-        alert(window['BackgroundGeolocation']);
-        this.BackgroundGeolocation.start(); //triggers start on start event
+        this.BackgroundGeolocation.start(); 
+        this.workoutActivity.tracking = true;
+        this.collectingPositions = true;
       }
     });
-
-  alert('dddd');
-    // you can also just start without checking for status
-    // this.BackgroundGeolocation.start();
-
-    // Don't forget to remove listeners at some point!
-    // this.BackgroundGeolocation.removeAllListeners();
   }
 
-  startWatchingPosition() {
-    this.watchId = navigator.geolocation.watchPosition(p => {
-      this.positions.push(p);
-      this.addDistinctPosition(p);
-      alert(p);
-    }, e => {
-      // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/index.html#positionerror
-      switch (e.code) {
-        case 1: // permission denied
-          this.alertService.error('Unable to obtain position: Permission denied');
-          this.stopWatchingPosition();
-          break;
-        case 2: // position unavailable
-          this.alertService.error('Unable to obtain position: Position unavailable');
-          this.stopWatchingPosition();
-          break;
-        case 3: // timeout
-          this.alertService.error('Unable to obtain position: Timeout');
-          this.stopWatchingPosition();
-          break;
-      }
+  startNavigatorTracking() {
+    // We'll do a poll of the current position first, if it's okay
+    // then we'll set up a watch
+    // otherwise, we don't do anything.
+    // I have to do this because if the watch errors, it's impossible to stop the watch
+    // since there's no watchId
+    navigator.geolocation.getCurrentPosition(position => {
+      this.addPositionToRoute(position);
 
-      alert(e);
+      this.watchId = navigator.geolocation.watchPosition(p => {
+        this.workoutActivity.tracking = true;
+        this.collectingPositions = true;
+
+        this.addPositionToRoute(p);
+      }, e => {
+        this.alertPositionError(e.code);
+      }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+    }, e => {
+      this.alertPositionError(e.code);
+      this.stopTracking();
     }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
   }
 
-  addDistinctPosition(p: any) {
-    if (this.distinctPositions.length == 0) {
-      this.distinctPositions.push(p);
+  private addPositionToRoute(p: Position | any) {
+    if (!this.workoutActivity.positions) {
+      this.workoutActivity.positions = [];
+    }
+
+    let newPosition;
+
+    if (p.coords) {
+      newPosition = new WorkoutSetPosition(
+        {
+          accuracy: p.coords.accuracy,
+          altitude: p.coords.altitude,
+          latitude: p.coords.latitude,
+          longitude: p.coords.longitude,
+          speed: p.coords.speed,
+          timestamp: p.timestamp
+        });
     }
     else {
-      let lastPosition = this.distinctPositions[this.distinctPositions.length - 1];
+      newPosition = new WorkoutSetPosition(
+        {
+          accuracy: p.accuracy,
+          altitude: p.altitude,
+          latitude: p.latitude,
+          longitude: p.longitude,
+          speed: p.speed,
+          timestamp: p.time
+        });
+    }
 
-      if (p.coords.latitude != lastPosition.coords.latitude &&
-        p.coords.longitude != lastPosition.coords.longitude) {
-        this.distinctPositions.push(p);
+    this.workoutActivity.positions.push(newPosition);
+
+    this.updateRoute();
+    this.centerOnPosition(newPosition);
+
+    return newPosition;
+  }
+
+  private alertPositionError(code) {
+    // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/index.html#positionerror
+
+    this.alertService.clear();
+
+    switch (code) {
+      case 1: // permission denied
+        this.alertService.error('Unable to obtain position: Permission denied');
+        break;
+      case 2: // position unavailable
+        this.alertService.error('Unable to obtain position: Position unavailable');
+        break;
+      case 3: // timeout
+        this.alertService.error('Unable to obtain position: Timeout');
+        break;
+    }
+  }
+
+  stopTracking() {
+    switch (this.trackingType) {
+      case GeoTrackingType.BackgroundGeolocation:
+        this.BackgroundGeolocation.stop();
+        this.BackgroundGeolocation.removeAllListeners();
+        break;
+      case GeoTrackingType.Navigator:
+        if (this.watchId && navigator.geolocation) {
+          navigator.geolocation.clearWatch(this.watchId);
+        }
+        break;
+    }
+
+    this.collectingPositions = false;
+    this.trackingType = GeoTrackingType.None;
+  }
+
+  finishActivity() {
+    this.stopTracking();
+    this.workoutActivity.done = true;
+  }
+
+  onMapReady(map: Map) {
+    if (!this.route || this.route.getLatLngs().length == 0) {
+      this.zoom = 16;
+      if (this.authService.isLoggedIn()) {
+        this.workoutsService.getLastWorkoutPosition(this.authService.getUsername())
+        .subscribe(position => {
+          if (position.latitude) {
+            map.setView(latLng(position.latitude, position.longitude), this.zoom);
+          }
+          else {
+            map.setView(latLng(0, 0), this.zoom);
+          }
+        });
+      }
+      else {
+       map.setView(latLng(0, 0), this.zoom);
       }
     }
   }
 
+  ngOnInit(): void {
+    this.initMap();
+  }
+
+  ngOnDestroy(): void {
+    this.stopTracking();
+  }
+
+  private initMap(): void {
+    // Define our base layers so we can reference them multiple times
+    this.updateRoute();
+    
+    let streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      detectRetina: true,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    let wMaps = tileLayer('http://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
+      detectRetina: true,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    this.layersControl = {
+      baseLayers: {
+        'Street Maps': streetMaps,
+        'Wikimedia Maps': wMaps
+      }
+    };
+
+    this.layers = [ streetMaps ];
+
+    this.options = {
+      layers: [
+        streetMaps
+      ],
+      zoom: 0,
+      zoomControl: this.zoomControl,
+      scrollWheelZoom: this.disableInput ? false : true,
+      dragging: this.disableInput ? false : true,
+      tap: this.disableInput ? false : true,
+      center: latLng([ 0, 0 ])
+    };
+
+    if (this.route && this.route.getLatLngs().length > 1) {
+      this.fitBounds = this.route.getBounds();
+    }
+  }
+
+  private updateRoute() {
+    if (this.workoutActivity.positions &&
+      this.workoutActivity.positions.length > 0) {
+      this.route = this.getRoute(this.workoutActivity.positions);
+    }
+  }
+
+  private getRoute(positions: WorkoutSetPosition[]): any {
+    let positionsArray = [];
+
+    positions
+    .sort((a, b) => a.timestamp - b.timestamp)
+    .forEach(position => {
+      positionsArray.push([position.latitude, position.longitude, position.altitude]);
+    });
+
+    return polyline(positionsArray);
+  }
+}
+
+export enum GeoTrackingType {
+  None = 0,
+  BackgroundGeolocation = 1,
+  Navigator = 2,
 }

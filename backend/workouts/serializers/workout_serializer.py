@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from social.serializers import UserSerializer
-from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingParameter, Exercise
+from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingParameter, Exercise, WorkoutSetPosition, WorkoutWarmUpPosition
 from workouts.utils import get_differences
 from workouts.serializers.serializers import ExerciseSerializer
-from pprint import pprint
 from django.contrib.auth import get_user_model
+import pprint
 
 class WorkingParameterSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
@@ -14,10 +14,26 @@ class WorkingParameterSerializer(serializers.ModelSerializer):
         model = WorkingParameter
         fields = ['id', 'exercise', 'parameter_value', 'parameter_type', 'unit', 'previous_parameter_value', 'previous_unit', 'manually_changed']
     
+class WorkoutSetPositionSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=WorkoutSetPosition()._meta.get_field('id'), required=False)
+
+    class Meta:
+        model = WorkoutSetPosition        
+        fields = ['id', 'accuracy', 'altitude',
+            'heading', 'latitude', 'longitude', 'speed', 'timestamp']
+    
+class WorkoutWarmUpPositionSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=WorkoutWarmUpPosition()._meta.get_field('id'), required=False)
+
+    class Meta:
+        model = WorkoutWarmUpPosition        
+        fields = ['id', 'accuracy', 'altitude',
+            'heading', 'latitude', 'longitude', 'speed', 'timestamp']
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
+    positions = WorkoutSetPositionSerializer(many=True, required=False)
 
     class Meta:
         model = WorkoutSet
@@ -31,12 +47,15 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
             'working_time_percentage',
             'working_speed_percentage',
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
-            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit'
+            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
+            'tracking',
+            'positions'
         ]
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
     id = serializers.ModelField(model_field=WorkoutWarmUp()._meta.get_field('id'), required=False)
+    positions = WorkoutWarmUpPositionSerializer(many=True, required=False)
 
     class Meta:
         model = WorkoutWarmUp
@@ -50,7 +69,9 @@ class WorkoutWarmUpSerializer(serializers.ModelSerializer):
             'working_time_percentage',
             'working_speed_percentage',
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
-            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit'
+            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
+            'tracking',
+            'positions'
         ]
 
 class WorkoutGroupSerializer(serializers.ModelSerializer):
@@ -130,11 +151,25 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     def create_group_activities(self, model, workout_group, activities_data):
         for activity_data in activities_data:
+            positions_data = None
             exercise = activity_data.pop('exercise')
             exercise_model = Exercise.objects.get(pk=exercise['id'])
 
-            model.objects.create(workout_group=workout_group, exercise=exercise_model, 
+            if 'positions' in activity_data:
+                positions_data = activity_data.pop('positions')
+
+            activity = model.objects.create(workout_group=workout_group, exercise=exercise_model, 
                 **activity_data)
+
+            if positions_data is not None:
+                if model is WorkoutSet:
+                    self.create_activity_positions(WorkoutSetPosition, activity, positions_data)
+                else:
+                    self.create_activity_positions(WorkoutWarmUpPosition, activity, positions_data)                
+
+    def create_activity_positions(self, model, activity, positions_data):
+        for position_data in positions_data:
+            model.objects.create(workout_activity=activity, **position_data)
 
     def update(self, instance, validated_data):
         instance.start = validated_data.get('start', instance.start)
@@ -258,6 +293,10 @@ class WorkoutSerializer(serializers.ModelSerializer):
     def update_group_activities(self, model, groups_data):
         for group_data in groups_data:
             instances = model.objects.filter(pk=group_data.get('id'))
+            positions_data = None
+
+            if 'positions' in group_data:
+                positions_data = group_data.pop('positions')
 
             if len(instances) == 0:
                 continue
@@ -316,5 +355,44 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.plan_speed_unit = group_data.get('plan_speed_unit', instance.plan_speed_unit)
             instance.plan_distance_unit = group_data.get('plan_distance_unit', instance.plan_distance_unit)
             instance.plan_time_unit = group_data.get('plan_time_unit', instance.plan_time_unit)
+
+            instance.tracking = group_data.get('tracking', instance.tracking)
+
+            instance.save()
+
+            if model is WorkoutSet:
+                position_model = WorkoutSetPosition
+            else:
+                position_model = WorkoutWarmUpPosition
+
+            positions = position_model.objects.filter(workout_activity=instance)
+
+            if positions_data is not None:
+                new_data, updated_data, deleted_ids = get_differences(positions_data, positions.values())
+
+                self.create_activity_positions(position_model, instance, new_data)
+
+                self.update_activity_positions(position_model, updated_data)
+
+                position_model.objects.filter(id__in=deleted_ids).delete()
+            else:
+                positions.delete()
+
+    def update_activity_positions(self, model, positions_data):
+        for position_data in positions_data:
+            instances = model.objects.filter(pk=position_data.get('id'))
+
+            if len(instances) == 0:
+                continue
+
+            instance = instances.first()
+
+            instance.accuracy = position_data.get('accuracy', instance.accuracy)
+            instance.altitude = position_data.get('altitude', instance.altitude)
+            instance.heading = position_data.get('heading', instance.heading)
+            instance.latitude = position_data.get('latitude', instance.latitude)
+            instance.longitude = position_data.get('longitude', instance.longitude)
+            instance.speed = position_data.get('speed', instance.speed)
+            instance.timestamp = position_data.get('timestamp', instance.timestamp)
 
             instance.save()

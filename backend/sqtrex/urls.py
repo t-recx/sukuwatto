@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/logout/', TokenCookieDeleteView.as_view(), name='logout'),
     path('api/adopt-plan/<int:pk>/', plan_views.adopt_plan, name='adopt_plan'),
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
+    path('api/workout-last-position/', workout_views.get_last_workout_position, name='workout-last-position'),
     path('api/workout-group-last/', workout_views.get_last_workout_group, name='workout-group-last'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),

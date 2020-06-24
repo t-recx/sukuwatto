@@ -5,6 +5,7 @@ import { ActivityType } from '../plan-session-group-activity';
 import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
 import { Observable, Subscription } from 'rxjs';
+import { ExerciseType } from '../exercise';
 
 @Component({
   selector: 'app-workout-group',
@@ -29,6 +30,7 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
   activityType = ActivityType;
 
   selectedActivityType = ActivityType.Exercise;
+  exerciseType = ExerciseType;
 
   constructor(
   ) { }

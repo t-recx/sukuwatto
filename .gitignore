@@ -1,6 +1,7 @@
 backend/media/*
 
 *.env.prod*
+devsettings
 
 *.swp
 *.swo

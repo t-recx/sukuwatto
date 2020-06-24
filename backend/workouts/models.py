@@ -347,6 +347,8 @@ class AbstractWorkoutActivity(models.Model):
     working_time_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
     working_speed_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
+    tracking = models.BooleanField(null=True)
+
     class Meta:
         abstract = True
 
@@ -375,6 +377,24 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
     plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
+
+class AbstractActivityPosition(models.Model):
+    accuracy = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    altitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    heading = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    latitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    longitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    speed = models.DecimalField(max_digits=28, decimal_places=20, null=True)
+    timestamp = models.IntegerField(null=True)
+
+    class Meta:
+        abstract = True
+
+class WorkoutSetPosition(AbstractActivityPosition):
+    workout_activity = models.ForeignKey(WorkoutSet, related_name="positions", on_delete=models.CASCADE)
+
+class WorkoutWarmUpPosition(AbstractActivityPosition):
+    workout_activity = models.ForeignKey(WorkoutWarmUp, related_name="positions", on_delete=models.CASCADE)
 
 class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")

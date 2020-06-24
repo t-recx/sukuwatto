@@ -4,9 +4,10 @@ import { WorkoutsService } from '../workouts.service';
 import { WorkoutOverview } from '../workout-activity-resumed';
 import { WorkoutGroup } from '../workout-group';
 import { UnitsService } from '../units.service';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
 import { ExerciseType } from '../exercise';
+import { WorkoutSet } from '../workout-set';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -19,7 +20,12 @@ export class WorkoutOverviewCardComponent implements OnInit {
   @Input() showSaveDeleteButtons: boolean = false;
   @Output() deleted = new EventEmitter();
 
-  workoutActivities: WorkoutOverview[] = [];
+  trackedActivities: WorkoutSet[];
+  selectedTrackedActivity: WorkoutSet;
+  selectedTrackedActivityIndex: number;
+
+  cardioWorkoutActivities: WorkoutSet[];
+  strengthWorkoutActivities: WorkoutOverview[] = [];
 
   deleteModalVisible: boolean = false;
   dateString: string;
@@ -27,6 +33,8 @@ export class WorkoutOverviewCardComponent implements OnInit {
   deleting: boolean = false;
 
   faCircleNotch = faCircleNotch;
+  faChevronLeft = faChevronLeft;
+  faChevronRight = faChevronRight;
 
   constructor(
     private unitsService: UnitsService,
@@ -47,19 +55,90 @@ export class WorkoutOverviewCardComponent implements OnInit {
       this.workoutsService.getWorkout(this.id).subscribe(w =>
         {
           this.workout = w;
-          this.workoutActivities = this.getResumedStrengthActivities(w);
-          if (this.workout.start) {
-            this.dateString = (new Date(this.workout.start)).toLocaleDateString();
-          }
+          this.loadWorkoutData(this.workout);
         });
     }
     else {
-      this.workoutActivities = this.getResumedStrengthActivities(this.workout);
-
-      if (this.workout.start) {
-        this.dateString = (new Date(this.workout.start)).toLocaleDateString();
-      }
+      this.loadWorkoutData(this.workout);
     }
+  }
+
+  loadWorkoutData(workout: Workout) {
+    this.setTrackedActivities(workout);
+    this.setCardioWorkoutActivities(workout);
+
+    this.strengthWorkoutActivities = this.getResumedStrengthActivities(workout);
+
+    if (workout.start) {
+      this.dateString = (new Date(workout.start)).toLocaleDateString();
+    }
+  }
+
+  isTracked(s: WorkoutSet): boolean {
+    return s.tracking && s.positions && s.positions.length > 0;
+  }
+
+  setTrackedActivities(workout: Workout) {
+    this.trackedActivities = workout
+      .groups
+      .flatMap(g => 
+        g
+        .sets
+        .filter(s => s.done && this.isTracked(s)).map(s => s));
+    this.selectedTrackedActivity = this.trackedActivities[0];
+    this.selectedTrackedActivityIndex = 0;
+  }
+
+  showDistanceColumn: boolean = false;
+  showTimeColumn: boolean = false;
+  showSpeedColumn: boolean = false;
+  showVo2MaxColumn: boolean = false;
+
+  setCardioWorkoutActivities(workout: Workout) {
+    this.cardioWorkoutActivities = 
+      workout
+      .groups
+      .flatMap(g =>
+        g
+        .sets
+        .filter(s => !this.isTracked(s) && s.done && s.exercise.exercise_type == ExerciseType.Cardio).map(s => s));
+
+    this.setCardioColumnsVisibility(this.cardioWorkoutActivities);
+  }
+
+  setCardioColumnsVisibility(activities: WorkoutSet[]) {
+    if (activities && activities.length > 0) {
+      this.showDistanceColumn = activities.filter(s => s.distance && s.distance > 0).length > 0;
+      this.showTimeColumn = activities.filter(s => s.time && s.time > 0).length > 0;
+      this.showSpeedColumn = activities.filter(s => s.speed && s.speed > 0).length > 0;
+      this.showVo2MaxColumn = activities.filter(s => s.vo2max && s.vo2max > 0 ).length > 0;
+    }
+    else {
+      this.showDistanceColumn = false;
+      this.showTimeColumn = false;
+      this.showSpeedColumn = false;
+      this.showVo2MaxColumn = false;
+    }
+  }
+
+  selectPreviousTrackedActivity() {
+    this.selectedTrackedActivityIndex--;
+
+    if (this.selectedTrackedActivityIndex < 0) {
+      this.selectedTrackedActivityIndex = this.trackedActivities.length - 1;
+    }
+
+    this.selectedTrackedActivity = this.trackedActivities[this.selectedTrackedActivityIndex];
+  }
+
+  selectNextTrackedActivity() {
+    this.selectedTrackedActivityIndex++;
+
+    if (this.selectedTrackedActivityIndex >= this.trackedActivities.length) {
+      this.selectedTrackedActivityIndex = 0;
+    }
+
+    this.selectedTrackedActivity = this.trackedActivities[this.selectedTrackedActivityIndex];
   }
 
   getProductiveStrengthGroups(groups: WorkoutGroup[]): WorkoutGroup[] {

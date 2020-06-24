@@ -1,8 +1,10 @@
+import { environmentProductionHost } from 'src/environments/hosts';
+
 export const environment = {
   production: true,
   application: false,
-  mediaUrl: 'https://sukuwatto.pt',
-  apiUrl: 'https://sukuwatto.pt/api',
-  wsUrl: 'wss://sukuwatto.pt/ws',
+  mediaUrl: 'https://' + environmentProductionHost + ':8443',
+  apiUrl: 'https://' + environmentProductionHost + ':8443/api',
+  wsUrl: 'wss://' + environmentProductionHost + ':8443/ws',
   maxFileSizeUpload: 1000000,
 };

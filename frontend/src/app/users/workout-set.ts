@@ -1,5 +1,6 @@
 import { RepetitionType, SpeedType, Vo2MaxType, DistanceType, TimeType } from './plan-session-group-activity';
 import { Exercise } from './exercise';
+import { WorkoutSetPosition } from './workout-set-position';
 
 export class WorkoutSet {
     id: number;
@@ -19,6 +20,9 @@ export class WorkoutSet {
     order: number;
     plan_session_group_activity: number;
     working_weight_percentage: number;
+
+    tracking: boolean;
+    positions: WorkoutSetPosition[];
 
     speed_type: SpeedType;
     expected_speed: number;
