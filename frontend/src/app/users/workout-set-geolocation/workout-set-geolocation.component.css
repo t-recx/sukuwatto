@@ -5,6 +5,15 @@
   z-index: 10;
 }
 
+.maximized {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 400;
+}
+
 .start-button {
   position: absolute;
   bottom: 25px;
@@ -26,6 +35,13 @@
   position: absolute;
   bottom: 25px;
   right:10px;
+  z-index: 401;
+}
+
+.size-button {
+  position: absolute;
+  left: 10px;
+  top: 10px;
   z-index: 401;
 }
 
