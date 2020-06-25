@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-users',
@@ -11,6 +11,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 export class UsersComponent implements OnInit {
   menuDropDownVisible: boolean = false;
   faBars = faBars;
+  faTimes = faTimes;
 
   constructor(
     public authService: AuthService, 

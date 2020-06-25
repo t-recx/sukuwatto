@@ -4,7 +4,8 @@
         <ng-template #loggedTitle>
             <div class="siimple--float-left menu-icon siimple--mr-1">
                 <span class="menu-icon md-and-lower-only" (click)="toggleMenuVisibility()">
-                    <fa-icon [icon]="faBars"></fa-icon>
+                    <fa-icon [icon]="faBars" *ngIf="!menuDropDownVisible"></fa-icon>
+                    <fa-icon [icon]="faTimes" class="menu-close-icon" *ngIf="menuDropDownVisible"></fa-icon>
                 </span>
             </div>
         
