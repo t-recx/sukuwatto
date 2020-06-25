@@ -28,7 +28,7 @@
 
         <div class="siimple-form-title">Workout detail</div>
         <div class="siimple-grid">
-            <div class="siimple-grid-row">
+            <div class="siimple-grid-row" *ngIf="adoptedPlans && adoptedPlans.length > 0" >
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Plan</div>
@@ -41,7 +41,8 @@
                     </select>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0"
+                    *ngIf="workout.plan">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Session</div>
                         <select class="siimple-select siimple-select--fluid" name="planSession"
@@ -53,17 +54,19 @@
                     </select>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
-                    <div class="siimple-form-field">
-                        <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingParameters()">
-                            <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
-                            Working parameters
-                        </button>
-                    </div>
-                </div>
             </div>
             <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Name</div>
+                        <input type="text" class="siimple-input siimple-input--fluid"  name="name" id="name"
+                            [(ngModel)]="workout.name" #name="ngModel">
+
+                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Date</div>
@@ -90,36 +93,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+            </div>
+            <div class="siimple-grid-row">
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label siimple--display-sm-none">&nbsp;</div>
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingParameters()">
+                            <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
+                            Parameters
+                        </button>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6 siimple--py-0">
+                    <div class="siimple-form-field">
                         <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">
                             <fa-icon [icon]="faWeight" class="siimple--mr-1"></fa-icon>
-                            User measurements
+                            Measurements
+                        </button>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="toggleNotesVisibility()">
+                            <fa-icon [icon]="faBook" class="siimple--mr-1" *ngIf="!notesVisibility"></fa-icon>
+                            <fa-icon [icon]="faBookOpen" class="siimple--mr-1" *ngIf="notesVisibility"></fa-icon>
+                            Notes
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="siimple-grid-row">
+            <div class="siimple-grid-row" *ngIf="notesVisibility">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Name</div>
-                        <input type="text" class="siimple-input siimple-input--fluid"  name="name" id="name"
-                            [(ngModel)]="workout.name" #name="ngModel">
-
-                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="siimple-grid-row">
-                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
-                    <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Notes</div>
-                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
-                            name="notes" id="notes" [(ngModel)]="workout.notes" #notes="ngModel">
-                        </textarea>
+                        <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" 
+                            name="notes" id="notes" [(ngModel)]="workout.notes" #notes="ngModel" placeholder="Write your notes here"></textarea>
 
                         <div *ngIf="notes.invalid && (notes.dirty || triedToSave)">
                             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
@@ -128,14 +134,14 @@
                 </div>
             </div>
             <div class="siimple-grid-row" *ngFor="let group of workout.groups">
-               <app-workout-group 
-                [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()" (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave
-                [hasAlternativeGroups]="hasAlternativeGroups(group)"
-                (alternateGroupRequested)="alternateGroup(group)"
-               >
-               </app-workout-group> 
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--pt-0 siimple--pb-0">
+                    <app-workout-group [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()"
+                        (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave
+                        [hasAlternativeGroups]="hasAlternativeGroups(group)" (alternateGroupRequested)="alternateGroup(group)">
+                    </app-workout-group>
+                </div>
             </div>
-            <button class="siimple-btn siimple--mt-2 siimple-btn--primary" type="button" (click)="newGroup()">
+            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newGroup()">
                 <fa-icon [icon]="faLayerGroup" class="siimple--mr-1"></fa-icon>
                 New group
             </button>
