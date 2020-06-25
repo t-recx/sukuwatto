@@ -1,4 +1,5 @@
 export class WorkoutSetPosition {
+    id: number;
     accuracy: number;
     altitude: number | null;
     heading: number | null;
