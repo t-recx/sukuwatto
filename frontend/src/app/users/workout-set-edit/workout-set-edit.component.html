@@ -204,11 +204,23 @@
         </div>
         <div class="siimple-modal-body">
             <div class="siimple-form-field form-field">
-                <div class="siimple-form-field-label">Number of activies</div>
+                <div class="siimple-form-field-label">Number of activities</div>
                 <input type="number" class="siimple-input siimple-input--fluid" required
                     name="number_of_cloned_activities_input" id="number_of_cloned_activities_input"
                     [(ngModel)]="number_of_cloned_activities" #number_of_cloned_activities_input="ngModel"
                     placeholder="Number of activities">
+            </div>
+            <div class="siimple-form-field form-field siimple--mt-2" *ngIf="workoutActivity.positions && workoutActivity.positions.length > 0">
+                <div class="siimple-checkbox siimple-checkbox--primary siimple--ml-0">
+                    <input type="checkbox" id="clone-positions-checkbox" [(ngModel)]="clonePositions"
+                        name="clone-positions-checkbox">
+                    <label for="terms-checkbox"></label>
+                </div>
+                <label class="siimple-label">
+                    <span class="clickable" (click)="toggleClonePositions()">
+                        <span class="">Clone positions</span>
+                    </span>
+                </label>
             </div>
         </div>
         <div class="siimple-modal-footer">
@@ -221,16 +233,6 @@
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
                 Cancel
             </button>
-
-            <div class="siimple-form-field siimple--float-right" *ngIf="workoutActivity.positions && workoutActivity.positions.length > 0">
-                <div class="siimple-checkbox siimple-checkbox--primary">
-                    <input type="checkbox" id="clone-positions-checkbox" [(ngModel)]="clonePositions" name="clone-positions-checkbox">
-                    <label for="terms-checkbox"></label>
-                </div>
-                <label class="siimple-label">
-                    <span class="clickable" (click)="toggleClonePositions()">Clone positions</span> 
-                </label>
-            </div>
         </div>
     </div>
 </div>
