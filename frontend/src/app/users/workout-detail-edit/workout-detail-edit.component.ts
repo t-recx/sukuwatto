@@ -16,7 +16,7 @@ import { concatMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { Location } from '@angular/common';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faSave, faTrash, faCheckSquare, faLayerGroup, faWeight, faWeightHanging } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave, faTrash, faCheckSquare, faLayerGroup, faWeight, faWeightHanging, faBook, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -27,6 +27,8 @@ export class WorkoutDetailEditComponent implements OnInit {
   workout: Workout;
   previousWorkout: Workout;
 
+  notesVisibility: boolean = false;
+
   faCircleNotch = faCircleNotch;
   faSave = faSave;
   faTrash = faTrash;
@@ -34,6 +36,8 @@ export class WorkoutDetailEditComponent implements OnInit {
   faLayerGroup = faLayerGroup;
   faWeightHanging = faWeightHanging;
   faWeight = faWeight;
+  faBook = faBook;
+  faBookOpen = faBookOpen;
 
   adoptedPlans: Plan[];
   planSessions: PlanSession[];
@@ -129,12 +133,14 @@ export class WorkoutDetailEditComponent implements OnInit {
         if (workout.user.username == this.authService.getUsername()) {
           this.workout = workout;
         }
+        this.notesVisibility = workout.notes && workout.notes.length > 0;
         this.loading = false;
       });
     }
     else {
       this.workout = new Workout();
       this.workout.start = new Date();
+      this.newGroup();
 
       this.setNextActivityInProgress();
 
@@ -337,6 +343,10 @@ export class WorkoutDetailEditComponent implements OnInit {
     }
   }
 
+  toggleNotesVisibility() {
+    this.notesVisibility = !this.notesVisibility;
+  }
+
   newGroup() {
     let newGroup = new WorkoutGroup();
 
@@ -344,7 +354,7 @@ export class WorkoutDetailEditComponent implements OnInit {
       newGroup.name = "Additional exercises";
     }
     else {
-      newGroup.name = "New group";
+      newGroup.name = "Exercises";
     }
 
     this.workout.groups.push(newGroup);

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkoutSet } from '../workout-set';
-import { Exercise, ExerciseType } from '../exercise';
+import { ExerciseType } from '../exercise';
 import { Unit, MeasurementType } from '../unit';
 import { RepetitionType, RepetitionTypeLabel, SpeedType, Vo2MaxType, DistanceType, TimeType, SpeedTypeLabel, Vo2MaxTypeLabel, TimeTypeLabel, DistanceTypeLabel } from '../plan-session-group-activity';
 import { AuthService } from 'src/app/auth.service';
@@ -285,6 +285,14 @@ export class WorkoutSetEditComponent implements OnInit {
     if (index > -1) {
       this.sets.splice(index, 1);
     }
+  }
+
+  close() {
+    if (!this.workoutActivity.exercise || !this.workoutActivity.exercise.id || this.workoutActivity.exercise.id == 0) {
+      this.remove();
+    }
+    
+    this.hide();
   }
 
   showCloningModal(): void {
