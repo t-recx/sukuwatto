@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { Map, LatLng, LatLngBounds, tileLayer, latLng, polyline, point, Polyline } from 'leaflet';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Map, LatLng, LatLngBounds, tileLayer, latLng, polyline, Polyline } from 'leaflet';
 import { WorkoutSet } from '../workout-set';
 import { WorkoutSetPosition } from '../workout-set-position';
 import { WorkoutsService } from '../workouts.service';
@@ -17,7 +17,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   @Input() workoutActivity: WorkoutSet;
   @Input() allowEdit: boolean;
   @Input() zoomControl: boolean = true;
-  @Input() disableInput: boolean = false;
 
   maximized: boolean = false;
 
@@ -66,25 +65,71 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  changeInput(allow: boolean) {
+    if (this.map) {
+      if (allow) {
+        this.map.scrollWheelZoom.enable();
+        this.map.dragging.enable();
+
+        if (this.map.tap) {
+          this.map.tap.enable();
+        }
+      }
+      else {
+        this.map.scrollWheelZoom.disable();
+        this.map.dragging.disable();
+
+        if (this.map.tap) {
+          this.map.tap.disable();
+        }
+      }
+    }
+  }
+
   invalidateMapSize() {
     if (this.map) {
-      setTimeout(() => this.map.invalidateSize(), 600);
+      setTimeout(() =>  {
+        this.map.invalidateSize(false);
+        this.centerOnLastPosition();
+        this.fitToRouteBounds();
+      }, 100);
+    }
+  }
+
+  setInputAccordingToState() {
+    if (this.maximized) {
+      this.changeInput(true);
+    }
+    else {
+      if (this.collectingPositions) {
+        this.changeInput(true);
+      }
+      else {
+        this.changeInput(false);
+      }
     }
   }
 
   toggleMaximize() {
     this.maximized = !this.maximized;
     this.invalidateMapSize();
+
+    this.setInputAccordingToState();
   }
 
   maximize() {
     this.maximized = true;
     this.invalidateMapSize();
+
+    this.setInputAccordingToState();
   }
 
   minimize() {
     this.maximized = false;
     this.invalidateMapSize();
+
+    this.fitToRouteBounds();
+    this.setInputAccordingToState();
   }
 
   toggleDeleteModal() {
@@ -140,6 +185,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     }
 
     this.userOperatingMap = false;
+    this.setInputAccordingToState();
   }
 
   startBackgroundGeolocationTracking() {
@@ -166,7 +212,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.BackgroundGeolocation.on('error',  (error) => {
+    this.BackgroundGeolocation.on('error', (error) => {
       console.log('[ERROR] this.BackgroundGeolocation error: ' + error.code + ' - ' + error.message);
 
       this.alertPositionError(error.code);
@@ -191,7 +237,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     this.BackgroundGeolocation.checkStatus((status) => {
       if (!status.isRunning) {
-        this.BackgroundGeolocation.start(); 
+        this.BackgroundGeolocation.start();
         this.workoutActivity.tracking = true;
         this.collectingPositions = true;
       }
@@ -255,11 +301,15 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     this.updateRoute();
 
-    if (!this.userOperatingMap) {
-      this.centerOnPosition(newPosition);
-    }
+    this.centerOnLastPosition();
 
     return newPosition;
+  }
+
+  centerOnLastPosition() {
+    if (!this.userOperatingMap && this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
+      this.centerOnPosition(this.workoutActivity.positions[this.workoutActivity.positions.length - 1]);
+    }
   }
 
   private alertPositionError(code) {
@@ -281,6 +331,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   }
 
   stopTracking() {
+    this.stopGeolocationPolling();
+    this.fitToRouteBounds();
+    this.setInputAccordingToState();
+  }
+
+  stopGeolocationPolling() {
     switch (this.trackingType) {
       case GeoTrackingType.BackgroundGeolocation:
         this.BackgroundGeolocation.stop();
@@ -295,11 +351,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     this.collectingPositions = false;
     this.trackingType = GeoTrackingType.None;
-    this.fitToRouteBounds();
   }
 
   finishActivity() {
-    this.stopTracking();
+    this.stopGeolocationPolling();
     this.workoutActivity.done = true;
     this.minimize();
   }
@@ -311,17 +366,17 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       this.zoom = 16;
       if (this.authService.isLoggedIn()) {
         this.workoutsService.getLastWorkoutPosition(this.authService.getUsername())
-        .subscribe(position => {
-          if (position.latitude) {
-            map.setView(latLng(position.latitude, position.longitude), this.zoom);
-          }
-          else {
-            map.setView(latLng(0, 0), this.zoom);
-          }
-        });
+          .subscribe(position => {
+            if (position.latitude) {
+              map.setView(latLng(position.latitude, position.longitude), this.zoom);
+            }
+            else {
+              map.setView(latLng(0, 0), this.zoom);
+            }
+          });
       }
       else {
-       map.setView(latLng(0, 0), this.zoom);
+        map.setView(latLng(0, 0), this.zoom);
       }
     }
   }
@@ -337,7 +392,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   private initMap(): void {
     // Define our base layers so we can reference them multiple times
     this.updateRoute();
-    
+
     let streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       detectRetina: true,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -354,7 +409,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.layers = [ streetMaps ];
+    this.layers = [streetMaps];
 
     this.options = {
       layers: [
@@ -362,10 +417,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
       ],
       zoom: 0,
       zoomControl: this.zoomControl,
-      scrollWheelZoom: this.disableInput ? false : true,
-      dragging: this.disableInput ? false : true,
-      tap: this.disableInput ? false : true,
-      center: latLng([ 0, 0 ])
+      scrollWheelZoom: false,
+      dragging: false,
+      tap: false,
+      center: latLng([0, 0])
     };
 
     this.fitToRouteBounds();
@@ -404,10 +459,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
     let positionsArray = [];
 
     positions
-    .sort((a, b) => a.timestamp - b.timestamp)
-    .forEach(position => {
-      positionsArray.push([position.latitude, position.longitude, position.altitude]);
-    });
+      .sort((a, b) => a.timestamp - b.timestamp)
+      .forEach(position => {
+        positionsArray.push([position.latitude, position.longitude, position.altitude]);
+      });
 
     return polyline(positionsArray);
   }

@@ -16,6 +16,11 @@
     -ms-user-select: none;
 }
 
+.menu-close-icon {
+  padding-left: 1px;
+  padding-right: 2px;
+}
+
 @media only screen and (max-width: 769px) {
   .title-not-logged-in {
     padding-left: 29px;
