@@ -4,7 +4,7 @@ import { WorkoutSet } from '../workout-set';
 import { WorkoutSetPosition } from '../workout-set-position';
 import { WorkoutsService } from '../workouts.service';
 import { AuthService } from 'src/app/auth.service';
-import { faPlay, faStop, faTimes, faCheck, faDotCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faTimes, faCheck, faDotCircle, faCompress, faExpand, faPause } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/alert/alert.service';
 import { environment } from 'src/environments/environment';
 
@@ -18,6 +18,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   @Input() allowEdit: boolean;
   @Input() zoomControl: boolean = true;
   @Input() disableInput: boolean = false;
+
+  maximized: boolean = false;
 
   trackingType: GeoTrackingType = GeoTrackingType.None;
   collectingPositions: boolean = false;
@@ -43,6 +45,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   faTimes = faTimes;
   faCheck = faCheck;
   faDotCircle = faDotCircle;
+  faCompress = faCompress;
+  faExpand = faExpand;
+  faPause = faPause;
 
   userOperatingMap: boolean = false;
 
@@ -52,11 +57,34 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
   deleteModalVisible: boolean = false;
 
+  map: Map;
+
   constructor(
     private alertService: AlertService,
     private authService: AuthService,
     private workoutsService: WorkoutsService,
   ) {
+  }
+
+  invalidateMapSize() {
+    if (this.map) {
+      setTimeout(() => this.map.invalidateSize(), 600);
+    }
+  }
+
+  toggleMaximize() {
+    this.maximized = !this.maximized;
+    this.invalidateMapSize();
+  }
+
+  maximize() {
+    this.maximized = true;
+    this.invalidateMapSize();
+  }
+
+  minimize() {
+    this.maximized = false;
+    this.invalidateMapSize();
   }
 
   toggleDeleteModal() {
@@ -108,6 +136,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
 
     if (this.trackingType != GeoTrackingType.None) {
       this.workoutActivity.done = false;
+      this.maximize();
     }
 
     this.userOperatingMap = false;
@@ -272,9 +301,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy {
   finishActivity() {
     this.stopTracking();
     this.workoutActivity.done = true;
+    this.minimize();
   }
 
   onMapReady(map: Map) {
+    this.map = map;
+
     if (!this.route || this.route.getLatLngs().length == 0) {
       this.zoom = 16;
       if (this.authService.isLoggedIn()) {

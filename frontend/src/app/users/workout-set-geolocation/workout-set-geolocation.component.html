@@ -1,4 +1,5 @@
 <div class="map" leaflet 
+    [class.maximized]="maximized"
     (leafletMapMove)="mapMove($event)"
     (leafletMapZoom)="mapZoom($event)"
     [(leafletCenter)]="center" [leafletOptions]="options" [leafletFitBounds]="fitBounds"
@@ -6,6 +7,15 @@
     <div *ngIf="route" [leafletLayer]="route"></div>
 
     <div *ngIf="allowEdit">
+        <button 
+            type="button"
+            class="siimple-btn 
+            siimple-btn--small
+            siimple-btn--primary size-button" (click)="toggleMaximize()">
+            <fa-icon [icon]="faCompress" *ngIf="maximized"></fa-icon>
+            <fa-icon [icon]="faExpand" *ngIf="!maximized"></fa-icon>
+        </button>
+
         <button 
             type="button"
             class="siimple-btn 
@@ -32,8 +42,8 @@
             <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()"
                 type="button"
                 *ngIf="collectingPositions">
-                <fa-icon [icon]="faStop" class="siimple--mr-1"></fa-icon>
-                Stop
+                <fa-icon [icon]="faPause" class="siimple--mr-1"></fa-icon>
+                Pause
             </button>
     
             <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
