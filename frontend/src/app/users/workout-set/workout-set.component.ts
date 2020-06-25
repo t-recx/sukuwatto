@@ -5,6 +5,7 @@ import { RepetitionType, RepetitionTypeLabel, SpeedType, TimeType, DistanceType,
 import { faCheck, faEdit, faTimesCircle, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { Unit } from '../unit';
 import { UnitsService } from '../units.service';
+import { WorkoutSetPosition } from '../workout-set-position';
 
 @Component({
   selector: 'app-workout-set',
@@ -155,10 +156,15 @@ export class WorkoutSetComponent implements OnInit {
       let positions = [];
 
       if (clonePositions) {
-        positions = this.workoutActivity.positions;
+        if (this.workoutActivity.positions) {
+          positions = this.workoutActivity.positions.map(p => new WorkoutSetPosition({...p}));
+          positions.forEach(p => delete p.id);
+        }
       }
 
-      this.sets.push(new WorkoutSet({...this.workoutActivity, order, positions}));
+      let newWorkoutSet = new WorkoutSet({...this.workoutActivity, order, positions});
+      delete newWorkoutSet.id;
+      this.sets.push(newWorkoutSet);
     }
   }
 
