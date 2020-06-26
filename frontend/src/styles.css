@@ -10,6 +10,33 @@ input, select, textarea, button {
   border-bottom: 1px solid #eaeaea;
 }
 
+/* Hide up down on input for Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide up down on input for Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.input-aux-label {
+  font-family: "Ubuntu", "Roboto", sans-serif;
+  position: absolute; 
+  top: 0;
+  right: 10px;
+  color: #a1b0cf;
+  line-height: 34px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.input-container {
+  position: relative; 
+}
+
 .siimple-input-date {
     height: 34px;
     background-color: #eef2f7;
