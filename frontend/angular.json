@@ -74,7 +74,12 @@
                 {
                   "replace": "src/main.ts",
                   "with": "src/main.android.ts"
+                },
+                {
+                  "replace": "src/index.html",
+                  "with": "src/index.android.html"
                 }
+
               ],
               "optimization": true,
               "outputHashing": "all",

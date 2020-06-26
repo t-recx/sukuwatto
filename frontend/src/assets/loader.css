@@ -1,0 +1,180 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+html {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #546778;
+  font-smooth: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+}
+
+.siimple--color-white {
+  color: #ffffff !important;
+}
+
+.siimple--bg-primary {
+  background-color: #4e91e4 !important;
+}
+
+.siimple-jumbotron-title, .siimple-jumbotron-subtitle, .siimple-jumbotron-detail {
+  display: block;
+  text-decoration: none;
+}
+
+.siimple-jumbotron-title {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+@-webkit-keyframes siimple-spinner-animation {
+  50% {
+    background-color: transparent;
+  }
+}
+
+@keyframes siimple-spinner-animation {
+  50% {
+    background-color: transparent;
+  }
+}
+.siimple-spinner {
+  width: 10px;
+  height: 10px;
+  content: "";
+  -webkit-animation: siimple-spinner-animation 1s infinite ease-in-out;
+          animation: siimple-spinner-animation 1s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  border-radius: 100px;
+  display: block;
+  text-indent: -9999em;
+  font-size: 10px;
+  position: relative;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-animation-delay: 0.33s;
+          animation-delay: 0.33s;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+}
+.siimple-spinner:before {
+  width: 10px;
+  height: 10px;
+  content: "";
+  -webkit-animation: siimple-spinner-animation 1s infinite ease-in-out;
+          animation: siimple-spinner-animation 1s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  border-radius: 100px;
+  position: absolute;
+  left: calc(15px * -1);
+  top: 0;
+}
+.siimple-spinner:after {
+  width: 10px;
+  height: 10px;
+  content: "";
+  -webkit-animation: siimple-spinner-animation 1s infinite ease-in-out;
+          animation: siimple-spinner-animation 1s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  border-radius: 100px;
+  -webkit-animation-delay: 0.66s;
+          animation-delay: 0.66s;
+  position: absolute;
+  left: 15px;
+  top: 0;
+}
+.siimple-spinner.siimple-spinner--primary, .siimple-spinner.siimple-spinner--primary:after, .siimple-spinner.siimple-spinner--primary:before {
+  background-color: #4e91e4;
+}
+.siimple-spinner.siimple-spinner--success, .siimple-spinner.siimple-spinner--success:after, .siimple-spinner.siimple-spinner--success:before {
+  background-color: #4acf7f;
+}
+.siimple-spinner.siimple-spinner--warning, .siimple-spinner.siimple-spinner--warning:after, .siimple-spinner.siimple-spinner--warning:before {
+  background-color: #fbc850;
+}
+.siimple-spinner.siimple-spinner--error, .siimple-spinner.siimple-spinner--error:after, .siimple-spinner.siimple-spinner--error:before {
+  background-color: #ee675d;
+}
+.siimple-spinner.siimple-spinner--dark, .siimple-spinner.siimple-spinner--dark:after, .siimple-spinner.siimple-spinner--dark:before {
+  background-color: #546778;
+}
+.siimple-spinner.siimple-spinner--light, .siimple-spinner.siimple-spinner--light:after, .siimple-spinner.siimple-spinner--light:before {
+  background-color: #dde5ee;
+}
+.siimple-spinner.siimple-spinner--navy, .siimple-spinner.siimple-spinner--navy:after, .siimple-spinner.siimple-spinner--navy:before {
+  background-color: #546778;
+}
+.siimple-spinner.siimple-spinner--green, .siimple-spinner.siimple-spinner--green:after, .siimple-spinner.siimple-spinner--green:before {
+  background-color: #93d260;
+}
+.siimple-spinner.siimple-spinner--teal, .siimple-spinner.siimple-spinner--teal:after, .siimple-spinner.siimple-spinner--teal:before {
+  background-color: #60d2b6;
+}
+.siimple-spinner.siimple-spinner--blue, .siimple-spinner.siimple-spinner--blue:after, .siimple-spinner.siimple-spinner--blue:before {
+  background-color: #4e91e4;
+}
+.siimple-spinner.siimple-spinner--purple, .siimple-spinner.siimple-spinner--purple:after, .siimple-spinner.siimple-spinner--purple:before {
+  background-color: #ac94e8;
+}
+.siimple-spinner.siimple-spinner--pink, .siimple-spinner.siimple-spinner--pink:after, .siimple-spinner.siimple-spinner--pink:before {
+  background-color: #e77eb8;
+}
+.siimple-spinner.siimple-spinner--red, .siimple-spinner.siimple-spinner--red:after, .siimple-spinner.siimple-spinner--red:before {
+  background-color: #ee675d;
+}
+.siimple-spinner.siimple-spinner--orange, .siimple-spinner.siimple-spinner--orange:after, .siimple-spinner.siimple-spinner--orange:before {
+  background-color: #f78055;
+}
+.siimple-spinner.siimple-spinner--yellow, .siimple-spinner.siimple-spinner--yellow:after, .siimple-spinner.siimple-spinner--yellow:before {
+  background-color: #fbc850;
+}
+.siimple-spinner.siimple-spinner--grey, .siimple-spinner.siimple-spinner--grey:after, .siimple-spinner.siimple-spinner--grey:before {
+  background-color: #dde5ee;
+}
+.siimple-spinner--small, .siimple-spinner--small:before, .siimple-spinner--small:after {
+  width: 8px !important;
+  height: 8px !important;
+}
+.siimple-spinner--small:before {
+  left: calc(13px * -1) !important;
+}
+.siimple-spinner--small:after {
+  left: 13px !important;
+}
+.siimple-spinner--large, .siimple-spinner--large:before, .siimple-spinner--large:after {
+  width: 15px !important;
+  height: 15px !important;
+}
+.siimple-spinner--large:before {
+  left: calc(20px * -1) !important;
+}
+.siimple-spinner--large:after {
+  left: 20px !important;
+}
+
+.splash-jumbobox-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+}
+
+.splash-jumbobox {
+  position: absolute;
+  top: calc(33%);
+  left: 0;
+  right: 0;
+  margin: auto;
+}
