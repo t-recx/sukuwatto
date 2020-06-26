@@ -1,18 +1,3 @@
 .form-field {
     margin-bottom: 0 !important;
 }
-
-.input-aux-label {
-  font-family: "Ubuntu", "Roboto", sans-serif;
-  position: absolute; 
-  top: 0;
-  right: 32px;
-  color: #a1b0cf;
-  line-height: 34px;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.input-container {
-  position: relative; 
-}
