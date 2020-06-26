@@ -139,7 +139,11 @@ export class WorkoutDetailEditComponent implements OnInit {
     }
     else {
       this.workout = new Workout();
+      this.workout.plan = null;
+      this.workout.plan_session = null;
       this.workout.start = new Date();
+      this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
+
       this.newGroup();
 
       this.setNextActivityInProgress();
