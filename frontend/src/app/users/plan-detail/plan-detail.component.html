@@ -82,7 +82,10 @@
                 </div>
                 <div class="siimple-tabs-item" (click)="addSession()">
                     <fa-icon [icon]="faCalendarPlus" class=""></fa-icon>
-                    <span class="siimple--ml-1 siimple--display-sm-none">Add Session</span>
+                    <span class="siimple--ml-1" 
+                        [class.siimple--display-sm-none]="plan.sessions && plan.sessions.length > 0">
+                        Add Session
+                    </span>
                 </div>
             </div>
             <div>

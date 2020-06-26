@@ -31,10 +31,10 @@
             <div class="siimple-grid-row" *ngIf="adoptedPlans && adoptedPlans.length > 0" >
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Plan</div>
                         <select class="siimple-select siimple-select--fluid" name="plan"
                             id="plan" [(ngModel)]="workout.plan" #plan="ngModel" (change)="planChanged()">
-                        <option [ngValue]="null"></option> 
+                        <option [ngValue]="null">Spontaneous</option> 
+
                         <option *ngFor="let planModel of adoptedPlans" value={{planModel.id}}>
                             {{planModel.name}}
                         </option>
@@ -44,10 +44,10 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0"
                     *ngIf="workout.plan">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Session</div>
                         <select class="siimple-select siimple-select--fluid" name="planSession"
                             id="planSession" [(ngModel)]="workout.plan_session" #planSession="ngModel" (change)="sessionChanged()">
-                        <option [ngValue]="null"></option> 
+                        <option [ngValue]="null">Select a session...</option> 
+
                         <option *ngFor="let planSessionModel of planSessions" value={{planSessionModel.id}}>
                             {{planSessionModel.name}}
                         </option>
@@ -56,20 +56,8 @@
                 </div>
             </div>
             <div class="siimple-grid-row">
-                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
-                    <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Name</div>
-                        <input type="text" class="siimple-input siimple-input--fluid"  name="name" id="name"
-                            [(ngModel)]="workout.name" #name="ngModel">
-
-                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                        </div>
-                    </div>
-                </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Date</div>
                         <input type="date" class="siimple-input-date siimple-input--fluid" required name="start" id="start"
                             [ngModel]="workout.start | date:'yyyy-MM-dd'" 
                             (ngModelChange)="setWorkoutStartDate($event)"
@@ -82,13 +70,23 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-md--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Time</div>
                         <input type="time" class="siimple-input-time siimple-input--fluid" required name="start_time" id="start_time"
                             [ngModel]="workout.start | date:'HH:mm'" 
                             (ngModelChange)="setWorkoutStartTime($event)"
                             #start_time="ngModel">
 
                         <div *ngIf="start_time.invalid && (start_time.dirty || triedToSave)">
+                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <input type="text" class="siimple-input siimple-input--fluid"  name="name" id="name"
+                            placeholder="Session's name"
+                            [(ngModel)]="workout.name" #name="ngModel">
+
+                        <div *ngIf="name.invalid && (name.dirty || triedToSave)">
                             <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                         </div>
                     </div>

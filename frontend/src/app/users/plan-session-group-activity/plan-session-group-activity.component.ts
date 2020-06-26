@@ -135,6 +135,11 @@ export class PlanSessionGroupExerciseComponent implements OnInit {
   }
 
   exerciseChanged() {
+    if (!this.planSessionGroupExercise ||
+      !this.planSessionGroupExercise.exercise) {
+      return;
+    }
+
     if (this.planSessionGroupExercise.exercise.exercise_type == ExerciseType.Strength) {
       this.planSessionGroupExercise.vo2max = this.planSessionGroupExercise.vo2max_up_to = this.planSessionGroupExercise.vo2max_type =
       this.planSessionGroupExercise.time = this.planSessionGroupExercise.time_type = this.planSessionGroupExercise.time_unit =
