@@ -1,12 +1,12 @@
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Working parameters</div>
+            <div class="siimple-modal-header-title">Parameters</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hide()"></div>
         </div>
         <div class="siimple-modal-body">
-            <div class="siimple-grid">
-                <div class="siimple-grid-row" *ngFor="let workingParameter of workingParameters">
+            <div class="siimple-grid siimple-card">
+                <div class="siimple-grid-row siimple-card-body parameter-record" *ngFor="let workingParameter of workingParameters">
                     <app-working-parameter [workingParameter]=workingParameter [triedToSave]=triedToSave [triedToHide]=triedToHide>
                     </app-working-parameter>
                     <div class="siimple-grid-col siimple-grid-col--2 siimple-grid-col-sm--12">
@@ -16,15 +16,16 @@
                     </div>
                 </div>
             </div>
-            <button class="siimple-btn siimple-btn--primary" type="button" (click)="newItem()">
-                <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
-                New working parameter
-            </button>
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="hide()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 OK
+            </button>
+
+            <button class="siimple-btn siimple-btn--primary siimple--float-right" type="button" (click)="newItem()">
+                <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
+                New parameter
             </button>
         </div>
     </div>
