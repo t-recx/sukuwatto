@@ -5,6 +5,11 @@ input, select, textarea, button {
   font-family: "Ubuntu", "Roboto", sans-serif; 
 }
 
+.form-title {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eaeaea;
+}
+
 .siimple-input-date {
     height: 34px;
     background-color: #eef2f7;
