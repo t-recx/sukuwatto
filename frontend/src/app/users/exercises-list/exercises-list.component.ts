@@ -99,7 +99,13 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.link) {
       this.queryParams = this.getQueryParams();
-      this.router.navigate(this.link.concat(this.page), { queryParams: this.getQueryParams() });
+      let navigatedLink = this.link;
+
+      if (this.page && this.page > 1) {
+        navigatedLink = this.link.concat(this.page);
+      }
+
+      this.router.navigate(navigatedLink, { queryParams: this.getQueryParams() });
     }
     else {
       this.loadExercises();
