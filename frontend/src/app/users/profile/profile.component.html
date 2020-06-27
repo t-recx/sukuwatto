@@ -87,20 +87,12 @@
                 </div>
             </div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Followers">
-                <div class="loading-spinner-container" *ngIf="loadingFollowers">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-
                 <div *ngIf="!loadingFollowers">
                     <app-users-follow-list [users]=followers [showActionButton]=false>
                     </app-users-follow-list>
                 </div>
             </div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Following">
-                <div class="loading-spinner-container" *ngIf="loadingFollowing">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-
                 <div *ngIf="!loadingFollowing">
                     <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
                         [actionIcon]=faUserMinus actionText="Unfollow" (actionPressed)="unfollowUser($event)">

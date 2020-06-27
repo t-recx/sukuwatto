@@ -11,7 +11,7 @@ import { MessagesService } from '../messages.service';
 import { Action } from '../action';
 import { Paginated } from '../paginated';
 import { StreamsService } from '../streams.service';
-import { tap } from 'rxjs/operators';
+import { LoadingService } from '../loading.service';
 
 export enum UserViewProfileTab {
   Overview = 1,
@@ -79,6 +79,7 @@ export class ProfileComponent implements OnInit {
     private contentTypesService: ContentTypesService,
     private messagesService: MessagesService,
     private streamsService: StreamsService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -143,11 +144,13 @@ export class ProfileComponent implements OnInit {
 
     if (this.username) {
       this.loading = true;
+      this.loadingService.load();
       this.streamsService.getActorStream(this.username, this.currentPage, this.pageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
         this.actions = paginatedActions.results;
         this.loading = false;
+        this.loadingService.unload();
       });
     }
   }
@@ -158,6 +161,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.loadingOlderActions = true;
+    this.loadingService.load();
 
     this.streamsService.getActorStream(this.username, this.currentPage + 1, this.pageSize)
       .subscribe(paginatedActions => {
@@ -165,6 +169,7 @@ export class ProfileComponent implements OnInit {
         this.actions.push(...this.getNewActions(this.actions, paginatedActions.results));
         this.currentPage += 1;
         this.loadingOlderActions = false;
+        this.loadingService.unload();
       }, () => this.loadingOlderActions = false);
   }
 
@@ -173,21 +178,25 @@ export class ProfileComponent implements OnInit {
   }
 
   loadFollowers(): void {
+    this.loadingService.load();
     this.loadingFollowers = true;
     this.followService.getFollowers(this.username).subscribe(followers => 
       {
         this.followers = followers;
         this.isFollowed = followers.filter(user => user.username == this.authService.getUsername()).length > 0;
         this.loadingFollowers = false;
+        this.loadingService.unload();
       });
   }
 
   loadFollowing(): void {
     this.loadingFollowing = true;
+    this.loadingService.load();
     this.followService.getFollowing(this.username).subscribe(following => 
       {
         this.following = following;
         this.loadingFollowing = false;
+        this.loadingService.unload();
       });
   }
 

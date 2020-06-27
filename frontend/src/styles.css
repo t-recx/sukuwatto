@@ -22,6 +22,16 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+input,
+textarea,
+button,
+select,
+a,
+div,
+span {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .input-aux-label {
   font-family: "Ubuntu", "Roboto", sans-serif;
   position: absolute; 
@@ -221,8 +231,4 @@ ul {
     display: block;
     float: right;
     position: relative;
-}
-
-.loading-spinner-container {
-  margin-top: calc(15vh);
 }

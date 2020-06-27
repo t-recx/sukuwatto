@@ -17,6 +17,7 @@ import { AuthService } from 'src/app/auth.service';
 import { Location } from '@angular/common';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faSave, faTrash, faCheckSquare, faLayerGroup, faWeight, faWeightHanging, faBook, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -67,6 +68,7 @@ export class WorkoutDetailEditComponent implements OnInit {
     private authService: AuthService,
     private location: Location,
     private alertService: AlertService,
+    private loadingService: LoadingService,
   ) { }
 
   setWorkoutStartDate(event: any) {
@@ -129,12 +131,14 @@ export class WorkoutDetailEditComponent implements OnInit {
   loadOrInitializeWorkout(id: string) {
     if (id) {
       this.loading = true;
+      this.loadingService.load();
       this.service.getWorkout(id).subscribe(workout => {
         if (workout.user.username == this.authService.getUsername()) {
           this.workout = workout;
         }
         this.notesVisibility = workout.notes && workout.notes.length > 0;
         this.loading = false;
+        this.loadingService.unload();
       });
     }
     else {
@@ -149,6 +153,7 @@ export class WorkoutDetailEditComponent implements OnInit {
       this.setNextActivityInProgress();
 
       this.loading = true;
+      this.loadingService.load();
       this.service.getLastWorkout(this.username, null, null, new Date()).subscribe(w =>
         {
           if (w.working_parameters) {
@@ -161,6 +166,7 @@ export class WorkoutDetailEditComponent implements OnInit {
           this.previousWorkout = w;
 
           this.loading = false;
+          this.loadingService.unload();
         });
     }
   }

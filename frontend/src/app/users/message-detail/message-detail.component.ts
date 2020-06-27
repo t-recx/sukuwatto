@@ -12,6 +12,7 @@ import { UserService } from 'src/app/user.service';
 import { LastMessagesService } from '../last-messages.service';
 import { debounce, switchMap, filter } from 'rxjs/operators';
 import { Paginated } from '../paginated';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-message-detail',
@@ -22,11 +23,11 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   private scrollContainer: any;
   private isNearBottom = true;
 
+  loading: boolean = false;
   imageHidden: boolean = false;
 
   previousScrollHeight: number = 0;
   loadingOlderMessages: boolean = false;
-  loading: boolean = false;
 
   @ViewChild('scrollframe') scrollFrame: ElementRef;
   @ViewChildren('message') itemElements: QueryList<any>;
@@ -59,6 +60,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     private lastMessagesService: LastMessagesService,
     private usersService: UserService,
     public route: ActivatedRoute, 
+    private loadingService: LoadingService,
   ) {
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('username'), val.get('correspondent'));
@@ -174,6 +176,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
       username == this.authService.getUsername()) {
       
       this.loading = true;
+      this.loadingService.load();
       this.usersService.get(correspondent_username).subscribe(users => {
         if (users.length == 1) {
           this.correspondent = users[0];
@@ -184,6 +187,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
             this.messages = messages.results;
 
             this.loading = false;
+            this.loadingService.unload();
           });
 
           this.usersService.get(username).subscribe(users_ => {

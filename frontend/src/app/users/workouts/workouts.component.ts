@@ -7,6 +7,7 @@ import { RepetitionType } from '../plan-session-group-activity';
 import { Paginated } from '../paginated';
 import { Subscription } from 'rxjs';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-workouts',
@@ -33,6 +34,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     private workoutsService: WorkoutsService,
     private authService: AuthService,
     public route: ActivatedRoute, 
+    private loadingService: LoadingService,
   ) { 
     this.paramChangedSubscription = route.paramMap.subscribe(val =>
       {
@@ -68,12 +70,14 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
     if (username) {
       this.loading = true;
+      this.loadingService.load();
       this.workoutsService.getWorkouts(username, pageParameter, this.pageSize)
         .subscribe(paginated => {
           this.paginatedWorkouts = paginated;
           this.workouts = paginated.results;
           this.currentPage = Number(pageParameter);
           this.loading = false;
+          this.loadingService.unload();
         });
     }
   }

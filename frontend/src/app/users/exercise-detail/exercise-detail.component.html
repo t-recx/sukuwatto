@@ -3,10 +3,6 @@
     (canceled)="hideDeleteModal()">
 </app-delete-modal>
 
-<div class="loading-spinner-container" *ngIf="loading">
-    <app-loading-spinner></app-loading-spinner>
-</div>
-
 <div *ngIf="!loading">
     <div *ngIf="!userIsOwner">
         <app-exercise-card [exercise]=exercise [commentsSectionOpen]=true>
