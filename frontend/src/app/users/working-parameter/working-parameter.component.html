@@ -9,7 +9,7 @@
     <select class="siimple-select siimple-select--fluid" name="parameter_type" id="parameter_type"
     required
         [(ngModel)]="workingParameter.parameter_type" #parameter_type="ngModel" (change)="filterUnits()">
-        <option [ngValue]="null"></option>
+        <option [ngValue]="null">Type...</option>
         <option *ngFor="let parameter_typeModel of parameterTypeLabel | keyvalue" value={{parameter_typeModel.key}}>
             {{parameter_typeModel.value}}
         </option>
@@ -30,6 +30,7 @@
 <div class="siimple-grid-col siimple-grid-col--2 siimple-grid-col-sm--6">
     <select class="siimple-select siimple-select--fluid" name="unit" id="unit" [(ngModel)]="workingParameter.unit"
         #unit="ngModel">
+        <option [ngValue]="null">Unit...</option>
         <option *ngFor="let unitModel of filteredUnits" value={{unitModel.id}}>
             {{unitModel.name}}
         </option>

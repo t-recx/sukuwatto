@@ -26,7 +26,7 @@ export class WorkingParametersComponent implements OnInit {
   }
 
   newItem(): void {
-    this.workingParameters.push(new WorkingParameter());
+    this.workingParameters.push(new WorkingParameter({parameter_type: null, unit: null}));
   }
 
   valid(): boolean {

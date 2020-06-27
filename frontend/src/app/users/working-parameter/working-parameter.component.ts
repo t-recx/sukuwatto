@@ -78,13 +78,11 @@ export class WorkingParameterComponent implements OnInit, OnChanges {
     }
 
     if (!this.workingParameter.unit) {
-      if (this.filteredUnits.filter(x => x.id == this.workingParameter.unit).length == 0) {
-        this.workingParameter.unit = defaultUnit.id;
-      }
+      this.workingParameter.unit = defaultUnit.id;
     }
     else {
       if (this.filteredUnits.filter(x => x.id == this.workingParameter.unit).length == 0) {
-        this.workingParameter.unit = null;
+        this.workingParameter.unit = defaultUnit.id;
       }
     }
   }
