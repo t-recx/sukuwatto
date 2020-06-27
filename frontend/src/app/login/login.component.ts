@@ -43,11 +43,22 @@ export class LoginComponent implements OnInit {
     this.loggingIn = true;
     this.signInText = "Signing in...";
 
-    this.authService.login(this.user)
+    let username = null;
+    let email = null;
+    let password = this.user.password;
+
+    if (this.user.username.includes('@') && this.user.username.includes('.')) {
+      email = this.user.username;
+    }
+    else {
+      username = this.user.username;
+    }
+
+    this.authService.login(username, email, password)
       .subscribe(token => {
         if (this.authService.isLoggedIn()) {
           let redirect = this.authService.redirectUrl ? 
-            this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}`; 
+            this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.authService.getUsername()}`; 
 
           this.authService.redirectUrl = null;
           this.router.navigateByUrl(redirect);

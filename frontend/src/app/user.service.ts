@@ -96,12 +96,16 @@ export class UserService {
     );
   }
 
-  get(username: string): Observable<User[]> {
+  get(username: string, email: string = null): Observable<User[]> {
     let options = {};
     let params = new HttpParams();
 
     if (username) {
       params = params.set('username', username);
+    }
+
+    if (email) {
+      params = params.set('email', email);
     }
 
     options = {params: params};
