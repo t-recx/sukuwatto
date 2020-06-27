@@ -1,17 +1,20 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel, ExerciseTypeLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent, of } from 'rxjs';
 import { Paginated } from '../paginated';
 import { Router } from '@angular/router';
 import { faSearch, faBackspace } from '@fortawesome/free-solid-svg-icons';
+import { map } from 'rxjs/internal/operators/map';
+import { filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-exercises-list',
   templateUrl: './exercises-list.component.html',
   styleUrls: ['./exercises-list.component.css']
 })
-export class ExercisesListComponent implements OnInit, OnChanges {
+export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() page: number;
   @Input() pageSize: number = 10;
   @Input() searchFilter: string;
@@ -27,20 +30,44 @@ export class ExercisesListComponent implements OnInit, OnChanges {
   lastSearchedFilter = '';
   columnOrder = {}
 
-  loading: boolean = false;
-
-  exercises: Exercise[];
+  exercises: Exercise[] = [];
 
   paramChangedSubscription: Subscription;
   paginatedExercises: Paginated<Exercise>;
+  searchSubscription: Subscription;
 
   constructor(
     private exercisesService: ExercisesService,
     private router: Router,
+    private loadingService: LoadingService,
   ) { }
+
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.lastSearchedFilter = '';
+    this.setupSearch();
+  }
+
+  exerciseTracker(index, item) {
+    return item.id;
+  }
+
+  setupSearch() {
+    const searchBox = document.getElementById('search-input');
+
+    const typeahead = fromEvent(searchBox, 'input').pipe(
+      map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(() => of(true))
+    );
+
+    this.searchSubscription = typeahead.subscribe(() => {
+      this.search();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,14 +80,15 @@ export class ExercisesListComponent implements OnInit, OnChanges {
       this.page = 1;
     }
 
-    this.loading = true;
+    this.loadingService.load();
     this.exercisesService.getExercises(this.page, this.pageSize, this.searchFilter, this.ordering)
     .subscribe(paginated => {
       this.setDescriptions(paginated.results);
       this.paginatedExercises = paginated;
-      this.exercises = paginated.results;
+      this.exercises = paginated.results ? paginated.results: [];
+
       this.lastSearchedFilter = this.searchFilter;
-      this.loading = false;
+      this.loadingService.unload();
     });
   }
 
