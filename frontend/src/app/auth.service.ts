@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from './token';
 import { User } from './user';
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap, concatMap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
 import { JwtService } from './jwt.service';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,31 @@ export class AuthService {
     private alertService: AlertService) {
   }
 
-  login(user: User): Observable<Token> {
+  login(username: string, email: string, password: string): Observable<Token> {
+    if (!username || username.trim().length == 0) {
+      return this.userService.get(null, email).pipe(
+        concatMap(users => {
+          if (!users || users.length == 0) {
+            this.alertService.error('Incorrect username or password');
+
+            return new Observable<Token>(o => {
+              o.next(null);
+              o.complete();
+            });
+          }
+
+          let user = users[0];
+          user.password = password;
+
+          return this.loginByUser(user);
+        })
+      );
+    }
+
+    return this.loginByUser(new User({username, password}));
+  }
+
+  loginByUser(user: User): Observable<Token> {
     return this.http.post<Token>(`${environment.apiUrl}/token/`, user, this.httpOptions)
       .pipe(
         tap((newToken: Token) => {
