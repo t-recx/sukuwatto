@@ -4,6 +4,7 @@ import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-plans',
@@ -22,6 +23,7 @@ export class PlansComponent implements OnInit {
     private plansService: PlansService,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private loadingService: LoadingService,
   ) { }
 
   isLoggedIn() {
@@ -36,6 +38,7 @@ export class PlansComponent implements OnInit {
 
   loadPlans(): void {
     this.loading = true;
+    this.loadingService.load();
 
     this.plansService.getAdoptedPlans(this.username).subscribe(adoptedPlans => {
       this.adoptedPlans = adoptedPlans;
@@ -44,16 +47,19 @@ export class PlansComponent implements OnInit {
         this.plans = plans;
 
         this.loading = false;
+        this.loadingService.unload();
       });
     });
   }
 
   loadAdoptedPlans() :void {
     this.loading = true;
+    this.loadingService.load();
 
     this.plansService.getAdoptedPlans(this.username).subscribe(adoptedPlans => {
       this.adoptedPlans = adoptedPlans;
       this.loading = false;
+      this.loadingService.unload();
     });
   }
 

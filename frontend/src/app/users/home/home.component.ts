@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/auth.service';
 import { PostsService } from '../posts.service';
 import { Post } from '../post';
 import { faCircleNotch, faStickyNote } from '@fortawesome/free-solid-svg-icons';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-home',
@@ -20,13 +21,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   pageSize = 10;
   currentPage = 1;
-  loading: boolean = false;
   loadingOlderActions: boolean = false;
   loadingNewActions: boolean = false;
   newPostText: string;
   username: string;
   triedToPost: boolean = false;
   posting: boolean = false;
+  loading: boolean = true;
 
   faCircleNotch = faCircleNotch;
   faStickyNote = faStickyNote;
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private streamsService: StreamsService,
     private postsService: PostsService,
+    private loadingService: LoadingService,
   ) {
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('username'));
@@ -65,11 +67,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (username && username == this.authService.getUsername()) {
       this.loading = true;
+      this.loadingService.load();
       this.streamsService.getUserStream(this.currentPage, this.pageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
         this.actions = paginatedActions.results;
         this.loading = false;
+        this.loadingService.unload();
       });
     }
   }

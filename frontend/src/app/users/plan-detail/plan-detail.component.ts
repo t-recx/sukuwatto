@@ -6,6 +6,7 @@ import { faCalendarPlus, faTimesCircle, faSave, faTrash, faCircleNotch } from '@
 import { PlanSession } from '../plan-session';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-plan-detail',
@@ -38,6 +39,7 @@ export class PlanDetailComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private alertService: AlertService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,7 @@ export class PlanDetailComponent implements OnInit {
   private loadOrInitializePlan(id: string) {
     if (id) {
       this.loading = true;
+      this.loadingService.load();
       this.service.getPlan(id).subscribe(plan => {
         this.plan = plan;
         this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
@@ -58,6 +61,7 @@ export class PlanDetailComponent implements OnInit {
           this.selectedSession = this.plan.sessions[0];
         }
         this.loading = false;
+        this.loadingService.unload();
       });
     }
     else {

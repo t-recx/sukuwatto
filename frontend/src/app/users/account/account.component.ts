@@ -9,6 +9,7 @@ import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-account',
@@ -61,6 +62,7 @@ export class AccountComponent implements OnInit {
     private unitsService: UnitsService,
     private userBioDataService: UserBioDataService,
     private alertService: AlertService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -82,6 +84,7 @@ export class AccountComponent implements OnInit {
 
     if (this.allowed) {
       this.loading = true;
+      this.loadingService.load();
       this.userService.get(this.username).subscribe(users => {
         if (users && users.length == 1) {
           this.user = users[0];
@@ -89,10 +92,12 @@ export class AccountComponent implements OnInit {
           this.userService.getEmail().subscribe(email => {
             this.user.email = email;
             this.loading = false;
+            this.loadingService.unload();
           } );
         }
         else {
           this.loading = false;
+          this.loadingService.unload();
         }
       });
     }

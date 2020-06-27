@@ -10,10 +10,6 @@
                 <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>
             </div>
             <div class="siimple-modal-body">
-                <div class="loading-spinner-container" *ngIf="loadingUsers">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-
                 <div *ngIf="!loadingUsers">
                     <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
                         actionText="Message" (actionPressed)="messageUser($event)">
@@ -34,10 +30,6 @@
                 New
             </button>
         </div>
-    </div>
-
-    <div class="loading-spinner-container" *ngIf="loading">
-        <app-loading-spinner></app-loading-spinner>
     </div>
 
     <div *ngIf="lastMessages && !loading">

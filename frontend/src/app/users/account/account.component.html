@@ -29,10 +29,6 @@
 <app-user-change-password-modal [visible]=passwordModalVisible (closed)="hidePasswordModal()">
 </app-user-change-password-modal>
 
-<div class="loading-spinner-container" *ngIf="loading">
-    <app-loading-spinner></app-loading-spinner>
-</div>
-
 <div *ngIf="allowed && user && !loading">
     <div class="toolbar">
         <div class="toolbar-title">Account settings</div>

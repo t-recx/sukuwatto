@@ -9,6 +9,7 @@ import { LastMessagesService } from '../last-messages.service';
 import { LastMessage } from '../last-message';
 import { faUserCircle, faReply, faPen, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FollowService } from '../follow.service';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-messages',
@@ -40,6 +41,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute, 
     private router: Router,
     private followService: FollowService,
+    private loadingService: LoadingService,
   ) { 
     this.paramChangedSubscription = route.paramMap.subscribe(val => 
       {
@@ -73,18 +75,22 @@ export class MessagesComponent implements OnInit, OnDestroy {
     if (username == this.authService.getUsername()) {
 
       this.loading = true;
+      this.loadingService.load();
       this.lastMessagesService.get()
       .subscribe(lastMessages => {
         this.lastMessages = lastMessages
                             .sort((a,b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
         this.loading = false;
+        this.loadingService.unload();
       });
 
       this.loadingUsers = true;
+      this.loadingService.load();
       this.followService.getFollowing(this.username).subscribe(following => 
         {
           this.availableUsersToMessage = following;
           this.loadingUsers = false;
+          this.loadingService.unload();
         });
     }
     else {

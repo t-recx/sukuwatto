@@ -5,6 +5,7 @@ import { ExercisesService } from '../exercises.service';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-exercise-detail',
@@ -31,6 +32,7 @@ export class ExerciseDetailComponent implements OnInit {
     private authService: AuthService,
     private alertService: AlertService,
     private router: Router,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -43,10 +45,12 @@ export class ExerciseDetailComponent implements OnInit {
   private loadOrInitializeExercise(id: string): void {
     if (id) {
       this.loading = true;
+      this.loadingService.load();
       this.service.getExercise(id).subscribe(exercise => {
         this.exercise = exercise;
         this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
         this.loading = false;
+        this.loadingService.unload();
       });
     } else {
       this.exercise = new Exercise();
