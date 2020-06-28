@@ -9,7 +9,8 @@ from workouts.utils import get_differences
 class MetabolicEquivalentTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = MetabolicEquivalentTask
-        fields = ['id', 'exercise', 'code', 'description', 'met', 'from_value', 'to_value', 'unit']
+        fields = ['id', 'exercise', 'code', 'description', 'met', 'from_value', 'to_value', 'unit',
+            'exercise_type', 'mechanics', 'force', 'modality', 'section']
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
@@ -22,22 +23,10 @@ class ExerciseSerializer(serializers.ModelSerializer):
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
-        mets_data = None
-
-        if 'mets' in validated_data:
-            mets_data = validated_data.pop('mets')
-
         exercise = Exercise.objects.create(user=self.context.get("request").user, **validated_data)
-
-        if mets_data is not None:
-            self.create_mets(exercise, mets_data)
 
         return exercise
 
-    def create_mets(self, exercise, mets_data):
-        for met_data in mets_data:
-            MetabolicEquivalentTask.objects.create(exercise=exercise, **met_data)
-    
     def update(self, instance, validated_data):
         es = ExerciseService()
 
@@ -57,43 +46,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
         instance.save()
 
-        mets_data = None
-
-        if 'mets' in validated_data:
-            mets_data = validated_data.pop('mets')
-
-        mets = MetabolicEquivalentTask.objects.filter(exercise=instance)
-
-        if mets_data is not None:
-            new_data, updated_data, deleted_ids = get_differences(mets_data, mets.values())
-
-            self.create_mets(instance, new_data)
-            self.update_mets(updated_data)
-
-            mets_to_delete = MetabolicEquivalentTask.objects.filter(id__in=deleted_ids)
-            mets_to_delete.delete()
-        else:
-            mets.delete()
-
         return instance
-
-    def update_mets(self, mets_data):
-        for met_data in mets_data:
-            instances = MetabolicEquivalentTask.objects.filter(pk=met_data.get('id'))
-
-            if len(instances) == 0:
-                continue
-
-            instance = instances.first()
-
-            instance.from_value = met_data.get('from_value', instance.from_value)
-            instance.to_value = met_data.get('to_value', instance.to_value)
-            instance.met = met_data.get('met', instance.met)
-            instance.unit = met_data.get('unit', instance.unit)
-            instance.code = met_data.get('code', instance.code)
-            instance.description = met_data.get('description', instance.description)
-
-            instance.save()
 
 class UserBioDataSerializer(serializers.ModelSerializer):
     class Meta:

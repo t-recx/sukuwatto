@@ -4382,5 +4382,1653 @@
             "modality": "f",
             "mechanics": "i"
         }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 275,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Mountain Bicycling",
+            "name": "Mountain Bicycling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 276,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "BMX Bicycling",
+            "name": "BMX Bicycling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 277,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Bicycling",
+            "name": "Bicycling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 278,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Stationary Bicycling",
+            "name": "Stationary Bicycling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 279,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Wii Fit Balance/Yoga",
+            "name": "Wii Fit Balance/Yoga",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 280,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Wii Fit Aerobic/Resistance",
+            "name": "Wii Fit Aerobic/Resistance",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 281,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "DDR",
+            "name": "Dance Dance Revolution",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 282,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Elliptical",
+            "name": "Elliptical",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 283,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Rope Skipping",
+            "name": "Rope Skipping",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 284,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Stationary Rowing",
+            "name": "Stationary Rowing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 285,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Stair-Treadmill",
+            "name": "Stair-Treadmill",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 286,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Ski Machine",
+            "name": "Ski Machine",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 287,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Stretching",
+            "name": "Stretching",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 288,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Pilates",
+            "name": "Pilates",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 289,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Water Aerobics",
+            "name": "Water Aerobics",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 290,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Yoga - Hatha",
+            "name": "Yoga - Hatha",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 291,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Yoga - Power",
+            "name": "Yoga - Power",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 292,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Yoga - Nadisodhana",
+            "name": "Yoga - Nadisodhana",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 293,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Yoga - Surya Namaskar",
+            "name": "Yoga - Surya Namaskar",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 294,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Jogging",
+            "name": "Jogging",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 295,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Running",
+            "name": "Running",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 296,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Archery",
+            "name": "Archery",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 297,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Running - Cross country",
+            "name": "Running - Cross country",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 298,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Badminton",
+            "name": "Badminton",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 299,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Basketball",
+            "name": "Basketball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 300,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Billiards",
+            "name": "Billiards",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 301,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Bowling",
+            "name": "Bowling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 302,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Boxing",
+            "name": "Boxing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 303,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Boxing - P. Bag",
+            "name": "Boxing - Punching Bag",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 304,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Boxing - Sparring",
+            "name": "Boxing - Sparring",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 305,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Cheerleading",
+            "name": "Cheerleading",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 306,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Coaching",
+            "name": "Coaching",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 307,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Cricket",
+            "name": "Cricket",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 308,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Croquet",
+            "name": "Croquet",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 309,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Curling",
+            "name": "Curling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 310,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Darts",
+            "name": "Darts",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 311,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Fencing",
+            "name": "Fencing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 312,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Football",
+            "name": "Football",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 313,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Frisbee",
+            "name": "Frisbee",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 314,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Golf",
+            "name": "Golf",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 315,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Gymnastics",
+            "name": "Gymnastics",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 316,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Handball",
+            "name": "Handball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 317,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Hockey",
+            "name": "Hockey",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 318,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Horseback riding",
+            "name": "Horseback riding",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 319,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Martial Arts - Slower/Novice/Practice",
+            "name": "Martial Arts - Slower/Novice/Practice",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 320,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Martial Arts - Moderate pace",
+            "name": "Martial Arts - Moderate pace",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 321,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Kickball",
+            "name": "Kickball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 322,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Lacrosse",
+            "name": "Lacrosse",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 323,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Off-Road Motor Sports",
+            "name": "Off-Road Motor Sports",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 324,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Paddleball",
+            "name": "Paddleball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 325,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Polo - Horseback",
+            "name": "Polo - Horseback",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 326,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Racquetball",
+            "name": "Racquetball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 327,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Rock/Mountain climbing",
+            "name": "Rock/Mountain climbing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 328,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Rodeo sports",
+            "name": "Rodeo sports",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 329,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Rope jumping",
+            "name": "Rope jumping",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 330,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Rugby",
+            "name": "Rugby",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 331,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Shuffleboard",
+            "name": "Shuffleboard",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 332,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Skateboarding",
+            "name": "Skateboarding",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 333,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Rollerblading",
+            "name": "Rollerblading",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 334,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Skydiving",
+            "name": "Skydiving",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 335,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Soccer",
+            "name": "Soccer",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 336,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Soccer",
+            "name": "Soccer",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 337,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Softball",
+            "name": "Softball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 338,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Squash",
+            "name": "Squash",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 339,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Table tennis / Ping pong",
+            "name": "Table tennis / Ping pong",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 340,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Tai chi - Qi gong",
+            "name": "Tai chi - Qi gong",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 341,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Tennis",
+            "name": "Tennis",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 342,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Trampoline",
+            "name": "Trampoline",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 343,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Volleyball",
+            "name": "Volleyball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 344,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Wrestling",
+            "name": "Wrestling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 345,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Wallyball",
+            "name": "Wallyball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 346,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Track and field",
+            "name": "Track and field",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 347,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Backpacking",
+            "name": "Backpacking",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 348,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Hiking",
+            "name": "Hiking",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 349,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Marching",
+            "name": "Marching",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 350,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Stair climbing",
+            "name": "Stair climbing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 351,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Walking",
+            "name": "Walking",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 352,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Canoeing",
+            "name": "Canoeing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 353,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Diving",
+            "name": "Diving",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 354,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Kayaking",
+            "name": "Kayaking",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 355,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Paddle boat",
+            "name": "Paddle boat",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 356,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Sailing",
+            "name": "Sailing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 357,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Water skiing",
+            "name": "Water skiing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 358,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Jet skiing",
+            "name": "Jet skiing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 359,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Skindiving/Scubadiving",
+            "name": "Skindiving/Scubadiving",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 360,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Snorkeling",
+            "name": "Snorkeling",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 361,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Surfing",
+            "name": "Surfing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 362,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Paddle boarding",
+            "name": "Paddle boarding",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 363,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Freestyle",
+            "name": "Swimming - Freestyle",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 364,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Front crawl",
+            "name": "Swimming - Front crawl",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 365,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Backstroke",
+            "name": "Swimming - Backstroke",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 366,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Breaststroke",
+            "name": "Swimming - Breaststroke",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 367,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Butterfly",
+            "name": "Swimming - Butterfly",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 368,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Crawl",
+            "name": "Swimming - Crawl",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 369,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Sidestroke",
+            "name": "Swimming - Sidestroke",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 370,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Swimming - Synchronized",
+            "name": "Swimming - Synchronized",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 371,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Water aerobics/calisthenics",
+            "name": "Water aerobics/calisthenics",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 372,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Water polo",
+            "name": "Water polo",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 373,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Water volleyball",
+            "name": "Water volleyball",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 374,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Wind/Kite surfing",
+            "name": "Wind/Kite surfing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 375,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Ice skating",
+            "name": "Ice skating",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 376,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Skiing",
+            "name": "Skiing",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 377,
+        "fields": {
+            "exercise_type":"c",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs",
+            "short_name": "Sledding",
+            "name": "Sledding",
+            "level": null,
+            "section": null,
+            "force": null,
+            "modality": null,
+            "mechanics": null
+        }
     }
 ]
