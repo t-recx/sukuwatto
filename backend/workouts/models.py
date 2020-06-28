@@ -99,7 +99,7 @@ class Exercise(models.Model):
 class MetabolicEquivalentTask(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True)
 
-    exercise_type = models.CharField(max_length=1, choices=Exercise.EXERCISE_TYPES)
+    exercise_type = models.CharField(max_length=1, null=True, choices=Exercise.EXERCISE_TYPES)
     mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
     modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
