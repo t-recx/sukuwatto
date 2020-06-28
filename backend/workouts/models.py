@@ -96,6 +96,15 @@ class Exercise(models.Model):
     def __str__(self):
         return self.name
 
+class MetabolicEquivalentTask(models.Model):
+    exercise = models.ForeignKey(Exercise, related_name="mets", on_delete=models.CASCADE)
+    code = models.CharField(max_length=20, null=True, blank=True)
+    description = models.CharField(max_length=20, null=True, blank=True)
+    met = models.DecimalField(max_digits=4, decimal_places=2)
+    from_value = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    to_value = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    unit = models.IntegerField(choices=Unit.choices, null=True)
+
 class Plan(models.Model):
     # Example: PPL, SS, SL
     short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)', blank=True)
