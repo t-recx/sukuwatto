@@ -11,7 +11,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -43,7 +43,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -75,7 +75,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -91,7 +91,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -155,7 +155,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -187,7 +187,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -203,7 +203,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -267,7 +267,7 @@
             "level": "b",
             "section": "c",
             "force": "s",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -283,7 +283,7 @@
             "level": "i",
             "section": "c",
             "force": "s",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -299,7 +299,7 @@
             "level": "a",
             "section": "c",
             "force": "s",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -315,7 +315,7 @@
             "level": "i",
             "section": "c",
             "force": "s",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -331,7 +331,7 @@
             "level": "b",
             "section": "c",
             "force": "s",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -347,7 +347,7 @@
             "level": "a",
             "section": "c",
             "force": "s",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -363,7 +363,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -411,7 +411,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -443,7 +443,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -459,7 +459,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -475,7 +475,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -491,7 +491,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -507,7 +507,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -523,7 +523,7 @@
             "level": "a",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -539,7 +539,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -555,7 +555,7 @@
             "level": "b",
             "section": "c",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -587,7 +587,7 @@
             "level": "b",
             "section": "u",
             "force": "p",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -619,7 +619,7 @@
             "level": "a",
             "section": "u",
             "force": "p",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -651,7 +651,7 @@
             "level": "b",
             "section": "u",
             "force": "p",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -662,8 +662,8 @@
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Back - Latissimus Dorsi",
-            "short_name": "Reverse-Grip Lat Pullown",
-            "name": "Reverse-Grip Lat Pullown",
+            "short_name": "Reverse-Grip Lat Pulldown",
+            "name": "Reverse-Grip Lat Pulldown",
             "level": "i",
             "section": "u",
             "force": "p",
@@ -683,7 +683,7 @@
             "level": "a",
             "section": "u",
             "force": "p",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -699,7 +699,7 @@
             "level": "a",
             "section": "u",
             "force": "p",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -1899,7 +1899,7 @@
             "level": "a",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -2059,7 +2059,7 @@
             "level": "b",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -2107,7 +2107,7 @@
             "level": "a",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -2123,7 +2123,7 @@
             "level": "b",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -2187,7 +2187,7 @@
             "level": "b",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -3739,7 +3739,7 @@
             "level": "i",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -3755,7 +3755,7 @@
             "level": "b",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -3771,7 +3771,7 @@
             "level": "i",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -3787,7 +3787,7 @@
             "level": "i",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -3803,7 +3803,7 @@
             "level": "i",
             "section": "u",
             "force": "q",
-            "modality": "f",
+            "modality": "x",
             "mechanics": "c"
         }
     },
@@ -4838,8 +4838,8 @@
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs",
-            "short_name": "Boxing - P. Bag",
-            "name": "Boxing - Punching Bag",
+            "short_name": "Nordic walking",
+            "name": "Nordic walking",
             "level": null,
             "section": null,
             "force": null,
@@ -4854,8 +4854,8 @@
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
             "muscle": "Legs",
-            "short_name": "Boxing - Sparring",
-            "name": "Boxing - Sparring",
+            "short_name": "Obstacle course",
+            "name": "Obstacle course",
             "level": null,
             "section": null,
             "force": null,
@@ -6115,16 +6115,48 @@
         "model": "workouts.exercise",
         "pk": 383,
         "fields": {
-            "exercise_type":"c",
+            "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
-            "short_name": "Obstacle course",
-            "name": "Obstacle course",
-            "level": null,
-            "section": null,
-            "force": null,
-            "modality": null,
-            "mechanics": null
+            "muscle": "Legs - Quadriceps",
+            "short_name": "BW Squat",
+            "name": "Body-weight Squat",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "x",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 384,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Legs - Quadriceps",
+            "short_name": "Burpees",
+            "name": "Burpees",
+            "level": "b",
+            "section": "l",
+            "force": "q",
+            "modality": "x",
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 385,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": "Biceps",
+            "short_name": "Chin-Up",
+            "name": "Chin-Up",
+            "level": "b",
+            "section": "u",
+            "force": "p",
+            "modality": "x",
+            "mechanics": "c"
         }
     }
 ]

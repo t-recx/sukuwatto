@@ -36,12 +36,14 @@ export enum Modality {
     FreeWeights = 'f',
     Machine = 'm',
     Cable = 'c',
+    Calisthenics = 'x',
 }
 
 export const ModalityLabel = new Map<string, string>([
   [Modality.FreeWeights, 'Free weights'],
   [Modality.Machine, 'Machine'],
   [Modality.Cable, 'Cable'],
+  [Modality.Calisthenics, 'Calisthenics'],
 ]);
 
 export enum Section {

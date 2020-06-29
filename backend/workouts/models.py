@@ -56,10 +56,12 @@ class Exercise(models.Model):
     FREE_WEIGHTS = 'f'
     CABLE = 'c'
     MACHINE = 'm'
+    CALISTHENICS = 'x'
     MODALITIES = [
         (FREE_WEIGHTS, 'Free weights'),
         (CABLE, 'Cable'),
         (MACHINE, 'Machine'),
+        (CALISTHENICS, 'Calisthenics'),
     ]
 
     UPPER = 'u'
