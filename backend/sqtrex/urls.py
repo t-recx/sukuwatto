@@ -3,7 +3,7 @@ from django.urls import include, path
 from rest_framework import routers
 from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
-from workouts.views.views import ExerciseViewSet, exercise_in_use, exercise_in_use_in_other_users_resources
+from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
@@ -27,6 +27,8 @@ urlpatterns = [
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout/', TokenCookieDeleteView.as_view(), name='logout'),
     path('api/adopt-plan/<int:pk>/', plan_views.adopt_plan, name='adopt_plan'),
+    path('api/metabolic-equivalent-tasks/', MetabolicEquivalentTaskList.as_view(), name='metabolic-equivalent-tasks'),
+    path('api/mets/', get_mets, name='mets'),
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
     path('api/workout-last-position/', workout_views.get_last_workout_position, name='workout-last-position'),
     path('api/workout-group-last/', workout_views.get_last_workout_group, name='workout-group-last'),

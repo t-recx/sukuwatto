@@ -91,24 +91,6 @@
    },
    {
       "model":"workouts.metabolicequivalenttask",
-      "pk":6,
-      "fields":{
-         "code":"01011",
-         "met":"6.8",
-         "description":"bicycling, to/from work, self selected pace",
-         "exercise":277,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
       "pk":7,
       "fields":{
          "code":"01013",
@@ -568,7 +550,7 @@
          "exercise_type":null,
          "mechanics":null,
          "force":null,
-         "modality":null,
+         "modality":"x",
          "section":null,
          "from_value":null,
          "to_value":null,
@@ -586,43 +568,7 @@
          "exercise_type":null,
          "mechanics":null,
          "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":34,
-      "fields":{
-         "code":"02035",
-         "met":"4.3",
-         "description":"circuit training, moderate effort",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":35,
-      "fields":{
-         "code":"02040",
-         "met":"8.0",
-         "description":"circuit training, including kettlebells, some aerobic movement with minimal rest, general, vigorous intensity",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
+         "modality":"x",
          "section":null,
          "from_value":null,
          "to_value":null,
@@ -655,8 +601,8 @@
          "met":"6.0",
          "description":"resistance training (weight lifting - free weight, nautilus or universal), power lifting or body building, vigorous effort ",
          "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
+         "exercise_type":"s",
+         "mechanics":"c",
          "force":null,
          "modality":null,
          "section":null,
@@ -677,7 +623,7 @@
          "mechanics":"c",
          "force":null,
          "modality":null,
-         "section":null,
+         "section":"l",
          "from_value":null,
          "to_value":null,
          "unit":null
@@ -710,42 +656,6 @@
          "description":"health club exercise, general ",
          "exercise":null,
          "exercise_type":"c",
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":41,
-      "fields":{
-         "code":"02061",
-         "met":"5.0",
-         "description":"health club exercise classes, general, gym/weight training combined in one visit",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":42,
-      "fields":{
-         "code":"02062",
-         "met":"7.8",
-         "description":"health club exercise, conditioning classes",
-         "exercise":null,
-         "exercise_type":null,
          "mechanics":null,
          "force":null,
          "modality":null,
@@ -901,24 +811,6 @@
    },
    {
       "model":"workouts.metabolicequivalenttask",
-      "pk":51,
-      "fields":{
-         "code":"02085",
-         "met":"11.0",
-         "description":"slide board exercise, general",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
       "pk":52,
       "fields":{
          "code":"02101",
@@ -961,78 +853,6 @@
          "met":"5.3",
          "description":"water aerobics, water calisthenics, water exercise",
          "exercise":289,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":55,
-      "fields":{
-         "code":"02135",
-         "met":"1.3",
-         "description":"whirlpool, sitting",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":56,
-      "fields":{
-         "code":"02140",
-         "met":"2.3",
-         "description":"video exercise workouts, TV conditioning programs (e.g., yoga, stretching), light effort",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":57,
-      "fields":{
-         "code":"02143",
-         "met":"4.0",
-         "description":"video exercise workouts, TV conditioning programs (e.g., cardio-resistance), moderate effort",
-         "exercise":null,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":58,
-      "fields":{
-         "code":"02146",
-         "met":"6.0",
-         "description":"video exercise workouts, TV conditioning programs (e.g., cardio-resistance), vigorous effort",
-         "exercise":null,
          "exercise_type":null,
          "mechanics":null,
          "force":null,
@@ -1555,24 +1375,6 @@
          "met":"13.3",
          "description":"running, marathon",
          "exercise":295,
-         "exercise_type":null,
-         "mechanics":null,
-         "force":null,
-         "modality":null,
-         "section":null,
-         "from_value":null,
-         "to_value":null,
-         "unit":null
-      }
-   },
-   {
-      "model":"workouts.metabolicequivalenttask",
-      "pk":88,
-      "fields":{
-         "code":"15000",
-         "met":"5.5",
-         "description":"Alaska Native Games, Eskimo Olympics, general",
-         "exercise":null,
          "exercise_type":null,
          "mechanics":null,
          "force":null,

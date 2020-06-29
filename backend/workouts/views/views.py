@@ -22,14 +22,10 @@ class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['name', 'mechanics', 'force', 'section', 'modality']
 
-class MetabolicEquivalentTaskViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
-    """
-    API endpoint that allows METs to be viewed or edited.
-    """
+class MetabolicEquivalentTaskList(ListAPIView):
     queryset = MetabolicEquivalentTask.objects.all()
     serializer_class = MetabolicEquivalentTaskSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    pagination_class = StandardResultsSetPagination
+    #permission_classes = [IsAuthenticated]
 
 @api_view(['GET'])
 def get_mets(request):
@@ -37,7 +33,7 @@ def get_mets(request):
 
     queryset = MetabolicEquivalentTask.objects.filter(exercise=exercise_id)
 
-    if len(mets) == 0:
+    if len(queryset) == 0:
         exercise = Exercise.objects.get(pk=exercise_id)
 
         queryset = MetabolicEquivalentTask.objects.filter(
