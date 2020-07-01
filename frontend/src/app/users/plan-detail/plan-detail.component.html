@@ -95,6 +95,8 @@
         <app-plan-progression-strategies type_label="Plan" [progressions]=plan.progressions [triedToSave]=triedToSave>
         </app-plan-progression-strategies> 
 
+        <div class="detail-operations-separator"></div>
+
         <button type="button" class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">
             <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
             <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>

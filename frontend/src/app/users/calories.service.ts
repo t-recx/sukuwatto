@@ -60,7 +60,7 @@ export class CaloriesService {
       userWeightKgs = this.getAverageWeightKgs();
     }
 
-    const warmups = workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
+    const warmups = workout.groups.flatMap(w => w.warmups.map(s => s)) ?? [];
     const sets = workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
 
     const activities = [...warmups, ...sets];
@@ -80,7 +80,7 @@ export class CaloriesService {
     if (!mets) {
       return 0;
     }
-    const warmups = workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
+    const warmups = workout.groups.flatMap(w => w.warmups.map(s => s)) ?? [];
     const sets = workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
 
     const activities = [...warmups, ...sets];
@@ -100,18 +100,41 @@ export class CaloriesService {
     }
 
     let milliseconds = null;
+    let hours = null;
     
-    if (activity.time) {
+    if (activity.exercise.exercise_type == ExerciseType.Strength && activity.number_of_repetitions && activity.number_of_repetitions > 0) {
+      // if it's a strength type reps based exercise we calculate a fix time per rep
+      const ms_per_rep = 3000;
+
+      milliseconds = ms_per_rep * activity.number_of_repetitions;
+    }
+    else if (activity.time) {
       milliseconds = this.unitsService.convert(activity.time, activity.time_unit, 'ms');
+    }
+    else if (activity.speed && activity.distance) {
+      // don't have the time, but I have the speed and the distance, so I'll use that to calculate it
+      let kms = this.unitsService.convert(activity.distance, activity.distance_unit, 'km');
+      let speed = this.unitsService.convert(activity.speed, activity.speed_unit, 'km/h');
+
+      hours = (kms / speed);
     }
     else if (start && end) {
       milliseconds = end.valueOf() - start.valueOf();
     }
     else if (workout.start && workout.end) {
-      milliseconds = (workout.end.valueOf() - workout.start.valueOf()) / activities.length;
+      let activitiesWithTime = activities.filter(x => x.time);
+      let totalWorkoutTimeMs = (workout.end.valueOf() - workout.start.valueOf());
+      let totalActivitiesWithTimeMs = activitiesWithTime.reduce((a,b) => a + this.unitsService.convert(b.time, b.time_unit, 'ms'), 0);
+
+      if (activities.length - activitiesWithTime.length > 0) {
+        milliseconds = (totalWorkoutTimeMs - totalActivitiesWithTimeMs) / (activities.length - activitiesWithTime.length);
+      }
     }
 
-    let hours = milliseconds / 1000 / 60 / 60;
+    if (milliseconds && !hours) {
+      hours = milliseconds / 1000 / 60 / 60;
+    }
+
     let units = this.unitsService.getUnitList();
     let met: MetabolicEquivalentTask = null;
     

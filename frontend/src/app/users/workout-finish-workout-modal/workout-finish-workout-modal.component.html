@@ -10,7 +10,7 @@
             <div class="siimple-modal-body">
                 <div class="siimple-h2" align="center">Good job!</div>
 
-                <div class="siimple-grid-row">
+                <div class="siimple-grid-row" *ngIf="endDateEditVisible">
                     <div
                         class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--6 siimple-grid-col-sm--6 siimple--py-0">
                         <div class="siimple-form-field">
@@ -47,6 +47,13 @@
                             <app-user-finish-workout-progress-chart [workout]=workout [progressData]=progressData>
                             </app-user-finish-workout-progress-chart>
                         </div>
+
+                        <div *ngIf="progressData" class="siimple-rule separator-rule"></div>
+                
+                        <app-workout-finish-stats 
+                            (timeClicked)="toggleEndDateEdit()"
+                            [workout]="workout" [end]="workout.end" class="stats-container">
+                        </app-workout-finish-stats>
                     </div>
                 </div>
             </div>

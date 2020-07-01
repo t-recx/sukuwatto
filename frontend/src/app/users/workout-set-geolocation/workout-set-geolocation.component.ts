@@ -17,6 +17,7 @@ import { Unit, MeasurementType } from '../unit';
 import { MetabolicEquivalentTask } from '../metabolic-equivalent-task';
 import { MetabolicEquivalentService } from '../metabolic-equivalent.service';
 import { Exercise } from '../exercise';
+import { TimeService } from '../time.service';
 
 @Component({
   selector: 'app-workout-set-geolocation',
@@ -103,6 +104,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     private unitsService: UnitsService,
     private caloriesService: CaloriesService,
     private metsService: MetabolicEquivalentService,
+    private timeService: TimeService,
   ) {
   }
 
@@ -545,6 +547,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   finishActivity() {
     this.stopGeolocationPolling();
     this.workoutActivity.done = true;
+
+    if (this.workoutActivity.done) {
+      this.workoutActivity.in_progress = false;
+      this.workoutActivity.end = new Date();
+    }
+
     this.minimize();
     this.updateCalories();
     this.updateSpeed();
@@ -723,36 +731,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   private getActiveTime() {
     if (!this.workoutActivity.time) {
-      return this.timeConversion(0);
+      return this.timeService.toHumanReadable(0);
     }
 
-    return this.timeConversion(this.unitsService.convert(this.workoutActivity.time, this.workoutActivity.time_unit, 'ms'));
+    return this.timeService.toHumanReadable(this.unitsService.convert(this.workoutActivity.time, this.workoutActivity.time_unit, 'ms'));
   }
 
-  private timeConversion(duration: number) {
-    const portions: string[] = [];
-
-    const msInHour = 1000 * 60 * 60;
-    const hours = Math.trunc(duration / msInHour);
-    if (hours > 0) {
-      portions.push(hours + 'h');
-      duration = duration - (hours * msInHour);
-    }
-
-    const msInMinute = 1000 * 60;
-    const minutes = Math.trunc(duration / msInMinute);
-
-    if (minutes > 0) {
-      portions.push((hours > 0 ? minutes.toString().padStart(2, '0') : minutes) + 'm');
-      duration = duration - (minutes * msInMinute);
-    }
-
-    const seconds = Math.trunc(duration / 1000);
-    
-    portions.push((minutes > 0 ? seconds.toString().padStart(2, '0') : seconds) + 's');
-
-    return portions.join(' ');
-  }
 }
 
 export enum GeoTrackingType {

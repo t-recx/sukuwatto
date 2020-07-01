@@ -58,8 +58,8 @@
         <div class="stats-body">
             <div class="siimple-grid">
                 <div class="siimple-grid-row stats-item">
-                    <div class="siimple-grid-col siimple-grid-col--6">Time</div>
-                    <div class="siimple-grid-col siimple-grid-col--6" align="right">{{ellapsedTime}}</div>
+                    <div class="siimple-grid-col siimple-grid-col--4">Time</div>
+                    <div class="siimple-grid-col siimple-grid-col--8" align="right">{{ellapsedTime}}</div>
                 </div>
                 <div class="siimple-grid-row stats-item">
                     <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
@@ -75,7 +75,7 @@
                 <div class="siimple-grid-row stats-item">
                     <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
                     <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
-                        {{workoutActivity.speed}}{{speedUnit.abbreviation}}
+                        ~{{workoutActivity.speed}}{{speedUnit.abbreviation}}
                     </div>
                 </div>
                 <div class="siimple-grid-row stats-item "

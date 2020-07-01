@@ -2,6 +2,8 @@
     <div class="siimple-list siimple-list--hover">
         <div class="siimple-list-item" *ngFor="let workoutActivity of activities" style="padding: 0px;">
             <app-workout-set (statusChanged)="setStatusChanged()" [sets]=activities [workoutActivity]=workoutActivity
+                [workout]="workout"
+                [userBioData]="userBioData"
                 [triedToSave]=triedToSave>
             </app-workout-set>
 

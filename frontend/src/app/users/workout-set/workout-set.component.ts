@@ -6,6 +6,9 @@ import { faCheck, faEdit, faTimesCircle, faMapMarkedAlt } from '@fortawesome/fre
 import { Unit } from '../unit';
 import { UnitsService } from '../units.service';
 import { WorkoutSetPosition } from '../workout-set-position';
+import { CaloriesService } from '../calories.service';
+import { Workout } from '../workout';
+import { UserBioData } from '../user-bio-data';
 
 @Component({
   selector: 'app-workout-set',
@@ -16,6 +19,8 @@ export class WorkoutSetComponent implements OnInit {
   @Input() sets: WorkoutSet[];
   @Input() workoutActivity: WorkoutSet;
   @Input() triedToSave: boolean;
+  @Input() workout: Workout;
+  @Input() userBioData: UserBioData;
   @Output() statusChanged = new EventEmitter();
 
   units: Unit[];
@@ -36,6 +41,7 @@ export class WorkoutSetComponent implements OnInit {
 
   constructor(
     private unitsService: UnitsService,
+    private caloriesService: CaloriesService,
   ) { }
 
   ngOnInit() {
@@ -66,6 +72,8 @@ export class WorkoutSetComponent implements OnInit {
       }
 
       this.workoutActivity.done = !this.workoutActivity.done;
+      this.caloriesService.requestActivityCalories(this.userBioData, this.workout, this.workoutActivity)
+      .subscribe(calories => this.workoutActivity.calories = calories);
 
       if (this.workoutActivity.done) {
         this.workoutActivity.in_progress = false;
