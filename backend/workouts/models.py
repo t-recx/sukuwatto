@@ -14,6 +14,8 @@ class Unit(models.IntegerChoices):
     YARD = 10
     KMH = 11
     MPH = 12
+    MILLISECOND = 13
+    HOUR = 14
 
 class UserBioData(models.Model):
     date = models.DateTimeField()
