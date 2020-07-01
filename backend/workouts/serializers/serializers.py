@@ -15,11 +15,10 @@ class MetabolicEquivalentTaskSerializer(serializers.ModelSerializer):
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
     user = UserSerializer(read_only=True)
-    mets = MetabolicEquivalentTaskSerializer(many=True, required=False)
 
     class Meta:
         model = Exercise
-        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user', 'mets']
+        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user']
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
