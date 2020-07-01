@@ -234,6 +234,7 @@ export class WorkoutsService {
   getProperlyTypedWorkoutActivities(g: WorkoutSet[]): WorkoutSet[] {
     if (g) {
       g.forEach(activity => {
+        activity.calories = activity.calories ? +activity.calories : activity.calories;
         activity.speed = activity.speed ? +activity.speed : activity.speed;
         activity.distance = activity.distance ? +activity.distance : activity.distance;
         activity.time = activity.time ? +activity.time : activity.time;

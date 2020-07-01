@@ -46,7 +46,9 @@
 
             <div class="tracked-activity-container" *ngFor="let activity of trackedActivities">
                 <app-workout-set-geolocation 
+                    [workout]="workout"
                     [workoutActivity]="activity" [allowEdit]="false"
+                    [exercise]="activity.exercise"
                     [zoomControl]="false"
                     *ngIf="activity == selectedTrackedActivity">
                 </app-workout-set-geolocation>

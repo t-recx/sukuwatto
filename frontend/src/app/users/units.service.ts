@@ -107,7 +107,21 @@ export class UnitsService {
         abbreviation: "mph",
         system: MeasurementSystem.Imperial,
         measurement_type: MeasurementType.Speed
-      }
+      },
+      {
+        id: 13,
+        name: "Milliseconds",
+        abbreviation: "ms",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Time
+      },
+      {
+        id: 14,
+        name: "Hour",
+        abbreviation: "hr",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Time
+      },
     ];
   }
 
@@ -116,6 +130,10 @@ export class UnitsService {
       obs.next(this.units);
       obs.complete();
     });
+  }
+
+  getUnitList(): Unit[] {
+    return this.units;
   }
 
   getUserWeightUnitCode(): string {
@@ -243,7 +261,7 @@ export class UnitsService {
   }
 
   roundValue(num: number, fromUnitCode: string, toUnitCode: string): number {
-    return Math.round((num + Number.EPSILON) * 100) / 100;
+    return Math.round((num + Number.EPSILON) * 1000) / 1000;
   }
 
   convertWorkout(workout: Workout) {

@@ -5,6 +5,29 @@
   z-index: 10;
 }
 
+.leaflet-container {
+  font-size: 12px;
+  line-height: 1.5;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.stats {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.stats-item {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.stats-body {
+  flex-grow:1;
+  padding: 12px;
+}
+
 .maximized {
   position: fixed;
   width: 100%;
@@ -12,6 +35,19 @@
   left: 0;
   top: 0;
   z-index: 400;
+}
+
+.stats-header {
+  padding: 16px;
+  text-align: center;
+  background-color: #eef2f7;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.stats-footer {
+  padding: 12px;
+  background-color: #eef2f7;
 }
 
 .start-button {
@@ -24,6 +60,14 @@
 }
 
 .recenter-button {
+  position: absolute;
+  bottom: 70px;
+  left: 10px;
+  right: 0;
+  z-index: 401;
+}
+
+.stats-button {
   position: absolute;
   bottom: 25px;
   left: 10px;

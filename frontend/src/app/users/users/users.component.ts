@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   menuDropDownVisible: boolean = false;
   faBars = faBars;
   faTimes = faTimes;
@@ -21,10 +21,13 @@ export class UsersComponent implements OnInit, OnDestroy {
     public authService: AuthService, 
     private router: Router,
     public route: ActivatedRoute, 
-    loadingService: LoadingService,
+    private loadingService: LoadingService,
     ) { 
-      this.loadingSubscription = loadingService.state.subscribe(s => this.loading = s);
     }
+
+  ngAfterViewInit(): void {
+    this.loadingSubscription = this.loadingService.state.subscribe(s => setTimeout(() => this.loading = s));
+  }
 
   ngOnDestroy(): void {
     this.loadingSubscription.unsubscribe();

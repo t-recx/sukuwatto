@@ -4,7 +4,7 @@ import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { MetabolicEquivalentTask } from './metabolic-equivalent-task';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -22,7 +22,24 @@ export class MetabolicEquivalentService {
     private errorService: ErrorService,
     private alertService: AlertService) { }
 
+  private cacheMets = {};
+
   getMets (exercise: number): Observable<MetabolicEquivalentTask[]> {
+    if (!(exercise in this.cacheMets)) {
+      this.cacheMets[exercise] = 
+      this.requestMets(exercise).pipe(
+        shareReplay({ bufferSize: 1, refCount: true}),
+        catchError(this.errorService.handleError<MetabolicEquivalentTask[]>('getMets', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch metabolic equivalent tasks');
+        }, []))
+      )
+    }
+
+    return this.cacheMets[exercise];
+  }
+
+  requestMets (exercise: number): Observable<MetabolicEquivalentTask[]> {
     let options = {};
     let params = new HttpParams();
 

@@ -49,7 +49,8 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
             'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
             'tracking',
-            'positions'
+            'positions',
+            'calories', 'met', 'met_set_by_user'
         ]
 
 class WorkoutWarmUpSerializer(serializers.ModelSerializer):
@@ -95,7 +96,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status']
         extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):
@@ -180,6 +181,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         instance.plan_session = validated_data.get('plan_session', instance.plan_session)
         instance.user = validated_data.get('user', instance.user)
         instance.status = validated_data.get('status', instance.status)
+        instance.calories = validated_data.get('calories', instance.calories)
 
         instance.save()
 
@@ -357,6 +359,10 @@ class WorkoutSerializer(serializers.ModelSerializer):
             instance.plan_time_unit = group_data.get('plan_time_unit', instance.plan_time_unit)
 
             instance.tracking = group_data.get('tracking', instance.tracking)
+
+            instance.calories = group_data.get('calories', instance.calories)
+            instance.met = group_data.get('met', instance.met)
+            instance.met_set_by_user = group_data.get('met_set_by_user', instance.met_set_by_user)
 
             instance.save()
 

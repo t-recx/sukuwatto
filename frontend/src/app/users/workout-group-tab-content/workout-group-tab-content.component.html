@@ -9,6 +9,9 @@
                 *ngIf="(workoutActivity.tracking == null || workoutActivity.tracking) &&
                     workoutActivity.exercise.exercise_type == exerciseType.Cardio">
                 <app-workout-set-geolocation *ngIf="workoutActivity.tracking == null || workoutActivity.tracking"
+                    [userBioData]="userBioData"
+                    [workout]="workout"
+                    [exercise]="workoutActivity.exercise"
                     [workoutActivity]="workoutActivity"
                     [allowEdit]="true"
                     [zoomControl]="false"

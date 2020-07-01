@@ -25,11 +25,11 @@ style="padding: 10px;"
             (workoutActivity.speed_type && 
             workoutActivity.speed_type == speedType.AFAP)">
             <span
-                *ngIf="workoutActivity.speed || workoutActivity.expected_speed">
+                *ngIf="(workoutActivity.speed && !workoutActivity.tracking) || workoutActivity.expected_speed">
                 at
             </span>
 
-            <span *ngIf="workoutActivity.speed">
+            <span *ngIf="workoutActivity.speed && !workoutActivity.tracking">
                 <span *ngIf="workoutActivity.speed % 1 == 0">
                     {{workoutActivity.speed | number: '1.0-0'}}
                 </span>
@@ -38,7 +38,7 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngIf="!workoutActivity.speed">
+            <span *ngIf="!workoutActivity.speed || workoutActivity.tracking">
                 <span *ngIf="workoutActivity.speed_type==speedType.Standard ||
                     workoutActivity.speed_type==speedType.Range ||
                     workoutActivity.speed_type==speedType.Parameter">
@@ -63,18 +63,18 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngIf="workoutActivity.speed || workoutActivity.expected_speed">
+            <span *ngIf="(workoutActivity.speed && !workoutActivity.tracking) || workoutActivity.expected_speed">
                 {{getUnitCode(workoutActivity.speed_unit)}}
             </span>
         </span>
 
         <span *ngIf="workoutActivity.distance ||
             workoutActivity.expected_distance">
-            <span>
+            <span *ngIf="!workoutActivity.tracking || workoutActivity.expected_distance">
                 for
             </span>
 
-            <span *ngIf="workoutActivity.distance">
+            <span *ngIf="workoutActivity.distance && !workoutActivity.tracking">
                 <span *ngIf="workoutActivity.distance % 1 == 0">
                     {{workoutActivity.distance | number: '1.0-0'}}
                 </span>
@@ -83,7 +83,7 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngIf="!workoutActivity.distance">
+            <span *ngIf="!workoutActivity.distance || workoutActivity.tracking">
                 <span *ngIf="workoutActivity.distance_type==distanceType.Standard ||
                     workoutActivity.distance_type==distanceType.Range ||
                     workoutActivity.distance_type==distanceType.Parameter">
@@ -105,25 +105,27 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngIf="workoutActivity.distance || workoutActivity.expected_distance">
+            <span *ngIf="(workoutActivity.distance && !workoutActivity.tracking) || workoutActivity.expected_distance">
                 {{getUnitCode(workoutActivity.distance_unit)}}
             </span>
         </span>
 
         <span *ngIf="workoutActivity.time || workoutActivity.expected_time">
-            <span *ngIf="workoutActivity.distance ||
-                (workoutActivity.distance_type && 
-                workoutActivity.distance_type != distanceType.None); else alternativeTimeIntroduction">
-                <span>
-                    in
+            <span *ngIf="workoutActivity.expected_time || !workoutActivity.tracking">
+                <span *ngIf="workoutActivity.distance ||
+                            (workoutActivity.distance_type && 
+                            workoutActivity.distance_type != distanceType.None); else alternativeTimeIntroduction">
+                    <span>
+                        in
+                    </span>
                 </span>
+            
+                <ng-template #alternativeTimeIntroduction>
+                    for
+                </ng-template>
             </span>
 
-            <ng-template #alternativeTimeIntroduction>
-                for
-            </ng-template>
-
-            <span *ngIf="workoutActivity.time">
+            <span *ngIf="workoutActivity.time && !workoutActivity.tracking">
                 <span *ngIf="workoutActivity.time % 1 == 0">
                     {{workoutActivity.time | number: '1.0-0'}}
                 </span>
@@ -132,7 +134,7 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngIf="!workoutActivity.time">
+            <span *ngIf="!workoutActivity.time || workoutActivity.tracking">
                 <span *ngIf="workoutActivity.time_type==timeType.Standard ||
                     workoutActivity.time_type==timeType.Range ||
                     workoutActivity.time_type==timeType.Parameter">
@@ -154,7 +156,7 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span *ngIf="workoutActivity.time || workoutActivity.expected_time">
+            <span *ngIf="(workoutActivity.time && !workoutActivity.tracking) || workoutActivity.expected_time">
                 {{getUnitCode(workoutActivity.time_unit)}}
             </span>
         </span>

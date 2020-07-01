@@ -3,6 +3,8 @@ import { ActivityType } from '../plan-session-group-activity';
 import { WorkoutSet } from '../workout-set';
 import { faDumbbell, faStop } from '@fortawesome/free-solid-svg-icons';
 import { ExerciseType } from '../exercise';
+import { Workout } from '../workout';
+import { UserBioData } from '../user-bio-data';
 
 @Component({
   selector: 'app-workout-group-tab-content',
@@ -16,6 +18,8 @@ export class WorkoutGroupTabContentComponent implements OnInit {
   @Input() triedToSave: boolean;
   @Output() newActivity = new EventEmitter();
   @Output() statusChanged = new EventEmitter();
+  @Input() workout: Workout;
+  @Input() userBioData: UserBioData;
 
   ActivityType = ActivityType;
   exerciseType = ExerciseType;

@@ -130,6 +130,7 @@
             <div class="siimple-grid-row" *ngFor="let group of workout.groups">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--pt-0 siimple--pb-0">
                     <app-workout-group [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()"
+                        [userBioData]="userBioData"
                         (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave
                         [hasAlternativeGroups]="hasAlternativeGroups(group)" (alternateGroupRequested)="alternateGroup(group)">
                     </app-workout-group>
