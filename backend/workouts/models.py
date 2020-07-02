@@ -110,7 +110,7 @@ class MetabolicEquivalentTask(models.Model):
     section = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.SECTIONS)
 
     code = models.CharField(max_length=20, null=True, blank=True)
-    description = models.CharField(max_length=20, null=True, blank=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
     met = models.DecimalField(max_digits=4, decimal_places=2)
     from_value = models.DecimalField(max_digits=4, decimal_places=2, blank= True, null=True)
     to_value = models.DecimalField(max_digits=4, decimal_places=2, blank= True, null=True)
