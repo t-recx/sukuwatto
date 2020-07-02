@@ -4,6 +4,7 @@ import { UserProgressService } from '../user-progress.service';
 import { AuthService } from 'src/app/auth.service';
 import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint } from '../user-progress-chart-data';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { ExerciseType } from '../exercise';
 
 @Component({
   selector: 'app-workout-finish-workout-modal',
@@ -23,6 +24,12 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   faTimes = faTimes;
   faCheck = faCheck;
 
+  endDateEditVisible: boolean = false;
+
+  toggleEndDateEdit() {
+    this.endDateEditVisible = !this.endDateEditVisible;
+  }
+
   constructor(
     private authService: AuthService,
     private userProgressService: UserProgressService,
@@ -40,6 +47,10 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   }
 
   loadChartData() {
+    if (!this.showStrengthProgressCharts()) {
+      return;
+    }
+
     this.loading = true;
 
     if (this.authService.isLoggedIn()) {
@@ -67,6 +78,13 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
           this.loading = false;
         });
     }
+  }
+  showStrengthProgressCharts(): boolean {
+    return this.workout.groups && 
+      this.workout
+      .groups.filter(g => 
+        g.sets.filter(s => s.done && s.exercise && s.exercise.exercise_type == ExerciseType.Strength).length > 0)
+        .length > 0;
   }
 
   hideFinishWorkout(): void {

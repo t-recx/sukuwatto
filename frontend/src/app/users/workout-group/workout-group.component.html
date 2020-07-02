@@ -32,6 +32,8 @@
 
         <div>
             <app-workout-group-tab-content 
+                    [userBioData]="userBioData"
+                    [workout]="workout"
                 [selectedActivityType]="selectedActivityType"
                 [activityType]="activityType.Exercise"
                 [activities]="group.sets"
@@ -41,6 +43,8 @@
             </app-workout-group-tab-content>
 
             <app-workout-group-tab-content 
+                    [userBioData]="userBioData"
+                    [workout]="workout"
                 [selectedActivityType]="selectedActivityType"
                 [activityType]="activityType.WarmUp"
                 [activities]="group.warmups"

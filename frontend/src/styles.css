@@ -32,6 +32,16 @@ span {
   -webkit-tap-highlight-color: transparent;
 }
 
+.detail-operations-separator {
+  display: block;
+  height: 2px;
+  background-color: #dde5ee;
+  padding: 0;
+  margin-top: 15px;
+  /* margin-bottom: 15px; */
+  border: 0;
+}
+
 .input-aux-label {
   font-family: "Ubuntu", "Roboto", sans-serif;
   position: absolute; 

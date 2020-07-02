@@ -8,7 +8,7 @@
     >
     </app-workout-finish-workout-modal>
 
-    <form class="siimple-card siimple-form" #workoutForm="ngForm">
+    <form class="siimple-card siimple-form siimple--mb-0" #workoutForm="ngForm">
 
         <app-working-parameters [workingParameters]=workout.working_parameters 
         [visible]=workingParametersVisible  
@@ -130,6 +130,7 @@
             <div class="siimple-grid-row" *ngFor="let group of workout.groups">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--pt-0 siimple--pb-0">
                     <app-workout-group [workoutActivityStatusChanged]="activityStatusChangedSubject.asObservable()"
+                        [userBioData]="userBioData"
                         (activityStatusChanged)="activityStatusChanged()" [workout]=workout [group]=group [triedToSave]=triedToSave
                         [hasAlternativeGroups]="hasAlternativeGroups(group)" (alternateGroupRequested)="alternateGroup(group)">
                     </app-workout-group>
@@ -140,6 +141,9 @@
                 New group
             </button>
         </div>
+
+        <div class="detail-operations-separator"></div>
+        
         <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="save()" 
             type="button"
             [disabled]="saving"

@@ -1,9 +1,16 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UserBioData
+from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask
 from workouts.exercise_service import ExerciseService
 from users.serializers import UserSerializer
+from workouts.utils import get_differences
+
+class MetabolicEquivalentTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MetabolicEquivalentTask
+        fields = ['id', 'exercise', 'code', 'description', 'met', 'from_value', 'to_value', 'unit',
+            'exercise_type', 'mechanics', 'force', 'modality', 'section']
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
@@ -15,7 +22,9 @@ class ExerciseSerializer(serializers.ModelSerializer):
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
-        return Exercise.objects.create(user=self.context.get("request").user, **validated_data)
+        exercise = Exercise.objects.create(user=self.context.get("request").user, **validated_data)
+
+        return exercise
 
     def update(self, instance, validated_data):
         es = ExerciseService()

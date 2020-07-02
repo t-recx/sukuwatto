@@ -1,6 +1,7 @@
 .chart-card-body {
     min-height: 200px;
     display:flex;
+    flex-flow: row wrap;
 }
 
 .loading-container {
@@ -15,4 +16,17 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+
+.stats-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.separator-rule {
+    width: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

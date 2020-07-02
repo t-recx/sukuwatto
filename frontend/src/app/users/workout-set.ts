@@ -54,6 +54,11 @@ export class WorkoutSet {
     working_distance_percentage: number;
     working_speed_percentage: number;
 
+    calories: number;
+
+    met: number;
+    met_set_by_user: boolean;
+
     constructor(init?: Partial<WorkoutSet>) {
         this.exercise = new Exercise();
         Object.assign(this, init);

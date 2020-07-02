@@ -13,7 +13,9 @@
         <app-exercise-detail-skeleton [exercise]=exercise [triedToSave]=triedToSave>
         </app-exercise-detail-skeleton>
 
-        <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success" (click)="save()">
+        <div class="detail-operations-separator"></div>
+
+        <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">
             <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
             Save

@@ -6,6 +6,7 @@ import { WorkoutSet } from '../workout-set';
 import { Workout } from '../workout';
 import { Observable, Subscription } from 'rxjs';
 import { ExerciseType } from '../exercise';
+import { UserBioData } from '../user-bio-data';
 
 @Component({
   selector: 'app-workout-group',
@@ -14,6 +15,7 @@ import { ExerciseType } from '../exercise';
 })
 export class WorkoutGroupComponent implements OnInit, OnDestroy {
   @Input() workout: Workout;
+  @Input() userBioData: UserBioData;
   @Input() group: WorkoutGroup;
   @Input() triedToSave: boolean;
   @Output() activityStatusChanged = new EventEmitter();
@@ -107,6 +109,7 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
     }
 
     newSet.order = order;
+    newSet.calories = 0;
 
     return newSet;
   }

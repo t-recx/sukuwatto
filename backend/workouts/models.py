@@ -14,6 +14,8 @@ class Unit(models.IntegerChoices):
     YARD = 10
     KMH = 11
     MPH = 12
+    MILLISECOND = 13
+    HOUR = 14
 
 class UserBioData(models.Model):
     date = models.DateTimeField()
@@ -56,10 +58,12 @@ class Exercise(models.Model):
     FREE_WEIGHTS = 'f'
     CABLE = 'c'
     MACHINE = 'm'
+    CALISTHENICS = 'x'
     MODALITIES = [
         (FREE_WEIGHTS, 'Free weights'),
         (CABLE, 'Cable'),
         (MACHINE, 'Machine'),
+        (CALISTHENICS, 'Calisthenics'),
     ]
 
     UPPER = 'u'
@@ -95,6 +99,22 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+
+class MetabolicEquivalentTask(models.Model):
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, blank= True, null=True)
+
+    exercise_type = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.EXERCISE_TYPES)
+    mechanics = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.MECHANICS)
+    force = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.FORCES)
+    modality = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.MODALITIES)
+    section = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.SECTIONS)
+
+    code = models.CharField(max_length=20, null=True, blank=True)
+    description = models.CharField(max_length=20, null=True, blank=True)
+    met = models.DecimalField(max_digits=4, decimal_places=2)
+    from_value = models.DecimalField(max_digits=4, decimal_places=2, blank= True, null=True)
+    to_value = models.DecimalField(max_digits=4, decimal_places=2, blank= True, null=True)
+    unit = models.IntegerField(choices=Unit.choices, blank= True, null=True)
 
 class Plan(models.Model):
     # Example: PPL, SS, SL
@@ -301,6 +321,8 @@ class Workout(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     status = models.CharField(default=INPROGRESS, max_length=1, choices=STATUS)
 
+    calories = models.DecimalField(max_digits=8, decimal_places=3, null=True);
+
 class WorkoutGroup(models.Model):
     order = models.PositiveIntegerField(default=1)
     name = models.CharField(max_length=200, null=True)
@@ -320,8 +342,8 @@ class AbstractWorkoutActivity(models.Model):
     done = models.BooleanField(default=False)
     working_weight_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
-    weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    expected_weight = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    weight = models.DecimalField(max_digits=7, decimal_places=3, null=True)
+    expected_weight = models.DecimalField(max_digits=7, decimal_places=3, null=True)
 
     speed_type = models.CharField(max_length=1, null=True, choices=AbstractGroupActivity.SPEED_TYPES)
     expected_speed = models.DecimalField(null=True, max_digits=6, decimal_places=3)
@@ -348,6 +370,11 @@ class AbstractWorkoutActivity(models.Model):
     working_speed_percentage = models.DecimalField(max_digits=6, decimal_places=3, null=True)
 
     tracking = models.BooleanField(null=True)
+
+    calories = models.DecimalField(max_digits=9, decimal_places=3, null=True);
+
+    met = models.ForeignKey(MetabolicEquivalentTask, null=True, on_delete=models.SET_NULL)
+    met_set_by_user = models.BooleanField(null=True)
 
     class Meta:
         abstract = True
@@ -399,9 +426,9 @@ class WorkoutWarmUpPosition(AbstractActivityPosition):
 class WorkingParameter(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="working_parameters")
     exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT)
-    parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    parameter_value = models.DecimalField(max_digits=8, decimal_places=3, null=True)
     parameter_type = models.CharField(max_length=1, choices=AbstractProgressionStrategy.PARAMETER_TYPES)
     unit = models.IntegerField(choices=Unit.choices, null=True)
-    previous_parameter_value = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    previous_parameter_value = models.DecimalField(max_digits=8, decimal_places=3, null=True)
     previous_unit = models.IntegerField(choices=Unit.choices, null=True)
     manually_changed = models.BooleanField(default=False)

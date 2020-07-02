@@ -102,6 +102,10 @@ export class ExerciseDetailComponent implements OnInit {
       return false;
     }
 
+    if (!exercise.exercise_type) {
+      return false;
+    }
+
     return true;
   }
 

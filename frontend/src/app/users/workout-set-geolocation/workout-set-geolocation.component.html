@@ -1,54 +1,47 @@
-<div class="map" leaflet 
-    [class.maximized]="maximized"
-    (leafletMapMove)="mapMove($event)"
-    (leafletMapZoom)="mapZoom($event)"
-    [(leafletCenter)]="center" [leafletOptions]="options" [leafletFitBounds]="fitBounds"
-    (leafletMapReady)="onMapReady($event)">
+<div class="map tab-content" leaflet [class.maximized]="maximized"
+    [class.tab-content-selected]="currentView == geoView.Map" (leafletMapMove)="mapMove($event)"
+    (leafletMapZoom)="mapZoom($event)" [(leafletCenter)]="center" [leafletOptions]="options"
+    [leafletFitBounds]="fitBounds" (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 
+    <button class="stats-button siimple-btn siimple-btn--primary" type="button" (click)="showStats()">
+        <fa-icon [icon]="faChartBar"></fa-icon>
+    </button>
+
     <div *ngIf="allowEdit">
-        <button 
-            type="button"
-            class="siimple-btn 
+        <button type="button" class="siimple-btn 
             siimple-btn--small
             siimple-btn--primary size-button" (click)="toggleMaximize()">
             <fa-icon [icon]="faCompress" *ngIf="maximized"></fa-icon>
             <fa-icon [icon]="faExpand" *ngIf="!maximized"></fa-icon>
         </button>
 
-        <button 
-            type="button"
-            class="siimple-btn 
+        <button type="button" class="siimple-btn 
             siimple-btn--small
             siimple-btn--dark stop-tracking-button" (click)="disableTracking()">
             <fa-icon [icon]="faTimes"></fa-icon>
         </button>
-    
-        <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()"
-            type="button"
+
+        <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
             *ngIf="!collectingPositions">
             <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
             {{startText}}
         </button>
 
-        <button class="recenter-button siimple-btn siimple-btn--primary"
-            type="button"
-            (click)="recenter()"
+        <button class="recenter-button siimple-btn siimple-btn--primary" type="button" (click)="recenter()"
             *ngIf="collectingPositions && userOperatingMap">
             <fa-icon [icon]="faDotCircle"></fa-icon>
         </button>
-    
+
         <div class="stop-finish-bar">
-            <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()"
-                type="button"
+            <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
                 *ngIf="collectingPositions">
                 <fa-icon [icon]="faPause" class="siimple--mr-1"></fa-icon>
                 Pause
             </button>
-    
+
             <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
-                type="button"
-                *ngIf="collectingPositions">
+                type="button" *ngIf="collectingPositions">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 Finish
             </button>
@@ -56,11 +49,102 @@
     </div>
 </div>
 
-<app-delete-modal 
-    [(visible)]="deleteModalVisible"
-    title='Stop tracking'
+<div class="  tab-content" [class.tab-content-selected]="currentView == geoView.Stats" [class.maximized]="maximized">
+    <div class=" stats" [class.maximized]="maximized">
+        <div class="stats-header" *ngIf="maximized">
+            {{workoutActivity.exercise.name}}
+        </div>
+
+        <div class="stats-body">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row stats-item">
+                    <div class="siimple-grid-col siimple-grid-col--4">Time</div>
+                    <div class="siimple-grid-col siimple-grid-col--8" align="right">{{ellapsedTime}}</div>
+                </div>
+                <div class="siimple-grid-row stats-item">
+                    <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
+                    <div class="siimple-grid-col siimple-grid-col--6" align="right"
+                        *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance < 1">
+                        {{distanceInSmallerUnit}}{{distanceSmallerUnit.abbreviation}}
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6" align="right"
+                        *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance >= 1">
+                        {{workoutActivity.distance}}{{distanceUnit.abbreviation}}
+                    </div>
+                </div>
+                <div class="siimple-grid-row stats-item">
+                    <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
+                    <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
+                        {{workoutActivity.speed}}{{speedUnit.abbreviation}}
+                    </div>
+                </div>
+                <div class="siimple-grid-row stats-item "
+                [class.clickable]="allowEdit"
+                (click)="toggleCaloriesDetail()">
+                    <div class="siimple-grid-col siimple-grid-col--6">Calories</div>
+                    <div class="siimple-grid-col siimple-grid-col--6" align="right">{{workoutActivity.calories}}kcal</div>
+                </div>
+                <div class="siimple-grid-row stats-item" *ngIf="caloriesDetailed && allowEdit">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-card siimple--mb-0">
+                            <div class="siimple-card-body">
+                                <div class="siimple-form-field">
+                                    <label class="siimple-field-label" for="username">MET</label>
+                                    <select class="siimple-select siimple-select--fluid" name="met" id="met" required
+                                        [(ngModel)]="workoutActivity.met" #met="ngModel" (change)="setMETbyUser()">
+                                        <option *ngFor="let metModel of mets" value={{metModel.id}}>
+                                            {{metModel.description}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="siimple-form-field siimple--mb-0">
+                                    <label class="siimple-label">Manual selection</label>
+                                    <div class="siimple-switch">
+                                        <input type="checkbox" name="met_set_by_user" id="met_set_by_user"
+                                            [(ngModel)]="workoutActivity.met_set_by_user"
+                                            #met_set_by_user="ngModel">
+                                        <label for="met_set_by_user"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" stats-footer">
+            <button type="button" class="siimple-btn siimple-btn--primary" (click)="showMap()">
+                <fa-icon [icon]="faMapMarkedAlt" class=""></fa-icon>
+            </button>
+
+            <span class="siimple--float-right" *ngIf="allowEdit">
+                <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
+                    *ngIf="collectingPositions">
+                    <fa-icon [icon]="faPause" class=""></fa-icon>
+                </button>
+
+                <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
+                    *ngIf="!collectingPositions">
+                    <fa-icon [icon]="faPlay" class=""></fa-icon>
+                </button>
+
+                <button class="siimple--ml-2 siimple-btn siimple-btn--success" (click)="finishActivity()" type="button"
+                    *ngIf="collectingPositions">
+                    <fa-icon [icon]="faCheck" class=""></fa-icon>
+                </button>
+
+                <button type="button" class="siimple--ml-2 siimple-btn 
+                                siimple-btn--primary siimple--float-right" (click)="toggleMaximize()">
+                    <fa-icon [icon]="faCompress" *ngIf="maximized"></fa-icon>
+                    <fa-icon [icon]="faExpand" *ngIf="!maximized"></fa-icon>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<app-delete-modal [(visible)]="deleteModalVisible" title='Stop tracking'
     body='This will stop tracking and remove existing positions. Are you sure you want to proceed?'
-    (deleted)="disableTrackingAndClearPositions()"
-    (canceled)="toggleDeleteModal()"
-    >
+    (deleted)="disableTrackingAndClearPositions()" (canceled)="toggleDeleteModal()">
 </app-delete-modal>

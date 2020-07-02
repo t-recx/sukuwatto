@@ -400,6 +400,8 @@ export class WorkoutDetailEditComponent implements OnInit {
     let userBioDataObservable: Observable<UserBioData>;
     let saveWorkoutObservable: Observable<Workout>;
 
+    this.setCalories();
+
     if (!this.workout.name || this.workout.name.trim().length == 0) {
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
     }
@@ -460,6 +462,15 @@ export class WorkoutDetailEditComponent implements OnInit {
     return true;
   }
 
+  setCalories(): void {
+    const warmups = this.workout.groups.flatMap(w => w.warmups.map(s => s)) ?? [];
+    const sets = this.workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
+
+    const activities = [...warmups, ...sets];
+
+    this.workout.calories =  activities.reduce((a, b) => a + b.calories, 0);
+  }
+
   finishWorkout(): void {
     this.workout.status = WorkoutStatus.Finished;
     this.triedToSave = true;
@@ -471,6 +482,7 @@ export class WorkoutDetailEditComponent implements OnInit {
 
     this.finishing = true;
     this.saveObservable().subscribe(workout => {
+      this.finishWorkoutVisible = false;
       this.finishing = false;
       this.triedToSave = false;
       if (workout) {
