@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class LandingGuard implements CanActivate {
       if (this.authService.isLoggedIn())
       {
         this.router.navigate([`/users/${this.authService.getUsername()}`]);
+
+        return false;
+      }
+      else if (environment.application && state.url == '/') {
+        this.router.navigate(['/login']);
 
         return false;
       }
