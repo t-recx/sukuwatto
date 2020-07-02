@@ -3,8 +3,8 @@ import { environmentProductionHost } from 'src/environments/hosts';
 export const environment = {
   production: true,
   application: false,
-  mediaUrl: 'https://' + environmentProductionHost + ':8443',
-  apiUrl: 'https://' + environmentProductionHost + ':8443/api',
-  wsUrl: 'wss://' + environmentProductionHost + ':8443/ws',
+  mediaUrl: 'https://' + environmentProductionHost,
+  apiUrl: 'https://' + environmentProductionHost + '/api',
+  wsUrl: 'wss://' + environmentProductionHost + '/ws',
   maxFileSizeUpload: 1000000,
 };
