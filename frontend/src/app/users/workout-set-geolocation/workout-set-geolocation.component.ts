@@ -159,8 +159,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
             this.workoutActivity.time = 0;
           }
 
-          this.workoutActivity.time += this.round(this.unitsService.convert(1, 's', this.workoutActivity.time_unit));
-
+          this.workoutActivity.time += this.unitsService.convert(1, 's', this.workoutActivity.time_unit);
+          this.workoutActivity.time = this.round(this.workoutActivity.time);
         }
 
         if (this.currentView == GeoView.Stats) {
