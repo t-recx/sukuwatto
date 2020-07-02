@@ -482,6 +482,7 @@ export class WorkoutDetailEditComponent implements OnInit {
 
     this.finishing = true;
     this.saveObservable().subscribe(workout => {
+      this.finishWorkoutVisible = false;
       this.finishing = false;
       this.triedToSave = false;
       if (workout) {

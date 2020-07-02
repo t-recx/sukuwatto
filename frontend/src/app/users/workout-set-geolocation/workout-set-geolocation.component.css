@@ -38,7 +38,10 @@
 }
 
 .stats-header {
-  padding: 16px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
   text-align: center;
   background-color: #eef2f7;
   font-size: 32px;

@@ -21,7 +21,7 @@
             <div class="siimple-grid-row stats-item" *ngIf="speed">
                 <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
                 <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
-                    ~{{speed}}{{speedUnit.abbreviation}}
+                    {{speed}}{{speedUnit.abbreviation}}
                 </div>
             </div>
             <div class="siimple-grid-row stats-item " *ngIf="calories">
