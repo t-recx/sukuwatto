@@ -6,7 +6,7 @@ import { MetabolicEquivalentService } from './metabolic-equivalent.service';
 import { map, flatMap, concatMap } from 'rxjs/operators';
 import { WorkoutSet } from './workout-set';
 import { UnitsService } from './units.service';
-import { MeasurementType } from './unit';
+import { MeasurementType, Unit } from './unit';
 import { UserBioData } from './user-bio-data';
 import { User } from '../user';
 import { ExerciseType } from './exercise';
@@ -167,7 +167,7 @@ export class CaloriesService {
     return Math.round(met.met * userWeightKgs * hours);
   }
 
-  private getMet(distance: number, distance_unit: number, mets: MetabolicEquivalentTask[], units: import("/home/joao/django/sqtrex/frontend/src/app/users/unit").Unit[], hours: number, met: MetabolicEquivalentTask) {
+  private getMet(distance: number, distance_unit: number, mets: MetabolicEquivalentTask[], units: Unit[], hours: number, met: MetabolicEquivalentTask) {
     if (distance &&
       distance_unit &&
       mets
