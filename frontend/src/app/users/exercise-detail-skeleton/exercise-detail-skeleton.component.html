@@ -1,5 +1,5 @@
 <div *ngIf="exercise">
-    <form class="siimple-card siimple-form" #exerciseForm="ngForm">
+    <form class="siimple-card siimple-form siimple--mb-0" #exerciseForm="ngForm">
         <div class="siimple-form-title form-title" *ngIf="showTitle">Exercise detail</div>
         <div class="siimple-grid">
             <div class="siimple-grid-row">
@@ -86,7 +86,9 @@
             </div>
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
-                    <div class="siimple-form-field siimple-card-body">
+                    <div class="siimple-form-field siimple-card-body"
+                        [class.siimple--mb-0]="exercise.exercise_type != 's'"
+                    >
                         <div class="siimple-form-field-label">Level</div>
 
                         <div class="siimple--display-block">
@@ -223,7 +225,7 @@
                 </div>
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
-                        <div class="siimple-form-field siimple-card-body">
+                        <div class="siimple-form-field siimple-card-body siimple--mb-0">
                             <div class="siimple-form-field-label">Section</div>
             
                             <div class="siimple--display-block">
