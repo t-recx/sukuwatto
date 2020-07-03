@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Input } from '@angular/core';
-import { faThumbsUp, faComments, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faComments, faComment, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { StreamsService } from '../streams.service';
 import { Action } from '../action';
 import { AuthService } from 'src/app/auth.service';
@@ -26,15 +26,18 @@ export class CardSocialInteractionComponent implements OnInit {
   faThumbsUp = faThumbsUp;
   faComments = faComments;
   faComment = faComment;
+  faCircleNotch = faCircleNotch;
 
   usersThatLiked: User[];
 
   liked: boolean;
   likes: number = 0;
+  liking: boolean = false;
 
   commentsNumber: number = 0;
   newCommentText: string;
   commentActions: Action[];
+  commenting: boolean = false;
 
   createCommentSectionVisible: boolean = false;
   usersLikesModalVisible: boolean = false;
@@ -106,6 +109,8 @@ export class CardSocialInteractionComponent implements OnInit {
   }
 
   toggleLike(): void {
+    this.liking = true;
+
     this.streamsService.toggleLike(this.content_type_id, this.id).subscribe(x => {
       this.liked = !this.liked;
 
@@ -121,6 +126,7 @@ export class CardSocialInteractionComponent implements OnInit {
 
         this.usersThatLiked = this.usersThatLiked.filter(x => x.username != this.authService.getUsername());
       }
+      this.liking = false;
     });
   }
 
@@ -141,11 +147,13 @@ export class CardSocialInteractionComponent implements OnInit {
       return;
     }
 
+    this.commenting= true;
     this.commentsService.createComment(comment).subscribe(x => 
       {
         this.newCommentText = "";
         this.loadActions();
         this.triedToComment = false;
+        this.commenting= false;
       });
   }
 
