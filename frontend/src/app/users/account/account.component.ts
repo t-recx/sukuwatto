@@ -167,16 +167,24 @@ export class AccountComponent implements OnInit {
     this.userService.update(this.user)
     .subscribe(() => {
       if (this.userBioData) {
-        this.userBioDataService.saveUserBioData(this.userBioData).subscribe(() => this.saving = false);
+        this.userBioDataService.saveUserBioData(this.userBioData)
+        .subscribe(() => 
+        {
+          this.saving = false;
+
+          this.authService.setUnitSystem(this.user.system);
+
+          this.router.navigateByUrl(`/users/${this.user.username}/profile`);
+        });
       }
       else {
         this.saving = false;
+
+        this.authService.setUnitSystem(this.user.system);
+
+        this.router.navigateByUrl(`/users/${this.user.username}/profile`);
       }
     });
-
-    this.authService.setUnitSystem(this.user.system);
-
-    this.router.navigateByUrl(`/users/${this.user.username}/profile`);
   }
 
   delete(): void {

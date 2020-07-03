@@ -17,8 +17,10 @@
 </div>
 
 <div class="social-interaction-buttons">
-    <span class="like-button button-link" [class.liked]="liked">
-        <fa-icon [icon]="faThumbsUp" class="siimple--mr-1" (click)="toggleLike()"></fa-icon>
+    <span class="like-button button-link" [class.liked]="liked"
+    >
+        <fa-icon 
+        [icon]="faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" ></fa-icon>
 
         <span class="likes" (click)="toggleUserLikesModal()">
             {{likes}}
@@ -49,8 +51,9 @@
         </div>
     </div>
     <div class="siimple--clearfix">
-        <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()">
-            <fa-icon [icon]="faComment" class="siimple--mr-1"></fa-icon>
+        <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()"
+        >
+            <fa-icon [icon]="faComment" class="siimple--mr-1" ></fa-icon>
             Comment
         </button>
     </div>

@@ -97,12 +97,18 @@
 
         <div class="detail-operations-separator"></div>
 
-        <button type="button" class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()">
+        <button type="button" class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()"
+            [class.siimple-btn--disabled]="saving"
+            [disabled]="saving"
+        >
             <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
             <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
             Save
         </button>
-        <button type="button" *ngIf="plan.id" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()">
+        <button type="button" *ngIf="plan.id" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2" (click)="toggleDeleteModal()"
+            [class.siimple-btn--disabled]="deleting"
+            [disabled]="deleting"
+        >
             <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
             <fa-icon [icon]="faCircleNotch"  [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
             Delete

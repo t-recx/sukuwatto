@@ -186,7 +186,10 @@
         </div>
     </div>
 
-    <button class="siimple-btn siimple-btn--success" (click)="save()">
+    <button class="siimple-btn siimple-btn--success" (click)="save()"
+        [class.siimple-btn--disabled]="saving"
+        [disabled]="saving"
+    >
         <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
         <fa-icon [icon]="faCircleNotch" [spin]=true  class="  siimple--mr-1" *ngIf="saving"></fa-icon>
         Save
@@ -195,7 +198,10 @@
         <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
         Change password
     </button>
-    <button class="siimple-btn siimple-btn--error siimple--ml-2 delete-button" (click)="showDeleteModal()">
+    <button class="siimple-btn siimple-btn--error siimple--ml-2 delete-button" (click)="showDeleteModal()"
+        [class.siimple-btn--disabled]="deleting"
+        [disabled]="deleting"
+    >
         <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
         <fa-icon [icon]="faCircleNotch" [spin]=true  class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
         Delete account
