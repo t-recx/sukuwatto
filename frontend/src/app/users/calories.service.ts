@@ -42,7 +42,7 @@ export class CaloriesService {
     .pipe(
       concatMap(mets => 
         new Observable<number>(o => {
-          o.next(this.getActivityCalories(userWeightKgs, workout, activity, mets));
+          o.next(+this.getActivityCalories(userWeightKgs, workout, activity, mets));
           o.complete();
         })
       )
@@ -76,7 +76,7 @@ export class CaloriesService {
     );
   }
 
-  getActivityCalories(userWeightKgs: number, workout: Workout, activity: WorkoutSet, mets: MetabolicEquivalentTask[]) {
+  getActivityCalories(userWeightKgs: number, workout: Workout, activity: WorkoutSet, mets: MetabolicEquivalentTask[]): number {
     if (!mets) {
       return 0;
     }

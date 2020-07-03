@@ -114,6 +114,7 @@ export class ExercisesService {
   createExercise(exercise: Exercise): Observable<Exercise> {
     return this.http.post<Exercise>(this.exercisesUrl, exercise, this.httpOptions)
     .pipe(
+      map(response => this.getProperlyTypedExercise(response)),
       catchError(this.errorService.handleError<Exercise>('createExercise', (e: any) => 
       {
         this.alertService.error('Unable to create exercise, try again later');
@@ -124,6 +125,7 @@ export class ExercisesService {
   updateExercise(exercise: Exercise): Observable<Exercise> {
     return this.http.put<Exercise>(`${this.exercisesUrl}${exercise.id}/`, exercise, this.httpOptions)
     .pipe(
+      map(response => this.getProperlyTypedExercise(response)),
       catchError(this.errorService.handleError<Exercise>('updateExercise', (e: any) => 
       {
         this.alertService.error('Unable to update exercise, try again later');
