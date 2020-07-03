@@ -146,7 +146,7 @@ export class PlansService {
   adoptPlan(plan: Plan): Observable<Plan> {
     return this.http.post<Plan>(`${this.adoptPlanUrl}${plan.id}/`, null)
     .pipe(
-      tap((newPlan: Plan) => { }),
+      map(response => this.getProperlyTypedPlan(response)),
       catchError(this.errorService.handleError<Plan>('adoptPlan', (e: any) => 
       {
         this.alertService.error('Unable to adopt plan, try again later');
@@ -164,6 +164,7 @@ export class PlansService {
   createPlan(plan: Plan): Observable<Plan> {
     return this.http.post<Plan>(this.plansUrl, plan, this.httpOptions)
     .pipe(
+      map(response => this.getProperlyTypedPlan(response)),
       catchError(this.errorService.handleError<Plan>('createPlan', (e: any) => 
       {
         this.alertService.error('Unable to create plan, try again later');
@@ -174,6 +175,7 @@ export class PlansService {
   updatePlan(plan: Plan): Observable<Plan> {
     return this.http.put<Plan>(`${this.plansUrl}${plan.id}/`, plan, this.httpOptions)
     .pipe(
+      map(response => this.getProperlyTypedPlan(response)),
       catchError(this.errorService.handleError<Plan>('updatePlan', (e: any) => 
       {
         this.alertService.error('Unable to update plan, try again later');

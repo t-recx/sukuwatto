@@ -201,7 +201,12 @@ export class WorkoutDetailEditComponent implements OnInit {
         }
         else {
           this.service.getLastWorkout(this.username, this.workout.plan, null, new Date()).subscribe(w => {
-            this.selectNextPlanSession(w);
+            if (w && w.id) {
+              this.selectNextPlanSession(w);
+            }
+            else {
+              this.workout.plan_session = this.planSessions[0].id;
+            }
           });
         }
       }

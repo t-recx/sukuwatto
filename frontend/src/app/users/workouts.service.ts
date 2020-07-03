@@ -267,7 +267,9 @@ export class WorkoutsService {
   createWorkout(workout: Workout): Observable<Workout> {
     return this.http.post<Workout>(this.workoutsUrl, workout, this.httpOptions)
     .pipe(
-      tap((newWorkout: Workout) => { }),
+      map(response => {
+        return this.getProperlyTypedWorkout(response);
+      }),
       catchError(this.errorService.handleError<Workout>('createWorkout', (e: any) => 
       {
         this.alertService.error('Unable to create workout, try again later');
@@ -278,7 +280,9 @@ export class WorkoutsService {
   updateWorkout(workout: Workout): Observable<Workout> {
     return this.http.put<Workout>(`${this.workoutsUrl}${workout.id}/`, workout, this.httpOptions)
     .pipe(
-      tap((newWorkout: Workout) => { }),
+      map(response => {
+        return this.getProperlyTypedWorkout(response);
+      }),
       catchError(this.errorService.handleError<Workout>('updateWorkout', (e: any) => 
       {
         this.alertService.error('Unable to update workout, try again later');
