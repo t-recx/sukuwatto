@@ -5,6 +5,10 @@
             <div class="siimple-modal-header-close" id="modal-close" (click)="toggleUserLikesModal()"></div>
         </div>
         <div class="siimple-modal-body">
+            <div *ngIf="!usersThatLiked || usersThatLiked.length == 0">
+                <span class="siimple-p">No one liked this yet. Be the first!</span>
+            </div>
+
             <app-users-follow-list [users]=usersThatLiked [showActionButton]=false></app-users-follow-list>
         </div>
         <div class="siimple-modal-footer">
