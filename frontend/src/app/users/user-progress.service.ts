@@ -21,7 +21,7 @@ export class UserProgressService {
   ) { }
 
   getUserBioDataProgress(username: string): Observable<UserProgressChartData> {
-    return this.userBioDataService.getLastUserBioData(username, new Date()).pipe(
+    return this.userBioDataService.getLastUserBioData(username).pipe(
       concatMap(userBioData =>
         new Observable<UserProgressChartData>(obs => {
           if (userBioData.date) {
