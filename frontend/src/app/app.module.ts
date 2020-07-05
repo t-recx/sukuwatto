@@ -21,6 +21,8 @@ import { MenuLegalComponent } from './menu-legal/menu-legal.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { AutofocusDirective } from './autofocus.directive';
 import { MainLogoComponent } from './main-logo/main-logo.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -50,6 +52,7 @@ export function tokenGetter() {
     FormsModule,
     UsersModule,
     FontAwesomeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
      {
