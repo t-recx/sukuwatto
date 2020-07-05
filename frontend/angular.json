@@ -26,7 +26,8 @@
                 "output": "leaflet/"
               },
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "node_modules/siimple/dist/siimple.min.css",
@@ -63,7 +64,9 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             },
             "android": {
               "fileReplacements": [
@@ -158,7 +161,8 @@
                 "output": "leaflet/"
               },
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css"

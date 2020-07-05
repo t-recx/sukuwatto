@@ -60,7 +60,7 @@ export class UserBioDataService {
       );
   }
 
-  getLastUserBioData(username: string, date_lte: Date): Observable<UserBioData> {
+  getLastUserBioData(username: string, date_lte: Date = null): Observable<UserBioData> {
     let options = {};
     let params = new HttpParams();
 

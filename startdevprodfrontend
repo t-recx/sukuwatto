@@ -1,0 +1,8 @@
+echo 'Starting frontend'
+echo 'Host: ' 
+echo ${1:-127.0.0.1}
+echo 'Additional configuration: '
+echo ${2:---prod}
+
+cd frontend; ng build ${2:---prod}; http-server -p 4200 -c-1 --ssl --key ../backend/ssl/sukuwatto.key --cert  ../backend/ssl/sukuwatto.crt dist/frontend; cd ..
+
