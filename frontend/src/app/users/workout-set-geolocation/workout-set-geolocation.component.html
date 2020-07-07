@@ -1,6 +1,6 @@
-<div class="map tab-content" leaflet [class.maximized]="maximized"
-    [class.tab-content-selected]="currentView == geoView.Map" (leafletMapMove)="mapMove($event)"
-    (leafletMapZoom)="mapZoom($event)" [(leafletCenter)]="center" [leafletOptions]="options"
+<div class="map tab-content" leaflet [class.maximized]="workoutActivity.maximized"
+    [class.tab-content-selected]="workoutActivity.currentView == geoView.Map" (leafletMapMove)="mapMove($event)"
+    (leafletMapZoom)="mapZoom($event)" [(leafletCenter)]="workoutActivity.center" [leafletOptions]="options"
     [leafletFitBounds]="fitBounds" (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 
@@ -12,8 +12,8 @@
         <button type="button" class="siimple-btn 
             siimple-btn--small
             siimple-btn--primary size-button" (click)="toggleMaximize()">
-            <fa-icon [icon]="faCompress" *ngIf="maximized"></fa-icon>
-            <fa-icon [icon]="faExpand" *ngIf="!maximized"></fa-icon>
+            <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
+            <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
         </button>
 
         <button type="button" class="siimple-btn 
@@ -23,25 +23,25 @@
         </button>
 
         <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
-            *ngIf="!collectingPositions">
+            *ngIf="!workoutActivity.collectingPositions">
             <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
             {{startText}}
         </button>
 
         <button class="recenter-button siimple-btn siimple-btn--primary" type="button" (click)="recenter()"
-            *ngIf="collectingPositions && userOperatingMap">
+            *ngIf="workoutActivity.collectingPositions && workoutActivity.userOperatingMap">
             <fa-icon [icon]="faDotCircle"></fa-icon>
         </button>
 
         <div class="stop-finish-bar">
             <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
-                *ngIf="collectingPositions">
+                *ngIf="workoutActivity.collectingPositions">
                 <fa-icon [icon]="faPause" class="siimple--mr-1"></fa-icon>
                 Pause
             </button>
 
             <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
-                type="button" *ngIf="collectingPositions">
+                type="button" *ngIf="workoutActivity.collectingPositions">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 Finish
             </button>
@@ -49,9 +49,9 @@
     </div>
 </div>
 
-<div class="  tab-content" [class.tab-content-selected]="currentView == geoView.Stats" [class.maximized]="maximized">
-    <div class=" stats" [class.maximized]="maximized">
-        <div class="stats-header" *ngIf="maximized">
+<div class="  tab-content" [class.tab-content-selected]="workoutActivity.currentView == geoView.Stats" [class.maximized]="workoutActivity.maximized">
+    <div class=" stats" [class.maximized]="workoutActivity.maximized">
+        <div class="stats-header" *ngIf="workoutActivity.maximized">
             {{workoutActivity.exercise.name}}
         </div>
 
@@ -59,7 +59,7 @@
             <div class="siimple-grid">
                 <div class="siimple-grid-row stats-item">
                     <div class="siimple-grid-col siimple-grid-col--4">Time</div>
-                    <div class="siimple-grid-col siimple-grid-col--8" align="right">{{ellapsedTime}}</div>
+                    <div class="siimple-grid-col siimple-grid-col--8" align="right">{{workoutActivity.ellapsedTime}}</div>
                 </div>
                 <div class="siimple-grid-row stats-item">
                     <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
@@ -84,7 +84,7 @@
                     <div class="siimple-grid-col siimple-grid-col--6">Calories</div>
                     <div class="siimple-grid-col siimple-grid-col--6" align="right">{{workoutActivity.calories}}kcal</div>
                 </div>
-                <div class="siimple-grid-row stats-item" *ngIf="caloriesDetailed && allowEdit">
+                <div class="siimple-grid-row stats-item" *ngIf="workoutActivity.caloriesDetailed && allowEdit">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-card siimple--mb-0">
                             <div class="siimple-card-body">
@@ -120,24 +120,24 @@
 
             <span class="siimple--float-right" *ngIf="allowEdit">
                 <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
-                    *ngIf="collectingPositions">
+                    *ngIf="workoutActivity.collectingPositions">
                     <fa-icon [icon]="faPause" class=""></fa-icon>
                 </button>
 
                 <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
-                    *ngIf="!collectingPositions">
+                    *ngIf="!workoutActivity.collectingPositions">
                     <fa-icon [icon]="faPlay" class=""></fa-icon>
                 </button>
 
                 <button class="siimple--ml-2 siimple-btn siimple-btn--success" (click)="finishActivity()" type="button"
-                    *ngIf="collectingPositions">
+                    *ngIf="workoutActivity.collectingPositions">
                     <fa-icon [icon]="faCheck" class=""></fa-icon>
                 </button>
 
                 <button type="button" class="siimple--ml-2 siimple-btn 
                                 siimple-btn--primary siimple--float-right" (click)="toggleMaximize()">
-                    <fa-icon [icon]="faCompress" *ngIf="maximized"></fa-icon>
-                    <fa-icon [icon]="faExpand" *ngIf="!maximized"></fa-icon>
+                    <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
+                    <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
                 </button>
             </span>
         </div>

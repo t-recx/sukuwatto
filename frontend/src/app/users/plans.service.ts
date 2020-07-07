@@ -76,22 +76,34 @@ export class PlansService {
   }
 
   getProperlyTypedPlans(plans: Plan[]): Plan[] {
-    for (let plan of plans) {
-      plan = this.getProperlyTypedPlan(plan);
+    if (plans) {
+      for (let plan of plans) {
+        plan = this.getProperlyTypedPlan(plan);
+      }
     }
 
     return plans;
   }
 
   getProperlyTypedPlan(plan: Plan): Plan {
-    plan.creation = new Date(plan.creation);
+    if (plan) {
+      plan.creation = new Date(plan.creation);
 
-    if (plan.progressions) {
-      plan.progressions = this.getProperlyTypedProgressions(plan.progressions);
+      if (plan.progressions) {
+        plan.progressions = this.getProperlyTypedProgressions(plan.progressions);
+      }
+
+      if (plan.sessions) {
+        plan.sessions = this.getProperlyTypedPlanSessions(plan.sessions);
+      }
     }
 
-    if (plan.sessions) {
-      for (let session of plan.sessions) {
+    return plan;
+  }
+
+  getProperlyTypedPlanSessions(sessions: PlanSession[]): PlanSession[] {
+    if (sessions) {
+      for (let session of sessions) {
         if (session.progressions) {
           session.progressions = this.getProperlyTypedProgressions(session.progressions);
 
@@ -106,7 +118,7 @@ export class PlansService {
       }
     }
 
-    return plan;
+    return sessions;
   }
 
   getProperlyTypedActivities(activities: PlanSessionGroupActivity[]): PlanSessionGroupActivity[] {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angular/core';
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from '../plan';
@@ -7,13 +7,16 @@ import { PlanSession } from '../plan-session';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { LoadingService } from '../loading.service';
+import { CordovaService } from 'src/app/cordova.service';
+import { Subscription } from 'rxjs';
+import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 
 @Component({
   selector: 'app-plan-detail',
   templateUrl: './plan-detail.component.html',
   styleUrls: ['./plan-detail.component.css']
 })
-export class PlanDetailComponent implements OnInit {
+export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   faCalendarPlus = faCalendarPlus;
   faTimesCircle = faTimesCircle;
 
@@ -33,6 +36,9 @@ export class PlanDetailComponent implements OnInit {
   saving: boolean = false;
   deleting: boolean = false;
 
+  pausedSubscription: Subscription;
+  resumedSubscription: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private service: PlansService,
@@ -40,9 +46,18 @@ export class PlanDetailComponent implements OnInit {
     private authService: AuthService,
     private alertService: AlertService,
     private loadingService: LoadingService,
+    private cordovaService: CordovaService,
+    private serializerUtils: SerializerUtilsService,
   ) { }
 
+  ngAfterViewInit(): void {
+    this.serializerUtils.restoreScrollPosition();
+  }
+
   ngOnInit() {
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+    //this.resumedSubscription = this.cordovaService.paused.subscribe(() => this.restore());
+
     this.route.paramMap.subscribe(params => 
       {
         this.triedToSave = false;
@@ -50,7 +65,77 @@ export class PlanDetailComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.pausedSubscription.unsubscribe();
+    //this.resumedSubscription.unsubscribe();
+
+    localStorage.removeItem('state_plan_detail_has_state');
+    localStorage.removeItem('state_plan_detail_selected_session_index');
+    localStorage.removeItem('state_plan_detail_plan');
+    this.serializerUtils.removeScrollPosition();
+  }
+
+  getSelectedSessionIndex(): number {
+    if (!this.plan || !this.plan.sessions || this.plan.sessions.length == 0 || !this.selectedSession) {
+      return 0;
+    }
+
+    for (let index = 0; index < this.plan.sessions.length; index++) {
+      const element = this.plan.sessions[index];
+
+      if (this.selectedSession == element) {
+        return index;
+      }
+    }
+
+    return 0;
+  }
+
+  serialize() {
+    localStorage.setItem('state_plan_detail_has_state', JSON.stringify(true));
+    localStorage.setItem('state_plan_detail_plan', JSON.stringify(this.plan));
+    localStorage.setItem('state_plan_detail_selected_session_index', JSON.stringify(this.getSelectedSessionIndex()));
+    this.serializerUtils.serializeScrollPosition();
+  }
+
+  restore(): boolean {
+    const hasState = JSON.parse(localStorage.getItem('state_plan_detail_has_state'));
+
+    if (!hasState) {
+      return false;
+    }
+
+    const state = localStorage.getItem('state_plan_detail_plan');
+    const sessionIndex = JSON.parse(localStorage.getItem('state_plan_detail_selected_session_index'));
+
+    this.plan = this.service.getProperlyTypedPlan(JSON.parse(state));
+
+    if (this.plan.id && this.plan.id > 0) {
+      this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
+    }
+    else {
+      this.userIsOwner = true;
+    }
+
+    if (this.plan.sessions && this.plan.sessions.length > 0) {
+      if (sessionIndex && sessionIndex < this.plan.sessions.length) {
+        this.selectedSession = this.plan.sessions[sessionIndex];
+      }
+    }
+    else {
+      if (this.plan.sessions.length > 0) {
+        this.selectedSession = this.plan.sessions[0];
+      }
+    }
+
+    return true;
+  }
+
   private loadOrInitializePlan(id: string) {
+    if (this.restore()) {
+      return;
+    }
+
     if (id) {
       this.loading = true;
       this.loadingService.load();

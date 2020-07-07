@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Exercise } from '../exercise';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExercisesService } from '../exercises.service';
@@ -6,13 +6,16 @@ import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
+import { CordovaService } from 'src/app/cordova.service';
+import { Subscription } from 'rxjs';
+import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 
 @Component({
   selector: 'app-exercise-detail',
   templateUrl: './exercise-detail.component.html',
   styleUrls: ['./exercise-detail.component.css']
 })
-export class ExerciseDetailComponent implements OnInit {
+export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   exercise: Exercise;
   triedToSave: boolean;
   deleteModalVisible: boolean = false;
@@ -26,6 +29,8 @@ export class ExerciseDetailComponent implements OnInit {
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
 
+  pausedSubscription: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private service: ExercisesService,
@@ -33,16 +38,63 @@ export class ExerciseDetailComponent implements OnInit {
     private alertService: AlertService,
     private router: Router,
     private loadingService: LoadingService,
+    private cordovaService: CordovaService,
+    private serializerUtils: SerializerUtilsService,
   ) { }
+
+  ngAfterViewInit(): void {
+    this.serializerUtils.restoreScrollPosition();
+  }
 
   ngOnInit() {
     this.triedToSave = false;
 
     this.route.paramMap.subscribe(params =>
       this.loadOrInitializeExercise(params.get('id')));
+
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+  }
+
+  ngOnDestroy(): void {
+    this.pausedSubscription.unsubscribe();
+
+    localStorage.removeItem('state_exercise_has_state');
+    localStorage.removeItem('state_exercise_detail_exercise');
+    this.serializerUtils.removeScrollPosition();
+  }
+
+  serialize() {
+    localStorage.setItem('state_exercise_has_state', JSON.stringify(true));
+    localStorage.setItem('state_exercise_detail_exercise', JSON.stringify(this.exercise));
+    this.serializerUtils.serializeScrollPosition();
+  }
+
+  restore(): boolean {
+    const hasState = JSON.parse(localStorage.getItem('state_exercise_has_state'));
+
+    if (!hasState) {
+      return false;
+    }
+
+    const stateExercise = localStorage.getItem('state_exercise_detail_exercise');
+
+    this.exercise = this.service.getProperlyTypedExercise(JSON.parse(stateExercise));
+
+    if (this.exercise.id && this.exercise.id > 0) {
+      this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
+    }
+    else {
+      this.userIsOwner = true;
+    }
+
+    return true;
   }
 
   private loadOrInitializeExercise(id: string): void {
+    if (this.restore()) {
+      return;
+    }
+
     if (id) {
       this.loading = true;
       this.loadingService.load();

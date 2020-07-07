@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Workout, WorkoutStatus } from '../workout';
 import { Plan } from '../plan';
 import { WorkoutsService } from '../workouts.service';
@@ -8,7 +8,7 @@ import { PlanSession } from '../plan-session';
 import { WorkoutGroup } from '../workout-group';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { WorkoutSet } from '../workout-set';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { WorkingParameter } from '../working-parameter';
 import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
@@ -18,13 +18,99 @@ import { Location } from '@angular/common';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faSave, faTrash, faCheckSquare, faLayerGroup, faWeight, faWeightHanging, faBook, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
+import { CordovaService } from 'src/app/cordova.service';
+import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 
 @Component({
   selector: 'app-workout-detail-edit',
   templateUrl: './workout-detail-edit.component.html',
   styleUrls: ['./workout-detail-edit.component.css']
 })
-export class WorkoutDetailEditComponent implements OnInit {
+export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewInit {
+  pausedSubscription: Subscription;
+
+  ngAfterViewInit(): void {
+    this.serializerUtils.restoreScrollPosition();
+  }
+
+  stateHasStateId = 'state_workout_detail_has_state';
+  stateWorkoutId = 'state_workout_detail_workout';
+  statePreviousWorkoutId = 'state_workout_detail_previous_workout';
+  stateNotesVisibilityId = 'state_workout_detail_notes_visibility';
+  stateAdoptedPlansId = 'state_workout_detail_adopted_plans';
+  statePlanSessionsId = 'state_workout_detail_plan_sessions';
+  stateWorkingParametersVisibleId = 'state_workout_detail_working_parameters_visible';
+  stateUserBioDataVisibleId = 'state_workout_detail_user_bio_data_visible';
+  stateFinishWorkoutVisibleId = 'state_workout_detail_finish_workout_visible';
+  stateUsernameId = 'state_workout_detail_username';
+  stateDeleteModalVisibleId = 'state_workout_detail_delete_modal_visible';
+
+  ngOnDestroy(): void {
+    this.pausedSubscription.unsubscribe();
+
+    localStorage.removeItem(this.stateWorkoutId);
+    localStorage.removeItem(this.statePreviousWorkoutId);
+    localStorage.removeItem(this.stateNotesVisibilityId);
+    localStorage.removeItem(this.stateAdoptedPlansId);
+    localStorage.removeItem(this.statePlanSessionsId);
+    localStorage.removeItem(this.stateWorkingParametersVisibleId);
+    localStorage.removeItem(this.stateUserBioDataVisibleId);
+    localStorage.removeItem(this.stateFinishWorkoutVisibleId);
+    localStorage.removeItem(this.stateUsernameId);
+    localStorage.removeItem(this.stateDeleteModalVisibleId);
+    localStorage.removeItem(this.stateHasStateId);
+
+    this.serializerUtils.removeScrollPosition();
+  }
+
+  serialize() {
+    localStorage.setItem(this.stateHasStateId, JSON.stringify(true));
+    localStorage.setItem(this.stateWorkoutId, JSON.stringify(this.workout));
+    localStorage.setItem(this.statePreviousWorkoutId, JSON.stringify(this.previousWorkout));
+    localStorage.setItem(this.stateNotesVisibilityId, JSON.stringify(this.notesVisibility));
+    localStorage.setItem(this.stateAdoptedPlansId, JSON.stringify(this.adoptedPlans));
+    localStorage.setItem(this.statePlanSessionsId, JSON.stringify(this.planSessions));
+    localStorage.setItem(this.stateWorkingParametersVisibleId, JSON.stringify(this.workingParametersVisible));
+    localStorage.setItem(this.stateUserBioDataVisibleId, JSON.stringify(this.userBioDataVisible));
+    localStorage.setItem(this.stateFinishWorkoutVisibleId, JSON.stringify(this.finishWorkoutVisible));
+    localStorage.setItem(this.stateUsernameId, JSON.stringify(this.username));
+    localStorage.setItem(this.stateDeleteModalVisibleId, JSON.stringify(this.deleteModalVisible));
+
+    this.serializerUtils.serializeScrollPosition();
+  }
+
+  restore(): boolean {
+    const hasState = JSON.parse(localStorage.getItem(this.stateHasStateId));
+
+    if (!hasState) {
+      return false;
+    }
+
+    const stateWorkout = localStorage.getItem(this.stateWorkoutId);
+    const statePreviousWorkout = localStorage.getItem(this.statePreviousWorkoutId);
+    const stateNotesVisibility = localStorage.getItem(this.stateNotesVisibilityId);
+    const stateAdoptedPlans = localStorage.getItem(this.stateAdoptedPlansId);
+    const statePlanSessions = localStorage.getItem(this.statePlanSessionsId);
+    const stateWorkingParametersVisible = localStorage.getItem(this.stateWorkingParametersVisibleId);
+    const stateUserBioDataVisible = localStorage.getItem(this.stateUserBioDataVisibleId);
+    const stateFinishWorkoutVisible = localStorage.getItem(this.stateFinishWorkoutVisibleId);
+    const stateUsername = localStorage.getItem(this.stateUsernameId);
+    const stateDeleteModalVisible = localStorage.getItem(this.stateDeleteModalVisibleId);
+
+    this.workout = this.service.getProperlyTypedWorkout(JSON.parse(stateWorkout));
+    this.previousWorkout = this.service.getProperlyTypedWorkout(JSON.parse(statePreviousWorkout));
+    this.notesVisibility = JSON.parse(stateNotesVisibility);
+    this.adoptedPlans = this.plansService.getProperlyTypedPlans(JSON.parse(stateAdoptedPlans));
+    this.planSessions = this.plansService.getProperlyTypedPlanSessions(JSON.parse(statePlanSessions));
+    this.workingParametersVisible = JSON.parse(stateWorkingParametersVisible);
+    this.userBioDataVisible = JSON.parse(stateUserBioDataVisible);
+    this.finishWorkoutVisible = JSON.parse(stateFinishWorkoutVisible);
+    this.username = JSON.parse(stateUsername);
+    this.deleteModalVisible = JSON.parse(stateDeleteModalVisible);
+
+    return true;
+  }
+
   workout: Workout;
   previousWorkout: Workout;
 
@@ -69,6 +155,8 @@ export class WorkoutDetailEditComponent implements OnInit {
     private location: Location,
     private alertService: AlertService,
     private loadingService: LoadingService,
+    private cordovaService: CordovaService,
+    private serializerUtils: SerializerUtilsService,
   ) { }
 
   setWorkoutStartDate(event: any) {
@@ -117,15 +205,22 @@ export class WorkoutDetailEditComponent implements OnInit {
     this.userBioData = null;
     this.deleteModalVisible = false;
 
-    this.route.paramMap.subscribe(params => 
-      {
-        this.saving = this.deleting = this.finishing = false;
-        this.triedToSave = false;
-        this.userBioData = null;
-        this.username = params.get('username');
-        this.loadAdoptedPlans();
-        this.loadOrInitializeWorkout(params.get('id'));
-      });
+    this.route.paramMap.subscribe(params => this.loadViewData(params.get('username'), params.get('id')));
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+  }
+
+  loadViewData(username: string, id: string) {
+    this.saving = this.deleting = this.finishing = false;
+    this.triedToSave = false;
+    this.userBioData = null;
+    this.username = username;
+
+    if (this.restore()) {
+      return;
+    }
+
+    this.loadAdoptedPlans();
+    this.loadOrInitializeWorkout(id);
   }
 
   loadOrInitializeWorkout(id: string) {

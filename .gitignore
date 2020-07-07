@@ -147,3 +147,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+
+cordova/config.xml
+cordova/www/js/error.js
+cordova/www/js/index.js

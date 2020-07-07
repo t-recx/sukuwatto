@@ -1,17 +1,20 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
 import { Unit, MeasurementType } from '../unit';
 import { AuthService } from 'src/app/auth.service';
 import { UnitsService } from '../units.service';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
+import { CordovaService } from 'src/app/cordova.service';
+import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 
 @Component({
   selector: 'app-user-bio-data-detail',
   templateUrl: './user-bio-data-detail.component.html',
   styleUrls: ['./user-bio-data-detail.component.css']
 })
-export class UserBioDataDetailComponent implements OnInit, OnChanges {
+export class UserBioDataDetailComponent implements OnInit, OnChanges, OnDestroy {
   @Input() username: string;
   @Input() start: Date;
   @Input() visible: boolean;
@@ -33,13 +36,19 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
   height_unit_invalid: boolean;
   bone_mass_weight_unit_invalid: boolean;
 
+  pausedSubscription: Subscription;
+
   constructor(
     private service: UserBioDataService,
     private authService: AuthService,
     private unitsService: UnitsService,
+    private cordovaService: CordovaService,
+    private serializerUtils: SerializerUtilsService,
     ) { }
 
   ngOnInit() {
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+
     this.userBioData = new UserBioData();
     this.userBioData.date = this.start;
     this.triedToHide = false;
@@ -50,6 +59,13 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
 
     this.loadUnits();
     this.loadUserBioData();
+  }
+
+  ngOnDestroy(): void {
+    this.pausedSubscription.unsubscribe();
+
+    localStorage.removeItem('state_user_bio_data_has_state');
+    localStorage.removeItem('state_user_bio_data_user_bio_data');
   }
 
   loadUnits(): void {
@@ -76,8 +92,36 @@ export class UserBioDataDetailComponent implements OnInit, OnChanges {
     }
   }
 
+  serialize() {
+    localStorage.setItem('state_user_bio_data_has_state', JSON.stringify(true));
+    localStorage.setItem('state_user_bio_data_user_bio_data', JSON.stringify(this.userBioData));
+    this.serializerUtils.serializeScrollPosition();
+  }
+
+  restore(): boolean {
+    const hasState = JSON.parse(localStorage.getItem('state_user_bio_data_has_state'));
+
+    if (!hasState) {
+      return false;
+    }
+
+    const stateUserBioData = localStorage.getItem('state_user_bio_data_user_bio_data');
+
+    this.userBioData = this.service.getProperlyTypedUserBioData(JSON.parse(stateUserBioData));
+
+    if (this.userBioData) {
+      this.setDefaultUserUnits();
+    }
+
+    return true;
+  }
+
   loadUserBioData(): void {
     if (!this.start) {
+      return;
+    }
+
+    if (this.restore()) {
       return;
     }
 
