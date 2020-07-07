@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { User } from 'src/app/user';
 import { AuthService } from 'src/app/auth.service';
 import { UserService } from 'src/app/user.service';
@@ -10,13 +10,16 @@ import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
+import { CordovaService } from 'src/app/cordova.service';
+import { SerializerUtilsService } from 'src/app/serializer-utils.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   user: User;
   username: string;
   allowed: boolean;
@@ -41,6 +44,8 @@ export class AccountComponent implements OnInit {
   loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
+  
+  pausedSubscription: Subscription;
 
   setProfilePicture(event: any) {
     this.user.profile_filename = event;
@@ -63,11 +68,51 @@ export class AccountComponent implements OnInit {
     private userBioDataService: UserBioDataService,
     private alertService: AlertService,
     private loadingService: LoadingService,
+    private cordovaService: CordovaService,
+    private serializerUtils: SerializerUtilsService,
   ) { }
+
+  ngAfterViewInit(): void {
+    this.serializerUtils.restoreScrollPosition();
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params =>
       this.loadUserData(params.get('username')));
+
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+  }
+
+  ngOnDestroy(): void {
+    this.pausedSubscription.unsubscribe();
+
+    localStorage.removeItem('state_account_has_state');
+    localStorage.removeItem('state_account_user');
+    localStorage.removeItem('state_account_user_bio_data_visible');
+    this.serializerUtils.removeScrollPosition();
+  }
+
+  serialize() {
+    localStorage.setItem('state_account_has_state', JSON.stringify(true));
+    localStorage.setItem('state_account_user', JSON.stringify(this.user));
+    localStorage.setItem('state_account_user_bio_data_visible', JSON.stringify(this.userBioDataVisible));
+    this.serializerUtils.serializeScrollPosition();
+  }
+
+  restore(): boolean {
+    const hasState = JSON.parse(localStorage.getItem('state_account_has_state'));
+
+    if (!hasState) {
+      return false;
+    }
+
+    const stateUser = localStorage.getItem('state_account_user');
+    const stateUserBioDataVisible = localStorage.getItem('state_account_user_bio_data_visible');
+
+    this.user = JSON.parse(stateUser);
+    this.userBioDataVisible = JSON.parse(stateUserBioDataVisible);
+
+    return true;
   }
 
   loadUserData(username: string) {
@@ -83,6 +128,10 @@ export class AccountComponent implements OnInit {
     this.triedToSave = false;
 
     if (this.allowed) {
+      if (this.restore()) {
+        return;
+      }
+
       this.loading = true;
       this.loadingService.load();
       this.userService.get(this.username).subscribe(users => {

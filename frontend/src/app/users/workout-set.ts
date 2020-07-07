@@ -1,6 +1,8 @@
 import { RepetitionType, SpeedType, Vo2MaxType, DistanceType, TimeType } from './plan-session-group-activity';
 import { Exercise } from './exercise';
 import { WorkoutSetPosition } from './workout-set-position';
+import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-geolocation.component';
+import { LatLng, latLng } from 'leaflet';
 
 export class WorkoutSet {
     id: number;
@@ -58,6 +60,22 @@ export class WorkoutSet {
 
     met: number;
     met_set_by_user: boolean;
+
+    // not stored, but helpful to restore state
+    // when geolocation is used:
+    maximized: boolean = false;
+    trackingType: GeoTrackingType = GeoTrackingType.None;
+    collectingPositions: boolean = false;
+    zoom: number = 8;
+    center: LatLng = latLng(0, 0);
+    userOperatingMap: boolean = false;
+    watchId: number = null;
+    ellapsedTime: string;
+    caloriesDetailed: boolean = false;
+    currentView: GeoView = GeoView.Map;
+    timeWhenSuspended: Date;
+    suspended: boolean = false;
+    // ----
 
     constructor(init?: Partial<WorkoutSet>) {
         this.exercise = new Exercise();

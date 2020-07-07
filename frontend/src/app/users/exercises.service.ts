@@ -90,7 +90,9 @@ export class ExercisesService {
   }
 
   getProperlyTypedExercise(exercise: Exercise): Exercise {
-    exercise.creation = new Date(exercise.creation);
+    if (exercise) {
+      exercise.creation = new Date(exercise.creation);
+    }
 
     return exercise;
   }

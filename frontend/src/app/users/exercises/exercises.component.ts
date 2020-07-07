@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subject, Subscription, combineLatest } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.css']
 })
-export class ExercisesComponent implements OnInit, OnDestroy {
+export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
   paramChangedSubscription: Subscription;
   queryParamChangedSubscription: Subscription;
   faDumbbell = faDumbbell;
@@ -33,6 +33,9 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         this.loadParameterDependentData(results.params.get('username'),results.params.get('page'),
         results.query.get('search'), results.query.get('ordering'));
     });
+  }
+
+  ngAfterViewInit(): void {
   }
 
   isLoggedIn() {

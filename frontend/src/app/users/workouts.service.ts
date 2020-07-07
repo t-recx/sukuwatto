@@ -10,6 +10,8 @@ import { Paginated } from './paginated';
 import { WorkoutGroup } from './workout-group';
 import { WorkoutSet } from './workout-set';
 import { WorkoutSetPosition } from './workout-set-position';
+import { latLng } from 'leaflet';
+import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-geolocation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -198,26 +200,29 @@ export class WorkoutsService {
       if (position.timestamp) {
         position.timestamp = Number(position.timestamp);
       }
+
     }
 
     return position;
   }
 
   getProperlyTypedWorkout(workout: Workout): Workout {
-    if (workout.working_parameters) {
-      for (let ww of workout.working_parameters) {
-        if (ww.parameter_value) {
-          ww.parameter_value = Number(ww.parameter_value);
-        }
-        if (ww.previous_parameter_value) {
-          ww.previous_parameter_value = Number(ww.previous_parameter_value);
+    if (workout) {
+      if (workout.working_parameters) {
+        for (let ww of workout.working_parameters) {
+          if (ww.parameter_value) {
+            ww.parameter_value = Number(ww.parameter_value);
+          }
+          if (ww.previous_parameter_value) {
+            ww.previous_parameter_value = Number(ww.previous_parameter_value);
+          }
         }
       }
-    }
 
-    if (workout.groups) {
-      for (let g of workout.groups) {
-        g = this.getProperlyTypedWorkoutGroup(g);
+      if (workout.groups) {
+        for (let g of workout.groups) {
+          g = this.getProperlyTypedWorkoutGroup(g);
+        }
       }
     }
 
@@ -245,6 +250,11 @@ export class WorkoutsService {
         activity.working_speed_percentage = activity.working_speed_percentage ? +activity.working_speed_percentage : activity.working_speed_percentage;
         activity.working_time_percentage = activity.working_time_percentage ? +activity.working_time_percentage : activity.working_time_percentage;
         activity.working_distance_percentage = activity.working_distance_percentage ? +activity.working_distance_percentage : activity.working_distance_percentage;
+
+        activity.zoom = activity.zoom ? +activity.zoom : activity.zoom;
+        activity.center = activity.center ? latLng(activity.center) : activity.center;
+        activity.watchId = activity.watchId ? +activity.watchId : activity.watchId;
+        activity.timeWhenSuspended = activity.timeWhenSuspended ? new Date(activity.timeWhenSuspended) : activity.timeWhenSuspended;
 
         if (activity.positions) {
           activity.positions.forEach(p => {

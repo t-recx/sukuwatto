@@ -18,6 +18,7 @@ import { MetabolicEquivalentTask } from '../metabolic-equivalent-task';
 import { MetabolicEquivalentService } from '../metabolic-equivalent.service';
 import { Exercise } from '../exercise';
 import { TimeService } from '../time.service';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'app-workout-set-geolocation',
@@ -32,6 +33,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   @Input() workout: Workout;
   @Input() exercise: Exercise;
 
+  pausedSubscription: Subscription;
+
   mets: MetabolicEquivalentTask[];
 
   speedUnit: Unit;
@@ -40,33 +43,31 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   distanceInSmallerUnit: number = 0;
   distanceSmallerUnit: Unit;
 
-  maximized: boolean = false;
-
   distanceSubject = new Subject<number>();
   distanceSubscription: Subscription;
-
-  trackingType: GeoTrackingType = GeoTrackingType.None;
-  collectingPositions: boolean = false;
 
   fitBounds: LatLngBounds = null;
   startText: string = "Start";
 
   options: any;
 
-  faChartBar = faChartBar;
-  faArrowLeft = faArrowLeft;
-  faMapMarkedAlt = faMapMarkedAlt;
+  route: Polyline<any, any> = null;
 
-  BackgroundGeolocation = window['BackgroundGeolocation'];
+  initialized: boolean = false;
 
-  zoom: number = 8;
+  deleteModalVisible: boolean = false;
+
+  // ---------------------
 
   layers: any;
   layersControl: any;
 
-  route: Polyline<any, any> = null;
+  map: Map;
 
-  center: LatLng = latLng(0, 0);
+  geoView = GeoView;
+
+  secondsTimer: Observable<any>;
+  timerSubscription: Subscription;
 
   faPlay = faPlay;
   faStop = faStop;
@@ -77,25 +78,11 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   faExpand = faExpand;
   faPause = faPause;
 
-  userOperatingMap: boolean = false;
+  faChartBar = faChartBar;
+  faArrowLeft = faArrowLeft;
+  faMapMarkedAlt = faMapMarkedAlt;
 
-  watchId: number = null;
-
-  initialized: boolean = false;
-
-  deleteModalVisible: boolean = false;
-
-  map: Map;
-
-  currentView: GeoView = GeoView.Map;
-
-  geoView = GeoView;
-
-  secondsTimer: Observable<any>;
-  timerSubscription: Subscription;
-  ellapsedTime: string;
-
-  caloriesDetailed: boolean = false;
+  BackgroundGeolocation = window['BackgroundGeolocation'];
 
   constructor(
     private alertService: AlertService,
@@ -105,6 +92,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     private caloriesService: CaloriesService,
     private metsService: MetabolicEquivalentService,
     private timeService: TimeService,
+    private cordovaService: CordovaService,
   ) {
   }
 
@@ -131,7 +119,77 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     return Math.round((num + Number.EPSILON) * pow) / pow;
   }
 
+  serialize() {
+    if (this.workoutActivity) {
+      if (this.workoutActivity.collectingPositions) {
+        this.workoutActivity.suspended = true;
+        this.workoutActivity.timeWhenSuspended = new Date();
+      }
+      else {
+        this.workoutActivity.suspended = false;
+        this.workoutActivity.timeWhenSuspended = null;
+      }
+    }
+  }
+
+  restore() {
+    if (this.workoutActivity.tracking && this.workoutActivity.collectingPositions &&
+      this.workoutActivity.trackingType == GeoTrackingType.BackgroundGeolocation) {
+      this.workoutActivity.time +=
+        this.unitsService.convert(
+          (new Date()).valueOf() - this.workoutActivity.timeWhenSuspended.valueOf(),
+          'ms', this.workoutActivity.time_unit);
+      this.workoutActivity.time = this.round(this.workoutActivity.time);
+
+      if (this.BackgroundGeolocation) {
+        this.BackgroundGeolocation.getLocations((locations) => {
+          if (locations && locations.length > 0) {
+            if (this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
+              const lastTimestamp = this.workoutActivity
+                .positions.sort((a, b) => b.timestamp - a.timestamp)[0];
+
+              if (lastTimestamp) {
+                const newLocations = locations.filter(l => l.timestamp > lastTimestamp);
+
+                if (newLocations) {
+                  newLocations.map(l => this.addPositionToRoute(l));
+                }
+              }
+            }
+            else {
+              locations.map(l => this.addPositionToRoute(l));
+            }
+          }
+        });
+      }
+    }
+  }
+
+  initActivityParameters() {
+    if (this.workoutActivity) {
+      if (!this.workoutActivity.trackingType) {
+        this.workoutActivity.trackingType = GeoTrackingType.None;
+      }
+
+      if (!this.workoutActivity.zoom) {
+        this.workoutActivity.zoom = 8;
+      }
+
+      if (!this.workoutActivity.center) {
+        this.workoutActivity.center = latLng(0, 0);
+      }
+
+      if (!this.workoutActivity.currentView) {
+        this.workoutActivity.currentView = GeoView.Map;
+      }
+    }
+  }
+
   ngOnInit(): void {
+    this.initActivityParameters();
+
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+
     this.loadMETs();
     this.selectDistanceUnit();
 
@@ -143,33 +201,37 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       this.workoutActivity.speed = 0;
     }
 
+    if (!this.workoutActivity.time) {
+      this.workoutActivity.time = 0;
+    }
+
     this.initMap();
 
     this.secondsTimer = timer(1000, 1000);
-    this.ellapsedTime = this.getActiveTime();
+    this.workoutActivity.ellapsedTime = this.getActiveTime();
+
+    if (this.workoutActivity.suspended) {
+      this.restore();
+    }
 
     this.timerSubscription = this.secondsTimer
       .subscribe(() => {
-        if (this.collectingPositions) {
+        if (this.workoutActivity.collectingPositions) {
           if (!this.workoutActivity.time_unit) {
             this.workoutActivity.time_unit = this.unitsService.getUnitList().filter(u => u.abbreviation == 'min')[0].id;
-          }
-
-          if (!this.workoutActivity.time) {
-            this.workoutActivity.time = 0;
           }
 
           this.workoutActivity.time += this.unitsService.convert(1, 's', this.workoutActivity.time_unit);
           this.workoutActivity.time = this.round(this.workoutActivity.time);
         }
 
-        if (this.currentView == GeoView.Stats) {
-          this.ellapsedTime = this.getActiveTime();
+        if (this.workoutActivity.currentView == GeoView.Stats) {
+          this.workoutActivity.ellapsedTime = this.getActiveTime();
         }
       });
 
     this.distanceSubscription = this.distanceSubject.subscribe(distance => {
-      if (this.currentView == GeoView.Stats) {
+      if (this.workoutActivity.currentView == GeoView.Stats) {
         this.updateCalories();
         this.updateSpeed();
       }
@@ -177,6 +239,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   ngOnDestroy(): void {
+    this.pausedSubscription.unsubscribe();
+    this.workoutActivity.suspended = false;
+
     this.stopTracking();
 
     this.distanceSubscription.unsubscribe();
@@ -219,21 +284,21 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   toggleCaloriesDetail() {
-    this.caloriesDetailed = !this.caloriesDetailed;
+    this.workoutActivity.caloriesDetailed = !this.workoutActivity.caloriesDetailed;
   }
 
   showMap() {
-    this.currentView = GeoView.Map;
+    this.workoutActivity.currentView = GeoView.Map;
 
     this.invalidateMapSize(false);
   }
 
   showStats() {
-    this.currentView = GeoView.Stats;
+    this.workoutActivity.currentView = GeoView.Stats;
 
     this.updateCalories();
     this.updateSpeed();
-    this.ellapsedTime = this.getActiveTime();
+    this.workoutActivity.ellapsedTime = this.getActiveTime();
   }
 
   setMETbyUser() {
@@ -274,11 +339,11 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   setInputAccordingToState() {
-    if (this.maximized) {
+    if (this.workoutActivity.maximized) {
       this.changeInput(true);
     }
     else {
-      if (this.collectingPositions) {
+      if (this.workoutActivity.collectingPositions) {
         this.changeInput(true);
       }
       else {
@@ -288,9 +353,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   toggleMaximize() {
-    this.maximized = !this.maximized;
+    this.workoutActivity.maximized = !this.workoutActivity.maximized;
 
-    if (this.currentView == GeoView.Map) {
+    if (this.workoutActivity.currentView == GeoView.Map) {
       this.invalidateMapSize();
     }
 
@@ -298,14 +363,14 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   maximize() {
-    this.maximized = true;
+    this.workoutActivity.maximized = true;
     this.invalidateMapSize();
 
     this.setInputAccordingToState();
   }
 
   minimize() {
-    this.maximized = false;
+    this.workoutActivity.maximized = false;
     this.invalidateMapSize();
 
     this.fitToRouteBounds();
@@ -331,11 +396,11 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   centerOnPosition(position: WorkoutSetPosition) {
-    this.center = latLng(position.latitude, position.longitude);
+    this.workoutActivity.center = latLng(position.latitude, position.longitude);
   }
 
   recenter() {
-    this.userOperatingMap = false;
+    this.workoutActivity.userOperatingMap = false;
 
     if (this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
       this.centerOnPosition(this.workoutActivity.positions[this.workoutActivity.positions.length - 1]);
@@ -345,26 +410,26 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   startTracking() {
     if (this.BackgroundGeolocation) {
       // we're on a phone      
-      this.trackingType = GeoTrackingType.BackgroundGeolocation;
+      this.workoutActivity.trackingType = GeoTrackingType.BackgroundGeolocation;
       this.startBackgroundGeolocationTracking();
     }
     else if (navigator.geolocation) {
       // we have a geolocation compatible browser
-      this.trackingType = GeoTrackingType.Navigator;
+      this.workoutActivity.trackingType = GeoTrackingType.Navigator;
       this.startNavigatorTracking();
     }
     else {
       // ... can't track positions ...
-      this.trackingType = GeoTrackingType.None;
+      this.workoutActivity.trackingType = GeoTrackingType.None;
       this.alertService.error('Can\'t start tracking: Unable to detect location device');
     }
 
-    if (this.trackingType != GeoTrackingType.None) {
+    if (this.workoutActivity.trackingType != GeoTrackingType.None) {
       this.workoutActivity.done = false;
       this.maximize();
     }
 
-    this.userOperatingMap = false;
+    this.workoutActivity.userOperatingMap = false;
     this.setInputAccordingToState();
   }
 
@@ -419,7 +484,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       if (!status.isRunning) {
         this.BackgroundGeolocation.start();
         this.workoutActivity.tracking = true;
-        this.collectingPositions = true;
+        this.workoutActivity.collectingPositions = true;
       }
     });
   }
@@ -432,11 +497,11 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     // since there's no watchId
     navigator.geolocation.getCurrentPosition(position => {
       this.workoutActivity.tracking = true;
-      this.collectingPositions = true;
+      this.workoutActivity.collectingPositions = true;
 
       this.addPositionToRoute(position);
 
-      this.watchId = navigator.geolocation.watchPosition(p => {
+      this.workoutActivity.watchId = navigator.geolocation.watchPosition(p => {
         this.addPositionToRoute(p);
       }, e => {
         this.alertPositionError(e.code);
@@ -487,7 +552,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   centerOnLastPosition() {
-    if (!this.userOperatingMap && this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
+    if (!this.workoutActivity.userOperatingMap && this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
       this.centerOnPosition(this.workoutActivity.positions[this.workoutActivity.positions.length - 1]);
     }
   }
@@ -528,20 +593,20 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   stopGeolocationPolling() {
-    switch (this.trackingType) {
+    switch (this.workoutActivity.trackingType) {
       case GeoTrackingType.BackgroundGeolocation:
         this.BackgroundGeolocation.stop();
         this.BackgroundGeolocation.removeAllListeners();
         break;
       case GeoTrackingType.Navigator:
-        if (this.watchId && navigator.geolocation) {
-          navigator.geolocation.clearWatch(this.watchId);
+        if (this.workoutActivity.watchId && navigator.geolocation) {
+          navigator.geolocation.clearWatch(this.workoutActivity.watchId);
         }
         break;
     }
 
-    this.collectingPositions = false;
-    this.trackingType = GeoTrackingType.None;
+    this.workoutActivity.collectingPositions = false;
+    this.workoutActivity.trackingType = GeoTrackingType.None;
   }
 
   finishActivity() {
@@ -562,20 +627,20 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     this.map = map;
 
     if (!this.route || this.route.getLatLngs().length == 0) {
-      this.zoom = 16;
+      this.workoutActivity.zoom = 16;
       if (this.authService.isLoggedIn()) {
         this.workoutsService.getLastWorkoutPosition(this.authService.getUsername())
           .subscribe(position => {
             if (position.latitude) {
-              map.setView(latLng(position.latitude, position.longitude), this.zoom);
+              map.setView(latLng(position.latitude, position.longitude), this.workoutActivity.zoom);
             }
             else {
-              map.setView(latLng(0, 0), this.zoom);
+              map.setView(latLng(0, 0), this.workoutActivity.zoom);
             }
           });
       }
       else {
-        map.setView(latLng(0, 0), this.zoom);
+        map.setView(latLng(0, 0), this.workoutActivity.zoom);
       }
     }
   }
@@ -619,13 +684,13 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   mapMove(e: any) {
     if (e.originalEvent) {
-      this.userOperatingMap = true;
+      this.workoutActivity.userOperatingMap = true;
     }
   }
 
   mapZoom(e: any) {
     if (e.originalEvent) {
-      this.userOperatingMap = true;
+      this.workoutActivity.userOperatingMap = true;
     }
   }
 

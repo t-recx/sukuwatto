@@ -1,33 +1,31 @@
 <div class="toolbar">
-    <div class="toolbar-title">Plans</div>
+  <div class="toolbar-title">Plans</div>
 
-    <div class="toolbar-buttons" *ngIf="isLoggedIn()">
-      <button class="siimple-btn siimple-btn--primary toolbar-button" [routerLink]="['/users', username, 'plan']">
-        <fa-icon [icon]="faCalendarAlt" class="siimple--mr-1"></fa-icon>
-        New
-     </button>
-    </div>
+  <div class="toolbar-buttons" *ngIf="isLoggedIn()">
+    <button class="siimple-btn siimple-btn--primary toolbar-button" [routerLink]="['/users', username, 'plan']">
+      <fa-icon [icon]="faCalendarAlt" class="siimple--mr-1"></fa-icon>
+      New
+    </button>
+  </div>
 </div>
 
-<div *ngIf="!loading">
-  <div *ngIf="adoptedPlans && adoptedPlans.length > 0">
-    <h2 class="siimple-h2">Adopted plans</h2>
-    <ul class="">
-      <li *ngFor="let plan of adoptedPlans">
-        <app-plan-card [plan]=plan [showSaveDeleteButtons]=true (deleted)="deletePlan(plan)">
-        </app-plan-card>
-      </li>
-    </ul>
-  </div>
+<div *ngIf="adoptedPlans && adoptedPlans.length > 0">
+  <h2 class="siimple-h2">Adopted plans</h2>
+  <ul class="">
+    <li *ngFor="let plan of adoptedPlans">
+      <app-plan-card [plan]=plan [showSaveDeleteButtons]=true (deleted)="deletePlan(plan)">
+      </app-plan-card>
+    </li>
+  </ul>
+</div>
 
-  <div *ngIf="plans && plans.length > 0">
-    <h2 class="siimple-h2">Public plans</h2>
-    <ul class="">
-      <li class="siimple-card" *ngFor="let plan of plans">
-        <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
-          (adopted)="loadAdoptedPlans()">
-        </app-plan-card>
-      </li>
-    </ul>
-  </div>
+<div *ngIf="plans && plans.length > 0">
+  <h2 class="siimple-h2">Public plans</h2>
+  <ul class="">
+    <li class="siimple-card" *ngFor="let plan of plans">
+      <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
+        (adopted)="loadAdoptedPlans()">
+      </app-plan-card>
+    </li>
+  </ul>
 </div>

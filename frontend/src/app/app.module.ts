@@ -24,10 +24,6 @@ import { MainLogoComponent } from './main-logo/main-logo.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-export function tokenGetter() {
-  return localStorage.getItem("access_token");
-}
-
 @NgModule({
   declarations: [
     AppComponent,
