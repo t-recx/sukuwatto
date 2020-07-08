@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from './token';
 import { User } from './user';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, tap, concatMap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
 import { JwtService } from './jwt.service';
-import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -73,17 +72,25 @@ export class AuthService {
       );
   }
 
+  public clearUser() {
+    this.setIsLoggedIn(null);
+    this.setUsername(null);
+    this.setUnitSystem(null);
+    this.setUserWeightUnitId(null);
+    this.setUserDistanceUnitId(null);
+    this.setUserSpeedUnitId(null);
+    this.setUserID(null);
+    this.setIsStaff(null);
+  }
+
+  public getLogoutUrl(): string {
+    return `${environment.apiUrl}/logout/`;
+  }
+
   public logout(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/logout/`, { }, this.httpOptions).pipe(
+    return this.http.post<any>(this.getLogoutUrl(), { }, this.httpOptions).pipe(
       tap(x => {
-        this.setIsLoggedIn(null);
-        this.setUsername(null);
-        this.setUnitSystem(null);
-        this.setUserWeightUnitId(null);
-        this.setUserDistanceUnitId(null);
-        this.setUserSpeedUnitId(null);
-        this.setUserID(null);
-        this.setIsStaff(null);
+        this.clearUser();
       }),
       catchError(this.errorService.handleError<any>('logout', (e: any) => {
         this.alertService.error('Unable to sign out, try again later');
