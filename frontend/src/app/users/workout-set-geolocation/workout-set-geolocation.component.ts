@@ -254,15 +254,15 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     let distance = 0;
 
     if (!this.speedUnit) {
-      if (this.workoutActivity.speed_unit && this.workoutActivity.speed_unit > 0) {
+      if (this.authService.getUserUnitSystem()) {
         this.speedUnit = this.unitsService
         .getUnitList()
-        .filter(u => u.id == this.workoutActivity.speed_unit)[0];
+        .filter(u => u.system == this.authService.getUserUnitSystem() && u.measurement_type == MeasurementType.Speed)[0];
       }
       else {
         this.speedUnit = this.unitsService
         .getUnitList()
-        .filter(u => u.system == this.authService.getUserUnitSystem() && u.measurement_type == MeasurementType.Speed)[0];
+        .filter(u => u.abbreviation == 'km/h')[0];
       }
     }
 
