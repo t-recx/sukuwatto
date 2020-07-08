@@ -254,9 +254,16 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     let distance = 0;
 
     if (!this.speedUnit) {
-      this.speedUnit = this.unitsService
-      .getUnitList()
-      .filter(u => u.system == this.authService.getUserUnitSystem() && u.measurement_type == MeasurementType.Speed)[0];
+      if (this.workoutActivity.speed_unit && this.workoutActivity.speed_unit > 0) {
+        this.speedUnit = this.unitsService
+        .getUnitList()
+        .filter(u => u.id == this.workoutActivity.speed_unit)[0];
+      }
+      else {
+        this.speedUnit = this.unitsService
+        .getUnitList()
+        .filter(u => u.system == this.authService.getUserUnitSystem() && u.measurement_type == MeasurementType.Speed)[0];
+      }
     }
 
     if (this.speedUnit) {
@@ -704,32 +711,22 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     let units = this.unitsService.getUnitList();
     let meters = units.filter(x => x.abbreviation == 'm')[0]
     let feet = units.filter(x => x.abbreviation == 'ft')[0]
+    let kilometers = units.filter(x => x.abbreviation == 'km')[0]
+    let miles = units.filter(x => x.abbreviation == 'mi')[0]
 
-    if (this.authService.getUserDistanceUnitId()) {
-      let userUnit = units.filter(u => u.id == +this.authService.getUserDistanceUnitId())[0];
-
-      if (userUnit.abbreviation == 'm') {
-        this.workoutActivity.distance_unit = meters.id;
+    if (this.authService.getUserUnitSystem()) {
+      if (this.authService.getUserUnitSystem() == 'm') {
+        this.workoutActivity.distance_unit = kilometers.id;
       }
       else {
-        this.workoutActivity.distance_unit = userUnit.id;
+        this.workoutActivity.distance_unit = miles.id;
       }
     }
     else {
-      if (this.authService.getUserUnitSystem()) {
-        if (this.authService.getUserUnitSystem() == 'm') {
-          this.workoutActivity.distance_unit = meters.id;
-        }
-        else {
-          this.workoutActivity.distance_unit = feet.id;
-        }
-      }
-      else {
-        this.workoutActivity.distance_unit = meters.id;
-      }
+      this.workoutActivity.distance_unit = kilometers.id;
     }
 
-    this.distanceUnit = units.filter(u => u.id ==this.workoutActivity.distance_unit)[0];
+    this.distanceUnit = units.filter(u => u.id == this.workoutActivity.distance_unit)[0];
 
     if (this.distanceUnit.abbreviation == 'km') {
       this.distanceSmallerUnit = units.filter(u => u.abbreviation == 'm')[0];
