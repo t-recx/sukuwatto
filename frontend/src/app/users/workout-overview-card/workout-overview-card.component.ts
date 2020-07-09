@@ -8,6 +8,7 @@ import { faCircleNotch, faChevronLeft, faChevronRight } from '@fortawesome/free-
 import { AuthService } from 'src/app/auth.service';
 import { ExerciseType } from '../exercise';
 import { WorkoutSet } from '../workout-set';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -112,6 +113,13 @@ export class WorkoutOverviewCardComponent implements OnInit {
       this.showTimeColumn = activities.filter(s => s.time && s.time > 0).length > 0;
       this.showSpeedColumn = activities.filter(s => s.speed && s.speed > 0).length > 0;
       this.showVo2MaxColumn = activities.filter(s => s.vo2max && s.vo2max > 0 ).length > 0;
+
+      this.showSpeedColumn = this.showSpeedColumn && !(environment.application && this.showTimeColumn && this.showDistanceColumn);
+      this.showVo2MaxColumn = this.showVo2MaxColumn &&
+        !(environment.application &&
+          ((this.showTimeColumn && this.showDistanceColumn) ||
+          (this.showTimeColumn && this.showSpeedColumn) ||
+          (this.showDistanceColumn && this.showSpeedColumn)));
     }
     else {
       this.showDistanceColumn = false;
