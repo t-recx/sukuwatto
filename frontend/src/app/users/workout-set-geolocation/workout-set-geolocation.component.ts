@@ -143,6 +143,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
             }
           }
         });
+
+        this.startBackgroundGeolocationTracking(); // reconfigure
+
+        this.BackgroundGeolocation.start(); // force it to restart again
       }
     }
   }
