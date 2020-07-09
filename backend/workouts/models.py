@@ -405,6 +405,19 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
     plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
 
+class AbstractActivityTimeSegment(models.Model):
+    start = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True)
+
+    class Meta:
+        abstract = True
+
+class WorkoutWarmUpTimeSegment(AbstractActivityTimeSegment):
+    workout_activity = models.ForeignKey(WorkoutWarmUp, related_name="segments", on_delete=models.CASCADE)
+
+class WorkoutSetTimeSegment(AbstractActivityTimeSegment):
+    workout_activity = models.ForeignKey(WorkoutSet, related_name="segments", on_delete=models.CASCADE)
+
 class AbstractActivityPosition(models.Model):
     accuracy = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     altitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
