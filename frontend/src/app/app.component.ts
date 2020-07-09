@@ -1,7 +1,7 @@
 import { Component, Renderer2, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CordovaService } from './cordova.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -21,7 +21,28 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     private cordovaService: CordovaService,
     private authService: AuthService,
     private router: Router) {
+    if (environment.application) {
+      const backgroundGeolocation = window['BackgroundGeolocation'];
+      if (backgroundGeolocation) {
+        this.router.events.subscribe(e => {
+          if (e instanceof NavigationEnd &&
+            (
+              !this.urlIsWorkoutDetail(e.urlAfterRedirects) ||
+              !this.urlIsWorkoutDetail(this.getUrlState())
+            )) {
+            // we're navigating away from the workout detail
+            // so let's stop the background geolocation service
+            // if for some reason it's still running
+            backgroundGeolocation.checkStatus((status) => {
+              if (status.isRunning) {
+                backgroundGeolocation.stop();
+              }
+            });
+          }
+        });
+      }
     }
+  }
 
   ngOnInit(): void {
     this.restoreUrlState();
@@ -50,12 +71,20 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
 
   restoreUrlState() {
     if (this.authService.isLoggedIn()) {
-      const url = localStorage.getItem('state_url');
+      const url = this.getUrlState();
 
       if (url && url.length > 0) {
         this.router.navigateByUrl(url);
         localStorage.removeItem('state_url');
       }
     }
+  }
+
+  getUrlState() {
+    return localStorage.getItem('state_url');
+  }
+
+  urlIsWorkoutDetail(url: string) {
+    return url.endsWith('/workout') || url.includes('/workout/');
   }
 }
