@@ -64,6 +64,17 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   serialize() {
+    const warmups = this.workout.groups.flatMap(g => g.warmups ?? []);
+    const sets = this.workout.groups.flatMap(g => g.sets ?? []);
+
+    [...warmups, ...sets].filter(x => x.collectingPositions).map(x => {
+      x.suspended = true;
+    });
+
+    [...warmups, ...sets].filter(x => !x.collectingPositions).map(x => {
+      x.suspended = false;
+    });
+
     localStorage.setItem(this.stateHasStateId, JSON.stringify(true));
     localStorage.setItem(this.stateWorkoutId, JSON.stringify(this.workout));
     localStorage.setItem(this.statePreviousWorkoutId, JSON.stringify(this.previousWorkout));

@@ -3,6 +3,7 @@ import { Exercise } from './exercise';
 import { WorkoutSetPosition } from './workout-set-position';
 import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-geolocation.component';
 import { LatLng, latLng } from 'leaflet';
+import { WorkoutSetTimeSegment } from './workout-set-time-segment';
 
 export class WorkoutSet {
     id: number;
@@ -25,6 +26,7 @@ export class WorkoutSet {
 
     tracking: boolean;
     positions: WorkoutSetPosition[];
+    segments: WorkoutSetTimeSegment[];
 
     speed_type: SpeedType;
     expected_speed: number;
@@ -73,7 +75,6 @@ export class WorkoutSet {
     ellapsedTime: string;
     caloriesDetailed: boolean = false;
     currentView: GeoView = GeoView.Map;
-    timeWhenSuspended: Date;
     suspended: boolean = false;
     // ----
 

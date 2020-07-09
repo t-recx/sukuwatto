@@ -18,7 +18,7 @@ import { MetabolicEquivalentTask } from '../metabolic-equivalent-task';
 import { MetabolicEquivalentService } from '../metabolic-equivalent.service';
 import { Exercise } from '../exercise';
 import { TimeService } from '../time.service';
-import { CordovaService } from 'src/app/cordova.service';
+import { WorkoutSetTimeSegment } from '../workout-set-time-segment';
 
 @Component({
   selector: 'app-workout-set-geolocation',
@@ -32,8 +32,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   @Input() userBioData: UserBioData;
   @Input() workout: Workout;
   @Input() exercise: Exercise;
-
-  pausedSubscription: Subscription;
 
   mets: MetabolicEquivalentTask[];
 
@@ -92,7 +90,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     private caloriesService: CaloriesService,
     private metsService: MetabolicEquivalentService,
     private timeService: TimeService,
-    private cordovaService: CordovaService,
   ) {
   }
 
@@ -119,37 +116,22 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     return Math.round((num + Number.EPSILON) * pow) / pow;
   }
 
-  serialize() {
-    if (this.workoutActivity) {
-      if (this.workoutActivity.collectingPositions) {
-        this.workoutActivity.suspended = true;
-        this.workoutActivity.timeWhenSuspended = new Date();
-      }
-      else {
-        this.workoutActivity.suspended = false;
-        this.workoutActivity.timeWhenSuspended = null;
-      }
-    }
-  }
-
   restore() {
+    this.updateTime();
+    this.updateSpeed();
+
     if (this.workoutActivity.tracking && this.workoutActivity.collectingPositions &&
       this.workoutActivity.trackingType == GeoTrackingType.BackgroundGeolocation) {
-      this.workoutActivity.time +=
-        this.unitsService.convert(
-          (new Date()).valueOf() - this.workoutActivity.timeWhenSuspended.valueOf(),
-          'ms', this.workoutActivity.time_unit);
-      this.workoutActivity.time = this.round(this.workoutActivity.time);
 
       if (this.BackgroundGeolocation) {
         this.BackgroundGeolocation.getLocations((locations) => {
           if (locations && locations.length > 0) {
             if (this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
               const lastTimestamp = this.workoutActivity
-                .positions.sort((a, b) => b.timestamp - a.timestamp)[0];
+                .positions.sort((a, b) => b.timestamp - a.timestamp)[0].timestamp;
 
               if (lastTimestamp) {
-                const newLocations = locations.filter(l => l.timestamp > lastTimestamp);
+                const newLocations = locations.filter(l => l.time > lastTimestamp);
 
                 if (newLocations) {
                   newLocations.map(l => this.addPositionToRoute(l));
@@ -188,8 +170,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   ngOnInit(): void {
     this.initActivityParameters();
 
-    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
-
     this.loadMETs();
     this.selectDistanceUnit();
 
@@ -206,8 +186,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     }
 
     this.initMap();
+    this.updateSpeed();
 
-    this.secondsTimer = timer(1000, 1000);
+    this.secondsTimer = timer(500, 500);
     this.workoutActivity.ellapsedTime = this.getActiveTime();
 
     if (this.workoutActivity.suspended) {
@@ -216,14 +197,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
     this.timerSubscription = this.secondsTimer
       .subscribe(() => {
-        if (this.workoutActivity.collectingPositions) {
-          if (!this.workoutActivity.time_unit) {
-            this.workoutActivity.time_unit = this.unitsService.getUnitList().filter(u => u.abbreviation == 'min')[0].id;
-          }
-
-          this.workoutActivity.time += this.unitsService.convert(1, 's', this.workoutActivity.time_unit);
-          this.workoutActivity.time = this.round(this.workoutActivity.time);
-        }
+        this.updateTime();
 
         if (this.workoutActivity.currentView == GeoView.Stats) {
           this.workoutActivity.ellapsedTime = this.getActiveTime();
@@ -239,7 +213,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   ngOnDestroy(): void {
-    this.pausedSubscription.unsubscribe();
     this.workoutActivity.suspended = false;
 
     this.stopTracking();
@@ -391,6 +364,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   disableTrackingAndClearPositions() {
     this.workoutActivity.tracking = false;
     this.workoutActivity.positions = [];
+    this.workoutActivity.segments = [];
   }
 
   disableTracking() {
@@ -416,7 +390,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   startTracking() {
     if (this.BackgroundGeolocation) {
-      // we're on a phone      
+      // we're on a phone
       this.workoutActivity.trackingType = GeoTrackingType.BackgroundGeolocation;
       this.startBackgroundGeolocationTracking();
     }
@@ -432,6 +406,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     }
 
     if (this.workoutActivity.trackingType != GeoTrackingType.None) {
+      this.createNewTimeSegment();
       this.workoutActivity.done = false;
       this.maximize();
     }
@@ -591,12 +566,35 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   stopTracking() {
+    this.closeTimeSegment();
     this.stopGeolocationPolling();
     this.fitToRouteBounds();
     this.setInputAccordingToState();
 
     this.updateCalories();
     this.updateSpeed();
+  }
+
+  closeTimeSegment() {
+    if (!this.workoutActivity.segments || this.workoutActivity.segments.length == 0) {
+      return;
+    }
+
+    this.workoutActivity.segments[this.workoutActivity.segments.length - 1].end = new Date();
+  }
+
+  createNewTimeSegment() {
+    if (!this.workoutActivity.segments) {
+      this.workoutActivity.segments = [];
+    }
+
+    if (this.workoutActivity.segments.filter(x => !x.end).length == 0) {
+      this.workoutActivity.segments.push(this.getNewTimeSegment());
+    }
+  }
+
+  getNewTimeSegment() {
+    return new WorkoutSetTimeSegment({start: new Date()});
   }
 
   stopGeolocationPolling() {
@@ -617,6 +615,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   finishActivity() {
+    this.closeTimeSegment();
     this.stopGeolocationPolling();
     this.workoutActivity.done = true;
 
@@ -799,6 +798,21 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     return this.timeService.toHumanReadable(this.unitsService.convert(this.workoutActivity.time, this.workoutActivity.time_unit, 'ms'));
   }
 
+  private updateTime() {
+    if (this.workoutActivity.segments) {
+      if (!this.workoutActivity.time_unit) {
+        this.workoutActivity.time_unit = this.unitsService.getUnitList().filter(u => u.abbreviation == 'min')[0].id;
+      }
+
+      this.workoutActivity.time =
+        this.unitsService.convert(
+          this.workoutActivity
+            .segments
+            .reduce((a, b) => a + ((b.end ?? new Date()).valueOf() - b.start.valueOf()), 0), 'ms', this.workoutActivity.time_unit);
+
+      this.workoutActivity.time = this.round(this.workoutActivity.time);
+    }
+  }
 }
 
 export enum GeoTrackingType {

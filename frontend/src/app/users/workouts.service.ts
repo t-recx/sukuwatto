@@ -12,6 +12,7 @@ import { WorkoutSet } from './workout-set';
 import { WorkoutSetPosition } from './workout-set-position';
 import { latLng } from 'leaflet';
 import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-geolocation.component';
+import { WorkoutSetTimeSegment } from './workout-set-time-segment';
 
 @Injectable({
   providedIn: 'root'
@@ -180,6 +181,20 @@ export class WorkoutsService {
     return workouts;
   }
 
+  getProperlyTypedWorkoutSetTimeSegment(segment: WorkoutSetTimeSegment): WorkoutSetTimeSegment {
+    if (segment) {
+      if (segment.start) {
+        segment.start = new Date(segment.start);
+      }
+
+      if (segment.end) {
+        segment.end = new Date(segment.end);
+      }
+    }
+
+    return segment;
+  }
+
   getProperlyTypedWorkoutSetPosition(position: WorkoutSetPosition): WorkoutSetPosition {
     if (position) {
       if (position.altitude) {
@@ -254,12 +269,15 @@ export class WorkoutsService {
         activity.zoom = activity.zoom ? +activity.zoom : activity.zoom;
         activity.center = activity.center ? latLng(activity.center) : activity.center;
         activity.watchId = activity.watchId ? +activity.watchId : activity.watchId;
-        activity.timeWhenSuspended = activity.timeWhenSuspended ? new Date(activity.timeWhenSuspended) : activity.timeWhenSuspended;
 
         if (activity.positions) {
           activity.positions.forEach(p => {
             p = this.getProperlyTypedWorkoutSetPosition(p);
           });
+        }
+
+        if (activity.segments) {
+          activity.segments.forEach(p => p = this.getProperlyTypedWorkoutSetTimeSegment(p));
         }
       });
     }
