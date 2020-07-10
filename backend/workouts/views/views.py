@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
 from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer
 from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask
 from sqtrex.pagination import StandardResultsSetPagination
@@ -11,13 +11,23 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
+class FilterByExerciseType(BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        if request:
+            exercise_type = request.query_params.get('exercise_type', None)
+
+            if exercise_type:
+                queryset = queryset.filter(exercise_type=exercise_type)
+
+        return queryset
+
 class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows exercises to be viewed or edited.
     """
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
+    filter_backends = [SearchFilter, FilterByExerciseType, OrderingFilter]
     pagination_class = StandardResultsSetPagination
     search_fields = ['name']
     ordering_fields = ['name', 'mechanics', 'force', 'section', 'modality']

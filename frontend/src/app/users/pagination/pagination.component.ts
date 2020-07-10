@@ -29,6 +29,10 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   getHasPreviousPage(): boolean {
+    if (this.currentPage == 1) {
+      return false;
+    }
+
     if (this.paginatedRecords && this.paginatedRecords.previous) {
       return true;
     }

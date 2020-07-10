@@ -21,6 +21,8 @@ export class WorkoutSetEditComponent implements OnInit {
   @Output() closed = new EventEmitter();
   @Output() cloneOrders = new EventEmitter();
 
+  exerciseType: string = null;
+
   faCheck = faCheck;
   faTrash = faTrash;
   faClone = faClone;
@@ -52,12 +54,26 @@ export class WorkoutSetEditComponent implements OnInit {
     private unitsService: UnitsService,
     private authService: AuthService) { }
 
+  exerciseChanged() {
+    if (this.workoutActivity.quick) {
+      //this.workoutActivity.editing = false;
+      this.hide();
+    }
+  }
+
   ngOnInit() {
     this.triedToHide= false;
     this.cloningModalVisible = false;
     this.number_of_cloned_activities = 1;
 
     this.loadUnits();
+
+    if (this.workoutActivity.quick) {
+      this.exerciseType = 'c';
+    }
+    else {
+      this.exerciseType = null;
+    }
   }
 
   toggleClonePositions() {

@@ -85,6 +85,6 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   urlIsWorkoutDetail(url: string) {
-    return url.endsWith('/workout') || url.includes('/workout/');
+    return url.endsWith('/workout') || url.includes('/workout/') || url.endsWith('/quick-activity');
   }
 }

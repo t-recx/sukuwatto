@@ -80,6 +80,9 @@ export class TokenInterceptor implements HttpInterceptor {
                                         })
                                     );
                                 }
+                                else if (err.url.endsWith('/api/token/')) {
+                                    return throwError(err);
+                                }
                                 else {
                                     return this.handle401Error(request, next);
                                 }

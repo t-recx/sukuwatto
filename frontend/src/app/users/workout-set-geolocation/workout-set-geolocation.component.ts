@@ -19,6 +19,7 @@ import { MetabolicEquivalentService } from '../metabolic-equivalent.service';
 import { Exercise } from '../exercise';
 import { TimeService } from '../time.service';
 import { WorkoutSetTimeSegment } from '../workout-set-time-segment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-set-geolocation',
@@ -55,6 +56,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   deleteModalVisible: boolean = false;
 
+  allowToggleSize: boolean = true;
+
   // ---------------------
 
   layers: any;
@@ -90,6 +93,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     private caloriesService: CaloriesService,
     private metsService: MetabolicEquivalentService,
     private timeService: TimeService,
+    private router: Router,
   ) {
   }
 
@@ -98,6 +102,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       this.loadMETs();
       
       this.updateCalories();
+
+      this.allowToggleSize = !this.workoutActivity.quick;
+
+      if (this.workoutActivity.quick) {
+        this.maximize();
+      }
     }
   }
 
@@ -369,6 +379,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     this.workoutActivity.tracking = false;
     this.workoutActivity.positions = [];
     this.workoutActivity.segments = [];
+
+    if (this.workoutActivity.quick) {
+      this.router.navigateByUrl('/');
+    }
   }
 
   disableTracking() {
@@ -631,6 +645,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     this.minimize();
     this.updateCalories();
     this.updateSpeed();
+
+    this.workoutsService.finishGeolocationActivity();
   }
 
   onMapReady(map: Map) {

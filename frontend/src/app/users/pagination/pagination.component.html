@@ -45,12 +45,17 @@
         <small class="siimple-small">...</small>
       </span>
       <button *ngIf="hasPreviousPage" class="siimple-btn siimple--mr-2"
+        [class.small-screen-disappear]="currentPage > 3"
         type="button"
         (click)="goToPreviousPage()">{{previousPage}}</button>
       <button class="siimple-btn siimple-btn--primary siimple--mr-2 "
         type="button"
         (click)="goToPage(currentPage)">{{currentPage}}</button>
-      <button type="button" *ngIf="hasNextPage" class="siimple-btn" (click)="goToNextPage()">{{nextPage}}</button>
+      <button type="button" *ngIf="hasNextPage" class="siimple-btn" (click)="goToNextPage()"
+        [class.small-screen-disappear]="currentPage > 3"
+      >
+        {{nextPage}}
+      </button>
     </span>
     <button [class.siimple-btn--disabled]="!hasNextPage"  [disabled]="!hasNextPage" class="siimple-btn siimple-btn--primary navigation-next"
         type="button"

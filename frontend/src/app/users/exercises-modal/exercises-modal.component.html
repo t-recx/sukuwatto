@@ -7,7 +7,7 @@
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
         </div>
         <div class="siimple-modal-body">
-            <app-exercises-list (selected)="select($event)" [page]=page >
+            <app-exercises-list (selected)="select($event)" [page]=page [exerciseType]="exerciseType">
             </app-exercises-list>
         </div>
         <div class="siimple-modal-footer">

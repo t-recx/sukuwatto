@@ -1,4 +1,4 @@
-<div class="siimple-menu siimple--mb-0" *ngIf="authService.isLoggedIn()">
+<div class="siimple-menu siimple--mb-0 navigation-menu" *ngIf="authService.isLoggedIn()">
     <a class="siimple-menu-item main-menu-item siimple--display-md-none siimple--display-sm-none" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'home']">Home</a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"

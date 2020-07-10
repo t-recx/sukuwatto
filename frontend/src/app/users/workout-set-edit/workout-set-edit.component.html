@@ -10,6 +10,9 @@
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field form-field">
                             <exercises-input [(ngModel)]="workoutActivity.exercise" #exercise="ngModel" name="exercise"
+                                [exerciseType]="exerciseType"
+                                [modalVisible]="workoutActivity.quick"
+                                (change)="exerciseChanged()"
                                 id="exercise" required>
                             </exercises-input>
                             <div *ngIf="exercise.invalid && (exercise.dirty || triedToHide)">

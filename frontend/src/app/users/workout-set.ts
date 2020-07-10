@@ -76,6 +76,8 @@ export class WorkoutSet {
     caloriesDetailed: boolean = false;
     currentView: GeoView = GeoView.Map;
     suspended: boolean = false;
+    editing: boolean = false;
+    quick: boolean = false;
     // ----
 
     constructor(init?: Partial<WorkoutSet>) {

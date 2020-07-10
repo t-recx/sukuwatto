@@ -9,6 +9,7 @@ import { faDumbbell, faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class ExercisesModalComponent implements OnInit {
   @Input() visible: boolean = false;
+  @Input() exerciseType: string = null;
   @Output() selected = new EventEmitter<Exercise>();
   @Output() closed = new EventEmitter();
 

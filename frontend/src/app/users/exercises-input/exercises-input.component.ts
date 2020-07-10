@@ -22,6 +22,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl, NgControl, NG_VAL
 })
 export class ExercisesInputComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() value: Exercise;
+  @Input() modalVisible: boolean = false;
+  @Input() exerciseType: string = null;
   exercises: Exercise[];
 
   propagateChange = (_: any) => {};
@@ -57,7 +59,6 @@ export class ExercisesInputComponent implements OnInit, ControlValueAccessor, Va
     return null;
   }
 
-  modalVisible: boolean = false;
 
   faSearch = faSearch;
   faEraser = faEraser;

@@ -19,6 +19,7 @@ export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
   page: number;
   search: string;
   ordering: string;
+  exerciseType: string;
 
   queryParams: {};
 
@@ -31,7 +32,7 @@ export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
     .pipe(map(results => ({params: results[0], query: results[1]})))
     .subscribe(results => {
         this.loadParameterDependentData(results.params.get('username'),results.params.get('page'),
-        results.query.get('search'), results.query.get('ordering'));
+        results.query.get('search'), results.query.get('ordering'), results.query.get('type'));
     });
   }
 
@@ -49,11 +50,12 @@ export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
   }
 
-  loadParameterDependentData(username: string, page: string, search: string, ordering: string) {
+  loadParameterDependentData(username: string, page: string, search: string, ordering: string, exerciseType: string) {
     this.username = username;
     this.page = +page;
     this.search = search;
     this.ordering = ordering;
+    this.exerciseType = exerciseType;
     this.queryParams = this.getQueryParams();
   }
 
@@ -66,6 +68,10 @@ export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.ordering) {
       queryParams['ordering']= this.ordering;
+    }
+
+    if (this.exerciseType) {
+      queryParams['type']= this.exerciseType;
     }
 
     return queryParams;

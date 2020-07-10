@@ -30,7 +30,6 @@ export class WorkoutSetComponent implements OnInit {
   faTimesCircle = faTimesCircle;
   faMapMarkedAlt = faMapMarkedAlt;
 
-  editing: boolean = false;
   editingRepetitions: boolean = false;
 
   repetitionType = RepetitionType;
@@ -46,7 +45,7 @@ export class WorkoutSetComponent implements OnInit {
 
   ngOnInit() {
     if (!this.workoutActivity.exercise.id) {
-      this.editing = true;
+      this.workoutActivity.editing = true;
     }
     this.unitsService.getUnits().subscribe(u => this.units = u);
   }
@@ -56,7 +55,7 @@ export class WorkoutSetComponent implements OnInit {
   }
 
   toggleEdit(event) {
-    this.editing = !this.editing;
+    this.workoutActivity.editing = !this.workoutActivity.editing;
     event.stopPropagation();
   }
 
@@ -66,7 +65,7 @@ export class WorkoutSetComponent implements OnInit {
   }
 
   toggleDone(): void {
-    if (!this.editing) {
+    if (!this.workoutActivity.editing) {
       if (this.workoutActivity.done == null) {
         this.workoutActivity.done = false;
       }
@@ -140,7 +139,8 @@ export class WorkoutSetComponent implements OnInit {
   }
 
   onWorkingSetEditClosed(): void {
-    this.editing = false;
+    this.workoutActivity.editing = false;
+    
   }
 
   onWorkingSetEditRepetitionsClosed(): void {
