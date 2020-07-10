@@ -425,7 +425,7 @@ class AbstractActivityPosition(models.Model):
     latitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     longitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     speed = models.DecimalField(max_digits=28, decimal_places=20, null=True)
-    timestamp = models.IntegerField(null=True)
+    timestamp = models.BigIntegerField(null=True)
 
     class Meta:
         abstract = True
