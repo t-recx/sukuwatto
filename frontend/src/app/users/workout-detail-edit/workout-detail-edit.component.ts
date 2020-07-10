@@ -613,6 +613,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     this.triedToSave = true;
 
     if (!this.validFinishedWorkout(this.workout)) {
+      this.finishWorkoutVisible = false;
       this.alertService.warn('Please fill all required fields and try again');
       return;
     }
