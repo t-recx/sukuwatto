@@ -16,6 +16,7 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { HomeGuard } from '../guards/home.guard';
 import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { QuickActivityComponent } from './quick-activity/quick-activity.component';
 
 const routes: Routes = [
   { 
@@ -87,6 +88,11 @@ const routes: Routes = [
         path: 'workout',
         canActivate: [AuthGuard],
         component: WorkoutDetailEditComponent,
+      },
+      {
+        path: 'quick-activity',
+        canActivate: [AuthGuard],
+        component: QuickActivityComponent,
       },
       {
         path: 'exercises',

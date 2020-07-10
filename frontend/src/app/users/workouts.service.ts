@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Workout } from './workout';
 import { tap, catchError, map } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
@@ -22,6 +22,8 @@ export class WorkoutsService {
   private workoutLast= `${environment.apiUrl}/workout-last/`;
   private workoutGroupLast= `${environment.apiUrl}/workout-group-last/`;
   private workoutLastWorkoutPosition = `${environment.apiUrl}/workout-last-position/`;
+
+  geolocationActivitiesFinished = new Subject();
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -328,6 +330,10 @@ export class WorkoutsService {
         this.alertService.error('Unable to delete workout, try again later');
       }, new Workout()))
     );
+  }
+
+  finishGeolocationActivity() {
+    this.geolocationActivitiesFinished.next();
   }
 }
 

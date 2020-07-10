@@ -12,6 +12,7 @@
 </div>
 
 <app-exercises-modal
+    [exerciseType]="exerciseType"
     [visible]=modalVisible
     (selected)="select($event)"
     (closed)="modalClosed()"

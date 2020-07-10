@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-workout-detail',
   templateUrl: './workout-detail.component.html',
   styleUrls: ['./workout-detail.component.css']
 })
-export class WorkoutDetailComponent implements OnInit {
+export class WorkoutDetailComponent implements OnInit, OnDestroy {
+
+  paramChangedSubscription: Subscription;
 
   id: number;
   username: string;
@@ -19,7 +23,7 @@ export class WorkoutDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => 
+    this.paramChangedSubscription = this.route.paramMap.subscribe(params => 
       {
         this.allowEdit = false;
         this.username = params.get('username');
@@ -31,5 +35,9 @@ export class WorkoutDetailComponent implements OnInit {
           }
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.paramChangedSubscription.unsubscribe();
   }
 }

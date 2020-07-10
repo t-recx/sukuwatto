@@ -25,8 +25,25 @@
         </div>
     </div>
 
-    <div *ngIf="menuDropDownVisible" class="menu-dropdown" (click)="toggleMenuVisibility()">
+    <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown" (click)="toggleMenuVisibility()">
         <app-menu></app-menu>
+
+        <div class="menu-buttons-container" >
+            <div class="button-container">
+                <button type="button" class="siimple-btn siimple-btn--primary siimple-btn--fluid"
+                    [routerLink]="['/users', username, 'workout']" >
+                    <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
+                    New workout
+                </button>
+            </div>
+            <div class="button-container">
+                <button type="button" class="siimple-btn siimple-btn--primary siimple-btn--fluid"
+                    [routerLink]="['/users', username, 'quick-activity']">
+                    <fa-icon [icon]="faRunning" class="siimple--mr-1"></fa-icon>
+                    Quick activity
+                </button>
+            </div>
+        </div>
     </div>
 
     <div>

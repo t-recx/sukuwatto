@@ -26,7 +26,7 @@ export class ExercisesService {
     private alertService: AlertService
   ) { }
 
-  getExercises (page: number, page_size: number, search_filter: string, ordering: string): Observable<Paginated<Exercise>> {
+  getExercises (page: number, page_size: number, search_filter: string, ordering: string, exercise_type: string): Observable<Paginated<Exercise>> {
     let options = {};
     let params = new HttpParams();
 
@@ -43,10 +43,14 @@ export class ExercisesService {
     }
 
     if (ordering) {
-      params = params.set('ordering', ordering)
+      params = params.set('ordering', ordering);
     }
 
-    if (page || page_size || search_filter || ordering) {
+    if (exercise_type) {
+      params = params.set('exercise_type', exercise_type);
+    }
+
+    if (page || page_size || search_filter || ordering || exercise_type) {
       options = {params: params};
     }
 

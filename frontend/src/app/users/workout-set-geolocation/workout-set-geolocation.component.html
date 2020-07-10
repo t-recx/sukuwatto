@@ -11,7 +11,8 @@
     <div *ngIf="allowEdit">
         <button type="button" class="siimple-btn 
             siimple-btn--small
-            siimple-btn--primary size-button" (click)="toggleMaximize()">
+            siimple-btn--primary size-button" (click)="toggleMaximize()"
+            *ngIf="allowToggleSize">
             <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
             <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
         </button>
@@ -135,7 +136,8 @@
                 </button>
 
                 <button type="button" class="siimple--ml-2 siimple-btn 
-                                siimple-btn--primary siimple--float-right" (click)="toggleMaximize()">
+                                siimple-btn--primary siimple--float-right" (click)="toggleMaximize()"
+                                *ngIf="allowToggleSize" >
                     <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
                     <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
                 </button>

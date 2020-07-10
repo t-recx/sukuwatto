@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Workout, WorkoutStatus } from '../workout';
 import { Plan } from '../plan';
 import { WorkoutsService } from '../workouts.service';
@@ -27,7 +27,9 @@ import { SerializerUtilsService } from 'src/app/serializer-utils.service';
   styleUrls: ['./workout-detail-edit.component.css']
 })
 export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() quickActivity: boolean = false;
   pausedSubscription: Subscription;
+  finishGeolocationActivities: Subscription;
 
   ngAfterViewInit(): void {
     this.serializerUtils.restoreScrollPosition();
@@ -47,6 +49,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
+    this.finishGeolocationActivities.unsubscribe();
 
     localStorage.removeItem(this.stateWorkoutId);
     localStorage.removeItem(this.statePreviousWorkoutId);
@@ -218,6 +221,11 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
     this.route.paramMap.subscribe(params => this.loadViewData(params.get('username'), params.get('id')));
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+    this.finishGeolocationActivities = this.service.geolocationActivitiesFinished.subscribe(() => {
+      if (this.quickActivity) {
+        this.showFinishWorkoutModal();
+      }
+    });
   }
 
   loadViewData(username: string, id: string) {
@@ -232,6 +240,19 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
     this.loadAdoptedPlans();
     this.loadOrInitializeWorkout(id);
+  }
+
+  newActivity() {
+    let activity = new WorkoutSet();
+
+    activity.editing = true;
+    activity.quick = true;
+
+    if (!this.workout.groups[0].sets) {
+      this.workout.groups[0].sets = [];
+    }
+
+    this.workout.groups[0].sets.push(activity);
   }
 
   loadOrInitializeWorkout(id: string) {
@@ -256,6 +277,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
       this.newGroup();
 
+      if (this.quickActivity) {
+        this.newActivity();
+      }
+
       this.setNextActivityInProgress();
 
       this.loading = true;
@@ -274,6 +299,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
           this.loading = false;
           this.loadingService.unload();
         });
+
     }
   }
 

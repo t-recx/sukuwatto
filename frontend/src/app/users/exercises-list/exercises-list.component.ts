@@ -21,6 +21,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() ordering: string;
   @Input() link: any;
   @Input() queryParams: {};
+  @Input() exerciseType: string;
 
   @Output() selected = new EventEmitter<Exercise>();
 
@@ -81,7 +82,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.loadingService.load();
-    this.exercisesService.getExercises(this.page, this.pageSize, this.searchFilter, this.ordering)
+    this.exercisesService.getExercises(this.page, this.pageSize, this.searchFilter, this.ordering, this.exerciseType)
     .subscribe(paginated => {
       this.setDescriptions(paginated.results);
       this.paginatedExercises = paginated;
@@ -165,6 +166,10 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.ordering && this.ordering.length > 0) {
       queryParams['ordering']= this.ordering;
+    }
+
+    if (this.exerciseType && this.exerciseType.length > 0) {
+      queryParams['type']= this.exerciseType;
     }
 
     return queryParams;

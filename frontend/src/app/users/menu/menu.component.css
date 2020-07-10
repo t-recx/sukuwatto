@@ -1,5 +1,12 @@
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 769px) {
     .main-menu-item {
         padding-left: 16px;
+        font-size: 21px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        font-weight: 500;
+    }
+
+    .navigation-menu {
     }
 }
