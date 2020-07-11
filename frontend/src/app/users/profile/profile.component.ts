@@ -115,7 +115,10 @@ export class ProfileComponent implements OnInit {
           if (this.user.profile_filename) {
             this.profileImageURL = `${environment.mediaUrl}${this.user.profile_filename}`;
           }
-          this.birthDate = new Date(this.user.year_birth, this.user.month_birth - 1);
+
+          if (this.user.year_birth && this.user.month_birth) {
+            this.birthDate = new Date(this.user.year_birth, this.user.month_birth - 1);
+          }
 
           this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
           this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
