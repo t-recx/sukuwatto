@@ -434,7 +434,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   startBackgroundGeolocationTracking() {
     this.BackgroundGeolocation.configure({
-      locationProvider: this.BackgroundGeolocation.RAW_PROVIDER,
+      locationProvider: this.BackgroundGeolocation.ACTIVITY_PROVIDER,
       desiredAccuracy: this.BackgroundGeolocation.HIGH_ACCURACY,
       stationaryRadius: 10,
       distanceFilter: 50,
