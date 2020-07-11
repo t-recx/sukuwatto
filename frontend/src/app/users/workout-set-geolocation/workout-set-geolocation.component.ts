@@ -116,7 +116,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   private loadMETs(): void {
-    if (this.workoutActivity.exercise &&
+    if (this.allowEdit &&
+      this.workoutActivity.exercise &&
       this.workoutActivity.exercise.id) {
       this
       .metsService
@@ -297,8 +298,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   showStats() {
     this.workoutActivity.currentView = GeoView.Stats;
 
-    this.updateCalories();
-    this.updateSpeed();
+    if (this.allowEdit) {
+      this.updateCalories();
+      this.updateSpeed();
+    }
     this.workoutActivity.ellapsedTime = this.getActiveTime();
   }
 
@@ -590,11 +593,13 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   updateCalories() {
-    this.caloriesService.requestActivityCalories(
-      this.userBioData,
-      this.workout,
-      this.workoutActivity
-    ).subscribe(calories => this.workoutActivity.calories = calories);
+    if (this.allowEdit) {
+      this.caloriesService.requestActivityCalories(
+        this.userBioData,
+        this.workout,
+        this.workoutActivity
+      ).subscribe(calories => this.workoutActivity.calories = calories);
+    }
   }
 
   stopTracking() {
