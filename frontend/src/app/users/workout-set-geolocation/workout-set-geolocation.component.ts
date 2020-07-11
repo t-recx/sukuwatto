@@ -20,6 +20,7 @@ import { Exercise } from '../exercise';
 import { TimeService } from '../time.service';
 import { WorkoutSetTimeSegment } from '../workout-set-time-segment';
 import { Router } from '@angular/router';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'app-workout-set-geolocation',
@@ -58,6 +59,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   allowToggleSize: boolean = true;
 
+  pausedSubscription: Subscription;
+
   // ---------------------
 
   layers: any;
@@ -94,6 +97,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     private metsService: MetabolicEquivalentService,
     private timeService: TimeService,
     private router: Router,
+    private cordovaService: CordovaService,
   ) {
   }
 
@@ -136,23 +140,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       if (this.BackgroundGeolocation) {
         this.BackgroundGeolocation.getLocations((locations) => {
           if (locations && locations.length > 0) {
-            if (this.workoutActivity.positions && this.workoutActivity.positions.length > 0) {
-              const lastTimestamp = this.workoutActivity
-                .positions.sort((a, b) => b.timestamp - a.timestamp)[0].timestamp;
-
-              if (lastTimestamp) {
-                const newLocations = locations.filter(l => l.time > lastTimestamp);
-
-                if (newLocations) {
-                  newLocations.map(l => this.addPositionToRoute(l));
-                }
-              }
-            }
-            else {
-              if(this.workoutActivity.segments && this.workoutActivity.segments.length > 0) {
-                locations.filter(l => l.time > this.workoutActivity.segments[0].start).map(l => this.addPositionToRoute(l));
-              }
-            }
+            locations.map(l => this.addPositionToRoute(l));
           }
         });
 
@@ -183,7 +171,15 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     }
   }
 
+  pause() {
+    if (this.BackgroundGeolocation) {
+      this.BackgroundGeolocation.deleteAllLocations(() => {});
+    }
+  }
+
   ngOnInit(): void {
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.pause());
+
     this.initActivityParameters();
 
     this.loadMETs();
@@ -233,6 +229,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
     this.stopTracking();
 
+    this.pausedSubscription.unsubscribe();
     this.distanceSubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
   }
@@ -621,7 +618,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     switch (this.workoutActivity.trackingType) {
       case GeoTrackingType.BackgroundGeolocation:
         this.BackgroundGeolocation.stop();
-        this.BackgroundGeolocation.deleteAllLocations();
+        this.BackgroundGeolocation.deleteAllLocations(() => {});
         this.BackgroundGeolocation.removeAllListeners();
         break;
       case GeoTrackingType.Navigator:
@@ -805,7 +802,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     let positionsArray = [];
 
     positions
-      .sort((a, b) => a.timestamp - b.timestamp)
+      //.sort((a, b) => a.timestamp - b.timestamp)
       .forEach(position => {
         positionsArray.push([position.latitude, position.longitude, position.altitude]);
       });

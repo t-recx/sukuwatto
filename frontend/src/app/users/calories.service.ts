@@ -90,14 +90,8 @@ export class CaloriesService {
     let distance: number = activity.distance;
     let distance_unit = activity.distance_unit;
     
-    if (activity.tracking && activity.positions && activity.positions.length > 1) {
-      start = new Date(activity.positions[0].timestamp);
-      end = new Date(activity.positions[activity.positions.length - 1].timestamp);
-    }
-    else {
-      start = activity.start;
-      end = activity.end;
-    }
+    start = activity.start;
+    end = activity.end;
 
     let milliseconds = null;
     let hours = null;
