@@ -149,7 +149,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
               }
             }
             else {
-              locations.map(l => this.addPositionToRoute(l));
+              if(this.workoutActivity.segments && this.workoutActivity.segments.length > 0) {
+                locations.filter(l => l.time > this.workoutActivity.segments[0].start).map(l => this.addPositionToRoute(l));
+              }
             }
           }
         });
@@ -435,7 +437,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   startBackgroundGeolocationTracking() {
     this.BackgroundGeolocation.configure({
-      locationProvider: this.BackgroundGeolocation.ACTIVITY_PROVIDER,
+      locationProvider: this.BackgroundGeolocation.RAW_PROVIDER,
       desiredAccuracy: this.BackgroundGeolocation.HIGH_ACCURACY,
       stationaryRadius: 10,
       distanceFilter: 50,
@@ -619,6 +621,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     switch (this.workoutActivity.trackingType) {
       case GeoTrackingType.BackgroundGeolocation:
         this.BackgroundGeolocation.stop();
+        this.BackgroundGeolocation.deleteAllLocations();
         this.BackgroundGeolocation.removeAllListeners();
         break;
       case GeoTrackingType.Navigator:
