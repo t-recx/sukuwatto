@@ -197,6 +197,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       this.workoutActivity.time = 0;
     }
 
+    this.initPositionSortIndex();
+
     this.initMap();
     this.updateSpeed();
 
@@ -222,6 +224,12 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
         this.updateSpeed();
       }
     })
+  }
+
+  private initPositionSortIndex() {
+    if (this.workoutActivity.positions) {
+      this.workoutActivity.positions.filter(x => !x.sortIndex && x.id).map(x => x.sortIndex = x.id);
+    }
   }
 
   ngOnDestroy(): void {
@@ -518,6 +526,13 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
     let newPosition;
 
+    if (this.workoutActivity.positions.length > 0) {
+      newPosition.sortIndex = this.workoutActivity.positions[this.workoutActivity.positions.length - 1].sortIndex + 1;
+    }
+    else {
+      newPosition.sortIndex = 1;
+    }
+
     if (p.coords) {
       newPosition = new WorkoutSetPosition(
         {
@@ -802,6 +817,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     let positionsArray = [];
 
     positions
+      .sort((a, b) => a.sortIndex - b.sortIndex)
       //.sort((a, b) => a.timestamp - b.timestamp)
       .forEach(position => {
         positionsArray.push([position.latitude, position.longitude, position.altitude]);

@@ -8,6 +8,8 @@ export class WorkoutSetPosition {
     speed: number | null;
     timestamp: number; 
 
+    sortIndex: number;
+
     constructor(init?: Partial<WorkoutSetPosition>) {
         Object.assign(this, init);
     }
