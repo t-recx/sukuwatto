@@ -526,13 +526,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
     let newPosition;
 
-    if (this.workoutActivity.positions.length > 0) {
-      newPosition.sortIndex = this.workoutActivity.positions[this.workoutActivity.positions.length - 1].sortIndex + 1;
-    }
-    else {
-      newPosition.sortIndex = 1;
-    }
-
     if (p.coords) {
       newPosition = new WorkoutSetPosition(
         {
@@ -554,6 +547,13 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
           speed: p.speed,
           timestamp: p.time
         });
+    }
+
+    if (this.workoutActivity.positions.length > 0) {
+      newPosition.sortIndex = this.workoutActivity.positions[this.workoutActivity.positions.length - 1].sortIndex + 1;
+    }
+    else {
+      newPosition.sortIndex = 1;
     }
 
     this.workoutActivity.positions.push(newPosition);
