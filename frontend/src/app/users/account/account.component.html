@@ -196,14 +196,14 @@
     </button>
     <button class="siimple-btn siimple-btn--warning siimple--ml-2" (click)="showPasswordModal()">
         <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
-        Change password
+        Change
     </button>
-    <button class="siimple-btn siimple-btn--error siimple--ml-2 delete-button" (click)="showDeleteModal()"
+    <button class="siimple-btn siimple-btn--error siimple--ml-2" (click)="showDeleteModal()"
         [class.siimple-btn--disabled]="deleting"
         [disabled]="deleting"
     >
-        <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
+        <fa-icon [icon]="faDoorClosed" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
         <fa-icon [icon]="faCircleNotch" [spin]=true  class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-        Delete account
+        Leave
     </button>
 </div>

@@ -8,7 +8,7 @@ import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
 import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
@@ -40,6 +40,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   faWeight = faWeight;
   faCheck = faCheck;
   faTimes = faTimes;
+  faDoorClosed = faDoorClosed;
 
   loading: boolean = false;
   saving: boolean = false;
