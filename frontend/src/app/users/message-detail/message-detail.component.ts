@@ -97,6 +97,10 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.imageHidden = true;
   }
 
+  touchEnd() {
+    this.scrollToBottom();
+  }
+
   setScrollContainer(): void {
     if (this.scrollFrame) {
       this.scrollContainer = this.scrollFrame.nativeElement;

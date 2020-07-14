@@ -47,6 +47,7 @@
                 type="text"
                 required
                 class="input-msg siimple-input" name="messageInput" 
+                (touchend)="touchEnd()"
                 placeholder="Type a message" autocomplete="off" >
               <button class="send">
                 <div class="circle siimple--bg-primary">
