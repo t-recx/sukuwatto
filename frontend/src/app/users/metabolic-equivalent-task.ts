@@ -16,4 +16,6 @@ export class MetabolicEquivalentTask {
     from_value: number;
     to_value: number;
     unit: number;
+
+    can_be_automatically_selected: boolean;
 }

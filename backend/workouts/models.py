@@ -116,6 +116,8 @@ class MetabolicEquivalentTask(models.Model):
     to_value = models.DecimalField(max_digits=4, decimal_places=2, blank= True, null=True)
     unit = models.IntegerField(choices=Unit.choices, blank= True, null=True)
 
+    can_be_automatically_selected = models.BooleanField(default=False)
+
 class Plan(models.Model):
     # Example: PPL, SS, SL
     short_name = models.CharField(max_length=200, help_text='Enter the workout plan template''s short name (ex: PPL, SS, SL)', blank=True)
