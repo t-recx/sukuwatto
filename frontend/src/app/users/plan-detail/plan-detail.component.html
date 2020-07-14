@@ -47,24 +47,10 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Website</div>
-                        <input type="text" class="siimple-input siimple-input--fluid"  
-                            name="website" id="website" [(ngModel)]="plan.website" #website="ngModel">
-
-                    </div>
-                </div>
-            </div>
-            <div class="siimple-grid-row">
-                <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
-                    <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Description</div>
                         <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" required
                             name="description" id="description" [(ngModel)]="plan.description" #description="ngModel">
                         </textarea>
-
-                        <div *ngIf="description.invalid && (description.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
-                        </div>
                     </div>
                 </div>
             </div>

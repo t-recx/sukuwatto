@@ -145,16 +145,6 @@ export class PlanCardComponent implements OnInit {
     return group.exercises.filter(e => e.order == exercise_order);
   }
 
-  getPlanWebsite() {
-    let website = this.plan.website;
-
-    if (!website.startsWith('http')) {
-      website = 'http://' + website;
-    }
-
-    return website;
-  }
-
   showWorkingPercentage(session, exercise, percentage) {
     return percentage &&
           (percentage != 100 ||
