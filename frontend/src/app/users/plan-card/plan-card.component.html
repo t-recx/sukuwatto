@@ -11,16 +11,6 @@
     <div class="siimple-card-body">
         <p class="siimple-p keep-original-formatting">{{plan.description}}</p>
 
-        <span *ngIf="plan.website">
-            <span class="siimple--text-bold">Website: </span>
-            <span class="siimple-link">
-                <a [href]="getPlanWebsite()" target="_blank" class="siimple-link">
-                    {{plan.website}}
-                    <fa-icon [icon]=faExternalLinkAlt></fa-icon>
-                </a>
-            </span>
-        </span>
-
         <div class="siimple-rule siimple--mt-3"></div>
 
         <div class="session-list">

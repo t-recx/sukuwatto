@@ -216,10 +216,6 @@ export class PlansService {
       return false;
     }
 
-    if (!plan.description || 0 == plan.description.trim().length) {
-      return false;
-    }
-
     for (const session of plan.sessions) {
       if (!this.validSession(session)) {
         return false;

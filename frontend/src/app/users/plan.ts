@@ -9,7 +9,6 @@ export class Plan {
   description: string;
   user: User;
   creation: Date;
-  website: string;
   public: boolean;
   parent_plan: number;
   sessions: PlanSession[];

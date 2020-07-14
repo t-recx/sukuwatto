@@ -76,7 +76,7 @@ class PlanSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Plan
-        fields = ['id', 'short_name', 'name', 'description', 'website', 'creation', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
+        fields = ['id', 'short_name', 'name', 'description', 'creation', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
@@ -330,7 +330,6 @@ class PlanSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # update the plan first
         instance.short_name = validated_data.get('short_name', instance.short_name)
-        instance.website = validated_data.get('website', instance.website)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.parent_plan = validated_data.get('parent_plan', instance.parent_plan)
