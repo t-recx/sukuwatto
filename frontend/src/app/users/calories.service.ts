@@ -162,16 +162,18 @@ export class CaloriesService {
   }
 
   private getMet(distance: number, distance_unit: number, mets: MetabolicEquivalentTask[], units: Unit[], hours: number, met: MetabolicEquivalentTask) {
+    let autoMets = mets.filter(x => x.can_be_automatically_selected);
+
     if (distance &&
       distance_unit &&
-      mets
+      autoMets
         .filter(x => x.unit &&
           units
             .filter(u => x.unit == u.id && u.measurement_type == MeasurementType.Speed)
             .length > 0)
         .length > 0) {
       // we've got mets for a specific speed
-      let speedParameters = [...new Set(mets
+      let speedParameters = [...new Set(autoMets
         .filter(x => x.unit)
         .map(x => x.unit))]
         .map(unit => ({ unit, distance: this.unitsService.convert(distance, distance_unit, unit) }))
@@ -179,7 +181,7 @@ export class CaloriesService {
 
       // is our distance within a met's range?
       speedParameters.some(sp => {
-        met = mets
+        met = autoMets
           .filter(m => m.unit == sp.unit && m.from_value && m.to_value)
           .filter(m => m.from_value >= sp.speed && m.to_value <= sp.speed)[0];
 
@@ -188,7 +190,7 @@ export class CaloriesService {
 
       if (!met) {
         speedParameters.some(sp => {
-          let metsWithValues = mets
+          let metsWithValues = autoMets
             .filter(x => x.unit == sp.unit && x.from_value || x.to_value)
             .map(x => ({ met: x, value: x.from_value ? x.from_value : x.to_value }));
 
@@ -237,14 +239,14 @@ export class CaloriesService {
 
     if (!met) {
       // when all else fails, let's try and see if we have a general MET
-      met = mets
+      met = autoMets
         .filter(x => x.description.includes('general'))
         .sort((a, b) => a.description.length - b.description.length)[0];
     }
 
     if (!met) {
       // ok, whatever, we'll select the first one and be done with it.
-      met = mets[0];
+      met = autoMets[0];
     }
     return met;
   }

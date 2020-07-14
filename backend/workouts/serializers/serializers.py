@@ -10,7 +10,7 @@ class MetabolicEquivalentTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = MetabolicEquivalentTask
         fields = ['id', 'exercise', 'code', 'description', 'met', 'from_value', 'to_value', 'unit',
-            'exercise_type', 'mechanics', 'force', 'modality', 'section']
+            'exercise_type', 'mechanics', 'force', 'modality', 'section', 'can_be_automatically_selected']
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
