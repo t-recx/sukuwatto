@@ -99,7 +99,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   windowResized() {
     if (this.isNearBottom) {
-      this.scrollToBottom();
+      this.scrollToBottom(false);
     }
   }
 
@@ -129,11 +129,11 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     }
   }
 
-  private scrollToBottom(): void {
+  private scrollToBottom(smooth: boolean = true): void {
     this.scrollContainer.scroll({
       top: this.scrollContainer.scrollHeight,
       left: 0,
-      behavior: 'smooth'
+      behavior: smooth ? 'smooth' : 'auto'
     });
   }
 
