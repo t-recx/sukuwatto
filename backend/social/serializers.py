@@ -25,7 +25,7 @@ class LastMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LastMessage
-        fields = ['id', 'uuid', 'date', 'user', 'correspondent',
+        fields = ['id', 'date', 'user', 'correspondent',
             'last_read_message', 'last_message', 'unread_count']
 
 class PostSerializer(serializers.ModelSerializer):
