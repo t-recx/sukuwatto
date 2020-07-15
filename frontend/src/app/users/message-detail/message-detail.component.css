@@ -38,6 +38,7 @@
     height: 55px;
     padding: 0 8px;
     position: relative;
+    background-color: #c4d2e1 !important;
     z-index: 1;
   }
   
