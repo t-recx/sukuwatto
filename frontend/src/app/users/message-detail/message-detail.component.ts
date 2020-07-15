@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChildren, ViewChild, QueryList, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, ViewChild, QueryList, ElementRef, AfterViewInit, AfterViewChecked, Renderer2 } from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import { faPaperPlane, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUserCircle, faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/user';
 import { Message } from '../message';
 import { environment } from 'src/environments/environment';
@@ -13,6 +13,7 @@ import { LastMessagesService } from '../last-messages.service';
 import { debounce, switchMap, filter } from 'rxjs/operators';
 import { Paginated } from '../paginated';
 import { LoadingService } from '../loading.service';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-message-detail',
@@ -34,6 +35,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   faPaperPlane = faPaperPlane;
   faUserCircle = faUserCircle;
+  faClock = faClock;
+  faCheckCircle = faCheckCircle;
 
   chatroomName: string;
   username: string;
@@ -51,6 +54,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   currentPage = 1;
 
   newMessageSubscription: Subscription;
+  updateMessageDataSubscription: Subscription;
   paramChangedSubscription: Subscription;
   itemElementsChangedSubscription: Subscription;
 
@@ -69,16 +73,32 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   ngOnInit() {
     this.newMessageSubject = new Subject<Message>();
+
     this.newMessageSubscription = this.newMessageSubject
-      .pipe(filter(x => x.from_user != this.user.id), debounce(() => interval(2000)), switchMap(x => 
-          this.lastMessagesService.updateLastMessageRead(this.correspondent.id)
+      .pipe(filter(x => x.from_user != this.user.id), debounce(() => interval(2000)), switchMap(x =>
+        this.lastMessagesService.updateLastMessageRead(this.correspondent.id)
       ))
       .subscribe();
+
+    this.updateMessageDataSubscription = this.newMessageSubject
+      .subscribe(newMessage => {
+        if (this.messageWasReceived(newMessage)) {
+          this.messages.push(newMessage);
+        }
+        else {
+          const message = this.messages.filter(m => m.uuid == newMessage.uuid)[0];
+
+          if (message) {
+            message.unreceived = false;
+          }
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
     this.newMessageSubscription.unsubscribe();
+    this.updateMessageDataSubscription.unsubscribe();
 
     if (this.itemElementsChangedSubscription) {
       this.itemElementsChangedSubscription.unsubscribe();
@@ -95,6 +115,17 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   hideImage() {
     this.imageHidden = true;
+  }
+
+  windowResized() {
+    if (this.isNearBottom) {
+      this.scrollToBottom(false);
+
+      // we'll do this because sometimes the virtual keyboard takes a bit to disappear
+      setTimeout(() => {
+        this.scrollToBottom(false);
+      }, 50);
+    }
   }
 
   setScrollContainer(): void {
@@ -123,11 +154,11 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     }
   }
 
-  private scrollToBottom(): void {
+  private scrollToBottom(smooth: boolean = true): void {
     this.scrollContainer.scroll({
       top: this.scrollContainer.scrollHeight,
       left: 0,
-      behavior: 'smooth'
+      behavior: smooth ? 'smooth' : 'auto'
     });
   }
 
@@ -201,20 +232,29 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
             this.chatSocket.unsubscribe();
           }
 
-          this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
-          this.chatSocket.subscribe(newMessage => {
-            if (this.messages) {
-              newMessage.date = new Date();
-              this.messages.push(newMessage);
-              this.newMessageSubject.next(newMessage);
-            }
-          });
+          this.createChatSocket();
         }
       });
     }
     else {
       this.messages = null;
     }
+  }
+
+  createChatSocket() {
+    this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
+    this.chatSocket
+      .subscribe(newMessage => {
+        if (this.messages) {
+          newMessage.date = new Date(newMessage.date);
+          this.newMessageSubject.next(newMessage);
+        }
+      },
+      () => {
+        setTimeout(() => {
+          this.createChatSocket();
+        }, 1000);
+      });
   }
 
   getProfileImageURL(user: User): string {
@@ -242,17 +282,27 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   getMessageTime(date: Date): string {
-    return (new Date(date)).toLocaleTimeString().substring(0, 5);
+    let time = (new Date(date)).toLocaleTimeString().substring(0, 5);
+
+    if (time[time.length - 1] == ':') {
+      time = time.substring(0, 4);
+    }
+
+    return time;
   }
 
   sendMessage(): void {
-    if (this.chatSocket) {
+    if (this.chatSocket && this.newMessage && this.newMessage.trim().length > 0) {
       let newMessage = new Message();
+
       newMessage.date = new Date();
+      newMessage.uuid = uuid();
       newMessage.from_user = this.user.id;
       newMessage.to_user = this.correspondent.id;
       newMessage.message = this.newMessage;
+      newMessage.unreceived = true;
 
+      this.messages.push(newMessage);
       this.chatSocket.next(newMessage);
 
       this.newMessage = "";

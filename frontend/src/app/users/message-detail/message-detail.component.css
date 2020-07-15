@@ -248,3 +248,36 @@
   .date-separator-rule {
 	  margin-top: 4px !important;
   }
+
+  
+.metadata .tick {
+  display: inline-block;
+  margin-left: 4px;
+  position: relative;
+}
+
+.tick-success {
+}
+
+.tick-waiting {
+  color: #eef2f7;
+}
+
+.metadata .tick fa-icon svg {
+  position: absolute;
+  transition: .5s ease-in-out;
+}
+
+.metadata .tick fa-icon svg:first-child {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform: perspective(800px) rotateY(180deg);
+          transform: perspective(800px) rotateY(180deg);
+}
+
+.metadata .tick fa-icon svg:last-child {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform: perspective(800px) rotateY(0deg);
+          transform: perspective(800px) rotateY(0deg);
+}

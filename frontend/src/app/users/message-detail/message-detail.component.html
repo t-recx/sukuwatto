@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="conversation">
-            <div class="conversation-container" (scroll)="scrolled($event)" #scrollframe>
+            <div class="conversation-container" (scroll)="scrolled($event)" (window:resize)="windowResized()" #scrollframe>
               <div class="older-messages-retriever-container" *ngIf="loadingOlderMessages">
                 <small class="siimple-small">Loading older messages...</small>
               </div>
@@ -34,12 +34,19 @@
                     <span class="time" [ngClass]="{'siimple--color-light': messageWasSent(message)}">
                       {{getMessageTime(message.date)}}
                     </span>
+                    <span class="tick" *ngIf="messageWasSent(message)">
+                      <fa-icon [icon]="faClock" class="tick-waiting" size="xs" *ngIf="message.unreceived">
+                      </fa-icon>
+                      <fa-icon [icon]="faCheckCircle" class="tick-success" size="xs" *ngIf="!message.unreceived">
+                      </fa-icon>
+                    </span>
                   </span>
                 </div>
               </div>
             </div>
-            <form class="conversation-compose" (ngSubmit)="sendMessage()">
+            <form class="conversation-compose">
               <input 
+                (keyup.enter)="sendMessage()"
                 id = "messageInput"
                 [(ngModel)]="newMessage"
                 applyFocus
@@ -48,7 +55,7 @@
                 required
                 class="input-msg siimple-input" name="messageInput" 
                 placeholder="Type a message" autocomplete="off" >
-              <button class="send">
+              <button type="button" class="send" (mousedown)="sendMessage(); $event.preventDefault()">
                 <div class="circle siimple--bg-primary">
                     <fa-icon [icon]="faPaperPlane"></fa-icon>
                 </div>

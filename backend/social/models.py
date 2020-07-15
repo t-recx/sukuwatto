@@ -30,6 +30,7 @@ class Comment(models.Model):
         return self.text
 
 class Message(models.Model):
+    uuid = models.CharField(max_length=255, null=True, blank=True)
     date = models.DateTimeField()
     from_user = models.ForeignKey(get_user_model(), related_name='from_user', on_delete=models.CASCADE)
     to_user = models.ForeignKey(get_user_model(), related_name='to_user', on_delete=models.CASCADE)

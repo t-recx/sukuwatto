@@ -9,12 +9,12 @@ from django.utils import timezone
 class MessageReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'date', 'from_user', 'to_user', 'message']
+        fields = ['id', 'uuid', 'date', 'from_user', 'to_user', 'message']
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'date', 'from_user', 'to_user', 'message']
+        fields = ['id', 'uuid', 'date', 'from_user', 'to_user', 'message']
         read_only_fields = ['date', 'from_user']
 
 class LastMessageSerializer(serializers.ModelSerializer):
