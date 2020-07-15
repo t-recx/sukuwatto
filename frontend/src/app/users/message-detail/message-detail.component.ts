@@ -270,7 +270,13 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   getMessageTime(date: Date): string {
-    return (new Date(date)).toLocaleTimeString().substring(0, 5);
+    let time = (new Date(date)).toLocaleTimeString().substring(0, 5);
+
+    if (time[time.length - 1] == ':') {
+      time = time.substring(0, 4);
+    }
+
+    return time;
   }
 
   sendMessage(): void {

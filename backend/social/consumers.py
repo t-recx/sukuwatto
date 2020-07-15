@@ -55,6 +55,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        uuid = text_data_json['uuid']
         message = text_data_json['message']
 
         # Send message to room group
@@ -63,6 +64,7 @@ class ChatConsumer(WebsocketConsumer):
             {
                 'type': 'chat_message',
                 'from_user': self.scope["user"].id,
+                'uuid': uuid,
                 'message': message
             }
         )
@@ -72,10 +74,12 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         from_user = event['from_user']
+        uuid = text_data_json['uuid']
         message = event['message']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'from_user': from_user,
+            'uuid': uuid,
             'message': message
         }))
