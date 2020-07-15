@@ -84,7 +84,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
         const message = this.messages.filter(m => m.uuid == newMessage.uuid)[0];
 
         if (message) {
-          message.server_received = true;
+          message.unreceived = false;
         }
       });
   }
@@ -282,7 +282,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
       newMessage.from_user = this.user.id;
       newMessage.to_user = this.correspondent.id;
       newMessage.message = this.newMessage;
-      newMessage.server_received = false;
+      newMessage.unreceived = true;
 
       this.messages.push(newMessage);
       this.chatSocket.next(newMessage);

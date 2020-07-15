@@ -4,7 +4,7 @@ export class Message {
     from_user: number;
     to_user: number;
     message: string;
-    server_received: boolean;
+    unreceived: boolean;
 
     constructor() {
     }
