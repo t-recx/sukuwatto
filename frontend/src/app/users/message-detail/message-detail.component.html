@@ -44,8 +44,9 @@
                 </div>
               </div>
             </div>
-            <form class="conversation-compose" (ngSubmit)="sendMessage()">
+            <form class="conversation-compose">
               <input 
+                (keyup.enter)="sendMessage()"
                 id = "messageInput"
                 [(ngModel)]="newMessage"
                 applyFocus
@@ -54,7 +55,7 @@
                 required
                 class="input-msg siimple-input" name="messageInput" 
                 placeholder="Type a message" autocomplete="off" >
-              <button class="send">
+              <button type="button" class="send" (click)="sendMessage()">
                 <div class="circle siimple--bg-primary">
                     <fa-icon [icon]="faPaperPlane"></fa-icon>
                 </div>
