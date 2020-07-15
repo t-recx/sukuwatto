@@ -21,6 +21,8 @@ import { v4 as uuid } from 'uuid';
   styleUrls: ['./message-detail.component.css']
 })
 export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewChecked {
+  @ViewChild('messageInput') inputEl: ElementRef;
+
   private scrollContainer: any;
   private isNearBottom = true;
 
@@ -307,5 +309,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
       this.newMessage = "";
     }
+    
+    this.inputEl.nativeElement.focus();
   }
 }
