@@ -34,6 +34,10 @@
                     <span class="time" [ngClass]="{'siimple--color-light': messageWasSent(message)}">
                       {{getMessageTime(message.date)}}
                     </span>
+                    <span class="tick" *ngIf="messageWasSent(message)">
+                      <fa-icon [icon]="faClock" size="xs" *ngIf="!message.server_received">
+                      </fa-icon>
+                    </span>
                   </span>
                 </div>
               </div>
