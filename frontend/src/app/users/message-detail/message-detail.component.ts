@@ -207,20 +207,27 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
             this.chatSocket.unsubscribe();
           }
 
-          this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
-          this.chatSocket.subscribe(newMessage => {
-            if (this.messages) {
-              newMessage.date = new Date();
-              this.messages.push(newMessage);
-              this.newMessageSubject.next(newMessage);
-            }
-          });
+          this.createChatSocket();
         }
       });
     }
     else {
       this.messages = null;
     }
+  }
+
+  createChatSocket() {
+    this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
+    this.chatSocket.subscribe(newMessage => {
+      if (this.messages) {
+        newMessage.date = new Date();
+        this.messages.push(newMessage);
+        this.newMessageSubject.next(newMessage);
+      }
+    },
+      () => {
+        this.createChatSocket();
+      });
   }
 
   getProfileImageURL(user: User): string {
@@ -252,7 +259,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   sendMessage(): void {
-    if (this.chatSocket) {
+    if (this.chatSocket && this.newMessage && this.newMessage.trim().length > 0) {
       let newMessage = new Message();
       newMessage.date = new Date();
       newMessage.from_user = this.user.id;
