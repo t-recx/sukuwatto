@@ -120,6 +120,11 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   windowResized() {
     if (this.isNearBottom) {
       this.scrollToBottom(false);
+
+      // we'll do this because sometimes the virtual keyboard takes a bit to disappear
+      setTimeout(() => {
+        this.scrollToBottom(false);
+      }, 50);
     }
   }
 
