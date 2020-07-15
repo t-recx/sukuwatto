@@ -59,7 +59,6 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   itemElementsChangedSubscription: Subscription;
 
   constructor(
-    private renderer: Renderer2,
     private authService: AuthService,
     private messagesService: MessagesService,
     private lastMessagesService: LastMessagesService,
@@ -308,9 +307,5 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
       this.newMessage = "";
     }
-
-    const messageInput = this.renderer.selectRootElement('#messageInput');
-
-    setTimeout(() => messageInput.focus(), 0);
   }
 }

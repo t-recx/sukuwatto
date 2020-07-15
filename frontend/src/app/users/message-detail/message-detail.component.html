@@ -55,7 +55,7 @@
                 required
                 class="input-msg siimple-input" name="messageInput" 
                 placeholder="Type a message" autocomplete="off" >
-              <button type="button" class="send" (click)="sendMessage()">
+              <button type="button" class="send" (mousedown)="sendMessage(); $event.preventDefault()">
                 <div class="circle siimple--bg-primary">
                     <fa-icon [icon]="faPaperPlane"></fa-icon>
                 </div>
