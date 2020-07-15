@@ -252,11 +252,17 @@
   
 .metadata .tick {
   display: inline-block;
-  margin-left: 2px;
+  margin-left: 4px;
   position: relative;
-  top: 4px;
-  height: 16px;
   width: 16px;
+}
+
+.tick-success {
+  color: #4acf7f;
+}
+
+.tick-waiting {
+  color: #eef2f7;
 }
 
 .metadata .tick fa-icon svg {

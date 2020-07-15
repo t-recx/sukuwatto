@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChildren, ViewChild, QueryList, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import { faPaperPlane, faUserCircle, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUserCircle, faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/user';
 import { Message } from '../message';
 import { environment } from 'src/environments/environment';
@@ -36,6 +36,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   faPaperPlane = faPaperPlane;
   faUserCircle = faUserCircle;
   faClock = faClock;
+  faCheckCircle = faCheckCircle;
 
   chatroomName: string;
   username: string;

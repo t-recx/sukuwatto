@@ -35,7 +35,9 @@
                       {{getMessageTime(message.date)}}
                     </span>
                     <span class="tick" *ngIf="messageWasSent(message)">
-                      <fa-icon [icon]="faClock" size="xs" *ngIf="message.unreceived">
+                      <fa-icon [icon]="faClock" class="tick-waiting" size="xs" *ngIf="message.unreceived">
+                      </fa-icon>
+                      <fa-icon [icon]="faCheckCircle" class="tick-success" size="xs" *ngIf="!message.unreceived">
                       </fa-icon>
                     </span>
                   </span>
