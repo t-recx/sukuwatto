@@ -218,15 +218,18 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
   createChatSocket() {
     this.chatSocket = this.messagesService.getChatSocket(this.username, this.correspondent_username);
-    this.chatSocket.subscribe(newMessage => {
-      if (this.messages) {
-        newMessage.date = new Date();
-        this.messages.push(newMessage);
-        this.newMessageSubject.next(newMessage);
-      }
-    },
+    this.chatSocket
+      .subscribe(newMessage => {
+        if (this.messages) {
+          newMessage.date = new Date();
+          this.messages.push(newMessage);
+          this.newMessageSubject.next(newMessage);
+        }
+      },
       () => {
-        this.createChatSocket();
+        setTimeout(() => {
+          this.createChatSocket();
+        }, 1000);
       });
   }
 
