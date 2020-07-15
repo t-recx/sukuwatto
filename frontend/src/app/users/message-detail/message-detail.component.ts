@@ -82,10 +82,15 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
 
     this.updateMessageDataSubscription = this.newMessageSubject
       .subscribe(newMessage => {
-        const message = this.messages.filter(m => m.uuid == newMessage.uuid)[0];
+        if (this.messageWasReceived(newMessage)) {
+          this.messages.push(newMessage);
+        }
+        else {
+          const message = this.messages.filter(m => m.uuid == newMessage.uuid)[0];
 
-        if (message) {
-          message.unreceived = false;
+          if (message) {
+            message.unreceived = false;
+          }
         }
       });
   }
