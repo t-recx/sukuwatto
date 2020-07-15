@@ -241,6 +241,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.chatSocket
       .subscribe(newMessage => {
         if (this.messages) {
+          newMessage.date = new Date(newMessage.date);
           this.newMessageSubject.next(newMessage);
         }
       },
