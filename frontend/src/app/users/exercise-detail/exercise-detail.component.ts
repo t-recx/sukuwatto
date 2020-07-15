@@ -113,7 +113,7 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
   save() {
     this.triedToSave = true;
 
-    if (!this.valid(this.exercise)) {
+    if (!this.service.valid(this.exercise)) {
       this.alertService.warn('Please fill all required fields and try again');
       return;
     }
@@ -143,22 +143,6 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
         this.navigateToList();
       }
     });
-  }
-
-  valid(exercise: Exercise): boolean {
-    if (!exercise.short_name || exercise.short_name.trim().length == 0) {
-      return false;
-    }
-
-    if (!exercise.name || exercise.name.trim().length == 0) {
-      return false;
-    }
-
-    if (!exercise.exercise_type) {
-      return false;
-    }
-
-    return true;
   }
 
   delete() {

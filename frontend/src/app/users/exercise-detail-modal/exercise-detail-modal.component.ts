@@ -44,7 +44,7 @@ export class ExerciseDetailModalComponent implements OnInit, OnChanges {
   save() {
     this.triedToSave = true;
 
-    if (!this.valid(this.exercise)) {
+    if (!this.service.valid(this.exercise)) {
       return;
     }
 
@@ -62,18 +62,6 @@ export class ExerciseDetailModalComponent implements OnInit, OnChanges {
     });
   }
 
-  valid(exercise: Exercise): boolean {
-    if (!exercise.short_name || exercise.short_name.trim().length == 0) {
-      return false;
-    }
-
-    if (!exercise.name || exercise.name.trim().length == 0) {
-      return false;
-    }
-
-    return true;
-  }
-  
   close(): void {
     this.closed.emit();
   }
