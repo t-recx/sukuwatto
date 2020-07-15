@@ -74,7 +74,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         from_user = event['from_user']
-        uuid = text_data_json['uuid']
+        uuid = event['uuid']
         message = event['message']
 
         # Send message to WebSocket
