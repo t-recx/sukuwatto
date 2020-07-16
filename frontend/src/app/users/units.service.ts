@@ -8,6 +8,8 @@ import { uz, Classes } from 'unitz-ts';
 import { Workout } from './workout';
 import { WorkoutOverview } from './workout-activity-resumed';
 import { UserBioData } from './user-bio-data';
+import { Plan } from './plan';
+import { ProgressionStrategy } from './plan-progression-strategy';
 
 @Injectable({
   providedIn: 'root'
@@ -166,7 +168,7 @@ export class UnitsService {
             toUnitCode = 'mi';
             break;
           case 'km/h':
-            toUnitCode = 'mi';
+            toUnitCode = 'mph';
             break;
           case 'm':
             toUnitCode = 'yd';
@@ -188,7 +190,7 @@ export class UnitsService {
             toUnitCode = 'm';
             break;
           case 'mph':
-            toUnitCode = 'km';
+            toUnitCode = 'km/h';
             break;
         }
       }
@@ -210,15 +212,7 @@ export class UnitsService {
       fromUnitCode = fromUnit;
     }
 
-    let toUnitCode = this.getToUnitCode(fromUnitCode);
-
-    if (toUnitCode != fromUnitCode) {
-      let num = uz(value + fromUnitCode).convert(toUnitCode).value;
-
-      return this.roundValue(num, fromUnitCode, toUnitCode);
-    }
-
-    return value;
+    return this.convert(value, fromUnitCode, this.getToUnitCode(fromUnitCode));
   }
 
   convert(value: any, fromUnit: any, toUnit: any) {
@@ -262,6 +256,31 @@ export class UnitsService {
 
   roundValue(num: number, fromUnitCode: string, toUnitCode: string): number {
     return Math.round((num + Number.EPSILON) * 1000) / 1000;
+  }
+
+  convertPlan(plan: Plan): Plan {
+    if (plan) {
+      this.convertProgressionStrategies(plan.progressions);
+      if (plan.sessions) {
+        plan.sessions.forEach(session => {
+          this.convertProgressionStrategies(session.progressions);
+          if (session.groups) {
+            session.groups.forEach(group => {
+              const activities = [...(group.exercises ?? []), ...(group.warmups ?? [])]
+
+              activities.forEach(s => {
+                this.convertPlanSpeedValue(s);
+                this.convertPlanDistanceValue(s);
+              });
+
+              this.convertProgressionStrategies(group.progressions);
+            });
+          }
+        });
+      }
+    }
+
+    return plan;
   }
 
   convertWorkout(workout: Workout) {
@@ -355,6 +374,51 @@ export class UnitsService {
       if (model.distance_unit) {
         if (model.distance) {
           model.distance = this.convertToUserUnit(model.distance, model.distance_unit);
+        }
+        model.distance_unit = this.getToUnit(model.distance_unit);
+      }
+    }
+  }
+
+  convertProgressionStrategies(models: ProgressionStrategy[]) {
+    if (models) {
+      models.forEach(m => this.convertProgressionStrategy(m));
+    }
+  }
+
+  convertProgressionStrategy(model: ProgressionStrategy) {
+    if (model) {
+      if (model.unit) {
+        model.unit = this.getToUnit(model.unit);
+        if (model.parameter_increase) {
+          model.parameter_increase = this.convertToUserUnit(model.parameter_increase, model.unit);
+        }
+      }
+    }
+  }
+
+  convertPlanSpeedValue(model: { speed: number, speed_up_to: number, speed_unit: number }) {
+    if (model) {
+      if (model.speed_unit) {
+        if (model.speed) {
+          model.speed = this.convertToUserUnit(model.speed, model.speed_unit);
+        }
+        if (model.speed_up_to) {
+          model.speed_up_to = this.convertToUserUnit(model.speed_up_to, model.speed_unit);
+        }
+        model.speed_unit = this.getToUnit(model.speed_unit);
+      }
+    }
+  }
+
+  convertPlanDistanceValue(model: { distance: number, distance_up_to: number, distance_unit: number }) {
+    if (model) {
+      if (model.distance_unit) {
+        if (model.distance) {
+          model.distance = this.convertToUserUnit(model.distance, model.distance_unit);
+        }
+        if (model.distance_up_to) {
+          model.distance_up_to = this.convertToUserUnit(model.distance_up_to, model.distance_unit);
         }
         model.distance_unit = this.getToUnit(model.distance_unit);
       }
