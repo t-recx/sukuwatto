@@ -62,16 +62,17 @@ export class PlanCardComponent implements OnInit {
     this.deleting = false;
     this.adopting = false;
 
-    // todo convert plan units
     if (!this.plan) {
       this.plansService.getPlan(this.id).subscribe(w =>
         {
           this.plan = w;
           this.setAdoptButtonVisibility();
+          this.unitsService.convertPlan(this.plan);
         });
     }
     else {
       this.setAdoptButtonVisibility();
+      this.unitsService.convertPlan(this.plan);
     }
   }
 

@@ -8,6 +8,7 @@ import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { Subscription, forkJoin } from 'rxjs';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-plans',
@@ -29,6 +30,7 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private loadingService: LoadingService,
     private cordovaService: CordovaService,
+    private unitsService: UnitsService,
     private serializerUtils: SerializerUtilsService,
   ) { }
 
