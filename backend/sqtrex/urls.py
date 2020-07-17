@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenCookieDeleteView
 from django.urls import include, path
 from rest_framework import routers
-from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, get_followers, get_following, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password
+from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, get_is_following
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
 from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources
 from workouts.views import plan_views
@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),
     path('api/content-types/', ContentTypeList.as_view()),
+    path('api/get-user/', get_user, name='get-user'),
     path('api/user-profile-filename/', get_profile_filename, name='user-profile-filename'),
     path('api/user-email/', get_email, name='user-email'),
     path('api/user-validate-password/', validate_password, name='user-validate-password'),
@@ -43,8 +44,9 @@ urlpatterns = [
     path('api/actor-stream/', ActorStreamList.as_view()),
     path('api/target-stream/', TargetStreamList.as_view()),
     path('api/action-object-stream/', ActionObjectStreamList.as_view()),
-    path('api/followers/', get_followers, name="followers"),
-    path('api/following/', get_following, name="following"),
+    path('api/followers/', FollowersList.as_view(), name="followers"),
+    path('api/following/', FollowingList.as_view(), name="following"),
+    path('api/is-following/', get_is_following, name="is-following"),
     path('api/follow/', do_follow, name="follow"),
     path('api/unfollow/', do_unfollow, name="unfollow"),
     path('api/toggle-like/', toggle_like, name="toggle-like"),

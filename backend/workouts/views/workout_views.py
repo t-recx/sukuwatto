@@ -21,7 +21,7 @@ class WorkoutViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
 @api_view(['GET'])
 def get_last_workout_position(request):
     if request.method == 'GET':
-        queryset = WorkoutSetPosition.objects.all().order_by('-timestamp')
+        queryset = WorkoutSetPosition.objects.all().order_by('-id')
 
         username = request.query_params.get('username', None)
 

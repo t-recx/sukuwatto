@@ -28,6 +28,8 @@ export class CardSocialInteractionComponent implements OnInit {
   faComment = faComment;
   faCircleNotch = faCircleNotch;
 
+  loading: boolean = false;
+
   usersThatLiked: User[];
 
   liked: boolean;
@@ -62,8 +64,12 @@ export class CardSocialInteractionComponent implements OnInit {
   }
 
   loadActions() {
+    this.loading = true;
     this.streamsService.getTargetStream(this.content_type_id, this.id)
-    .subscribe(s => this.setActions(s));
+    .subscribe(s => {
+      this.setActions(s);
+      this.loading = false;
+    });
   }
 
   setActions(stream: Action[]) {

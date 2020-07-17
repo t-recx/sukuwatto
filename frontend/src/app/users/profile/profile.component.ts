@@ -25,6 +25,7 @@ export enum UserViewProfileTab {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  loadedIsFollowed = false;
   actions: Action[];
   paginated: Paginated<Action>;
   pageSize = 10;
@@ -33,6 +34,11 @@ export class ProfileComponent implements OnInit {
   loadingFollowers: boolean = false;
   loadingFollowing: boolean = false;
   loadingOlderActions: boolean = false;
+
+  paginatedFollowers: Paginated<User>;
+  paginatedFollowing: Paginated<User>;
+  pageFollowers: number = 1;
+  pageFollowing: number = 1;
 
   imageHidden: boolean = false;
 
@@ -48,7 +54,7 @@ export class ProfileComponent implements OnInit {
   canMessage: boolean;
   isFollowed: boolean;
 
-  followers: User[];
+  followers: User[] = [];
 
   userContentTypeID: number;
 
@@ -65,7 +71,7 @@ export class ProfileComponent implements OnInit {
 
   messageModalVisible: boolean;
 
-  following: User[];
+  following: User[] = [];
   showUnfollowButtonOnFollowingList: boolean;
 
   operating: boolean = false;
@@ -82,6 +88,26 @@ export class ProfileComponent implements OnInit {
     private loadingService: LoadingService,
   ) { }
 
+  @HostListener('window:scroll', []) onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
+      switch(this.selectedTab) {
+        case UserViewProfileTab.Overview:
+          this.loadOlderActions();
+          break;
+        case UserViewProfileTab.Followers:
+          if (this.paginatedFollowers.next) {
+            this.loadFollowers(1);
+          }
+          break;
+        case UserViewProfileTab.Following:
+          if (this.paginatedFollowing.next) {
+            this.loadFollowing(1);
+          }
+          break;
+      }
+    }
+  }
+
   ngOnInit() {
     this.contentTypesService.get("customuser").subscribe(x => {
         this.userContentTypeID = x.id;
@@ -91,13 +117,25 @@ export class ProfileComponent implements OnInit {
       this.loadUserData(params.get('username')));
   }
 
-  @HostListener('window:scroll', []) onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      this.loadOlderActions();
+  private loadIsFollowed(username: string) {
+    this.loadedIsFollowed = false;
+    if (this.authService.isLoggedIn()) {
+      this.followService.isFollowing(username).subscribe(f => {
+        this.isFollowed = f;
+        this.loadedIsFollowed = true;
+      });
+    }
+    else {
+      this.isFollowed = false;
+      this.loadedIsFollowed = true;
     }
   }
 
   private loadUserData(username: string) {
+    this.paginated = null;
+    this.paginatedFollowers = null;
+    this.paginatedFollowing = null;
+    this.loadedIsFollowed = false;
     this.notFound = false;
     this.operating = false;
     this.selectedTab = UserViewProfileTab.Overview;
@@ -106,12 +144,17 @@ export class ProfileComponent implements OnInit {
     this.birthDate = null;
     this.messageModalVisible = false;
     this.username = username;
+    this.following = [];
+    this.followers = [];
+    this.currentPage = 1;
+    this.pageFollowers = 1;
+    this.pageFollowing = 1;
     if (this.username) {
       this.userService
-      .get(this.username)
-      .subscribe(users => {
-        if (users && users.length == 1) {
-          this.user = users[0];
+      .getUser(this.username)
+      .subscribe(user => {
+        if (user) {
+          this.user = user;
           if (this.user.profile_filename) {
             this.profileImageURL = `${environment.mediaUrl}${this.user.profile_filename}`;
           }
@@ -122,6 +165,7 @@ export class ProfileComponent implements OnInit {
 
           this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
           this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
+          this.loadIsFollowed(this.username);
           this.loadFeed();
           this.loadFollowers();
           this.loadFollowing();
@@ -180,24 +224,31 @@ export class ProfileComponent implements OnInit {
     return b.filter(n => a.filter(o => o.id == n.id).length == 0);
   }
 
-  loadFollowers(): void {
+  loadFollowers(increment: number = 0): void {
     this.loadingService.load();
     this.loadingFollowers = true;
-    this.followService.getFollowers(this.username).subscribe(followers => 
+    this.followService.getFollowers(this.username, this.pageFollowers + increment, this.pageSize).subscribe(paginated => 
       {
-        this.followers = followers;
-        this.isFollowed = followers.filter(user => user.username == this.authService.getUsername()).length > 0;
+        const followers = paginated.results;
+        this.paginatedFollowers = paginated;
+        this.pageFollowers += increment;
+
+        this.followers.push(...followers.filter(f => this.followers.filter(ff => ff.id == f.id).length == 0));
         this.loadingFollowers = false;
         this.loadingService.unload();
       });
   }
 
-  loadFollowing(): void {
+  loadFollowing(increment: number = 0): void {
     this.loadingFollowing = true;
     this.loadingService.load();
-    this.followService.getFollowing(this.username).subscribe(following => 
+    this.followService.getFollowing(this.username, this.pageFollowing + increment, this.pageSize).subscribe(paginated => 
       {
-        this.following = following;
+        const following = paginated.results;
+        this.paginatedFollowing = paginated;
+        this.pageFollowers += increment;
+
+        this.following.push(...following.filter(f => this.following.filter(ff => ff.id == f.id).length == 0));
         this.loadingFollowing = false;
         this.loadingService.unload();
       });
@@ -211,9 +262,10 @@ export class ProfileComponent implements OnInit {
     this.operating = true;
 
     this.followService.follow(this.userContentTypeID, this.user.id).subscribe(x => {
-      this.loadFollowers();
+      this.followers = [new User({id: +this.authService.getUserId(), username: this.authService.getUsername()}), ...this.followers];
 
       this.operating = false;
+      this.isFollowed = true;
     });
   }
 
@@ -221,7 +273,7 @@ export class ProfileComponent implements OnInit {
     this.operating = true;
 
     this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x =>  {
-      this.loadFollowing();
+      this.followers = this.followers.filter(f => f.id != +this.authService.getUserId());
 
       this.operating = false;
       this.isFollowed = false;
@@ -229,7 +281,10 @@ export class ProfileComponent implements OnInit {
   }
 
   public unfollowUser(user: User): void {
-    this.followService.unfollow(this.userContentTypeID, user.id).subscribe(x => this.loadFollowing());
+    this.followService.unfollow(this.userContentTypeID, user.id).subscribe(x => 
+      {
+        this.following = this.following.filter(f => f.id != user.id);
+      });
   }
 
   selectTab(tab: UserViewProfileTab): void {

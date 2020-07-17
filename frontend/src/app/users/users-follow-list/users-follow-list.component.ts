@@ -1,7 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy, HostListener } from '@angular/core';
 import { User } from 'src/app/user';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { environment } from 'src/environments/environment';
+import { faUserCircle, faCircleNotch, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { Paginated } from '../paginated';
 
 @Component({
   selector: 'app-users-follow-list',
@@ -10,12 +10,15 @@ import { environment } from 'src/environments/environment';
 })
 export class UsersFollowListComponent implements OnInit {
   @Input() users: User[];
+  @Input() loading: boolean;
+
   @Input() actionText: string;
   @Input() showActionButton: boolean;
   @Input() actionIcon;
   @Output() actionPressed = new EventEmitter<User>();
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() {
   }

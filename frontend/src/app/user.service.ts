@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private userApiUrl = `${environment.apiUrl}/get-user/`;
   private usersEmailApiUrl = `${environment.apiUrl}/user-email/`;
   private usersChangePasswordApiUrl = `${environment.apiUrl}/user-change-password/`;
   private usersProfileFilenameApiUrl = `${environment.apiUrl}/user-profile-filename/`;
@@ -96,7 +97,7 @@ export class UserService {
     );
   }
 
-  get(username: string, email: string = null): Observable<User[]> {
+  getUser(username: string, email: string = null): Observable<User> {
     let options = {};
     let params = new HttpParams();
 
@@ -110,12 +111,14 @@ export class UserService {
 
     options = {params: params};
 
-    return this.http.get<User[]>(`${this.usersApiUrl}`, options)
+    return this.http.get<User>(`${this.userApiUrl}`, options)
       .pipe(
-        catchError(this.errorService.handleError<User[]>('getUser', (e: any) => 
+        catchError(this.errorService.handleError<User>('getUser', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch users');
-        }, []))
+          if (e.status != 404) {
+            this.alertService.error('Unable to fetch user');
+          }
+        }, null))
       );
   }
 

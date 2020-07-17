@@ -30,9 +30,9 @@ export class AuthService {
 
   login(username: string, email: string, password: string): Observable<Token> {
     if (!username || username.trim().length == 0) {
-      return this.userService.get(null, email).pipe(
-        concatMap(users => {
-          if (!users || users.length == 0) {
+      return this.userService.getUser(null, email).pipe(
+        concatMap(user => {
+          if (!user) {
             this.alertService.error('Incorrect username or password');
 
             return new Observable<Token>(o => {
@@ -41,7 +41,6 @@ export class AuthService {
             });
           }
 
-          let user = users[0];
           user.password = password;
 
           return this.loginByUser(user);
@@ -129,15 +128,15 @@ export class AuthService {
   }
 
   private setUserData(username: string) {
-    this.userService.get(username).subscribe(users => {
-      if (users.length > 0) { 
-        this.setUnitSystem(users[0].system);
-        this.setUserWeightUnitId(users[0].default_weight_unit.toString());
-        this.setUserDistanceUnitId(users[0].default_distance_unit.toString());
-        this.setUserSpeedUnitId(users[0].default_speed_unit.toString());
+    this.userService.getUser(username).subscribe(user => {
+      if (user) { 
+        this.setUnitSystem(user.system);
+        this.setUserWeightUnitId(user.default_weight_unit.toString());
+        this.setUserDistanceUnitId(user.default_distance_unit.toString());
+        this.setUserSpeedUnitId(user.default_speed_unit.toString());
 
-        this.setUserID(users[0].id.toString());
-        this.setIsStaff(users[0].is_staff);
+        this.setUserID(user.id.toString());
+        this.setIsStaff(user.is_staff);
       }
     });
   }

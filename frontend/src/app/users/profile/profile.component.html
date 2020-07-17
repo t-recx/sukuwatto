@@ -17,7 +17,7 @@
                 <div *ngIf="user.first_name || user.last_name" class="siimple-h5 name-field">
                     {{user.first_name}} {{user.last_name}}
                 </div>
-                <div class="action-button-group">
+                <div class="action-button-group" *ngIf="loadedIsFollowed">
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()"
                         [disabled]="operating" [class.siimple-btn--disabled]="operating">
                         <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
@@ -87,17 +87,14 @@
                 </div>
             </div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Followers">
-                <div *ngIf="!loadingFollowers">
-                    <app-users-follow-list [users]=followers [showActionButton]=false>
-                    </app-users-follow-list>
-                </div>
+                <app-users-follow-list [users]=followers [loading]=loadingFollowers [showActionButton]=false>
+                </app-users-follow-list>
             </div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Following">
-                <div *ngIf="!loadingFollowing">
-                    <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
-                        [actionIcon]=faUserMinus actionText="Unfollow" (actionPressed)="unfollowUser($event)">
-                    </app-users-follow-list>
-                </div>
+                <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
+                    [loading]=loadingFollowing
+                    [actionIcon]=faUserMinus actionText="Unfollow" (actionPressed)="unfollowUser($event)">
+                </app-users-follow-list>
             </div>
         </div>
     </div>

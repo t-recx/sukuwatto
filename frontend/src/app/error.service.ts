@@ -21,7 +21,7 @@ export class ErrorService {
       const errorMessage = `${operation} failed: ${error.message}`;
 
       if (!environment.production) {
-        this.alertService.error(errorMessage);
+        alert(JSON.stringify(error));
       }
 
       console.log(errorMessage);

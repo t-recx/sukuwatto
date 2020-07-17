@@ -420,13 +420,9 @@ class WorkoutSetTimeSegment(AbstractActivityTimeSegment):
     workout_activity = models.ForeignKey(WorkoutSet, related_name="segments", on_delete=models.CASCADE)
 
 class AbstractActivityPosition(models.Model):
-    accuracy = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     altitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
-    heading = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     latitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
     longitude = models.DecimalField(max_digits=28, decimal_places=20, null=True)
-    speed = models.DecimalField(max_digits=28, decimal_places=20, null=True)
-    timestamp = models.BigIntegerField(null=True)
 
     class Meta:
         abstract = True
