@@ -33,6 +33,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   heightUnits: Unit[];
   userBioDataVisible: boolean;
 
+  forbidden: boolean = false;
+
   faSave = faSave;
   faKey = faKey;
   faTrash = faTrash;
@@ -117,6 +119,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   loadUserData(username: string) {
+    this.forbidden = false;
     this.username = username;
     this.userBioData = null;
     this.bioDataDate = new Date();
@@ -126,6 +129,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
     this.allowed = this.authService.isCurrentUserLoggedIn(this.username);
+    this.forbidden = !this.allowed;
     this.triedToSave = false;
 
     if (this.allowed) {

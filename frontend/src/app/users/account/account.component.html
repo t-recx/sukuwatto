@@ -1,5 +1,10 @@
+<div *ngIf="forbidden">
+    <app-forbidden>
+    </app-forbidden>
+</div>
+
 <app-user-bio-data-detail [username]=username [start]=bioDataDate [visible]=userBioDataVisible 
-     (closed)="onUserBioDataClosed()" (okayed)="onUserBioDataOkayed($event)">
+     (closed)="onUserBioDataClosed()" (okayed)="onUserBioDataOkayed($event)" *ngIf="allowed">
 </app-user-bio-data-detail>
 
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
