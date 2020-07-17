@@ -338,6 +338,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
             }
             else {
               this.workout.plan_session = this.planSessions[0].id;
+              this.sessionChanged();
             }
           });
         }
@@ -482,10 +483,17 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     let planSession = this.planSessions.filter(x => x.id == this.workout.plan_session)[0];
 
     if (plan && planSession && (this.workout.id == null || this.workout.id <= 0)) {
+      const numberWorkingParameters = (this.workout.working_parameters ?? []).length;
+
       this.workoutGeneratorService.generate(this.workout.start, this.workout.working_parameters, plan, planSession)
       .subscribe(newWorkout => { 
         this.workout = newWorkout; 
         this.setNextActivityInProgress();
+
+        if (newWorkout.working_parameters &&
+            newWorkout.working_parameters.length > numberWorkingParameters) {
+          this.showWorkingParameters();
+        }
       });
     }
   }
