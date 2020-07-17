@@ -9,10 +9,11 @@
                 <div class="siimple-modal-header-title">Contact list</div>
                 <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>
             </div>
-            <div class="siimple-modal-body">
-                <div *ngIf="!loadingUsers">
-                    <app-users-follow-list [users]=availableUsersToMessage [showActionButton]=true [actionIcon]=faPen
-                        actionText="Message" (actionPressed)="messageUser($event)">
+            <div class="siimple-modal-body" (scroll)="onScroll($event)">
+                <div >
+                    <app-users-follow-list [users]=availableUsersToMessage [loading]=loadingUsers [showActionButton]=true [actionIcon]=faPen
+                        actionText="Message" (actionPressed)="messageUser($event)"
+                         >
                     </app-users-follow-list>
                 </div>
             </div>

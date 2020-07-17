@@ -17,6 +17,7 @@ export class FollowService {
   private unfollowUrl= `${environment.apiUrl}/unfollow/`;
   private followersUrl= `${environment.apiUrl}/followers/`;
   private followingUrl= `${environment.apiUrl}/following/`;
+  private isFollowingUrl= `${environment.apiUrl}/is-following/`;
 
   constructor(
     private http: HttpClient,
@@ -58,7 +59,7 @@ export class FollowService {
     return of(true);
   }
 
-  getFollowing(username: string): Observable<User[]> {
+  isFollowing(username: string): Observable<boolean> {
     let options = {};
     let params = new HttpParams();
 
@@ -70,16 +71,16 @@ export class FollowService {
       options = {params: params};
     }
 
-    return this.http.get<User[]>(`${this.followingUrl}`, options)
+    return this.http.get<boolean>(`${this.isFollowingUrl}`, options)
       .pipe(
-        catchError(this.errorService.handleError<User[]>('following', (e: any) => 
+        catchError(this.errorService.handleError<boolean>('isFollowing', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch following');
-        }, []))
+          this.alertService.error('Unable to fetch is following');
+        }, false))
       );
   }
 
-  getFollowers(username: string): Observable<User[]> {
+  getFollowing(username: string, page: number = null, page_size: number = null): Observable<Paginated<User>> {
     let options = {};
     let params = new HttpParams();
 
@@ -87,16 +88,53 @@ export class FollowService {
       params = params.set('username', username);
     }
 
-    if (username) {
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    if (username || page || page_size) {
       options = {params: params};
     }
 
-    return this.http.get<User[]>(`${this.followersUrl}`, options)
+    return this.http.get<Paginated<User>>(`${this.followingUrl}`, options)
       .pipe(
-        catchError(this.errorService.handleError<User[]>('followers', (e: any) => 
+        catchError(this.errorService.handleError<Paginated<User>>('following', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch following');
+        }, new Paginated<User>()))
+      );
+  }
+
+  getFollowers(username: string, page: number = null, page_size: number = null): Observable<Paginated<User>> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    if (username || page || page_size) {
+      options = {params: params};
+    }
+
+    return this.http.get<Paginated<User>>(`${this.followersUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<Paginated<User>>('followers', (e: any) => 
         { 
           this.alertService.error('Unable to fetch followers');
-        }, []))
+        }, new Paginated<User>()))
       );
   }
 }

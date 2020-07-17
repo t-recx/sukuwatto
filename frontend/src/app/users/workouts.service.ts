@@ -208,16 +208,6 @@ export class WorkoutsService {
       if (position.longitude) {
         position.longitude = Number(position.longitude);
       }
-      if (position.heading) {
-        position.heading = Number(position.heading);
-      }
-      if (position.accuracy) {
-        position.accuracy = Number(position.accuracy);
-      }
-      if (position.timestamp) {
-        position.timestamp = Number(position.timestamp);
-      }
-
     }
 
     return position;

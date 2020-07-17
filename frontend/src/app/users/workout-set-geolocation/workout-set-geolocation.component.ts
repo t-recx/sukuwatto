@@ -451,7 +451,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       distanceFilter: 50,
       notificationTitle: 'Sukuwatto',
       notificationText: 'Tracking GPS location',
-      debug: !environment.production,
+      debug: false,
       interval: 5000,
       fastestInterval: 5000,
       activitiesInterval: 5000,
@@ -532,23 +532,17 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     if (p.coords) {
       newPosition = new WorkoutSetPosition(
         {
-          accuracy: p.coords.accuracy,
           altitude: p.coords.altitude,
           latitude: p.coords.latitude,
           longitude: p.coords.longitude,
-          speed: p.coords.speed,
-          timestamp: p.timestamp
         });
     }
     else {
       newPosition = new WorkoutSetPosition(
         {
-          accuracy: p.accuracy,
           altitude: p.altitude,
           latitude: p.latitude,
           longitude: p.longitude,
-          speed: p.speed,
-          timestamp: p.time
         });
     }
 
@@ -823,7 +817,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
     positions
       .sort((a, b) => a.sortIndex - b.sortIndex)
-      //.sort((a, b) => a.timestamp - b.timestamp)
       .forEach(position => {
         positionsArray.push([position.latitude, position.longitude, position.altitude]);
       });

@@ -3,7 +3,7 @@ import { Workout } from '../workout';
 import { UserProgressService } from '../user-progress.service';
 import { AuthService } from 'src/app/auth.service';
 import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint } from '../user-progress-chart-data';
-import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCheck, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { ExerciseType } from '../exercise';
 
 @Component({
@@ -20,9 +20,11 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
 
   progressData: UserProgressChartData = null;
   loading: boolean = false;
+  finishing: boolean = false;
 
   faTimes = faTimes;
   faCheck = faCheck;
+  faCircleNotch = faCircleNotch;
 
   endDateEditVisible: boolean = false;
 
@@ -38,6 +40,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.visible) {
       if (this.visible) {
+        this.finishing = false;
         this.loadChartData();
       }
     }
@@ -92,7 +95,8 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   }
 
   finishWorkout(): void {
-    this.visible = false;
+    //this.visible = false;
+    this.finishing = true;
     this.finished.emit();
   }
 

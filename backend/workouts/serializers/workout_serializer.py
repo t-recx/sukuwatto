@@ -33,16 +33,16 @@ class WorkoutSetPositionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutSetPosition        
-        fields = ['id', 'accuracy', 'altitude',
-            'heading', 'latitude', 'longitude', 'speed', 'timestamp']
+        fields = ['id', 'altitude',
+             'latitude', 'longitude']
     
 class WorkoutWarmUpPositionSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=WorkoutWarmUpPosition()._meta.get_field('id'), required=False)
 
     class Meta:
         model = WorkoutWarmUpPosition        
-        fields = ['id', 'accuracy', 'altitude',
-            'heading', 'latitude', 'longitude', 'speed', 'timestamp']
+        fields = ['id', 'altitude',
+            'latitude', 'longitude']
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
@@ -445,13 +445,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
             instance = instances.first()
 
-            instance.accuracy = position_data.get('accuracy', instance.accuracy)
             instance.altitude = position_data.get('altitude', instance.altitude)
-            instance.heading = position_data.get('heading', instance.heading)
             instance.latitude = position_data.get('latitude', instance.latitude)
             instance.longitude = position_data.get('longitude', instance.longitude)
-            instance.speed = position_data.get('speed', instance.speed)
-            instance.timestamp = position_data.get('timestamp', instance.timestamp)
 
             instance.save()
 

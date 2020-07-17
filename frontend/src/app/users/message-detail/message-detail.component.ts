@@ -208,9 +208,9 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
       
       this.loading = true;
       this.loadingService.load();
-      this.usersService.get(correspondent_username).subscribe(users => {
-        if (users.length == 1) {
-          this.correspondent = users[0];
+      this.usersService.getUser(correspondent_username).subscribe(user => {
+        if (user) {
+          this.correspondent = user;
 
           this.messagesService.get(this.correspondent.id, this.currentPage, this.pageSize)
           .subscribe(messages => {
@@ -221,9 +221,9 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
             this.loadingService.unload();
           });
 
-          this.usersService.get(username).subscribe(users_ => {
-            if (users_.length == 1) {
-              this.user = users_[0];
+          this.usersService.getUser(username).subscribe(u2 => {
+            if (u2) {
+              this.user = u2;
               this.lastMessagesService.updateLastMessageRead(this.correspondent.id).subscribe();
             }
           });

@@ -1,5 +1,5 @@
 from sqtrex.pagination import StandardResultsSetPagination
-from actstream.models import followers, following
+from actstream.models import Follow, followers, following
 from actstream.actions import follow, unfollow
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import api_view, permission_classes
@@ -20,10 +20,55 @@ from users.models import CustomUser
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
+class FollowersList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            user = get_object_or_404(get_user_model(), username=username)
+
+        queryset = followers(user)
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = UserSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+class FollowingList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            user = get_object_or_404(get_user_model(), username=username)
+
+        queryset = following(user, get_user_model())
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = UserSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
+    pagination_class = StandardResultsSetPagination
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend]
@@ -104,7 +149,8 @@ class ActorStreamList(StreamList):
         return models.actor_stream(user)
 
 @api_view(['GET'])
-def get_followers(request):
+@permission_classes([IsAuthenticated])
+def get_is_following(request):
     if request.method == 'GET':
         user = None
         username = request.query_params.get('username', None)
@@ -112,30 +158,7 @@ def get_followers(request):
         if username is not None:
             user = get_object_or_404(get_user_model(), username=username)
 
-        if user is None:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        queryset = followers(user)
-        serializer = UserSerializer(queryset, many=True)
-
-        return Response(serializer.data)
-
-@api_view(['GET'])
-def get_following(request):
-    if request.method == 'GET':
-        user = None
-        username = request.query_params.get('username', None)
-
-        if username is not None:
-            user = get_object_or_404(get_user_model(), username=username)
-
-        if user is None:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        queryset = following(user, get_user_model())
-        serializer = UserSerializer(queryset, many=True)
-
-        return Response(serializer.data)
+        return Response(Follow.objects.is_following(request.user, user))
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -206,6 +229,21 @@ def get_profile_filename(request):
         profile_filename = user.profile_filename
 
     return Response(profile_filename)
+
+@api_view(['GET'])
+def get_user(request):
+    user = None
+    profile_filename = None
+    username = request.query_params.get('username', None)
+    email = request.query_params.get('email', None)
+
+    if username is not None:
+        user = get_object_or_404(get_user_model(), username=username)
+
+    if email is not None:
+        user = get_object_or_404(get_user_model(), email=email)
+
+    return Response(UserSerializer(user).data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

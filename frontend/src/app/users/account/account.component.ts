@@ -135,9 +135,9 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.loading = true;
       this.loadingService.load();
-      this.userService.get(this.username).subscribe(users => {
-        if (users && users.length == 1) {
-          this.user = users[0];
+      this.userService.getUser(this.username).subscribe(user => {
+        if (user) {
+          this.user = user;
 
           this.userService.getEmail().subscribe(email => {
             this.user.email = email;
