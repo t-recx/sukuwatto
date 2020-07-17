@@ -19,13 +19,13 @@
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()"
-                        [disabled]="operating" [class.siimple-btn--disabled]="operating">
+                        >
                         <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1">Follow</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()"
-                        [disabled]="operating" [class.siimple-btn--disabled]="operating">
+                        >
                         <fa-icon [icon]="faUserMinus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1">Unfollow</span>
