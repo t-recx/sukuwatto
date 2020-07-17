@@ -683,6 +683,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
         map.setView(latLng(0, 0), this.workoutActivity.zoom);
       }
     }
+
+    this.setInputAccordingToState();
   }
 
   private initMap(): void {
