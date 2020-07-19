@@ -4,6 +4,7 @@ export class UserProgressData{
     name: string;
     series: UserProgressSeries[];
     dates: Date[];
+    unitCode: string;
 }
 
 export class UserProgressSeries {
@@ -20,10 +21,12 @@ export class UserProgressDataPoint {
     exercise: Exercise;
     weight: number;
     date: Date;
+    unit: number;
 
-    constructor (ex: Exercise, w: number, d: Date) {
+    constructor (ex: Exercise, w: number, d: Date, u: number) {
         this.exercise = ex;
         this.weight = w;
         this.date = new Date(d);
+        this.unit = u;
     }
 }

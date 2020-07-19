@@ -1,9 +1,10 @@
+import json
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
 from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer
-from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask
+from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet
 from sqtrex.pagination import StandardResultsSetPagination
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.exercise_service import ExerciseService
@@ -36,6 +37,56 @@ class MetabolicEquivalentTaskList(ListAPIView):
     queryset = MetabolicEquivalentTask.objects.all()
     serializer_class = MetabolicEquivalentTaskSerializer
     #permission_classes = [IsAuthenticated]
+
+@api_view(['GET'])
+def get_available_chart_data(request):
+    has_compound_exercises = False
+    has_isolation_exercises = False
+    has_distance_exercises = False
+    has_weight_records = False
+    has_bio_data_records = False
+
+    username = request.query_params.get('username', None)
+
+    sets = WorkoutSet.objects.filter(workout_group__workout__user__username=username).filter(done=True)
+
+    bio_datas = UserBioData.objects.filter(user__username=username)
+
+    date_lte = request.query_params.get('date_lte', None)
+
+    if date_lte is not None:
+        bio_datas = bio_datas.filter(date__lte=date_lte)
+        sets = sets.filter(workout_group__workout__start__lte=date_lte)
+
+    date_gte = request.query_params.get('date_gte', None)
+
+    if date_gte is not None:
+        bio_datas = bio_datas.filter(date__gte=date_gte)
+        sets = sets.filter(workout_group__workout__start__gte=date_gte)
+
+    has_weight_records = bio_datas.filter(weight__isnull=False).filter(weight__gt=0).exists()
+
+    has_bio_data_records = bio_datas.filter(Q(body_fat_percentage__isnull=False) | 
+            Q(muscle_mass_percentage__isnull=False) |
+            Q(water_weight_percentage__isnull=False)).exists()
+
+    strength_sets = sets.filter(exercise__exercise_type=Exercise.STRENGTH)
+
+    cardio_sets = sets.filter(exercise__exercise_type=Exercise.CARDIO)
+
+    has_compound_exercises = strength_sets.filter(exercise__mechanics=Exercise.COMPOUND).exists()
+
+    has_isolation_exercises = strength_sets.filter(exercise__mechanics=Exercise.ISOLATED).exists()
+
+    has_distance_exercises = cardio_sets.filter(distance__isnull=False).filter(distance__gt=0).exists()
+
+    return Response({ 
+        'has_compound_exercises': has_compound_exercises
+        ,'has_isolation_exercises': has_isolation_exercises
+        ,'has_distance_exercises': has_distance_exercises
+        ,'has_weight_records': has_weight_records
+        ,'has_bio_data_records': has_bio_data_records
+    })
 
 @api_view(['GET'])
 def get_mets(request):

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ElementRef, SimpleChanges, OnChanges } from '
 import * as d3 from 'd3';
 import { PieChartSeries } from '../pie-chart-series';
 import { UserProgressChartData } from '../user-progress-chart-data';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-pie-chart',
@@ -36,7 +37,7 @@ export class PieChartComponent implements OnInit, OnChanges {
 
   private convertData() {
     if (this.progressData && this.progressData.series.length > 0) {
-      this.data = this.progressData.series[0].dataPoints.map(x => new PieChartSeries(x.name, x.weight));
+      this.data = this.progressData.series[0].dataPoints.map(x => new PieChartSeries(x.name, x.value));
     }
     else {
       this.data = null;
@@ -85,9 +86,12 @@ export class PieChartComponent implements OnInit, OnChanges {
       .append("title")
       .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
 
+    
+    const fontSize = environment.application ? 10 : 8;
+
     svg.append("g")
       .attr("font-family", "sans-serif")
-      .attr("font-size", 8)
+      .attr("font-size", fontSize)
       .attr("text-anchor", "middle")
       .selectAll("text")
       .data(arcs)

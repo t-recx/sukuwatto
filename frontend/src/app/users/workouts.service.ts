@@ -13,15 +13,18 @@ import { WorkoutSetPosition } from './workout-set-position';
 import { latLng } from 'leaflet';
 import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-geolocation.component';
 import { WorkoutSetTimeSegment } from './workout-set-time-segment';
+import { UserAvailableChartData } from './user-available-chart-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutsService {
   private workoutsUrl= `${environment.apiUrl}/workouts/`;
+  private workoutsByDateUrl= `${environment.apiUrl}/workouts-by-date/`;
   private workoutLast= `${environment.apiUrl}/workout-last/`;
   private workoutGroupLast= `${environment.apiUrl}/workout-group-last/`;
   private workoutLastWorkoutPosition = `${environment.apiUrl}/workout-last-position/`;
+  private availableChartDataUrl= `${environment.apiUrl}/user-available-chart-data/`;
 
   geolocationActivitiesFinished = new Subject();
 
@@ -34,6 +37,71 @@ export class WorkoutsService {
     private errorService: ErrorService,
     private alertService: AlertService
   ) { }
+
+  getAvailableChartData (username: string, date_gte: Date, date_lte: Date): Observable<UserAvailableChartData> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (date_gte) {
+      params = params.set('date_gte', date_gte.toISOString());
+    }
+
+    if (username || date_gte || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<UserAvailableChartData>(`${this.availableChartDataUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<UserAvailableChartData>('getUserAvailableChartDatas', (e: any) => 
+        {
+          this.alertService.error('Unable to fetch available chart data');
+        }, null))
+      );
+  }
+
+  getWorkoutsByDate (username: string, date_gte: Date, date_lte: Date): Observable<Workout[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (date_gte) {
+      params = params.set('date_gte', date_gte.toISOString());
+    }
+
+    if (username || date_gte || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<Workout[]>(`${this.workoutsByDateUrl}`, options)
+      .pipe(
+        map(response => {
+          if (response) {
+            response = this.getProperlyTypedWorkouts(response);
+          }
+
+          return response;
+        }),
+        catchError(this.errorService.handleError<Workout[]>('getWorkouts', (e: any) => 
+        {
+          this.alertService.error('Unable to fetch workouts');
+        }, []))
+      );
+  }
 
   getWorkouts (username: string, page: number = null, page_size: number = null): Observable<Paginated<Workout>> {
     let options = {};
