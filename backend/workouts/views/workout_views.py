@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from workouts.models import Workout, WorkingParameter, WorkoutWarmUp, WorkoutSet, WorkoutGroup, WorkoutSetPosition
-from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
+from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutNoPositionsSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from sqtrex.pagination import StandardResultsSetPagination
@@ -17,6 +17,29 @@ class WorkoutViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user__username']
     pagination_class = StandardResultsSetPagination
+
+@api_view(['GET'])
+def get_workouts_by_date(request):
+    queryset = Workout.objects.all().order_by('-start')
+
+    username = request.query_params.get('username', None)
+
+    if username is not None:
+        queryset = queryset.filter(user__username=username)
+
+    date_lte = request.query_params.get('date_lte', None)
+
+    if date_lte is not None:
+        queryset = queryset.filter(start__lte=date_lte)
+
+    date_gte = request.query_params.get('date_gte', None)
+
+    if date_gte is not None:
+        queryset = queryset.filter(start__gte=date_gte)
+
+    serializer = WorkoutNoPositionsSerializer(queryset, many=True)
+
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def get_last_workout_position(request):

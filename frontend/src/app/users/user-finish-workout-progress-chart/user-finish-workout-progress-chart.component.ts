@@ -48,7 +48,7 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
     }
     
     isPR(series: UserProgressChartSeries): boolean {
-        return series.dataPoints.filter(x => x.weight >= this.getWorkoutTopValue(series)).length == 1;
+        return series.dataPoints.filter(x => x.value >= this.getWorkoutTopValue(series)).length == 1;
     }
 
     private createChart() {
@@ -77,13 +77,13 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
 
         const delta = 1;
 
-        let min = d3.min(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.weight)), d => d) - delta;
+        let min = d3.min(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.value)), d => d) - delta;
 
         if (min < 0) {
           min = 0;
         }
 
-        let max = d3.max(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.weight)), d => d) + delta;
+        let max = d3.max(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.value)), d => d) + delta;
 
         let y = d3.scaleLinear()
             .domain([
@@ -91,9 +91,9 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
             .range([height - margin.bottom, margin.top])
 
         let line = d3.line<UserProgressChartDataPoint>()
-            .defined(d => !isNaN(d.weight))
+            .defined(d => !isNaN(d.value))
             .x(d => x(d.date))
-            .y(d => y(d.weight))
+            .y(d => y(d.value))
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -122,7 +122,7 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
                         .attr('fill', color)
                         .attr('stroke', color)
                         .attr("cx", function (d, i) { return x(d.date) })
-                        .attr("cy", function (d) { return y(d.weight) })
+                        .attr("cy", function (d) { return y(d.value) })
                         .attr("r", 6)
                         ;
 
@@ -131,14 +131,25 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
                       .data([series.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime())[0]])
                       .enter()
                       .append("circle")
-	                    .attr("fill-opacity","0.0")
+	                    //.attr("fill-opacity","0.0")
 	                    .style("fill","White")
                         .attr('stroke', color)
                         .attr("stroke-width", 4)
                         .attr("cx", function (d, i) { return x(d.date) })
-                        .attr("cy", function (d) { return y(d.weight) })
+                        .attr("cy", function (d) { return y(d.value) })
                         .attr("r", 12)
                         ;
+
+                    dotGroup
+                      .selectAll(".dot")
+                      .data([series.dataPoints.sort((a,b) => b.date.getTime() - a.date.getTime())[0]])
+                      .enter()
+                        .append("circle") // Uses the enter().append() method
+                        .attr('fill', color)
+                        .attr('stroke', color)
+                        .attr("cx", function (d, i) { return x(d.date) })
+                        .attr("cy", function (d) { return y(d.value) })
+                        .attr("r", 6)
             });
 
         return svg.node();

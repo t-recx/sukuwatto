@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType, UserProgressChartSeries } from '../user-progress-chart-data';
+import { environment } from 'src/environments/environment';
+import { ChartCategory } from '../chart-category';
 
 @Component({
     selector: 'app-user-progress-chart',
@@ -64,21 +66,50 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
         let x = d3.scaleUtc()
             .domain(d3.extent<Date, Date>(this.progressData.dates, d => d))
-            .range([margin.left, width - margin.right])
+            .range([margin.left, width - margin.right]);
+
+        let minY = 0;
+        let maxY = d3.max(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.value)), d => d);
+
+        if (this.progressData.category == ChartCategory.Weight) {
+            const delta = 10;
+            minY = d3.min(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.value)), d => d) - delta;
+
+            if (minY < 0) {
+                minY = 0;
+            }
+
+            maxY += delta;
+        }
 
         let y = d3.scaleLinear()
-            .domain([0, d3.max(this.progressData.series.flatMap(b => b.dataPoints.map(c => c.weight)), d => d)]).nice()
+            .domain([minY, maxY]).nice()
             .range([height - margin.bottom, margin.top])
+
+        const fontSize = environment.application ? 10 : 8;
+
+        let ticksX;
+
+        if (this.progressData.category == ChartCategory.DistanceMonth) {
+           ticksX = d3.axisBottom(x)
+                .ticks(width / 40)
+                .tickSizeOuter(0)
+                .tickFormat(d3.timeFormat("%-d"));
+        }
+        else {
+            ticksX =
+                d3.axisBottom(x)
+                .ticks(width / 80)
+                .tickSizeOuter(0);
+        }
 
         let xAxis = g => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
             .call(
-                d3.axisBottom(x)
-                .ticks(width / 80)
-                .tickSizeOuter(0)
+                ticksX
                 )
             .call(g => g.selectAll(".tick text")
-                .attr("font-size", 8)
+                .attr("font-size", fontSize)
                 );
 
         let yAxis = g => g
@@ -97,23 +128,53 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y))
         .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick text").attr("font-size", 8))
+        .call(g => g.selectAll(".tick text").attr("font-size", fontSize))
         .call(g => g.selectAll(".tick line").attr("display", "none"))
+            .call(g => g.select(".tick:last-of-type")
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", -10)
+            .attr("width", 16)
+            .attr("height", 20)
+            .attr("fill", "white")
+            .lower()
+            )
+            .call(g => g.select(".tick:last-of-type text").clone()
+            .attr("x", 0)
+            .attr("font-size", fontSize)
+            .attr("text-anchor", "start")
+            .attr("font-weight", "bold")
+            .text(this.progressData.unitCode ?? '')
+            )
         ;
 
         svg.append("g")
         .call(xAxis);
 
-        svg.append("g")
-        .call(yAxis);
+        if (this.progressData.type == UserProgressChartType.Line) {
+            svg.append("g")
+            .call(yAxis);
+        }
 
         svg.append("g")
         .call(yAxis2);
 
-        let line = d3.line<UserProgressChartDataPoint>()
-            .defined(d => !isNaN(d.weight))
-            .x(d => x(d.date))
-            .y(d => y(d.weight))
+        let drawElement;
+        
+        if (this.progressData.type == UserProgressChartType.Line) {
+            drawElement = d3.line<UserProgressChartDataPoint>()
+                .defined(d => !isNaN(d.value))
+                .x(d => x(d.date))
+                .y(d => y(d.value));
+        }
+        else if (this.progressData.type == UserProgressChartType.Area) {
+            drawElement = d3.area<UserProgressChartDataPoint>()
+                .curve(d3.curveLinear)
+                .defined(d => !isNaN(d.value))
+                .x(d => x(d.date))
+                .y0(y(0))
+                .y1(d => y(d.value));
+        }
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -128,22 +189,32 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 this.colors[series.name] = color;
 
                 if (!this.isHidden(series)) {
-                    svg
-                        .append("path")
-                        .datum(series.dataPoints)
-                        .attr("fill", "none")
-                        .attr("stroke", color)
-                        .attr("stroke-width", 1)
-                        .attr("stroke-linejoin", "round")
-                        .attr("stroke-linecap", "round")
-                        .attr("d", line)
+                    if (this.progressData.type == UserProgressChartType.Area) {
+                        svg
+                            .append("path")
+                            .datum(series.dataPoints)
+                            .attr("fill", this.progressData.type == UserProgressChartType.Area ? color : 'none')
+                            .attr("opacity", 0.5)
+                            .attr("d", drawElement);
+                    }
+                    else {
+                        svg
+                            .append("path")
+                            .datum(series.dataPoints)
+                            .attr("fill", 'none')
+                            .attr("stroke", color)
+                            .attr("stroke-width", 1)
+                            .attr("stroke-linejoin", "round")
+                            .attr("stroke-linecap", "round")
+                            .attr("d", drawElement);
+                    }
 
                     function onMouseOver(d) {
                         divTooltip.transition()
                             .duration(200)
                             .style("opacity", .9);
 
-                        divTooltip.html(series.name + ' - ' + d.weight)
+                        divTooltip.html(series.name + ' - ' + d.value)
                             .attr("text-anchor", "middle")
                             .style("left", (d3.event.pageX) + "px")
                             .style("top", (d3.event.pageY - 28) + "px");
@@ -155,20 +226,22 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                             .style("opacity", 0);
                     }
 
-                    let dotGroup = svg.selectAll(".dot")
-                        .data(series.dataPoints)
-                        .enter()
-                        .append("g");
-                    dotGroup
-                        .append("circle") // Uses the enter().append() method
-                        .attr('fill', color)
-                        .attr('stroke', color)
-                        .attr("cx", function (d, i) { return x(d.date) })
-                        .attr("cy", function (d) { return y(d.weight) })
-                        .attr("r", 1.5)
-                        .on("mouseover", onMouseOver)
-                        .on("mouseout", onMouseOut)
-                        ;
+                    if (this.progressData.type == UserProgressChartType.Line) {
+                        let dotGroup = svg.selectAll(".dot")
+                            .data(series.dataPoints)
+                            .enter()
+                            .append("g");
+                        dotGroup
+                            .append("circle") // Uses the enter().append() method
+                            .attr('fill', color)
+                            .attr('stroke', color)
+                            .attr("cx", function (d, i) { return x(d.date) })
+                            .attr("cy", function (d) { return y(d.value) })
+                            .attr("r", 1.5)
+                            .on("mouseover", onMouseOver)
+                            .on("mouseout", onMouseOut)
+                            ;
+                    }
                 }
             });
 

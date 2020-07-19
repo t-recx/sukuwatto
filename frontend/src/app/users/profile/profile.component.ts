@@ -119,7 +119,8 @@ export class ProfileComponent implements OnInit {
 
   private loadIsFollowed(username: string) {
     this.loadedIsFollowed = false;
-    if (this.authService.isLoggedIn()) {
+
+    if (this.authService.isLoggedIn() && !this.authService.isCurrentUserLoggedIn(username)) {
       this.followService.isFollowing(username).subscribe(f => {
         this.isFollowed = f;
         this.loadedIsFollowed = true;

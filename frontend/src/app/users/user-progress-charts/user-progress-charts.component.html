@@ -1,31 +1,34 @@
-<div class="siimple--mb-4 siimple--mt-4" *ngIf="loading">
-    <app-loading-spinner></app-loading-spinner>
-</div>
-
-<div class="siimple-card siimple--mb-4" *ngIf="progressData && progressData.series.length > 0 && !loading">
+<div class="siimple-card siimple--mb-4" *ngIf="availableCharts && availableCharts.length > 0 && !loading">
   <div class="siimple-card-body">
     <div class="navigation-box" align="center">
 
-      <button class="siimple-btn siimple-btn--primary navigation-previous" (click)="previous()">
+      <button class="siimple-btn siimple-btn--primary navigation-previous" (click)="previous()" *ngIf="availableCharts.length > 1">
         <fa-icon [icon]="faArrowLeft"></fa-icon>
       </button>
 
-      <span class="current-series siimple--text-bold siimple--bg-light siimple--mr-2 siimple--rounded" align="center">
-        {{currentProgressData.name}}
+      <span class="current-series siimple--text-bold siimple--bg-light siimple--rounded" align="center">
+        {{currentChart.name}}
       </span>
 
-      <button class="siimple-btn siimple-btn--primary navigation-next" (click)="next()">
+      <button class="siimple-btn siimple-btn--primary navigation-next" (click)="next()" *ngIf="availableCharts.length > 1">
         <fa-icon [icon]="faArrowRight"></fa-icon>
       </button>
     </div>
 
-    <div *ngIf="currentProgressData.type == UserProgressChartType.Line">
-      <app-user-progress-chart [progressData]=currentProgressData>
-      </app-user-progress-chart>
+    <div *ngIf="currentProgressData">
+      <div *ngIf="currentProgressData.type == UserProgressChartType.Line ||
+                  currentProgressData.type == UserProgressChartType.Area">
+        <app-user-progress-chart [progressData]=currentProgressData>
+        </app-user-progress-chart>
+      </div>
+      <div *ngIf="currentProgressData.type == UserProgressChartType.Pie">
+        <app-pie-chart [progressData]=currentProgressData>
+        </app-pie-chart>
+      </div>
     </div>
-    <div *ngIf="currentProgressData.type == UserProgressChartType.Pie">
-      <app-pie-chart [progressData]=currentProgressData>
-      </app-pie-chart>
+
+    <div *ngIf="!currentProgressData" class="loading-container">
+      <div class="siimple-spinner siimple-spinner--light"></div>
     </div>
   </div>
 </div>

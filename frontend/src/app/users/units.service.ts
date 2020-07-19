@@ -17,6 +17,8 @@ import { ProgressionStrategy } from './plan-progression-strategy';
 export class UnitsService {
   private units: Unit[];
 
+  public monthInMilliseconds: number = 2592000000;
+
   constructor(
     private authService: AuthService,
   ) {
@@ -320,6 +322,27 @@ export class UnitsService {
 
     return workout;
   }
+  
+  convertWorkoutDistanceToBiggerUnits(workout: Workout): Workout {
+    if (workout) {
+      if (workout.groups) {
+        workout.groups.forEach(group => {
+          if (group.sets) {
+            group.sets.forEach(s => {
+              this.convertDistanceValueToBiggerUnit(s);
+            });
+          }
+          if (group.warmups) {
+            group.warmups.forEach(s => {
+              this.convertDistanceValueToBiggerUnit(s);
+            });
+          }
+        });
+      }
+    }
+
+    return workout;
+  }
 
   convertWorkoutOverview(workoutOverview: WorkoutOverview) {
     if (!workoutOverview) {
@@ -329,7 +352,7 @@ export class UnitsService {
     this.convertWeightValue(workoutOverview);
   }
 
-  convertUserBioData(userBioData: UserBioData) {
+  convertUserBioData(userBioData: UserBioData): UserBioData {
     if (!userBioData) {
       if (userBioData.weight && userBioData.weight_unit) {
         userBioData.weight = this.convertToUserUnit(userBioData.weight, userBioData.weight_unit);
@@ -346,6 +369,8 @@ export class UnitsService {
         userBioData.bone_mass_weight_unit = this.getToUnit(userBioData.bone_mass_weight_unit);
       }
     }
+
+    return userBioData;
   }
 
   convertWeightValue(model: { weight: number, weight_unit: number }) {
@@ -376,6 +401,48 @@ export class UnitsService {
           model.distance = this.convertToUserUnit(model.distance, model.distance_unit);
         }
         model.distance_unit = this.getToUnit(model.distance_unit);
+      }
+    }
+  }
+
+  getBiggerDistanceUnit(unit) {
+    const unitCode = this.getUnitCode(unit);
+    let newUnitCode = unitCode;
+
+    switch (unitCode) {
+      case 'ft':
+      case 'yd':
+        newUnitCode = 'mi';
+        break;
+      case 'm':
+        newUnitCode = 'km';
+        break;
+    }
+
+    return this.units.filter(x => x.abbreviation == newUnitCode)[0].id;
+  }
+
+  convertDistanceValueToBiggerUnit(model: { distance: number, expected_distance: number, expected_distance_up_to: number, distance_unit: number, plan_distance_unit: number }) {
+    if (model) {
+      if (model.plan_distance_unit) {
+        const newUnit = this.getBiggerDistanceUnit(model.plan_distance_unit);
+
+        if (model.expected_distance) {
+          model.expected_distance = this.convert(model.expected_distance, model.plan_distance_unit, newUnit);
+        }
+        if (model.expected_distance_up_to) {
+          model.expected_distance_up_to = this.convert(model.expected_distance_up_to, model.plan_distance_unit, newUnit);
+        }
+        model.plan_distance_unit = newUnit;
+      }
+
+      if (model.distance_unit) {
+        const newUnit = this.getBiggerDistanceUnit(model.distance_unit);
+
+        if (model.distance) {
+          model.distance = this.convert(model.distance, model.distance_unit, newUnit);
+        }
+        model.distance_unit = newUnit;
       }
     }
   }
