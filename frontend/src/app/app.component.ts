@@ -14,7 +14,6 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   title = 'sukuwatto';
 
   pausedSubscription: Subscription;
-  resumedSubscription: Subscription;
 
   constructor(
     private renderer: Renderer2,
@@ -48,12 +47,10 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     this.restoreUrlState();
 
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.saveUrlState());
-    this.resumedSubscription = this.cordovaService.resumed.subscribe(() => this.restoreUrlState());
   }
 
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
-    this.resumedSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -70,9 +67,9 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   restoreUrlState() {
-    if (this.authService.isLoggedIn()) {
-      const url = this.getUrlState();
+    const url = this.getUrlState();
 
+    if (this.authService.isLoggedIn() && this.router.url != url) {
       if (url && url.length > 0) {
         this.router.navigateByUrl(url);
         localStorage.removeItem('state_url');
