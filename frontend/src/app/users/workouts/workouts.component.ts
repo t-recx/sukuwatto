@@ -2,12 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutsService } from '../workouts.service';
 import { Workout } from '../workout';
 import { AuthService } from 'src/app/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RepetitionType } from '../plan-session-group-activity';
 import { Paginated } from '../paginated';
 import { Subscription } from 'rxjs';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from 'src/app/error.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-workouts',
@@ -35,6 +38,9 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     public route: ActivatedRoute, 
     private loadingService: LoadingService,
+    private alertService: AlertService,
+    private errorService: ErrorService,
+    private router: Router,
   ) { 
     this.paramChangedSubscription = route.paramMap.subscribe(val =>
       {
@@ -59,7 +65,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     this.getWorkouts(username, page);
   }
 
-  getWorkouts(username, pageParameter: any): void {
+  getWorkouts(username, pageParameter: any, reloadOn404: boolean = false): void {
     if (!pageParameter) {
       pageParameter = 1;
     }
@@ -71,7 +77,21 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     if (username) {
       this.loading = true;
       this.loadingService.load();
-      this.workoutsService.getWorkouts(username, pageParameter, this.pageSize)
+      this.workoutsService
+      .getWorkouts(username, pageParameter, this.pageSize)
+      .pipe(
+        catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => 
+        { 
+          if (e.status && e.status == 404 && pageParameter > 1)  {
+            if (reloadOn404) {
+              this.router.navigate(['/users', username, 'workouts', pageParameter-1]);
+            }
+          }
+          else {
+            this.alertService.error('Unable to fetch workouts');
+          }
+        }, new Paginated<Workout>()))
+      )
         .subscribe(paginated => {
           this.paginatedWorkouts = paginated;
           this.workouts = paginated.results;
@@ -83,6 +103,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   deleteWorkout(workout): void {
-    this.workoutsService.deleteWorkout(workout).subscribe(_ => this.getWorkouts(this.username, this.page));
+    this.workoutsService.deleteWorkout(workout)
+    .subscribe(_ => this.getWorkouts(this.username, this.page, true));
   }
 }

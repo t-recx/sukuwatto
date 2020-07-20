@@ -57,10 +57,6 @@ export class ExercisesService {
     return this.http.get<Paginated<Exercise>>(this.exercisesUrl, options)
       .pipe(
         map(response => this.getProperlyTypedPaginatedExercises(response)),
-        catchError(this.errorService.handleError<Paginated<Exercise>>('getExercises', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch exercises');
-        }, new Paginated<Exercise>()))
       );
   }
 

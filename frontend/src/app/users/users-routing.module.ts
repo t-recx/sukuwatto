@@ -45,6 +45,11 @@ const routes: Routes = [
         component: PostDetailComponent,
       },
       {
+        path: 'plans/:page',
+        canActivateChild: [],
+        component: PlansComponent,
+      },
+      {
         path: 'plans',
         canActivateChild: [],
         component: PlansComponent,

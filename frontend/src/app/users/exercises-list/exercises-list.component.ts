@@ -6,8 +6,10 @@ import { Paginated } from '../paginated';
 import { Router } from '@angular/router';
 import { faSearch, faBackspace } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs/internal/operators/map';
-import { filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { filter, debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { LoadingService } from '../loading.service';
+import { ErrorService } from 'src/app/error.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-exercises-list',
@@ -41,6 +43,8 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
     private exercisesService: ExercisesService,
     private router: Router,
     private loadingService: LoadingService,
+    private errorService: ErrorService,
+    private alertService: AlertService,
   ) { }
 
   ngOnDestroy(): void {
@@ -83,10 +87,20 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
 
     this.loadingService.load();
     this.exercisesService.getExercises(this.page, this.pageSize, this.searchFilter, this.ordering, this.exerciseType)
-    .subscribe(paginated => {
-      this.setDescriptions(paginated.results);
-      this.paginatedExercises = paginated;
-      this.exercises = paginated.results ? paginated.results: [];
+    .pipe(
+      catchError(this.errorService.handleError<Paginated<Exercise>>('getExercises', (e: any) => {
+        if (e.status && e.status == 404 && this.page > 1) {
+          this.alertService.error('Unable to fetch exercises: no exercises on specified page');
+        }
+        else {
+          this.alertService.error('Unable to fetch exercises');
+        }
+      }, new Paginated<Exercise>()))
+    )
+      .subscribe(paginated => {
+        this.setDescriptions(paginated.results);
+        this.paginatedExercises = paginated;
+        this.exercises = paginated.results ? paginated.results : [];
 
       this.lastSearchedFilter = this.searchFilter;
       this.loadingService.unload();

@@ -20,10 +20,10 @@ export class PlanCardComponent implements OnInit {
   @Input() plan: Plan;
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
+  @Input() showAdoptButton: boolean = true;
   @Output() deleted = new EventEmitter();
   @Output() adopted = new EventEmitter();
 
-  showAdoptButton: boolean = false;
   deleteModalVisible: boolean = false;
 
   repetitionType = RepetitionType;
@@ -95,7 +95,9 @@ export class PlanCardComponent implements OnInit {
   }
 
   setAdoptButtonVisibility() {
-    this.showAdoptButton = !this.authService.isCurrentUserLoggedIn(this.plan.user.username);
+    if (this.authService.isCurrentUserLoggedIn(this.plan.user.username)) {
+      this.showAdoptButton = false;
+    }
   }
 
   toggleDeleteModal() {

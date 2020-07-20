@@ -9,23 +9,34 @@
   </div>
 </div>
 
-<div *ngIf="adoptedPlans && adoptedPlans.length > 0">
+<div *ngIf="adoptedPlans && adoptedPlans.length > 0 && (!currentPage || currentPage == 1)">
   <h2 class="siimple-h2">Adopted plans</h2>
   <ul class="">
     <li *ngFor="let plan of adoptedPlans">
-      <app-plan-card [plan]=plan [showSaveDeleteButtons]=true (deleted)="deletePlan(plan)">
+      <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
+        [showAdoptButton]="!this.isCurrentLoggedInUser && showAdoptButton(plan)">
       </app-plan-card>
     </li>
   </ul>
 </div>
 
+<div class="siimple-rule" *ngIf="adoptedPlans && adoptedPlans.length > 0 && plans && plans.length > 0"></div>
+
 <div *ngIf="plans && plans.length > 0">
-  <h2 class="siimple-h2">Public plans</h2>
+  <h2 class="siimple-h2" *ngIf="adoptedPlans && adoptedPlans.length > 0">
+    <span *ngIf="isCurrentLoggedInUser">Public plans</span>
+    <span *ngIf="!isCurrentLoggedInUser">Created plans</span>
+  </h2>
   <ul class="">
     <li class="siimple-card" *ngFor="let plan of plans">
       <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
-        (adopted)="loadAdoptedPlans()">
+        (adopted)="planAdopted()"
+        [showAdoptButton]="showAdoptButton(plan)">
       </app-plan-card>
     </li>
   </ul>
+
+  <app-pagination [paginatedRecords]="paginatedPlans" [currentPage]="currentPage"
+    [link]="['/users', username, 'plans']">
+  </app-pagination>
 </div>

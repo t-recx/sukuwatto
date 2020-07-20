@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { Observable, of } from 'rxjs';
 import { Plan } from './plan';
@@ -12,13 +12,14 @@ import { PlanSessionGroup } from './plan-session-group';
 import { PlanSessionGroupActivity, RepetitionType, SpeedType, DistanceType, TimeType } from './plan-session-group-activity';
 import { Result, Results } from '../result';
 import { ExerciseType } from './exercise';
-import { PlanSessionGroupWarmUp } from './plan-session-group-warmup';
+import { Paginated } from './paginated';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlansService {
   private plansUrl= `${environment.apiUrl}/plans/`;
+  private plansPaginatedUrl= `${environment.apiUrl}/plans-paginated/`;
   private adoptPlanUrl= `${environment.apiUrl}/adopt-plan/`;
 
   httpOptions = {
@@ -31,30 +32,47 @@ export class PlansService {
     private alertService: AlertService
   ) { }
 
-  getPlans (): Observable<Plan[]> {
-    return this.http.get<Plan[]>(this.plansUrl)
-      .pipe(
-        map(response => this.getProperlyTypedPlans(response)),
-        catchError(this.errorService.handleError<Plan[]>('getPlans', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch plans');
-        }, []))
-      );
-  }
+  getPublicPlans (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
+    let options = {};
+    let params = new HttpParams();
 
-  getPublicPlans (): Observable<Plan[]> {
-    return this.http.get<Plan[]>(`${this.plansUrl}?public=true`)
+    params = params.set('public', 'true');
+
+    if (username) {
+      params = params.set('user__username', username);
+    }
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    options = {params: params};
+
+    return this.http.get<Paginated<Plan>>(`${this.plansPaginatedUrl}`, options)
       .pipe(
-        map(response => this.getProperlyTypedPlans(response)),
-        catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch adopted plans');
-        }, []))
+        map(response => {
+          if (response.results) {
+            response.results = this.getProperlyTypedPlans(response.results);
+          }
+          return response; })
       );
   }
 
   getAdoptedPlans (username: string): Observable<Plan[]> {
-    return this.http.get<Plan[]>(`${this.plansUrl}?user__username=${username}`)
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('user__username', username);
+    }
+
+    options = {params: params};
+
+    return this.http.get<Plan[]>(`${this.plansUrl}`, options)
       .pipe(
         map(response => this.getProperlyTypedPlans(response)),
         catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 

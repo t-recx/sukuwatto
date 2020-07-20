@@ -245,7 +245,9 @@
 
             <small class="siimple-small siimple--ml-2">{{plan.creation.toString() | timeAgo}}</small>
 
-            <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()">
+            <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()"
+                [disabled]="adopting"
+            >
                 <fa-icon [icon]="faChild" class="siimple--mr-1" *ngIf="!adopting"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="adopting"></fa-icon>
                 Adopt
