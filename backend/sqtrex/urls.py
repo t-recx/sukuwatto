@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout/', TokenCookieDeleteView.as_view(), name='logout'),
     path('api/adopt-plan/<int:pk>/', plan_views.adopt_plan, name='adopt_plan'),
+    path('api/plans-paginated/', plan_views.PlanPaginatedList.as_view(), name='plans-paginated'),
     path('api/metabolic-equivalent-tasks/', MetabolicEquivalentTaskList.as_view(), name='metabolic-equivalent-tasks'),
     path('api/mets/', get_mets, name='mets'),
     path('api/user-available-chart-data/', get_available_chart_data, name='user-available-chart-data'),

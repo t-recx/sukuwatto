@@ -6,6 +6,17 @@ from workouts.models import Plan, PlanSession, PlanSessionGroup, PlanSessionGrou
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from sqtrex.permissions import StandardPermissionsMixin
+from sqtrex.pagination import StandardResultsSetPagination
+from rest_framework.generics import ListAPIView
+
+class PlanPaginatedList(ListAPIView):
+    """
+    """
+    queryset = Plan.objects.all()
+    serializer_class = PlanSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['public', 'user__username']
+    pagination_class = StandardResultsSetPagination
 
 class PlanViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """

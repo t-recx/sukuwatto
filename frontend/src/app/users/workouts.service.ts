@@ -130,11 +130,7 @@ export class WorkoutsService {
             response.results = this.getProperlyTypedWorkouts(response.results);
           }
           return response;
-        }),
-        catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch workouts');
-        }, new Paginated<Workout>()))
+        })
       );
   }
 
