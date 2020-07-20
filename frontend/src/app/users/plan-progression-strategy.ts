@@ -27,8 +27,9 @@ export const ParameterTypeLabel = new Map<string, string>([
 
 export class ProgressionStrategy {
     id: number;
-    parameter_increase: number;
     parameter_type: ParameterType;
+    initial_value: number;
+    parameter_increase: number;
     percentage_increase: number;
     unit: number;
     progression_type: ProgressionType;

@@ -10,7 +10,7 @@ export class ProgressionStrategyService {
   constructor() { }
 
   applies(progressionStrategy: ProgressionStrategy, exercise: Exercise, unit: number): boolean {
-    if (progressionStrategy.parameter_increase && progressionStrategy.unit != unit) {
+    if ((progressionStrategy.parameter_increase || progressionStrategy.initial_value) && progressionStrategy.unit != unit) {
       return false;
     }
 

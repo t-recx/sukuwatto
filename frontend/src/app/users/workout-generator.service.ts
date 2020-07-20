@@ -39,7 +39,7 @@ export class WorkoutGeneratorService {
       this.units = units;
 
       this.timeUnits = this.units.filter(u => u.measurement_type == MeasurementType.Time);
-      this.weightUnits = this.units.filter(u => u.measurement_type == MeasurementType.Weight) 
+      this.weightUnits = this.units.filter(u => u.measurement_type == MeasurementType.Weight);
       this.speedUnits = this.units.filter(u => u.measurement_type == MeasurementType.Speed);
       this.distanceUnits = this.units.filter(u => u.measurement_type == MeasurementType.Distance);
     });
@@ -435,12 +435,14 @@ export class WorkoutGeneratorService {
           100 + progressionStrategy.percentage_increase);
       }
     }
+    else if (progressionStrategy.initial_value && progressionStrategy.unit == workingParameter.unit) {
+      workingParameter.parameter_value = +progressionStrategy.initial_value;
+    }
   }
 
   private equivalentProgressionExists(progression: ProgressionStrategy, progressions: ProgressionStrategy[], unit: number) {
     return progressions.filter(x => 
         x.id != progression.id &&
-        x.parameter_increase &&
         x.unit == unit &&
         this.progressionStrategyService.matches(x, progression)
       ).length > 0;
@@ -452,7 +454,13 @@ export class WorkoutGeneratorService {
     let toUnit= this.units.filter(u => u.id == toUnitId)[0];
 
     newProgression.unit = toUnitId;
-    newProgression.parameter_increase = this.unitsService.convert(newProgression.parameter_increase, fromUnit, toUnit);
+    if (newProgression.parameter_increase) {
+      newProgression.parameter_increase = this.unitsService.convert(newProgression.parameter_increase, fromUnit, toUnit);
+    }
+
+    if (newProgression.initial_value) {
+      newProgression.initial_value = this.unitsService.convert(newProgression.initial_value, fromUnit, toUnit);
+    }
 
     return newProgression;
   }
@@ -461,7 +469,7 @@ export class WorkoutGeneratorService {
     let missingProgressions: ProgressionStrategy[] = [];
 
     progressions.forEach(progression => {
-      if (progression.parameter_increase && progression.parameter_increase > 0 && progression.unit) {
+      if (progression.unit) {
         let iUnits;
 
         switch (progression.parameter_type) {

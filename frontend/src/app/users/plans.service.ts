@@ -168,6 +168,9 @@ export class PlansService {
       if (progression.percentage_increase) {
         progression.percentage_increase = Number(progression.percentage_increase);
       }
+      if (progression.initial_value) {
+        progression.initial_value = Number(progression.initial_value);
+      }
     }
 
     return progressions;
@@ -458,6 +461,18 @@ export class PlansService {
         code: 'VPS6',
         message: 'Select parameter type',
       }));
+    }
+
+    if (progression.initial_value)  {
+      if (!progression.unit) {
+        results.push(new Result<ProgressionStrategy>({
+          success: false,
+          field: 'unit',
+          object: progression,
+          code: 'VPS7',
+          message: 'Select unit',
+        }));
+      }
     }
 
     progression.validations = results.getFailedFields();

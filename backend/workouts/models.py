@@ -286,6 +286,7 @@ class AbstractProgressionStrategy(models.Model):
     percentage_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     parameter_type = models.CharField(max_length=1, choices=PARAMETER_TYPES)
     parameter_increase = models.DecimalField(max_digits=10, decimal_places=5, null=True)
+    initial_value = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     unit = models.IntegerField(choices=Unit.choices, null=True)
     mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
     force = models.CharField(max_length=1, null=True, choices=Exercise.FORCES)
