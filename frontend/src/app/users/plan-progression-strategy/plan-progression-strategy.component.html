@@ -125,7 +125,7 @@
                     </div>
                 </div>
 
-                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label">Parameter</div>
                         <select class="siimple-select siimple-select--fluid" name="parameter_type" id="parameter_type"
@@ -141,6 +141,22 @@
                             <div class="siimple-field-helper siimple--color-error">
                                 {{progression.validations['parameter_type']}}</div>
                         </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Percentage increase</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" name="percentage_increase"
+                            id="percentage_increase" [(ngModel)]="progression.percentage_increase"
+                            #percentage_increase="ngModel" placeholder="% increase">
+                    </div>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
+                    <div class="siimple-form-field">
+                        <div class="siimple-form-field-label">Initial value</div>
+                        <input type="number" class="siimple-input siimple-input--fluid" name="initial_value"
+                            id="initial_value" [(ngModel)]="progression.initial_value" #initial_value="ngModel"
+                            placeholder="Initial value">
                     </div>
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
@@ -166,14 +182,6 @@
                             <div class="siimple-field-helper siimple--color-error">{{progression.validations['unit']}}
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
-                    <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Percentage increase</div>
-                        <input type="number" class="siimple-input siimple-input--fluid" name="percentage_increase"
-                            id="percentage_increase" [(ngModel)]="progression.percentage_increase"
-                            #percentage_increase="ngModel" placeholder="% increase">
                     </div>
                 </div>
 

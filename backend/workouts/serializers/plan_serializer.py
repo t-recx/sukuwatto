@@ -32,7 +32,7 @@ class PlanProgressionStrategySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanProgressionStrategy
-        fields = ['id', 'exercise', 'parameter_type', 'percentage_increase', 'parameter_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
+        fields = ['id', 'exercise', 'initial_value', 'parameter_type', 'percentage_increase', 'parameter_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionProgressionStrategy()._meta.get_field('id'), required=False)
@@ -40,7 +40,7 @@ class PlanSessionProgressionStrategySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanSessionProgressionStrategy
-        fields = ['id', 'exercise', 'parameter_type', 'percentage_increase', 'parameter_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
+        fields = ['id', 'exercise', 'initial_value', 'parameter_type', 'percentage_increase', 'parameter_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroupProgressionStrategy()._meta.get_field('id'), required=False)
@@ -48,7 +48,7 @@ class PlanSessionGroupProgressionStrategySerializer(serializers.ModelSerializer)
 
     class Meta:
         model = PlanSessionGroupProgressionStrategy
-        fields = ['id', 'exercise', 'parameter_type', 'percentage_increase', 'parameter_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
+        fields = ['id', 'exercise', 'initial_value', 'parameter_type', 'percentage_increase', 'parameter_increase', 'unit', 'mechanics', 'force', 'modality', 'section', 'progression_type']
 
 class PlanSessionGroupSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=PlanSessionGroup()._meta.get_field('id'), required=False)
@@ -278,6 +278,7 @@ class PlanSerializer(serializers.ModelSerializer):
             instance.parameter_type = progression_data.get('parameter_type', instance.parameter_type)
             instance.percentage_increase = progression_data.get('percentage_increase', instance.percentage_increase)
             instance.parameter_increase = progression_data.get('parameter_increase', instance.parameter_increase)
+            instance.initial_value = progression_data.get('initial_value', instance.initial_value)
             instance.unit = progression_data.get('unit', instance.unit)
             instance.mechanics = progression_data.get('mechanics', instance.mechanics)
             instance.force = progression_data.get('force', instance.force)
