@@ -177,6 +177,15 @@
                                 </div>
                                 <label class="siimple-label clickable" for="static">Static</label>
                             </div>
+            
+                            <div class="siimple--display-block">
+                                <div class="siimple-radio">
+                                    <input type="radio" id="pullpush" name="pullpush" value="x" [(ngModel)]="exercise.force"
+                                        #pullpush="ngModel">
+                                    <label for="pullpush"></label>
+                                </div>
+                                <label class="siimple-label clickable" for="pullpush">Pull and push</label>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -24,12 +24,14 @@ export enum Force {
     Pull = 'p',
     Push = 'q',
     Static = 's',
+    PullPush = 'x',
 }
 
 export const ForceLabel = new Map<string, string>([
   [Force.Pull, 'Pull'],
   [Force.Push, 'Push'],
   [Force.Static, 'Static'],
+  [Force.PullPush, 'Pull and push'],
 ]);
 
 export enum Modality {
