@@ -6158,5 +6158,389 @@
             "modality": "x",
             "mechanics": "c"
         }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 386,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "C&J",
+            "name": "Clean and Jerk",
+            "level": null,
+            "section": null,
+            "force": "x",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 387,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Clean",
+            "name": "Clean",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 388,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Hang Clean",
+            "name": "Hang Clean",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 389,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Jump Shrug",
+            "name": "Jump Shrug",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 390,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Hang Jump Shrug",
+            "name": "Hang Jump Shrug",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 391,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "High Pulls",
+            "name": "High Pulls",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 392,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Hang High Pulls",
+            "name": "Hang High Pulls",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 393,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Split Jerk",
+            "name": "Split Jerk",
+            "level": null,
+            "section": null,
+            "force": "q",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 394,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Split Jerk (behind neck)",
+            "name": "Split Jerk (behind neck)",
+            "level": null,
+            "section": null,
+            "force": "q",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 395,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Push Press",
+            "name": "Push Press",
+            "level": null,
+            "section": null,
+            "force": "q",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 396,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Push Press (behind neck)",
+            "name": "Push Press (behind neck)",
+            "level": null,
+            "section": null,
+            "force": "q",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 397,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Front Squat",
+            "name": "Front Squat",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 398,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Snatch",
+            "name": "Snatch",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 399,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Hang Snatch",
+            "name": "Hang Snatch",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 400,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Overhead Squat",
+            "name": "Overhead Squat",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 401,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Press Under",
+            "name": "Press Under",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 402,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "Press Under (quick drop)",
+            "name": "Press Under (quick drop)",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 403,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "DB Clean",
+            "name": "Dumbbell Clean",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 404,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "DB Hang Clean",
+            "name": "Dumbbell Hang Clean",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 405,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "KB C&J",
+            "name": "Kettlebell Clean and Jerk",
+            "level": null,
+            "section": null,
+            "force": "x",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 406,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "DB Clean",
+            "name": "Dumbbell Clean",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 407,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "DB Snatch",
+            "name": "Dumbbell Snatch",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 408,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "KB Clean",
+            "name": "Kettlebell Clean",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
+    },
+    {
+        "model": "workouts.exercise",
+        "pk": 409,
+        "fields": {
+            "exercise_type":"s",
+            "creation":"2020-05-15T00:31:59.213Z",
+            "muscle": null,
+            "short_name": "KB Snatch",
+            "name": "Kettlebell Snatch",
+            "level": null,
+            "section": null,
+            "force": "p",
+            "modality": null,
+            "mechanics": "c"
+        }
     }
 ]

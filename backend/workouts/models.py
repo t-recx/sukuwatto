@@ -49,10 +49,12 @@ class Exercise(models.Model):
     PULL = 'p'
     PUSH = 'q'
     STATIC = 's'
+    PULL_PUSH = 'x'
     FORCES = [
         (PULL, 'Pull'),
         (PUSH, 'Push'),
         (STATIC, 'Static'),
+        (PULL_PUSH, 'Pull and push'),
     ]
 
     FREE_WEIGHTS = 'f'
