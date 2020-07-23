@@ -1,27 +1,139 @@
-<div class="split left siimple--bg-primary">
+<div>
+    <div class="">
+        <div class="jumbo siimple-jumbotron siimple-jumbotron--large siimple-jumbotron--primary">
+            <div class="siimple--display-flex siimple--display-sm-none">
+                <span class="logo"></span>
+                <div>
+                    <div class="siimple-jumbotron-title">
+                        sukuwatto
+                    </div>
+                    <!-- <div class="siimple-jumbotron-subtitle">Workout, progress</div> -->
+                    <div class="siimple-jumbotron-detail siimple--mt-0">Social platform for athletes and enthusiasts.</div>
+                </div>
+            </div>
+            <div class=" phones-only">
+                <div class="siimple--display-flex">
+                    <span class="logo"></span>
+                    <div class="siimple-jumbotron-title logo-title-phones">
+                        sukuwatto
+                    </div>
+                </div>
+                <!-- <div class="siimple-jumbotron-subtitle">Workout, progress</div> -->
+                <div class="siimple-jumbotron-detail siimple--mt-0">Social platform for athletes and enthusiasts.</div>
+            </div>
+            <div class="siimple--float-right auth-buttons">
+                <button routerLink="/signup/" class="siimple-btn siimple-btn--success siimple--text-bold">
+                    Sign up
+                </button>
+                <button routerLink="/login/" class="siimple--ml-2 siimple-btn siimple-btn ">
+                    Sign in
+                </button>
+            </div>
+        </div>
+    </div>
 
-</div>
-<div class="split logo">
-    <div class="siimple-h1 centered">
-        ス<br>ク<br>ワ<br>ッ<br>ト
-    </div>
-</div>
-<div class="split jumbo siimple--bg-primary">
-    <div class="jumbobox">
-        <div class="siimple--color-white">
-            <div class="siimple-jumbotron-title">sukuwatto</div>
-            <div class="siimple-jumbotron-subtitle">Workout, progress</div>
-            <div class="siimple-jumbotron-detail">Choose a workout plan</div>
-            <div class="siimple-jumbotron-detail">Record training sessions</div>
-            <div class="siimple-jumbotron-detail">Share progress with friends</div>
+    <main class="site-content siimple-content siimple-content--large content-body">
+        <div class="feature-list">
+            <div class="siimple-card feature-card">
+                <div class="siimple-card-header">
+                    <div class="siimple-h5 siimple--mb-0">
+                        <fa-icon [icon]="planIcon" class="siimple--mr-1" size="lg"></fa-icon>
+                        Plan
+                    </div>
+                </div>
+                <div class="siimple-card-body">
+                    <div class="siimple--mt-1 siimple--mb-2">
+                        <div class="siimple--mb-3" align="center">
+                            <img src="assets/images/index-plan-card.png" width="280" height="200">
+                        </div>
+
+                        <div class="siimple--mb-1">Create a plan or choose from our list of curated and
+                            user-submitted plans.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-card feature-card">
+                <div class="siimple-card-header">
+                    <div class="siimple-h5 siimple--mb-0">
+                        <fa-icon [icon]="trackIcon" class="siimple--mr-1" size="lg"></fa-icon>
+                        Track
+                    </div>
+                </div>
+                <div class="siimple-card-body">
+                    <div class="siimple--mt-1 siimple--mb-2">
+                        <div class="siimple--mb-3" align="center">
+                            <img src="assets/images/index-track-card.png" width="280" height="200">
+                        </div>
+
+                        <div class="siimple--mb-1">Record your workouts and keep track of your goals.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="siimple-card feature-card">
+                <div class="siimple-card-header">
+                    <div class="siimple-h5 siimple--mb-0">
+                        <fa-icon [icon]="shareIcon" class="siimple--mr-1" size="lg"></fa-icon>
+                        Share
+                    </div>
+                </div>
+                <div class="siimple-card-body">
+                    <div class="siimple--mt-1 siimple--mb-2">
+                        <div class="siimple--mb-3" align="center">
+                            <img src="assets/images/index-share-card.png" width="280" height="200">
+                        </div>
+
+                        <div class="siimple--mb-1">Share your progress with friends and family.</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="siimple-content">
-            <button routerLink="/signup/" class="siimple-btn siimple-btn--success siimple--text-bold" style="margin-right:8px;">
-                Sign up
-            </button>
-            <button routerLink="/login/" class="siimple-btn siimple-btn siimple--text-bold">
-                Sign in
-            </button>
+
+        <div class="siimple-card" *ngIf="!submitted">
+            <div class=" siimple-card-body">
+                <div>
+                    <div class="under-development-text">
+                        Sukuwatto is currently under development. Leave us your email address to keep up with the news:
+                    </div>
+                    <div class="submit-box">
+                        <input type="email" class="siimple-input submit-box-input " id="email" required
+                            (keydown.enter)="submitEmailSubscription()" applyFocus placeholder="Your email"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [ngModelOptions]="{updateOn: 'blur'}"
+                            [(ngModel)]=emailSubscription #email="ngModel">
+
+                        <div class="submit-buttons">
+                            <button type="button"
+                                class=" siimple--text-bold siimple-btn siimple-btn--success siimple--ml-1 submit-button"
+                                [disabled]="submitting" (click)="submitEmailSubscription()">
+                                <fa-icon [icon]="loadingIcon" class="siimple--mr-1" *ngIf="submitting"></fa-icon>
+                                <fa-icon [icon]="submitIcon" class="siimple--mr-1" *ngIf="!submitting"></fa-icon>
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="email.invalid && (email.dirty && (triedToSubmit || this.invalidEmail))">
+                        <div *ngIf="email.errors?.required || email.errors?.pattern || invalidEmail"
+                            class="siimple-field-helper siimple--color-error">
+                            Please insert a valid email
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div *ngIf="submitted">
+            <div class="siimple-h5 siimple--mb-0  siimple--color-primary thank-you siimple--display-sm-none" align="center">
+                Thank you! We'll keep you posted.
+                <fa-icon [icon]="happyIcon" class="siimple--mr-1" size="lg"></fa-icon>
+            </div>
+            <div class="siimple-h6 siimple--mb-0  siimple--color-primary thank-you-phones phones-only" align="center">
+                Thank you! We'll keep you posted.
+                <fa-icon [icon]="happyIcon" class="siimple--mr-1" size="lg"></fa-icon>
+            </div>
+        </div>
+    </main>
+
+    <app-footer></app-footer>
 </div>
+
+<app-alert></app-alert>

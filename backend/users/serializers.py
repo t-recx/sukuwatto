@@ -1,11 +1,19 @@
 from django.contrib.auth import get_user_model
 from actstream.models import Action
-from .models import File
+from .models import File, UserInterest
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from rest_framework.validators import UniqueValidator
+
+class ExpressInterestSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=UserInterest.objects.all())])
+
+    class Meta:
+        model = UserInterest
+        fields = ['email']
 
 class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):

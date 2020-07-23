@@ -11,12 +11,12 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, GroupSerializer, FileSerializer
+from .serializers import UserSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
 from sqtrex.serializers import ActionSerializer
 from django.shortcuts import get_object_or_404
 from actstream import models
 from sqtrex.permissions import IsUserOrReadOnly
-from users.models import CustomUser
+from users.models import CustomUser, UserInterest
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
@@ -148,6 +148,9 @@ class ActorStreamList(StreamList):
 
         return models.actor_stream(user)
 
+class ExpressInterestCreate(generics.CreateAPIView):
+    serializer_class = ExpressInterestSerializer
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_is_following(request):
@@ -159,6 +162,17 @@ def get_is_following(request):
             user = get_object_or_404(get_user_model(), username=username)
 
         return Response(Follow.objects.is_following(request.user, user))
+
+@api_view(['POST'])
+def express_interest(request):
+    email = request.data.get('email', None)
+
+    if email is None or len(email.strip()) == 0:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    UserInterest.objects.create(email=email)
+
+    return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

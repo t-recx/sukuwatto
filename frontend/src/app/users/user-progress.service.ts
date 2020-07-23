@@ -111,8 +111,8 @@ export class UserProgressService {
             }
 
             const rest = new UserProgressChartDataPoint('Other',
-              100 - userBioData.body_fat_percentage ?? 0 -
-              userBioData.muscle_mass_percentage ?? 0 - userBioData.water_weight_percentage ?? 0, userBioData.date);
+              100 - (userBioData.body_fat_percentage ?? 0) -
+              (userBioData.muscle_mass_percentage ?? 0) - (userBioData.water_weight_percentage ?? 0), userBioData.date);
 
             series.dataPoints.push(rest);
 

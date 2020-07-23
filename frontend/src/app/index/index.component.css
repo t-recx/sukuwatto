@@ -1,37 +1,87 @@
-.split {
-  height: 100%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-.left {
-  width: 10%;
-  left: 0;
-}
-
 .logo {
-  width: 20%;
-  left: 10%;
+  display: inline-block;
+  width:96px;
+  height:64px;
+  background-color: white;
+  -webkit-mask: url(../../assets/images/logo.svg) no-repeat center;
+  mask: url(../../assets/images/logo.svg) no-repeat center;
+  mask-size: 64px;
+}
+
+.logo-title-phones {
+  align-self: center;
+}
+
+.submit-box {
+    display: flex;
+    background-color: #eef2f7;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 15px;
+}
+
+.submit-box-input {
+    background-color: #ffffff !important;
+    margin-right: 5px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.submit-buttons {
+    margin-left: auto;
+}
+
+.submit-button {
+  white-space: nowrap;
 }
 
 .jumbo {
-  width: 70%;
-  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 30px !important;
+  padding-bottom: 20px !important;
 }
 
-.centered {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  text-align: center;
+.auth-buttons {
+  white-space: nowrap;
+  align-self: end;
+  margin-left: auto;
+  margin-top: 20px;
+  /* display: none; */
 }
 
-.jumbobox {
-  position: absolute;
-  top: calc(20% + 32px);
-  left: 32px;
+
+@media only screen and (max-width:480px) {
+.under-development-text {
+  font-size: 13px;
+  color: #879aab;
+}
+}
+
+@media only screen and (min-width:650px) {
+.feature-card {
+    max-width: 306px;
+}
+}
+
+.feature-list {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+@media only screen and (min-width:960px) {
+.feature-card:not(:first-child):not(:last-child) {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+}
+
+.thank-you {
+  padding: 10px;
+}
+
+.thank-you-phones {
+  padding-bottom: 10px;
+  margin-top: 20px;
 }
