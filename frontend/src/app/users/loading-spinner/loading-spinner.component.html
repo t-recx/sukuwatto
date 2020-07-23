@@ -1,6 +1,7 @@
 <div class="loading-spinner-container">
     <div class="loading-spinner-md-and-lower-only display-none" [class.notch-loading-not-logged-in]="!isLoggedIn()">
-        <fa-icon [spin]=true [icon]="faCircleNotch"></fa-icon>
+        <fa-icon [spin]=true [icon]="faCircleNotch" *ngIf="isLoggedIn()"></fa-icon>
+        <fa-icon [spin]=true [icon]="faCircleNotch" size="lg" *ngIf="!isLoggedIn()"></fa-icon>
     </div>
 
     <div class="loading-spinner-md-only display-none md-only">

@@ -1,0 +1,22 @@
+.logo {
+  display: inline-block;
+  width:64px;
+  height:64px;
+  background-color: #546778;
+  -webkit-mask: url(../../assets/images/logo.svg) no-repeat;
+  mask: url(../../assets/images/logo.svg) no-repeat;
+  mask-size: 64px;
+  /* -webkit-mask: url(../../../assets/images/logo.svg) no-repeat center;
+  mask: url(../../../assets/images/logo.svg) no-repeat center; */
+}
+
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+    padding-left: 10px;
+}

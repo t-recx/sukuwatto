@@ -23,6 +23,7 @@ import { AutofocusDirective } from './autofocus.directive';
 import { MainLogoComponent } from './main-logo/main-logo.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     FormsModule,
     UsersModule,
+    SharedModule,
     FontAwesomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],

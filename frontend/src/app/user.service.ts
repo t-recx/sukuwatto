@@ -20,6 +20,7 @@ export class UserService {
   private usersResetPasswordApiUrl = `${environment.apiUrl}/password-reset/`;
   private usersResetPasswordConfirmApiUrl = `${environment.apiUrl}/password-reset-confirm/`;
   private usersResetPasswordValidateTokenApiUrl = `${environment.apiUrl}/password-reset-validate-token/`;
+  private expressInterestApiUrl = `${environment.apiUrl}/express-interest/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -57,6 +58,11 @@ export class UserService {
         }
       }, {error:true}))
     );
+  }
+
+  expressInterest(email: string): Observable<any> {
+    return this.http.post<User>(`${this.expressInterestApiUrl}`, {email}, this.httpOptions)
+    ;
   }
 
   create(user: User): Observable<User> {

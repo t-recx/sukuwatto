@@ -56,7 +56,6 @@ import { ExerciseDetailModalComponent } from './exercise-detail-modal/exercise-d
 import { UnitConvertPipe } from './unit-convert.pipe';
 import { PlanCardComponent } from './plan-card/plan-card.component';
 import { UserChangePasswordComponent } from './user-change-password-modal/user-change-password-modal.component';
-import { FooterComponent } from './footer/footer.component';
 import { UserProgressChartComponent } from './user-progress-chart/user-progress-chart.component';
 import { UserProgressChartsComponent } from './user-progress-charts/user-progress-charts.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
@@ -73,6 +72,7 @@ import { WorkoutSetGeolocationComponent } from './workout-set-geolocation/workou
 import { WorkoutGroupTabContentComponent } from './workout-group-tab-content/workout-group-tab-content.component';
 import { WorkoutFinishStatsComponent } from './workout-finish-stats/workout-finish-stats.component';
 import { QuickActivityComponent } from './quick-activity/quick-activity.component';
+import { SharedModule } from '../shared/shared.module';
 
 @Pipe({
     name: 'timeAgo',
@@ -81,9 +81,10 @@ import { QuickActivityComponent } from './quick-activity/quick-activity.componen
 export class TimeAgoExtendsPipe extends TimeAgoPipe {}
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailEditComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingParametersComponent, WorkingParameterComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoExtendsPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent, DeleteModalComponent, FeedComponent, ExercisesListComponent, ExercisesModalComponent, ExercisesInputComponent, ExerciseDetailSkeletonComponent, ExerciseDetailModalComponent, UnitConvertPipe, PlanCardComponent, UserChangePasswordComponent, FooterComponent, UserProgressChartComponent, UserProgressChartsComponent, PieChartComponent, WorkoutFinishWorkoutModalComponent, UserFinishWorkoutProgressChartComponent, WorkoutDetailComponent, LoadingSpinnerComponent, ExerciseCardComponent, ExerciseCardDescriptionComponent, PageNotFoundComponent, ForbiddenComponent, AutofocusDirective, WorkoutSetGeolocationComponent, WorkoutGroupTabContentComponent, WorkoutFinishStatsComponent, QuickActivityComponent],
+  declarations: [HomeComponent, UsersComponent, ProfileComponent, UserInfoComponent, MenuComponent, PlansComponent, PlanDetailComponent, PlanSessionComponent, PlanSessionGroupComponent, PlanSessionGroupExerciseComponent, ExercisesComponent, ExerciseDetailComponent, WorkoutsComponent, WorkoutDetailEditComponent, WorkoutSetComponent, PlanProgressionStrategyComponent, PlanProgressionStrategiesComponent, WorkoutGroupComponent, WorkingParametersComponent, WorkingParameterComponent, WorkoutSetEditComponent, WorkoutSetRepetitionsEditComponent, WorkoutTimerComponent, PaginationComponent, UserBioDataDetailComponent, AccountComponent, ImageUploadComponent, UsersFollowListComponent, MessagesComponent, MessageDetailComponent, TimeAgoExtendsPipe, UserTagComponent, UserLinkComponent, HomeObjectConstructComponent, PostDetailCardComponent, WorkoutOverviewCardComponent, PostDetailComponent, CardSocialInteractionComponent, CommentCardComponent, EditDeleteDropdownComponent, DeleteModalComponent, FeedComponent, ExercisesListComponent, ExercisesModalComponent, ExercisesInputComponent, ExerciseDetailSkeletonComponent, ExerciseDetailModalComponent, UnitConvertPipe, PlanCardComponent, UserChangePasswordComponent, UserProgressChartComponent, UserProgressChartsComponent, PieChartComponent, WorkoutFinishWorkoutModalComponent, UserFinishWorkoutProgressChartComponent, WorkoutDetailComponent, LoadingSpinnerComponent, ExerciseCardComponent, ExerciseCardDescriptionComponent, PageNotFoundComponent, ForbiddenComponent, AutofocusDirective, WorkoutSetGeolocationComponent, WorkoutGroupTabContentComponent, WorkoutFinishStatsComponent, QuickActivityComponent],
   imports: [
     AlertModule,
+    SharedModule,
     CommonModule,
     UsersRoutingModule,
     FontAwesomeModule,

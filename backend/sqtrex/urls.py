@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenCookieDeleteView
 from django.urls import include, path
 from rest_framework import routers
-from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, get_is_following
+from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, get_is_following, ExpressInterestCreate
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet
 from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data
 from workouts.views import plan_views
@@ -38,6 +38,7 @@ urlpatterns = [
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),
     path('api/content-types/', ContentTypeList.as_view()),
+    path('api/express-interest/', ExpressInterestCreate.as_view(), name='express-interest'),
     path('api/get-user/', get_user, name='get-user'),
     path('api/user-profile-filename/', get_profile_filename, name='user-profile-filename'),
     path('api/user-email/', get_email, name='user-email'),

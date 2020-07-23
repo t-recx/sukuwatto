@@ -7,7 +7,7 @@
     color: white;
     background-color: #4e91e4;
     pointer-events: none;
-    display: block !important;
+    display: flex !important;
     visibility: hidden;
     /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
     animation: 0s linear 0.2s forwards delayedShow; 
@@ -15,12 +15,18 @@
 }
 
 .notch-loading-not-logged-in {
-  left: 128px !important;
+  align-items: center;
+  justify-content: center;
+  background-color: #4e91e4;
+  top: 16px !important;
+  left: 16px !important;
+  width:40px !important;
+  height: 32px !important;
 }
 
 .loading-spinner-md-only {
   position: absolute;
-  left: 156px; 
+  left: calc(156px + 40px); 
   top: 28px;
   z-index: 51;
   color: white;
@@ -43,7 +49,7 @@
 
 .loading-spinner-lg-and-higher {
   position: absolute;
-  left: calc((100% - 960px)/2 + 140px); 
+  left: calc((100% - 960px)/2 + 140px + 40px); 
   top: 28px;
   z-index: 51;
   color: white;

@@ -11,18 +11,29 @@
                 </span>
             </div>
         
-            <a class="siimple-navbar-title" [routerLink]="['/users', authService.getUsername(), 'home']">
-                sukuwatto
-            </a>
+            <div class="logo-container">
+                <div class="logo"></div>
+                <a class="siimple-navbar-title" [routerLink]="['/users', authService.getUsername(), 'home']">
+                    sukuwatto
+                </a>
+
+                <div class="user-info">
+                    <app-user-info></app-user-info>
+                </div>
+            </div>
         </ng-template>
         <ng-template #notLoggedTitle>
-            <a class="siimple-navbar-title" routerLink="/">
-                sukuwatto
-            </a>
+            <div class="logo-container">
+                <div class="logo"></div>
+                <a class="siimple-navbar-title" routerLink="/">
+                    sukuwatto
+                </a>
+
+                <div class="user-info">
+                    <app-user-info></app-user-info>
+                </div>
+            </div>
         </ng-template>
-        <div class="siimple--float-right">
-            <app-user-info></app-user-info>
-        </div>
     </div>
 
     <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown" (click)="toggleMenuVisibility()">
