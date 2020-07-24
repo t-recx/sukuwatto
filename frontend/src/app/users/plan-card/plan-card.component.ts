@@ -10,6 +10,7 @@ import { PlanSessionGroup } from '../plan-session-group';
 import { UnitsService } from '../units.service';
 import { Unit } from '../unit';
 import { ParameterType } from '../plan-progression-strategy';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan-card',
@@ -23,6 +24,10 @@ export class PlanCardComponent implements OnInit {
   @Input() showAdoptButton: boolean = true;
   @Output() deleted = new EventEmitter();
   @Output() adopted = new EventEmitter();
+
+  routerLink: any;
+  shareTitle: string;
+  shareLink: string;
 
   deleteModalVisible: boolean = false;
 
@@ -45,6 +50,7 @@ export class PlanCardComponent implements OnInit {
     private plansService: PlansService,
     private authService: AuthService,
     private unitsService: UnitsService,
+    private router: Router,
   ) { }
 
   isLoggedIn() {
@@ -66,14 +72,20 @@ export class PlanCardComponent implements OnInit {
       this.plansService.getPlan(this.id).subscribe(w =>
         {
           this.plan = w;
-          this.setAdoptButtonVisibility();
-          this.unitsService.convertPlan(this.plan);
+          this.setupPlan(this.plan);
         });
     }
     else {
-      this.setAdoptButtonVisibility();
-      this.unitsService.convertPlan(this.plan);
+      this.setupPlan(this.plan);
     }
+  }
+
+  private setupPlan(p: Plan) {
+    this.routerLink = ['/users', p.user.username, 'plan', p.id];
+    this.setAdoptButtonVisibility();
+    this.unitsService.convertPlan(p);
+    this.shareTitle = 'sukuwatto: ' + p.name + ' workout plan';
+    this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
   }
 
   delete() {

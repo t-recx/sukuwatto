@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/auth.service';
 import { ExerciseType } from '../exercise';
 import { WorkoutSet } from '../workout-set';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -37,10 +38,15 @@ export class WorkoutOverviewCardComponent implements OnInit {
   faChevronLeft = faChevronLeft;
   faChevronRight = faChevronRight;
 
+  routerLink: any;
+  shareTitle: string;
+  shareLink: string;
+
   constructor(
     private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
     private authService: AuthService,
+    private router: Router,
   ) { }
 
   isLoggedIn() {
@@ -73,6 +79,10 @@ export class WorkoutOverviewCardComponent implements OnInit {
     if (workout.start) {
       this.dateString = (new Date(workout.start)).toLocaleDateString();
     }
+
+    this.routerLink = ['/users', workout.user.username, 'workout', workout.id];
+    this.shareTitle = 'sukuwatto: ' + workout.user.username + '\'s workout - ' + workout.name;
+    this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
   }
 
   isTracked(s: WorkoutSet): boolean {

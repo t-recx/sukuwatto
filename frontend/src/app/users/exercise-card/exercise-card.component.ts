@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, LevelLabel, ExerciseTypeLabel } from '../exercise';
 import { ExercisesService } from '../exercises.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,10 +9,14 @@ import { Subscription } from 'rxjs';
   templateUrl: './exercise-card.component.html',
   styleUrls: ['./exercise-card.component.css']
 })
-export class ExerciseCardComponent implements OnInit {
+export class ExerciseCardComponent implements OnInit, OnDestroy {
   @Input() exercise: Exercise;
   @Input() id: number;
   @Input() commentsSectionOpen: boolean = false;
+
+  routerLink: any;
+  shareTitle: string;
+  shareLink: string;
 
   paramChangedSubscription: Subscription;
   username: string;
@@ -27,8 +31,9 @@ export class ExerciseCardComponent implements OnInit {
   constructor(
     private exercisesService: ExercisesService,
     route: ActivatedRoute,
+    private router: Router,
   ) {
-    this.paramChangedSubscription = route.paramMap.subscribe(val => 
+    this.paramChangedSubscription = route.paramMap.subscribe(val =>
       {
         this.username = val.get('username');
       });
@@ -42,8 +47,19 @@ export class ExerciseCardComponent implements OnInit {
     if (!this.exercise && this.id) {
       this.exercisesService.getExercise(this.id).subscribe(e => {
         this.exercise = e;
-      })
+
+        this.setupExercise(e);
+      });
     }
+    else {
+      this.setupExercise(this.exercise);
+    }
+  }
+
+  private setupExercise(e: Exercise) {
+    this.routerLink = ['/users', this.username, 'exercise', this.exercise.id];
+    this.shareTitle = 'sukuwatto: ' + e.name + ' exercise';
+    this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
   }
 
   exerciseHasClassificationFields(): boolean {

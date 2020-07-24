@@ -3,6 +3,7 @@ import { Post } from '../post';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth.service';
 import { faStickyNote, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-detail-card',
@@ -34,15 +35,23 @@ export class PostDetailCardComponent implements OnInit {
 
   triedToSave: boolean = false;
 
+  routerLink: any;
+  shareTitle: string;
+  shareLink: string;
+
   constructor(
     private postsService: PostsService,
     private authService: AuthService,
+    private router: Router,
     ) { }
 
   ngOnInit() {
     this.postsService.getPost(this.id).subscribe(p => { 
       this.post = p; 
       this.checkOwner();
+      this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
+      this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
+      this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
     });
   }
 
@@ -61,7 +70,13 @@ export class PostDetailCardComponent implements OnInit {
       return date.toLocaleDateString();
     }
 
-    return date.toLocaleTimeString().substring(0, 5);
+    let time = date.toLocaleTimeString().substring(0, 5);
+
+    if (time[time.length - 1] == ':') {
+      time = time.substring(0, 4);
+    }
+
+    return time;
   }
 
   toggleLike(): void {

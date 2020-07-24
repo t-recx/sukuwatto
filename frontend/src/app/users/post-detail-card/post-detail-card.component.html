@@ -5,7 +5,9 @@
                 class="user-profile">
             </app-user-tag>
             <span *ngIf="post.title">
-                {{post.title}}
+                <a class="siimple-link" [routerLink]=routerLink>
+                    {{post.title}}
+                </a>
             </span>
         </span>
     
@@ -43,7 +45,10 @@
         </div>
     </div>
     <div class="siimple-card-footer post-footer">
-        <app-card-social-interaction content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen>
+        <app-card-social-interaction 
+            [shareTitle]="shareTitle"
+            [shareLink]="shareLink"
+        content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen>
         </app-card-social-interaction>
     </div>
 </div>

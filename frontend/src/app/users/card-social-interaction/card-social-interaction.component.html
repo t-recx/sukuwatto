@@ -34,6 +34,11 @@
             {{commentsNumber}}
         </span>
     </span>
+
+    <span class="share-button button-link" (click)="share()" *ngIf="canShare">
+        <fa-icon [icon]="faShareAlt" class="siimple--mr-1"></fa-icon>
+        Share
+    </span>
 </div>
 
 <div class="siimple-card siimple-form comment-form" *ngIf="commentsSectionOpen">

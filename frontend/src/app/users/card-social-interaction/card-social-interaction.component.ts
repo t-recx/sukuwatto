@@ -1,5 +1,5 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
-import { faThumbsUp, faComments, faComment, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { faThumbsUp, faComments, faComment, faCircleNotch, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { StreamsService } from '../streams.service';
 import { Action } from '../action';
 import { AuthService } from 'src/app/auth.service';
@@ -7,18 +7,21 @@ import { ContentTypesService } from '../content-types.service';
 import { CommentsService } from '../comments.service';
 import { Comment } from '../comment';
 import { User } from 'src/app/user';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-card-social-interaction',
   templateUrl: './card-social-interaction.component.html',
   styleUrls: ['./card-social-interaction.component.css']
 })
-export class CardSocialInteractionComponent implements OnInit {
+export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @HostBinding('class') class = 'card-social-interaction-container';
 
   @Input() content_type_model: string;
   @Input() id: number;
   @Input() commentsSectionOpen: boolean = false;
+  @Input() shareTitle: string;
+  @Input() shareLink: string;
 
   content_type_id: number;
   
@@ -27,6 +30,7 @@ export class CardSocialInteractionComponent implements OnInit {
   faComments = faComments;
   faComment = faComment;
   faCircleNotch = faCircleNotch;
+  faShareAlt = faShareAlt;
 
   loading: boolean = false;
 
@@ -46,21 +50,40 @@ export class CardSocialInteractionComponent implements OnInit {
 
   triedToComment: boolean = false;
 
+  canShare: boolean = false;
+
+  socialSharing: any;
+
   constructor(
     private authService: AuthService,
     private contentTypesService: ContentTypesService,
     private streamsService: StreamsService,
     private commentsService: CommentsService,
-    ) { }
+    ) {
+    const w: any = window;
+
+    if (environment.application && w && w.plugins && w.plugins.socialsharing) {
+      this.socialSharing = w.plugins.socialsharing;
+    }
+  }
 
   ngOnInit() {
     this.createCommentSectionVisible = true;
     this.triedToComment = false;
 
+
     this.contentTypesService.get(this.content_type_model).subscribe(contentType => {
         this.content_type_id = contentType.id;
         this.loadActions();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.canShare = this.socialSharing && this.shareLink != null;
+  }
+
+  share() {
+    this.socialSharing.shareWithOptions({message: this.shareTitle, url: this.shareLink});
   }
 
   loadActions() {

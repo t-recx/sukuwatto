@@ -209,6 +209,8 @@ export class WorkoutGeneratorService {
   }
 
   getWorkoutName(start: Date, planSession: PlanSession): string {
+    start = new Date(start);
+
     let name: string = "";
 
     if (start) {
