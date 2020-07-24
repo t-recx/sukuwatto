@@ -279,6 +279,14 @@ export class WorkoutsService {
 
   getProperlyTypedWorkout(workout: Workout): Workout {
     if (workout) {
+      if (workout.start) {
+        workout.start = new Date(workout.start);
+      }
+
+      if (workout.end) {
+        workout.end = new Date(workout.end);
+      }
+
       if (workout.working_parameters) {
         for (let ww of workout.working_parameters) {
           if (ww.parameter_value) {
@@ -325,6 +333,9 @@ export class WorkoutsService {
         activity.zoom = activity.zoom ? +activity.zoom : activity.zoom;
         activity.center = activity.center ? latLng(activity.center) : activity.center;
         activity.watchId = activity.watchId ? +activity.watchId : activity.watchId;
+
+        activity.start = activity.start ? new Date(activity.start) : activity.start;
+        activity.end = activity.end ? new Date(activity.end) : activity.end;
 
         if (activity.positions) {
           activity.positions.forEach(p => {

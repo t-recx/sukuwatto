@@ -148,7 +148,13 @@ export class MessagesComponent implements OnInit, OnDestroy {
       return message.date.toLocaleDateString();
     }
 
-    return message.date.toLocaleTimeString().substring(0, 5);
+    let time = message.date.toLocaleTimeString().substring(0, 5);
+
+    if (time[time.length - 1] == ':') {
+      time = time.substring(0, 4);
+    }
+
+    return time;
   }
 
   wasReply(message: LastMessage): boolean {

@@ -1,6 +1,6 @@
 <div class="siimple-card" *ngIf="plan">
     <div class="siimple-card-header">
-        <a class="siimple-link" [routerLink]="['/users', plan.user.username, 'plan', plan.id]">
+        <a class="siimple-link" [routerLink]=routerLink>
             {{plan.name}}
         </a>
 
@@ -255,7 +255,10 @@
         </div>
     </div>
     <div class="siimple-card-footer">
-        <app-card-social-interaction content_type_model='plan' [id]=plan.id></app-card-social-interaction>
+        <app-card-social-interaction 
+            [shareTitle]="shareTitle"
+            [shareLink]="shareLink"
+        content_type_model='plan' [id]=plan.id></app-card-social-interaction>
     </div>
 </div>
 

@@ -1919,7 +1919,9 @@ utils.extend = (function () {
  * Alerts a message in any available way: alert or console.log.
  */
 utils.alert = function (msg) {
-    if (console && console.log) {
+    if (window.alert) {
+        window.alert(msg);
+    } else if (console && console.log) {
         console.log(msg);
     }
 };
