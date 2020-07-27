@@ -5,12 +5,12 @@
     <div>
         <app-alert></app-alert>
     </div>
-    <form class="siimple-card siimple-form" #signUpForm="ngForm" (submit)="signUp()">
+    <form class="siimple-card siimple-form siimple--mb-0" #signUpForm="ngForm" (submit)="signUp()">
         <div class="siimple-card-body">
             <div class="siimple-form-title">Create your account</div>
             <div class="siimple-form-detail">Fill the form to create your account</div>
             <div class="siimple-grid">
-                <div class="siimple-grid-row">
+                <!-- <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">First name</div>
@@ -28,7 +28,7 @@
                                 maxlength="150" placeholder="Last name">
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field">
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="siimple-form-field">
+                        <!-- <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Gender</div>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="m" id="male" [checked]="user.gender === 'm'"
@@ -94,10 +94,10 @@
                                 <label for="nonbinary"></label>
                             </div>
                             <label class="siimple-label clickable" for="nonbinary">Non-binary</label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="siimple-grid-row">
+                <!-- <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--6">
                         <div class="siimple-form-field-label">Month of birth</div>
                         <select class="siimple-select siimple-select--fluid" [(ngModel)]="user.month_birth"
@@ -122,7 +122,7 @@
                         <input type="number" class="siimple-input siimple-input--fluid" [(ngModel)]="user.year_birth"
                             name="year_birth">
                     </div>
-                </div>
+                </div> -->
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
