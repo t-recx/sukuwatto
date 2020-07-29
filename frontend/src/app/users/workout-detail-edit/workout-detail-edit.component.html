@@ -1,3 +1,8 @@
+<div *ngIf="notFound">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+
 <div *ngIf="workout && !loading">
     <app-workout-finish-workout-modal 
         [visible]="finishWorkoutVisible"

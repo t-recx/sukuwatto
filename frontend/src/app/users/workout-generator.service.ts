@@ -46,7 +46,7 @@ export class WorkoutGeneratorService {
   }
 
   generate(start: Date, workingParameters: WorkingParameter[], plan: Plan, planSession: PlanSession): Observable<Workout> {
-    return this.workoutsService.getLastWorkout(this.authService.getUsername(), plan.id, planSession.id, null).pipe(
+    return this.workoutsService.getLastWorkout(plan.id, planSession.id, null).pipe(
       concatMap(lastWorkoutForPlanSession =>
         new Observable<Workout>(x => {
           let workout = new Workout(
@@ -107,7 +107,7 @@ export class WorkoutGeneratorService {
   }
 
   alternateGroupOnWorkout(workout: Workout, plan: Plan, planSession: PlanSession, workoutGroup: WorkoutGroup) : Observable<Workout> {
-    return this.workoutsService.getLastWorkoutGroup(this.authService.getUsername(), null, planSession.id).pipe(
+    return this.workoutsService.getLastWorkoutGroup(null, planSession.id).pipe(
       concatMap(lastWorkoutGroupForPlanSessionGroup =>
         new Observable<Workout>(x => {
           let nextSessionGroup: PlanSessionGroup = null;

@@ -316,6 +316,18 @@ class Workout(models.Model):
         (FINISHED, 'Finished'),
     ]
 
+    EVERYONE = 'e'
+    REGISTERED_USERS = 'r'
+    FOLLOWERS = 'f'
+    OWN_USER = 'u'
+
+    VISIBILITIES =  [
+        (EVERYONE, 'Everyone'),
+        (REGISTERED_USERS, 'Registered users'),
+        (FOLLOWERS, 'Followers'),
+        (OWN_USER, 'Own user')
+    ]
+
     start = models.DateTimeField()
     end = models.DateTimeField(null=True)
     name = models.CharField(max_length=200, null=True)
@@ -326,6 +338,8 @@ class Workout(models.Model):
     status = models.CharField(default=INPROGRESS, max_length=1, choices=STATUS)
 
     calories = models.DecimalField(max_digits=8, decimal_places=3, null=True);
+
+    visibility = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 
 class WorkoutGroup(models.Model):
     order = models.PositiveIntegerField(default=1)

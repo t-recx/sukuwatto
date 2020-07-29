@@ -3,8 +3,9 @@ import { Workout } from '../workout';
 import { UserProgressService } from '../user-progress.service';
 import { AuthService } from 'src/app/auth.service';
 import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPoint } from '../user-progress-chart-data';
-import { faTimes, faCheck, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCheck, faCircleNotch, faEye } from '@fortawesome/free-solid-svg-icons';
 import { ExerciseType } from '../exercise';
+import { VisibilityLabel } from 'src/app/visibility';
 
 @Component({
   selector: 'app-workout-finish-workout-modal',
@@ -18,6 +19,8 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   @Output() closed = new EventEmitter();
   @Output() finished = new EventEmitter();
 
+  visibilityLabel = VisibilityLabel;
+
   progressData: UserProgressChartData = null;
   loading: boolean = false;
   finishing: boolean = false;
@@ -25,6 +28,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   faTimes = faTimes;
   faCheck = faCheck;
   faCircleNotch = faCircleNotch;
+  faEye = faEye;
 
   endDateEditVisible: boolean = false;
 

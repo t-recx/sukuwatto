@@ -54,6 +54,21 @@
                             (timeClicked)="toggleEndDateEdit()"
                             [workout]="workout" [end]="workout.end" class="stats-container">
                         </app-workout-finish-stats>
+
+                        <div class="siimple-rule separator-rule"></div>
+
+                        <div class="siimple-form-field siimple--mt-2 siimple--mb-0 input-container" style="width: 100%;">
+                            <select class="siimple-select siimple-select--fluid" name="visibility" id="visibility" [(ngModel)]="workout.visibility"
+                                #visibility="ngModel">
+                                <option *ngFor="let visibilityModel of visibilityLabel | keyvalue" value={{visibilityModel.key}}>
+                                    {{visibilityModel.value}}
+                                </option>
+                            </select>
+                            
+                            <label class="input-aux-label siimple--mr-2">
+                                <fa-icon [icon]="faEye" ></fa-icon>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

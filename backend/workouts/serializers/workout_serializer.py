@@ -161,7 +161,7 @@ class WorkoutGroupSerializer(serializers.ModelSerializer):
 class WorkoutFlatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'plan', 'plan_session', 'user']
+        fields = ['id', 'start', 'end', 'name', 'calories', 'notes', 'plan', 'plan_session', 'user', 'status', 'visibility']
 
 class WorkoutNoPositionsSerializer(serializers.ModelSerializer):
     groups = WorkoutGroupNoPositionsSerializer(many=True, required=False)
@@ -170,7 +170,7 @@ class WorkoutNoPositionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility']
         extra_kwargs = {'user': {'required': False}}
 
 class WorkoutSerializer(serializers.ModelSerializer):
@@ -180,7 +180,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility']
         extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):
@@ -280,6 +280,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         instance.user = validated_data.get('user', instance.user)
         instance.status = validated_data.get('status', instance.status)
         instance.calories = validated_data.get('calories', instance.calories)
+        instance.visibility = validated_data.get('visibility', instance.visibility)
 
         instance.save()
 

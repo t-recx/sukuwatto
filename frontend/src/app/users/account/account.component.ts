@@ -13,6 +13,12 @@ import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 import { Subscription } from 'rxjs';
+import { VisibilityLabel } from 'src/app/visibility';
+
+export enum AccountTabType {
+  General,
+  Privacy,
+}
 
 @Component({
   selector: 'app-account',
@@ -33,6 +39,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   heightUnits: Unit[];
   userBioDataVisible: boolean;
 
+  selectedTabType: AccountTabType = AccountTabType.General;
+  tabType = AccountTabType;
+
+  selectTabType(tt: AccountTabType) {
+    this.selectedTabType = tt;
+  }
+
   forbidden: boolean = false;
 
   faSave = faSave;
@@ -48,6 +61,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   saving: boolean = false;
   deleting: boolean = false;
   
+  visibilityLabel = VisibilityLabel;
+
   pausedSubscription: Subscription;
 
   setProfilePicture(event: any) {
@@ -227,6 +242,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
           this.saving = false;
 
           this.authService.setUnitSystem(this.user.system);
+          this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
 
           this.router.navigateByUrl(`/users/${this.user.username}/profile`);
         });
@@ -235,6 +251,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saving = false;
 
         this.authService.setUnitSystem(this.user.system);
+        this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
 
         this.router.navigateByUrl(`/users/${this.user.username}/profile`);
       }

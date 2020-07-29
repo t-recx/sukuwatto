@@ -8,19 +8,49 @@ from sqtrex.pagination import StandardResultsSetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from sqtrex.permissions import IsOwnerOrReadOnly
 from sqtrex.permissions import StandardPermissionsMixin
+from sqtrex.visibility import VisibilityQuerysetMixin
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 
-class WorkoutViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
+class WorkoutViewSet(StandardPermissionsMixin, VisibilityQuerysetMixin, viewsets.ModelViewSet):
     """
     """
-    queryset = Workout.objects.all().order_by('-start')
     serializer_class = WorkoutSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user__username']
     pagination_class = StandardResultsSetPagination
 
+    def get_queryset(self):
+        return self.get_queryset_visibility(Workout.objects.all().order_by('-start'), self.request.user)
+
+    def get_object(self):
+        # Perform the lookup filtering.
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+
+        assert lookup_url_kwarg in self.kwargs, (
+            'Expected view %s to be called with a URL keyword argument '
+            'named "%s". Fix your URL conf, or set the `.lookup_field` '
+            'attribute on the view correctly.' %
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+
+        queryset = self.get_queryset_visibility(Workout.objects.filter(**filter_kwargs), self.request.user)
+
+        obj = get_object_or_404(queryset, **filter_kwargs)
+
+        # May raise a permission denied
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
+
 @api_view(['GET'])
 def get_workouts_by_date(request):
-    queryset = Workout.objects.all().order_by('-start')
+    visibility_provider = VisibilityQuerysetMixin()
+
+    queryset = visibility_provider.get_queryset_visibility(Workout.objects.all().order_by('-start'), request.user)
 
     username = request.query_params.get('username', None)
 
@@ -43,74 +73,65 @@ def get_workouts_by_date(request):
 
 @api_view(['GET'])
 def get_last_workout_position(request):
-    if request.method == 'GET':
-        queryset = WorkoutSetPosition.objects.all().order_by('-id')
+    queryset = WorkoutSetPosition.objects.all().order_by('-id')
 
-        username = request.query_params.get('username', None)
+    username = request.query_params.get('username', None)
 
-        if username is not None:
-            queryset = queryset.filter(workout_activity__workout_group__workout__user__username=username)
+    if username is not None:
+        queryset = queryset.filter(workout_activity__workout_group__workout__user__username=username)
 
-        queryset = queryset.first()
+    queryset = queryset.first()
 
-        serializer = WorkoutSetPositionSerializer(queryset)
+    serializer = WorkoutSetPositionSerializer(queryset)
 
-        return Response(serializer.data)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
 def get_last_workout(request):
-    if request.method == 'GET':
-        queryset = Workout.objects.all().order_by('-start')
+    queryset = Workout.objects.all().order_by('-start')
 
-        username = request.query_params.get('username', None)
+    queryset = queryset.filter(user=request.user)
 
-        if username is not None:
-            queryset = queryset.filter(user__username=username)
+    plan = request.query_params.get('plan', None)
 
-        plan = request.query_params.get('plan', None)
+    if plan is not None:
+        queryset = queryset.filter(plan=plan)
 
-        if plan is not None:
-            queryset = queryset.filter(plan=plan)
+    plan_session = request.query_params.get('plan_session', None)
 
-        plan_session = request.query_params.get('plan_session', None)
+    if plan_session is not None:
+        queryset = queryset.filter(plan_session=plan_session)
 
-        if plan_session is not None:
-            queryset = queryset.filter(plan_session=plan_session)
+    date_lte = request.query_params.get('date_lte', None)
 
-        date_lte = request.query_params.get('date_lte', None)
+    if date_lte is not None:
+        queryset = queryset.filter(start__lte=date_lte)
 
-        if date_lte is not None:
-            queryset = queryset.filter(start__lte=date_lte)
+    queryset = queryset.first()
 
-        queryset = queryset.first()
+    serializer = WorkoutSerializer(queryset)
 
-        serializer = WorkoutSerializer(queryset)
-
-        return Response(serializer.data)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def get_last_workout_group(request):
-    if request.method == 'GET':
-        queryset = WorkoutGroup.objects.all().order_by('-workout__start')
+    queryset = WorkoutGroup.objects.all().order_by('-workout__start')
 
-        username = request.query_params.get('username', None)
+    queryset = queryset.filter(workout__user=request.user)
 
-        if username is not None:
-            queryset = queryset.filter(workout__user__username=username)
+    plan_session_group = request.query_params.get('plan_session_group', None)
 
-        plan_session_group = request.query_params.get('plan_session_group', None)
+    if plan_session_group is not None:
+        queryset = queryset.filter(plan_session_group=plan_session_group)
 
-        if plan_session_group is not None:
-            queryset = queryset.filter(plan_session_group=plan_session_group)
+    date_lte = request.query_params.get('date_lte', None)
 
-        date_lte = request.query_params.get('date_lte', None)
+    if date_lte is not None:
+        queryset = queryset.filter(workout__start__lte=date_lte)
 
-        if date_lte is not None:
-            queryset = queryset.filter(workout__start__lte=date_lte)
+    queryset = queryset.first()
 
-        queryset = queryset.first()
+    serializer = WorkoutGroupSerializer(queryset)
 
-        serializer = WorkoutGroupSerializer(queryset)
-
-        return Response(serializer.data)
+    return Response(serializer.data)

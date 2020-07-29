@@ -80,6 +80,7 @@ export class AuthService {
     this.setUserSpeedUnitId(null);
     this.setUserID(null);
     this.setIsStaff(null);
+    this.setUserDefaultWorkoutVisibility(null);
   }
 
   public getLogoutUrl(): string {
@@ -134,6 +135,7 @@ export class AuthService {
         this.setUserWeightUnitId(user.default_weight_unit.toString());
         this.setUserDistanceUnitId(user.default_distance_unit.toString());
         this.setUserSpeedUnitId(user.default_speed_unit.toString());
+        this.setUserDefaultWorkoutVisibility(user.default_visibility_workouts);
 
         this.setUserID(user.id.toString());
         this.setIsStaff(user.is_staff);
@@ -188,6 +190,14 @@ export class AuthService {
 
   public getUserSpeedUnitId(): string {
     return this.getLocalStorageItem('speed_unit_id');
+  }
+
+  public getUserDefaultWorkoutVisibility(): string {
+    return this.getLocalStorageItem('default_workout_visibility');
+  }
+
+  public setUserDefaultWorkoutVisibility(v: string) {
+    this.setLocalStorageItem('default_workout_visibility', v);
   }
 
   public setUserWeightUnitId(unit: string) {

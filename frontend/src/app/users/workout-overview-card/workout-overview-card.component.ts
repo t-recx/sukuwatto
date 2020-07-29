@@ -20,7 +20,10 @@ export class WorkoutOverviewCardComponent implements OnInit {
   @Input() workout: Workout;
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
+  @Input() detailView: boolean = false;
   @Output() deleted = new EventEmitter();
+
+  notFound: boolean = false;
 
   trackedActivities: WorkoutSet[];
   selectedTrackedActivity: WorkoutSet;
@@ -59,14 +62,22 @@ export class WorkoutOverviewCardComponent implements OnInit {
     this.dateString = null;
 
     if (!this.workout) {
-      this.workoutsService.getWorkout(this.id).subscribe(w =>
+      this.workoutsService.getWorkout(this.id)
+      .subscribe(w =>
         {
           this.workout = w;
-          this.loadWorkoutData(this.workout);
+          if (this.workout) {
+            this.loadWorkoutData(this.workout);
+            this.notFound = false;
+          }
+          else {
+            this.notFound = true;
+          }
         });
     }
     else {
       this.loadWorkoutData(this.workout);
+      this.notFound = false;
     }
   }
 

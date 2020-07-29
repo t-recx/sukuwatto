@@ -1,3 +1,5 @@
+import { Visibility } from './visibility';
+
 export enum MeasurementSystem {
     Metric = 'm',
     Imperial = 'i',
@@ -29,6 +31,7 @@ export class User {
     default_weight_unit: number;
     default_speed_unit: number;
     default_distance_unit: number;
+    default_visibility_workouts: Visibility;
     system: MeasurementSystem;
     profile_filename: string;
     is_staff: boolean;
