@@ -1,6 +1,7 @@
 import { WorkoutGroup } from './workout-group';
 import { WorkingParameter } from './working-parameter';
 import { User } from '../user';
+import { Visibility } from '../visibility';
 
 export enum WorkoutStatus {
     InProgress = 'p',
@@ -24,6 +25,7 @@ export class Workout {
     working_parameters: WorkingParameter[];
     user: User;
     status: WorkoutStatus;
+    visibility: Visibility;
 
     calories: number;
 

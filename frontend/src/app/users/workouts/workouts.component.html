@@ -13,7 +13,7 @@
 <div class="" *ngIf="!loading">
   <ul class="">
     <li *ngFor="let workout of workouts">
-      <app-workout-overview-card [workout]=workout [showSaveDeleteButtons]=true (deleted)="deleteWorkout(workout)">
+      <app-workout-overview-card [detailView]=false [workout]=workout [showSaveDeleteButtons]=true (deleted)="deleteWorkout(workout)">
       </app-workout-overview-card>
     </li>
   </ul>

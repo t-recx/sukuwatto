@@ -20,6 +20,7 @@ import { faCircleNotch, faSave, faTrash, faCheckSquare, faLayerGroup, faWeight, 
 import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
+import { Visibility } from 'src/app/visibility';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -30,6 +31,8 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   @Input() quickActivity: boolean = false;
   pausedSubscription: Subscription;
   finishGeolocationActivities: Subscription;
+
+  notFound: boolean = false;
 
   ngAfterViewInit(): void {
     this.serializerUtils.restoreScrollPosition();
@@ -260,20 +263,48 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.loading = true;
       this.loadingService.load();
       this.service.getWorkout(id).subscribe(workout => {
-        if (workout.user.username == this.authService.getUsername()) {
-          this.workout = workout;
+        if (workout) {
+          this.notFound = false;
+          if (workout.user.username == this.authService.getUsername()) {
+            this.workout = workout;
+          }
+          this.notesVisibility = workout.notes && workout.notes.length > 0;
+          this.loading = false;
+          this.loadingService.unload();
         }
-        this.notesVisibility = workout.notes && workout.notes.length > 0;
-        this.loading = false;
-        this.loadingService.unload();
+        else {
+          this.notFound = true;
+        }
       });
     }
     else {
+      this.notFound = false;
       this.workout = new Workout();
       this.workout.plan = null;
       this.workout.plan_session = null;
       this.workout.start = new Date();
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
+
+      const defaultWorkoutVisibility = this.authService.getUserDefaultWorkoutVisibility();
+      if (defaultWorkoutVisibility && defaultWorkoutVisibility.length > 0) {
+        switch (defaultWorkoutVisibility) {
+          case Visibility.Everyone:
+            this.workout.visibility = Visibility.Everyone;
+            break;
+          case Visibility.Followers:
+            this.workout.visibility = Visibility.Followers;
+            break;
+          case Visibility.OwnUser:
+            this.workout.visibility = Visibility.OwnUser;
+            break;
+          case Visibility.RegisteredUsers:
+            this.workout.visibility = Visibility.RegisteredUsers;
+            break;
+        }
+      }
+      else {
+        this.workout.visibility = Visibility.Everyone;
+      }
 
       this.newGroup();
 
@@ -285,7 +316,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
       this.loading = true;
       this.loadingService.load();
-      this.service.getLastWorkout(this.username, null, null, new Date()).subscribe(w =>
+      this.service.getLastWorkout(null, null, new Date()).subscribe(w =>
         {
           if (w.working_parameters) {
             for (const workingParameter of w.working_parameters) {
@@ -332,7 +363,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
           this.selectNextPlanSession(this.previousWorkout);
         }
         else {
-          this.service.getLastWorkout(this.username, this.workout.plan, null, new Date()).subscribe(w => {
+          this.service.getLastWorkout(this.workout.plan, null, new Date()).subscribe(w => {
             if (w && w.id) {
               this.selectNextPlanSession(w);
             }

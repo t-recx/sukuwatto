@@ -158,13 +158,9 @@ export class WorkoutsService {
       );
   }
 
-  getLastWorkoutGroup(username: string, date_lte: Date, plan_session_group: number): Observable<WorkoutGroup> {
+  getLastWorkoutGroup(date_lte: Date, plan_session_group: number): Observable<WorkoutGroup> {
     let options = {};
     let params = new HttpParams();
-
-    if (username) {
-      params = params.set('username', username);
-    }
 
     if (date_lte) {
       params = params.set('date_lte', date_lte.toISOString());
@@ -174,7 +170,7 @@ export class WorkoutsService {
       params = params.set('plan_session_group', plan_session_group.toString());
     }
 
-    if (username || date_lte || plan_session_group) {
+    if (date_lte || plan_session_group) {
       options = {params: params};
     }
 
@@ -190,13 +186,9 @@ export class WorkoutsService {
       );
   }
 
-  getLastWorkout(username: string, plan: number, plan_session: number, date_lte: Date): Observable<Workout> {
+  getLastWorkout(plan: number, plan_session: number, date_lte: Date): Observable<Workout> {
     let options = {};
     let params = new HttpParams();
-
-    if (username) {
-      params = params.set('username', username);
-    }
 
     if (plan) {
       params = params.set('plan', plan.toString());
@@ -210,7 +202,7 @@ export class WorkoutsService {
       params = params.set('date_lte', date_lte.toISOString());
     }
 
-    if (username || plan || plan_session || date_lte) {
+    if (plan || plan_session || date_lte) {
       options = {params: params};
     }
 
@@ -234,8 +226,10 @@ export class WorkoutsService {
         }),
         catchError(this.errorService.handleError<Workout>('getWorkout', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch workout');
-        }, new Workout()))
+          if (e && e.status && e.status != 404) {
+            this.alertService.error('Unable to fetch workout');
+          }
+        }, null))
       );
   }
 

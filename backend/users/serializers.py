@@ -36,7 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
         'month_birth', 'year_birth', 'username', 'gender', 'groups', 
         'system', 'biography', 'location', 'profile_filename',
         'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
-        'is_staff']
+        'is_staff', 'default_visibility_workouts']
         extra_kwargs = {'password': {'write_only': True, 'required': False},
             'email': {'write_only': True, 'required': False},
             'is_staff': { 'read_only': True, 'required': False}}

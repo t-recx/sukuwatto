@@ -1,12 +1,12 @@
 import json
 from rest_framework.test import APITestCase
 from workouts.models import Workout
-from sqtrex.tests import CRUDTestCaseMixin
+from sqtrex.tests import CRUDTestCaseMixin, VisibilityTestCaseMixin
 from actstream.models import Action
 from users.models import CustomUser
 from django.contrib.contenttypes.models import ContentType
 
-class WorkoutTestCase(CRUDTestCaseMixin, APITestCase):
+class WorkoutTestCase(VisibilityTestCaseMixin, APITestCase):
     def get_resource_model(self):
         return Workout
 
@@ -15,6 +15,9 @@ class WorkoutTestCase(CRUDTestCaseMixin, APITestCase):
    
     def get_resource_data(self):
         return { 'name': 'initial', 'start': "2014-01-01T23:28:56.782Z" }
+   
+    def get_resource_data_with_visibility(self, visibility):
+        return { 'name': 'initial', 'start': "2014-01-01T23:28:56.782Z", 'visibility': visibility }
 
     def get_updated_resource_data(self, resource_id):
         return { 'id': resource_id, 'name': 'changed', 'start': "2014-01-01T23:28:56.782Z" } 

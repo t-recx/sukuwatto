@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from rest_framework import status
 from rest_framework.test import APITestCase
 from users.models import CustomUser
+from sqtrex.visibility import Visibility
+from actstream.actions import follow, unfollow
 
 class AuthTestCaseMixin():
     def authenticate(self, credentials):
@@ -138,3 +140,78 @@ class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(self.get_resource_model().objects.count(), 0)
+
+class VisibilityTestCaseMixin(CRUDTestCaseMixin):
+    @abstractmethod
+    def get_resource_data_with_visibility(self, visibility):
+        pass
+
+    def follow_user(self, user, followed_user):
+        u = CustomUser.objects.get(username=user['username'])
+        fu = CustomUser.objects.get(username=followed_user['username'])
+
+        follow(u, fu, actor_only=True)
+
+    def exercise_visibility(self, visibility, anonymous_can_view, follower_can_view, another_user_can_view):
+        resource_id = self.create_resource(self.user1, self.get_resource_data_with_visibility(visibility))
+        self.logout()
+
+        # anonymous user:
+        response = self.client.get(self.get_resource_endpoint())
+
+        self.assertEqual(len(json.loads(response.content)['results']), 1 if anonymous_can_view else 0)
+
+        response = self.client.get(self.get_resource_endpoint() + str(resource_id) + '/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK if anonymous_can_view else status.HTTP_404_NOT_FOUND)
+
+        # another user:
+        self.authenticate(self.user2)
+
+        response = self.client.get(self.get_resource_endpoint())
+
+        self.assertEqual(len(json.loads(response.content)['results']), 1 if another_user_can_view else 0)
+
+        response = self.client.get(self.get_resource_endpoint() + str(resource_id) + '/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK if another_user_can_view else status.HTTP_404_NOT_FOUND)
+
+        self.logout()
+
+        # followed user:
+        self.follow_user(self.user2, self.user1)
+
+        self.authenticate(self.user2)
+
+        response = self.client.get(self.get_resource_endpoint())
+
+        self.assertEqual(len(json.loads(response.content)['results']), 1 if follower_can_view else 0)
+
+        response = self.client.get(self.get_resource_endpoint() + str(resource_id) + '/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK if follower_can_view else status.HTTP_404_NOT_FOUND)
+
+        self.logout()
+
+        # own user:
+        self.authenticate(self.user1)
+
+        response = self.client.get(self.get_resource_endpoint())
+
+        self.assertEqual(len(json.loads(response.content)['results']), 1)
+
+        response = self.client.get(self.get_resource_endpoint() + str(resource_id) + '/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_visibility_own_user(self):
+        self.exercise_visibility(Visibility.OWN_USER, False, False, False)
+
+    def test_visibility_everyone(self):
+        self.exercise_visibility(Visibility.EVERYONE, True, True, True)
+
+    def test_visibility_registered_users(self):
+        self.exercise_visibility(Visibility.REGISTERED_USERS, False, True, True)
+
+    def test_visibility_followers(self):
+        self.exercise_visibility(Visibility.FOLLOWERS, False, True, False)

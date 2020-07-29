@@ -19,6 +19,12 @@ from sqtrex.permissions import IsUserOrReadOnly
 from users.models import CustomUser, UserInterest
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from sqtrex.visibility import Visibility
+from django.db.models import Q
+from django.utils.safestring import mark_safe
+from sqtrex.visibility import VisibilityQuerysetMixin
+from workouts.models import Workout
+import json
 
 class FollowersList(generics.ListAPIView):
     pagination_class = StandardResultsSetPagination
@@ -69,7 +75,7 @@ class UserViewSet(viewsets.ModelViewSet):
     API endpoint that allows users to be viewed or edited.
     """
     pagination_class = StandardResultsSetPagination
-    queryset = get_user_model().objects.all()
+    queryset = get_user_model().objects.order_by('username').all()
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['username', 'email']
@@ -118,8 +124,35 @@ class StreamList(generics.ListAPIView):
     def get_stream_queryset(self, request):
         pass
 
+    def get_queryset_visibility(self, queryset, user):
+        #print(mark_safe(json.dumps(list(queryset.values()), default=str, ensure_ascii=False)))
+        user_ctype_id = ContentType.objects.get(model='customuser').id
+        workout_ctype_id = ContentType.objects.get(model='workout').id
+
+        queryset_target_workouts = queryset.filter(Q(target_content_type_id=workout_ctype_id))
+        queryset_action_object_workouts = queryset.filter(Q(action_object_content_type_id=workout_ctype_id))
+
+        target_workout_ids = [int(oid) for oid in queryset_target_workouts.order_by('target_object_id').values_list('target_object_id', flat=True).distinct()]
+        action_object_workout_ids = [int(oid) for oid in queryset_action_object_workouts.order_by('action_object_object_id').values_list('action_object_object_id', flat=True).distinct()]
+
+        combined_list = target_workout_ids + list(set(action_object_workout_ids) - set(target_workout_ids))
+
+        visibility = VisibilityQuerysetMixin()
+
+        queryset_workouts = visibility.get_queryset_visibility(Workout.objects.filter(id__in=combined_list), user)
+
+        workout_visible_ids = [workout.id for workout in queryset_workouts]
+
+        queryset = queryset.exclude(Q(target_content_type_id=workout_ctype_id),~Q(target_object_id__in=workout_visible_ids))
+        queryset = queryset.exclude(Q(action_object_content_type_id=workout_ctype_id),~Q(action_object_object_id__in=workout_visible_ids))
+
+        return queryset
+
     def list(self, request):
         queryset = self.get_stream_queryset(request)
+
+        queryset = self.get_queryset_visibility(queryset, request.user)
+
         page = self.paginate_queryset(queryset)
 
         if page is not None:
