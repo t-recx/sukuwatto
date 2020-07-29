@@ -675,7 +675,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     if (this.workout.start) {
       this.workout.start = new Date(this.workout.start);
 
-      if (this.workout.start.getFullYear() == now.getFullYear() && this.workout.start.getMonth() == now.getMonth() && this.workout.start.getDate() == now.getDate()) {
+      if (this.workout.start.getFullYear() == now.getFullYear() && this.workout.start.getMonth() == now.getMonth() && Math.abs(this.workout.start.getDate() - now.getDate()) <= 1) {
         this.workout.end = now;
       }
       else {
