@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="siimple-card">
+                <div class="siimple-card siimple--mb-0">
                     <div class="siimple-card-body chart-card-body">
                         <div class="loading-container" *ngIf="loading">
                             <div class="siimple-spinner siimple-spinner--primary siimple-spinner--large"></div>
@@ -48,7 +48,7 @@
                             </app-user-finish-workout-progress-chart>
                         </div>
 
-                        <div *ngIf="progressData" class="siimple-rule separator-rule"></div>
+                        <div *ngIf="progressData" class="siimple-rule separator-rule siimple--mb-2"></div>
                 
                         <app-workout-finish-stats 
                             (timeClicked)="toggleEndDateEdit()"

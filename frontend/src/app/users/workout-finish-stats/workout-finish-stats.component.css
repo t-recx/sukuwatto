@@ -13,6 +13,7 @@
 .stats-body {
   flex-grow:1;
   padding: 12px;
+  padding-top: 0px !important;
 }
 
 .stats-header {

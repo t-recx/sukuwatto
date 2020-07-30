@@ -51,6 +51,7 @@ span {
   line-height: 34px;
   font-size: 14px;
   font-weight: 400;
+  pointer-events: none;
 }
 
 .input-container {
