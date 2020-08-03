@@ -10,7 +10,7 @@
         </button>
     </div>
     <ng-template #notLoggedBlock>
-        <div class="siimple-btn-group">
+        <div class="siimple-btn-group" *ngIf="showAuthButtons">
             <button routerLink="/signup/" class="siimple-btn siimple-btn--success">
                 <fa-icon [icon]="faUserPlus" class=""></fa-icon>
                 <span class="siimple--ml-1 ">Sign up</span>
