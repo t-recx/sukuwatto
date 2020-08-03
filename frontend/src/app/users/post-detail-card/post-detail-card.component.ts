@@ -51,7 +51,7 @@ export class PostDetailCardComponent implements OnInit {
       this.checkOwner();
       this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
       this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
-      this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
+      this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
     });
   }
 

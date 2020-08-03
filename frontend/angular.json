@@ -69,6 +69,7 @@
               "ngswConfigPath": "ngsw-config.json"
             },
             "android": {
+              "outputPath": "dist/frontend-android",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
