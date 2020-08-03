@@ -10,7 +10,6 @@ services:
       - 8000
     volumes:
       - media_volume:/home/app/web/media
-      - ssl_volume:/home/app/web/ssl
     env_file:
       - ./.env.prod
     depends_on:
@@ -49,7 +48,6 @@ services:
       - frontend_data:/usr/src/app/dist/frontend
       - frontend-android_data:/usr/src/app/dist/frontend-android
       - media_volume:/home/app/web/media
-      - ssl_volume:/home/app/web/ssl
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     ports:
@@ -80,4 +78,3 @@ volumes:
   frontend_data:
   frontend-android_data:
   media_volume:
-  ssl_volume:
