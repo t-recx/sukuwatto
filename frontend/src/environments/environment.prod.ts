@@ -1,6 +1,7 @@
 import { environmentProductionHost, environmentProductionPort } from 'src/environments/hosts';
 
 export const environment = {
+  showAuthButtons: false,
   production: true,
   application: false,
   mediaUrl: 'https://' + environmentProductionHost + (environmentProductionPort ? ':' + environmentProductionPort : ''),

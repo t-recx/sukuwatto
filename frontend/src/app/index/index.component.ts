@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-index',
@@ -11,6 +12,8 @@ import { AlertService } from '../alert/alert.service';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
+
+  showAuthButtons: boolean = environment.showAuthButtons;
 
   emailSubscription: string;
 
