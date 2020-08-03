@@ -42,12 +42,7 @@ services:
       dockerfile: ../docker/frontend/Dockerfile
     volumes:
       - frontend_data:/usr/src/app/dist/frontend
-  frontend-android:
-    build:
-      context: ./frontend/
-      dockerfile: ../docker/frontend-android/Dockerfile
-    volumes:
-      - frontend-android_data:/usr/src/app/dist/frontend
+      - frontend-android_data:/usr/src/app/dist/frontend-android
   nginx:
     build: ./docker/nginx
     volumes:
@@ -55,6 +50,8 @@ services:
       - frontend-android_data:/usr/src/app/dist/frontend-android
       - media_volume:/home/app/web/media
       - ssl_volume:/home/app/web/ssl
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
       - 80:80
       - 443:443
@@ -64,6 +61,14 @@ services:
       - wsgi
       - asgi
     restart: always
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   redis:
     image: redis:6
     expose: 

@@ -85,7 +85,7 @@ export class PlanCardComponent implements OnInit {
     this.setAdoptButtonVisibility();
     this.unitsService.convertPlan(p);
     this.shareTitle = 'sukuwatto: ' + p.name + ' workout plan';
-    this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
+    this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
   }
 
   delete() {

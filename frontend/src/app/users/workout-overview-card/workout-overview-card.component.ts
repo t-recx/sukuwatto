@@ -93,7 +93,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
 
     this.routerLink = ['/users', workout.user.username, 'workout', workout.id];
     this.shareTitle = 'sukuwatto: ' + workout.user.username + '\'s workout - ' + workout.name;
-    this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
+    this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
   }
 
   isTracked(s: WorkoutSet): boolean {

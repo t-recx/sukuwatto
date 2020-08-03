@@ -59,7 +59,7 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
   private setupExercise(e: Exercise) {
     this.routerLink = ['/users', this.username, 'exercise', this.exercise.id];
     this.shareTitle = 'sukuwatto: ' + e.name + ' exercise';
-    this.shareLink = window.location.origin + this.router.createUrlTree(this.routerLink);
+    this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
   }
 
   exerciseHasClassificationFields(): boolean {
