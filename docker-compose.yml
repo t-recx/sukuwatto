@@ -41,7 +41,12 @@ services:
       dockerfile: ../docker/frontend/Dockerfile
     volumes:
       - frontend_data:/usr/src/app/dist/frontend
-      - frontend-android_data:/usr/src/app/dist/frontend-android
+  frontend-android:
+    build:
+      context: ./frontend/
+      dockerfile: ../docker/frontend-android/Dockerfile
+    volumes:
+      - frontend-android_data:/usr/src/app/dist/frontend
   nginx:
     build: ./docker/nginx
     volumes:
@@ -55,8 +60,10 @@ services:
       - 443:443
     depends_on:
       - frontend
+      - frontend-android
       - wsgi
       - asgi
+      - certbot
     restart: always
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
