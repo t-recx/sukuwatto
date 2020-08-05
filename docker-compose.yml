@@ -5,7 +5,7 @@ services:
     build: 
       context: ./backend/
       dockerfile: ../docker/wsgi/Dockerfile
-    command: gunicorn sqtrex.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn sqtrex.wsgi:application --log-file=- --bind 0.0.0.0:8000
     expose:
       - 8000
     volumes:
@@ -46,7 +46,7 @@ services:
       context: ./frontend/
       dockerfile: ../docker/frontend-android/Dockerfile
     volumes:
-      - frontend-android_data:/usr/src/app/dist/frontend
+      - frontend-android_data:/usr/src/app/dist/frontend-android
   nginx:
     build: ./docker/nginx
     volumes:

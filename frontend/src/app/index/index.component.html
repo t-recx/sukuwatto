@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="email.invalid && (email.dirty && (triedToSubmit || this.invalidEmail))">
+                    <div *ngIf="email.invalid && (triedToSubmit || this.invalidEmail)">
                         <div *ngIf="email.errors?.required || email.errors?.pattern || invalidEmail"
                             class="siimple-field-helper siimple--color-error">
                             Please insert a valid email

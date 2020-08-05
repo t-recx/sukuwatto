@@ -1,7 +1,7 @@
 # builder - temporary image to build pip wheels
 FROM python:3.8-buster as builder
 LABEL mantainer="jnnlbruno@gmail.com"
-ENV REFRESHED_AT 2020-06-17
+ENV VERSION 7
 
 WORKDIR /usr/src/app
 
@@ -36,7 +36,9 @@ RUN groupadd -r app && useradd -r -g app app
 
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
+ENV MEDIA_HOME=/home/app/web/media
 RUN mkdir $APP_HOME
+RUN mkdir $MEDIA_HOME
 WORKDIR $APP_HOME
 
 RUN apt-get -yqq update
@@ -50,6 +52,7 @@ COPY ./entrypoint.sh $APP_HOME
 COPY . $APP_HOME
 
 RUN chown -R app:app $APP_HOME
+RUN chown -R app:app $MEDIA_HOME
 
 USER app
 
