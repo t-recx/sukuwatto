@@ -13,8 +13,3 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
-
-.owner-user-container {
-    display: flex;
-    align-items: baseline;
-}
