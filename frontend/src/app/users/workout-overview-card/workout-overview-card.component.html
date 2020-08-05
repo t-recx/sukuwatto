@@ -15,7 +15,7 @@
 
         <fa-icon class="loading-delete-icon siimple--ml-2" [icon]="faCircleNotch" [spin]=true *ngIf="deleting"></fa-icon>
 
-        <span class="siimple--float-right siimple-small" *ngIf="dateString">
+        <span class="siimple--float-right siimple-small" *ngIf="dateString && !detailView">
             {{dateString}}
         </span>
     </div>
@@ -181,7 +181,18 @@
                 </tr>
             </tbody>
         </table>
+        <div *ngIf="detailView">
+            <div class="siimple-rule siimple--mt-3"></div>
+
+            <div class="owner-user-container">
+                <app-user-tag [username]=workout.user.username [fetchProfileFilename]=true>
+                </app-user-tag>
+
+                <small class="siimple-small siimple--ml-2">{{ workout.start.toString() | timeAgo }}</small>
+            </div>
+        </div>
     </div>
+
     <div class="siimple-card-footer">
         <app-card-social-interaction 
             [shareTitle]="shareTitle"

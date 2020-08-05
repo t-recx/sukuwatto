@@ -243,3 +243,8 @@ ul {
     float: right;
     position: relative;
 }
+
+.owner-user-container {
+    display: flex;
+    align-items: baseline;
+}
