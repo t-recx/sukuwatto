@@ -1,0 +1,32 @@
+<div class="">
+    <div class="jumbo siimple-jumbotron siimple-jumbotron--large siimple-jumbotron--primary">
+        <div class="siimple--display-flex siimple--display-sm-none">
+            <span class="logo clickable" routerLink="/"></span>
+            <div>
+                <div class="siimple-jumbotron-title clickable" routerLink="/">
+                    sukuwatto
+                </div>
+                <!-- <div class="siimple-jumbotron-subtitle">Workout, progress</div> -->
+                <div class="siimple-jumbotron-detail siimple--mt-0">Social platform for athletes and enthusiasts.</div>
+            </div>
+        </div>
+        <div class=" phones-only">
+            <div class="siimple--display-flex">
+                <span class="logo clickable" routerLink="/"></span>
+                <div class="siimple-jumbotron-title logo-title-phones clickable" routerLink="/">
+                    sukuwatto
+                </div>
+            </div>
+            <!-- <div class="siimple-jumbotron-subtitle">Workout, progress</div> -->
+            <div class="siimple-jumbotron-detail siimple--mt-0">Social platform for athletes and enthusiasts.</div>
+        </div>
+        <div class="siimple--float-right auth-buttons" *ngIf="showAuthButtons">
+            <button routerLink="/signup/" class="siimple-btn siimple-btn--success siimple--text-bold">
+                Sign up
+            </button>
+            <button routerLink="/login/" class="siimple--ml-2 siimple-btn siimple-btn ">
+                Sign in
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,91 +1,68 @@
-<div>
-    <div class="">
-        <div class="jumbo siimple-jumbotron siimple-jumbotron--large siimple-jumbotron--primary">
-            <div class="siimple--display-flex siimple--display-sm-none">
-                <span class="logo"></span>
-                <div>
-                    <div class="siimple-jumbotron-title">
-                        sukuwatto
-                    </div>
-                    <!-- <div class="siimple-jumbotron-subtitle">Workout, progress</div> -->
-                    <div class="siimple-jumbotron-detail siimple--mt-0">Social platform for athletes and enthusiasts.</div>
-                </div>
-            </div>
-            <div class=" phones-only">
-                <div class="siimple--display-flex">
-                    <span class="logo"></span>
-                    <div class="siimple-jumbotron-title logo-title-phones">
-                        sukuwatto
-                    </div>
-                </div>
-                <!-- <div class="siimple-jumbotron-subtitle">Workout, progress</div> -->
-                <div class="siimple-jumbotron-detail siimple--mt-0">Social platform for athletes and enthusiasts.</div>
-            </div>
-            <div class="siimple--float-right auth-buttons" *ngIf="showAuthButtons">
-                <button routerLink="/signup/" class="siimple-btn siimple-btn--success siimple--text-bold">
-                    Sign up
-                </button>
-                <button routerLink="/login/" class="siimple--ml-2 siimple-btn siimple-btn ">
-                    Sign in
-                </button>
-            </div>
-        </div>
-    </div>
+<div class="site-body">
+    <app-jumbotron></app-jumbotron>
 
     <main class="site-content siimple-content siimple-content--large content-body">
         <div class="feature-list">
-            <div class="siimple-card feature-card">
-                <div class="siimple-card-header">
-                    <div class="siimple-h5 siimple--mb-0">
-                        <fa-icon [icon]="planIcon" class="siimple--mr-1" size="lg"></fa-icon>
-                        Plan
-                    </div>
-                </div>
-                <div class="siimple-card-body">
-                    <div class="siimple--mt-1 siimple--mb-2">
-                        <div class="siimple--mb-3" align="center">
-                            <img src="assets/images/index-plan-card.png" width="280" height="200">
+            <a href="/plan">
+                <div class="siimple-card feature-card clickable">
+                    <div class="siimple-card-header">
+                        <div class="siimple-h5 siimple--mb-0">
+                            <fa-icon [icon]="planIcon" class="siimple--mr-1" size="lg"></fa-icon>
+                            Plan
                         </div>
+                    </div>
+                    <div class="siimple-card-body">
+                        <div class="siimple--mt-1 siimple--mb-2">
+                            <div class="siimple--mb-3" align="center">
+                                <img src="assets/images/index-plan-card.png" width="280" height="200">
+                            </div>
 
-                        <div class="siimple--mb-1">Create a plan or choose from our list of curated and
-                            user-submitted plans.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="siimple-card feature-card">
-                <div class="siimple-card-header">
-                    <div class="siimple-h5 siimple--mb-0">
-                        <fa-icon [icon]="trackIcon" class="siimple--mr-1" size="lg"></fa-icon>
-                        Track
-                    </div>
-                </div>
-                <div class="siimple-card-body">
-                    <div class="siimple--mt-1 siimple--mb-2">
-                        <div class="siimple--mb-3" align="center">
-                            <img src="assets/images/index-track-card.png" width="280" height="200">
+                            <div class="siimple--mb-1">Create a plan or choose from our list of curated and
+                                user-submitted plans.</div>
                         </div>
+                    </div>
+                </div>
+            </a>
 
-                        <div class="siimple--mb-1">Record your workouts and keep track of your goals.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="siimple-card feature-card">
-                <div class="siimple-card-header">
-                    <div class="siimple-h5 siimple--mb-0">
-                        <fa-icon [icon]="shareIcon" class="siimple--mr-1" size="lg"></fa-icon>
-                        Share
-                    </div>
-                </div>
-                <div class="siimple-card-body">
-                    <div class="siimple--mt-1 siimple--mb-2">
-                        <div class="siimple--mb-3" align="center">
-                            <img src="assets/images/index-share-card.png" width="280" height="200">
+            <a href="/track">
+                <div class="siimple-card feature-card clickable">
+                    <div class="siimple-card-header">
+                        <div class="siimple-h5 siimple--mb-0">
+                            <fa-icon [icon]="trackIcon" class="siimple--mr-1" size="lg"></fa-icon>
+                            Track
                         </div>
+                    </div>
+                    <div class="siimple-card-body">
+                        <div class="siimple--mt-1 siimple--mb-2">
+                            <div class="siimple--mb-3" align="center">
+                                <img src="assets/images/index-track-card.png" width="280" height="200">
+                            </div>
 
-                        <div class="siimple--mb-1">Share your progress with friends and family.</div>
+                            <div class="siimple--mb-1">Record your workouts and keep track of your goals.</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
+
+            <a href="/share">
+                <div class="siimple-card feature-card clickable">
+                    <div class="siimple-card-header">
+                        <div class="siimple-h5 siimple--mb-0">
+                            <fa-icon [icon]="shareIcon" class="siimple--mr-1" size="lg"></fa-icon>
+                            Share
+                        </div>
+                    </div>
+                    <div class="siimple-card-body">
+                        <div class="siimple--mt-1 siimple--mb-2">
+                            <div class="siimple--mb-3" align="center">
+                                <img src="assets/images/index-share-card.png" width="280" height="200">
+                            </div>
+
+                            <div class="siimple--mb-1">Share your progress with friends and family.</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <div class="siimple-card" *ngIf="!submitted && !showAuthButtons">
@@ -122,7 +99,8 @@
         </div>
 
         <div *ngIf="submitted">
-            <div class="siimple-h5 siimple--mb-0  siimple--color-primary thank-you siimple--display-sm-none" align="center">
+            <div class="siimple-h5 siimple--mb-0  siimple--color-primary thank-you siimple--display-sm-none"
+                align="center">
                 Thank you! We'll keep you posted.
                 <fa-icon [icon]="happyIcon" class="siimple--mr-1" size="lg"></fa-icon>
             </div>

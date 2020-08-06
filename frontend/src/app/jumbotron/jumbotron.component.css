@@ -1,0 +1,29 @@
+.logo {
+  display: inline-block;
+  width:96px;
+  height:64px;
+  background-color: white;
+  -webkit-mask: url(../../assets/images/logo.svg) no-repeat center;
+  mask: url(../../assets/images/logo.svg) no-repeat center;
+  mask-size: 64px;
+}
+
+.logo-title-phones {
+  align-self: center;
+}
+
+.jumbo {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 30px !important;
+  padding-bottom: 20px !important;
+}
+
+.auth-buttons {
+  white-space: nowrap;
+  align-self: end;
+  margin-left: auto;
+  margin-top: 20px;
+  /* display: none; */
+}
+
