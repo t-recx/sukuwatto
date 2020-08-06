@@ -5,17 +5,20 @@ import { SignupComponent } from './signup/signup.component';
 import { IndexComponent } from './index/index.component';
 import { LandingGuard } from './guards/landing.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthGuard } from './guards/auth.guard';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { ResetPasswordRequestComponent } from './reset-password-request/reset-password-request.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { ExercisesComponent } from './users/exercises/exercises.component';
-import { ExerciseDetailComponent } from './users/exercise-detail/exercise-detail.component';
+import { TrackComponent } from './track/track.component';
+import { PlanComponent } from './plan/plan.component';
+import { ShareComponent } from './share/share.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
+  { path: 'plan', component: PlanComponent }, 
+  { path: 'track', component: TrackComponent }, 
+  { path: 'share', component: ShareComponent }, 
   { path: 'login', component: LoginComponent, canActivate: [LandingGuard] }, 
   { path: 'signup', component: SignupComponent, canActivate: [LandingGuard] }, 
   { path: 'reset-password-request', component: ResetPasswordRequestComponent, canActivate: [LandingGuard] }, 

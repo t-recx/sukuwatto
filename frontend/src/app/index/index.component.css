@@ -1,17 +1,3 @@
-.logo {
-  display: inline-block;
-  width:96px;
-  height:64px;
-  background-color: white;
-  -webkit-mask: url(../../assets/images/logo.svg) no-repeat center;
-  mask: url(../../assets/images/logo.svg) no-repeat center;
-  mask-size: 64px;
-}
-
-.logo-title-phones {
-  align-self: center;
-}
-
 .submit-box {
     display: flex;
     background-color: #eef2f7;
@@ -35,21 +21,14 @@
   white-space: nowrap;
 }
 
-.jumbo {
-  display: flex;
-  flex-wrap: wrap;
-  padding-top: 30px !important;
-  padding-bottom: 20px !important;
+.feature-card:hover .siimple-card-body {
+  background-color:  #f6f8fb;
+  cursor: pointer;
 }
 
-.auth-buttons {
-  white-space: nowrap;
-  align-self: end;
-  margin-left: auto;
-  margin-top: 20px;
-  /* display: none; */
+.siimple-card-body {
+  transition: all .3s ease;
 }
-
 
 @media only screen and (max-width:480px) {
 .under-development-text {
