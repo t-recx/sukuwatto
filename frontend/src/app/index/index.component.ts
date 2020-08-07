@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faEnvelope, faLaughBeam, faCalendarAlt, faRunning, faShareAlt, faHeart, faCircleNotch, faSmile, faLaugh, faCalendar, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faLaughBeam, faCalendarAlt, faRunning, faShareAlt, faHeart, faCircleNotch, faSmile, faLaugh, faCalendar, faCalendarDay, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '../user.service';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from '../error.service';
@@ -22,7 +22,8 @@ export class IndexComponent implements OnInit {
   trackIcon = faRunning;
   shareIcon = faShareAlt;
   happyIcon = faLaugh;
-
+  arrowRight = faArrowCircleRight;
+  
   loadingIcon = faCircleNotch;
   invalidEmail = false;
 
