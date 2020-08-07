@@ -91,8 +91,21 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         let ticksX;
 
         if (this.progressData.category == ChartCategory.DistanceMonth) {
+            const maxDays = (this.progressData.series
+                    .flatMap(s => s.dataPoints
+                        .flatMap(dp => dp.date.getDate())).reduce((p, c) => p > c ? p : c) );
+            let nTicks = 0;
+
+            if (maxDays <= 15) {
+                nTicks = maxDays;
+            }
+            else {
+                nTicks = width / 40;
+            }
+
            ticksX = d3.axisBottom(x)
-                .ticks(width / 40)
+                .ticks(nTicks)
+                //.ticks(width / 40)
                 .tickSizeOuter(0)
                 .tickFormat(d3.timeFormat("%-d"));
         }

@@ -44,14 +44,34 @@ export class UserProgressService {
           sets.filter(s => s.distance > 0 && s.distance_unit)
           .flatMap(s => ({set: s, workout: w}))));
 
-      let values = sets.map(x => new UserProgressChartDataPoint(x.set.exercise.name, x.set.distance, x.workout.start));
-
       if (sets.length > 0 && sets[0].set && sets[0].set.distance_unit) {
         data.unitCode = this.unitsService.getUnitCode(sets[0].set.distance_unit);
       }
 
+      const rawValues = sets.map(x => new UserProgressChartDataPoint(x.set.exercise.name, x.set.distance,
+        new Date(x.workout.start.getFullYear(), x.workout.start.getMonth(), x.workout.start.getDate())));
+
+
+      let values: UserProgressChartDataPoint[] = [];
+
+      const dates = [...new Set(rawValues.map(x => x.date.getTime()))];
+
+      dates
+      .forEach(d => {
+        const exercises = [...new Set(rawValues.filter(v => v.date.getTime() == d).map(v => v.name))];
+
+        exercises.forEach(e => {
+          values.push(new UserProgressChartDataPoint(e, rawValues.filter(v => v.name == e && v.date.getTime() == d)
+            .reduce((a, b) => a + b.value, 0), new Date(d)));
+        });
+      });
+
+      const exercisesWithDay1 = values.filter(v => v.date.getDate() == 1).map(v => v.name);
+
       values = [
-        ...[...new Set(values.map(x => x.name))]
+        ...[...new Set(values
+          .map(x => x.name)
+          .filter(n => exercisesWithDay1.filter(nn => nn == n).length == 0))]
         .map(name => 
           new UserProgressChartDataPoint(name, 0, new Date(date.getFullYear(), date.getMonth(), 1)))
         , ...values];
