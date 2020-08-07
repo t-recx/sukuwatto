@@ -1,0 +1,28 @@
+@media only screen and (min-width: 601px) {
+  .demo-only-small-screens {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .demo-text {
+    flex: 0 0 100%;
+  }
+
+  .demo-only-large-screens {
+    display: none !important;
+  }
+
+    .demo-image {
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+
+    .demo-image-left {
+        margin-top: 10px !important;
+    }
+
+    .demo-image-right {
+        margin-top: 10px !important;
+    }
+}
