@@ -32,7 +32,7 @@
 }
 
 .hidden-chart-legend-label {
-    opacity: 50%;
+    opacity: 0.5;
 }
 
 .chart-tooltip {	
