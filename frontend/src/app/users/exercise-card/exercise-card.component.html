@@ -1,9 +1,9 @@
-<div class="siimple-card" *ngIf="exercise">
-    <div class="siimple-card-header">
+<article class="siimple-card" *ngIf="exercise">
+    <header class="siimple-card-header">
         <a class="siimple-link" [routerLink]="routerLink">
             {{exercise.name}}
         </a>
-    </div>
+    </header>
     <div class="siimple-card-body">
         <div class="siimple-grid">
             <div class="siimple-grid-row">
@@ -108,12 +108,12 @@
             </div>
         </div>
     </div>
-    <div class="siimple-card-footer">
+    <footer class="siimple-card-footer">
         <app-card-social-interaction 
             content_type_model='exercise' 
             [id]=exercise.id 
             [shareTitle]="shareTitle"
             [shareLink]="shareLink"
             [commentsSectionOpen]=commentsSectionOpen></app-card-social-interaction>
-    </div>
-</div>
+    </footer>
+</article>

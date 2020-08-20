@@ -30,6 +30,31 @@ class UserSerializer(serializers.ModelSerializer):
 
         return super(UserSerializer, self).validate(data)
 
+    def create(self, validated_data):
+        validated_data['username'] = validated_data['username'].lower()
+        validated_data['email'] = validated_data['email'].lower()
+        return get_user_model().objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email).lower()
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.month_birth = validated_data.get('month_birth', instance.month_birth)
+        instance.year_birth = validated_data.get('year_birth', instance.year_birth)
+        instance.gender = validated_data.get('gender', instance.gender)
+        instance.system = validated_data.get('system', instance.system)
+        instance.biography = validated_data.get('biography', instance.biography)
+        instance.location = validated_data.get('location', instance.location)
+        instance.profile_filename = validated_data.get('profile_filename', instance.profile_filename)
+        instance.default_weight_unit = validated_data.get('default_weight_unit', instance.default_weight_unit)
+        instance.default_speed_unit = validated_data.get('default_speed_unit', instance.default_speed_unit)
+        instance.default_distance_unit = validated_data.get('default_distance_unit', instance.default_distance_unit)
+        instance.default_visibility_workouts = validated_data.get('default_visibility_workouts', instance.default_visibility_workouts)
+
+        instance.save()
+
+        return instance
+
     class Meta:
         model = get_user_model()
         fields = ['id', 'password', 'email', 'first_name', 'last_name', 

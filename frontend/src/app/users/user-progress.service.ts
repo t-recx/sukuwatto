@@ -66,6 +66,26 @@ export class UserProgressService {
         });
       });
 
+      if (dates && dates.length > 0) {
+        const maxDate = Math.max(...dates);
+
+        if (maxDate) {
+          const exercisesWithoutMaxDate = [... new Set(
+            rawValues
+              .filter(rv =>
+                rawValues
+                  .filter(v => v.date.getTime() == maxDate && v.name == rv.name)
+                  .length == 0)
+              .map(v => v.name))];
+
+          exercisesWithoutMaxDate
+            .forEach(name => {
+              // we'll add a mock 0 value on the last date so the chart continues up until that point for all exercises
+              values.push(new UserProgressChartDataPoint(name, 0, new Date(maxDate)));
+            });
+        }
+      }
+
       const exercisesWithDay1 = values.filter(v => v.date.getDate() == 1).map(v => v.name);
 
       values = [

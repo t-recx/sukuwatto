@@ -35,6 +35,7 @@
                             <div class="siimple-form-field-label">Username</div>
                             <input type="text" class="siimple-input siimple-input--fluid" required name="username"
                                 id="username" [(ngModel)]="user.username" #username="ngModel"
+                                applyFocus
                                 placeholder="Your username">
 
                             <div *ngIf="username.invalid && (username.dirty || triedToSignUp)">

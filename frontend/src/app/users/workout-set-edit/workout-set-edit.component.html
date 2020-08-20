@@ -23,11 +23,6 @@
                 </div>
 
                 <div class="siimple-card" *ngIf="workoutActivity.exercise && workoutActivity.exercise.id > 0">
-                    <!--
-                    <div class="siimple-card-header">
-                        Executed
-                    </div>
-                    -->
                     <div class="siimple-card-body">
                         <div *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 's'">
                             <div class="siimple-grid-row">
@@ -176,6 +171,16 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="siimple-form-field siimple--my-0">
+                            <div class="siimple-checkbox siimple-checkbox--primary">
+                                <input type="checkbox" id="done-checkbox" [(ngModel)]="workoutActivity.done" name="done-checkbox">
+                                <label for="done-checkbox"></label>
+                            </div>
+                            <label class="siimple-label">
+                                <span class="clickable" (click)="workoutActivity.done = !workoutActivity.done">Mark as done</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -207,7 +212,7 @@
         </div>
         <div class="siimple-modal-body">
             <div class="siimple-form-field form-field">
-                <div class="siimple-form-field-label">Number of activities</div>
+                <div class="siimple-form-field-label">Number of copies</div>
                 <input type="number" class="siimple-input siimple-input--fluid" required
                     name="number_of_cloned_activities_input" id="number_of_cloned_activities_input"
                     [(ngModel)]="number_of_cloned_activities" #number_of_cloned_activities_input="ngModel"

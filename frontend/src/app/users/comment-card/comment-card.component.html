@@ -1,4 +1,4 @@
-<div class="comment-card siimple--rounded" *ngIf="comment">
+<article class="comment-card siimple--rounded" *ngIf="comment">
     <div *ngIf="editing" class="siimple-form">
         <div class="siimple-form-field">
             <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newComment"
@@ -39,20 +39,20 @@
             *ngIf="authenticatedUserIsOwner">
         </app-edit-delete-dropdown>
     </div>
-</div>
+</article>
 
 <div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
-        <div class="siimple-modal-header">
+        <header class="siimple-modal-header">
             <div class="siimple-modal-header-title">Delete comment?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
-        </div>
+        </header>
         <div class="siimple-modal-body">
             <p class="siimple-p">
                 This will delete your comment and associated data! Are you sure you want to proceed?
             </p>
         </div>
-        <div class="siimple-modal-footer">
+        <footer class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
                 Yes
@@ -61,6 +61,6 @@
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
                 Cancel
             </button>
-        </div>
+        </footer>
     </div>
 </div>

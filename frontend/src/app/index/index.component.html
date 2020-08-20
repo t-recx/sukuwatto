@@ -87,8 +87,8 @@
                         Sukuwatto is currently under development. Leave us your email address to keep up with the news:
                     </div>
                     <div class="submit-box">
-                        <input type="email" class="siimple-input submit-box-input " id="email" required
-                            (keydown.enter)="submitEmailSubscription()" applyFocus placeholder="Your email"
+                        <input type="email" class="siimple-input submit-box-input " id="email" required 
+                            (keydown.enter)="submitEmailSubscription()" placeholder="Your email"
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [ngModelOptions]="{updateOn: 'blur'}"
                             [(ngModel)]=emailSubscription #email="ngModel">
 

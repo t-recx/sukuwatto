@@ -27,4 +27,12 @@
             [loadingOlderActions]=loadingOlderActions>
         </app-feed>
     </div>
+
+    <div class="new-activity-mobile-button new-cardio-activity" 
+        (click)="newActivity()"
+        (dblclick)="switchActivityType()"
+        [class.new-activity-not-visible]="!newActivityButtonVisible" >
+        <fa-icon [icon]="cardioIcon" size="lg" class="" *ngIf="!activityTypeStrength"></fa-icon>
+        <fa-icon [icon]="strengthIcon" size="lg" class="" *ngIf="activityTypeStrength"></fa-icon>
+    </div>
 </div>

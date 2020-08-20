@@ -3,8 +3,8 @@
     </app-page-not-found>
 </div>
 
-<div class="siimple-card" *ngIf="workout">
-    <div class="siimple-card-header">
+<article class="siimple-card" *ngIf="workout">
+    <header class="siimple-card-header">
         <a class="siimple-link workout-card-header-link" 
         [routerLink]="routerLink">
             {{workout.name}}
@@ -18,7 +18,7 @@
         <span class="siimple--float-right siimple-small" *ngIf="dateString && !detailView">
             {{dateString}}
         </span>
-    </div>
+    </header>
     <div class="siimple-card-body">
         <!-- cardio exercises -->
 
@@ -75,7 +75,12 @@
             <tbody class="siimple-table-body">
                 <tr class="siimple-table-row link-row"  *ngFor="let workoutActivity of cardioWorkoutActivities">
                     <td class="siimple-table-cell">
-                        {{workoutActivity.exercise.name}}
+                        <span class="phones-only">
+                            {{workoutActivity.exercise.short_name}}
+                        </span>
+                        <span class="siimple--display-sm-none">
+                            {{workoutActivity.exercise.name}}
+                        </span>
                     </td>
                     <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">
                         <span *ngIf="workoutActivity.time">
@@ -148,7 +153,12 @@
             <tbody class="siimple-table-body">
                 <tr class="siimple-table-row link-row"  *ngFor="let workoutActivity of strengthWorkoutActivities">
                     <td class="siimple-table-cell">
-                        {{workoutActivity.exercise.name}}
+                        <span class="phones-only">
+                            {{workoutActivity.exercise.short_name}}
+                        </span>
+                        <span class="siimple--display-sm-none">
+                            {{workoutActivity.exercise.name}}
+                        </span>
                     </td>
                     <td class="siimple-table-cell" align="center">
                         <span *ngIf="workoutActivity.weight">
@@ -193,13 +203,13 @@
         </div>
     </div>
 
-    <div class="siimple-card-footer">
+    <footer class="siimple-card-footer">
         <app-card-social-interaction 
             [shareTitle]="shareTitle"
             [shareLink]="shareLink"
         content_type_model='workout' [id]=workout.id></app-card-social-interaction>
-    </div>
-</div>
+    </footer>
+</article>
 
 <app-delete-modal 
     [(visible)]="deleteModalVisible"
