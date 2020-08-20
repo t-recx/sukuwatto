@@ -5,6 +5,7 @@
         padding-top: 4px;
         padding-bottom: 4px;
         font-weight: 500;
+        border-radius: 0px !important;
     }
 
     .navigation-menu {

@@ -36,7 +36,11 @@
         </ng-template>
     </div>
 
-    <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown" (click)="toggleMenuVisibility()">
+    <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown"
+        [style.width.%]="menuWidth" 
+        [style.transition.ms]="transitionMenuMs"
+        (touchstart)="touchStart($event)" (touchend)="touchEnd($event)" (touchmove)="touchMove($event)"
+        >
         <app-menu></app-menu>
     </div>
 
@@ -64,3 +68,9 @@
 
     <app-footer></app-footer>
 </div>
+
+<div class="menu-overlay-opacity" [class.menu-overlay-dark]="menuDropDownVisible" (click)="overlayClick()"
+    [style.opacity.%]="overlayOpacity"
+        [style.transition.ms]="transitionOverlayMs"
+        (touchstart)="touchStart($event)" (touchend)="touchEnd($event)" (touchmove)="touchMove($event)"
+></div>
