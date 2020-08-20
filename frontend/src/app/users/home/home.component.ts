@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { StreamsService } from '../streams.service';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Action } from '../action';
 import { Paginated } from '../paginated';
 import { AuthService } from 'src/app/auth.service';
 import { PostsService } from '../posts.service';
 import { Post } from '../post';
-import { faCircleNotch, faStickyNote } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faStickyNote, faDumbbell, faRunning, faTasks } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
 
 @Component({
@@ -28,17 +28,27 @@ export class HomeComponent implements OnInit, OnDestroy {
   triedToPost: boolean = false;
   posting: boolean = false;
   loading: boolean = true;
+  prevScrollY = 0;
+  newActivityButtonVisible = true;
 
   faCircleNotch = faCircleNotch;
   faStickyNote = faStickyNote;
+  strengthIcon = faTasks;
+  cardioIcon = faRunning;
+
+  activityTypeStrength = true;
+  isSingleClickActivity = true;
 
   constructor(
     route: ActivatedRoute,
+    private router: Router,
     public authService: AuthService,
     private streamsService: StreamsService,
     private postsService: PostsService,
     private loadingService: LoadingService,
   ) {
+    this.activityTypeStrength = this.authService.getUserDefaultActivityTypeStrength();
+
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('username'));
     });
@@ -47,10 +57,41 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  newActivity() {
+    this.isSingleClickActivity = true;
+
+    setTimeout(() => {
+      if (this.isSingleClickActivity) {
+        if (this.activityTypeStrength) {
+          this.router.navigate(['/users', this.authService.getUsername(), 'workout']);
+        }
+        else {
+          this.router.navigate(['/users', this.authService.getUsername(), 'quick-activity']);
+        }
+      }
+    }, 250);
+  }
+
+  switchActivityType() {
+    this.isSingleClickActivity = false;
+
+    this.activityTypeStrength = !this.activityTypeStrength;
+    this.authService.setUserDefaultActivityTypeStrength(this.activityTypeStrength);
+  }
+
   @HostListener('window:scroll', []) onScroll(): void {
+    if (window.scrollY > this.prevScrollY) {
+      this.newActivityButtonVisible = false;
+    }
+    else if (window.scrollY < this.prevScrollY) {
+      this.newActivityButtonVisible = true;
+    }
+
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
       this.loadOlderActions();
     }
+
+    this.prevScrollY = window.scrollY;
   }
 
   ngOnDestroy(): void {

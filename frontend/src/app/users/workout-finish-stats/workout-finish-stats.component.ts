@@ -81,13 +81,6 @@ export class WorkoutFinishStatsComponent implements OnInit, OnChanges {
       this.calories = activities.filter(x => x.calories).reduce((a, b) => a + b.calories, 0);
     }
 
-    console.log(this.end);
-    console.log(this.workout.end);
-    console.log(this.ellapsedTime);
-    console.log(this.calories);
-    console.log(this.speed);
-    console.log(this.distance);
-
     this.showStats = this.speed != null || this.distance != null || this.calories != null || this.ellapsedTime != null;
   }
 

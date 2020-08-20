@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { faBars, faTimes, faRunning, faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
 import { Subscription } from 'rxjs';
 
@@ -15,8 +15,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   faBars = faBars;
   faTimes = faTimes;
-  faRunning = faRunning;
-  faDumbbell = faDumbbell;
 
   username: string;
   loading = false;

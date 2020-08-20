@@ -29,6 +29,9 @@ export class AuthService {
   }
 
   login(username: string, email: string, password: string): Observable<Token> {
+    username = username ? username.toLowerCase() : username;
+    email = email ? email.toLowerCase() : email;
+
     if (!username || username.trim().length == 0) {
       return this.userService.getUser(null, email).pipe(
         concatMap(user => {
@@ -176,6 +179,10 @@ export class AuthService {
     return this.getLocalStorageItem('is_staff') == 'true';
   }
 
+  public getUserDefaultActivityTypeStrength(): boolean {
+    return this.getLocalStorageItem('default_activity_type_strength') == 'true';
+  }
+
   public getUserUnitSystem(): string {
     return this.getLocalStorageItem('unit_system');
   }
@@ -226,6 +233,10 @@ export class AuthService {
 
   private setIsStaff(is_staff: boolean) {
     this.setLocalStorageItem('is_staff', is_staff ? is_staff.toString() : null);
+  }
+
+  public setUserDefaultActivityTypeStrength(activityTypeStrength: boolean) {
+    this.setLocalStorageItem('default_activity_type_strength', activityTypeStrength.toString());
   }
 
   setTokenMessaging(token: string) {

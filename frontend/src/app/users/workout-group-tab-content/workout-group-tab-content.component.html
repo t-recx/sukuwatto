@@ -9,6 +9,7 @@
 
             <div class="geo-container"
                 *ngIf="(workoutActivity.tracking == null || workoutActivity.tracking) &&
+                    workoutActivity.exercise &&
                     workoutActivity.exercise.exercise_type == exerciseType.Cardio">
                 <app-workout-set-geolocation *ngIf="workoutActivity.tracking == null || workoutActivity.tracking"
                     [userBioData]="userBioData"

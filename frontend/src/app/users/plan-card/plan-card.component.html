@@ -1,5 +1,5 @@
-<div class="siimple-card" *ngIf="plan">
-    <div class="siimple-card-header">
+<article class="siimple-card" *ngIf="plan">
+    <header class="siimple-card-header">
         <a class="siimple-link" [routerLink]=routerLink>
             {{plan.name}}
         </a>
@@ -7,7 +7,7 @@
         <div *ngIf="showSaveDeleteButtons && !deleting && isLoggedIn()" class="siimple-modal-header-close" (click)="toggleDeleteModal()"></div>
 
         <fa-icon class="loading-delete-icon" [icon]="faCircleNotch" [spin]=true *ngIf="deleting"></fa-icon>
-    </div>
+    </header>
     <div class="siimple-card-body">
         <p class="siimple-p keep-original-formatting">{{plan.description}}</p>
 
@@ -254,13 +254,13 @@
             </button>
         </div>
     </div>
-    <div class="siimple-card-footer">
+    <footer class="siimple-card-footer">
         <app-card-social-interaction 
             [shareTitle]="shareTitle"
             [shareLink]="shareLink"
         content_type_model='plan' [id]=plan.id></app-card-social-interaction>
-    </div>
-</div>
+    </footer>
+</article>
 
 <app-delete-modal [(visible)]="deleteModalVisible" title='Delete plan?'
     body='This will delete your plan and associated data. Are you sure you want to proceed?' (deleted)="delete()"

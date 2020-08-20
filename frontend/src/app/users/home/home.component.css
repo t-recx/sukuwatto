@@ -1,0 +1,27 @@
+.new-activity-mobile-button {
+    display: none;
+}
+
+@media only screen and (max-width: 769px) {
+    .new-activity-mobile-button {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        background-color: #4e91e4;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.2s ease-in;
+        cursor: pointer;
+        z-index: 49;
+    }
+
+    .new-activity-not-visible {
+        transform: translateY(72px);
+        /* bottom: -56px; */
+    }
+}
