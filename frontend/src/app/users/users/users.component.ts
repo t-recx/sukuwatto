@@ -24,9 +24,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   screenWidth = 0;
   screenHeight = 0;
   menuWidthOpen = 85;
-  transitionMenuMsDefault = 300;
+  transitionMenuMsDefault = 150;
   transitionMenuMs = this.transitionMenuMsDefault;
-  transitionOverlayMsDefault = 500;
+  transitionOverlayMsDefault = 250;
   transitionOverlayMs = this.transitionOverlayMsDefault;
   overlayOpacityDefault = 40;
   overlayOpacity = 0;
