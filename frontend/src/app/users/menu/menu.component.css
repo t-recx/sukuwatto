@@ -1,13 +1,37 @@
-@media only screen and (max-width: 769px) {
+@media only screen and (max-width: 768px) {
     .main-menu-item {
-        padding-left: 16px;
+        padding-left: 13px;
         font-size: 21px;
         padding-top: 4px;
         padding-bottom: 4px;
         font-weight: 500;
         border-radius: 0px !important;
+        display: flex;
     }
 
-    .navigation-menu {
+    .menu-icon-image-container {
+        width: 27px;
+        display: flex;
+        justify-content: center;
+        padding-right: 10px;
+    }
+
+}
+
+@media only screen and (min-width: 960px) {
+    .menu-icon-image-container {
+        width: 27px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .main-menu-item {
+        display: flex;
+    }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 960px) {
+    .menu-icon-image-container {
+        display: none;
     }
 }

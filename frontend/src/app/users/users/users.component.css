@@ -56,12 +56,7 @@
   background: black;
   opacity: 0%;
   z-index: 49;
-  pointer-events: none;
   will-change: opacity;
-}
-
-.menu-overlay-dark {
-  pointer-events: all;
 }
 
 .menu-dropdown {
@@ -73,10 +68,7 @@
   box-shadow: 2px 0px 4px 0px rgba(138,154,173,0.5);;
   overflow: hidden !important;
   transition: 300ms;
-  will-change: width;
-}
-
-.menu-dropdown-open {
+  will-change: left, width;
 }
 
 .button-container {
@@ -104,4 +96,13 @@
 
 .content-body {
   padding-top: 80px;
+}
+
+.navigation-drawer-invisible-slider {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  z-index: 49;
 }

@@ -1,14 +1,44 @@
 <div class="siimple-menu siimple--mb-0 navigation-menu" *ngIf="authService.isLoggedIn()">
     <a class="siimple-menu-item main-menu-item siimple--display-md-none siimple--display-sm-none" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'home']">Home</a>
+        [routerLink]="['/users', authService.getUsername(), 'home']">
+        <div class="menu-icon-image-container">
+            <fa-icon [icon]="iconHome" class="menu-icon-image"></fa-icon>
+        </div>
+        Home
+    </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'profile']">Profile</a>
+        [routerLink]="['/users', authService.getUsername(), 'profile']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconProfile" class="menu-icon-image"></fa-icon>
+        </div>
+        Profile
+    </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'messages']">Messages</a>
+        [routerLink]="['/users', authService.getUsername(), 'messages']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconMessages" class="menu-icon-image"></fa-icon>
+        </div>
+        Messages
+    </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'workouts']">Workouts</a>
+        [routerLink]="['/users', authService.getUsername(), 'workouts']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconWorkouts" class="menu-icon-image"></fa-icon>
+        </div>
+        Workouts
+    </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'exercises']">Exercises</a>
+        [routerLink]="['/users', authService.getUsername(), 'exercises']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconExercises" class="menu-icon-image"></fa-icon>
+        </div>
+        Exercises
+    </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'plans']">Plans</a>
+        [routerLink]="['/users', authService.getUsername(), 'plans']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconPlans" class="menu-icon-image"></fa-icon>
+        </div>
+        Plans
+    </a>
 </div>
