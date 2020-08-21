@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
 
-    if (this.screenWidth > this.screenHeight) {
+    if (this.screenWidth > this.screenHeight || this.screenWidth > 600) {
       this.menuWidthOpen = 45;
     }
     else {
