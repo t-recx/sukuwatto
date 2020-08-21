@@ -57,6 +57,7 @@
   opacity: 0%;
   z-index: 49;
   pointer-events: none;
+  will-change: opacity;
 }
 
 .menu-overlay-dark {
@@ -72,6 +73,7 @@
   box-shadow: 2px 0px 4px 0px rgba(138,154,173,0.5);;
   overflow: hidden !important;
   transition: 300ms;
+  will-change: width;
 }
 
 .menu-dropdown-open {
