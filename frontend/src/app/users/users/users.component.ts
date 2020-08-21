@@ -21,9 +21,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   loading = false;
   loadingSubscription: Subscription;
   menuWidth = 0;
+  menuWidthOpen = 85;
+  overlayPointerEvents = 'none';
+
+  menuLeft = -this.menuWidthOpen;
+
   screenWidth = 0;
   screenHeight = 0;
-  menuWidthOpen = 85;
   transitionMenuMsDefault = 150;
   transitionMenuMs = this.transitionMenuMsDefault;
   transitionOverlayMsDefault = 250;
@@ -47,6 +51,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.menuWidth = this.menuDropDownVisible ? this.menuWidthOpen : 0;
+    this.menuLeft = !this.menuDropDownVisible ? -this.menuWidthOpen : 0;
   }
 
   constructor(
@@ -75,7 +80,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setDropDownVisible(!this.menuDropDownVisible);
   }
 
-  setDropDownVisible(v: boolean) {
+  setDropDownVisible(v: boolean, swipingFromRight: boolean = true) {
     if (!v) {
       this.transitionMenuMs = this.transitionMenuMsDefault / 2;
       this.transitionOverlayMs = this.transitionOverlayMsDefault / 2;
@@ -88,13 +93,20 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuDropDownVisible = v;
 
     this.menuWidth = this.menuDropDownVisible ? this.menuWidthOpen : 0;
+
+    if (swipingFromRight) {
+      this.menuLeft = this.menuDropDownVisible ? 0 : -this.menuWidthOpen;
+    }
+
     this.overlayOpacity = this.menuDropDownVisible ? this.overlayOpacityDefault : 0;
 
     if (this.menuDropDownVisible) {
       this.elementRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
+      this.overlayPointerEvents = 'all';
     }
     else {
       this.resetBodyOverflow();
+      setTimeout(() => this.overlayPointerEvents = 'none');
     }
   }
 
@@ -115,16 +127,25 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.touchStartClientX = event.touches[0].clientX;
   }
 
-  touchMove(event) {
+  touchMove(event, invert: boolean = false) {
     if (this.menuDropDownVisible) {
       const offsetX = this.touchStartClientX - event.touches[0].clientX;
-      const newWidth = this.menuWidthOpen - ((100 * offsetX) / this.screenWidth);
 
-      if (newWidth <= this.menuWidthOpen) {
-        this.menuWidth = newWidth;
+      let newLeft = this.menuWidthOpen - ((100 * offsetX) / this.screenWidth);
+
+      if (invert) {
+        newLeft -= this.menuWidthOpen;
       }
 
-      const newOpacity = this.overlayOpacityDefault - ((this.overlayOpacityDefault * offsetX) / this.screenWidth);
+      if (newLeft <= this.menuWidthOpen) {
+        this.menuLeft = -(this.menuWidthOpen - newLeft);
+      }
+
+      let newOpacity = this.overlayOpacityDefault - ((this.overlayOpacityDefault * offsetX) / this.screenWidth);
+
+      if (invert) {
+        newOpacity -= this.overlayOpacityDefault;
+      }
 
       if (newOpacity <= this.overlayOpacityDefault) {
         this.overlayOpacity = newOpacity;
@@ -141,11 +162,48 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         this.setDropDownVisible(false);
       }
       else {
-        if (this.menuWidth < this.menuWidthOpen / 2) {
+        if ((this.menuWidthOpen + this.menuLeft) < this.menuWidthOpen / 2) {
           this.setDropDownVisible(false);
         }
         else {
           this.menuWidth = this.menuWidthOpen;
+          this.menuLeft = 0;
+        }
+      }
+    }
+  }
+
+  touchStartInvisibleDrawer(event) {
+    this.touchStart(event);
+
+    this.setDropDownVisible(true, false);
+    this.overlayOpacity = 0;
+  }
+
+  touchMoveInvisibleDrawer(event) {
+    this.touchMove(event, true);
+  }
+
+  touchEndInvisibleDrawer(event) {
+    this.transitionMenuMs = this.transitionMenuMsDefault;
+    this.transitionOverlayMs = this.transitionOverlayMsDefault;
+
+    if (this.menuDropDownVisible) {
+      if ((new Date()).getTime() - this.touchStartTime < this.thresholdCloseAnywayMs) {
+        if (this.menuLeft > -this.menuWidthOpen) {
+          this.setDropDownVisible(true);
+        }
+        else {
+          this.setDropDownVisible(false);
+        }
+      }
+      else {
+        if ((this.menuWidthOpen + this.menuLeft) < this.menuWidthOpen / 2) {
+          this.setDropDownVisible(false);
+        }
+        else {
+          this.menuWidth = this.menuWidthOpen;
+          this.menuLeft = 0;
         }
       }
     }

@@ -37,6 +37,7 @@
     </div>
 
     <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown"
+        [style.left.%]="menuLeft" 
         [style.width.%]="menuWidth" 
         [style.transition.ms]="transitionMenuMs"
         (touchstart)="touchStart($event)" (touchend)="touchEnd($event)" (touchmove)="touchMove($event)"
@@ -69,8 +70,15 @@
     <app-footer></app-footer>
 </div>
 
-<div class="menu-overlay-opacity" [class.menu-overlay-dark]="menuDropDownVisible" (click)="overlayClick()"
+<div class="menu-overlay-opacity" (click)="overlayClick()"
     [style.opacity.%]="overlayOpacity"
+    [style.pointer-events]="overlayPointerEvents"
         [style.transition.ms]="transitionOverlayMs"
         (touchstart)="touchStart($event)" (touchend)="touchEnd($event)" (touchmove)="touchMove($event)"
+></div>
+
+<div class="navigation-drawer-invisible-slider"
+        (touchstart)="touchStartInvisibleDrawer($event)" 
+        (touchend)="touchEndInvisibleDrawer($event)" 
+        (touchmove)="touchMoveInvisibleDrawer($event)"
 ></div>
