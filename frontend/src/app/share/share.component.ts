@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-share',
@@ -6,8 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./share.component.css']
 })
 export class ShareComponent implements OnInit {
+  nextUrl = '/signup';
 
-  constructor() { }
+  constructor() { 
+    if (!environment.showAuthButtons) {
+      this.nextUrl = null;
+    }
+  }
 
   ngOnInit(): void {
   }

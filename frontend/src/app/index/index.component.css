@@ -49,11 +49,16 @@
     flex-wrap: wrap;
 }
 
-@media only screen and (min-width:960px) {
-.feature-card:not(:first-child):not(:last-child) {
-  margin-left: 20px;
-  margin-right: 20px;
-}
+@media only screen and (min-width:959px) {
+  .feature-card:not(:first-child):not(:last-child) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .express-interest-card {
+    width: 939px;
+    margin-left: 11px;
+  }
 }
 
 .thank-you {
