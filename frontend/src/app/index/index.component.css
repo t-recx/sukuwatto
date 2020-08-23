@@ -37,10 +37,16 @@
 }
 }
 
-@media only screen and (min-width:650px) {
+@media only screen and (min-width:651px) {
 .feature-card {
     max-width: 306px;
 }
+}
+
+@media only screen and (max-width:650px) {
+  .feature-card {
+    width: calc(100vw - 40px);
+  }
 }
 
 .feature-list {
@@ -59,6 +65,16 @@
     width: 939px;
     margin-left: 11px;
   }
+
+  .read-more-button {
+    display: none;
+  }
+}
+
+@media only screen and (max-width:958px) {
+  .read-more-button {
+    margin-top: 10px;
+  }
 }
 
 .thank-you {
@@ -68,4 +84,9 @@
 .thank-you-phones {
   padding-bottom: 10px;
   margin-top: 20px;
+}
+
+.index-demo-image {
+  max-width: 100%;
+  height: auto;
 }
