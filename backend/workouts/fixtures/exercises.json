@@ -481,22 +481,6 @@
     },
     {
         "model": "workouts.exercise",
-        "pk": 31,
-        "fields": {
-            "exercise_type":"s",
-            "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
-            "short_name": "Crunch",
-            "name": "Crunch",
-            "level": "b",
-            "section": "c",
-            "force": "q",
-            "modality": "x",
-            "mechanics": "c"
-        }
-    },
-    {
-        "model": "workouts.exercise",
         "pk": 32,
         "fields": {
             "exercise_type":"s",
