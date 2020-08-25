@@ -1,18 +1,20 @@
 <ul class="siimple-list siimple-list--hover" *ngIf="users && users.length > 0">
     <li class="siimple-list-item" *ngFor="let user of users">
-        <div class="profile-container">
-            <app-user-tag [username]=user.username [profile_filename]=user.profile_filename>
-            </app-user-tag>
+        <a [routerLink]="['/users', user.username, 'profile']" >
+            <div class="profile-container">
+                <app-user-tag [username]=user.username [profile_filename]=user.profile_filename>
+                </app-user-tag>
 
-            <span *ngIf="showActionButton" 
-                class="siimple-btn siimple-btn--primary profile-action-button"
-                (click)="action(user)">
-                <fa-icon *ngIf="actionIcon" [icon]=actionIcon></fa-icon>
-                <span class="siimple--ml-1">
-                    {{actionText}}
+                <span *ngIf="showActionButton" 
+                    class="siimple-btn siimple-btn--primary profile-action-button"
+                    (click)="$event.stopPropagation(); $event.preventDefault(); action(user)">
+                    <fa-icon *ngIf="actionIcon" [icon]=actionIcon></fa-icon>
+                    <span class="siimple--ml-1">
+                        {{actionText}}
+                    </span>
                 </span>
-            </span>
-        </div>
+            </div>
+        </a>
     </li>
 </ul>
 
