@@ -11,6 +11,7 @@ import { faUserCircle, faReply, faPen, faComment } from '@fortawesome/free-solid
 import { FollowService } from '../follow.service';
 import { LoadingService } from '../loading.service';
 import { Paginated } from '../paginated';
+import { TimeService } from '../time.service';
 
 @Component({
   selector: 'app-messages',
@@ -48,6 +49,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     private router: Router,
     private followService: FollowService,
     private loadingService: LoadingService,
+    private timeService: TimeService,
   ) { 
     this.paramChangedSubscription = route.paramMap.subscribe(val => 
       {
@@ -144,17 +146,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   getTime(message: LastMessage): string {
-    if (message.date.toLocaleDateString() != (new Date()).toLocaleDateString()) {
-      return message.date.toLocaleDateString();
-    }
-
-    let time = message.date.toLocaleTimeString().substring(0, 5);
-
-    if (time[time.length - 1] == ':') {
-      time = time.substring(0, 4);
-    }
-
-    return time;
+    return this.timeService.getTimeOrDateIfNotToday(message.date);
   }
 
   wasReply(message: LastMessage): boolean {

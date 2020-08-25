@@ -7,6 +7,31 @@ export class TimeService {
 
   constructor() { }
 
+  getTimeOrDateIfNotToday(date): string {
+    date = new Date(date);
+
+    if (date.toLocaleDateString() != (new Date()).toLocaleDateString()) {
+      return date.toLocaleDateString();
+    }
+
+    return this.getTime(date);
+  }
+
+  getTime(date): string {
+    let localeString = (new Date(date)).toLocaleTimeString();
+    let time = localeString.substring(0, 5);
+
+    if (time[time.length - 1] == ':') {
+      time = time.substring(0, 4);
+    }
+
+    if (localeString.endsWith('AM') || localeString.endsWith('PM')) {
+      time += ' ' + localeString.slice(-2);
+    }
+
+    return time;
+  }
+
   toHumanReadable(milliseconds: number, showSeconds: boolean = true) {
     const portions: string[] = [];
 

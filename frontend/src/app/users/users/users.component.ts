@@ -5,6 +5,7 @@ import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
 import { Subscription } from 'rxjs';
 import { HostListener } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-users',
@@ -38,6 +39,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   thresholdCloseAnywayMs = 200;
   touchStartClientX = 0;
 
+  checkUpdateSubscription: Subscription;
+  applicationUpdateDismissedDate: Date = null;
+  updateSnackbarVisible = false;
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.screenHeight = window.innerHeight;
@@ -59,9 +64,33 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     public route: ActivatedRoute, 
     private loadingService: LoadingService,
     private elementRef: ElementRef,
+    swUpdate: SwUpdate,
     ) { 
+      this.checkUpdateSubscription = swUpdate.available.subscribe(x => {
+        let v = true;
+
+        if (this.applicationUpdateDismissedDate) {
+          v = (new Date()).valueOf() - this.applicationUpdateDismissedDate.valueOf() > 3600000;
+
+          if (!v) {
+            this.applicationUpdateDismissedDate = null;
+          }
+        }
+
+        this.updateSnackbarVisible = v;
+      });
+
       this.onResize();
     }
+
+  updateApplication() {
+    window.location.reload();
+  }
+
+  dismissUpdateNotification() {
+    this.applicationUpdateDismissedDate = new Date();
+    this.updateSnackbarVisible = false;
+  }
 
   ngAfterViewInit(): void {
     this.loadingSubscription = this.loadingService.state.subscribe(s => setTimeout(() => this.loading = s));
@@ -70,6 +99,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.resetBodyOverflow();
     this.loadingSubscription.unsubscribe();
+    this.checkUpdateSubscription.unsubscribe();
   }
 
   ngOnInit() {
