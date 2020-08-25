@@ -4,6 +4,7 @@ import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth.service';
 import { faStickyNote, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { TimeService } from '../time.service';
 
 @Component({
   selector: 'app-post-detail-card',
@@ -43,6 +44,7 @@ export class PostDetailCardComponent implements OnInit {
     private postsService: PostsService,
     private authService: AuthService,
     private router: Router,
+    private timeService: TimeService,
     ) { }
 
   ngOnInit() {
@@ -65,18 +67,7 @@ export class PostDetailCardComponent implements OnInit {
   }
 
   getTime(date): string {
-    date = new Date(date);
-    if (date.toLocaleDateString() != (new Date()).toLocaleDateString()) {
-      return date.toLocaleDateString();
-    }
-
-    let time = date.toLocaleTimeString().substring(0, 5);
-
-    if (time[time.length - 1] == ':') {
-      time = time.substring(0, 4);
-    }
-
-    return time;
+    return this.timeService.getTimeOrDateIfNotToday(date);
   }
 
   toggleLike(): void {

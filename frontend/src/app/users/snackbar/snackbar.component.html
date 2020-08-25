@@ -1,0 +1,19 @@
+<div class="snackbar" *ngIf="visible">
+    <span class="snackbar-message siimple--color-light">
+        {{messageText}}
+    </span>
+
+    <span class="snackbar-actions-container siimple--text-bold " (click)="invokeAction()">
+        <span class="siimple--color-success clickable">
+            {{actionText}}
+        </span>
+        <span class="snackbar-dismiss siimple--color-error clickable" (click)="dismissAction()">
+            <span class="snackbar-dismiss-message">
+                DISMISS
+            </span>
+            <span class="snackbar-dismiss-icon">
+                <fa-icon [icon]="faTimes"></fa-icon>
+            </span>
+        </span>
+    </span>
+</div>

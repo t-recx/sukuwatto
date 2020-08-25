@@ -82,3 +82,12 @@
         (touchend)="touchEndInvisibleDrawer($event)" 
         (touchmove)="touchMoveInvisibleDrawer($event)"
 ></div>
+
+<app-snackbar 
+    [visible]="updateSnackbarVisible"
+    messageText="New version available"
+    actionText="UPDATE"
+    (actionInvoked)="updateApplication()"
+    (actionDismissed)="dismissUpdateNotification()"
+>
+</app-snackbar>

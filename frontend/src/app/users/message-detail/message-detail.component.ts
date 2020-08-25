@@ -14,6 +14,7 @@ import { debounce, switchMap, filter } from 'rxjs/operators';
 import { Paginated } from '../paginated';
 import { LoadingService } from '../loading.service';
 import { v4 as uuid } from 'uuid';
+import { TimeService } from '../time.service';
 
 @Component({
   selector: 'app-message-detail',
@@ -65,6 +66,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     private usersService: UserService,
     public route: ActivatedRoute, 
     private loadingService: LoadingService,
+    private timeService: TimeService,
   ) {
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('username'), val.get('correspondent'));
@@ -282,13 +284,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   getMessageTime(date: Date): string {
-    let time = (new Date(date)).toLocaleTimeString().substring(0, 5);
-
-    if (time[time.length - 1] == ':') {
-      time = time.substring(0, 4);
-    }
-
-    return time;
+    return this.timeService.getTime(date);
   }
 
   sendMessage(): void {
