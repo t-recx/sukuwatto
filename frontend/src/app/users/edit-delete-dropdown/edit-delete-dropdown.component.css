@@ -16,6 +16,7 @@
 .dropdown {
   position: relative;
   display: flex;
+  font-weight: 400;
 }
 
 .dropdown-content {
