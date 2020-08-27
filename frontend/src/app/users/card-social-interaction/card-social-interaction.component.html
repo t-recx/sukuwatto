@@ -1,10 +1,10 @@
-<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="usersLikesModalVisible">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="usersLikesModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">Likes</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="toggleUserLikesModal()"></div>
         </div>
-        <div class="siimple-modal-body">
+        <div class="siimple-modal-body modal-window-body">
             <div *ngIf="!usersThatLiked || usersThatLiked.length == 0">
                 <span class="siimple-p">No one liked this yet. Be the first!</span>
             </div>
@@ -23,7 +23,7 @@
         [icon]="faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" ></fa-icon>
 
         <span class="likes" (click)="toggleUserLikesModal()">
-            {{likes}}
+            {{likeNumber}}
         </span>
     </span>
 
@@ -31,7 +31,7 @@
         <fa-icon [icon]="faComments" class="siimple--mr-1"></fa-icon>
 
         <span class="comments-number">
-            {{commentsNumber}}
+            {{commentNumber}}
         </span>
     </span>
 

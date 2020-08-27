@@ -28,6 +28,8 @@ export class Workout {
     visibility: Visibility;
 
     calories: number;
+    likes: number;
+    comment_number: number;
 
     constructor(init?: Partial<Workout>) {
         this.groups = [];

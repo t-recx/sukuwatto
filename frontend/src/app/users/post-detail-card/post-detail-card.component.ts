@@ -23,9 +23,6 @@ export class PostDetailCardComponent implements OnInit {
   faCheck = faCheck;
   faTimes = faTimes;
 
-  liked: boolean;
-  likes: number = 0;
-
   authenticatedUserIsOwner: boolean = false;
 
   updating: boolean = false;
@@ -68,17 +65,6 @@ export class PostDetailCardComponent implements OnInit {
 
   getTime(date): string {
     return this.timeService.getTimeOrDateIfNotToday(date);
-  }
-
-  toggleLike(): void {
-    this.liked = !this.liked;
-
-    if (this.liked) {
-      this.likes += 1;
-    }
-    else {
-      this.likes -= 1;
-    }
   }
 
   showDeleteModal() {

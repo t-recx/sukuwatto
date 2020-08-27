@@ -1,10 +1,10 @@
-<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="visible">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">Parameters</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hide()"></div>
         </div>
-        <div class="siimple-modal-body">
+        <div class="siimple-modal-body modal-window-body">
             <div class="siimple-grid siimple-card">
                 <div class="siimple-grid-row siimple-card-body parameter-record" *ngFor="let workingParameter of workingParameters">
                     <app-working-parameter [workingParameter]=workingParameter [triedToSave]=triedToSave [triedToHide]=triedToHide>

@@ -98,6 +98,8 @@ class Exercise(models.Model):
     muscle = models.CharField(max_length=200, null=True, blank=True)
     level = models.CharField(max_length=1, null=True, choices=LEVELS)
     creation = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+    comment_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -129,6 +131,8 @@ class Plan(models.Model):
     parent_plan = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
     creation = models.DateTimeField(auto_now_add=True)
     public = models.BooleanField(default=False)
+    likes = models.IntegerField(default=0)
+    comment_number = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.short_name} - {self.name}'
@@ -340,6 +344,9 @@ class Workout(models.Model):
     calories = models.DecimalField(max_digits=8, decimal_places=3, null=True);
 
     visibility = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
+
+    likes = models.IntegerField(default=0)
+    comment_number = models.IntegerField(default=0)
 
 class WorkoutGroup(models.Model):
     order = models.PositiveIntegerField(default=1)

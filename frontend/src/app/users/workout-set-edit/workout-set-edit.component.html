@@ -1,10 +1,10 @@
-<div class="siimple-modal siimple-modal--small" id="workout-set-edit-modal" *ngIf="visible">
+<div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">Workout Activity</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
         </div>
-        <div class="siimple-modal-body">
+        <div class="siimple-modal-body modal-window-body">
             <div class="siimple-grid">
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
@@ -204,13 +204,13 @@
     </div>
 </div>
 
-<div class="siimple-modal siimple-modal--small" id="workout-set-edit-modal" *ngIf="cloningModalVisible">
+<div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-modal" *ngIf="cloningModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">Copy activity</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideCloningModal()"></div>
         </div>
-        <div class="siimple-modal-body">
+        <div class="siimple-modal-body modal-window-body">
             <div class="siimple-form-field form-field">
                 <div class="siimple-form-field-label">Number of copies</div>
                 <input type="number" class="siimple-input siimple-input--fluid" required

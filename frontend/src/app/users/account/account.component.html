@@ -7,13 +7,13 @@
     (closed)="onUserBioDataClosed()" (okayed)="onUserBioDataOkayed($event)" *ngIf="allowed">
 </app-user-bio-data-detail>
 
-<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">Delete Account?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
         </div>
-        <div class="siimple-modal-body">
+        <div class="siimple-modal-body modal-window-body">
             <p class="siimple-p">
                 This will delete your account and associated data! Are you sure you want to proceed?
             </p>

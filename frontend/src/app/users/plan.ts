@@ -11,6 +11,8 @@ export class Plan {
   creation: Date;
   public: boolean;
   parent_plan: number;
+  likes: number;
+  comment_number: number;
   sessions: PlanSession[];
   progressions: ProgressionStrategy[];
 
