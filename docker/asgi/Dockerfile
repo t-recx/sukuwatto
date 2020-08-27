@@ -1,7 +1,7 @@
 # builder - temporary image to build pip wheels
 FROM python:3.8-buster as builder
 LABEL mantainer="jnnlbruno@gmail.com"
-ENV VERSION 7
+ENV VERSION 8
 
 WORKDIR /usr/src/app
 
