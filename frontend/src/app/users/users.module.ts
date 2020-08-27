@@ -74,6 +74,7 @@ import { WorkoutFinishStatsComponent } from './workout-finish-stats/workout-fini
 import { QuickActivityComponent } from './quick-activity/quick-activity.component';
 import { SharedModule } from '../shared/shared.module';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @Pipe({
     name: 'timeAgo',
@@ -91,6 +92,7 @@ export class TimeAgoExtendsPipe extends TimeAgoPipe {}
     FontAwesomeModule,
     FormsModule,
     LeafletModule,
+    ImageCropperModule
   ]
 })
 export class UsersModule { }

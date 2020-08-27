@@ -3,16 +3,42 @@
         <div class="image-container">
             <img *ngIf="imageURL" [src]="imageMediaURL" />
         </div>
-        <input type="file" id="file" class="siimple-input siimple-input--fluid siimple--mt-2"
-            accept="image/*"
-            [disabled]="uploading"
-            (change)="onChange($event)" />
+        <input type="file" id="file" class="siimple-input siimple-input--fluid siimple--mt-2" accept="image/*"
+            [disabled]="uploading" (change)="onChange($event)" />
         <label class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--mt-2"
-            [class.siimple-btn--disabled]="uploading"
-            for="file">
+            [class.siimple-btn--disabled]="uploading" for="file">
             <fa-icon [icon]="faFileImport" class="siimple--mr-1" *ngIf="!uploading"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="uploading"></fa-icon>
             {{uploadText}}
         </label>
+    </div>
+</div>
+
+<div class="siimple-modal siimple-modal--large" *ngIf="showCropModal">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title ">
+                Crop image
+            </div>
+            <div class="siimple-spinner siimple-spinner--primary siimple-spinner--large crop-spinner" *ngIf="loadingCropper"></div>
+        </div>
+
+        <div class="siimple-modal-body modal-window-body modal-crop-body">
+
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+                format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+        </div>
+
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="ok()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                OK
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="cancel()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
+                Cancel
+            </button>
+        </div>
     </div>
 </div>

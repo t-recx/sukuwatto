@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { FileUploadService } from '../file-upload.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faFileImport, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faFileImport, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-image-upload',
@@ -23,6 +24,14 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
   faFileImport = faFileImport;
   faCircleNotch = faCircleNotch;
+
+  faCheck = faCheck;
+  faTimes = faTimes;
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  showCropModal = false;
+  loadingCropper = false;
 
   constructor(
     private uploadService: FileUploadService,
@@ -46,25 +55,49 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   onChange(event) {
     if (event.target.files.length > 0) {
       this.file = event.target.files[0];
-      this.upload();
+
+      this.fileChangeEvent(event);
+      this.showCropModal = true;
     }
+  }
+
+  private b64toArrayBuffer(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return ia;
+  }
+
+  private b64toBlob(dataURI, mimetype) {
+    return new Blob([this.b64toArrayBuffer(dataURI)], {
+      type: mimetype
+    });
   }
 
   upload() {
     const formData = new FormData();
+
     const maxCharacters = 80;
 
-    if (this.file.size > environment.maxFileSizeUpload) {
-      this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000,2)} MBs`)
+    if (this.croppedImage.size > environment.maxFileSizeUpload) {
+      this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
       return;
     }
 
-    if (this.file.name.length > maxCharacters) {
-      var tokens = this.file.name.split('.');
-      const newName = tokens[0].slice(0, maxCharacters - 1 - (tokens[1] ? tokens[1].length : 0)) + '.' + (tokens[1] ?? '')
-      
-      this.file = new File([this.file], newName, {type: this.file.type});
+    let fileName = this.file.name;
+
+    if (fileName.length > maxCharacters) {
+      var tokens = fileName.split('.');
+      fileName = tokens[0].slice(0, maxCharacters - 1 - (tokens[1] ? tokens[1].length : 0)) + '.' + (tokens[1] ?? '')
     }
+
+    const type = "image/png";
+    const blob = this.b64toBlob(this.croppedImage, type);
+
+    this.file = new File([blob], fileName, { type });
 
     formData.append('file', this.file);
 
@@ -75,11 +108,47 @@ export class ImageUploadComponent implements OnInit, OnChanges {
         if (response && response.file) {
           this.imageURL = `${response.file}`;
 
-          this.uploading = false;
-          this.uploadText = this.defaultUploadText;
           this.uploaded.emit(response.file);
         }
+
+        this.uploading = false;
+        this.uploadText = this.defaultUploadText;
       }
     );
   }
+
+  ok() {
+    this.showCropModal = false;
+    this.upload();
+  }
+
+  cancel() {
+    this.showCropModal = false;
+  }
+
+  fileChangeEvent(event: any): void {
+    this.loadingCropper = true;
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+
+  imageLoaded() {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+    this.loadingCropper = false;
+  }
+
+  loadImageFailed() {
+    // show message
+    this.alertService.error('Unable to load image');
+    this.loadingCropper = false;
+    this.showCropModal = false;
+  }
+
 }

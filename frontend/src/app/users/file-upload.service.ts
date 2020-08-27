@@ -27,6 +27,10 @@ export class FileUploadService {
           this.alertService.error("Unable to upload file, file exceeds maximum size");
           return;
         }
+        else if (e.status && e.status == 400) {
+          this.alertService.error("Unable to upload file, is it a valid image file?");
+          return;
+        }
 
         this.alertService.error('Unable to upload file, try again later');
       }, null))

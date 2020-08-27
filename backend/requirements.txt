@@ -31,6 +31,7 @@ hyperlink==19.0.0
 idna==2.9
 incremental==17.5.0
 msgpack==0.6.2
+Pillow==7.2.0
 psycopg2==2.8.5
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
