@@ -33,7 +33,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'text', 'date', 'user', 'edited_date']
+        fields = ['id', 'title', 'text', 'date', 'user', 'edited_date', 'likes', 'comment_number']
+        read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False},'date': {'required': False},'edited_date': {'required': False}}
 
     def create(self, validated_data):

@@ -7,4 +7,6 @@ export class Post {
     date: Date;
     edited_date: Date;
     user: User;
+    likes: number;
+    comment_number: number;
 }

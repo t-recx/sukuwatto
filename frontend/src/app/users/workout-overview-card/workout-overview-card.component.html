@@ -207,6 +207,8 @@
         <app-card-social-interaction 
             [shareTitle]="shareTitle"
             [shareLink]="shareLink"
+            [likeNumber]=workout.likes
+            [commentNumber]=workout.comment_number
         content_type_model='workout' [id]=workout.id></app-card-social-interaction>
     </footer>
 </article>

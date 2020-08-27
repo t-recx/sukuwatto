@@ -9,6 +9,8 @@ class Post(models.Model):
     date = models.DateTimeField()
     edited_date = models.DateTimeField(null=True)
     user = models.ForeignKey(get_user_model(), related_name='user_post', on_delete=models.CASCADE)
+    likes = models.IntegerField(default=0)
+    comment_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.text

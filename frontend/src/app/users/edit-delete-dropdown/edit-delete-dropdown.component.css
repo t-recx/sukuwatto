@@ -19,6 +19,7 @@
 }
 
 .dropdown-content {
+  font-family: "Ubuntu", "Roboto", sans-serif; 
   display: block;
   position: absolute;
   background-color: #f1f1f1;

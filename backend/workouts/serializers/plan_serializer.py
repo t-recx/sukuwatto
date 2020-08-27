@@ -76,7 +76,8 @@ class PlanSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Plan
-        fields = ['id', 'short_name', 'name', 'description', 'creation', 'user', 'parent_plan', 'public', 'sessions', 'progressions']
+        fields = ['id', 'short_name', 'name', 'description', 'creation', 'user', 'parent_plan', 'public', 'sessions', 'progressions', 'likes', 'comment_number']
+        read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):

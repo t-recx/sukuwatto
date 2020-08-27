@@ -18,6 +18,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from actstream import action
 from sqtrex.permissions import StandardPermissionsMixin
+from workouts.models import Workout, Plan, Exercise
 
 class ActionObjectStreamList(generics.ListAPIView):
     def list(self, request):
@@ -38,10 +39,23 @@ class TargetStreamList(generics.ListAPIView):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
 
+        verb = request.query_params.get('verb', None)
+        actor_content_type_id = request.query_params.get('actor_content_type_id', None)
+        actor_object_id = request.query_params.get('actor_object_id', None)
+
         ctype = get_object_or_404(ContentType, pk=content_type_id)
         instance = get_object_or_404(ctype.model_class(), pk=object_id)
 
         queryset = target_stream(instance)
+
+        if verb is not None:
+            queryset = queryset.filter(verb=verb)
+
+        if actor_content_type_id is not None:
+            queryset = queryset.filter(actor_content_type_id=actor_content_type_id)
+
+        if actor_object_id is not None:
+            queryset = queryset.filter(actor_object_id=actor_object_id)
 
         serializer = ActionSerializer(queryset, many=True)
 
@@ -113,6 +127,33 @@ class MessageList(generics.ListAPIView):
 
         return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_liked(request):
+    content_type_id = request.query_params.get('content_type_id', None)
+    object_id = request.query_params.get('object_id', None)
+
+    verb = request.query_params.get('verb', None)
+    actor_content_type_id = request.query_params.get('actor_content_type_id', None)
+    actor_object_id = request.query_params.get('actor_object_id', None)
+
+    ctype = get_object_or_404(ContentType, pk=content_type_id)
+    instance = get_object_or_404(ctype.model_class(), pk=object_id)
+
+    queryset = target_stream(instance)
+
+    if verb is not None:
+        queryset = queryset.filter(verb=verb)
+
+    if actor_content_type_id is not None:
+        queryset = queryset.filter(actor_content_type_id=actor_content_type_id)
+
+    if actor_object_id is not None:
+        queryset = queryset.filter(actor_object_id=actor_object_id)
+
+    return Response(queryset.exists())
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_last_message(request):
@@ -141,9 +182,34 @@ def toggle_like(request):
     queryset = Action.objects.filter(actor_content_type=actor_ctype, actor_object_id=user.id,
         target_content_type=ctype, target_object_id=object_id, verb='liked')
 
+    deleted = False
+
     if queryset.count() > 0:
         queryset.delete()
+        deleted = True
     else:
         action.send(request.user, verb='liked', target=instance)
+
+    object_model = ctype.model
+
+    if object_model == 'workout':
+        model = Workout.objects.get(pk=object_id)
+    elif object_model == 'plan':
+        model = Plan.objects.get(pk=object_id)
+    elif object_model == 'post':
+        model = Post.objects.get(pk=object_id)
+    elif object_model == 'exercise':
+        model = Exercise.objects.get(pk=object_id)
+
+    if model:
+        if deleted:
+            model.likes -= 1
+        else:
+            model.likes += 1
+
+        if model.likes < 0:
+            model.likes = 0
+
+        model.save()
 
     return Response(status=status.HTTP_204_NO_CONTENT)

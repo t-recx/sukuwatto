@@ -5,7 +5,7 @@ import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
 import { Paginated } from './paginated';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, concatMap } from 'rxjs/operators';
 import { Action } from './action';
 
 @Injectable({
@@ -13,6 +13,7 @@ import { Action } from './action';
 })
 export class StreamsService {
   private actionsUrl= `${environment.apiUrl}/user-stream/`;
+  private userLikedUrl= `${environment.apiUrl}/user-liked/`;
   private actorUrl= `${environment.apiUrl}/actor-stream/`;
   private actionsObjectsUrl = `${environment.apiUrl}/action-object-stream/`;
   private targetUrl = `${environment.apiUrl}/target-stream/`;
@@ -51,8 +52,44 @@ export class StreamsService {
     return this.getObjectStream(this.actionsObjectsUrl, content_type_id, object_id);
   }
 
-  getTargetStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
-    return this.getObjectStream(this.targetUrl, content_type_id, object_id);
+  getTargetStream(content_type_id: number | string, object_id: number | string, verb: string = null, actor_content_type_id: number = null, actor_object_id: number = null): Observable<Action[]> {
+    return this.getObjectStream(this.targetUrl, content_type_id, object_id, verb, actor_content_type_id, actor_object_id);
+  }
+
+  userLikedContent(content_type_id: number | string, object_id: number | string, actor_content_type_id: number, actor_object_id: number): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+    const verb = 'liked';
+
+    if (content_type_id) {
+      params = params.set('content_type_id', content_type_id.toString());
+    }
+
+    if (object_id) {
+      params = params.set('object_id', object_id.toString());
+    }
+
+    if (verb) {
+      params = params.set('verb', verb.toString());
+    }
+
+    if (actor_content_type_id) {
+      params = params.set('actor_content_type_id', actor_content_type_id.toString());
+    }
+
+    if (actor_object_id) {
+      params = params.set('actor_object_id', actor_object_id.toString());
+    }
+
+    options = {params: params};
+
+    return this.http.get<boolean>(this.userLikedUrl, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('userLikedContent', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch user likes');
+        }, false))
+      );
   }
 
   private getStreamForUser(url: string, page: number, page_size: number, username: string = null): Observable<Paginated<Action>> {
@@ -90,7 +127,8 @@ export class StreamsService {
       );
   }
 
-  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string): Observable<Action[]> {
+  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string,
+    verb: string = null, actor_content_type_id: number = null, actor_object_id: number = null): Observable<Action[]> {
     let options = {};
     let params = new HttpParams();
 
@@ -100,6 +138,18 @@ export class StreamsService {
 
     if (object_id) {
       params = params.set('object_id', object_id.toString());
+    }
+
+    if (verb) {
+      params = params.set('verb', verb.toString());
+    }
+
+    if (actor_content_type_id) {
+      params = params.set('actor_content_type_id', actor_content_type_id.toString());
+    }
+
+    if (actor_object_id) {
+      params = params.set('actor_object_id', actor_object_id.toString());
     }
 
     options = {params: params};

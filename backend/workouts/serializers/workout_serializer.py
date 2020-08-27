@@ -161,7 +161,8 @@ class WorkoutGroupSerializer(serializers.ModelSerializer):
 class WorkoutFlatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'calories', 'notes', 'plan', 'plan_session', 'user', 'status', 'visibility']
+        fields = ['id', 'start', 'end', 'name', 'calories', 'notes', 'plan', 'plan_session', 'user', 'status', 'visibility', 'likes', 'comment_number']
+        read_only_fields = ('likes','comment_number',)
 
 class WorkoutNoPositionsSerializer(serializers.ModelSerializer):
     groups = WorkoutGroupNoPositionsSerializer(many=True, required=False)
@@ -170,7 +171,8 @@ class WorkoutNoPositionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility', 'likes', 'comment_number']
+        read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False}}
 
 class WorkoutSerializer(serializers.ModelSerializer):
@@ -180,7 +182,8 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility']
+        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility', 'likes', 'comment_number']
+        read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):

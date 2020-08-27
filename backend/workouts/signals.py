@@ -11,15 +11,14 @@ def workout_actstream_handler(sender, instance, created, **kwargs):
         user_ctype_id = ContentType.objects.get(model='customuser').id
         workout_ctype_id = ContentType.objects.get(model='workout').id
 
-        # we'll delete existing actions for same resource first:
-        Action.objects.filter(
+        # we'll create an action only if one doesn't exist already:
+        if not Action.objects.filter(
             Q(actor_content_type_id=user_ctype_id),
             Q(actor_object_id=str(instance.user.id)),
             Q(verb='trained'),
             Q(action_object_content_type_id=workout_ctype_id),
-            Q(action_object_object_id=str(instance.id))).delete()
-
-        action.send(instance.user, verb='trained', action_object=instance)
+            Q(action_object_object_id=str(instance.id))).exists():
+            action.send(instance.user, verb='trained', action_object=instance)
 
 def plan_actstream_handler(sender, instance, created, **kwargs):
     if created and instance.user: 

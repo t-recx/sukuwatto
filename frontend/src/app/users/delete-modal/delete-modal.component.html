@@ -1,4 +1,4 @@
-<div class="siimple-modal siimple-modal--medium" id="modal" *ngIf="visible">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">
@@ -6,7 +6,7 @@
             </div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="cancel()"></div>
         </div>
-        <div class="siimple-modal-body">
+        <div class="siimple-modal-body modal-window-body">
             <p class="siimple-p">
                 {{body}}
             </p>

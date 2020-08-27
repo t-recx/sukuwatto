@@ -92,6 +92,8 @@ export class Exercise {
     levelLabel: string;
     user: User;
     creation: Date;
+    likes: number;
+    comment_number: number;
 
     constructor(init?: Partial<Exercise>) {
         Object.assign(this, init);
