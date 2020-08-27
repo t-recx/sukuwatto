@@ -3,7 +3,7 @@ import { FileUploadService } from '../file-upload.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faFileImport, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-image-upload',
@@ -61,31 +61,10 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     }
   }
 
-  private b64toArrayBuffer(dataURI) {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return ia;
-  }
-
-  private b64toBlob(dataURI, mimetype) {
-    return new Blob([this.b64toArrayBuffer(dataURI)], {
-      type: mimetype
-    });
-  }
-
   upload() {
     const formData = new FormData();
 
     const maxCharacters = 80;
-
-    if (this.croppedImage.size > environment.maxFileSizeUpload) {
-      this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
-      return;
-    }
 
     let fileName = this.file.name;
 
@@ -95,9 +74,13 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     }
 
     const type = "image/png";
-    const blob = this.b64toBlob(this.croppedImage, type);
 
-    this.file = new File([blob], fileName, { type });
+    this.file = new File([base64ToFile(this.croppedImage)], fileName, { type });
+
+    if (this.file.size > environment.maxFileSizeUpload) {
+      this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
+      return;
+    }
 
     formData.append('file', this.file);
 
