@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { FileUploadService } from '../file-upload.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faFileImport, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
+import { ImageCroppedEvent, base64ToFile, ImageCropperComponent } from 'ngx-image-cropper';
+import { compress, compressAccurately, EImageType } from 'image-conversion';
 
 @Component({
   selector: 'app-image-upload',
@@ -13,7 +14,13 @@ import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
 export class ImageUploadComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() imageURL: string;
+  @Input() square: boolean;
+  @Input() maxSquareSize: number = null;
+  @Input() aspectRatio: string = null;
+  @Input() maintainAspectRatio: boolean = false;
   @Output() uploaded = new EventEmitter<string>();
+
+  @ViewChild(ImageCropperComponent) imageCropper;
 
   file: any;
   imageMediaURL: string;
@@ -32,6 +39,9 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   croppedImage: any = '';
   showCropModal = false;
   loadingCropper = false;
+
+  croppedImageWidth = 0;
+  croppedImageHeight = 0;
 
   constructor(
     private uploadService: FileUploadService,
@@ -74,35 +84,59 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     }
 
     const type = "image/png";
+    const blob = base64ToFile(this.croppedImage);
 
-    this.file = new File([base64ToFile(this.croppedImage)], fileName, { type });
+    let width = this.croppedImageWidth;
+    let height = this.croppedImageHeight;
 
-    if (this.file.size > environment.maxFileSizeUpload) {
-      this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
-      return;
+    if (this.square) {
+      if (this.maxSquareSize) {
+        width = this.maxSquareSize;
+      }
+
+      if (this.croppedImageWidth < width) {
+        width = this.croppedImageWidth;
+      }
+
+      height = width;
     }
 
-    formData.append('file', this.file);
+    compressAccurately(blob, {
+      size: 800,
+      accuracy: 0.9,
+      type: EImageType.PNG,
+      width,
+      height,
+    }).then(newBlob => {
+      this.file = new File([newBlob], fileName, { type });
 
-    this.uploading = true;
-    this.uploadText = "Uploading...";
-    this.uploadService.uploadFile(formData).subscribe(
-      (response) => {
-        if (response && response.file) {
-          this.imageURL = `${response.file}`;
-
-          this.uploaded.emit(response.file);
-        }
-
-        this.uploading = false;
-        this.uploadText = this.defaultUploadText;
+      if (this.file.size > environment.maxFileSizeUpload) {
+        this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
+        return;
       }
-    );
+
+      formData.append('file', this.file);
+
+      this.uploading = true;
+      this.uploadText = "Uploading...";
+      this.uploadService.uploadFile(formData).subscribe(
+        (response) => {
+          if (response && response.file) {
+            this.imageURL = `${response.file}`;
+
+            this.uploaded.emit(response.file);
+          }
+
+          this.uploading = false;
+          this.uploadText = this.defaultUploadText;
+        }
+      );
+    })
   }
 
   ok() {
-    this.showCropModal = false;
-    this.upload();
+    this.loadingCropper = true;
+    setTimeout(() => this.imageCropper.crop());
   }
 
   cancel() {
@@ -115,7 +149,12 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   }
 
   imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageWidth = event.width;
+    this.croppedImageHeight = event.height;
     this.croppedImage = event.base64;
+    this.loadingCropper = false;
+    this.showCropModal = false;
+    this.upload();
   }
 
   imageLoaded() {
