@@ -25,7 +25,7 @@
 
         <div class="siimple-modal-body modal-window-body modal-crop-body">
 
-            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+            <image-cropper [autoCrop]=false [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="maintainAspectRatio" [aspectRatio]="aspectRatio"
                 format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
                 (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
         </div>

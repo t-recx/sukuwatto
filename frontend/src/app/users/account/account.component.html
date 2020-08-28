@@ -59,6 +59,7 @@
                             <div class="siimple-form-field">
                                 <div class="siimple-form-field-label">Profile Picture</div>
                                 <app-image-upload [imageURL]=user.profile_filename
+                                    [square]=true [maxSquareSize]=384 [aspectRatio]="1 / 1" [maintainAspectRatio]="true"
                                     (uploaded)="setProfilePicture($event)">
                                 </app-image-upload>
                             </div>
