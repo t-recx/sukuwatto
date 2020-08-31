@@ -81,6 +81,7 @@
         (touchstart)="touchStartInvisibleDrawer($event)" 
         (touchend)="touchEndInvisibleDrawer($event)" 
         (touchmove)="touchMoveInvisibleDrawer($event)"
+    *ngIf="authService.isLoggedIn()"
 ></div>
 
 <app-snackbar 

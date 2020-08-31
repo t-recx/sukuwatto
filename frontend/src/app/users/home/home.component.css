@@ -33,3 +33,7 @@
 .post-button {
     margin-left: auto;
 }
+
+.post-card-container {
+    margin-bottom: 40px !important;
+}
