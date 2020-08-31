@@ -93,11 +93,20 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.canShare = this.socialSharing && this.shareLink != null;
+    const nav: any = navigator;
+    
+    this.canShare = (nav.canShare || this.socialSharing) && this.shareLink != null;
   }
 
   share() {
-    this.socialSharing.shareWithOptions({message: this.shareTitle, url: this.shareLink});
+    const nav: any = navigator;
+
+    if (nav.canShare) {
+      nav.share({text: this.shareTitle, url: this.shareLink}).then();
+    }
+    else {
+      this.socialSharing.shareWithOptions({message: this.shareTitle, url: this.shareLink});
+    }
   }
 
   loadActions(cb: () => any = null) {

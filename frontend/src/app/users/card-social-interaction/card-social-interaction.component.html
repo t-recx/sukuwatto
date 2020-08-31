@@ -17,7 +17,7 @@
 </div>
 
 <div class="social-interaction-buttons">
-    <span class="like-button button-link" [class.liked]="liked"
+    <span class="like-button button-link no-select" [class.liked]="liked"
     >
         <fa-icon 
         [icon]="faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" ></fa-icon>
@@ -27,7 +27,7 @@
         </span>
     </span>
 
-    <span class="like-button button-link siimple--ml-2" (click)="toggleCommentView()">
+    <span class="like-button button-link siimple--ml-2 no-select" (click)="toggleCommentView()">
         <fa-icon [icon]="faComments" class="siimple--mr-1"></fa-icon>
 
         <span class="comments-number">
@@ -35,7 +35,7 @@
         </span>
     </span>
 
-    <span class="share-button button-link" (click)="share()" *ngIf="canShare">
+    <span class="share-button button-link no-select" (click)="share()" *ngIf="canShare">
         <fa-icon [icon]="faShareAlt" class="siimple--mr-1"></fa-icon>
         Share
     </span>
