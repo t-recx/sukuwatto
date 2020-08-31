@@ -15,6 +15,10 @@ class Post(models.Model):
     def __str__(self):
         return self.text
 
+class PostImage(models.Model):
+    url = models.CharField(max_length=1024)
+    post = models.ForeignKey(Post, related_name='post_images', on_delete=models.CASCADE)
+
 class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField()

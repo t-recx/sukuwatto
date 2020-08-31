@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild } from '@angular/core';
 import { StreamsService } from '../streams.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,8 +7,10 @@ import { Paginated } from '../paginated';
 import { AuthService } from 'src/app/auth.service';
 import { PostsService } from '../posts.service';
 import { Post } from '../post';
-import { faCircleNotch, faStickyNote, faDumbbell, faRunning, faTasks } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faStickyNote, faDumbbell, faRunning, faTasks, faImage } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
+import { environment } from 'src/environments/environment';
+import { PostImage } from '../post-image';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   username: string;
   triedToPost: boolean = false;
   posting: boolean = false;
+  imageUploading: boolean = false;
   loading: boolean = true;
   prevScrollY = 0;
   newActivityButtonVisible = true;
@@ -38,6 +41,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   activityTypeStrength = true;
   isSingleClickActivity = true;
+
+  postImages: string[] = [];
 
   constructor(
     route: ActivatedRoute,
@@ -173,10 +178,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       const post = new Post();
 
       post.text = this.newPostText;
+      post.post_images = this.postImages.map(url => new PostImage(url));
 
       this.postsService.createPost(post)
       .subscribe(() => { 
         this.newPostText = ''; 
+        this.postImages = [];
         this.triedToPost = false; 
 
         this.loadNewActions();
@@ -184,5 +191,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.posting = false;
       });
     }
+  }
+
+  uploadingInProgress() {
+    this.imageUploading = true;
+  }
+
+  stoppedUploading() {
+    this.imageUploading = false;
   }
 }

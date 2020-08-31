@@ -25,3 +25,11 @@
         /* bottom: -56px; */
     }
 }
+
+.post-buttons-container {
+    display: flex;
+}
+
+.post-button {
+    margin-left: auto;
+}

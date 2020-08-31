@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth.service';
-import { faStickyNote, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faStickyNote, faCircleNotch, faCheck, faTimes, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { TimeService } from '../time.service';
+import { environment } from 'src/environments/environment';
+import { PostImage } from '../post-image';
 
 @Component({
   selector: 'app-post-detail-card',
@@ -16,12 +18,20 @@ export class PostDetailCardComponent implements OnInit {
   @Input() showHeader: boolean;
   @Input() commentsSectionOpen: boolean = false;
   @Output() deleted = new EventEmitter();
+
+  @ViewChild('previousOverlay') previousOverlay: ElementRef;
+  @ViewChild('nextOverlay') nextOverlay: ElementRef;
+
   post: Post = null;
 
   faStickyNote = faStickyNote;
   faCircleNotch = faCircleNotch;
   faCheck = faCheck;
   faTimes = faTimes;
+  faChevronLeft = faChevronLeft;
+  faChevronRight = faChevronRight;
+
+  imageUploading = false;
 
   authenticatedUserIsOwner: boolean = false;
 
@@ -37,6 +47,10 @@ export class PostDetailCardComponent implements OnInit {
   shareTitle: string;
   shareLink: string;
 
+  currentImageUrl = null;
+  postImageIndex = 0;
+  postImages: string[] = [];
+
   constructor(
     private postsService: PostsService,
     private authService: AuthService,
@@ -47,6 +61,8 @@ export class PostDetailCardComponent implements OnInit {
   ngOnInit() {
     this.postsService.getPost(this.id).subscribe(p => { 
       this.post = p; 
+      this.postImages = !this.post.post_images ? [] : this.post.post_images.map(u => u.url);
+      this.selectCurrentImage();
       this.checkOwner();
       this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
       this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
@@ -107,5 +123,61 @@ export class PostDetailCardComponent implements OnInit {
     }
 
     return true;
+  }
+
+  getImageUrl(url: string) {
+    return environment.mediaUrl + url;
+  }
+
+  selectImage(i) {
+    this.postImageIndex = i;
+    this.selectCurrentImage();
+  }
+
+  previousImage() {
+    this.postImageIndex--;
+    if (this.postImageIndex < 0) {
+      this.postImageIndex = this.post.post_images.length - 1;
+    }
+
+    this.selectCurrentImage();
+  }
+
+  nextImage() {
+    this.postImageIndex++;
+    if (this.postImageIndex > this.post.post_images.length - 1) {
+      this.postImageIndex = 0;
+    }
+
+    this.selectCurrentImage();
+  }
+
+  selectCurrentImage() {
+    if (this.post.post_images && this.post.post_images.length > this.postImageIndex) {
+      this.currentImageUrl = this.getImageUrl(this.post.post_images[this.postImageIndex].url);
+    }
+  }
+
+  addImage(url: string) {
+    this.post.post_images.push(new PostImage(url));
+
+    this.postImageIndex = 0;
+    this.selectCurrentImage();
+  }
+
+  deleteImage(url: string) {
+    this.post.post_images = this.post.post_images.filter(p => p.url != url);
+    // this.postImages = this.post.post_images.map(p => p.url);
+
+    this.postImageIndex = 0;
+    this.selectCurrentImage();
+  }
+
+  uploadingInProgress() {
+    this.imageUploading = true;
+  }
+
+  stoppedUploading() {
+    this.imageUploading = false;
   }
 }

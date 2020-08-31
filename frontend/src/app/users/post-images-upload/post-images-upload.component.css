@@ -1,0 +1,32 @@
+.component-container {
+    display: flex;
+}
+
+.post-image {
+    max-height: 28px;
+    max-width: 28px;
+    cursor: pointer;
+}
+
+.modal-post-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.post-images-container {
+    display: flex;
+    margin-left: 10px;
+    align-items: start;
+    flex-wrap: wrap;
+}
+
+.post-image-container {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}

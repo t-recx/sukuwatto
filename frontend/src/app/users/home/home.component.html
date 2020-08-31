@@ -1,37 +1,43 @@
 <div *ngIf="username && authService.isCurrentUserLoggedIn(username)">
-    <div class="siimple-card siimple-form">
-        <div class="siimple-form-field">
-            <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost" id="newPost"
-                required
-                applyFocus
-                [(ngModel)]="newPostText" #newPost="ngModel" placeholder="What's on your mind?">
-            </textarea>
-            <div *ngIf="newPost.invalid && triedToPost">
-                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+    <div class="siimple-card">
+        <div class="siimple-card-body">
+            <div class="siimple-form-field siimple--mb-2">
+                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost"
+                    id="newPost" required applyFocus [(ngModel)]="newPostText" #newPost="ngModel"
+                    placeholder="What's on your mind?">
+                </textarea>
+                <div *ngIf="newPost.invalid && triedToPost">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
             </div>
-        </div>
-        <div class="siimple--clearfix">
-            <button class="siimple-btn siimple-btn--primary siimple--float-right" 
-            [disabled]="posting" [class.siimple-btn--disabled]="posting"
-            (click)="post()">
-                <fa-icon [icon]="faCircleNotch" [spin]=true  class="siimple--mr-1" [spin]=true *ngIf="posting"></fa-icon>
-                <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!posting"></fa-icon>
-                Post
-            </button>
+            <div class="post-buttons-container siimple--clearfix">
+                <app-post-images-upload
+                (uploadingImage)="uploadingInProgress()"
+                (stoppedUploadingImage)="stoppedUploading()"
+                [postImages]="postImages"
+                ></app-post-images-upload>
+
+                <button class="siimple-btn siimple-btn--primary post-button" 
+                    [disabled]="posting || imageUploading"
+                    [class.siimple-btn--disabled]="posting || imageUploading" 
+                    (click)="post()">
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="posting">
+                    </fa-icon>
+                    <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!posting"></fa-icon>
+                    Post
+                </button>
+            </div>
         </div>
     </div>
 
     <div *ngIf="!loading">
-        <app-feed [actions]=actions [paginated]=paginated
-            [loadingNewActions]=loadingNewActions
+        <app-feed [actions]=actions [paginated]=paginated [loadingNewActions]=loadingNewActions
             [loadingOlderActions]=loadingOlderActions>
         </app-feed>
     </div>
 
-    <div class="new-activity-mobile-button new-cardio-activity" 
-        (click)="newActivity()"
-        (dblclick)="switchActivityType()"
-        [class.new-activity-not-visible]="!newActivityButtonVisible" >
+    <div class="new-activity-mobile-button new-cardio-activity" (click)="newActivity()"
+        (dblclick)="switchActivityType()" [class.new-activity-not-visible]="!newActivityButtonVisible">
         <fa-icon [icon]="cardioIcon" size="lg" class="" *ngIf="!activityTypeStrength"></fa-icon>
         <fa-icon [icon]="strengthIcon" size="lg" class="" *ngIf="activityTypeStrength"></fa-icon>
     </div>

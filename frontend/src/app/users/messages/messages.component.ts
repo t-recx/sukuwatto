@@ -134,7 +134,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       return null;
     }
 
-    return `${environment.mediaUrl}${user.profile_filename}`;
+    return environment.mediaUrl + user.profile_filename;
   }
 
   getUserContactName(user: User) {

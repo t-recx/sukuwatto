@@ -35,7 +35,7 @@ export class UserTagComponent implements OnInit {
       return null;
     }
 
-    return `${environment.mediaUrl}${this.profile_filename}`;
+    return environment.mediaUrl + this.profile_filename;
   }
 
   hideImage(): void {
