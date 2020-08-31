@@ -264,7 +264,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
       return null;
     }
 
-    return `${environment.mediaUrl}${user.profile_filename}`;
+    return environment.mediaUrl + user.profile_filename;
   }
 
   getUserContactName(user: User): string {

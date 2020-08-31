@@ -10,6 +10,12 @@
   mask-size: 32px;
 }
 
+@media only screen and (max-width: 320px) {
+.navbar-title-logged {
+  display: none;
+}
+}
+
 .logo-container {
   display: flex;
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { FileUploadService } from '../file-upload.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faFileImport, faCircleNotch, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ImageCroppedEvent, base64ToFile, ImageCropperComponent } from 'ngx-image-cropper';
 import { compress, compressAccurately, EImageType } from 'image-conversion';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-image-upload',
@@ -18,9 +19,14 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   @Input() maxSquareSize: number = null;
   @Input() aspectRatio: string = null;
   @Input() maintainAspectRatio: boolean = false;
+  @Input() visible: boolean = true;
   @Output() uploaded = new EventEmitter<string>();
+  @Output() cancelledCrop = new EventEmitter();
+  @Output() uploadingInProgress = new EventEmitter();
+  @Output() errorUploading = new EventEmitter();
 
   @ViewChild(ImageCropperComponent) imageCropper;
+  @ViewChild('fileInputControl') fileInput: ElementRef;
 
   file: any;
   imageMediaURL: string;
@@ -46,6 +52,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   constructor(
     private uploadService: FileUploadService,
     private alertService: AlertService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -71,7 +78,12 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     }
   }
 
+  public selectImage() {
+    this.fileInput.nativeElement.click();
+  }
+
   upload() {
+    this.uploadingInProgress.emit();
     const formData = new FormData();
 
     const maxCharacters = 80;
@@ -101,9 +113,21 @@ export class ImageUploadComponent implements OnInit, OnChanges {
       height = width;
     }
 
-    compressAccurately(blob, {
-      size: 800,
-      accuracy: 0.9,
+    let maxSize = 700;
+
+    if (width > maxSize) {
+      height = (height * maxSize) / width;
+      width = maxSize;
+    } 
+
+    if (height > maxSize) {
+      width = (width * maxSize) / height;
+      height = maxSize;
+    }
+
+    compress(blob, {
+      size: 700,
+      quality: 0.8,
       type: EImageType.PNG,
       width,
       height,
@@ -112,6 +136,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
       if (this.file.size > environment.maxFileSizeUpload) {
         this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
+        this.errorUploading.emit();
         return;
       }
 
@@ -125,6 +150,9 @@ export class ImageUploadComponent implements OnInit, OnChanges {
             this.imageURL = `${response.file}`;
 
             this.uploaded.emit(response.file);
+          }
+          else {
+            this.errorUploading.emit();
           }
 
           this.uploading = false;
@@ -141,6 +169,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
   cancel() {
     this.showCropModal = false;
+    this.cancelledCrop.emit();
   }
 
   fileChangeEvent(event: any): void {

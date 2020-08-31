@@ -1,4 +1,5 @@
 import { User } from '../user';
+import { PostImage } from './post-image';
 
 export class Post {
     id: number;
@@ -9,4 +10,5 @@ export class Post {
     user: User;
     likes: number;
     comment_number: number;
+    post_images: PostImage[];
 }

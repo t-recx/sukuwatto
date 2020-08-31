@@ -10,13 +10,13 @@
                 </a>
             </span>
         </span>
-    
+
         <small class="siimple-small time">{{getTime(post.date)}}</small>
-    
+
         <small class="siimple-small edited-time" *ngIf="post.edited_date">
             (edited: {{getTime(post.edited_date)}})
         </small>
-    
+
         <app-edit-delete-dropdown class="self-centered" (edited)="toggleEditing()" (deleted)="showDeleteModal()"
             *ngIf="authenticatedUserIsOwner">
         </app-edit-delete-dropdown>
@@ -32,25 +32,63 @@
                 </div>
             </div>
 
-            <div class="siimple--clearfix">
-                <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="update()">
-                    <fa-icon [icon]="faCircleNotch" [spin]=true  class="siimple--mr-1" [spin]=true *ngIf="updating"></fa-icon>
+            <div class="siimple--clearfix post-buttons-container">
+                <app-post-images-upload
+                (addedImage)="addImage($event)"
+                (removedImage)="deleteImage($event)"
+                (uploadingImage)="uploadingInProgress()"
+                (stoppedUploadingImage)="stoppedUploading()"
+                [postImages]="postImages"
+                ></app-post-images-upload>
+
+                <button class="siimple-btn siimple-btn--primary post-button" 
+                    [disabled]="updating || imageUploading"
+                    [class.siimple-btn--disabled]="updating || imageUploading" 
+                    (click)="update()">
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="updating">
+                    </fa-icon>
                     <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
                     Update
                 </button>
             </div>
         </div>
-        <div *ngIf="!editing" class="keep-original-formatting">
-            {{post.text}}
+        <div *ngIf="!editing" class="">
+            <div class="post-images-container" *ngIf="post.post_images && post.post_images.length > 0">
+                <div class="post-image-container">
+                    <img class="post-image" [src]="currentImageUrl">
+                </div>
+
+                <div class="post-image-cursors" *ngIf="post.post_images && post.post_images.length > 1">
+                    <div class="post-image-cursor-overlay " (click)="previousImage()" #previousOverlay>
+                    </div>
+                
+                    <div class="post-image-previous">
+                        <fa-icon [icon]="faChevronLeft"></fa-icon>
+                    </div>
+                
+                    <div class="post-image-cursor-overlay post-image-cursor-overlay-next" (click)="nextImage()" #nextOverlay>
+                    </div>
+                
+                    <div class="post-image-next">
+                        <fa-icon [icon]="faChevronRight"></fa-icon>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dot-container" *ngIf="post.post_images && post.post_images.length > 1">
+                <span class="dot" [class.active]="postImageIndex == i" *ngFor="let postImage of post.post_images; let i = index"
+                    (click)="selectImage(i)"></span>
+            </div>
+
+            <div class="keep-original-formatting">
+                {{post.text}}
+            </div>
         </div>
     </div>
     <footer class="siimple-card-footer post-footer">
-        <app-card-social-interaction 
-            [shareTitle]="shareTitle"
-            [shareLink]="shareLink"
-            [likeNumber]=post.likes
-            [commentNumber]=post.comment_number
-        content_type_model='post' [id]=id [commentsSectionOpen]=commentsSectionOpen>
+        <app-card-social-interaction [shareTitle]="shareTitle" [shareLink]="shareLink" [likeNumber]=post.likes
+            [commentNumber]=post.comment_number content_type_model='post' [id]=id
+            [commentsSectionOpen]=commentsSectionOpen>
         </app-card-social-interaction>
     </footer>
 </article>
