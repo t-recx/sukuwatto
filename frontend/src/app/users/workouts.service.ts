@@ -20,6 +20,8 @@ import { UserAvailableChartData } from './user-available-chart-data';
 })
 export class WorkoutsService {
   private workoutsUrl= `${environment.apiUrl}/workouts/`;
+  private workoutVisibleUrl= `${environment.apiUrl}/workout-visible/`;
+  private workoutEditableUrl= `${environment.apiUrl}/workout-editable/`;
   private workoutsByDateUrl= `${environment.apiUrl}/workouts-by-date/`;
   private workoutLast= `${environment.apiUrl}/workout-last/`;
   private workoutGroupLast= `${environment.apiUrl}/workout-group-last/`;
@@ -218,6 +220,34 @@ export class WorkoutsService {
       );
   }
   
+  workoutVisible (id: number): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+
+    params = params.set('id', id.toString());
+    options = {params: params};
+
+    return this.http.get<boolean>(`${this.workoutVisibleUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('workoutvisible', (e: any) => 
+        {}, false))
+      );
+  }
+  
+  workoutEditable (id: number): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+
+    params = params.set('id', id.toString());
+    options = {params: params};
+
+    return this.http.get<boolean>(`${this.workoutEditableUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('workoutvisible', (e: any) => 
+        {}, false))
+      );
+  }
+
   getWorkout (id: number | string): Observable<Workout> {
     return this.http.get<Workout>(`${this.workoutsUrl}${id}/`)
       .pipe(

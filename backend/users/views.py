@@ -219,6 +219,10 @@ def do_follow(request):
         instance = get_object_or_404(ctype.model_class(), pk=object_id)
 
         follow(request.user, instance, actor_only=True, flag=flag)
+
+        if ctype.model == 'customuser':
+            instance.followers.add(request.user)
+
         return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -263,6 +267,10 @@ def do_unfollow(request):
         instance = get_object_or_404(ctype.model_class(), pk=object_id)
 
         unfollow(request.user, instance, flag=flag)
+
+        if ctype.model == 'customuser':
+            instance.followers.remove(request.user)
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
