@@ -151,6 +151,7 @@ class VisibilityTestCaseMixin(CRUDTestCaseMixin):
         fu = CustomUser.objects.get(username=followed_user['username'])
 
         follow(u, fu, actor_only=True)
+        fu.followers.add(u)
 
     def exercise_visibility(self, visibility, anonymous_can_view, follower_can_view, another_user_can_view):
         resource_id = self.create_resource(self.user1, self.get_resource_data_with_visibility(visibility))

@@ -192,6 +192,8 @@ def toggle_like(request):
 
     object_model = ctype.model
 
+    model = None
+
     if object_model == 'workout':
         model = Workout.objects.get(pk=object_id)
     elif object_model == 'plan':
@@ -201,7 +203,7 @@ def toggle_like(request):
     elif object_model == 'exercise':
         model = Exercise.objects.get(pk=object_id)
 
-    if model:
+    if model is not None:
         if deleted:
             model.likes -= 1
         else:

@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { WorkoutsService } from '../workouts.service';
 
 @Component({
   selector: 'app-workout-detail',
@@ -20,6 +21,7 @@ export class WorkoutDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private workoutsService: WorkoutsService,
   ) { }
 
   ngOnInit() {
@@ -30,9 +32,10 @@ export class WorkoutDetailComponent implements OnInit, OnDestroy {
         this.id = +params.get('id');
 
         if (this.authService.isLoggedIn()) {
-          if (this.username == this.authService.getUsername()) {
-            this.allowEdit = true;
-          }
+          this.workoutsService.workoutEditable(this.id)
+          .subscribe(editable => {
+            this.allowEdit = editable;
+          });
         }
       });
   }

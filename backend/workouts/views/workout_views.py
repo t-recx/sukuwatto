@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from django_filters.rest_framework import DjangoFilterBackend
 from workouts.models import Workout, WorkingParameter, WorkoutWarmUp, WorkoutSet, WorkoutGroup, WorkoutSetPosition
 from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutNoPositionsSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
@@ -86,6 +86,29 @@ def get_last_workout_position(request):
 
     return Response(serializer.data)
 
+@api_view(['GET'])
+def workout_visible(request):
+    workout_id = request.query_params.get('id', None)
+
+    if workout_id is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    visibility_provider = VisibilityQuerysetMixin()
+
+    queryset = visibility_provider.get_queryset_visibility(Workout.objects.filter(id=workout_id), request.user)
+
+    return Response(queryset.exists())
+
+@api_view(['GET'])
+def workout_editable(request):
+    workout_id = request.query_params.get('id', None)
+
+    if workout_id is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    workout = get_object_or_404(Workout, pk=workout_id)
+
+    return Response(workout.user==request.user)
 
 @api_view(['GET'])
 def get_last_workout(request):
