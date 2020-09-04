@@ -112,7 +112,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'text', 'date', 'user', 'comment_target_object_id', 'comment_target_content_type']
+        fields = ['id', 'text', 'date', 'user', 'comment_target_object_id', 'comment_target_content_type',
+            'target_plan', 'target_workout', 'target_post', 'target_exercise']
         extra_kwargs = {'user': {'required': False},'date': {'required': False}}
 
     def create(self, validated_data):

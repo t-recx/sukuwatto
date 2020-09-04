@@ -41,20 +41,16 @@ def comment_user_actions_handler(sender, instance, created, **kwargs):
 
 def comment_update_comments_number_handler(sender, instance, created, **kwargs):
     if created:
-        target_content_type = instance.comment_target_content_type
-        object_model = target_content_type.model
-        object_id = int(instance.comment_target_object_id)
-
         model = None
 
-        if object_model == 'workout':
-            model = Workout.objects.get(pk=object_id)
-        elif object_model == 'plan':
-            model = Plan.objects.get(pk=object_id)
-        elif object_model == 'post':
-            model = Post.objects.get(pk=object_id)
-        elif object_model == 'exercise':
-            model = Exercise.objects.get(pk=object_id)
+        if instance.target_workout:
+            model = instance.target_workout
+        elif instance.target_plan:
+            model = instance.target_plan
+        elif instance.target_post:
+            model = instance.target_post
+        elif instance.target_exercise:
+            model = instance.target_exercise
 
         if model:
             model.comment_number += 1
@@ -65,22 +61,16 @@ def comment_update_comments_number_handler(sender, instance, created, **kwargs):
             model.save()
 
 def delete_comment_activity(sender, instance, **kwargs):
-    content_type = ContentType.objects.get(model='comment')
-    target_content_type = instance.comment_target_content_type
-
-    object_model = target_content_type.model
-    object_id = int(instance.comment_target_object_id)
-
     model = None
 
-    if object_model == 'workout':
-        model = Workout.objects.filter(pk=object_id).first()
-    elif object_model == 'plan':
-        model = Plan.objects.filter(pk=object_id).first()
-    elif object_model == 'post':
-        model = Post.objects.filter(pk=object_id).first()
-    elif object_model == 'exercise':
-        model = Exercise.objects.filter(pk=object_id).first()
+    if instance.target_workout:
+        model = instance.target_workout
+    elif instance.target_plan:
+        model = instance.target_plan
+    elif instance.target_post:
+        model = instance.target_post
+    elif instance.target_exercise:
+        model = instance.target_exercise
 
     if model:
         model.comment_number -= 1
