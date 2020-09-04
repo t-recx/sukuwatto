@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from actstream.models import Action
 from .models import File, UserInterest
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType

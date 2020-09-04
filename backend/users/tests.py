@@ -3,7 +3,6 @@ from django.db.models import Q
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
-from workouts.models import Workout
 from users.models import CustomUser
 from sqtrex.tests import AuthTestCaseMixin, UserTestCaseMixin
 from django.contrib.contenttypes.models import ContentType

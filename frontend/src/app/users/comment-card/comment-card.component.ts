@@ -39,7 +39,7 @@ export class CommentCardComponent implements OnInit {
 
   checkOwner() {
     if (this.comment) {
-      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.comment.actor.display_name);
+      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.comment.user.username);
     }
     else {
       this.authenticatedUserIsOwner = false;
@@ -59,21 +59,17 @@ export class CommentCardComponent implements OnInit {
 
     if (this.valid()) {
       this.updating = true;
-      this.commentsService.getComment(+this.comment.action_object_object_id).subscribe(x =>
-        {
-          x.text = this.comment.action_object.display_name;
 
-          this.commentsService.saveComment(x).subscribe(y => {
-            this.updating = false;
-            this.editing = false;
-            this.triedToSave = false;
-          });
-        });
+      this.commentsService.saveComment(this.comment.action_object_comment).subscribe(y => {
+        this.updating = false;
+        this.editing = false;
+        this.triedToSave = false;
+      });
     }
   }
 
   valid(): boolean {
-    if (this.comment.action_object.display_name.trim().length == 0) {
+    if (this.comment.action_object_comment.text.trim().length == 0) {
       return false;
     }
 
@@ -81,7 +77,7 @@ export class CommentCardComponent implements OnInit {
   }
 
   delete() {
-    this.commentsService.deleteComment(+this.comment.action_object_object_id)
+    this.commentsService.deleteComment(+this.comment.action_object_comment.id)
     .subscribe(x => 
       this.deleted.emit(this.comment));
   }

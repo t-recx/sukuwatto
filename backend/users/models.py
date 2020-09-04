@@ -47,7 +47,8 @@ class CustomUser(AbstractUser):
 
     default_visibility_workouts = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 
-    followers = models.ManyToManyField("self", blank=True, symmetrical=False)
+    followers = models.ManyToManyField("self", related_name='user_followers', blank=True, symmetrical=False)
+    following = models.ManyToManyField("self", related_name='user_following', blank=True, symmetrical=False)
 
     def __str__(self):
         return self.username

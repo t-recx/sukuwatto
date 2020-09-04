@@ -15,14 +15,13 @@ import { PostImage } from '../post-image';
 })
 export class PostDetailCardComponent implements OnInit {
   @Input() id: number;
+  @Input() post: Post = null;
   @Input() showHeader: boolean;
   @Input() commentsSectionOpen: boolean = false;
   @Output() deleted = new EventEmitter();
 
   @ViewChild('previousOverlay') previousOverlay: ElementRef;
   @ViewChild('nextOverlay') nextOverlay: ElementRef;
-
-  post: Post = null;
 
   faStickyNote = faStickyNote;
   faCircleNotch = faCircleNotch;
@@ -59,15 +58,24 @@ export class PostDetailCardComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.postsService.getPost(this.id).subscribe(p => { 
-      this.post = p; 
-      this.postImages = !this.post.post_images ? [] : this.post.post_images.map(u => u.url);
-      this.selectCurrentImage();
-      this.checkOwner();
-      this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
-      this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
-      this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
-    });
+    if (!this.post && this.id) {
+      this.postsService.getPost(this.id).subscribe(p => { 
+        this.setupPost(p);
+      });
+    }
+    else {
+      this.setupPost(this.post);
+    }
+  }
+
+  private setupPost(p: Post) {
+    this.post = p;
+    this.postImages = !this.post.post_images ? [] : this.post.post_images.map(u => u.url);
+    this.selectCurrentImage();
+    this.checkOwner();
+    this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
+    this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
+    this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
   }
 
   checkOwner() {

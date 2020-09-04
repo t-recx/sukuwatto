@@ -3,11 +3,11 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
 from django.contrib.contenttypes.models import ContentType
-from actstream.models import Action
-from social.models import Post, Comment
+from social.models import Post, Comment, UserAction
 from sqtrex.tests import CRUDTestCaseMixin, UserTestCaseMixin, AuthTestCaseMixin
 from users.models import CustomUser
 from social.message_service import MessageService
+from django.utils.timezone import now
 
 class PostTestCase(CRUDTestCaseMixin, APITestCase):
     def get_resource_model(self):
@@ -63,12 +63,18 @@ class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
         self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
         self.create_user(self.user1)
         self.create_user(self.user2)
-        content_type = ContentType.objects.get(model='customuser')
-        like_target = CustomUser.objects.get(username=self.user2['username'])
+
+        Post.objects.create(text='aaa', date=now(), user=CustomUser.objects.get(username='test'))
+        content_type = ContentType.objects.get(model='post')
+        like_target = Post.objects.get(text='aaa')
+
         self.endpoint = '/api/toggle-like/'
         self.data = { 
             'content_type_id': content_type.id,
             'object_id': like_target.id }
+
+        # posting creates a useraction object, so let's delete that one first:
+        UserAction.objects.all().delete()
 
     def toggle_like(self):
         return self.client.post(self.endpoint, self.data, format='json')
@@ -77,7 +83,7 @@ class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
         response = self.toggle_like()
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        self.assertEqual(Action.objects.count(), 0)
+        self.assertEqual(UserAction.objects.count(), 0)
 
     def test_toggle_like_when_user_authenticated_should_create_like_action(self):
         self.authenticate(self.user1)
@@ -85,7 +91,7 @@ class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
         response = self.toggle_like()
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Action.objects.count(), 1)
+        self.assertEqual(UserAction.objects.count(), 1)
 
     def test_toggle_like_when_like_already_exists_for_object_and_from_user_should_remove_existing_action(self):
         self.authenticate(self.user1)
@@ -94,7 +100,7 @@ class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
         response = self.toggle_like()
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Action.objects.count(), 0)
+        self.assertEqual(UserAction.objects.count(), 0)
 
     def test_toggle_like_when_like_already_exists_for_object_and_from_user_should_not_remove_other_users_likes(self):
         self.authenticate(self.user1)
@@ -104,7 +110,7 @@ class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
         response = self.toggle_like()
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Action.objects.count(), 2)
+        self.assertEqual(UserAction.objects.count(), 2)
 
 class MessageTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
     def setUp(self):

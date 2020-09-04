@@ -26,8 +26,8 @@ export class FollowService {
     private authService: AuthService,
   ) { }
 
-  follow(content_type_id: number, object_id: number): Observable<any> {
-    return this.http.post<any>(`${this.followUrl}`, {content_type_id: content_type_id, object_id: object_id})
+  follow(user_id: number): Observable<any> {
+    return this.http.post<any>(`${this.followUrl}`, {user_id})
     .pipe(
       catchError(this.errorService.handleError<any>('follow', (e: any) => 
       {
@@ -36,9 +36,9 @@ export class FollowService {
     );
   }
 
-  unfollow(content_type_id: number, object_id: number): Observable<any> {
+  unfollow(user_id: number): Observable<any> {
     return this.http.post<any>(`${this.unfollowUrl}`, 
-      {content_type_id: content_type_id, object_id: object_id})
+      {user_id})
     .pipe(
       catchError(this.errorService.handleError<any>('unfollow', (e: any) => 
       {

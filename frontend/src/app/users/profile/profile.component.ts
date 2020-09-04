@@ -262,7 +262,7 @@ export class ProfileComponent implements OnInit {
   follow(): void {
     this.operating = true;
 
-    this.followService.follow(this.userContentTypeID, this.user.id).subscribe(x => {
+    this.followService.follow(this.user.id).subscribe(x => {
       this.followers = [new User({id: +this.authService.getUserId(), username: this.authService.getUsername()}), ...this.followers];
 
       this.operating = false;
@@ -273,7 +273,7 @@ export class ProfileComponent implements OnInit {
   unfollow(): void {
     this.operating = true;
 
-    this.followService.unfollow(this.userContentTypeID, this.user.id).subscribe(x =>  {
+    this.followService.unfollow(this.user.id).subscribe(x =>  {
       this.followers = this.followers.filter(f => f.id != +this.authService.getUserId());
 
       this.operating = false;
@@ -282,7 +282,7 @@ export class ProfileComponent implements OnInit {
   }
 
   public unfollowUser(user: User): void {
-    this.followService.unfollow(this.userContentTypeID, user.id).subscribe(x => 
+    this.followService.unfollow(user.id).subscribe(x => 
       {
         this.following = this.following.filter(f => f.id != user.id);
       });

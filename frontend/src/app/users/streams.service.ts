@@ -7,6 +7,11 @@ import { Observable } from 'rxjs';
 import { Paginated } from './paginated';
 import { catchError, map, concatMap } from 'rxjs/operators';
 import { Action } from './action';
+import { WorkoutsService } from './workouts.service';
+import { CommentsService } from './comments.service';
+import { PlansService } from './plans.service';
+import { ExercisesService } from './exercises.service';
+import { PostsService } from './posts.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +31,12 @@ export class StreamsService {
   constructor(
     private http: HttpClient,
     private errorService: ErrorService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private workoutsService: WorkoutsService,
+    private commentsService: CommentsService,
+    private plansService: PlansService,
+    private postsService: PostsService,
+    private exercisesService: ExercisesService,
   ) { }
 
   toggleLike(content_type_id: number|string, object_id: number|string): Observable<any> {
@@ -52,14 +62,13 @@ export class StreamsService {
     return this.getObjectStream(this.actionsObjectsUrl, content_type_id, object_id);
   }
 
-  getTargetStream(content_type_id: number | string, object_id: number | string, verb: string = null, actor_content_type_id: number = null, actor_object_id: number = null): Observable<Action[]> {
-    return this.getObjectStream(this.targetUrl, content_type_id, object_id, verb, actor_content_type_id, actor_object_id);
+  getTargetStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
+    return this.getObjectStream(this.targetUrl, content_type_id, object_id);
   }
 
-  userLikedContent(content_type_id: number | string, object_id: number | string, actor_content_type_id: number, actor_object_id: number): Observable<boolean> {
+  userLikedContent(content_type_id: number | string, object_id: number | string): Observable<boolean> {
     let options = {};
     let params = new HttpParams();
-    const verb = 'liked';
 
     if (content_type_id) {
       params = params.set('content_type_id', content_type_id.toString());
@@ -67,18 +76,6 @@ export class StreamsService {
 
     if (object_id) {
       params = params.set('object_id', object_id.toString());
-    }
-
-    if (verb) {
-      params = params.set('verb', verb.toString());
-    }
-
-    if (actor_content_type_id) {
-      params = params.set('actor_content_type_id', actor_content_type_id.toString());
-    }
-
-    if (actor_object_id) {
-      params = params.set('actor_object_id', actor_object_id.toString());
     }
 
     options = {params: params};
@@ -127,8 +124,7 @@ export class StreamsService {
       );
   }
 
-  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string,
-    verb: string = null, actor_content_type_id: number = null, actor_object_id: number = null): Observable<Action[]> {
+  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string): Observable<Action[]> {
     let options = {};
     let params = new HttpParams();
 
@@ -138,18 +134,6 @@ export class StreamsService {
 
     if (object_id) {
       params = params.set('object_id', object_id.toString());
-    }
-
-    if (verb) {
-      params = params.set('verb', verb.toString());
-    }
-
-    if (actor_content_type_id) {
-      params = params.set('actor_content_type_id', actor_content_type_id.toString());
-    }
-
-    if (actor_object_id) {
-      params = params.set('actor_object_id', actor_object_id.toString());
     }
 
     options = {params: params};
@@ -170,6 +154,18 @@ export class StreamsService {
     if (actions) {
       for (let action of actions) {
         action.timestamp = new Date(action.timestamp);
+
+        action.target_workout = action.target_workout ? this.workoutsService.getProperlyTypedWorkout(action.target_workout): action.target_workout;
+        action.target_plan = action.target_plan ? this.plansService.getProperlyTypedPlan(action.target_plan): action.target_plan;
+        action.target_exercise = action.target_exercise ? this.exercisesService.getProperlyTypedExercise(action.target_exercise): action.target_exercise;
+        action.target_comment = action.target_comment ? this.commentsService.getProperlyTypedComment(action.target_comment): action.target_comment;
+        action.target_post = action.target_post ? this.postsService.getProperlyTypedPost(action.target_post): action.target_post;
+
+        action.action_object_workout = action.action_object_workout ? this.workoutsService.getProperlyTypedWorkout(action.action_object_workout): action.action_object_workout;
+        action.action_object_plan = action.action_object_plan ? this.plansService.getProperlyTypedPlan(action.action_object_plan): action.action_object_plan;
+        action.action_object_exercise = action.action_object_exercise ? this.exercisesService.getProperlyTypedExercise(action.action_object_exercise): action.action_object_exercise;
+        action.action_object_comment = action.action_object_comment ? this.commentsService.getProperlyTypedComment(action.action_object_comment): action.action_object_comment;
+        action.action_object_post = action.action_object_post ? this.postsService.getProperlyTypedPost(action.action_object_post): action.action_object_post;
       }
     }
 

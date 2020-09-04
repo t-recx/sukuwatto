@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from workouts.models import Workout, Plan, Exercise
+from django.utils.timezone import now
 
 class Post(models.Model):
     title = models.CharField(max_length=200, null=True)
@@ -49,3 +51,24 @@ class LastMessage(models.Model):
     last_read_message = models.ForeignKey(Message, related_name='last_read_message', null=True, on_delete=models.SET_NULL)
     last_message = models.ForeignKey(Message, related_name='last_message', null=True, on_delete=models.SET_NULL)
     unread_count = models.IntegerField(default=0)
+
+class UserAction(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, db_index=True)
+
+    verb = models.CharField(max_length=255, db_index=True)
+    description = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(default=now, db_index=True)
+
+    target_workout = models.ForeignKey(Workout, related_name='target_workout', on_delete=models.CASCADE, blank= True, null=True)
+    target_plan = models.ForeignKey(Plan, related_name='target_plan', on_delete=models.CASCADE, blank= True, null=True)
+    target_exercise = models.ForeignKey(Exercise, related_name='target_exercise', on_delete=models.CASCADE, blank= True, null=True)
+    target_post = models.ForeignKey(Post, related_name='target_post', on_delete=models.CASCADE, blank= True, null=True)
+    target_comment = models.ForeignKey(Comment, related_name='target_comment', on_delete=models.CASCADE, blank= True, null=True)
+    target_user = models.ForeignKey(get_user_model(), related_name='target_user', on_delete=models.CASCADE, db_index=True, blank=True, null=True)
+
+    action_object_workout = models.ForeignKey(Workout, related_name='action_object_workout', on_delete=models.CASCADE, blank= True, null=True)
+    action_object_plan = models.ForeignKey(Plan, related_name='action_object_plan', on_delete=models.CASCADE, blank= True, null=True)
+    action_object_exercise = models.ForeignKey(Exercise, related_name='action_object_exercise', on_delete=models.CASCADE, blank= True, null=True)
+    action_object_post = models.ForeignKey(Post, related_name='action_object_post', on_delete=models.CASCADE, blank= True, null=True)
+    action_object_comment = models.ForeignKey(Comment, related_name='action_object_comment', on_delete=models.CASCADE, blank= True, null=True)
+    action_object_user = models.ForeignKey(get_user_model(), related_name='action_object_user', on_delete=models.CASCADE, blank=True, null=True)

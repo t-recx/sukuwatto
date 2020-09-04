@@ -1,20 +1,43 @@
 from django.db.models.signals import post_save, pre_delete
-from actstream import action
-from actstream.models import Action, Follow
-from social.models import Post, Comment
+from social.models import Post, Comment, UserAction
+from social.utils import get_user_actions_filtered_by_object
 from workouts.models import Workout, Plan, Exercise
 from pprint import pprint
 from users.models import CustomUser
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
-def post_actstream_handler(sender, instance, created, **kwargs):
+def post_user_actions_handler(sender, instance, created, **kwargs):
     if created and instance.user:
-        action.send(instance.user, verb='posted', action_object=instance)
+        UserAction.objects.create(user=instance.user, verb='posted', action_object_post=instance)
 
-def comment_actstream_handler(sender, instance, created, **kwargs):
+def comment_user_actions_handler(sender, instance, created, **kwargs):
     if created and instance.user:
-        action.send(instance.user, verb='commented', action_object=instance, target=instance.comment_target)
+        target_content_type = instance.comment_target_content_type
+        object_model = target_content_type.model
+        object_id = int(instance.comment_target_object_id)
+
+        target_workout = None
+        target_plan = None
+        target_post = None
+        target_exercise = None
+
+        if object_model == 'workout':
+            target_workout = Workout.objects.get(pk=object_id)
+        elif object_model == 'plan':
+            target_plan = Plan.objects.get(pk=object_id)
+        elif object_model == 'post':
+            target_post = Post.objects.get(pk=object_id)
+        elif object_model == 'exercise':
+            target_exercise = Exercise.objects.get(pk=object_id)
+
+        UserAction.objects.create(
+            user=instance.user, verb='commented', 
+            action_object_comment=instance, 
+            target_post=target_post, 
+            target_workout=target_workout, 
+            target_plan=target_plan, 
+            target_exercise=target_exercise)
 
 def comment_update_comments_number_handler(sender, instance, created, **kwargs):
     if created:
@@ -41,31 +64,9 @@ def comment_update_comments_number_handler(sender, instance, created, **kwargs):
 
             model.save()
 
-def delete_activity_handler(sender, instance, **kwargs):
-    content_type = ContentType.objects.get(model='customuser')
-
-    queryset = Action.objects.filter(Q(actor_content_type=content_type), Q(actor_object_id=str(instance.id)))
-
-    queryset.delete()
-
-    queryset = Action.objects.filter(Q(target_content_type=content_type), Q(target_object_id=str(instance.id)))
-
-    queryset.delete()
-
-    queryset = Action.objects.filter(Q(action_object_content_type=content_type), Q(action_object_object_id=str(instance.id)))
-
-    queryset.delete()
-
-    queryset = Follow.objects.filter(Q(content_type=content_type), Q(object_id=str(instance.id)))
-
-    queryset.delete()
-
 def delete_comment_activity(sender, instance, **kwargs):
     content_type = ContentType.objects.get(model='comment')
     target_content_type = instance.comment_target_content_type
-    user_content_type = ContentType.objects.get(model='customuser')
-
-    queryset = Action.objects.filter(Q(action_object_content_type=content_type), Q(action_object_object_id=str(instance.id)), Q(target_object_id=str(instance.comment_target)), Q(verb='commented'), Q(actor_object_id=str(instance.user)), Q(actor_content_type=user_content_type))
 
     object_model = target_content_type.model
     object_id = int(instance.comment_target_object_id)
@@ -73,13 +74,13 @@ def delete_comment_activity(sender, instance, **kwargs):
     model = None
 
     if object_model == 'workout':
-        model = Workout.objects.get(pk=object_id)
+        model = Workout.objects.filter(pk=object_id).first()
     elif object_model == 'plan':
-        model = Plan.objects.get(pk=object_id)
+        model = Plan.objects.filter(pk=object_id).first()
     elif object_model == 'post':
-        model = Post.objects.get(pk=object_id)
+        model = Post.objects.filter(pk=object_id).first()
     elif object_model == 'exercise':
-        model = Exercise.objects.get(pk=object_id)
+        model = Exercise.objects.filter(pk=object_id).first()
 
     if model:
         model.comment_number -= 1
@@ -89,10 +90,7 @@ def delete_comment_activity(sender, instance, **kwargs):
 
         model.save()
 
-    queryset.delete()
-
-post_save.connect(post_actstream_handler, sender=Post)
-post_save.connect(comment_actstream_handler, sender=Comment)
+post_save.connect(post_user_actions_handler, sender=Post)
+post_save.connect(comment_user_actions_handler, sender=Comment)
 post_save.connect(comment_update_comments_number_handler, sender=Comment)
 pre_delete.connect(delete_comment_activity, sender=Comment)
-pre_delete.connect(delete_activity_handler, sender=CustomUser)

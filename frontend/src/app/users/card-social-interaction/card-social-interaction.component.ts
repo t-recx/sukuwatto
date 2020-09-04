@@ -137,7 +137,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
 
   checkIfUserLikedContent() {
     if (this.authService.isLoggedIn()) {
-      this.streamsService.userLikedContent(this.content_type_id, this.id, this.content_type_user_id, +this.authService.getUserId())
+      this.streamsService.userLikedContent(this.content_type_id, this.id)
     .subscribe(x => this.liked = x);
     }
   }
@@ -149,11 +149,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
 
     likeActions.forEach(action => 
       {
-        let user = new User();
-
-        user.username = action.actor.display_name;
-
-        this.usersThatLiked.push(user);
+        this.usersThatLiked.push(action.user);
       });
 
   }

@@ -1,8 +1,9 @@
 from rest_framework.decorators import api_view, permission_classes
+from social.utils import get_user_actions_filtered_by_object
 from django.db.models import Q
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from social.models import Message, LastMessage, Post, Comment
+from social.models import Message, LastMessage, Post, Comment, UserAction
 from social.serializers import MessageSerializer, MessageReadSerializer, LastMessageSerializer, PostSerializer, CommentSerializer
 from rest_framework import viewsets
 from rest_framework import generics, status, mixins
@@ -12,11 +13,9 @@ from django.contrib.auth import get_user_model
 from pprint import pprint
 from social.message_service import MessageService
 from sqtrex.pagination import StandardResultsSetPagination
-from actstream.models import action_object_stream, Action, target_stream
 from sqtrex.serializers import ActionSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
-from actstream import action
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.models import Workout, Plan, Exercise
 
@@ -26,9 +25,11 @@ class ActionObjectStreamList(generics.ListAPIView):
         object_id = request.query_params.get('object_id', None)
 
         ctype = get_object_or_404(ContentType, pk=content_type_id)
-        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+        object_model = ctype.model
 
-        queryset = action_object_stream(instance)
+        queryset = get_user_actions_filtered_by_object(UserAction.objects.all(), content_type_id, object_id, False)
+
+        queryset = queryset.order_by('-timestamp')
 
         serializer = ActionSerializer(queryset, many=True)
 
@@ -39,23 +40,12 @@ class TargetStreamList(generics.ListAPIView):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
 
-        verb = request.query_params.get('verb', None)
-        actor_content_type_id = request.query_params.get('actor_content_type_id', None)
-        actor_object_id = request.query_params.get('actor_object_id', None)
-
         ctype = get_object_or_404(ContentType, pk=content_type_id)
-        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+        object_model = ctype.model
 
-        queryset = target_stream(instance)
+        queryset = get_user_actions_filtered_by_object(UserAction.objects.all(), content_type_id, object_id, True)
 
-        if verb is not None:
-            queryset = queryset.filter(verb=verb)
-
-        if actor_content_type_id is not None:
-            queryset = queryset.filter(actor_content_type_id=actor_content_type_id)
-
-        if actor_object_id is not None:
-            queryset = queryset.filter(actor_object_id=actor_object_id)
+        queryset = queryset.order_by('-timestamp')
 
         serializer = ActionSerializer(queryset, many=True)
 
@@ -133,26 +123,13 @@ def user_liked(request):
     content_type_id = request.query_params.get('content_type_id', None)
     object_id = request.query_params.get('object_id', None)
 
-    verb = request.query_params.get('verb', None)
-    actor_content_type_id = request.query_params.get('actor_content_type_id', None)
-    actor_object_id = request.query_params.get('actor_object_id', None)
+    return Response(user_liked_object(request.user, content_type_id, object_id))
 
-    ctype = get_object_or_404(ContentType, pk=content_type_id)
-    instance = get_object_or_404(ctype.model_class(), pk=object_id)
+def user_liked_object(user, content_type_id, object_id):
+    return get_queryset_like(user, content_type_id, object_id).exists()
 
-    queryset = target_stream(instance)
-
-    if verb is not None:
-        queryset = queryset.filter(verb=verb)
-
-    if actor_content_type_id is not None:
-        queryset = queryset.filter(actor_content_type_id=actor_content_type_id)
-
-    if actor_object_id is not None:
-        queryset = queryset.filter(actor_object_id=actor_object_id)
-
-    return Response(queryset.exists())
-
+def get_queryset_like(user, content_type_id, object_id):
+    return get_user_actions_filtered_by_object(UserAction.objects.filter(Q(user=user), Q(verb='liked')), content_type_id, object_id, True)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -173,35 +150,42 @@ def toggle_like(request):
     user = request.user
     content_type_id = request.data.get('content_type_id', None)
     object_id = request.data.get('object_id', None)
-    user_content_type_id = ContentType.objects.get(app_label='users', model='customuser').pk
 
-    actor_ctype = get_object_or_404(ContentType, pk=user_content_type_id)
     ctype = get_object_or_404(ContentType, pk=content_type_id)
-    instance = get_object_or_404(ctype.model_class(), pk=object_id)
 
-    queryset = Action.objects.filter(actor_content_type=actor_ctype, actor_object_id=user.id,
-        target_content_type=ctype, target_object_id=object_id, verb='liked')
+    queryset = get_queryset_like(user, content_type_id, object_id)
 
     deleted = False
 
-    if queryset.count() > 0:
+    if queryset.exists():
         queryset.delete()
         deleted = True
-    else:
-        action.send(request.user, verb='liked', target=instance)
 
     object_model = ctype.model
 
     model = None
 
+    target_workout = None
+    target_plan = None
+    target_post = None
+    target_exercise = None
+
     if object_model == 'workout':
         model = Workout.objects.get(pk=object_id)
+        target_workout = model
     elif object_model == 'plan':
         model = Plan.objects.get(pk=object_id)
+        target_plan = model
     elif object_model == 'post':
         model = Post.objects.get(pk=object_id)
+        target_post = model
     elif object_model == 'exercise':
         model = Exercise.objects.get(pk=object_id)
+        target_exercise = model
+
+    if not deleted:
+        UserAction.objects.create(user=request.user, verb='liked', target_workout=target_workout, target_plan=target_plan,
+            target_post=target_post, target_exercise=target_exercise)
 
     if model is not None:
         if deleted:

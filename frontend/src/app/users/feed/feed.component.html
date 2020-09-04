@@ -5,22 +5,17 @@
 <div *ngIf="actions">
     <div *ngFor="let action of actions; let i = index;" class="siimple-p">
         <div *ngIf="i > 0" class="siimple-rule"></div>
-        <app-user-tag *ngIf="action.actor.object_type == 'user'" [username]=action.actor.display_name
-            [fetchProfileFilename]=true>
+        <app-user-tag [username]=action.user.username [profile_filename]=action.user.profile_filename>
         </app-user-tag>
-        <span *ngIf="action.actor.object_type != 'user'">
-            <app-home-object-construct [object]=action.actor [object_id]=action.actor_object_id>
-            </app-home-object-construct>
-        </span>
 
         <ng-container [ngSwitch]=action.verb>
             <ng-template [ngSwitchCase]="'started following'">
                 {{action.verb}}
-                <span *ngIf="action.target.display_name == username; else elseBlock">
+                <span *ngIf="action.target_user.username == username; else elseBlock">
                     you
                 </span>
                 <ng-template #elseBlock>
-                    <app-home-object-construct [object]=action.target></app-home-object-construct>
+                    <app-home-object-construct object_type='user' [object_id]=action.target_user.id [display_name]=action.target_user.username></app-home-object-construct>
                 </ng-template>
             </ng-template>
 
@@ -28,8 +23,8 @@
                 <span class="action-info">
                     made a new
                     <span>
-                        <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
-                            [object_id]=action.action_object_object_id>
+                        <app-home-object-construct object_type='post' [username]='action.user.username'
+                            [object_id]=action.action_object_post.id>
                         </app-home-object-construct>
                     </span>
                 </span>
@@ -39,8 +34,8 @@
                 <span class="action-info">
                     finished a
                     <span>
-                        <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
-                            [object_id]=action.action_object_object_id>
+                        <app-home-object-construct object_type='workout' [username]='action.user.username'
+                            [object_id]=action.action_object_workout.id>
                         </app-home-object-construct>
                     </span>
                 </span>
@@ -50,8 +45,8 @@
                 <span class="action-info">
                     adopted a
                     <span>
-                        <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
-                            [object_id]=action.action_object_object_id>
+                        <app-home-object-construct object_type='plan' [username]=action.user.username
+                            [object_id]=action.action_object_plan.id>
                         </app-home-object-construct>
                     </span>
                 </span>
@@ -59,80 +54,102 @@
 
             <ng-template [ngSwitchCase]="'created'">
                 <span class="action-info">
-                    <ng-container [ngSwitch]=action.action_object.object_type *ngIf="action.action_object">
-                        <ng-template [ngSwitchCase]="'exercise'">
-                            created an
-                        </ng-template>
-                        <ng-template ngSwitchDefault>
-                            created a
-                        </ng-template>
-                    </ng-container>
-                    <span *ngIf="!action.action_object">
-                        created a
+                    <span *ngIf="action.action_object_exercise">
+                        created an
+                        <span>
+                            <app-home-object-construct object_type='exercise' [username]=action.user.username
+                                [object_id]=action.action_object_exercise.id>
+                            </app-home-object-construct>
+                        </span>
                     </span>
-                    <span>
-                        <app-home-object-construct [object]=action.action_object [username]=action.actor.display_name
-                            [object_id]=action.action_object_object_id>
-                        </app-home-object-construct>
+                    <span *ngIf="action.action_object_plan">
+                        created a
+                        <span>
+                            <app-home-object-construct object_type='plan' [username]=action.user.username
+                                [object_id]=action.action_object_plan.id>
+                            </app-home-object-construct>
+                        </span>
                     </span>
                 </span>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'liked'">
                 <span class="action-info">
-                    <ng-container [ngSwitch]=action.target.object_type *ngIf="action.target">
-                        <ng-template [ngSwitchCase]="'exercise'">
-                            liked an
-                        </ng-template>
-                        <ng-template ngSwitchDefault>
-                            liked a
-                        </ng-template>
-                    </ng-container>
-                    <span *ngIf="!action.target">
-                        liked a
+                    <span *ngIf="action.target_exercise">
+                        liked an
+                        <span>
+                            <app-home-object-construct object_type='exercise' [username]=action.target_exercise.user.username
+                                [object_id]=action.target_exercise.id>
+                            </app-home-object-construct>
+                        </span>
                     </span>
-                    <span>
-                        <app-home-object-construct *ngIf="action.action_object" [object]=action.action_object
-                            [username]=action.actor.display_name [object_id]=action.action_object_object_id>
-                        </app-home-object-construct>
 
-                        <app-home-object-construct *ngIf="action.target" [object]=action.target
-                            [username]=action.actor.display_name [object_id]=action.target_object_id>
-                        </app-home-object-construct>
+                    <span *ngIf="action.target_plan">
+                        liked a
+                        <span>
+                            <app-home-object-construct object_type='plan' [username]=action.target_plan.user.username
+                                [object_id]=action.target_plan.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+
+                    <span *ngIf="action.target_workout">
+                        liked a
+                        <span>
+                            <app-home-object-construct object_type='workout' [username]=action.target_workout.user.username
+                                [object_id]=action.target_workout.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+
+                    <span *ngIf="action.target_post">
+                        liked a
+                        <span>
+                            <app-home-object-construct object_type='post' [username]=action.target_post.user.username
+                                [object_id]=action.target_post.id>
+                            </app-home-object-construct>
+                        </span>
                     </span>
                 </span>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'commented'">
                 <span class="action-info">
-                    <ng-container [ngSwitch]=action.target.object_type *ngIf="action.target"> 
-                        <ng-template [ngSwitchCase]="'exercise'">
-                            commented an
-                        </ng-template>
-                        <ng-template ngSwitchDefault>
-                            commented a
-                        </ng-template>
-                    </ng-container>
-                    <span *ngIf="!action.target">
-                        commented a
+                    <span *ngIf="action.target_exercise">
+                        commented an
+                        <span>
+                            <app-home-object-construct object_type='exercise' [username]=action.target_exercise.user.username
+                                [object_id]=action.target_exercise.id>
+                            </app-home-object-construct>
+                        </span>
                     </span>
-                    <span>
-                        <app-home-object-construct [object]=action.target [username]=action.actor.display_name
-                            [object_id]=action.target_object_id>
-                        </app-home-object-construct>
-                    </span>
-                </span>
-            </ng-template>
 
-            <ng-template ngSwitchDefault>
-                <span class="action-info">
-                    {{action.verb}}
-                    <app-home-object-construct *ngIf="action.action_object" [object]=action.action_object
-                        [username]=action.actor.display_name [object_id]=action.action_object_object_id>
-                    </app-home-object-construct>
-                    <app-home-object-construct *ngIf="action.target" [object]=action.target
-                        [username]=action.actor.display_name [object_id]=action.target_object_id>
-                    </app-home-object-construct>
+                    <span *ngIf="action.target_plan">
+                        commented a
+                        <span>
+                            <app-home-object-construct object_type='plan' [username]=action.target_plan.user.username
+                                [object_id]=action.target_plan.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+
+                    <span *ngIf="action.target_workout">
+                        commented a
+                        <span>
+                            <app-home-object-construct object_type='workout' [username]=action.target_workout.user.username
+                                [object_id]=action.target_workout.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+
+                    <span *ngIf="action.target_post">
+                        commented a
+                        <span>
+                            <app-home-object-construct object_type='post' [username]=action.target_post.user.username
+                                [object_id]=action.target_post.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -140,43 +157,41 @@
 
             <ng-template [ngSwitchCase]="'posted'">
                 <div class="card-container">
-                    <app-post-detail-card [id]=action.action_object_object_id [showHeader]=false>
+                    <app-post-detail-card [post]=action.action_object_post [showHeader]=false>
                     </app-post-detail-card>
                 </div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'trained'">
                 <div class="card-container">
-                    <app-workout-overview-card [id]=action.action_object_object_id [detailView]=false></app-workout-overview-card>
+                    <app-workout-overview-card [workout]=action.action_object_workout [detailView]=false></app-workout-overview-card>
                 </div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'adopted'">
                 <div class="card-container">
-                    <app-plan-card [id]=action.action_object_object_id></app-plan-card>
+                    <app-plan-card [plan]=action.action_object_plan></app-plan-card>
                 </div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'created'">
-                <ng-container [ngSwitch]=action.action_object.object_type>
-                    <ng-template [ngSwitchCase]="'exercise'">
-                        <div class="card-container">
-                            <app-exercise-card [id]=action.action_object_object_id></app-exercise-card>
-                        </div>
-                    </ng-template>
-                    <ng-template [ngSwitchCase]="'plan'">
-                        <div class="card-container">
-                            <app-plan-card [id]=action.action_object_object_id></app-plan-card>
-                        </div>
-                    </ng-template>
-                </ng-container>
+                <span *ngIf="action.action_object_exercise">
+                    <div class="card-container">
+                        <app-exercise-card [exercise]=action.action_object_exercise></app-exercise-card>
+                    </div>
+                </span>
+                <span *ngIf="action.action_object_plan">
+                    <div class="card-container">
+                        <app-plan-card [plan]=action.action_object_plan></app-plan-card>
+                    </div>
+                </span>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'commented'">
                 <div class="card-container">
                     <div class="siimple-card">
                         <div class="siimple-card-body">
-                            {{action.action_object.display_name}}
+                            {{action.action_object_comment.text}}
                         </div>
                     </div>
                 </div>

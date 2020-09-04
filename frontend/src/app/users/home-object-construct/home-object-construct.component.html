@@ -1,6 +1,6 @@
-<ng-container [ngSwitch]=object.object_type>
+<ng-container [ngSwitch]=object_type>
     <ng-template [ngSwitchCase]="'user'">
-        <app-user-link [username]=object.display_name></app-user-link>
+        <app-user-link [username]=display_name></app-user-link>
     </ng-template>
 
     <ng-template [ngSwitchCase]="'post'">
@@ -32,6 +32,6 @@
     </ng-template>
 
     <ng-template ngSwitchDefault>
-        {{object.display_name}}
+        {{display_name}}
     </ng-template>
 </ng-container>
