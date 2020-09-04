@@ -39,6 +39,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   thresholdCloseAnywayMs = 200;
   touchStartClientX = 0;
 
+  routerNavigationSubscription: Subscription;
   checkUpdateSubscription: Subscription;
   applicationUpdateDismissedDate: Date = null;
   updateSnackbarVisible = false;
@@ -60,28 +61,37 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(
-    public authService: AuthService, 
-    public route: ActivatedRoute, 
+    public authService: AuthService,
+    public route: ActivatedRoute,
+    private router: Router,
     private loadingService: LoadingService,
     private elementRef: ElementRef,
     swUpdate: SwUpdate,
-    ) { 
-      this.checkUpdateSubscription = swUpdate.available.subscribe(x => {
-        let v = true;
-
-        if (this.applicationUpdateDismissedDate) {
-          v = (new Date()).valueOf() - this.applicationUpdateDismissedDate.valueOf() > 3600000;
-
-          if (!v) {
-            this.applicationUpdateDismissedDate = null;
-          }
+  ) {
+    this.routerNavigationSubscription = this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        if (this.menuDropDownVisible) {
+          this.setDropDownVisible(false);
         }
+      }
+    });
 
-        this.updateSnackbarVisible = v;
-      });
+    this.checkUpdateSubscription = swUpdate.available.subscribe(x => {
+      let v = true;
 
-      this.onResize();
-    }
+      if (this.applicationUpdateDismissedDate) {
+        v = (new Date()).valueOf() - this.applicationUpdateDismissedDate.valueOf() > 3600000;
+
+        if (!v) {
+          this.applicationUpdateDismissedDate = null;
+        }
+      }
+
+      this.updateSnackbarVisible = v;
+    });
+
+    this.onResize();
+  }
 
   updateApplication() {
     window.location.reload();
@@ -100,6 +110,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resetBodyOverflow();
     this.loadingSubscription.unsubscribe();
     this.checkUpdateSubscription.unsubscribe();
+    this.routerNavigationSubscription.unsubscribe();
   }
 
   ngOnInit() {
