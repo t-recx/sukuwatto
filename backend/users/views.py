@@ -1,6 +1,4 @@
 from sqtrex.pagination import StandardResultsSetPagination
-from actstream.models import Follow, followers, following
-from actstream.actions import follow, unfollow
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -14,7 +12,6 @@ from rest_framework.parsers import FileUploadParser
 from .serializers import UserSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
 from sqtrex.serializers import ActionSerializer
 from django.shortcuts import get_object_or_404
-from actstream import models
 from sqtrex.permissions import IsUserOrReadOnly
 from users.models import CustomUser, UserInterest
 from django.contrib.auth import password_validation
@@ -23,8 +20,7 @@ from sqtrex.visibility import Visibility
 from django.db.models import Q
 from django.utils.safestring import mark_safe
 from sqtrex.visibility import VisibilityQuerysetMixin
-from workouts.models import Workout
-import json
+from social.models import UserAction
 
 class FollowersList(generics.ListAPIView):
     pagination_class = StandardResultsSetPagination
@@ -35,7 +31,7 @@ class FollowersList(generics.ListAPIView):
         if username is not None:
             user = get_object_or_404(get_user_model(), username=username)
 
-        queryset = followers(user)
+        queryset = user.followers.all().order_by('username')
 
         page = self.paginate_queryset(queryset)
 
@@ -57,7 +53,7 @@ class FollowingList(generics.ListAPIView):
         if username is not None:
             user = get_object_or_404(get_user_model(), username=username)
 
-        queryset = following(user, get_user_model())
+        queryset = user.following.all().order_by('username')
 
         page = self.paginate_queryset(queryset)
 
@@ -125,26 +121,15 @@ class StreamList(generics.ListAPIView):
         pass
 
     def get_queryset_visibility(self, queryset, user):
-        #print(mark_safe(json.dumps(list(queryset.values()), default=str, ensure_ascii=False)))
-        user_ctype_id = ContentType.objects.get(model='customuser').id
-        workout_ctype_id = ContentType.objects.get(model='workout').id
+        if not user or not user.is_authenticated:
+            queryset = queryset.exclude(Q(target_workout__isnull=False), ~Q(target_workout__visibility=Visibility.EVERYONE))
+            queryset = queryset.exclude(Q(action_object_workout__isnull=False), ~Q(action_object_workout__visibility=Visibility.EVERYONE))
+        else:
+            queryset = queryset.exclude(Q(target_workout__isnull=False), Q(target_workout__visibility=Visibility.OWN_USER), ~Q(target_workout__user=user))
+            queryset = queryset.exclude(Q(target_workout__isnull=False), Q(target_workout__visibility=Visibility.FOLLOWERS), ~Q(target_workout__user__followers__id=user.id), ~Q(target_workout__user=user))
 
-        queryset_target_workouts = queryset.filter(Q(target_content_type_id=workout_ctype_id))
-        queryset_action_object_workouts = queryset.filter(Q(action_object_content_type_id=workout_ctype_id))
-
-        target_workout_ids = [int(oid) for oid in queryset_target_workouts.order_by('target_object_id').values_list('target_object_id', flat=True).distinct()]
-        action_object_workout_ids = [int(oid) for oid in queryset_action_object_workouts.order_by('action_object_object_id').values_list('action_object_object_id', flat=True).distinct()]
-
-        combined_list = target_workout_ids + list(set(action_object_workout_ids) - set(target_workout_ids))
-
-        visibility = VisibilityQuerysetMixin()
-
-        queryset_workouts = visibility.get_queryset_visibility(Workout.objects.filter(id__in=combined_list), user)
-
-        workout_visible_ids = [workout.id for workout in queryset_workouts]
-
-        queryset = queryset.exclude(Q(target_content_type_id=workout_ctype_id),~Q(target_object_id__in=workout_visible_ids))
-        queryset = queryset.exclude(Q(action_object_content_type_id=workout_ctype_id),~Q(action_object_object_id__in=workout_visible_ids))
+            queryset = queryset.exclude(Q(action_object_workout__isnull=False), Q(action_object_workout__visibility=Visibility.OWN_USER), ~Q(action_object_workout__user=user))
+            queryset = queryset.exclude(Q(action_object_workout__isnull=False), Q(action_object_workout__visibility=Visibility.FOLLOWERS), ~Q(action_object_workout__user__followers__id=user.id), ~Q(action_object_workout__user=user))
 
         return queryset
 
@@ -168,7 +153,7 @@ class UserStreamList(StreamList):
     permission_classes = [IsAuthenticated]
 
     def get_stream_queryset(self, request):
-        return models.user_stream(request.user, with_user_activity=True)
+        return UserAction.objects.filter(Q(user__followers__id=request.user.id) | Q(user=request.user)).order_by('-timestamp').distinct()
 
 class ActorStreamList(StreamList):
     def get_stream_queryset(self, request):
@@ -179,7 +164,7 @@ class ActorStreamList(StreamList):
         if username is not None:
             user = get_object_or_404(get_user_model(), username=username)
 
-        return models.actor_stream(user)
+        return UserAction.objects.filter(user=user).order_by('-timestamp')
 
 class ExpressInterestCreate(generics.CreateAPIView):
     serializer_class = ExpressInterestSerializer
@@ -187,14 +172,11 @@ class ExpressInterestCreate(generics.CreateAPIView):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_is_following(request):
-    if request.method == 'GET':
-        user = None
-        username = request.query_params.get('username', None)
+    username = request.query_params.get('username', None)
 
-        if username is not None:
-            user = get_object_or_404(get_user_model(), username=username)
+    user = get_object_or_404(get_user_model(), username=username)
 
-        return Response(Follow.objects.is_following(request.user, user))
+    return Response(request.user.following.filter(id=user.id).exists())
 
 @api_view(['POST'])
 def express_interest(request):
@@ -210,20 +192,35 @@ def express_interest(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def do_follow(request):
-    if request.method == 'POST':
-        content_type_id = request.data.get('content_type_id', None)
-        object_id = request.data.get('object_id', None)
-        flag = request.data.get('flag', '')
+    user_id = request.data.get('user_id', None)
+    instance = get_object_or_404(get_user_model(), pk=user_id)
 
-        ctype = get_object_or_404(ContentType, pk=content_type_id)
-        instance = get_object_or_404(ctype.model_class(), pk=object_id)
+    if not instance.followers.filter(id=request.user.id).exists():
+        instance.followers.add(request.user)
+        request.user.following.add(instance)
 
-        follow(request.user, instance, actor_only=True, flag=flag)
-
-        if ctype.model == 'customuser':
-            instance.followers.add(request.user)
+        if not UserAction.objects.filter(user=request.user, verb='started following', target_user=instance).exists():
+            UserAction.objects.create(user=request.user, verb='started following', target_user=instance)
 
         return Response(status=status.HTTP_201_CREATED)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def do_unfollow(request):
+    user_id = request.data.get('user_id', None)
+    instance = get_object_or_404(get_user_model(), pk=user_id)
+
+    if instance.followers.filter(id=request.user.id).exists():
+        instance.followers.remove(request.user)
+        request.user.following.remove(instance)
+
+        UserAction.objects.filter(user=request.user, verb='started following', target_user=instance).delete()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 def validate_password(request):
@@ -254,24 +251,6 @@ def change_password(request):
     request.user.save()
 
     return Response(status=status.HTTP_204_NO_CONTENT)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def do_unfollow(request):
-    if request.method == 'POST':
-        content_type_id = request.data.get('content_type_id', None)
-        object_id = request.data.get('object_id', None)
-        flag = request.data.get('flag', '')
-
-        ctype = get_object_or_404(ContentType, pk=content_type_id)
-        instance = get_object_or_404(ctype.model_class(), pk=object_id)
-
-        unfollow(request.user, instance, flag=flag)
-
-        if ctype.model == 'customuser':
-            instance.followers.remove(request.user)
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def get_profile_filename(request):

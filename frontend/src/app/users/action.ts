@@ -1,24 +1,31 @@
-import { ObjectConstruct } from './object-construct';
+import { Workout } from './workout';
+import { Plan } from './plan';
+import { Exercise } from './exercise';
+import { Post } from './post';
+import { User } from '../user';
+import { Comment } from './comment';
 
 export class Action {
     id: number;
 
-    actor_content_type: any;
-    actor_object_id: string;
-    actor: ObjectConstruct;
+    user: User;
 
     verb: string;
     description: string;
 
-    target_content_type: any;
-    target_object_id: string;
-    target: ObjectConstruct;
+    target_workout: Workout;
+    target_plan: Plan;
+    target_exercise: Exercise;
+    target_post: Post;
+    target_comment: Comment;
+    target_user: User;
 
-    action_object_content_type: any;
-    action_object_object_id: string;
-    action_object: ObjectConstruct;
+    action_object_workout: Workout;
+    action_object_plan: Plan;
+    action_object_exercise: Exercise;
+    action_object_post: Post;
+    action_object_comment: Comment;
+    action_object_user: User;
 
     timestamp: Date;
-
-    public: boolean;
 }

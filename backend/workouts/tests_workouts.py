@@ -2,8 +2,8 @@ import json
 from rest_framework.test import APITestCase
 from workouts.models import Workout
 from sqtrex.tests import CRUDTestCaseMixin, VisibilityTestCaseMixin
-from actstream.models import Action
 from users.models import CustomUser
+from social.models import UserAction
 from django.contrib.contenttypes.models import ContentType
 
 class WorkoutTestCase(VisibilityTestCaseMixin, APITestCase):
@@ -47,5 +47,4 @@ class WorkoutTestCase(VisibilityTestCaseMixin, APITestCase):
         wid = self.create_resource(self.user1, data)
         ctid = ContentType.objects.get(model='workout').id
 
-        self.assertEqual(Action.objects.count(), 1) 
-        Action.objects.get(verb='trained', action_object_object_id=wid, actor_object_id=uid, action_object_content_type_id=ctid)
+        self.assertEqual(UserAction.objects.count(), 1) 

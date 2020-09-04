@@ -101,7 +101,7 @@
             <div class="siimple-rule siimple--mt-3"></div>
         
             <div class="owner-user-container">
-                <app-user-tag [username]=exercise.user.username [fetchProfileFilename]=true>
+                <app-user-tag [username]=exercise.user.username [profile_filename]=exercise.user.profile_filename>
                 </app-user-tag>
         
                 <small class="siimple-small siimple--ml-2">{{exercise.creation.toString() | timeAgo}}</small>

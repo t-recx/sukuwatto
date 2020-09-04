@@ -129,6 +129,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.loadingService.load();
     this.loadingOlderActions = true;
 
     this.streamsService.getUserStream(this.currentPage + 1, this.pageSize)
@@ -137,6 +138,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.actions.push(...this.getNewActions(this.actions, paginatedActions.results));
         this.currentPage += 1;
         this.loadingOlderActions = false;
+        this.loadingService.unload();
       }, () => this.loadingOlderActions = false);
   }
 
@@ -150,6 +152,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.loadingNewActions = true;
+
+    this.loadingService.load();
 
     this.streamsService.getUserStream(indexPage, this.pageSize)
       .subscribe(paginatedActions => {
@@ -167,6 +171,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (numberOfNewRecords == this.pageSize) {
           this.loadNewActions(indexPage + 1);
         }
+
+        this.loadingService.unload();
       }, () => this.loadingNewActions = false);
   }
 

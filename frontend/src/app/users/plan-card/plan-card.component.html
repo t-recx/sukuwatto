@@ -240,7 +240,7 @@
 
         <div class="owner-user-container">
             <app-user-tag [username]=plan.user.username
-                [fetchProfileFilename]=true>
+                [profile_filename]=plan.user.profile_filename>
             </app-user-tag>
 
             <small class="siimple-small siimple--ml-2">{{plan.creation.toString() | timeAgo}}</small>

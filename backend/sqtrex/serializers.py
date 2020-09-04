@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from django.contrib.contenttypes.models import ContentType
-from actstream.models import Action
+from social.models import UserAction
+from social.serializers import PostSerializer, CommentSerializer
+from users.serializers import UserSerializer
+from workouts.serializers.workout_serializer import WorkoutSerializer
+from workouts.serializers.plan_serializer import PlanSerializer
+from workouts.serializers.serializers import ExerciseSerializer
 
 class ContentTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,36 +13,22 @@ class ContentTypeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class ActionSerializer(serializers.ModelSerializer):
-    actor = serializers.SerializerMethodField()
-    target = serializers.SerializerMethodField()
-    action_object = serializers.SerializerMethodField()
+    user = UserSerializer()
+
+    target_user = UserSerializer()
+    target_workout = WorkoutSerializer()
+    target_plan = PlanSerializer()
+    target_post = PostSerializer()
+    target_comment = CommentSerializer()
+    target_exercise = ExerciseSerializer()
+
+    action_object_user = UserSerializer()
+    action_object_workout = WorkoutSerializer()
+    action_object_plan = PlanSerializer()
+    action_object_post = PostSerializer()
+    action_object_comment = CommentSerializer()
+    action_object_exercise = ExerciseSerializer()
 
     class Meta:
-        model = Action
+        model = UserAction
         fields = "__all__"
-    
-    def get_actor(self, obj):
-        return self.format_item(obj)
-    
-    def get_target(self, obj):
-        if obj.target:
-            return self.format_item(obj, 'target')
-        
-        return None
-    
-    def get_action_object(self, obj):
-        if obj.action_object:
-            return self.format_item(obj, 'action_object')
-
-        return None
-
-    def format_item(self, action, item_type='actor'):
-        """
-        Returns a formatted dictionary for an individual item based on the action and item_type.
-        """
-        obj = getattr(action, item_type)
-        return {
-            'object_type': ContentType.objects.get_for_model(obj).name,
-            'display_name': str(obj)
-        }
-    

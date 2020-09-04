@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ObjectConstruct } from '../object-construct';
 
 @Component({
   selector: 'app-home-object-construct',
@@ -8,7 +7,8 @@ import { ObjectConstruct } from '../object-construct';
 })
 export class HomeObjectConstructComponent implements OnInit {
   @Input() username: string;
-  @Input() object: ObjectConstruct;
+  @Input() object_type: string;
+  @Input() display_name: string;
   @Input() object_id: string;
 
   constructor() { }

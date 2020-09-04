@@ -195,7 +195,7 @@
             <div class="siimple-rule"></div>
 
             <div class="owner-user-container">
-                <app-user-tag [username]=workout.user.username [fetchProfileFilename]=true>
+                <app-user-tag [username]=workout.user.username [profile_filename]=workout.user.profile_filename>
                 </app-user-tag>
 
                 <small class="siimple-small siimple--ml-2">{{ workout.start.toString() | timeAgo }}</small>

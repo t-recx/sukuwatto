@@ -2,7 +2,7 @@
     <div *ngIf="editing" class="siimple-form">
         <div class="siimple-form-field">
             <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newComment"
-                id="newComment" required [(ngModel)]="comment.action_object.display_name" #newComment="ngModel" placeholder="Write your comment here">
+                id="newComment" required [(ngModel)]="comment.action_object_comment.text" #newComment="ngModel" placeholder="Write your comment here">
           </textarea>
 
           <div *ngIf="newComment.invalid && (newComment.dirty || triedToSave)">
@@ -20,13 +20,13 @@
         </div>
     </div>
     <div *ngIf="!editing" class="keep-original-formatting">
-        {{comment.action_object.display_name}}
+        {{comment.action_object_comment.text}}
     </div>
 
     <div class="siimple-rule"></div>
 
     <div class="comment-info">
-        <app-user-tag [username]=comment.actor.display_name [fetchProfileFilename]=true>
+        <app-user-tag [username]=comment.user.username [profile_filename]=comment.user.profile_filename>
         </app-user-tag>
 
         <div class="comment-date">

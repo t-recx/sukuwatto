@@ -51,7 +51,8 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
     private createChart() {
         d3.select(this.hostElement).select('.svg-chart').select('svg').remove();
 
-        if (!this.progressData) {
+        if (!this.progressData || !this.progressData.dates || this.progressData.dates.length == 0 || 
+            !this.progressData.series || this.progressData.series.length == 0) {
             return;
         }
 

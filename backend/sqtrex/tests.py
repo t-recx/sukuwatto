@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from users.models import CustomUser
 from sqtrex.visibility import Visibility
-from actstream.actions import follow, unfollow
 
 class AuthTestCaseMixin():
     def authenticate(self, credentials):
@@ -150,8 +149,8 @@ class VisibilityTestCaseMixin(CRUDTestCaseMixin):
         u = CustomUser.objects.get(username=user['username'])
         fu = CustomUser.objects.get(username=followed_user['username'])
 
-        follow(u, fu, actor_only=True)
         fu.followers.add(u)
+        u.following.add(fu)
 
     def exercise_visibility(self, visibility, anonymous_can_view, follower_can_view, another_user_can_view):
         resource_id = self.create_resource(self.user1, self.get_resource_data_with_visibility(visibility))

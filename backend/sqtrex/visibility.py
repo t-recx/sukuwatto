@@ -1,5 +1,4 @@
 from django.db.models import Q
-from actstream.models import Follow
 from users.models import CustomUser
 
 class Visibility:
