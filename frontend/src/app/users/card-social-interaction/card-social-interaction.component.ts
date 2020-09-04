@@ -26,6 +26,10 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @Input() shareLink: string;
   @Input() likeNumber: number = 0;
   @Input() commentNumber: number = 0;
+  @Input() target_plan: number;
+  @Input() target_post: number;
+  @Input() target_exercise: number;
+  @Input() target_workout: number;
 
   content_type_id: number;
   content_type_user_id: number;
@@ -192,6 +196,10 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     comment.text = this.newCommentText;
     comment.comment_target_content_type = this.content_type_id;
     comment.comment_target_object_id = this.id.toString();
+    comment.target_plan = this.target_plan;
+    comment.target_post = this.target_post;
+    comment.target_workout = this.target_workout;
+    comment.target_exercise = this.target_exercise;
 
     if (!comment.text || comment.text.trim().length == 0) {
       this.triedToComment = true;

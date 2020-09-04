@@ -34,6 +34,11 @@ class Comment(models.Model):
     comment_target_object_id = models.CharField(max_length=255, db_index=True)
     comment_target = GenericForeignKey('comment_target_content_type', 'comment_target_object_id')
 
+    target_workout = models.ForeignKey(Workout, related_name='comment_target_workout', on_delete=models.CASCADE, blank= True, null=True)
+    target_plan = models.ForeignKey(Plan, related_name='comment_target_plan', on_delete=models.CASCADE, blank= True, null=True)
+    target_exercise = models.ForeignKey(Exercise, related_name='comment_target_exercise', on_delete=models.CASCADE, blank= True, null=True)
+    target_post = models.ForeignKey(Post, related_name='comment_target_post', on_delete=models.CASCADE, blank= True, null=True)
+
     def __str__(self):
         return self.text
 
