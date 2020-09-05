@@ -44,12 +44,12 @@ export class ResetPasswordRequestComponent implements OnInit {
     this.resetting = true;
     this.userService.resetPassword(this.resetEmail).subscribe(x => {
       this.resetting = false;
-      this.triedToReset = false;
 
       if (!x.error) {
         this.alertService.success('Instructions to reset your password were sent to your e-mail account');
+        this.triedToReset = false;
       }
-    })
+    });
   }
 
   valid(): boolean  {
