@@ -214,6 +214,17 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
+                            <label class="siimple-label">Follow approval required</label>
+                            <div class="siimple-switch">
+                                <input type="checkbox" name="follow_approval_required" id="follow_approval_required" [(ngModel)]="user.follow_approval_required" #follow_approval_required="ngModel">
+                                <label for="follow_approval_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
                             <div class="siimple-form-field-label">Default workout visibility</div>
                             <select class="siimple-select siimple-select--fluid" name="defaultWorkoutVisibility"
                                 id="defaultWorkoutVisibility" [(ngModel)]="user.default_visibility_workouts"

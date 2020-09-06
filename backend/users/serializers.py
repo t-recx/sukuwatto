@@ -49,6 +49,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.default_speed_unit = validated_data.get('default_speed_unit', instance.default_speed_unit)
         instance.default_distance_unit = validated_data.get('default_distance_unit', instance.default_distance_unit)
         instance.default_visibility_workouts = validated_data.get('default_visibility_workouts', instance.default_visibility_workouts)
+        instance.follow_approval_required = validated_data.get('follow_approval_required', instance.follow_approval_required)
 
         instance.save()
 
@@ -59,6 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'password', 'email', 'first_name', 'last_name', 
         'month_birth', 'year_birth', 'username', 'gender', 'groups', 
         'system', 'biography', 'location', 'profile_filename',
+        'follow_approval_required',
         'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
         'is_staff', 'default_visibility_workouts']
         extra_kwargs = {'password': {'write_only': True, 'required': False},

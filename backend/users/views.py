@@ -66,6 +66,28 @@ class FollowingList(generics.ListAPIView):
 
         return Response(serializer.data)
 
+class FollowRequestsList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+            user = get_object_or_404(get_user_model(), username=username)
+
+        queryset = user.follower_requests.all().order_by('username')
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = UserSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -176,7 +198,7 @@ def get_is_following(request):
 
     user = get_object_or_404(get_user_model(), username=username)
 
-    return Response(request.user.following.filter(id=user.id).exists())
+    return Response({ "following": request.user.following.filter(id=user.id).exists(), "requested": user.follower_requests.filter(id=request.user.id).exists() })
 
 @api_view(['POST'])
 def express_interest(request):
@@ -195,16 +217,29 @@ def do_follow(request):
     user_id = request.data.get('user_id', None)
     instance = get_object_or_404(get_user_model(), pk=user_id)
 
-    if not instance.followers.filter(id=request.user.id).exists():
-        instance.followers.add(request.user)
-        request.user.following.add(instance)
+    return follow_user(request.user, instance, False)
 
-        if not UserAction.objects.filter(user=request.user, verb='started following', target_user=instance).exists():
-            UserAction.objects.create(user=request.user, verb='started following', target_user=instance)
+def follow_user(requesting_user, followed_user, bypass_approval):
+    if not followed_user.followers.filter(id=requesting_user.id).exists():
+        if followed_user.follow_approval_required and not bypass_approval:
+            if not followed_user.follower_requests.filter(id=requesting_user.id).exists():
+                followed_user.follower_requests.add(requesting_user)
+                return Response({"requested": True, "followed": False}, status=status.HTTP_201_CREATED)
 
-        return Response(status=status.HTTP_201_CREATED)
+            return Response({"requested": True, "followed": False}, status=status.HTTP_204_NO_CONTENT)
 
-    return Response(status=status.HTTP_204_NO_CONTENT)
+        if followed_user.follower_requests.filter(id=requesting_user.id).exists():
+            followed_user.follower_requests.remove(requesting_user)
+
+        followed_user.followers.add(requesting_user)
+        requesting_user.following.add(followed_user)
+
+        if not UserAction.objects.filter(user=requesting_user, verb='started following', target_user=followed_user).exists():
+            UserAction.objects.create(user=requesting_user, verb='started following', target_user=followed_user)
+
+        return Response({"requested": False, "followed": True}, status=status.HTTP_201_CREATED)
+
+    return Response({"requested": False, "followed": True}, status=status.HTTP_204_NO_CONTENT)
     
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -220,7 +255,37 @@ def do_unfollow(request):
 
         return Response(status=status.HTTP_201_CREATED)
 
+    if instance.follower_requests.filter(id=request.user.id).exists():
+        instance.follower_requests.remove(request.user)
+
+        return Response(status=status.HTTP_201_CREATED)
+
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def approve_follow_request(request):
+    user_id = request.data.get('user_id', None)
+    instance = get_object_or_404(get_user_model(), pk=user_id)
+
+    if request.user.follower_requests.filter(id=user_id).exists():
+        return follow_user(instance, request.user,  True)
+    elif request.user.followers.filter(id=user_id):
+        return Response({"requested": False, "followed": True}, status=status.HTTP_204_NO_CONTENT)
+
+    return Response({"requested": False, "followed": False}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def reject_follow_request(request):
+    user_id = request.data.get('user_id', None)
+    instance = get_object_or_404(get_user_model(), pk=user_id)
+
+    if request.user.follower_requests.filter(id=user_id).exists():
+        request.user.follower_requests.remove(instance)
+
+    return Response({"requested": False, "followed": False}, status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['POST'])
 def validate_password(request):

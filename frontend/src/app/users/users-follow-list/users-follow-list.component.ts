@@ -16,6 +16,9 @@ export class UsersFollowListComponent implements OnInit {
   @Input() showActionButton: boolean;
   @Input() actionIcon;
   @Output() actionPressed = new EventEmitter<User>();
+  @Input() showDeleteButton: boolean;
+  @Input() deleteIcon;
+  @Output() deletePressed = new EventEmitter<User>();
 
   constructor(
   ) { }
@@ -25,5 +28,9 @@ export class UsersFollowListComponent implements OnInit {
 
   public action(user: User): void {
     this.actionPressed.emit(user);
+  }
+
+  public delete(user: User): void {
+    this.deletePressed.emit(user);
   }
 }

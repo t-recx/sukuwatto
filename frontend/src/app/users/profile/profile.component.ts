@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { User } from 'src/app/user';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/environments/environment';
-import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch, faClock, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
 import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
@@ -17,6 +17,7 @@ export enum UserViewProfileTab {
   Overview = 1,
   Followers = 2,
   Following = 3,
+  Requests = 4,
 }
 
 @Component({
@@ -33,12 +34,15 @@ export class ProfileComponent implements OnInit {
   loading: boolean = false;
   loadingFollowers: boolean = false;
   loadingFollowing: boolean = false;
+  loadingRequests: boolean = false;
   loadingOlderActions: boolean = false;
 
   paginatedFollowers: Paginated<User>;
   paginatedFollowing: Paginated<User>;
+  paginatedRequests: Paginated<User>;
   pageFollowers: number = 1;
   pageFollowing: number = 1;
+  pageRequests: number = 1;
 
   imageHidden: boolean = false;
 
@@ -53,6 +57,8 @@ export class ProfileComponent implements OnInit {
   canFollow: boolean;
   canMessage: boolean;
   isFollowed: boolean;
+  hasFollowRequest: boolean;
+  canShowRequestsTab: boolean = false;
 
   followers: User[] = [];
 
@@ -68,6 +74,9 @@ export class ProfileComponent implements OnInit {
   faBirthdayCake = faBirthdayCake;
   faMapMarkerAlt = faMapMarkerAlt;
   faCircleNotch = faCircleNotch;
+  faClock = faClock;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   messageModalVisible: boolean;
 
@@ -75,6 +84,8 @@ export class ProfileComponent implements OnInit {
   showUnfollowButtonOnFollowingList: boolean;
 
   operating: boolean = false;
+
+  requests: User[] = [];
 
   constructor(
     private route: ActivatedRoute, 
@@ -104,6 +115,11 @@ export class ProfileComponent implements OnInit {
             this.loadFollowing(1);
           }
           break;
+        case UserViewProfileTab.Requests:
+          if (this.paginatedRequests.next) {
+            this.loadRequests(1);
+          }
+          break;
       }
     }
   }
@@ -122,12 +138,14 @@ export class ProfileComponent implements OnInit {
 
     if (this.authService.isLoggedIn() && !this.authService.isCurrentUserLoggedIn(username)) {
       this.followService.isFollowing(username).subscribe(f => {
-        this.isFollowed = f;
+        this.isFollowed = f.following;
+        this.hasFollowRequest = f.requested;
         this.loadedIsFollowed = true;
       });
     }
     else {
       this.isFollowed = false;
+      this.hasFollowRequest = false;
       this.loadedIsFollowed = true;
     }
   }
@@ -136,6 +154,7 @@ export class ProfileComponent implements OnInit {
     this.paginated = null;
     this.paginatedFollowers = null;
     this.paginatedFollowing = null;
+    this.paginatedRequests = null;
     this.loadedIsFollowed = false;
     this.notFound = false;
     this.operating = false;
@@ -150,11 +169,13 @@ export class ProfileComponent implements OnInit {
     this.currentPage = 1;
     this.pageFollowers = 1;
     this.pageFollowing = 1;
+    this.pageRequests = 1;
     if (this.username) {
       this.userService
       .getUser(this.username)
       .subscribe(user => {
         if (user) {
+          this.canShowRequestsTab = this.authService.isCurrentUserLoggedIn(this.username);
           this.user = user;
           if (this.user.profile_filename) {
             this.profileImageURL = `${environment.mediaUrl}${this.user.profile_filename}`;
@@ -170,6 +191,10 @@ export class ProfileComponent implements OnInit {
           this.loadFeed();
           this.loadFollowers();
           this.loadFollowing();
+
+          if (this.canShowRequestsTab) {
+            this.loadRequests();
+          }
         }
         else {
           this.notFound = true;
@@ -247,10 +272,30 @@ export class ProfileComponent implements OnInit {
       {
         const following = paginated.results;
         this.paginatedFollowing = paginated;
-        this.pageFollowers += increment;
+        this.pageFollowing += increment;
 
         this.following.push(...following.filter(f => this.following.filter(ff => ff.id == f.id).length == 0));
         this.loadingFollowing = false;
+        this.loadingService.unload();
+      });
+  }
+
+  loadRequests(increment: number = 0): void {
+    this.loadingRequests = true;
+    this.loadingService.load();
+    this.followService.getFollowRequests(this.username, this.pageRequests + increment, this.pageSize).subscribe(paginated => 
+      {
+        const requests = paginated.results;
+        this.paginatedRequests = paginated;
+        this.pageRequests += increment;
+
+        this.requests.push(...requests.filter(f => this.requests.filter(ff => ff.id == f.id).length == 0));
+        this.loadingRequests = false;
+
+        if (!this.requests || this.requests.length == 0) {
+          this.canShowRequestsTab = false;
+        }
+
         this.loadingService.unload();
       });
   }
@@ -263,10 +308,14 @@ export class ProfileComponent implements OnInit {
     this.operating = true;
 
     this.followService.follow(this.user.id).subscribe(x => {
-      this.followers = [new User({id: +this.authService.getUserId(), username: this.authService.getUsername()}), ...this.followers];
+      this.hasFollowRequest = x.requested == undefined ? false : x.requested;
+      this.isFollowed = x.followed;
+
+      if (this.isFollowed) {
+        this.followers = [new User({id: +this.authService.getUserId(), username: this.authService.getUsername()}), ...this.followers];
+      }
 
       this.operating = false;
-      this.isFollowed = true;
     });
   }
 
@@ -278,6 +327,7 @@ export class ProfileComponent implements OnInit {
 
       this.operating = false;
       this.isFollowed = false;
+      this.hasFollowRequest = false;
     });
   }
 
@@ -285,6 +335,21 @@ export class ProfileComponent implements OnInit {
     this.followService.unfollow(user.id).subscribe(x => 
       {
         this.following = this.following.filter(f => f.id != user.id);
+      });
+  }
+
+  public acceptUser(user: User): void {
+    this.followService.approveFollowRequest(user.id).subscribe(x =>
+      {
+        this.requests = this.requests.filter(f => f.id != user.id);
+        this.followers.push(user);
+      });
+  }
+
+  public rejectUser(user: User): void {
+    this.followService.rejectFollowRequest(user.id).subscribe(x =>
+      {
+        this.requests = this.requests.filter(f => f.id != user.id);
       });
   }
 
