@@ -355,3 +355,48 @@ ul {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+.siimple-tabs {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: auto;
+  /* height: 40px; */
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dde5ee;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.siimple-tabs-tab, .siimple-tabs-item {
+  display: inline-block;
+  float: none;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 600;
+  color: #879aab;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: -1px;
+  border: 2px solid transparent;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.siimple-tabs-tab:hover, .siimple-tabs-item:hover {
+  border-top-color: #eef2f7;
+  border-left-color: #eef2f7;
+  border-right-color: #eef2f7;
+}
+.siimple-tabs-tab--selected, .siimple-tabs-item--selected {
+  border-top-color: #dde5ee !important;
+  border-left-color: #dde5ee !important;
+  border-right-color: #dde5ee !important;
+  border-bottom-color: #ffffff !important;
+  background-color: #ffffff !important;
+  /* border-bottom-width: 1px !important; */
+  color: #546778;
+}

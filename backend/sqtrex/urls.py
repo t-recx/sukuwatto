@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenCookieDeleteView
 from django.urls import include, path
 from rest_framework import routers
-from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, get_is_following, ExpressInterestCreate
+from users.views import UserViewSet, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet, user_liked
 from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data
 from workouts.views import plan_views
@@ -53,9 +53,12 @@ urlpatterns = [
     path('api/action-object-stream/', ActionObjectStreamList.as_view()),
     path('api/followers/', FollowersList.as_view(), name="followers"),
     path('api/following/', FollowingList.as_view(), name="following"),
+    path('api/follow-requests/', FollowRequestsList.as_view(), name="follow-requests"),
     path('api/is-following/', get_is_following, name="is-following"),
     path('api/follow/', do_follow, name="follow"),
     path('api/unfollow/', do_unfollow, name="unfollow"),
+    path('api/approve-follow-request/', approve_follow_request, name="approve-follow-request"),
+    path('api/reject-follow-request/', reject_follow_request, name="reject-follow-request"),
     path('api/toggle-like/', toggle_like, name="toggle-like"),
     path('api/messages/', MessageList.as_view(), name='messages'),
     path('api/last-messages/', LastMessageList.as_view(), name='last-messages'),

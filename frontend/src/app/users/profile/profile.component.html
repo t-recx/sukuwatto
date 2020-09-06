@@ -18,11 +18,17 @@
                     {{user.first_name}} {{user.last_name}}
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed" (click)="follow()"
+                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed && !hasFollowRequest" (click)="follow()"
                         >
                         <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1">Follow</span>
+                    </button>
+                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && hasFollowRequest" (click)="unfollow()"
+                        >
+                        <fa-icon [icon]="faClock" *ngIf="!operating"></fa-icon>
+                        <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
+                        <span class="siimple--ml-1">Requested</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()"
                         >
@@ -70,6 +76,10 @@
                 (click)="selectTab(profileTab.Following)">
                 Following
             </div>
+            <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab==profileTab.Requests"
+                (click)="selectTab(profileTab.Requests)" *ngIf="canShowRequestsTab">
+                Requests
+            </div>
         </div>
 
         <div>
@@ -94,6 +104,15 @@
                 <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
                     [loading]=loadingFollowing
                     [actionIcon]=faUserMinus actionText="Unfollow" (actionPressed)="unfollowUser($event)">
+                </app-users-follow-list>
+            </div>
+            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Requests">
+                <app-users-follow-list [users]=requests 
+                    [loading]=loadingRequests
+                    [showDeleteButton]=true
+                    [deleteIcon]=faTimes (deletePressed)="rejectUser($event)"
+                    [showActionButton]=true
+                    [actionIcon]=faCheck actionText="Accept" (actionPressed)="acceptUser($event)">
                 </app-users-follow-list>
             </div>
         </div>

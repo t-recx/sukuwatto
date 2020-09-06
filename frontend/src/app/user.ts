@@ -35,6 +35,7 @@ export class User {
     system: MeasurementSystem;
     profile_filename: string;
     is_staff: boolean;
+    follow_approval_required: boolean;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);
