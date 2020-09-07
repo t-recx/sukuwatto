@@ -3,7 +3,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from datetime import datetime
 from social.models import Message, LastMessage, Post, Comment, PostImage
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserMinimalSerializer
 from django.utils import timezone
 from workouts.utils import get_differences
 
@@ -37,7 +37,7 @@ class PostImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'url']
 
 class PostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
     post_images = PostImageSerializer(many=True, required=False)
 
     class Meta:
@@ -106,9 +106,8 @@ class PostSerializer(serializers.ModelSerializer):
 
             instance.save()
 
-
 class CommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
 
     class Meta:
         model = Comment
@@ -130,3 +129,8 @@ class CommentSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+class CommentMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'text']

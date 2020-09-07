@@ -62,8 +62,8 @@ export class StreamsService {
     return this.getObjectStream(this.actionsObjectsUrl, content_type_id, object_id);
   }
 
-  getTargetStream(content_type_id: number | string, object_id: number | string): Observable<Action[]> {
-    return this.getObjectStream(this.targetUrl, content_type_id, object_id);
+  getTargetStream(content_type_id: number | string, object_id: number | string, verb: string): Observable<Action[]> {
+    return this.getObjectStream(this.targetUrl, content_type_id, object_id, verb);
   }
 
   userLikedContent(content_type_id: number | string, object_id: number | string): Observable<boolean> {
@@ -124,7 +124,7 @@ export class StreamsService {
       );
   }
 
-  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string): Observable<Action[]> {
+  private getObjectStream(url: string, content_type_id: number | string, object_id: number | string, verb: string = null): Observable<Action[]> {
     let options = {};
     let params = new HttpParams();
 
@@ -134,6 +134,10 @@ export class StreamsService {
 
     if (object_id) {
       params = params.set('object_id', object_id.toString());
+    }
+
+    if (verb) {
+      params = params.set('verb', verb.toString());
     }
 
     options = {params: params};

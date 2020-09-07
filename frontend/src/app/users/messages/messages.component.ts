@@ -41,6 +41,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   page: number = 1;
   pageSize: number = 10;
+  innerHeight = 0;
 
   constructor(
     private lastMessagesService: LastMessagesService,
@@ -55,6 +56,35 @@ export class MessagesComponent implements OnInit, OnDestroy {
       {
         this.loadParameterDependentData(val.get('username'));
       });
+  }
+
+  getPageSize() {
+    this.innerHeight = window.innerHeight;
+
+    const navBarHeight = 15 + 40 + 64;
+    const footerHeight = 15 + 40;
+    const actionHeight = 52;
+
+    let ps = Math.ceil((this.innerHeight - navBarHeight - footerHeight) / actionHeight);
+
+    if (ps < 3) {
+      ps = 3;
+    }
+
+    return ps;
+  }
+
+  setPageSize() {
+    this.pageSize = this.getPageSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    const w : any = window;
+
+    if (w.scrollMaxY == 0) {
+      this.loadUsers(1);
+    }
   }
 
   ngOnInit() {
@@ -77,6 +107,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   loadParameterDependentData(username: string) {
+    this.setPageSize();
     this.paginatedUsers = null;
     this.page = 1;
     this.availableUsersToMessage = [];
@@ -106,6 +137,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   private loadUsers(increment: number = 0) {
+    if (increment > 0 && this.paginatedUsers && !this.paginatedUsers.next) {
+      return;
+    }
+
     this.loadingUsers = true;
     this.loadingService.load();
     this.followService.getFollowing(this.username, this.page + increment, this.pageSize).subscribe(paginated => {

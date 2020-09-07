@@ -86,8 +86,12 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
       this.contentTypesService.get(this.content_type_model).subscribe(contentType => {
         this.content_type_id = contentType.id;
 
-        if (this.commentsSectionOpen || this.usersLikesModalVisible) {
-          this.loadActions();
+        if (this.commentsSectionOpen) {
+          this.loadComments();
+        } 
+
+        if (this.usersLikesModalVisible) {
+          this.loadLikes();
         }
 
         this.checkIfUserLikedContent();
@@ -113,13 +117,13 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     }
   }
 
-  loadActions(cb: () => any = null) {
+  loadComments(cb: () => any = null) {
     this.loadingService.load();
     this.loading = true;
 
-    this.streamsService.getTargetStream(this.content_type_id, this.id)
+    this.streamsService.getTargetStream(this.content_type_id, this.id, 'commented')
     .subscribe(s => {
-      this.setActions(s);
+      this.setComments(s);
       this.loading = false;
       this.loadingService.unload();
 
@@ -129,14 +133,28 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     });
   }
 
-  setActions(stream: Action[]) {
-    this.actions = stream;
+  loadLikes(cb: () => any = null) {
+    this.loadingService.load();
+    this.loading = true;
 
-    this.setLikeNumber();
+    this.streamsService.getTargetStream(this.content_type_id, this.id, 'liked')
+    .subscribe(s => {
+      this.setLikes(s);
+      this.loading = false;
+      this.loadingService.unload();
 
+      if (cb) {
+        cb();
+      }
+    });
+  }
+
+  setLikes(stream: Action[]) {
+    this.usersThatLiked = stream.filter(a => a.verb == 'liked').map(a => a.user);
+  }
+
+  setComments(stream: Action[]) {
     this.commentActions = stream.filter(a => a.verb == 'commented');
-
-    this.commentNumber = this.commentActions.length;
   }
 
   checkIfUserLikedContent() {
@@ -144,18 +162,6 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
       this.streamsService.userLikedContent(this.content_type_id, this.id)
     .subscribe(x => this.liked = x);
     }
-  }
-
-  setLikeNumber() {
-    this.usersThatLiked = [];
-
-    let likeActions = this.actions.filter(a => a.verb == 'liked');
-
-    likeActions.forEach(action => 
-      {
-        this.usersThatLiked.push(action.user);
-      });
-
   }
 
   toggleLike(): void {
@@ -182,7 +188,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
 
   toggleCommentView(): void {
     if (this.actions == null || this.actions.length == 0 && !this.commentsSectionOpen) {
-      this.loadActions(() => this.commentsSectionOpen = !this.commentsSectionOpen);
+      this.loadComments(() => this.commentsSectionOpen = !this.commentsSectionOpen);
     }
     else {
       this.commentsSectionOpen = !this.commentsSectionOpen;
@@ -210,7 +216,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     this.commentsService.createComment(comment).subscribe(x => 
       {
         this.newCommentText = "";
-        this.loadActions();
+        this.loadComments();
         this.triedToComment = false;
         this.commenting= false;
         this.commentNumber += 1;
@@ -231,7 +237,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
 
   toggleUserLikesModal() {
     if (this.actions == null || this.actions.length == 0 && !this.usersLikesModalVisible) {
-      this.loadActions(() => this.usersLikesModalVisible = !this.usersLikesModalVisible);
+      this.loadLikes(() => this.usersLikesModalVisible = !this.usersLikesModalVisible);
     }
     else {
       this.usersLikesModalVisible = !this.usersLikesModalVisible;

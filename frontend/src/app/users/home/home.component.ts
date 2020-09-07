@@ -44,6 +44,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   postImages: string[] = [];
 
+  innerHeight: any;
+
   constructor(
     route: ActivatedRoute,
     private router: Router,
@@ -55,11 +57,56 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.activityTypeStrength = this.authService.getUserDefaultActivityTypeStrength();
 
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
+      this.setPageSize();
       this.loadParameterDependentData(val.get('username'));
     });
   }
 
   ngOnInit() {
+  }
+
+  getPageSize() {
+    this.innerHeight = window.innerHeight;
+
+    const navBarHeight = 294;
+    const footerHeight = 187;
+    const actionHeight = 69;
+
+    let ps = Math.ceil((this.innerHeight - navBarHeight - footerHeight) / actionHeight);
+
+    if (ps < 3) {
+      ps = 3;
+    }
+
+    return ps;
+  }
+
+  setPageSize() {
+    this.pageSize = this.getPageSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    const w : any = window;
+
+    if (w.scrollMaxY == 0) {
+      this.loadOlderActions();
+    }
+  }
+
+  @HostListener('window:scroll', []) onScroll(): void {
+    if (window.scrollY > this.prevScrollY) {
+      this.newActivityButtonVisible = false;
+    }
+    else if (window.scrollY < this.prevScrollY) {
+      this.newActivityButtonVisible = true;
+    }
+
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
+      this.loadOlderActions();
+    }
+
+    this.prevScrollY = window.scrollY;
   }
 
   newActivity() {
@@ -82,21 +129,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.activityTypeStrength = !this.activityTypeStrength;
     this.authService.setUserDefaultActivityTypeStrength(this.activityTypeStrength);
-  }
-
-  @HostListener('window:scroll', []) onScroll(): void {
-    if (window.scrollY > this.prevScrollY) {
-      this.newActivityButtonVisible = false;
-    }
-    else if (window.scrollY < this.prevScrollY) {
-      this.newActivityButtonVisible = true;
-    }
-
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
-      this.loadOlderActions();
-    }
-
-    this.prevScrollY = window.scrollY;
   }
 
   ngOnDestroy(): void {
