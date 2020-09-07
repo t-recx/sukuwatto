@@ -1,4 +1,8 @@
 import json
+from django.shortcuts import get_object_or_404
+from users.views import can_see_user
+from django.contrib.auth import get_user_model
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
@@ -47,6 +51,11 @@ def get_available_chart_data(request):
     has_bio_data_records = False
 
     username = request.query_params.get('username', None)
+
+    user = get_object_or_404(get_user_model(), username=username)
+    
+    if not can_see_user(request.user, user):
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
     sets = WorkoutSet.objects.filter(workout_group__workout__user__username=username).filter(done=True)
 

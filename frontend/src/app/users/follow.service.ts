@@ -103,13 +103,9 @@ export class FollowService {
       );
   }
 
-  getFollowRequests(username: string, page: number = null, page_size: number = null): Observable<Paginated<User>> {
+  getFollowRequests(page: number = null, page_size: number = null): Observable<Paginated<User>> {
     let options = {};
     let params = new HttpParams();
-
-    if (username) {
-      params = params.set('username', username);
-    }
 
     if (page) {
       params = params.set('page', page.toString());
@@ -119,7 +115,7 @@ export class FollowService {
       params = params.set('page_size', page_size.toString());
     }
 
-    if (username || page || page_size) {
+    if (page || page_size) {
       options = {params: params};
     }
 

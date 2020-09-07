@@ -36,6 +36,8 @@ export class User {
     profile_filename: string;
     is_staff: boolean;
     follow_approval_required: boolean;
+    visibility_profile: Visibility;
+    hidden: boolean;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);
