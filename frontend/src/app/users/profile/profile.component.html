@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <div class="">
+    <div class="" *ngIf="!user.hidden">
         <div class="siimple-tabs">
             <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab==profileTab.Overview"
                 (click)="selectTab(profileTab.Overview)">

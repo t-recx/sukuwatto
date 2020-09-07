@@ -1,4 +1,6 @@
 from sqtrex.pagination import StandardResultsSetPagination
+from rest_framework import permissions
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -9,7 +11,7 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
+from .serializers import UserSerializer, UserHiddenSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
 from sqtrex.serializers import ActionSerializer
 from django.shortcuts import get_object_or_404
 from sqtrex.permissions import IsUserOrReadOnly
@@ -22,14 +24,22 @@ from django.utils.safestring import mark_safe
 from sqtrex.visibility import VisibilityQuerysetMixin
 from social.models import UserAction
 
+class CanSeeUserPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        username = request.query_params.get('username', None)
+
+        user = get_object_or_404(get_user_model(), username=username)
+
+        return can_see_user(request.user, user)
+
 class FollowersList(generics.ListAPIView):
     pagination_class = StandardResultsSetPagination
+    permission_classes = [CanSeeUserPermission]
 
     def list(self, request):
         username = request.query_params.get('username', None)
 
-        if username is not None:
-            user = get_object_or_404(get_user_model(), username=username)
+        user = get_object_or_404(get_user_model(), username=username)
 
         queryset = user.followers.all().order_by('username')
 
@@ -46,12 +56,12 @@ class FollowersList(generics.ListAPIView):
 
 class FollowingList(generics.ListAPIView):
     pagination_class = StandardResultsSetPagination
+    permission_classes = [CanSeeUserPermission]
 
     def list(self, request):
         username = request.query_params.get('username', None)
 
-        if username is not None:
-            user = get_object_or_404(get_user_model(), username=username)
+        user = get_object_or_404(get_user_model(), username=username)
 
         queryset = user.following.all().order_by('username')
 
@@ -67,15 +77,11 @@ class FollowingList(generics.ListAPIView):
         return Response(serializer.data)
 
 class FollowRequestsList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
     def list(self, request):
-        username = request.query_params.get('username', None)
-
-        if username is not None:
-            user = get_object_or_404(get_user_model(), username=username)
-
-        queryset = user.follower_requests.all().order_by('username')
+        queryset = request.user.follower_requests.all().order_by('username')
 
         page = self.paginate_queryset(queryset)
 
@@ -178,13 +184,14 @@ class UserStreamList(StreamList):
         return UserAction.objects.filter(Q(user__followers__id=request.user.id) | Q(user=request.user)).order_by('-timestamp').distinct()
 
 class ActorStreamList(StreamList):
+    permission_classes = [CanSeeUserPermission]
+
     def get_stream_queryset(self, request):
         user = None
 
         username = request.query_params.get('username', None)
 
-        if username is not None:
-            user = get_object_or_404(get_user_model(), username=username)
+        user = get_object_or_404(get_user_model(), username=username)
 
         return UserAction.objects.filter(user=user).order_by('-timestamp')
 
@@ -342,7 +349,20 @@ def get_user(request):
     if email is not None:
         user = get_object_or_404(get_user_model(), email=email)
 
-    return Response(UserSerializer(user).data)
+    if can_see_user(request.user, user):
+        return Response(UserSerializer(user).data)
+
+    return Response(UserHiddenSerializer(user).data)
+
+def can_see_user(request_user, user):
+    if user.visibility_profile == Visibility.OWN_USER and user != request_user:
+        return False
+    elif user.visibility_profile == Visibility.REGISTERED_USERS and not request_user.is_authenticated:
+        return False
+    elif user.visibility_profile == Visibility.FOLLOWERS and not user == request_user and not user.followers.filter(id=request_user.id):
+        return False
+
+    return True
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

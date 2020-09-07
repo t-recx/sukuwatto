@@ -225,12 +225,12 @@ export class ProfileComponent implements OnInit {
     this.pageFollowers = 1;
     this.pageFollowing = 1;
     this.pageRequests = 1;
+    this.canShowRequestsTab = false;
     if (this.username) {
       this.userService
       .getUser(this.username)
       .subscribe(user => {
         if (user) {
-          this.canShowRequestsTab = this.authService.isCurrentUserLoggedIn(this.username);
           this.user = user;
           if (this.user.profile_filename) {
             this.profileImageURL = `${environment.mediaUrl}${this.user.profile_filename}`;
@@ -243,11 +243,12 @@ export class ProfileComponent implements OnInit {
           this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
           this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
           this.loadIsFollowed(this.username);
-          this.loadFeed();
-          // this.loadFollowers();
-          // this.loadFollowing();
 
-          if (this.canShowRequestsTab) {
+          if (!this.user.hidden) {
+            this.loadFeed();
+          }
+
+          if (this.authService.isCurrentUserLoggedIn(this.username)) {
             this.loadRequests();
           }
         }
@@ -356,7 +357,7 @@ export class ProfileComponent implements OnInit {
 
     this.loadingRequests = true;
     this.loadingService.load();
-    this.followService.getFollowRequests(this.username, this.pageRequests + increment, this.pageSize).subscribe(paginated => 
+    this.followService.getFollowRequests(this.pageRequests + increment, this.pageSize).subscribe(paginated => 
       {
         const requests = paginated.results;
         this.paginatedRequests = paginated;
@@ -365,8 +366,8 @@ export class ProfileComponent implements OnInit {
         this.requests.push(...requests.filter(f => this.requests.filter(ff => ff.id == f.id).length == 0));
         this.loadingRequests = false;
 
-        if (!this.requests || this.requests.length == 0) {
-          this.canShowRequestsTab = false;
+        if (this.requests && this.requests.length > 0) {
+          this.canShowRequestsTab = true;
         }
 
         this.loadingService.unload();
