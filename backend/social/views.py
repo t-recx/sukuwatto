@@ -39,11 +39,15 @@ class TargetStreamList(generics.ListAPIView):
     def list(self, request):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
+        verb = request.query_params.get('verb', None)
 
         ctype = get_object_or_404(ContentType, pk=content_type_id)
         object_model = ctype.model
 
         queryset = get_user_actions_filtered_by_object(UserAction.objects.all(), content_type_id, object_id, True)
+
+        if verb is not None:
+            queryset = queryset.filter(verb=verb)
 
         queryset = queryset.order_by('-timestamp')
 

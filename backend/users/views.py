@@ -9,7 +9,7 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
+from .serializers import UserSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
 from sqtrex.serializers import ActionSerializer
 from django.shortcuts import get_object_or_404
 from sqtrex.permissions import IsUserOrReadOnly
@@ -36,11 +36,11 @@ class FollowersList(generics.ListAPIView):
         page = self.paginate_queryset(queryset)
 
         if page is not None:
-            serializer = UserSerializer(page, many=True)
+            serializer = UserMinimalSerializer(page, many=True)
 
             return self.get_paginated_response(serializer.data)
 
-        serializer = UserSerializer(queryset, many=True)
+        serializer = UserMinimalSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
@@ -58,11 +58,11 @@ class FollowingList(generics.ListAPIView):
         page = self.paginate_queryset(queryset)
 
         if page is not None:
-            serializer = UserSerializer(page, many=True)
+            serializer = UserMinimalSerializer(page, many=True)
 
             return self.get_paginated_response(serializer.data)
 
-        serializer = UserSerializer(queryset, many=True)
+        serializer = UserMinimalSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
@@ -80,11 +80,11 @@ class FollowRequestsList(generics.ListAPIView):
         page = self.paginate_queryset(queryset)
 
         if page is not None:
-            serializer = UserSerializer(page, many=True)
+            serializer = UserMinimalSerializer(page, many=True)
 
             return self.get_paginated_response(serializer.data)
 
-        serializer = UserSerializer(queryset, many=True)
+        serializer = UserMinimalSerializer(queryset, many=True)
 
         return Response(serializer.data)
 

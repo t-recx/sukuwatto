@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
   loadedIsFollowed = false;
   actions: Action[];
   paginated: Paginated<Action>;
+  streamPageSize = 10;
   pageSize = 10;
   currentPage = 1;
   loading: boolean = false;
@@ -87,6 +88,12 @@ export class ProfileComponent implements OnInit {
 
   requests: User[] = [];
 
+  initFollowers = false;
+  initFollowing = false;
+  initRequests = false;
+
+  innerHeight = 0;
+
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
@@ -98,6 +105,50 @@ export class ProfileComponent implements OnInit {
     private streamsService: StreamsService,
     private loadingService: LoadingService,
   ) { }
+
+  getPageSize(navBarHeight = 64, actionHeight = 69) {
+    this.innerHeight = window.innerHeight;
+
+    const footerHeight = 187;
+
+    let ps = Math.ceil((this.innerHeight - navBarHeight - footerHeight) / actionHeight);
+
+    if (ps < 3) {
+      ps = 3;
+    }
+
+    return ps;
+  }
+
+  setPageSize() {
+    const topHeight = 200;
+    this.streamPageSize = this.getPageSize(topHeight);
+    this.pageSize = this.getPageSize(topHeight, 52);
+  }
+
+  loadMoreIfNoScroll() {
+    const w : any = window;
+
+    if (w.scrollMaxY == 0) {
+      if (this.selectedTab == UserViewProfileTab.Overview) {
+        this.loadOlderActions();
+      }
+      else if (this.selectedTab == UserViewProfileTab.Followers) {
+        this.loadFollowers(1);
+      }
+      else if (this.selectedTab == UserViewProfileTab.Following) {
+        this.loadFollowing(1);
+      }
+      else if (this.selectedTab == UserViewProfileTab.Requests) {
+        this.loadRequests(1);
+      }
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.loadMoreIfNoScroll();
+  }
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
@@ -151,6 +202,10 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserData(username: string) {
+    this.setPageSize();
+    this.initFollowers = false;
+    this.initFollowing = false;
+    this.initRequests = false;
     this.paginated = null;
     this.paginatedFollowers = null;
     this.paginatedFollowing = null;
@@ -189,8 +244,8 @@ export class ProfileComponent implements OnInit {
           this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
           this.loadIsFollowed(this.username);
           this.loadFeed();
-          this.loadFollowers();
-          this.loadFollowing();
+          // this.loadFollowers();
+          // this.loadFollowing();
 
           if (this.canShowRequestsTab) {
             this.loadRequests();
@@ -218,7 +273,7 @@ export class ProfileComponent implements OnInit {
     if (this.username) {
       this.loading = true;
       this.loadingService.load();
-      this.streamsService.getActorStream(this.username, this.currentPage, this.pageSize)
+      this.streamsService.getActorStream(this.username, this.currentPage, this.streamPageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
         this.actions = paginatedActions.results;
@@ -236,7 +291,7 @@ export class ProfileComponent implements OnInit {
     this.loadingOlderActions = true;
     this.loadingService.load();
 
-    this.streamsService.getActorStream(this.username, this.currentPage + 1, this.pageSize)
+    this.streamsService.getActorStream(this.username, this.currentPage + 1, this.streamPageSize)
       .subscribe(paginatedActions => {
         this.paginated = paginatedActions;
         this.actions.push(...this.getNewActions(this.actions, paginatedActions.results));
@@ -251,6 +306,12 @@ export class ProfileComponent implements OnInit {
   }
 
   loadFollowers(increment: number = 0): void {
+    this.initFollowers = true;
+
+    if (increment > 0 && this.paginatedFollowers && !this.paginatedFollowers.next) {
+      return;
+    }
+
     this.loadingService.load();
     this.loadingFollowers = true;
     this.followService.getFollowers(this.username, this.pageFollowers + increment, this.pageSize).subscribe(paginated => 
@@ -266,6 +327,12 @@ export class ProfileComponent implements OnInit {
   }
 
   loadFollowing(increment: number = 0): void {
+    this.initFollowing = true;
+
+    if (increment > 0 && this.paginatedFollowing && !this.paginatedFollowing.next) {
+      return;
+    }
+
     this.loadingFollowing = true;
     this.loadingService.load();
     this.followService.getFollowing(this.username, this.pageFollowing + increment, this.pageSize).subscribe(paginated => 
@@ -281,6 +348,12 @@ export class ProfileComponent implements OnInit {
   }
 
   loadRequests(increment: number = 0): void {
+    this.initRequests = true;
+
+    if (increment > 0 && this.paginatedRequests && !this.paginatedRequests.next) {
+      return;
+    }
+
     this.loadingRequests = true;
     this.loadingService.load();
     this.followService.getFollowRequests(this.username, this.pageRequests + increment, this.pageSize).subscribe(paginated => 
@@ -355,5 +428,25 @@ export class ProfileComponent implements OnInit {
 
   selectTab(tab: UserViewProfileTab): void {
     this.selectedTab = tab;
+
+    switch (tab) {
+      case UserViewProfileTab.Followers:
+        if (!this.initFollowers) {
+          this.loadFollowers();
+        }
+        break;
+
+      case UserViewProfileTab.Following:
+        if (!this.initFollowing) {
+          this.loadFollowing();
+        }
+        break;
+
+      case UserViewProfileTab.Requests:
+        if (!this.initRequests) {
+          this.loadRequests();
+        }
+        break;
+    }
   }
 }

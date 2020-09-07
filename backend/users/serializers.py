@@ -14,6 +14,11 @@ class ExpressInterestSerializer(serializers.ModelSerializer):
         model = UserInterest
         fields = ['email']
 
+class UserMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'username','profile_filename']
+
 class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if "password" in data:

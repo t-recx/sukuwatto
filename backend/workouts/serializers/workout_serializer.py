@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from social.serializers import UserSerializer
+from social.serializers import UserSerializer, UserMinimalSerializer
 from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, WorkingParameter, Exercise, WorkoutSetPosition, WorkoutWarmUpPosition, WorkoutSetTimeSegment, WorkoutWarmUpTimeSegment
 from workouts.utils import get_differences
 from workouts.serializers.serializers import ExerciseSerializer
@@ -62,7 +62,28 @@ class WorkoutSetSerializer(serializers.ModelSerializer):
             'working_time_percentage',
             'working_speed_percentage',
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
-            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
+            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'plan_distance_unit',
+            'tracking',
+            'positions',
+            'segments',
+            'calories', 'met', 'met_set_by_user'
+        ]
+
+class WorkoutOverviewSetSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer()
+    id = serializers.ModelField(model_field=WorkoutSet()._meta.get_field('id'), required=False)
+    positions = WorkoutSetPositionSerializer(many=True, required=False)
+    segments = WorkoutSetTimeSegmentSerializer(many=True, required=False)
+
+    class Meta:
+        model = WorkoutSet
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'number_of_repetitions', 
+            'weight', 'done', 'working_weight_percentage', 
+            'speed_type', 'speed',
+            'vo2max_type', 'vo2max',
+            'distance_type', 'distance',
+            'time_type', 'time',
+            'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
             'tracking',
             'positions',
             'segments',
@@ -87,7 +108,7 @@ class WorkoutWarmUpSerializer(serializers.ModelSerializer):
             'working_time_percentage',
             'working_speed_percentage',
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
-            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
+            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'plan_distance_unit',
             'tracking',
             'positions',
             'segments',
@@ -158,6 +179,14 @@ class WorkoutGroupSerializer(serializers.ModelSerializer):
         model = WorkoutGroup
         fields = ['id', 'order', 'name', 'sets', 'warmups', 'plan_session_group']
 
+class WorkoutOverviewGroupSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=WorkoutGroup()._meta.get_field('id'), required=False)
+    sets = WorkoutOverviewSetSerializer(many=True, required=False)
+
+    class Meta:
+        model = WorkoutGroup
+        fields = ['id', 'order', 'name', 'sets']
+
 class WorkoutFlatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
@@ -174,6 +203,15 @@ class WorkoutNoPositionsSerializer(serializers.ModelSerializer):
         fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility', 'likes', 'comment_number']
         read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False}}
+
+
+class WorkoutOverviewSerializer(serializers.ModelSerializer):
+    groups = WorkoutOverviewGroupSerializer(many=True, required=False)
+    user = UserMinimalSerializer(read_only=True)
+
+    class Meta:
+        model = Workout
+        fields = ['id', 'start', 'end', 'name', 'calories', 'groups', 'user', 'likes', 'comment_number']
 
 class WorkoutSerializer(serializers.ModelSerializer):
     groups = WorkoutGroupSerializer(many=True, required=False)
