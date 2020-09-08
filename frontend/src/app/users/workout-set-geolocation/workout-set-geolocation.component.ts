@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Map, LatLng, LatLngBounds, tileLayer, latLng, polyline, Polyline } from 'leaflet';
 import { WorkoutSet } from '../workout-set';
 import { WorkoutSetPosition } from '../workout-set-position';
@@ -16,7 +16,7 @@ import { Workout } from '../workout';
 import { Unit, MeasurementType } from '../unit';
 import { MetabolicEquivalentTask } from '../metabolic-equivalent-task';
 import { MetabolicEquivalentService } from '../metabolic-equivalent.service';
-import { Exercise } from '../exercise';
+import { Exercise, ExerciseType } from '../exercise';
 import { TimeService } from '../time.service';
 import { WorkoutSetTimeSegment } from '../workout-set-time-segment';
 import { Router } from '@angular/router';
@@ -88,6 +88,9 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   BackgroundGeolocation = window['BackgroundGeolocation'];
 
+  modalExerciseType: ExerciseType = ExerciseType.Cardio;
+  exerciseModalVisible = false;
+
   constructor(
     private alertService: AlertService,
     private authService: AuthService,
@@ -99,6 +102,21 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     private router: Router,
     private cordovaService: CordovaService,
   ) {
+  }
+
+  selectedExercise(e) {
+    this.workoutActivity.exercise = e;
+    this.exerciseModalVisible = false;
+  }
+
+  exerciseModalClosed() {
+    this.exerciseModalVisible = false;
+  }
+
+  changeExercise() {
+    if (this.allowEdit) {
+      this.exerciseModalVisible = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -668,7 +686,18 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
     if (!this.route || this.route.getLatLngs().length == 0) {
       this.workoutActivity.zoom = 16;
-      if (this.authService.isLoggedIn()) {
+
+      if (this.BackgroundGeolocation) {
+        this.BackgroundGeolocation.getCurrentLocation((position) => {
+          map.setView(latLng(position.latitude, position.longitude), this.workoutActivity.zoom);
+        }, () => {}, {enableHighAccuracy: true});
+      }
+      else if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          map.setView(latLng(position.coords.latitude, position.coords.longitude), this.workoutActivity.zoom);
+        }, e => {}, {enableHighAccuracy: true});
+      }
+      else if (this.authService.isLoggedIn()) {
         this.workoutsService.getLastWorkoutPosition(this.authService.getUsername())
           .subscribe(position => {
             if (position.latitude) {

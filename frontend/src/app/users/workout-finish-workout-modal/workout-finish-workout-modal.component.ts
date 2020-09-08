@@ -6,6 +6,8 @@ import { UserProgressChartData, UserProgressChartSeries, UserProgressChartDataPo
 import { faTimes, faCheck, faCircleNotch, faEye } from '@fortawesome/free-solid-svg-icons';
 import { ExerciseType } from '../exercise';
 import { VisibilityLabel } from 'src/app/visibility';
+import { WorkoutGeneratorService } from '../workout-generator.service';
+import { PlanSession } from '../plan-session';
 
 @Component({
   selector: 'app-workout-finish-workout-modal',
@@ -16,6 +18,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   @Input() workout: Workout;
   @Input() visible: boolean;
   @Input() triedToSave: boolean;
+  @Input() planSessions: PlanSession[];
   @Output() closed = new EventEmitter();
   @Output() finished = new EventEmitter();
 
@@ -39,6 +42,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   constructor(
     private authService: AuthService,
     private userProgressService: UserProgressService,
+    private workoutGeneratorService: WorkoutGeneratorService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -112,6 +116,8 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
       else {
         this.workout.end = new Date(event);
       }
+
+      this.updateWorkoutStartDateIfBiggerThanEnd();
     }
   }
 
@@ -124,7 +130,23 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
           }
 
           this.workout.end = this.getDate(date, event);
+          this.updateWorkoutStartDateIfBiggerThanEnd();
       }
+  }
+
+  updateWorkoutStartDateIfBiggerThanEnd() {
+    if (this.workout.end && this.workout.start > this.workout.end) {
+      this.workout.start = this.workout.end;
+
+      let planSession: PlanSession = null;
+
+
+      if (this.workout.plan_session && this.planSessions) {
+        planSession = this.planSessions.filter(s => s.id == this.workout.plan_session)[0];
+      }
+
+      this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, planSession);
+    }
   }
 
   getDate(date: Date, timeString: string) : Date {

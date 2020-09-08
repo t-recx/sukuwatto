@@ -285,26 +285,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.workout.start = new Date();
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
 
-      const defaultWorkoutVisibility = this.authService.getUserDefaultWorkoutVisibility();
-      if (defaultWorkoutVisibility && defaultWorkoutVisibility.length > 0) {
-        switch (defaultWorkoutVisibility) {
-          case Visibility.Everyone:
-            this.workout.visibility = Visibility.Everyone;
-            break;
-          case Visibility.Followers:
-            this.workout.visibility = Visibility.Followers;
-            break;
-          case Visibility.OwnUser:
-            this.workout.visibility = Visibility.OwnUser;
-            break;
-          case Visibility.RegisteredUsers:
-            this.workout.visibility = Visibility.RegisteredUsers;
-            break;
-        }
-      }
-      else {
-        this.workout.visibility = Visibility.Everyone;
-      }
+      this.setWorkoutVisibility();
 
       this.newGroup();
 
@@ -331,6 +312,33 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
           this.loadingService.unload();
         });
 
+    }
+  }
+
+  private setWorkoutVisibility() {
+    if (this.workout.visibility) {
+      return;
+    }
+
+    const defaultWorkoutVisibility = this.authService.getUserDefaultWorkoutVisibility();
+    if (defaultWorkoutVisibility && defaultWorkoutVisibility.length > 0) {
+      switch (defaultWorkoutVisibility) {
+        case Visibility.Everyone:
+          this.workout.visibility = Visibility.Everyone;
+          break;
+        case Visibility.Followers:
+          this.workout.visibility = Visibility.Followers;
+          break;
+        case Visibility.OwnUser:
+          this.workout.visibility = Visibility.OwnUser;
+          break;
+        case Visibility.RegisteredUsers:
+          this.workout.visibility = Visibility.RegisteredUsers;
+          break;
+      }
+    }
+    else {
+      this.workout.visibility = Visibility.Everyone;
     }
   }
 
@@ -520,6 +528,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       .subscribe(newWorkout => { 
         this.workout = newWorkout; 
         this.setNextActivityInProgress();
+        this.setWorkoutVisibility();
 
         if (newWorkout.working_parameters &&
             newWorkout.working_parameters.length > numberWorkingParameters) {

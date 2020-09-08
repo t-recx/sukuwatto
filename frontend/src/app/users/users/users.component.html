@@ -1,4 +1,14 @@
-<div class="site-body">
+<div class="refresh-icon-container" align="center"
+    [style.top.px]="refreshTop"
+>
+    <div class="refresh-icon">
+    <fa-icon [icon]="faSyncAlt" [spin]=true></fa-icon>
+    </div>
+</div>
+
+<div class="site-body"
+    (touchstart)="touchBodyStart($event)" (touchend)="touchBodyEnd($event)" (touchmove)="touchBodyMove($event)"
+>
     <div class="siimple-navbar siimple-navbar--primary siimple-navbar--large navbar">
         <app-loading-spinner  *ngIf="loading"></app-loading-spinner>
 

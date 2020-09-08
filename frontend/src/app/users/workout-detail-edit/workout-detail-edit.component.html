@@ -7,6 +7,7 @@
     <app-workout-finish-workout-modal 
         [visible]="finishWorkoutVisible"
         [workout]=workout
+        [planSessions]=planSessions
         (closed)="hideFinishWorkout()"
         (finished)="finishWorkout()"
         [triedToSave]="triedToSave"
