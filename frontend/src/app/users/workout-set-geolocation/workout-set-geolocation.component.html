@@ -52,7 +52,8 @@
 
 <div class="  tab-content" [class.tab-content-selected]="workoutActivity.currentView == geoView.Stats" [class.maximized]="workoutActivity.maximized">
     <div class=" stats" [class.maximized]="workoutActivity.maximized">
-        <div class="stats-header" *ngIf="workoutActivity.maximized">
+        <div class="stats-header " [class.siimple-link]="allowEdit" *ngIf="workoutActivity.maximized"
+        (click)="changeExercise()">
             {{workoutActivity.exercise.name}}
         </div>
 
@@ -150,3 +151,12 @@
     body='This will stop tracking and remove existing positions. Are you sure you want to proceed?'
     (deleted)="disableTrackingAndClearPositions()" (canceled)="toggleDeleteModal()">
 </app-delete-modal>
+
+
+<app-exercises-modal
+    *ngIf="allowEdit"
+    [exerciseType]="modalExerciseType"
+    [visible]=exerciseModalVisible
+    (selected)="selectedExercise($event)"
+    (closed)="exerciseModalClosed()"
+></app-exercises-modal>

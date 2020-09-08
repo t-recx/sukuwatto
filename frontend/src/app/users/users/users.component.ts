@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
 import { Subscription } from 'rxjs';
 import { HostListener } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
+import { RefreshService } from '../refresh.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-users',
@@ -17,6 +19,14 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   faBars = faBars;
   faTimes = faTimes;
+  faSyncAlt = faSyncAlt;
+
+  touchBodyStartTime: number;
+  touchBodyStartPageY = 0;
+  touchBodyMovePageY = 0;
+
+  refreshing: boolean = false;
+  refreshTop: number = -36;
 
   username: string;
   loading = false;
@@ -60,14 +70,33 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuLeft = !this.menuDropDownVisible ? -this.menuWidthOpen : 0;
   }
 
+  refreshingSubscription: Subscription;
+  refreshedSubscription: Subscription;
+
   constructor(
     public authService: AuthService,
     public route: ActivatedRoute,
     private router: Router,
     private loadingService: LoadingService,
     private elementRef: ElementRef,
+    private refreshService: RefreshService,
     swUpdate: SwUpdate,
   ) {
+    this.refreshingSubscription = refreshService.refreshing.subscribe(() => {
+      this.refreshing = true;
+      this.refreshTop = 13;
+
+      setTimeout(() => {
+        location.reload();
+        this.refreshService.finish();
+      }, 250);
+    });
+
+    this.refreshedSubscription = refreshService.refreshed.subscribe(() => {
+      this.refreshing = false;
+      this.refreshTop = -36;
+    });
+
     this.routerNavigationSubscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         if (this.menuDropDownVisible) {
@@ -111,6 +140,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingSubscription.unsubscribe();
     this.checkUpdateSubscription.unsubscribe();
     this.routerNavigationSubscription.unsubscribe();
+    this.refreshingSubscription.unsubscribe();
+    this.refreshedSubscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -247,6 +278,25 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
           this.menuLeft = 0;
         }
       }
+    }
+  }
+
+  touchBodyStart(event) {
+    this.touchBodyStartTime = (new Date()).getTime();
+    this.touchBodyStartPageY = event.touches[0].pageY;
+  }
+
+  touchBodyMove(event, invert: boolean = false) {
+    this.touchBodyMovePageY = event.touches[0].pageY;
+  }
+
+  touchBodyEnd(event) {
+    if (!environment.application) {
+      return;
+    }
+
+    if (document.scrollingElement.scrollTop == 0 && this.touchBodyMovePageY > this.touchBodyStartPageY) {
+      this.refreshService.refresh();
     }
   }
 }

@@ -36,7 +36,8 @@ const routes: Routes = [
 
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: 'always',
-  scrollPositionRestoration: 'enabled'
+  scrollPositionRestoration: 'enabled',
+  onSameUrlNavigation: 'reload',
 };
 
 @NgModule({

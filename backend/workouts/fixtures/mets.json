@@ -72,7 +72,7 @@
          "from_value":null,
          "to_value":null,
          "unit":null,
-         "can_be_automatically_selected":false
+         "can_be_automatically_selected":true
       }
    },
    {

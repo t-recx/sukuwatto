@@ -397,33 +397,42 @@ export class ProfileComponent implements OnInit {
     this.operating = true;
 
     this.followService.unfollow(this.user.id).subscribe(x =>  {
-      this.followers = this.followers.filter(f => f.id != +this.authService.getUserId());
-
       this.operating = false;
-      this.isFollowed = false;
-      this.hasFollowRequest = false;
+
+      if (!x || !x.error) {
+        this.followers = this.followers.filter(f => f.id != +this.authService.getUserId());
+
+        this.isFollowed = false;
+        this.hasFollowRequest = false;
+      }
     });
   }
 
   public unfollowUser(user: User): void {
     this.followService.unfollow(user.id).subscribe(x => 
       {
-        this.following = this.following.filter(f => f.id != user.id);
+        if (!x || !x.error) {
+          this.following = this.following.filter(f => f.id != user.id);
+        }
       });
   }
 
   public acceptUser(user: User): void {
     this.followService.approveFollowRequest(user.id).subscribe(x =>
       {
-        this.requests = this.requests.filter(f => f.id != user.id);
-        this.followers.push(user);
+        if (!x || !x.error) {
+          this.requests = this.requests.filter(f => f.id != user.id);
+          this.followers.push(user);
+        }
       });
   }
 
   public rejectUser(user: User): void {
     this.followService.rejectFollowRequest(user.id).subscribe(x =>
       {
-        this.requests = this.requests.filter(f => f.id != user.id);
+        if (!x || !x.error) {
+          this.requests = this.requests.filter(f => f.id != user.id);
+        }
       });
   }
 

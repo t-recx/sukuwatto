@@ -35,7 +35,7 @@ export class FollowService {
       catchError(this.errorService.handleError<any>('follow', (e: any) => 
       {
         this.alertService.error('Unable to follow, try again later');
-      }, {followed: false, requested: false}))
+      }, {followed: false, requested: false, error: true}))
     );
   }
 
@@ -45,7 +45,7 @@ export class FollowService {
       catchError(this.errorService.handleError<any>('approveFollowRequest', (e: any) => 
       {
         this.alertService.error('Unable to approve follow request, try again later');
-      }, {}))
+      }, {error: true}))
     );
   }
 
@@ -55,7 +55,7 @@ export class FollowService {
       catchError(this.errorService.handleError<any>('rejectFollowRequest', (e: any) => 
       {
         this.alertService.error('Unable to reject follow request, try again later');
-      }, {}))
+      }, {error:true}))
     );
   }
 
@@ -66,7 +66,7 @@ export class FollowService {
       catchError(this.errorService.handleError<any>('unfollow', (e: any) => 
       {
         this.alertService.error('Unable to unfollow, try again later');
-      }, {}))
+      }, {error:true}))
     );
   }
 
