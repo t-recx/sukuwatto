@@ -19,14 +19,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   faBars = faBars;
   faTimes = faTimes;
-  faSyncAlt = faSyncAlt;
 
   touchBodyStartTime: number;
   touchBodyStartPageY = 0;
   touchBodyMovePageY = 0;
-
-  refreshing: boolean = false;
-  refreshTop: number = -36;
 
   username: string;
   loading = false;
@@ -70,9 +66,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuLeft = !this.menuDropDownVisible ? -this.menuWidthOpen : 0;
   }
 
-  refreshingSubscription: Subscription;
-  refreshedSubscription: Subscription;
-
   constructor(
     public authService: AuthService,
     public route: ActivatedRoute,
@@ -82,21 +75,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     private refreshService: RefreshService,
     swUpdate: SwUpdate,
   ) {
-    this.refreshingSubscription = refreshService.refreshing.subscribe(() => {
-      this.refreshing = true;
-      this.refreshTop = 13;
-
-      setTimeout(() => {
-        location.reload();
-        this.refreshService.finish();
-      }, 250);
-    });
-
-    this.refreshedSubscription = refreshService.refreshed.subscribe(() => {
-      this.refreshing = false;
-      this.refreshTop = -36;
-    });
-
     this.routerNavigationSubscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         if (this.menuDropDownVisible) {
@@ -140,8 +118,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingSubscription.unsubscribe();
     this.checkUpdateSubscription.unsubscribe();
     this.routerNavigationSubscription.unsubscribe();
-    this.refreshingSubscription.unsubscribe();
-    this.refreshedSubscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -284,6 +260,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   touchBodyStart(event) {
     this.touchBodyStartTime = (new Date()).getTime();
     this.touchBodyStartPageY = event.touches[0].pageY;
+    this.touchBodyMovePageY = event.touches[0].pageY;
   }
 
   touchBodyMove(event, invert: boolean = false) {

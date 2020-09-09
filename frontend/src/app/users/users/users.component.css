@@ -112,23 +112,3 @@
   height: 100%;
   z-index: 49;
 }
-
-.refresh-icon {
-  width: 36px;
-  height: 36px;
-  background-color: #546778;
-  color: #dde5ee;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.refresh-icon-container {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: -36px;
-  z-index: 60;
-  transition: 0.05s ease-out;
-}
