@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 export class RefreshService {
   refreshing = new Subject();
   refreshed = new Subject();
+  pullDownIconTriggered = new Subject();
 
   constructor() { }
 
@@ -16,5 +17,9 @@ export class RefreshService {
 
   finish() {
     this.refreshed.next();
+  }
+
+  triggerPullDownIcon() {
+    this.pullDownIconTriggered.next();
   }
 }

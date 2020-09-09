@@ -1,0 +1,10 @@
+<div class="refresh-icon-container" align="center"
+    [style.top.px]="refreshTop"
+    [style.transform]="'scale('+ scale +')'"
+    [style.opacity]="opacity"
+    [style.transition.ms]=transitionMs
+>
+    <div class="refresh-icon">
+        <fa-icon [icon]="faSyncAlt" [spin]=true></fa-icon>
+    </div>
+</div>

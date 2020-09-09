@@ -11,6 +11,7 @@ import { faCircleNotch, faStickyNote, faDumbbell, faRunning, faTasks, faImage } 
 import { LoadingService } from '../loading.service';
 import { environment } from 'src/environments/environment';
 import { PostImage } from '../post-image';
+import { RefreshService } from '../refresh.service';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   innerHeight: any;
 
+  refreshingSubscription: Subscription;
+  refreshingWithPullDown = false;
+
+  newActions: Action[] = [];
+
   constructor(
     route: ActivatedRoute,
     private router: Router,
@@ -53,7 +59,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     private streamsService: StreamsService,
     private postsService: PostsService,
     private loadingService: LoadingService,
+    private refreshService: RefreshService,
   ) {
+    this.refreshingSubscription = this.refreshService.refreshing.subscribe(() => {
+      this.refreshingWithPullDown = true;
+      this.refreshService.triggerPullDownIcon();
+      this.loadNewActions(1, () => setTimeout(() => {
+        this.refreshService.finish();
+        this.refreshingWithPullDown = false;
+      }, 250));
+    });
+
     this.activityTypeStrength = this.authService.getUserDefaultActivityTypeStrength();
 
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
@@ -133,6 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.refreshingSubscription.unsubscribe();
   }
 
   loadParameterDependentData(username: string) {
@@ -140,6 +157,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.username = username;
     this.paginated = null;
     this.actions = null;
+    this.newActions = [];
     this.newPostText = '';
     this.currentPage = 1;
 
@@ -178,9 +196,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     return b.filter(n => a.filter(o => o.id == n.id).length == 0);
   }
 
-  loadNewActions(indexPage: number = 1) {
+  loadNewActions(indexPage: number = 1, whenFinished = null) {
     if (this.loadingNewActions) {
       return;
+    }
+
+    if (indexPage == 1) {
+      this.newActions = [];
     }
 
     this.loadingNewActions = true;
@@ -193,15 +215,23 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.actions.filter(y => y.id == x.id).length > 0).length;
 
         if (numberOfNewRecords > 0) {
-          this.actions.unshift(...this.getNewActions(this.actions, paginatedActions.results));
+          this.newActions.push(...this.getNewActions(this.actions.concat(this.newActions), paginatedActions.results));
           this.paginated.count = paginatedActions.count;
-          this.currentPage = Math.floor(this.actions.length / this.pageSize);
+          this.currentPage = Math.floor(this.actions.concat(this.newActions).length / this.pageSize);
         }
 
         this.loadingNewActions = false;
 
         if (numberOfNewRecords == this.pageSize) {
-          this.loadNewActions(indexPage + 1);
+          this.loadNewActions(indexPage + 1, whenFinished);
+        }
+        else {
+          this.actions.unshift(...this.newActions);
+          this.newActions = [];
+
+          if (whenFinished) {
+            whenFinished();
+          }
         }
 
         this.loadingService.unload();

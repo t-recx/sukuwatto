@@ -32,7 +32,8 @@
     </div>
 
     <div *ngIf="!loading">
-        <app-feed [actions]=actions [paginated]=paginated [loadingNewActions]=loadingNewActions
+        <app-feed [actions]=actions [paginated]=paginated 
+            [loadingNewActions]="loadingNewActions && !refreshingWithPullDown"
             [loadingOlderActions]=loadingOlderActions>
         </app-feed>
     </div>

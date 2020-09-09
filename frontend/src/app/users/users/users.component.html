@@ -1,10 +1,4 @@
-<div class="refresh-icon-container" align="center"
-    [style.top.px]="refreshTop"
->
-    <div class="refresh-icon">
-    <fa-icon [icon]="faSyncAlt" [spin]=true></fa-icon>
-    </div>
-</div>
+<app-refresh-icon></app-refresh-icon>
 
 <div class="site-body"
     (touchstart)="touchBodyStart($event)" (touchend)="touchBodyEnd($event)" (touchmove)="touchBodyMove($event)"
