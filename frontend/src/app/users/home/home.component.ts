@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loadNewActions(1, () => setTimeout(() => {
         this.refreshService.finish();
         this.refreshingWithPullDown = false;
-      }, 250));
+      }, 250), false);
     });
 
     this.activityTypeStrength = this.authService.getUserDefaultActivityTypeStrength();
@@ -196,7 +196,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return b.filter(n => a.filter(o => o.id == n.id).length == 0);
   }
 
-  loadNewActions(indexPage: number = 1, whenFinished = null) {
+  loadNewActions(indexPage: number = 1, whenFinished = null, useLoadService: boolean = true) {
     if (this.loadingNewActions) {
       return;
     }
@@ -207,7 +207,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.loadingNewActions = true;
 
-    this.loadingService.load();
+    if (!useLoadService) {
+      this.loadingService.load();
+    }
 
     this.streamsService.getUserStream(indexPage, this.pageSize)
       .subscribe(paginatedActions => {
@@ -223,7 +225,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loadingNewActions = false;
 
         if (numberOfNewRecords == this.pageSize) {
-          this.loadNewActions(indexPage + 1, whenFinished);
+          this.loadNewActions(indexPage + 1, whenFinished, useLoadService);
         }
         else {
           this.actions.unshift(...this.newActions);
@@ -234,7 +236,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.loadingService.unload();
+        if (!useLoadService) {
+            this.loadingService.unload();
+        }
       }, () => this.loadingNewActions = false);
   }
 
