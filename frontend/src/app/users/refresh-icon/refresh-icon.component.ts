@@ -19,14 +19,14 @@ export class RefreshIconComponent implements OnInit, OnDestroy {
   refreshTop: number = -36;
   scale: number = 1;
   opacity = 0;
-  transitionMs = 50;
+  transitionMs = 150;
   
   constructor(
     private refreshService: RefreshService
   ) { 
     this.iconSubscription = refreshService.pullDownIconTriggered.subscribe(() => {
       this.refreshing = true;
-      this.transitionMs = 50;
+      this.transitionMs = 150;
       this.opacity = 1;
       this.scale = 1;
       this.refreshTop = 80;
