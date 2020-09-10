@@ -106,7 +106,7 @@ export class CommentsService {
   }
 
   updateComment(comment: Comment): Observable<Comment> {
-    return this.http.put<Comment>(`${this.commentsUrl}${comment.id}/`, comment, this.httpOptions)
+    return this.http.patch<Comment>(`${this.commentsUrl}${comment.id}/`, comment, this.httpOptions)
     .pipe(
       tap((newComment: Comment) => { }),
       catchError(this.errorService.handleError<Comment>('updateComment', (e: any) => 

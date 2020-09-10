@@ -60,6 +60,8 @@ export class CommentCardComponent implements OnInit {
     if (this.valid()) {
       this.updating = true;
 
+      delete this.comment.action_object_comment.date;
+
       this.commentsService.saveComment(this.comment.action_object_comment).subscribe(y => {
         this.updating = false;
         this.editing = false;
