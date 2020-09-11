@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ApplicationRef } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { faBars, faTimes, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
-import { Subscription } from 'rxjs';
+import { concat, interval, Subscription } from 'rxjs';
 import { HostListener } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { RefreshService } from '../refresh.service';
 import { environment } from 'src/environments/environment';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -46,9 +47,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   touchStartClientX = 0;
 
   routerNavigationSubscription: Subscription;
-  checkUpdateSubscription: Subscription;
-  applicationUpdateDismissedDate: Date = null;
+  updateAvailableSubscription: Subscription;
+  checkUpdatesSubscription: Subscription;
   updateSnackbarVisible = false;
+  checkForUpdatesProgramatically = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
@@ -73,7 +75,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     private loadingService: LoadingService,
     private elementRef: ElementRef,
     private refreshService: RefreshService,
-    swUpdate: SwUpdate,
+    private swUpdate: SwUpdate,
+    appRef: ApplicationRef
   ) {
     this.routerNavigationSubscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
@@ -83,29 +86,28 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.checkUpdateSubscription = swUpdate.available.subscribe(x => {
-      let v = true;
+    this.checkForUpdatesProgramatically = swUpdate.isEnabled && environment.application;
 
-      if (this.applicationUpdateDismissedDate) {
-        v = (new Date()).valueOf() - this.applicationUpdateDismissedDate.valueOf() > 3600000;
+    if (this.checkForUpdatesProgramatically) {
+      const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+      const everySixHours$ = interval(6 * 60 * 60 * 1000);
+      const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
 
-        if (!v) {
-          this.applicationUpdateDismissedDate = null;
-        }
-      }
+      this.checkUpdatesSubscription = everySixHoursOnceAppIsStable$.subscribe(() => swUpdate.checkForUpdate());
 
-      this.updateSnackbarVisible = v;
-    });
+      this.updateAvailableSubscription = swUpdate.available.subscribe(x => {
+        this.updateSnackbarVisible = true;
+      });
+    }
 
     this.onResize();
   }
 
   updateApplication() {
-    window.location.reload();
+    this.swUpdate.activateUpdate().then(() => document.location.reload());
   }
 
   dismissUpdateNotification() {
-    this.applicationUpdateDismissedDate = new Date();
     this.updateSnackbarVisible = false;
   }
 
@@ -116,8 +118,12 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.resetBodyOverflow();
     this.loadingSubscription.unsubscribe();
-    this.checkUpdateSubscription.unsubscribe();
     this.routerNavigationSubscription.unsubscribe();
+
+    if (this.checkForUpdatesProgramatically) {
+      this.updateAvailableSubscription.unsubscribe();
+      this.checkUpdatesSubscription.unsubscribe();
+    }
   }
 
   ngOnInit() {
