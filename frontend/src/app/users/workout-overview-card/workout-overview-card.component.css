@@ -16,15 +16,37 @@
 
 .tracked-activities-toolbar-container {
     display: flex;
+    margin-bottom: 2px;
 }
 
 .tracked-activity-container {
    width: 100%;
-   padding-top: 2px;
+   /* padding-top: 2px; */
+}
+
+.info-separator {
+    margin-left: 4px;
+    margin-right: 4px;
+    font-weight: 700 !important;
+}
+
+span.info-separator:first-child, span.info-separator:last-child{
+    display:none;
 }
 
 .tracked-activity-title-container {
-   width: 100%;
+    background-color: #dde5ee;
+    color: #546778;
+    width: 100%;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.tracked-activity-info {
+    float: right;
+    font-size: 13px;
 }
 
 .tracked-activity-title-no-arrows {

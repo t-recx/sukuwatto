@@ -27,21 +27,42 @@
             <div class="tracked-activities-toolbar-container siimple-btn-group">
                 <button 
                     type="button"
-                    class="siimple-btn siimple-btn--primary activity-previous-arrow"
+                    class="siimple-btn siimple-btn--light activity-previous-arrow"
                     *ngIf="trackedActivities.length > 1"
                     (click)="selectPreviousTrackedActivity()">
                     <fa-icon [icon]="faChevronLeft"></fa-icon>
                 </button>
 
-                <div class="siimple-btn siimple-btn--light tracked-activity-title-container" 
+                <div class=" tracked-activity-title-container" 
                     [class.tracked-activity-title-no-arrows]="trackedActivities.length == 1"
-                    align="center">
-                    {{selectedTrackedActivity.exercise.name}}
+                    >
+                    <span class="siimple--text-bold">
+                        {{selectedTrackedActivity.exercise.name}}
+                    </span>
+                    <span class="tracked-activity-info">
+                        <span *ngIf="selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit">
+                            {{selectedTrackedActivity.distance}} {{getUnitCode(selectedTrackedActivity.distance_unit)}}
+                        </span>
+                        <span class="info-separator"
+                            *ngIf="(selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit) &&
+                            ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit))"
+                        >|</span>
+                        <span *ngIf="selectedTrackedActivity.time && selectedTrackedActivity.time_unit">
+                            {{getTimeToHumanReadable(selectedTrackedActivity)}}
+                        </span>
+                        <span class="info-separator"
+                            *ngIf="(selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit) &&
+                            ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit))"
+                        >|</span>
+                        <span *ngIf="selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit">
+                            {{selectedTrackedActivity.speed}} {{getUnitCode(selectedTrackedActivity.speed_unit)}}
+                        </span>
+                    </span>
                 </div>
 
                 <button 
                     type="button"
-                    class="siimple-btn siimple-btn--primary activity-next-arrow"
+                    class="siimple-btn siimple-btn--light activity-next-arrow"
                     *ngIf="trackedActivities.length > 1"
                     (click)="selectNextTrackedActivity()"
                     >

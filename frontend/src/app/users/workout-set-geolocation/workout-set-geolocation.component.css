@@ -49,8 +49,21 @@
 }
 
 .stats-footer {
-  padding: 12px;
-  background-color: #eef2f7;
+  height: 16.5px;
+  position: relative;
+  background-color: #f6f5f5;
+}
+
+.stats-action-buttons-container {
+  position: absolute;
+  bottom: 25px;
+  right: 10px;
+}
+
+.map-button {
+  position: absolute;
+  bottom: 25px;
+  left: 10px;
 }
 
 .start-button {
@@ -76,6 +89,7 @@
   left: 10px;
   right: 0;
   z-index: 401;
+  width: 48px;
 }
 
 .stop-finish-bar {
