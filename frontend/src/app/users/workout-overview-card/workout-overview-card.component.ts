@@ -10,6 +10,7 @@ import { ExerciseType } from '../exercise';
 import { WorkoutSet } from '../workout-set';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { TimeService } from '../time.service';
 
 @Component({
   selector: 'app-workout-overview-card',
@@ -50,7 +51,12 @@ export class WorkoutOverviewCardComponent implements OnInit {
     private workoutsService: WorkoutsService,
     private authService: AuthService,
     private router: Router,
+    private timeService: TimeService,
   ) { }
+
+  getTimeToHumanReadable(activity: WorkoutSet) {
+    return this.timeService.toHumanReadable(this.unitsService.convert(activity.time, activity.time_unit, 'ms'));
+  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -66,6 +72,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
       .subscribe(w =>
         {
           this.workout = w;
+
           if (this.workout) {
             this.loadWorkoutData(this.workout);
             this.notFound = false;

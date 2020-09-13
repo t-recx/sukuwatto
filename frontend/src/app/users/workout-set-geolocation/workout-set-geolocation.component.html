@@ -4,7 +4,8 @@
     [leafletFitBounds]="fitBounds" (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 
-    <button class="stats-button siimple-btn siimple-btn--primary" type="button" (click)="showStats()">
+    <button class="stats-button siimple-btn siimple-btn--primary" type="button" (click)="showStats()"
+        *ngIf="allowEdit">
         <fa-icon [icon]="faChartBar"></fa-icon>
     </button>
 
@@ -116,24 +117,28 @@
         </div>
 
         <div class=" stats-footer">
-            <button type="button" class="siimple-btn siimple-btn--primary" (click)="showMap()">
+            <button type="button" class="siimple-btn siimple-btn--primary map-button" (click)="showMap()">
                 <fa-icon [icon]="faMapMarkedAlt" class=""></fa-icon>
             </button>
 
-            <span class="siimple--float-right" *ngIf="allowEdit">
+
+            <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
+                *ngIf="!workoutActivity.collectingPositions && allowEdit">
+                <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
+                Start
+            </button>
+
+            <span class="stats-action-buttons-container" *ngIf="allowEdit">
                 <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
                     *ngIf="workoutActivity.collectingPositions">
-                    <fa-icon [icon]="faPause" class=""></fa-icon>
-                </button>
-
-                <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
-                    *ngIf="!workoutActivity.collectingPositions">
-                    <fa-icon [icon]="faPlay" class=""></fa-icon>
+                    <fa-icon [icon]="faPause" class="siimple--mr-1"></fa-icon>
+                    Pause
                 </button>
 
                 <button class="siimple--ml-2 siimple-btn siimple-btn--success" (click)="finishActivity()" type="button"
                     *ngIf="workoutActivity.collectingPositions">
-                    <fa-icon [icon]="faCheck" class=""></fa-icon>
+                    <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                    Finish
                 </button>
 
                 <button type="button" class="siimple--ml-2 siimple-btn 

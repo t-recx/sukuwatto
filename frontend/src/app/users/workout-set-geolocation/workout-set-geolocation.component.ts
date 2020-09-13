@@ -629,6 +629,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       return;
     }
 
+    if (this.workoutActivity.done) {
+      return;
+    }
+
     this.workoutActivity.segments[this.workoutActivity.segments.length - 1].end = new Date();
   }
 
