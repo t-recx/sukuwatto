@@ -22,6 +22,7 @@ export class PlanCardComponent implements OnInit {
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
   @Input() showAdoptButton: boolean = true;
+  @Input() detailView: boolean;
   @Output() deleted = new EventEmitter();
   @Output() adopted = new EventEmitter();
 

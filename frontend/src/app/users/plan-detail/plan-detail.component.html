@@ -1,7 +1,8 @@
 <div *ngIf="plan && !loading">
     <div *ngIf="!userIsOwner">
       <app-plan-card [plan]=plan 
-        [showSaveDeleteButtons]=false >
+        [showSaveDeleteButtons]=false 
+        [detailView]=true>
       </app-plan-card>
     </div>
     <div *ngIf="userIsOwner">

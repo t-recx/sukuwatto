@@ -690,6 +690,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       else {
         this.workout.end = this.workout.start;
       }
+
+      if (this.workout.start > this.workout.end) {
+        this.workout.end = this.workout.start;
+      }
     }
 
     this.finishWorkoutVisible = true;

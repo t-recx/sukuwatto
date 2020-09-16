@@ -14,6 +14,7 @@
   <ul class="">
     <li *ngFor="let plan of adoptedPlans">
       <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
+        [detailView]=true
         [showAdoptButton]="!this.isCurrentLoggedInUser && showAdoptButton(plan)">
       </app-plan-card>
     </li>
@@ -31,6 +32,7 @@
     <li class="siimple-card" *ngFor="let plan of plans">
       <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
         (adopted)="planAdopted()"
+        [detailView]=true
         [showAdoptButton]="showAdoptButton(plan)">
       </app-plan-card>
     </li>
