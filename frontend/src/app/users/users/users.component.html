@@ -41,7 +41,7 @@
     </div>
 
     <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown"
-        [style.left.%]="menuLeft" 
+        [style.transform]="menuTranslateX"
         [style.width.%]="menuWidth" 
         [style.transition.ms]="transitionMenuMs"
         (touchstart)="touchStart($event)" (touchend)="touchEnd($event)" (touchmove)="touchMove($event)"

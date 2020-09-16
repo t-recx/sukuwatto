@@ -33,6 +33,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   overlayPointerEvents = 'none';
 
   menuLeft = -this.menuWidthOpen;
+  menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
+
+  updateMenuTranslateX() {
+    this.menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
+  }
 
   screenWidth = 0;
   screenHeight = 0;
@@ -66,6 +71,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.menuWidth = this.menuDropDownVisible ? this.menuWidthOpen : 0;
     this.menuLeft = !this.menuDropDownVisible ? -this.menuWidthOpen : 0;
+
+    this.updateMenuTranslateX();
   }
 
   constructor(
@@ -150,6 +157,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (swipingFromRight) {
       this.menuLeft = this.menuDropDownVisible ? 0 : -this.menuWidthOpen;
+      this.updateMenuTranslateX();
     }
 
     this.overlayOpacity = this.menuDropDownVisible ? this.overlayOpacityDefault : 0;
@@ -185,6 +193,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.menuDropDownVisible) {
       const offsetX = this.touchStartClientX - event.touches[0].clientX;
 
+      if (offsetX == 0) {
+        return;
+      }
+
       let newLeft = this.menuWidthOpen - ((100 * offsetX) / this.screenWidth);
 
       if (invert) {
@@ -193,6 +205,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (newLeft <= this.menuWidthOpen) {
         this.menuLeft = -(this.menuWidthOpen - newLeft);
+        this.updateMenuTranslateX();
       }
 
       let newOpacity = this.overlayOpacityDefault - ((this.overlayOpacityDefault * offsetX) / this.screenWidth);
@@ -222,6 +235,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         else {
           this.menuWidth = this.menuWidthOpen;
           this.menuLeft = 0;
+          this.updateMenuTranslateX();
         }
       }
     }
@@ -258,6 +272,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         else {
           this.menuWidth = this.menuWidthOpen;
           this.menuLeft = 0;
+          this.updateMenuTranslateX();
         }
       }
     }
