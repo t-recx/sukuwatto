@@ -236,22 +236,22 @@
             </div>
         </div>
 
-        <div class="siimple-rule siimple--mt-3"></div>
-
-        <div class="owner-user-container">
-            <app-user-tag [username]=plan.user.username
-                [profile_filename]=plan.user.profile_filename>
-            </app-user-tag>
-
-            <small class="siimple-small siimple--ml-2">{{plan.creation.toString() | timeAgo}}</small>
-
-            <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()"
-                [disabled]="adopting"
-            >
-                <fa-icon [icon]="faChild" class="siimple--mr-1" *ngIf="!adopting"></fa-icon>
-                <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="adopting"></fa-icon>
-                Adopt
-            </button>
+        <div *ngIf="detailView">
+            <div class="siimple-rule siimple--mt-3"></div>
+        
+            <div class="owner-user-container">
+                <app-user-tag [username]=plan.user.username [profile_filename]=plan.user.profile_filename>
+                </app-user-tag>
+        
+                <small class="siimple-small siimple--ml-2">{{plan.creation.toString() | timeAgo}}</small>
+        
+                <button *ngIf="showAdoptButton" class="siimple-btn adopt-plan-button siimple-btn--success" (click)="adopt()"
+                    [disabled]="adopting">
+                    <fa-icon [icon]="faChild" class="siimple--mr-1" *ngIf="!adopting"></fa-icon>
+                    <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="adopting"></fa-icon>
+                    Adopt
+                </button>
+            </div>
         </div>
     </div>
     <footer class="siimple-card-footer">

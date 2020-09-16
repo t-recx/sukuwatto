@@ -177,7 +177,7 @@
             <ng-template [ngSwitchCase]="'created'">
                 <span *ngIf="action.action_object_exercise">
                     <div class="card-container">
-                        <app-exercise-card [exercise]=action.action_object_exercise></app-exercise-card>
+                        <app-exercise-card [exercise]=action.action_object_exercise [detailView]=false></app-exercise-card>
                     </div>
                 </span>
                 <span *ngIf="action.action_object_plan">

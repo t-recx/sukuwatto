@@ -249,6 +249,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   touchMoveInvisibleDrawer(event) {
+    this.transitionMenuMs = 0;
+    this.transitionOverlayMs = 0;
+
     this.touchMove(event, true);
   }
 

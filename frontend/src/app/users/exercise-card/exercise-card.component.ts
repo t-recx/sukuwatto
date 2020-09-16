@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class ExerciseCardComponent implements OnInit, OnDestroy {
   @Input() exercise: Exercise;
   @Input() id: number;
+  @Input() detailView: boolean;
   @Input() commentsSectionOpen: boolean = false;
 
   routerLink: any;
