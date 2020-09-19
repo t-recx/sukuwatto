@@ -1,0 +1,71 @@
+<div class="toolbar measurements-toolbar">
+    <div class="toolbar-title">Body <span class="siimple--display-sm-none ">Measurements</span></div>
+
+    <div class="toolbar-buttons" *ngIf="isLoggedIn()">
+        <button class="siimple-btn siimple-btn--primary toolbar-button" 
+          [routerLink]="['/users', username, 'measurement']">
+            <fa-icon [icon]="faWeight" class="siimple--mr-1"></fa-icon>
+            New
+        </button>
+    </div>
+</div>
+
+<table
+    class="phones-only row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
+    <thead class="siimple-table-header">
+        <tr class="siimple-table-row">
+            <th (click)="toggleSort('date')"
+                [class.siimple-table-cell--asc]="columnOrder['date'] && columnOrder['date'][1][0] != '-'"
+                [class.siimple-table-cell--desc]="columnOrder['date'] && columnOrder['date'][1][0]=='-'"
+                class="siimple-table-cell siimple-table-cell--sortable">Date</th>
+            <th (click)="toggleSort('weight')"
+                [class.siimple-table-cell--asc]="columnOrder['weight'] && columnOrder['weight'][1][0] != '-'"
+                [class.siimple-table-cell--desc]="columnOrder['weight'] && columnOrder['weight'][1][0]=='-'"
+                class="siimple-table-cell siimple-table-cell--sortable">Weight</th>
+        </tr>
+    </thead>
+    <tbody class="siimple-table-body">
+        <tr class="siimple-table-row link-row" *ngFor="let measurement of measurements; trackBy: measurementTracker"
+            (click)="navigate(measurement)">
+            <td class="siimple-table-cell">{{measurement.date | date: 'short' }}</td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.weight">{{measurement.weight}} {{getUnitCode(measurement.weight_unit)}}</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<table
+    class="siimple--display-sm-none row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
+    <thead class="siimple-table-header">
+        <tr class="siimple-table-row">
+            <th (click)="toggleSort('date')"
+                [class.siimple-table-cell--asc]="columnOrder['date'] && columnOrder['date'][1][0] != '-'"
+                [class.siimple-table-cell--desc]="columnOrder['date'] && columnOrder['date'][1][0]=='-'"
+                class="siimple-table-cell siimple-table-cell--sortable">Date</th>
+            <th (click)="toggleSort('weight')"
+                [class.siimple-table-cell--asc]="columnOrder['weight'] && columnOrder['weight'][1][0] != '-'"
+                [class.siimple-table-cell--desc]="columnOrder['weight'] && columnOrder['weight'][1][0]=='-'"
+                class="siimple-table-cell siimple-table-cell--sortable">Weight</th>
+            <th (click)="toggleSort('body_fat_percentage')"
+                [class.siimple-table-cell--asc]="columnOrder['body_fat_percentage'] && columnOrder['body_fat_percentage'][1][0] != '-'"
+                [class.siimple-table-cell--desc]="columnOrder['body_fat_percentage'] && columnOrder['body_fat_percentage'][1][0]=='-'"
+                class="siimple-table-cell siimple-table-cell--sortable">BF %</th>
+            <th (click)="toggleSort('muscle_mass_percentage')"
+                [class.siimple-table-cell--asc]="columnOrder['muscle_mass_percentage'] && columnOrder['muscle_mass_percentage'][1][0] != '-'"
+                [class.siimple-table-cell--desc]="columnOrder['muscle_mass_percentage'] && columnOrder['muscle_mass_percentage'][1][0]=='-'"
+                class="siimple-table-cell siimple-table-cell--sortable">Muscle %</th>
+        </tr>
+    </thead>
+    <tbody class="siimple-table-body">
+        <tr class="siimple-table-row link-row" *ngFor="let measurement of measurements; trackBy: measurementTracker"
+            (click)="navigate(measurement)">
+            <td class="siimple-table-cell">{{measurement.date | date: 'short' }}</td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.weight">{{measurement.weight}} {{getUnitCode(measurement.weight_unit)}}</span></td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.body_fat_percentage">{{measurement.body_fat_percentage}}%</span></td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.muscle_mass_percentage">{{measurement.muscle_mass_percentage}}%</span> </td>
+        </tr>
+    </tbody>
+</table>
+
+<app-pagination [paginatedRecords]="paginatedMeasurements" [currentPage]="page" [link]=link
+    [queryParams]=queryParams>
+</app-pagination>

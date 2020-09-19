@@ -49,11 +49,16 @@ class ExerciseSerializer(serializers.ModelSerializer):
         return instance
 
 class UserBioDataSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = UserBioData
         fields = ['id', 'date', 'weight', 'weight_unit', 'height', 'height_unit', 
             'body_fat_percentage', 'water_weight_percentage', 'muscle_mass_percentage',
-            'bone_mass_weight', 'bone_mass_weight_unit', 'notes']
+            'bone_mass_weight', 'bone_mass_weight_unit', 'notes', 'user', 'creation',
+            'likes','comment_number', 'visibility']
+        read_only_fields = ('likes','comment_number',)
+        extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def validate_date(self, value):
         if value is None:
@@ -91,6 +96,7 @@ class UserBioDataSerializer(serializers.ModelSerializer):
         instance.bone_mass_weight = validated_data.get('bone_mass_weight', instance.bone_mass_weight)
         instance.bone_mass_weight_unit = validated_data.get('bone_mass_weight_unit', instance.bone_mass_weight_unit)
         instance.notes = validated_data.get('notes', instance.notes)
+        instance.visibility = validated_data.get('visibility', instance.visibility)
 
         instance.save()
 

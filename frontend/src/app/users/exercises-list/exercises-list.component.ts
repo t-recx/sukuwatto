@@ -31,7 +31,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   faBackspace = faBackspace;
 
   lastSearchedFilter = '';
-  columnOrder = {}
+  columnOrder = {};
 
   exercises: Exercise[] = [];
 
@@ -117,7 +117,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
       let navigatedLink = this.link;
 
       if (this.page && this.page > 1) {
-        navigatedLink = this.link.concat(this.page);
+        navigatedLink.push(this.page.toString());
       }
 
       this.router.navigate(navigatedLink, { queryParams: this.getQueryParams() });

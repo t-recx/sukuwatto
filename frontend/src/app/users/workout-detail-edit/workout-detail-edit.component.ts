@@ -320,26 +320,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       return;
     }
 
-    const defaultWorkoutVisibility = this.authService.getUserDefaultWorkoutVisibility();
-    if (defaultWorkoutVisibility && defaultWorkoutVisibility.length > 0) {
-      switch (defaultWorkoutVisibility) {
-        case Visibility.Everyone:
-          this.workout.visibility = Visibility.Everyone;
-          break;
-        case Visibility.Followers:
-          this.workout.visibility = Visibility.Followers;
-          break;
-        case Visibility.OwnUser:
-          this.workout.visibility = Visibility.OwnUser;
-          break;
-        case Visibility.RegisteredUsers:
-          this.workout.visibility = Visibility.RegisteredUsers;
-          break;
-      }
-    }
-    else {
-      this.workout.visibility = Visibility.Everyone;
-    }
+    this.workout.visibility = this.authService.getUserDefaultWorkoutVisibility();
   }
 
   loadAdoptedPlans() {

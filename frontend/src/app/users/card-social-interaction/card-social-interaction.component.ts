@@ -30,6 +30,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @Input() target_post: number;
   @Input() target_exercise: number;
   @Input() target_workout: number;
+  @Input() target_user_bio_data: number;
 
   content_type_id: number;
   content_type_user_id: number;
@@ -206,6 +207,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     comment.target_post = this.target_post;
     comment.target_workout = this.target_workout;
     comment.target_exercise = this.target_exercise;
+    comment.target_user_bio_data = this.target_user_bio_data;
 
     if (!comment.text || comment.text.trim().length == 0) {
       this.triedToComment = true;

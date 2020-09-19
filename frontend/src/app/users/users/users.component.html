@@ -40,7 +40,8 @@
         </ng-template>
     </div>
 
-    <div [class.menu-dropdown-open]="menuDropDownVisible" class="menu-dropdown"
+    <div class="menu-dropdown"
+    [hidden]=dropDownHidden
         [style.transform]="menuTranslateX"
         [style.width.%]="menuWidth" 
         [style.transition.ms]="transitionMenuMs"

@@ -9,6 +9,7 @@ import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
 import { JwtService } from './jwt.service';
+import { Visibility } from './visibility';
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +85,7 @@ export class AuthService {
     this.setUserID(null);
     this.setIsStaff(null);
     this.setUserDefaultWorkoutVisibility(null);
+    this.setUserDefaultMeasurementVisibility(null);
   }
 
   public getLogoutUrl(): string {
@@ -139,6 +141,7 @@ export class AuthService {
         this.setUserDistanceUnitId(user.default_distance_unit.toString());
         this.setUserSpeedUnitId(user.default_speed_unit.toString());
         this.setUserDefaultWorkoutVisibility(user.default_visibility_workouts);
+        this.setUserDefaultMeasurementVisibility(user.default_visibility_user_bio_datas);
 
         this.setUserID(user.id.toString());
         this.setIsStaff(user.is_staff);
@@ -199,12 +202,38 @@ export class AuthService {
     return this.getLocalStorageItem('speed_unit_id');
   }
 
-  public getUserDefaultWorkoutVisibility(): string {
-    return this.getLocalStorageItem('default_workout_visibility');
+  stringToVisibility(defaultWorkoutVisibility: string): Visibility {
+    if (defaultWorkoutVisibility && defaultWorkoutVisibility.length > 0) {
+      switch (defaultWorkoutVisibility) {
+        case Visibility.Everyone:
+          return Visibility.Everyone;
+        case Visibility.Followers:
+          return Visibility.Followers;
+        case Visibility.OwnUser:
+          return Visibility.OwnUser;
+        case Visibility.RegisteredUsers:
+          return Visibility.RegisteredUsers;
+      }
+    }
+    else {
+      return Visibility.Everyone;
+    }
+  }
+
+  public getUserDefaultWorkoutVisibility(): Visibility {
+    return this.stringToVisibility(this.getLocalStorageItem('default_workout_visibility'));
+  }
+
+  public getUserDefaultMeasurementVisibility(): Visibility {
+    return this.stringToVisibility(this.getLocalStorageItem('default_measurement_visibility'));
   }
 
   public setUserDefaultWorkoutVisibility(v: string) {
     this.setLocalStorageItem('default_workout_visibility', v);
+  }
+
+  public setUserDefaultMeasurementVisibility(v: string) {
+    this.setLocalStorageItem('default_measurement_visibility', v);
   }
 
   public setUserWeightUnitId(unit: string) {

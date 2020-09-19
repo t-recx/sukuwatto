@@ -18,6 +18,18 @@ class Unit(models.IntegerChoices):
     HOUR = 14
 
 class UserBioData(models.Model):
+    EVERYONE = 'e'
+    REGISTERED_USERS = 'r'
+    FOLLOWERS = 'f'
+    OWN_USER = 'u'
+
+    VISIBILITIES =  [
+        (EVERYONE, 'Everyone'),
+        (REGISTERED_USERS, 'Registered users'),
+        (FOLLOWERS, 'Followers'),
+        (OWN_USER, 'Own user')
+    ]
+
     date = models.DateTimeField()
     weight = models.DecimalField(max_digits=10, decimal_places=5, null=True)
     weight_unit = models.IntegerField(choices=Unit.choices, null=True)
@@ -30,6 +42,11 @@ class UserBioData(models.Model):
     bone_mass_weight_unit = models.IntegerField(choices=Unit.choices, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
+    creation = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+    comment_number = models.IntegerField(default=0)
+
+    visibility = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 
 class Exercise(models.Model):
     CARDIO = 'c'

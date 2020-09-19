@@ -46,6 +46,7 @@ class CustomUser(AbstractUser):
     default_distance_unit = models.IntegerField(null=True)
 
     default_visibility_workouts = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
+    default_visibility_user_bio_datas = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 
     visibility_profile = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 

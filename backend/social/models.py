@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-from workouts.models import Workout, Plan, Exercise
+from workouts.models import Workout, Plan, Exercise, UserBioData
 from django.utils.timezone import now
 
 class Post(models.Model):
@@ -38,6 +38,7 @@ class Comment(models.Model):
     target_plan = models.ForeignKey(Plan, related_name='comment_target_plan', on_delete=models.CASCADE, blank= True, null=True)
     target_exercise = models.ForeignKey(Exercise, related_name='comment_target_exercise', on_delete=models.CASCADE, blank= True, null=True)
     target_post = models.ForeignKey(Post, related_name='comment_target_post', on_delete=models.CASCADE, blank= True, null=True)
+    target_user_bio_data = models.ForeignKey(UserBioData, related_name='comment_target_user_bio_data', on_delete=models.CASCADE, blank= True, null=True)
 
     def __str__(self):
         return self.text
@@ -69,6 +70,7 @@ class UserAction(models.Model):
     target_exercise = models.ForeignKey(Exercise, related_name='target_exercise', on_delete=models.CASCADE, blank= True, null=True)
     target_post = models.ForeignKey(Post, related_name='target_post', on_delete=models.CASCADE, blank= True, null=True)
     target_comment = models.ForeignKey(Comment, related_name='target_comment', on_delete=models.CASCADE, blank= True, null=True)
+    target_user_bio_data = models.ForeignKey(UserBioData, related_name='target_user_bio_data', on_delete=models.CASCADE, blank= True, null=True)
     target_user = models.ForeignKey(get_user_model(), related_name='target_user', on_delete=models.CASCADE, db_index=True, blank=True, null=True)
 
     action_object_workout = models.ForeignKey(Workout, related_name='action_object_workout', on_delete=models.CASCADE, blank= True, null=True)
@@ -76,4 +78,5 @@ class UserAction(models.Model):
     action_object_exercise = models.ForeignKey(Exercise, related_name='action_object_exercise', on_delete=models.CASCADE, blank= True, null=True)
     action_object_post = models.ForeignKey(Post, related_name='action_object_post', on_delete=models.CASCADE, blank= True, null=True)
     action_object_comment = models.ForeignKey(Comment, related_name='action_object_comment', on_delete=models.CASCADE, blank= True, null=True)
+    action_object_user_bio_data = models.ForeignKey(UserBioData, related_name='action_object_user_bio_data', on_delete=models.CASCADE, blank= True, null=True)
     action_object_user = models.ForeignKey(get_user_model(), related_name='action_object_user', on_delete=models.CASCADE, blank=True, null=True)

@@ -4,9 +4,7 @@ import { AuthService } from 'src/app/auth.service';
 import { UserService } from 'src/app/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnitsService } from '../units.service';
-import { UserBioData } from '../user-bio-data';
 import { Unit, MeasurementType } from '../unit';
-import { UserBioDataService } from '../user-bio-data.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
@@ -32,12 +30,10 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   triedToSave: boolean;
   deleteModalVisible: boolean;
   passwordModalVisible: boolean;
-  userBioData: UserBioData;
   bioDataDate: Date;
   units: Unit[];
   weightUnits: Unit[];
   heightUnits: Unit[];
-  userBioDataVisible: boolean;
 
   selectedTabType: AccountTabType = AccountTabType.General;
   tabType = AccountTabType;
@@ -60,7 +56,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
-  
+
   visibilityLabel = VisibilityLabel;
 
   pausedSubscription: Subscription;
@@ -69,21 +65,12 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.user.profile_filename = event;
   }
 
-  onUserBioDataClosed() {
-    this.userBioDataVisible = false;
-  }
-
-  onUserBioDataOkayed(event: any) {
-    this.userBioData = event;
-  }
-
   constructor(
     private authService: AuthService,
     private userService: UserService,
     public route: ActivatedRoute,
     private router: Router,
     private unitsService: UnitsService,
-    private userBioDataService: UserBioDataService,
     private alertService: AlertService,
     private loadingService: LoadingService,
     private cordovaService: CordovaService,
@@ -98,7 +85,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.paramMap.subscribe(params =>
       this.loadUserData(params.get('username')));
 
-    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
   }
 
   ngOnDestroy(): void {
@@ -106,14 +93,12 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
 
     localStorage.removeItem('state_account_has_state');
     localStorage.removeItem('state_account_user');
-    localStorage.removeItem('state_account_user_bio_data_visible');
     this.serializerUtils.removeScrollPosition();
   }
 
   serialize() {
     localStorage.setItem('state_account_has_state', JSON.stringify(true));
     localStorage.setItem('state_account_user', JSON.stringify(this.user));
-    localStorage.setItem('state_account_user_bio_data_visible', JSON.stringify(this.userBioDataVisible));
     this.serializerUtils.serializeScrollPosition();
   }
 
@@ -125,10 +110,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     const stateUser = localStorage.getItem('state_account_user');
-    const stateUserBioDataVisible = localStorage.getItem('state_account_user_bio_data_visible');
 
     this.user = JSON.parse(stateUser);
-    this.userBioDataVisible = JSON.parse(stateUserBioDataVisible);
 
     return true;
   }
@@ -136,7 +119,6 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   loadUserData(username: string) {
     this.forbidden = false;
     this.username = username;
-    this.userBioData = null;
     this.bioDataDate = new Date();
     this.weightUnits = [];
     this.heightUnits = [];
@@ -162,7 +144,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
             this.user.email = email;
             this.loading = false;
             this.loadingService.unload();
-          } );
+          });
         }
         else {
           this.loading = false;
@@ -179,10 +161,6 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       this.heightUnits = units.filter(u => u.measurement_type == MeasurementType.Height);
     });
 
-  }
-  
-  showUserBioData(): void {
-    this.userBioDataVisible = true;
   }
 
   showDeleteModal(): void {
@@ -216,14 +194,14 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
         this.user.default_weight_unit = unit.id;
       }
 
-      const speedUnit = this.units.filter(x => x.measurement_type == MeasurementType.Speed && 
+      const speedUnit = this.units.filter(x => x.measurement_type == MeasurementType.Speed &&
         x.system == this.user.system)[0];
 
       if (speedUnit) {
         this.user.default_speed_unit = speedUnit.id;
       }
 
-      const distanceUnit = this.units.filter(x => x.measurement_type == MeasurementType.Distance && 
+      const distanceUnit = this.units.filter(x => x.measurement_type == MeasurementType.Distance &&
         x.system == this.user.system)[0];
 
       if (distanceUnit) {
@@ -234,28 +212,15 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.saving = true;
 
     this.userService.update(this.user)
-    .subscribe(() => {
-      if (this.userBioData) {
-        this.userBioDataService.saveUserBioData(this.userBioData)
-        .subscribe(() => 
-        {
-          this.saving = false;
-
-          this.authService.setUnitSystem(this.user.system);
-          this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
-
-          this.router.navigateByUrl(`/users/${this.user.username}/profile`);
-        });
-      }
-      else {
+      .subscribe(() => {
         this.saving = false;
 
         this.authService.setUnitSystem(this.user.system);
         this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
+        this.authService.setUserDefaultMeasurementVisibility(this.user.default_visibility_user_bio_datas);
 
         this.router.navigateByUrl(`/users/${this.user.username}/profile`);
-      }
-    });
+      });
   }
 
   delete(): void {

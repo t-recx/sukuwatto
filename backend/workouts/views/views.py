@@ -15,6 +15,7 @@ from workouts.exercise_service import ExerciseService
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
+from sqtrex.visibility import VisibilityQuerysetMixin, Visibility
 
 class FilterByExerciseType(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
@@ -50,6 +51,8 @@ def get_available_chart_data(request):
     has_weight_records = False
     has_bio_data_records = False
 
+    visibility_provider = VisibilityQuerysetMixin()
+
     username = request.query_params.get('username', None)
 
     user = get_object_or_404(get_user_model(), username=username)
@@ -59,7 +62,7 @@ def get_available_chart_data(request):
 
     sets = WorkoutSet.objects.filter(workout_group__workout__user__username=username).filter(done=True)
 
-    bio_datas = UserBioData.objects.filter(user__username=username)
+    bio_datas = visibility_provider.get_queryset_visibility(UserBioData.objects.filter(user__username=username), request.user)
 
     date_lte = request.query_params.get('date_lte', None)
 
@@ -78,6 +81,13 @@ def get_available_chart_data(request):
     has_bio_data_records = bio_datas.filter(Q(body_fat_percentage__isnull=False) | 
             Q(muscle_mass_percentage__isnull=False) |
             Q(water_weight_percentage__isnull=False)).exists()
+
+    if not request.user or not request.user.is_authenticated:
+        sets = sets.filter(workout_group__workout__visibility=Visibility.EVERYONE)
+    else:
+        sets = sets.exclude(Q(workout_group__workout__visibility=Visibility.OWN_USER), ~Q(workout_group__workout__user=user))
+
+        sets = sets.exclude(Q(workout_group__workout__visibility=Visibility.FOLLOWERS), ~Q(workout_group__workout__user__followers__id=user.id), ~Q(workout_group__workout__user=user))
 
     strength_sets = sets.filter(exercise__exercise_type=Exercise.STRENGTH)
 

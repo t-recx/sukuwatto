@@ -17,6 +17,8 @@ import { HomeGuard } from '../guards/home.guard';
 import { WorkoutDetailComponent } from './workout-detail/workout-detail.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { QuickActivityComponent } from './quick-activity/quick-activity.component';
+import { MeasurementDetailComponent } from './measurement-detail/measurement-detail.component';
+import { MeasurementsComponent } from './measurements/measurements.component';
 
 const routes: Routes = [
   { 
@@ -118,6 +120,26 @@ const routes: Routes = [
         path: 'exercise',
         canActivate: [AuthGuard],
         component: ExerciseDetailComponent,
+      },
+      {
+        path: 'measurements',
+        canActivateChild: [],
+        component: MeasurementsComponent,
+      },
+      {
+        path: 'measurements/:page',
+        canActivateChild: [],
+        component: MeasurementsComponent,
+      },
+      {
+        path: 'measurement/:id',
+        canActivateChild: [],
+        component: MeasurementDetailComponent,
+      },
+      {
+        path: 'measurement',
+        canActivate: [AuthGuard],
+        component: MeasurementDetailComponent,
       },
       {
         path: 'account',

@@ -353,7 +353,7 @@ export class UnitsService {
   }
 
   convertUserBioData(userBioData: UserBioData): UserBioData {
-    if (!userBioData) {
+    if (userBioData) {
       if (userBioData.weight && userBioData.weight_unit) {
         userBioData.weight = this.convertToUserUnit(userBioData.weight, userBioData.weight_unit);
         userBioData.weight_unit = this.getToUnit(userBioData.weight_unit);
@@ -525,6 +525,16 @@ export class UnitsService {
   }
 
   getUnitCode(id: number): string {
-    return this.units.filter(x => x.id == id)[0].abbreviation;
+    if (!id) {
+      return null;
+    }
+
+    const filteredUnits = this.units.filter(x => x.id == id);
+
+    if (filteredUnits.length == 0) {
+      return null;
+    }
+
+    return filteredUnits[0].abbreviation;
   }
 }
