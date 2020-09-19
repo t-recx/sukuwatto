@@ -1,4 +1,4 @@
-<div class="siimple-menu siimple--mb-0 navigation-menu" *ngIf="authService.isLoggedIn()">
+<div class="siimple-menu siimple--mb-0 navigation-menu scrollable-menu" *ngIf="authService.isLoggedIn()">
     <a class="siimple-menu-item main-menu-item siimple--display-md-none siimple--display-sm-none" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'home']">
         <div class="menu-icon-image-container">
@@ -40,5 +40,12 @@
         <fa-icon [icon]="iconPlans" class="menu-icon-image"></fa-icon>
         </div>
         Plans
+    </a>
+    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+        [routerLink]="['/users', authService.getUsername(), 'measurements']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconMeasurements" class="menu-icon-image"></fa-icon>
+        </div>
+        Body
     </a>
 </div>

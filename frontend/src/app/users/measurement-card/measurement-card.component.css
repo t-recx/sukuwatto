@@ -1,0 +1,10 @@
+.cell {
+    width: 50%;
+}
+
+@media (min-width: 600px) {
+    .measurement-row {
+        display: flex;
+        align-items: center;
+    }
+}

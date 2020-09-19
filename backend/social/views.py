@@ -17,7 +17,7 @@ from sqtrex.serializers import ActionSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from sqtrex.permissions import StandardPermissionsMixin
-from workouts.models import Workout, Plan, Exercise
+from workouts.models import Workout, Plan, Exercise, UserBioData
 
 class ActionObjectStreamList(generics.ListAPIView):
     def list(self, request):
@@ -173,6 +173,7 @@ def toggle_like(request):
     target_plan = None
     target_post = None
     target_exercise = None
+    target_user_bio_data = None
 
     if object_model == 'workout':
         model = Workout.objects.get(pk=object_id)
@@ -186,10 +187,13 @@ def toggle_like(request):
     elif object_model == 'exercise':
         model = Exercise.objects.get(pk=object_id)
         target_exercise = model
+    elif object_model == 'userbiodata':
+        model = UserBioData.objects.get(pk=object_id)
+        target_user_bio_data = model
 
     if not deleted:
         UserAction.objects.create(user=request.user, verb='liked', target_workout=target_workout, target_plan=target_plan,
-            target_post=target_post, target_exercise=target_exercise)
+            target_post=target_post, target_exercise=target_exercise, target_user_bio_data=target_user_bio_data)
 
     if model is not None:
         if deleted:

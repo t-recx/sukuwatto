@@ -25,7 +25,7 @@ export class UserBioDataService {
     private alertService: AlertService
   ) { }
 
-  getUserBioDatas (username: string, page: number, page_size: number): Observable<Paginated<UserBioData>> {
+  getUserBioDatas (username: string, page: number, page_size: number, ordering: string = null): Observable<Paginated<UserBioData>> {
     let options = {};
     let params = new HttpParams();
 
@@ -41,7 +41,11 @@ export class UserBioDataService {
       params = params.set('page_size', page_size.toString());
     }
 
-    if (username || page || page_size) {
+    if (ordering) {
+      params = params.set('ordering', ordering.toString());
+    }
+
+    if (username || page || page_size || ordering) {
       options = {params: params};
     }
 
@@ -96,8 +100,10 @@ export class UserBioDataService {
         }),
         catchError(this.errorService.handleError<UserBioData>('getUserBioData', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch userbiodata');
-        }, new UserBioData()))
+          if (e && e.status && e.status != 404) { 
+            this.alertService.error('Unable to fetch userbiodata');
+          }
+        }, null))
       );
   }
 
@@ -136,6 +142,10 @@ export class UserBioDataService {
 
     if (userbiodata.muscle_mass_percentage) {
       userbiodata.muscle_mass_percentage = Number(userbiodata.muscle_mass_percentage);
+    }
+
+    if (userbiodata.creation) {
+      userbiodata.creation = new Date(userbiodata.creation);
     }
 
     return userbiodata;
@@ -180,5 +190,25 @@ export class UserBioDataService {
         this.alertService.error('Unable to delete userbiodata, try again later');
       }, new UserBioData()))
     );
+  }
+
+  valid(userBioData: UserBioData): boolean {
+    if (!userBioData.date) {
+      return false;
+    }
+
+    if (userBioData.weight && !userBioData.weight_unit) {
+      return false;
+    }
+
+    if (userBioData.bone_mass_weight && !userBioData.bone_mass_weight_unit) {
+      return false;
+    }
+
+    if (userBioData.height && !userBioData.height_unit) {
+      return false;
+    }
+
+    return true;
   }
 }

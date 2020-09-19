@@ -19,6 +19,17 @@
                 </ng-template>
             </ng-template>
 
+            <ng-template [ngSwitchCase]="'measured'">
+                <span class="action-info">
+                    recorded a new
+                    <span>
+                        <app-home-object-construct object_type='userbiodata' [username]='action.user.username'
+                            [object_id]=action.action_object_user_bio_data.id>
+                        </app-home-object-construct>
+                    </span>
+                </span>
+            </ng-template>
+
             <ng-template [ngSwitchCase]="'posted'">
                 <span class="action-info">
                     made a new
@@ -110,6 +121,15 @@
                             </app-home-object-construct>
                         </span>
                     </span>
+
+                    <span *ngIf="action.target_user_bio_data">
+                        liked a
+                        <span>
+                            <app-home-object-construct object_type='userbiodata' [username]=action.target_user_bio_data.user.username
+                                [object_id]=action.target_user_bio_data.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -150,6 +170,15 @@
                             </app-home-object-construct>
                         </span>
                     </span>
+
+                    <span *ngIf="action.target_user_bio_data">
+                        commented a
+                        <span>
+                            <app-home-object-construct object_type='userbiodata' [username]=action.target_user_bio_data.user.username
+                                [object_id]=action.target_user_bio_data.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -165,6 +194,12 @@
             <ng-template [ngSwitchCase]="'trained'">
                 <div class="card-container">
                     <app-workout-overview-card [workout]=action.action_object_workout [detailView]=false></app-workout-overview-card>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'measured'">
+                <div class="card-container">
+                    <app-measurement-card [userBioData]=action.action_object_user_bio_data [detailView]=false></app-measurement-card>
                 </div>
             </ng-template>
 

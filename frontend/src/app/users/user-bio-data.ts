@@ -1,3 +1,6 @@
+import { User } from '../user';
+import { Visibility } from '../visibility';
+
 export class UserBioData {
     id: number;
     date: Date;
@@ -11,6 +14,11 @@ export class UserBioData {
     bone_mass_weight: number;
     bone_mass_weight_unit: number;
     notes: string;
+    user: User;
+    creation: Date;
+    likes: number;
+    comment_number: number;
+    visibility: Visibility;
 
     constructor() {
     }

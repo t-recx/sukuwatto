@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
-import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit {
   iconWorkouts = faTasks;
   iconExercises = faDumbbell;
   iconPlans = faCalendarAlt;
+  iconMeasurements = faWeight;
 
   constructor(
     public authService: AuthService, 

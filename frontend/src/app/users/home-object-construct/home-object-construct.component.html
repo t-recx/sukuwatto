@@ -3,6 +3,13 @@
         <app-user-link [username]=display_name></app-user-link>
     </ng-template>
 
+    <ng-template [ngSwitchCase]="'userbiodata'">
+        <a class="siimple-link"
+            [routerLink]="['/users', username, 'measurement', object_id]">
+            measurement
+        </a>
+    </ng-template>
+
     <ng-template [ngSwitchCase]="'post'">
         <a class="siimple-link"
             [routerLink]="['/users', username, 'post', object_id]">

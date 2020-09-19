@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from social.models import UserAction
-from workouts.models import Workout, Plan, Exercise
+from workouts.models import Workout, Plan, Exercise, UserBioData
 from pprint import pprint
 from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
@@ -28,6 +28,11 @@ def exercise_user_actions_handler(sender, instance, created, **kwargs):
     if created and instance.user: 
         UserAction.objects.create(user=instance.user, verb='created', action_object_exercise=instance)
 
+def user_bio_data_user_actions_handler(sender, instance, created, **kwargs):
+    if created and instance.user: 
+        UserAction.objects.create(user=instance.user, verb='measured', action_object_user_bio_data=instance)
+
 post_save.connect(workout_user_actions_handler, sender=Workout)
 post_save.connect(plan_user_actions_handler, sender=Plan)
 post_save.connect(exercise_user_actions_handler, sender=Exercise)
+post_save.connect(user_bio_data_user_actions_handler, sender=UserBioData)

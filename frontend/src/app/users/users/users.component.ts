@@ -28,11 +28,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   username: string;
   loading = false;
   loadingSubscription: Subscription;
-  menuWidth = 0;
   menuWidthOpen = 85;
+  menuWidth = this.menuWidthOpen;
   overlayPointerEvents = 'none';
 
-  menuLeft = -this.menuWidthOpen;
+  menuLeft = -this.menuWidthOpen - 5;
   menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
 
   updateMenuTranslateX() {
@@ -41,15 +41,16 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   screenWidth = 0;
   screenHeight = 0;
-  transitionMenuMsDefault = 150;
+  transitionMenuMsDefault = 400;
   transitionMenuMs = this.transitionMenuMsDefault;
-  transitionOverlayMsDefault = 250;
+  transitionOverlayMsDefault = 400;
   transitionOverlayMs = this.transitionOverlayMsDefault;
   overlayOpacityDefault = 40;
   overlayOpacity = 0;
   touchStartTime = 0;
   thresholdCloseAnywayMs = 200;
   touchStartClientX = 0;
+  touchStartClientY = 0;
 
   routerNavigationSubscription: Subscription;
   updateAvailableSubscription: Subscription;
@@ -57,8 +58,17 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   updateSnackbarVisible = false;
   checkForUpdatesProgramatically = false;
 
+  dropDownHidden = true;
+  isScrolling = false;
+  isMovingDropdown = false;
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
+    if (!this.menuDropDownVisible) {
+      this.dropDownHidden = true;
+      setTimeout(() => this.dropDownHidden = false, this.transitionMenuMsDefault);
+    }
+
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
 
@@ -69,8 +79,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       this.menuWidthOpen = 85;
     }
 
-    this.menuWidth = this.menuDropDownVisible ? this.menuWidthOpen : 0;
-    this.menuLeft = !this.menuDropDownVisible ? -this.menuWidthOpen : 0;
+    this.menuWidth = this.menuWidthOpen;
+    this.menuLeft = !this.menuDropDownVisible ? -this.menuWidthOpen - 5 : 0;
 
     this.updateMenuTranslateX();
   }
@@ -85,6 +95,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     private swUpdate: SwUpdate,
     appRef: ApplicationRef
   ) {
+    setTimeout(() => this.dropDownHidden = false, this.transitionMenuMsDefault);
+
     this.routerNavigationSubscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         if (this.menuDropDownVisible) {
@@ -153,10 +165,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.menuDropDownVisible = v;
 
-    this.menuWidth = this.menuDropDownVisible ? this.menuWidthOpen : 0;
+    this.menuWidth = this.menuWidthOpen;
 
     if (swipingFromRight) {
-      this.menuLeft = this.menuDropDownVisible ? 0 : -this.menuWidthOpen;
+      this.menuLeft = this.menuDropDownVisible ? 0 : -this.menuWidthOpen - 5;
       this.updateMenuTranslateX();
     }
 
@@ -165,10 +177,14 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.menuDropDownVisible) {
       this.elementRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
       this.overlayPointerEvents = 'all';
+
+      setTimeout(() => this.transitionOverlayMs = 0, this.transitionMenuMsDefault);
     }
     else {
       this.resetBodyOverflow();
       setTimeout(() => this.overlayPointerEvents = 'none');
+
+      this.transitionOverlayMs = this.transitionOverlayMsDefault;
     }
   }
 
@@ -187,15 +203,27 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.transitionOverlayMs = 0;
     this.touchStartTime = (new Date()).getTime();
     this.touchStartClientX = event.touches[0].clientX;
+    this.touchStartClientY = event.touches[0].clientY;
   }
 
   touchMove(event, invert: boolean = false) {
     if (this.menuDropDownVisible) {
       const offsetX = this.touchStartClientX - event.touches[0].clientX;
+      const offsetY = this.touchStartClientY - event.touches[0].clientY;
+
+      if (!this.isMovingDropdown && Math.abs(offsetY) > 5) {
+        this.isScrolling = true;
+      }
+
+      if (this.isScrolling) {
+        return;
+      }
 
       if (offsetX == 0) {
         return;
       }
+
+      this.isMovingDropdown = true;
 
       let newLeft = this.menuWidthOpen - ((100 * offsetX) / this.screenWidth);
 
@@ -221,10 +249,14 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   touchEnd(event) {
+    const wasScrolling = this.isScrolling;
+
+    this.isMovingDropdown = false;
+    this.isScrolling = false;
     this.transitionMenuMs = this.transitionMenuMsDefault;
     this.transitionOverlayMs = this.transitionOverlayMsDefault;
 
-    if (this.menuDropDownVisible) {
+    if (this.menuDropDownVisible && !wasScrolling) {
       if ((new Date()).getTime() - this.touchStartTime < this.thresholdCloseAnywayMs) {
         this.setDropDownVisible(false);
       }

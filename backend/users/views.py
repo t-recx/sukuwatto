@@ -152,12 +152,20 @@ class StreamList(generics.ListAPIView):
         if not user or not user.is_authenticated:
             queryset = queryset.exclude(Q(target_workout__isnull=False), ~Q(target_workout__visibility=Visibility.EVERYONE))
             queryset = queryset.exclude(Q(action_object_workout__isnull=False), ~Q(action_object_workout__visibility=Visibility.EVERYONE))
+            queryset = queryset.exclude(Q(target_user_bio_data__isnull=False), ~Q(target_user_bio_data__visibility=Visibility.EVERYONE))
+            queryset = queryset.exclude(Q(action_object_user_bio_data__isnull=False), ~Q(action_object_user_bio_data__visibility=Visibility.EVERYONE))
         else:
             queryset = queryset.exclude(Q(target_workout__isnull=False), Q(target_workout__visibility=Visibility.OWN_USER), ~Q(target_workout__user=user))
             queryset = queryset.exclude(Q(target_workout__isnull=False), Q(target_workout__visibility=Visibility.FOLLOWERS), ~Q(target_workout__user__followers__id=user.id), ~Q(target_workout__user=user))
 
             queryset = queryset.exclude(Q(action_object_workout__isnull=False), Q(action_object_workout__visibility=Visibility.OWN_USER), ~Q(action_object_workout__user=user))
             queryset = queryset.exclude(Q(action_object_workout__isnull=False), Q(action_object_workout__visibility=Visibility.FOLLOWERS), ~Q(action_object_workout__user__followers__id=user.id), ~Q(action_object_workout__user=user))
+
+            queryset = queryset.exclude(Q(target_user_bio_data__isnull=False), Q(target_user_bio_data__visibility=Visibility.OWN_USER), ~Q(target_user_bio_data__user=user))
+            queryset = queryset.exclude(Q(target_user_bio_data__isnull=False), Q(target_user_bio_data__visibility=Visibility.FOLLOWERS), ~Q(target_user_bio_data__user__followers__id=user.id), ~Q(target_user_bio_data__user=user))
+
+            queryset = queryset.exclude(Q(action_object_user_bio_data__isnull=False), Q(action_object_user_bio_data__visibility=Visibility.OWN_USER), ~Q(action_object_user_bio_data__user=user))
+            queryset = queryset.exclude(Q(action_object_user_bio_data__isnull=False), Q(action_object_user_bio_data__visibility=Visibility.FOLLOWERS), ~Q(action_object_user_bio_data__user__followers__id=user.id), ~Q(action_object_user_bio_data__user=user))
 
         return queryset
 

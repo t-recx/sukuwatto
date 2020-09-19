@@ -35,3 +35,8 @@
         display: none;
     }
 }
+
+.scrollable-menu {
+    overflow-y: auto;
+    max-height: calc(100% - 74px);
+}

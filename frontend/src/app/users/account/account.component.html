@@ -3,10 +3,6 @@
     </app-forbidden>
 </div>
 
-<app-user-bio-data-detail [username]=username [start]=bioDataDate [visible]=userBioDataVisible
-    (closed)="onUserBioDataClosed()" (okayed)="onUserBioDataOkayed($event)" *ngIf="allowed">
-</app-user-bio-data-detail>
-
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
@@ -68,7 +64,7 @@
                     <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--md-12 siimple-grid-col--sm-12">
                         <div class="siimple-grid">
                             <div class="siimple-grid-row">
-                                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-6 siimple--py-0">
+                                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-6 siimple--py-0">
                                     <div class="siimple-form-field">
                                         <div class="siimple-form-field-label">First name</div>
                                         <input type="text" class="siimple-input siimple-input--fluid" name="first_name"
@@ -76,22 +72,12 @@
                                             maxlength="30" placeholder="First name">
                                     </div>
                                 </div>
-                                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-6 siimple--py-0">
+                                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-6 siimple--py-0">
                                     <div class="siimple-form-field">
                                         <div class="siimple-form-field-label">Last name</div>
                                         <input type="text" class="siimple-input siimple-input--fluid" name="last_name"
                                             id="last_name" [(ngModel)]="user.last_name" type="last_name"
                                             #last_name="ngModel" maxlength="150" placeholder="Last name">
-                                    </div>
-                                </div>
-                                <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
-                                    <div class="siimple-form-field">
-                                        <div class="siimple-form-field-label">&nbsp;</div>
-                                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid"
-                                            type="button" (click)="showUserBioData()">
-                                            <fa-icon [icon]="faWeight" class="siimple--mr-1"></fa-icon>
-                                            Measurements
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -247,6 +233,21 @@
                                 <option *ngFor="let defaultWorkoutVisibilityModel of visibilityLabel | keyvalue"
                                     value={{defaultWorkoutVisibilityModel.key}}>
                                     {{defaultWorkoutVisibilityModel.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <div class="siimple-form-field-label">Default body measurement visibility</div>
+                            <select class="siimple-select siimple-select--fluid" name="defaultMeasurementVisibility"
+                                id="defaultMeasurementVisibility" [(ngModel)]="user.default_visibility_user_bio_datas"
+                                #defaultMeasurementVisibility="ngModel">
+                                <option *ngFor="let defaultMeasurementVisibilityModel of visibilityLabel | keyvalue"
+                                    value={{defaultMeasurementVisibilityModel.key}}>
+                                    {{defaultMeasurementVisibilityModel.value}}
                                 </option>
                             </select>
                         </div>

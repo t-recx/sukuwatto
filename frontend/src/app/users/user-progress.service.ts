@@ -9,6 +9,7 @@ import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSer
 import { Workout } from './workout';
 import { ExerciseType } from './exercise';
 import { ChartCategory } from './chart-category';
+import { UserBioData } from './user-bio-data';
 
 @Injectable({
   providedIn: 'root'
@@ -123,47 +124,51 @@ export class UserProgressService {
   getUserBioDataProgress(username: string): Observable<UserProgressChartData> {
     return this.userBioDataService.getLastUserBioData(username).pipe(
       concatMap(userBioData =>
-        new Observable<UserProgressChartData>(obs => {
-          if (userBioData.date) {
-            userBioData = this.unitsService.convertUserBioData(userBioData);
-
-            const data = new UserProgressChartData();
-            data.category = ChartCategory.BioData;
-
-            data.name = "Body composition";
-            data.type = UserProgressChartType.Pie;
-
-            const series = new UserProgressChartSeries(userBioData.date.toLocaleDateString(), []);
-
-            if (userBioData.body_fat_percentage) {
-              const bodyFat = new UserProgressChartDataPoint('Fat', userBioData.body_fat_percentage, userBioData.date);
-              series.dataPoints.push(bodyFat);
-            }
-
-            if (userBioData.muscle_mass_percentage) {
-              const muscleMass = new UserProgressChartDataPoint('Muscle', userBioData.muscle_mass_percentage, userBioData.date);
-              series.dataPoints.push(muscleMass);
-            }
-
-            if (userBioData.water_weight_percentage) {
-              const waterWeight = new UserProgressChartDataPoint('Water', userBioData.water_weight_percentage, userBioData.date);
-              series.dataPoints.push(waterWeight);
-            }
-
-            const rest = new UserProgressChartDataPoint('Other',
-              100 - (userBioData.body_fat_percentage ?? 0) -
-              (userBioData.muscle_mass_percentage ?? 0) - (userBioData.water_weight_percentage ?? 0), userBioData.date);
-
-            series.dataPoints.push(rest);
-
-            data.series = [series];
-
-            obs.next(data);
-          }
-
-          obs.complete();
-        })
+        this.userBioDataToProgressChart(userBioData)
       ));
+  }
+
+  userBioDataToProgressChart(userBioData: UserBioData): Observable<UserProgressChartData> {
+    return new Observable<UserProgressChartData>(obs => {
+      if (userBioData.date) {
+        userBioData = this.unitsService.convertUserBioData(userBioData);
+
+        const data = new UserProgressChartData();
+        data.category = ChartCategory.BioData;
+
+        data.name = "Body composition";
+        data.type = UserProgressChartType.Pie;
+
+        const series = new UserProgressChartSeries(userBioData.date.toLocaleDateString(), []);
+
+        if (userBioData.body_fat_percentage) {
+          const bodyFat = new UserProgressChartDataPoint('Fat', userBioData.body_fat_percentage, userBioData.date);
+          series.dataPoints.push(bodyFat);
+        }
+
+        if (userBioData.muscle_mass_percentage) {
+          const muscleMass = new UserProgressChartDataPoint('Muscle', userBioData.muscle_mass_percentage, userBioData.date);
+          series.dataPoints.push(muscleMass);
+        }
+
+        if (userBioData.water_weight_percentage) {
+          const waterWeight = new UserProgressChartDataPoint('Water', userBioData.water_weight_percentage, userBioData.date);
+          series.dataPoints.push(waterWeight);
+        }
+
+        const rest = new UserProgressChartDataPoint('Other',
+          100 - (userBioData.body_fat_percentage ?? 0) -
+          (userBioData.muscle_mass_percentage ?? 0) - (userBioData.water_weight_percentage ?? 0), userBioData.date);
+
+        series.dataPoints.push(rest);
+
+        data.series = [series];
+
+        obs.next(data);
+      }
+
+      obs.complete();
+    });
   }
 
   getFinishWorkoutStrengthProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {

@@ -1,0 +1,123 @@
+<article class="siimple-card" *ngIf="userBioData">
+    <header class="siimple-card-header">
+        <a class="siimple-link" [routerLink]="routerLink">
+            {{userBioData.date | date: 'EEEE'}}'s measurement
+        </a>
+
+        <span class="siimple--float-right siimple-small" *ngIf="dateString && !detailView">
+            {{dateString}}
+        </span>
+    </header>
+    <div class="siimple-card-body">
+        <div class="siimple-grid">
+            <div class="siimple-grid-row measurement-row">
+                <div    [class.siimple-grid-col--6]="chartData"
+                        [class.siimple-grid-col--12]="!chartData" 
+                 class="siimple-grid-col  siimple-grid-col--sm-12">
+                    <table class="row-border siimple-table siimple-table--striped siimple-table--border ">
+                        <thead class="siimple-table-header">
+                            <tr class="siimple-table-row">
+                                <th class="siimple-table-cell" colspan="2">
+                                    Measurements
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="siimple-table-body">
+                            <tr class="siimple-table-row" *ngIf="userBioData.weight">
+                                <td class="siimple-table-cell cell">
+                                    <span class="siimple--text-bold">
+                                        Weight
+                                    </span>
+                                </td>
+                                <td class="siimple-table-cell cell" align="right">
+                                    {{userBioData.weight}}
+                                    {{getUnitCode(userBioData.weight_unit)}}
+                                </td>
+                            </tr>
+                            <tr class="siimple-table-row" *ngIf="userBioData.height">
+                                <td class="siimple-table-cell cell">
+                                    <span class="siimple--text-bold">
+                                        Height
+                                    </span>
+                                </td>
+                                <td class="siimple-table-cell cell" align="right">
+                                    {{userBioData.height}}
+                                    {{getUnitCode(userBioData.height_unit)}}
+                                </td>
+                            </tr>
+                            <tr class="siimple-table-row" *ngIf="userBioData.body_fat_percentage">
+                                <td class="siimple-table-cell cell">
+                                    <span class="siimple--text-bold">
+                                        Body fat
+                                    </span>
+                                </td>
+                                <td class="siimple-table-cell cell" align="right">
+                                    {{userBioData.body_fat_percentage}}%
+                                </td>
+                            </tr>
+                            <tr class="siimple-table-row" *ngIf="userBioData.water_weight_percentage">
+                                <td class="siimple-table-cell cell">
+                                    <span class="siimple--text-bold">
+                                        Water weight
+                                    </span>
+                                </td>
+                                <td class="siimple-table-cell cell" align="right">
+                                    {{userBioData.water_weight_percentage}}%
+                                </td>
+                            </tr>
+                            <tr class="siimple-table-row" *ngIf="userBioData.muscle_mass_percentage">
+                                <td class="siimple-table-cell cell">
+                                    <span class="siimple--text-bold">
+                                        Muscle mass
+                                    </span>
+                                </td>
+                                <td class="siimple-table-cell cell" align="right">
+                                    {{userBioData.muscle_mass_percentage}}%
+                                </td>
+                            </tr>
+                            <tr class="siimple-table-row" *ngIf="userBioData.bone_mass_weight">
+                                <td class="siimple-table-cell cell">
+                                    <span class="siimple--text-bold">
+                                        Bone mass weight
+                                    </span>
+                                </td>
+                                <td class="siimple-table-cell cell" align="right">
+                                    {{userBioData.bone_mass_weight}} 
+                                    {{getUnitCode(userBioData.bone_mass_weight_unit)}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 " *ngIf="chartData">
+                    <app-pie-chart [progressData]="chartData">
+                    </app-pie-chart>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="userBioData.user && detailView">
+            <div class="siimple-rule siimple--mt-3"></div>
+        
+            <div class="owner-user-container">
+                <app-user-tag [username]=userBioData.user.username [profile_filename]=userBioData.user.profile_filename>
+                </app-user-tag>
+        
+                <small class="siimple-small siimple--ml-2">{{userBioData.creation.toString() | timeAgo}}</small>
+            </div>
+        </div>
+    </div>
+    <footer class="siimple-card-footer">
+        <app-card-social-interaction 
+            content_type_model='userbiodata' 
+            [id]=userBioData.id 
+            [target_user_bio_data]=userBioData.id
+            [shareTitle]="shareTitle"
+            [shareLink]="shareLink"
+            [likeNumber]=userBioData.likes
+            [commentNumber]=userBioData.comment_number
+            [commentsSectionOpen]=commentsSectionOpen></app-card-social-interaction>
+    </footer>
+</article>
+

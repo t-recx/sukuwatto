@@ -32,6 +32,7 @@ export class User {
     default_speed_unit: number;
     default_distance_unit: number;
     default_visibility_workouts: Visibility;
+    default_visibility_user_bio_datas: Visibility;
     system: MeasurementSystem;
     profile_filename: string;
     is_staff: boolean;

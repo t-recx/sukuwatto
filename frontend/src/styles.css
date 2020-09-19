@@ -400,3 +400,7 @@ ul {
   /* border-bottom-width: 1px !important; */
   color: #546778;
 }
+
+.link-row {
+    cursor: pointer;
+}

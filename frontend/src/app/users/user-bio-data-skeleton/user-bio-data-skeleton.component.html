@@ -1,0 +1,188 @@
+<div class="siimple-grid">
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <input type="date" class="siimple-input-date siimple-input--fluid" name="date" id="date" required
+                    [ngModel]="userBioData.date | date:'yyyy-MM-dd'" (ngModelChange)="setUserBioDataDate($event)"
+                    #date="ngModel">
+
+                <div *ngIf="date.invalid && (date.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <input type="time" class="siimple-input-time siimple-input--fluid" name="start_time" id="start_time"
+                    required [ngModel]="userBioData.date | date:'HH:mm'" (ngModelChange)="setUserBioDataTime($event)"
+                    #start_time="ngModel">
+
+                <div *ngIf="date.invalid && (date.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <div class="input-container">
+                    <input type="number" class="siimple-input siimple-input--fluid" name="weight" id="weight"
+                        [(ngModel)]="userBioData.weight" #weight="ngModel" placeholder="Weight">
+                    <label class="input-aux-label" *ngIf="userBioData.weight">
+                        Weight
+                    </label>
+                </div>
+                <div *ngIf="weight.invalid && (weight.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <select class="siimple-select siimple-select--fluid" name="weight_unit" id="weight_unit"
+                    [(ngModel)]="userBioData.weight_unit" #weight_unit="ngModel">
+                    <option *ngFor="let unitModel of weightUnits" value={{unitModel.id}}>
+                        {{unitModel.name}}
+                    </option>
+                </select>
+                <div *ngIf="triedToSave && userBioData.weight && !userBioData.weight_unit">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple-grid-col--4 siimple--py-0 siimple-grid-col--sm-6">
+            <div class="siimple-form-field">
+                <div class="input-container">
+                    <input type="number" class="siimple-input siimple-input--fluid" name="body_fat_percentage"
+                        id="body_fat_percentage" [(ngModel)]="userBioData.body_fat_percentage"
+                        #body_fat_percentage="ngModel" placeholder="% Body fat">
+                    <label class="input-aux-label" *ngIf="userBioData.body_fat_percentage">
+                        % Body fat
+                    </label>
+                </div>
+                <div *ngIf="body_fat_percentage.invalid && (body_fat_percentage.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--4 siimple--py-0 siimple-grid-col--sm-6">
+            <div class="siimple-form-field">
+                <div class="input-container">
+                    <input type="number" class="siimple-input siimple-input--fluid" name="muscle_mass_percentage"
+                        id="muscle_mass_percentage" [(ngModel)]="userBioData.muscle_mass_percentage"
+                        #muscle_mass_percentage="ngModel" placeholder="% Muscle">
+                    <label class="input-aux-label" *ngIf="userBioData.muscle_mass_percentage">
+                        % Muscle
+                    </label>
+                </div>
+                <div *ngIf="muscle_mass_percentage.invalid && (muscle_mass_percentage.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple-grid-col--4 siimple--py-0 siimple-grid-col--sm-12">
+            <div class="siimple-form-field">
+                <div class="input-container">
+                    <input type="number" class="siimple-input siimple-input--fluid" name="water_weight_percentage"
+                        id="water_weight_percentage" [(ngModel)]="userBioData.water_weight_percentage"
+                        #water_weight_percentage="ngModel" placeholder="% Water">
+                    <label class="input-aux-label" *ngIf="userBioData.water_weight_percentage">
+                        % Water
+                    </label>
+                </div>
+                <div *ngIf="water_weight_percentage.invalid && (water_weight_percentage.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <div class="input-container">
+                    <input type="number" class="siimple-input siimple-input--fluid" name="height" id="height"
+                        [(ngModel)]="userBioData.height" #height="ngModel" placeholder="Height">
+                    <label class="input-aux-label" *ngIf="userBioData.height">
+                        Height
+                    </label>
+                </div>
+                <div *ngIf="height.invalid && (height.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <select class="siimple-select siimple-select--fluid" name="height_unit" id="height_unit"
+                    [(ngModel)]="userBioData.height_unit" #height_unit="ngModel">
+                    <option *ngFor="let unitModel of heightUnits" value={{unitModel.id}}>
+                        {{unitModel.name}}
+                    </option>
+                </select>
+                <div *ngIf="triedToSave && userBioData.height && !userBioData.height_unit">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="siimple-grid-row">
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <div class="input-container">
+                    <input type="number" class="siimple-input siimple-input--fluid" name="bone_mass_weight"
+                        id="bone_mass_weight" [(ngModel)]="userBioData.bone_mass_weight" #bone_mass_weight="ngModel"
+                        placeholder="Bone Mass">
+                    <label class="input-aux-label" *ngIf="userBioData.bone_mass_weight">
+                        Bone mass
+                    </label>
+                </div>
+                <div *ngIf="bone_mass_weight.invalid && (bone_mass_weight.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--6">
+            <div class="siimple-form-field">
+                <select class="siimple-select siimple-select--fluid" name="bone_mass_weight_unit"
+                    id="bone_mass_weight_unit" [(ngModel)]="userBioData.bone_mass_weight_unit"
+                    #bone_mass_weight_unit="ngModel">
+                    <option *ngFor="let unitModel of weightUnits" value={{unitModel.id}}>
+                        {{unitModel.name}}
+                    </option>
+                </select>
+                <div *ngIf="triedToSave && userBioData.bone_mass_weight && !userBioData.bone_mass_weight_unit">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="siimple-grid-row notes">
+        <div class="siimple-grid-col siimple--py-0 siimple-grid-col--12">
+            <div class="siimple-form-field">
+                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2"
+                    placeholder="Write your notes here" name="notes" id="notes" [(ngModel)]="userBioData.notes"
+                    #notes="ngModel">
+                            </textarea>
+                <div *ngIf="notes.invalid && (notes.dirty || triedToSave)">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="siimple-form-field siimple--mb-0 input-container" style="width: 100%;">
+        <select class="siimple-select siimple-select--fluid" name="visibility" id="visibility"
+            [(ngModel)]="userBioData.visibility" #visibility="ngModel">
+            <option *ngFor="let visibilityModel of visibilityLabel | keyvalue" value={{visibilityModel.key}}>
+                {{visibilityModel.value}}
+            </option>
+        </select>
+
+        <label class="input-aux-label siimple--mr-2">
+            <fa-icon [icon]="faEye"></fa-icon>
+        </label>
+    </div>
+</div>
