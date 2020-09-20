@@ -57,10 +57,15 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, email, password)
       .subscribe(token => {
         if (this.authService.isLoggedIn()) {
-          let redirect = this.authService.redirectUrl ? 
-            this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.authService.getUsername()}`; 
+          let redirect = this.authService.redirectUrl;
+
+          if (!redirect || redirect.length == 0 ||
+            redirect == '/login' || redirect == '/login/') {
+            redirect = `/users/${this.authService.getUsername()}`;
+          }
 
           this.authService.redirectUrl = null;
+
           this.router.navigateByUrl(redirect);
         }
         else {
