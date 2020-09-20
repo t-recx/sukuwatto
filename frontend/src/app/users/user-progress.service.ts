@@ -160,7 +160,9 @@ export class UserProgressService {
           100 - (userBioData.body_fat_percentage ?? 0) -
           (userBioData.muscle_mass_percentage ?? 0) - (userBioData.water_weight_percentage ?? 0), userBioData.date);
 
-        series.dataPoints.push(rest);
+        if (rest.value > 1) {
+          series.dataPoints.push(rest);
+        }
 
         data.series = [series];
 
