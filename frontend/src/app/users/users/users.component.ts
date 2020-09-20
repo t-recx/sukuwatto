@@ -206,12 +206,12 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.touchStartClientY = event.touches[0].clientY;
   }
 
-  touchMove(event, invert: boolean = false) {
+  touchMove(event, swipingFromRight: boolean = false) {
     if (this.menuDropDownVisible) {
       const offsetX = this.touchStartClientX - event.touches[0].clientX;
       const offsetY = this.touchStartClientY - event.touches[0].clientY;
 
-      if (!this.isMovingDropdown && Math.abs(offsetY) > 5) {
+      if (!swipingFromRight && !this.isMovingDropdown && Math.abs(offsetY) > 5) {
         this.isScrolling = true;
       }
 
@@ -227,7 +227,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
       let newLeft = this.menuWidthOpen - ((100 * offsetX) / this.screenWidth);
 
-      if (invert) {
+      if (swipingFromRight) {
         newLeft -= this.menuWidthOpen;
       }
 
@@ -238,7 +238,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
       let newOpacity = this.overlayOpacityDefault - ((this.overlayOpacityDefault * offsetX) / this.screenWidth);
 
-      if (invert) {
+      if (swipingFromRight) {
         newOpacity -= this.overlayOpacityDefault;
       }
 
