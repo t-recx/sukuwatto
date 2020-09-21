@@ -61,6 +61,8 @@ export class MeasurementDetailComponent implements OnInit, AfterViewInit, OnDest
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
 
+    localStorage.removeItem('state_measurement_has_state');
+    localStorage.removeItem('state_measurement_detail_measurement');
     this.serializerUtils.removeScrollPosition();
   }
 
