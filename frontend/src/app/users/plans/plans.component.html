@@ -24,6 +24,16 @@
   </a>
 </div>
 
+<div class="search-box">
+    <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
+        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel">
+    <div class="search-buttons">
+        <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
+            <fa-icon [icon]="faBackspace" class=""></fa-icon>
+        </button>
+    </div>
+</div>
+
 <div *ngIf="plans && plans.length > 0">
   <ul>
     <li class="siimple-card" *ngFor="let plan of plans">

@@ -12,6 +12,7 @@ from users.views import CanSeeUserPermission
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
 
 @api_view(['GET'])
 def plan_adopted(request):
@@ -23,13 +24,17 @@ def plan_adopted(request):
 class OwnedPlansPaginatedList(ListAPIView):
     pagination_class = StandardResultsSetPagination
     permission_classes = [CanSeeUserPermission]
+    filter_backends = [SearchFilter]
+    search_fields = ['short_name', 'name', 'description']
+    queryset = Plan.objects.all()
 
     def list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
         username = request.query_params.get('username', None)
 
         user = get_object_or_404(get_user_model(), username=username)
 
-        queryset = Plan.objects.filter(~Q(adoption_users__id=user.id), Q(user=user)).order_by('-creation')
+        queryset = queryset.filter(~Q(adoption_users__id=user.id), Q(user=user)).order_by('-creation')
 
         page = self.paginate_queryset(queryset)
 
@@ -45,13 +50,18 @@ class OwnedPlansPaginatedList(ListAPIView):
 class AdoptedPlansPaginatedList(ListAPIView):
     pagination_class = StandardResultsSetPagination
     permission_classes = [CanSeeUserPermission]
+    filter_backends = [SearchFilter]
+    search_fields = ['short_name', 'name', 'description']
+    queryset = Plan.objects.all()
 
     def list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
+
         username = request.query_params.get('username', None)
 
         user = get_object_or_404(get_user_model(), username=username)
 
-        queryset = Plan.objects.filter(adoption_users__id=user.id).order_by('-creation')
+        queryset = queryset.filter(adoption_users__id=user.id).order_by('-creation')
 
         page = self.paginate_queryset(queryset)
 
@@ -89,10 +99,11 @@ class AdoptedPlansList(ListAPIView):
 class PlanPaginatedList(ListAPIView):
     """
     """
-    queryset = Plan.objects.all()
+    queryset = Plan.objects.all().order_by('-creation')
     serializer_class = PlanSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['public', 'user__username']
+    search_fields = ['short_name', 'name', 'description']
     pagination_class = StandardResultsSetPagination
 
 class PlanViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):

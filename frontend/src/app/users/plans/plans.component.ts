@@ -2,17 +2,18 @@ import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit, Input, O
 import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBackspace, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
 import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
-import { Subscription, forkJoin, of, Observable } from 'rxjs';
+import { Subscription, forkJoin, of, Observable, combineLatest } from 'rxjs';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 import { UnitsService } from '../units.service';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { Paginated } from '../paginated';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 
 @Component({
   selector: 'app-plans',
@@ -27,6 +28,10 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
   hasOwnedPlans: boolean = true;
   hasAdoptedPlans: boolean = true;
   link: any;
+  page: number;
+
+  lastSearchedFilter: string;
+  searchFilter: string;
 
   specificPath: string = 'plans';
   paginatedPlans: Paginated<Plan>;
@@ -37,8 +42,10 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
 
   username: string;
   faCalendarAlt = faCalendarAlt;
+  faBackspace = faBackspace;
 
   loading: boolean = false;
+  searchSubscription: Subscription;
   pausedSubscription: Subscription;
   paramChangedSubscription: Subscription;
 
@@ -81,14 +88,18 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
   }
 
   ngOnInit() {
+    this.lastSearchedFilter = '';
+    this.setupSearch();
+
     this.username = this.route.snapshot.paramMap.get('username');
     this.setLink();
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
 
-    this.paramChangedSubscription = this.route.paramMap.subscribe(val =>
-      {
-        this.loadParameterDependentData(val.get('username'), val.get('page'));
-      });
+    this.paramChangedSubscription = combineLatest(this.route.paramMap, this.route.queryParamMap)
+    .pipe(map(results => ({params: results[0], query: results[1]})))
+    .subscribe(results => {
+        this.loadParameterDependentData(results.params.get('username'), results.params.get('page'), results.query.get('search'));
+    });
   }
 
   ngAfterViewInit(): void {
@@ -97,6 +108,7 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
     this.pausedSubscription.unsubscribe();
 
     localStorage.removeItem('state_plans_has_state');
@@ -124,7 +136,7 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
     return true;
   }
 
-  loadParameterDependentData(username: string, page: any, reloadOn404: boolean = false): void {
+  loadParameterDependentData(username: string, page: any, searchFilter: any, reloadOn404: boolean = false): void {
     this.isCurrentLoggedInUser = this.authService.isCurrentUserLoggedIn(username);
     this.username = username;
 
@@ -132,28 +144,29 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
       return;
     }
 
-    this.loadPlans(this.username, page, reloadOn404);
+    this.loadPlans(this.username, page, searchFilter, reloadOn404);
   }
 
-  loadPlans(username: string, page: any, reloadOn404: boolean = false) {
+  loadPlans(username: string, page: any, searchFilter: any, reloadOn404: boolean = false) {
     if (!page) {
       page = 1;
     }
 
     page = +page;
+    this.page = page;
 
     this.loading = true;
     this.loadingService.load();
     let obsPlans: Observable<Paginated<Plan>>;
 
     if (this.isPublic) {
-      obsPlans = this.plansService.getPublicPlans(null, page, this.pageSize);
+      obsPlans = this.plansService.getPublicPlans(null, page, this.pageSize, searchFilter);
     }
     else if (this.isAdopted) {
-      obsPlans = this.plansService.getAdoptedPlansPaginated(this.username, page, this.pageSize);
+      obsPlans = this.plansService.getAdoptedPlansPaginated(this.username, page, this.pageSize, searchFilter);
     }
     else if (this.isOwned) {
-      obsPlans = this.plansService.getOwnedPlansPaginated(this.username, page, this.pageSize);
+      obsPlans = this.plansService.getOwnedPlansPaginated(this.username, page, this.pageSize, searchFilter);
     }
 
     obsPlans
@@ -176,6 +189,7 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
       this.plans = paginatedPlans.results;
 
       this.loading = false;
+      this.lastSearchedFilter = this.searchFilter;
       this.loadingService.unload();
     });
   }
@@ -185,7 +199,8 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
   }
 
   deletePlan(plan): void {
-    this.plansService.deletePlan(plan).subscribe(_ => this.loadParameterDependentData(this.username, this.currentPage, true));
+    this.plansService.deletePlan(plan).subscribe(_ => 
+      this.loadParameterDependentData(this.username, this.currentPage, this.searchFilter, true));
   }
 
   planAdopted() {
@@ -196,10 +211,54 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
     if ((!this.currentPage || this.currentPage == 1) &&
       this.username == this.authService.getUsername()) {
       window.scroll(0,0);
-      this.loadParameterDependentData(this.username, 1);
+      this.loadParameterDependentData(this.username, 1, this.searchFilter);
     }
     else {
       this.router.navigate(['/users', this.authService.getUsername(), 'adopted-plans']);
     }
+  }
+
+  search() {
+    if (this.lastSearchedFilter != this.searchFilter) {
+      this.page = 1;
+    }
+
+    const navigatedLink = this.link;
+
+    if (this.page && this.page > 1) {
+      navigatedLink.push(this.page.toString());
+    }
+
+    this.router.navigate(navigatedLink, { queryParams: this.getQueryParams() });
+  }
+
+  clearFilters() {
+    this.lastSearchedFilter = this.searchFilter = null;
+    this.search();
+  }
+
+  getQueryParams() {
+    let queryParams = {}
+    
+    if (this.searchFilter && this.searchFilter.length > 0) {
+      queryParams['search']= this.searchFilter;
+    }
+
+    return queryParams;
+  }
+
+  setupSearch() {
+    const searchBox = document.getElementById('search-input');
+
+    const typeahead = fromEvent(searchBox, 'input').pipe(
+      map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(() => of(true))
+    );
+
+    this.searchSubscription = typeahead.subscribe(() => {
+      this.search();
+    });
   }
 }
