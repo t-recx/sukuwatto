@@ -8,6 +8,83 @@ from rest_framework.response import Response
 from sqtrex.permissions import StandardPermissionsMixin
 from sqtrex.pagination import StandardResultsSetPagination
 from rest_framework.generics import ListAPIView
+from users.views import CanSeeUserPermission
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+from django.db.models import Q
+
+@api_view(['GET'])
+def plan_adopted(request):
+    user_id = request.query_params.get('user_id', None)
+    plan_id = request.query_params.get('plan_id', None)
+
+    return Response(Plan.objects.filter(Q(id=plan_id), Q(adoption_users__id=user_id)).exists())
+
+class OwnedPlansPaginatedList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    permission_classes = [CanSeeUserPermission]
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        user = get_object_or_404(get_user_model(), username=username)
+
+        queryset = Plan.objects.filter(~Q(adoption_users__id=user.id), Q(user=user)).order_by('-creation')
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = PlanSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = PlanSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+class AdoptedPlansPaginatedList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    permission_classes = [CanSeeUserPermission]
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        user = get_object_or_404(get_user_model(), username=username)
+
+        queryset = Plan.objects.filter(adoption_users__id=user.id).order_by('-creation')
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = PlanSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = PlanSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+class AdoptedPlansList(ListAPIView):
+    # pagination_class = StandardResultsSetPagination
+    permission_classes = [CanSeeUserPermission]
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        user = get_object_or_404(get_user_model(), username=username)
+
+        queryset = Plan.objects.filter(adoption_users__id=user.id).order_by('-creation')
+
+        # page = self.paginate_queryset(queryset)
+
+        # if page is not None:
+        #     serializer = PlanSerializer(page, many=True)
+
+        #     return self.get_paginated_response(serializer.data)
+
+        serializer = PlanSerializer(queryset, many=True)
+
+        return Response(serializer.data)
 
 class PlanPaginatedList(ListAPIView):
     """
@@ -25,6 +102,24 @@ class PlanViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['public', 'user__username']
+
+@api_view(['POST'])
+def leave_plan(request, pk):
+    try:
+        plan = Plan.objects.get(pk=pk)
+    except Plan.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    user = None
+    if request and hasattr(request, "user"):
+        user = request.user
+
+    if user is None or isinstance(user, AnonymousUser):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    plan.adoption_users.remove(user)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 def adopt_plan(request, pk):
@@ -101,6 +196,8 @@ def adopt_plan(request, pk):
                     plan_session_group_progression.save()
 
         updated_plan = Plan.objects.get(pk=plan.pk)
+
+        plan.adoption_users.add(user)
 
         serializer = PlanSerializer(updated_plan)
 

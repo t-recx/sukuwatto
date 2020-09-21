@@ -1,5 +1,6 @@
 .adopt-plan-button {
     margin-left: auto;
+    white-space: nowrap;
 }
 
 .session-card {

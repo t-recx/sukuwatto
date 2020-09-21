@@ -19,8 +19,13 @@ import { Paginated } from './paginated';
 })
 export class PlansService {
   private plansUrl= `${environment.apiUrl}/plans/`;
+  private adoptedPlansUrl= `${environment.apiUrl}/adopted-plans/`;
+  private ownedPlansPaginatedUrl= `${environment.apiUrl}/owned-plans-paginated/`;
+  private isAdoptedUrl= `${environment.apiUrl}/plan-adopted/`;
   private plansPaginatedUrl= `${environment.apiUrl}/plans-paginated/`;
+  private adoptedPlansPaginatedUrl= `${environment.apiUrl}/adopted-plans-paginated/`;
   private adoptPlanUrl= `${environment.apiUrl}/adopt-plan/`;
+  private leavePlanUrl= `${environment.apiUrl}/leave-plan/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -31,6 +36,25 @@ export class PlansService {
     private errorService: ErrorService,
     private alertService: AlertService
   ) { }
+
+  public isAdopted(plan_id: number, user_id: number): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+
+    params = params.set('plan_id', plan_id.toString());
+    params = params.set('user_id', user_id.toString());
+
+    options = {params: params};
+
+    return this.http.get<boolean>(this.isAdoptedUrl, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('isAdopted', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch is adopted');
+        }, false))
+      );
+    
+  }
 
   getPublicPlans (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
     let options = {};
@@ -62,17 +86,73 @@ export class PlansService {
       );
   }
 
+  getOwnedPlansPaginated (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    options = {params: params};
+
+    return this.http.get<Paginated<Plan>>(`${this.ownedPlansPaginatedUrl}`, options)
+      .pipe(
+        map(response => {
+          if (response.results) {
+            response.results = this.getProperlyTypedPlans(response.results);
+          }
+          return response; })
+      );
+  }
+
+  getAdoptedPlansPaginated (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    options = {params: params};
+
+    return this.http.get<Paginated<Plan>>(`${this.adoptedPlansPaginatedUrl}`, options)
+      .pipe(
+        map(response => {
+          if (response.results) {
+            response.results = this.getProperlyTypedPlans(response.results);
+          }
+          return response; })
+      );
+  }
+
   getAdoptedPlans (username: string): Observable<Plan[]> {
     let options = {};
     let params = new HttpParams();
 
     if (username) {
-      params = params.set('user__username', username);
+      params = params.set('username', username);
     }
 
     options = {params: params};
 
-    return this.http.get<Plan[]>(`${this.plansUrl}`, options)
+    return this.http.get<Plan[]>(`${this.adoptedPlansUrl}`, options)
       .pipe(
         map(response => this.getProperlyTypedPlans(response)),
         catchError(this.errorService.handleError<Plan[]>('getAdoptedPlans', (e: any) => 
@@ -184,6 +264,17 @@ export class PlansService {
       {
         this.alertService.error('Unable to adopt plan, try again later');
       }, plan))
+    );
+  }
+
+  leavePlan(plan: Plan): Observable<Plan> {
+    return this.http.post<any>(`${this.leavePlanUrl}${plan.id}/`, null)
+    .pipe(
+      map(response => this.getProperlyTypedPlan(response)),
+      catchError(this.errorService.handleError<any>('leavePlan', (e: any) => 
+      {
+        this.alertService.error('Unable to leave plan, try again later');
+      }, null))
     );
   }
 

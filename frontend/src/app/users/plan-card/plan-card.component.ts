@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { AuthService } from 'src/app/auth.service';
-import { faChild, faExternalLinkAlt, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faChild, faExternalLinkAlt, faCircleNotch, faTimes, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { RepetitionType, PlanSessionGroupActivity, Vo2MaxType, SpeedType, DistanceType, TimeType } from '../plan-session-group-activity';
 import { PlanSession } from '../plan-session';
 import { Exercise } from '../exercise';
@@ -21,11 +21,13 @@ export class PlanCardComponent implements OnInit {
   @Input() plan: Plan;
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
-  @Input() showAdoptButton: boolean = true;
   @Input() detailView: boolean;
   @Output() deleted = new EventEmitter();
   @Output() adopted = new EventEmitter();
+  @Output() left = new EventEmitter();
 
+  showAdoptButton: boolean = false;
+  showLeaveButton: boolean = false;
   routerLink: any;
   shareTitle: string;
   shareLink: string;
@@ -40,10 +42,12 @@ export class PlanCardComponent implements OnInit {
   parameterType = ParameterType;
 
   faChild = faChild;
+  faMinusCircle = faMinusCircle;
   faExternalLinkAlt = faExternalLinkAlt;
   faCircleNotch = faCircleNotch;
 
   adopting: boolean = false;
+  leaving: boolean = false;
   deleting: boolean = false;
   units: Unit[];
 
@@ -107,9 +111,31 @@ export class PlanCardComponent implements OnInit {
       });
   }
 
+  leave() {
+    this.leaving = true;
+    this.plansService.leavePlan(this.plan).subscribe(savedPlan =>
+      {
+        this.leaving = false;
+        this.left.emit(this.plan);
+      });
+  }
+
   setAdoptButtonVisibility() {
-    if (this.authService.isCurrentUserLoggedIn(this.plan.user.username)) {
+    if (this.authService.isLoggedIn()) {
+      this.plansService.isAdopted(this.plan.id, +this.authService.getUserId()).subscribe(itIs => {
+        if (itIs) {
+          this.showAdoptButton = false;
+          this.showLeaveButton = true;
+        }
+        else {
+          this.showAdoptButton = true;
+          this.showLeaveButton = false;
+        }
+      });
+    }
+    else {
       this.showAdoptButton = false;
+      this.showLeaveButton = false;
     }
   }
 

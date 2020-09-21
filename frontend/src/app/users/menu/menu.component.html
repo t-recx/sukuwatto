@@ -34,7 +34,8 @@
         </div>
         Exercises
     </a>
-    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+    <a class="siimple-menu-item main-menu-item" 
+    [class.siimple-menu-item--selected]="isRouterLinkPlans"
         [routerLink]="['/users', authService.getUsername(), 'plans']">
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconPlans" class="menu-icon-image"></fa-icon>

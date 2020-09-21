@@ -251,6 +251,13 @@
                     <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="adopting"></fa-icon>
                     Adopt
                 </button>
+        
+                <button *ngIf="showLeaveButton" class="siimple-btn adopt-plan-button siimple-btn--error" (click)="leave()"
+                    [disabled]="leaving">
+                    <fa-icon [icon]="faMinusCircle" class="siimple--mr-1" *ngIf="!leaving"></fa-icon>
+                    <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="leaving"></fa-icon>
+                    Abandon
+                </button>
             </div>
         </div>
     </div>

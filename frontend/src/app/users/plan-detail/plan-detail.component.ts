@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angu
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from '../plan';
-import { faCalendarPlus, faTimesCircle, faSave, faTrash, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faTimesCircle, faSave, faTrash, faCircleNotch, faAudioDescription, faChild } from '@fortawesome/free-solid-svg-icons';
 import { PlanSession } from '../plan-session';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
@@ -21,6 +21,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   faTimesCircle = faTimesCircle;
 
   faSave = faSave;
+  faAdopt = faChild;
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
 
@@ -34,6 +35,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loading: boolean = false;
   saving: boolean = false;
+  savingAndAdopting: boolean = false;
   deleting: boolean = false;
 
   pausedSubscription: Subscription;
@@ -55,14 +57,13 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
     //this.resumedSubscription = this.cordovaService.paused.subscribe(() => this.restore());
 
-    this.route.paramMap.subscribe(params => 
-      {
-        this.triedToSave = false;
-        this.loadOrInitializePlan(params.get('id'));
-      });
+    this.route.paramMap.subscribe(params => {
+      this.triedToSave = false;
+      this.loadOrInitializePlan(params.get('id'));
+    });
   }
 
   ngOnDestroy(): void {
@@ -195,14 +196,49 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.triedToSave = false;
 
       if (plan) {
+        this.plan = plan;
         this.goBackToList();
       }
     });
   }
 
+  saveAndAdopt() {
+    this.triedToSave = true;
+
+    if (!this.service.valid(this.plan)) {
+      this.alertService.warn('Please fill all required fields and try again');
+      return;
+    }
+
+    this.savingAndAdopting = true;
+    this.service.savePlan(this.plan).subscribe(plan => {
+      if (plan) {
+        this.service.adoptPlan(plan).subscribe(adoptedPlan => {
+          this.savingAndAdopting = false;
+          this.triedToSave = false;
+
+          if (adoptedPlan) {
+            this.router.navigate(['/users', this.authService.getUsername(), 'adopted-plans'], {
+              relativeTo: this.route,
+            });
+          }
+        });
+      }
+    });
+  }
+
   goBackToList() {
-    this.router.navigate(['/users', this.authService.getUsername(), 'plans'], {
-      relativeTo: this.route,
+    this.service.isAdopted(this.plan.id, +this.authService.getUserId()).subscribe(yes => {
+      if (yes) {
+        this.router.navigate(['/users', this.authService.getUsername(), 'adopted-plans'], {
+          relativeTo: this.route,
+        });
+      }
+      else {
+        this.router.navigate(['/users', this.authService.getUsername(), 'owned-plans'], {
+          relativeTo: this.route,
+        });
+      }
     });
   }
 
@@ -212,10 +248,9 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   delete() {
     this.deleting = true;
-    this.service.deletePlan(this.plan).subscribe(x => 
-      {
-        this.deleting = false;
-        this.goBackToList();
-      });
+    this.service.deletePlan(this.plan).subscribe(x => {
+      this.deleting = false;
+      this.goBackToList();
+    });
   }
 }
