@@ -150,6 +150,7 @@ class Plan(models.Model):
     public = models.BooleanField(default=False)
     likes = models.IntegerField(default=0)
     comment_number = models.IntegerField(default=0)
+    adoption_users = models.ManyToManyField(get_user_model(), related_name='plan_adoption_users', blank=True, symmetrical=False)
 
     def __str__(self):
         return f'{self.short_name} - {self.name}'

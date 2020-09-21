@@ -157,6 +157,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   deleteModalVisible: boolean = false;
 
   loading: boolean = false;
+  loadingAdoptedPlans: boolean = false;
   saving: boolean = false;
   finishing: boolean = false;
   deleting: boolean = false;
@@ -241,7 +242,6 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       return;
     }
 
-    this.loadAdoptedPlans();
     this.loadOrInitializeWorkout(id);
   }
 
@@ -267,6 +267,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
           this.notFound = false;
           if (workout.user.username == this.authService.getUsername()) {
             this.workout = workout;
+            this.loadAdoptedPlans();
           }
           this.notesVisibility = workout.notes && workout.notes.length > 0;
           this.loading = false;
@@ -285,6 +286,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.workout.start = new Date();
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
 
+      this.loadAdoptedPlans();
       this.setWorkoutVisibility();
 
       this.newGroup();
@@ -324,17 +326,38 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   loadAdoptedPlans() {
+    this.loadingAdoptedPlans = true;
     this.plansService.getAdoptedPlans(this.username).subscribe(plans => 
       {
         this.adoptedPlans = plans;
+
+        if (this.adoptedPlans == null) {
+          this.adoptedPlans = [];
+        }
+
         if (this.workout && this.workout.plan) {
-          this.planSessions = this.adoptedPlans
-            .filter(plan => plan.id == this.workout.plan)
-            .map(plan => plan.sessions)[0];
+          if (this.adoptedPlans.filter(a => a.id == this.workout.plan).length == 0) {
+              this.plansService.getPlan(this.workout.plan).subscribe(additionalPlan => {
+                this.adoptedPlans.push(additionalPlan);
+
+                this.planSessions = this.adoptedPlans
+                  .filter(plan => plan.id == this.workout.plan)
+                  .map(plan => plan.sessions)[0];
+
+                this.loadingAdoptedPlans = false;
+              });
+          }
+          else {
+            this.planSessions = this.adoptedPlans
+              .filter(plan => plan.id == this.workout.plan)
+              .map(plan => plan.sessions)[0];
+            this.loadingAdoptedPlans = false;
+          }
         }
         else {
           this.planSessions = this.adoptedPlans
             .map(plan => plan.sessions)[0];
+          this.loadingAdoptedPlans = false;
         }
       });
   }

@@ -19,6 +19,9 @@ import { AuthGuard } from '../guards/auth.guard';
 import { QuickActivityComponent } from './quick-activity/quick-activity.component';
 import { MeasurementDetailComponent } from './measurement-detail/measurement-detail.component';
 import { MeasurementsComponent } from './measurements/measurements.component';
+import { PublicPlansComponent } from './public-plans/public-plans.component';
+import { AdoptedPlansComponent } from './adopted-plans/adopted-plans.component';
+import { OwnedPlansComponent } from './owned-plans/owned-plans.component';
 
 const routes: Routes = [
   { 
@@ -49,12 +52,32 @@ const routes: Routes = [
       {
         path: 'plans/:page',
         canActivateChild: [],
-        component: PlansComponent,
+        component: PublicPlansComponent,
       },
       {
         path: 'plans',
         canActivateChild: [],
-        component: PlansComponent,
+        component: PublicPlansComponent,
+      },
+      {
+        path: 'adopted-plans/:page',
+        canActivateChild: [],
+        component: AdoptedPlansComponent,
+      },
+      {
+        path: 'adopted-plans',
+        canActivateChild: [],
+        component: AdoptedPlansComponent,
+      },
+      {
+        path: 'owned-plans/:page',
+        canActivateChild: [],
+        component: OwnedPlansComponent,
+      },
+      {
+        path: 'owned-plans',
+        canActivateChild: [],
+        component: OwnedPlansComponent,
       },
       {
         path: 'plan/:id',

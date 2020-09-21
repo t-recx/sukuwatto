@@ -9,36 +9,30 @@
   </div>
 </div>
 
-<div *ngIf="adoptedPlans && adoptedPlans.length > 0 && (!currentPage || currentPage == 1)">
-  <h2 class="siimple-h2">Adopted plans</h2>
-  <ul class="">
-    <li *ngFor="let plan of adoptedPlans">
-      <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
-        [detailView]=true
-        [showAdoptButton]="!this.isCurrentLoggedInUser && showAdoptButton(plan)">
-      </app-plan-card>
-    </li>
-  </ul>
+<div class="siimple-tabs siimple--mt-2 siimple--mb-2" *ngIf="hasAdoptedPlans || hasOwnedPlans">
+  <a class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isPublic"
+    [routerLink]="['/users', username, 'plans']" >
+    Public
+  </a>
+  <a class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isAdopted"
+    [routerLink]="['/users', username, 'adopted-plans']" *ngIf="hasAdoptedPlans">
+    Adopted
+  </a>
+  <a class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isOwned"
+    [routerLink]="['/users', username, 'owned-plans']" *ngIf="hasOwnedPlans">
+    Owned
+  </a>
 </div>
 
-<div class="siimple-rule" *ngIf="adoptedPlans && adoptedPlans.length > 0 && plans && plans.length > 0"></div>
-
 <div *ngIf="plans && plans.length > 0">
-  <h2 class="siimple-h2" *ngIf="adoptedPlans && adoptedPlans.length > 0">
-    <span *ngIf="isCurrentLoggedInUser">Public plans</span>
-    <span *ngIf="!isCurrentLoggedInUser">Created plans</span>
-  </h2>
-  <ul class="">
+  <ul>
     <li class="siimple-card" *ngFor="let plan of plans">
       <app-plan-card [plan]=plan [showSaveDeleteButtons]="showDeleteButton(plan)" (deleted)="deletePlan(plan)"
-        (adopted)="planAdopted()"
-        [detailView]=true
-        [showAdoptButton]="showAdoptButton(plan)">
+        (adopted)="planAdopted()" (left)="planLeft()" [detailView]=true>
       </app-plan-card>
     </li>
   </ul>
 
-  <app-pagination [paginatedRecords]="paginatedPlans" [currentPage]="currentPage"
-    [link]="['/users', username, 'plans']">
+  <app-pagination [paginatedRecords]="paginatedPlans" [currentPage]="currentPage" [link]="link">
   </app-pagination>
 </div>

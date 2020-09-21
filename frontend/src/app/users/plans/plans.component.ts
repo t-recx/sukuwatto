@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,11 +19,18 @@ import { AlertService } from 'src/app/alert/alert.service';
   templateUrl: './plans.component.html',
   styleUrls: ['./plans.component.css']
 })
-export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+  @Input() isPublic: boolean;
+  @Input() isOwned: boolean;
+  @Input() isAdopted: boolean;
+
+  hasOwnedPlans: boolean = true;
+  hasAdoptedPlans: boolean = true;
+  link: any;
+
+  specificPath: string = 'plans';
   paginatedPlans: Paginated<Plan>;
   plans: Plan[] = [];
-  adoptedPlans: Plan[] = [];
-  adoptedPlansByLoggedUser: Plan[] = [];
 
   pageSize: number = 10;
   currentPage: number;
@@ -49,11 +56,25 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
     private alertService: AlertService,
     private serializerUtils: SerializerUtilsService,
   ) {
-    this.paramChangedSubscription = route.paramMap.subscribe(val =>
-      {
-        this.loadParameterDependentData(val.get('username'), val.get('page'));
-      });
    }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.isPublic) {
+      this.specificPath = 'plans';
+    }
+    if (this.isAdopted) {
+      this.specificPath = 'adopted-plans';
+    }
+    if (this.isOwned) {
+      this.specificPath = 'owned-plans';
+    }
+
+    this.setLink();
+  }
+
+  setLink() {
+    this.link = ['/users', this.username, this.specificPath];
+  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -61,7 +82,13 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.username = this.route.snapshot.paramMap.get('username');
+    this.setLink();
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
+
+    this.paramChangedSubscription = this.route.paramMap.subscribe(val =>
+      {
+        this.loadParameterDependentData(val.get('username'), val.get('page'));
+      });
   }
 
   ngAfterViewInit(): void {
@@ -74,14 +101,12 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
 
     localStorage.removeItem('state_plans_has_state');
     localStorage.removeItem('state_plans_plans');
-    localStorage.removeItem('state_plans_adopted_plans');
     this.serializerUtils.removeScrollPosition();
   }
 
   serialize() {
     localStorage.setItem('state_plans_has_state', JSON.stringify(true));
     localStorage.setItem('state_plans_plans', JSON.stringify(this.plans));
-    localStorage.setItem('state_plans_adopted_plans', JSON.stringify(this.adoptedPlans));
     this.serializerUtils.serializeScrollPosition();
   }
 
@@ -93,10 +118,8 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     const statePlans = localStorage.getItem('state_plans_plans');
-    const stateAdoptedPlans = localStorage.getItem('state_plans_adopted_plans');
 
     this.plans = this.plansService.getProperlyTypedPlans(JSON.parse(statePlans));
-    this.adoptedPlans = this.plansService.getProperlyTypedPlans(JSON.parse(stateAdoptedPlans));
 
     return true;
   }
@@ -121,64 +144,39 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.loading = true;
     this.loadingService.load();
+    let obsPlans: Observable<Paginated<Plan>>;
 
-    let adoptedPlansObservable: Observable<Plan[]>;
-
-    if (page == 1) {
-      adoptedPlansObservable = this.plansService.getAdoptedPlans(this.username);
+    if (this.isPublic) {
+      obsPlans = this.plansService.getPublicPlans(null, page, this.pageSize);
     }
-    else {
-      adoptedPlansObservable = of<Plan[]>([]);
+    else if (this.isAdopted) {
+      obsPlans = this.plansService.getAdoptedPlansPaginated(this.username, page, this.pageSize);
     }
-
-    if (this.authService.isLoggedIn()) {
-      if (this.authService.isCurrentUserLoggedIn(this.username)) {
-        adoptedPlansObservable = adoptedPlansObservable.pipe(tap(plans => this.adoptedPlansByLoggedUser = plans));
-      }
-      else {
-        this.plansService
-        .getAdoptedPlans(this.authService.getUsername())
-        .subscribe(p => this.adoptedPlansByLoggedUser = p);
-      }
+    else if (this.isOwned) {
+      obsPlans = this.plansService.getOwnedPlansPaginated(this.username, page, this.pageSize);
     }
 
-    let publicPlansUsernameFilter = null;
-
-    if (!this.authService.isCurrentUserLoggedIn(username)) {
-      // if we're accessing the endpoint of a different user's plans then we'll 
-      // only see the plans they've created
-      publicPlansUsernameFilter = username;
-    }
-
-    forkJoin([adoptedPlansObservable,
-      this.plansService.getPublicPlans(publicPlansUsernameFilter, page, this.pageSize)])
-      .pipe(
-        catchError(this.errorService.handleError<Paginated<Plan>>('getPublicPlans', (e: any) =>
-        { 
-          if (e.status && e.status == 404 && page > 1)  {
-            if (reloadOn404) {
-              this.router.navigate(['/users', username, 'plans', page-1]);
-            }
+    obsPlans
+    .pipe(
+      catchError(this.errorService.handleError<Paginated<Plan>>('getPlans', (e: any) =>
+      {
+        if (e.status && e.status == 404 && page > 1)  {
+          if (reloadOn404) {
+            this.router.navigate(['/users', username, this.specificPath, page - 1]);
           }
-          else {
-            this.alertService.error('Unable to fetch public plans');
-          }
-        }, new Paginated<Plan>()))
-      )
-      .subscribe(responses => {
-        this.adoptedPlans = responses[0];
-        this.currentPage = Number(page);
-        if (responses[1]) {
-          this.paginatedPlans = responses[1];
-          this.plans = responses[1].results;
         }
         else {
-          this.paginatedPlans = null;
-          this.plans = null;
+          this.alertService.error('Unable to fetch plans');
         }
+      }, new Paginated<Plan>()))
+    )
+    .subscribe(paginatedPlans => {
+      this.currentPage = Number(page);
+      this.paginatedPlans = paginatedPlans;
+      this.plans = paginatedPlans.results;
 
-        this.loading = false;
-        this.loadingService.unload();
+      this.loading = false;
+      this.loadingService.unload();
     });
   }
 
@@ -186,36 +184,22 @@ export class PlansComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.authService.isCurrentUserLoggedIn(plan.user.username);
   }
 
-  showAdoptButton(plan: Plan): boolean {
-    if (!this.authService.isLoggedIn()) {
-      return false;
-    }
-    /*
-    // I'm gonna comment this out because it might make sense to
-    // always allow adopted plans even if already adopted because
-    // plans might be based on the same plan but then get different
-    // iterations
-    if (this.adoptedPlansByLoggedUser && 
-      this.adoptedPlansByLoggedUser.filter(a => a.parent_plan == plan.id).length > 0) {
-      return false;
-    }
-    */
-
-    return true;
-  }
-
   deletePlan(plan): void {
     this.plansService.deletePlan(plan).subscribe(_ => this.loadParameterDependentData(this.username, this.currentPage, true));
   }
 
   planAdopted() {
+    this.router.navigate(['/users', this.authService.getUsername(), 'adopted-plans']);
+  }
+
+  planLeft() {
     if ((!this.currentPage || this.currentPage == 1) &&
       this.username == this.authService.getUsername()) {
       window.scroll(0,0);
       this.loadParameterDependentData(this.username, 1);
     }
     else {
-      this.router.navigateByUrl(`/users/${this.authService.getUsername()}/plans`);
+      this.router.navigate(['/users', this.authService.getUsername(), 'adopted-plans']);
     }
   }
 }
