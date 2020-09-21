@@ -110,6 +110,9 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.signingUp = true;
     this.signUpText = "Signing up...";
 
+    this.user.username = this.user.username.trim();
+    this.user.email = this.user.email.trim();
+
     this.userService.create(this.user)
       .subscribe(user => {
         if (user) {
