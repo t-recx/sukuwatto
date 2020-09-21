@@ -56,7 +56,7 @@ export class PlansService {
     
   }
 
-  getPublicPlans (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
+  getPublicPlans (username: string, page: number, page_size: number, search_filter: string): Observable<Paginated<Plan>> {
     let options = {};
     let params = new HttpParams();
 
@@ -68,6 +68,10 @@ export class PlansService {
 
     if (page) {
       params = params.set('page', page.toString());
+    }
+
+    if (search_filter) {
+      params = params.set('search', search_filter);
     }
 
     if (page_size) {
@@ -86,12 +90,16 @@ export class PlansService {
       );
   }
 
-  getOwnedPlansPaginated (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
+  getOwnedPlansPaginated (username: string, page: number, page_size: number, search_filter: string): Observable<Paginated<Plan>> {
     let options = {};
     let params = new HttpParams();
 
     if (username) {
       params = params.set('username', username);
+    }
+
+    if (search_filter) {
+      params = params.set('search', search_filter);
     }
 
     if (page) {
@@ -114,12 +122,16 @@ export class PlansService {
       );
   }
 
-  getAdoptedPlansPaginated (username: string, page: number, page_size: number): Observable<Paginated<Plan>> {
+  getAdoptedPlansPaginated (username: string, page: number, page_size: number, search_filter: string): Observable<Paginated<Plan>> {
     let options = {};
     let params = new HttpParams();
 
     if (username) {
       params = params.set('username', username);
+    }
+
+    if (search_filter) {
+      params = params.set('search', search_filter);
     }
 
     if (page) {
