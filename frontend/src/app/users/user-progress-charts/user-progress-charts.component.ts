@@ -252,7 +252,7 @@ export class UserProgressChartsComponent implements OnInit {
 
         this.loadingService.load();
 
-        this.userProgressService.getUserWeightData(this.username).subscribe(p => {
+        this.userProgressService.getUserWeightData(this.username, this.date_gte, this.date_lte).subscribe(p => {
             if (p && p.series && p.series.length > 0 && p.series[0].dataPoints && p.series[0].dataPoints.length > 0) {
                 this.weightData = p;
                 this.currentProgressData = this.weightData;

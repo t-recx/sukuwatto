@@ -13,6 +13,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 })
 export class UserBioDataService {
   private userbiodatasUrl= `${environment.apiUrl}/user-bio-datas/`;
+  private userbiodatabydatesUrl= `${environment.apiUrl}/user-bio-datas-by-date/`;
   private userbiodataLast= `${environment.apiUrl}/user-bio-data-last/`;
 
   httpOptions = {
@@ -24,6 +25,41 @@ export class UserBioDataService {
     private errorService: ErrorService,
     private alertService: AlertService
   ) { }
+
+  getUserBioDatasByDate (username: string, date_gte: Date, date_lte: Date): Observable<UserBioData[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('user__username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date__lte', date_lte.toISOString());
+    }
+
+    if (date_gte) {
+      params = params.set('date__gte', date_gte.toISOString());
+    }
+
+    if (username || date_gte || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<UserBioData[]>(`${this.userbiodatabydatesUrl}`, options)
+      .pipe(
+        map(response => {
+          if (response) {
+            response = this.getProperlyTypedUserBioDatas(response);
+          }
+          return response;
+        }),
+        catchError(this.errorService.handleError<UserBioData[]>('getUserBioDatas', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch userbiodatas');
+        }, []))
+      );
+  }
 
   getUserBioDatas (username: string, page: number, page_size: number, ordering: string = null): Observable<Paginated<UserBioData>> {
     let options = {};

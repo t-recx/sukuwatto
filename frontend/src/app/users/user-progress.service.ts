@@ -275,16 +275,16 @@ export class UserProgressService {
     return transformed;
  }
 
-  getUserWeightData(username: string): Observable<UserProgressChartData> {
-    return this.userBioDataService.getUserBioDatas(username, 1, 1000).pipe(
-      concatMap(paginatedUserBioDataRecords =>
+  getUserWeightData(username: string, date_gte: Date, date_lte: Date): Observable<UserProgressChartData> {
+    return this.userBioDataService.getUserBioDatasByDate(username, date_gte, date_lte).pipe(
+      concatMap(userBioDataRecords =>
           new Observable<UserProgressChartData>(obs => {
           let data = new UserProgressChartData();
           data.category = ChartCategory.Weight;
           data.name = "Weight";
 
           const records =
-            paginatedUserBioDataRecords.results
+            userBioDataRecords
             .filter(w => w.weight_unit)
             .filter(w => w.weight)
             .map(ubd => this.unitsService.convertUserBioData(ubd))
