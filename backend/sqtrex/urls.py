@@ -42,6 +42,7 @@ urlpatterns = [
     path('api/workout-group-last/', workout_views.get_last_workout_group, name='workout-group-last'),
     path('api/workout-visible/', workout_views.workout_visible, name='workout-visible'),
     path('api/workout-editable/', workout_views.workout_editable, name='workout-editable'),
+    path('api/user-bio-datas-by-date/', user_bio_views.UserBioDataList.as_view(), name='user-bio-data-by-date'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/file-upload/', FileUploadView.as_view()),
     path('api/content-types/', ContentTypeList.as_view()),
