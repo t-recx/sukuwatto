@@ -25,6 +25,7 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
   @Input() isOwned: boolean;
   @Input() isAdopted: boolean;
 
+  queryParams: any;
   hasOwnedPlans: boolean = true;
   hasAdoptedPlans: boolean = true;
   link: any;
@@ -155,6 +156,7 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
     page = +page;
     this.page = page;
 
+    this.searchFilter = searchFilter;
     this.loading = true;
     this.loadingService.load();
     let obsPlans: Observable<Paginated<Plan>>;
@@ -168,6 +170,8 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
     else if (this.isOwned) {
       obsPlans = this.plansService.getOwnedPlansPaginated(this.username, page, this.pageSize, searchFilter);
     }
+
+    this.queryParams = this.getQueryParams();
 
     obsPlans
     .pipe(
@@ -228,6 +232,8 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
     if (this.page && this.page > 1) {
       navigatedLink.push(this.page.toString());
     }
+
+    this.queryParams = this.getQueryParams();
 
     this.router.navigate(navigatedLink, { queryParams: this.getQueryParams() });
   }

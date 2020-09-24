@@ -38,9 +38,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
     else {
       const prefix = '/users/' + this.authService.getUsername();
-      this.isRouterLinkPlans = router.url == prefix + '/plans' ||
-        router.url == prefix + '/adopted-plans' ||
-        router.url == prefix + '/owned-plans';
+      this.isRouterLinkPlans = router.url.startsWith(prefix + '/plans') ||
+        router.url.startsWith(prefix + '/adopted-plans') ||
+        router.url.startsWith(prefix + '/owned-plans');
     }
   }
 

@@ -1,5 +1,6 @@
 from rest_framework import viewsets, generics, status
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
 from workouts.models import Workout, WorkingParameter, WorkoutWarmUp, WorkoutSet, WorkoutGroup, WorkoutSetPosition
 from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutNoPositionsSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
 from rest_framework.decorators import api_view
@@ -16,8 +17,9 @@ class WorkoutViewSet(StandardPermissionsMixin, VisibilityQuerysetMixin, viewsets
     """
     """
     serializer_class = WorkoutSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['user__username']
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = {'user__username':['exact'], 'start': ['gte', 'lte']}
+    search_fields = ['name', 'plan__name', 'plan__short_name']
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):

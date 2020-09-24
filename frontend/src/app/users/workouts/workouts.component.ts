@@ -5,10 +5,10 @@ import { AuthService } from 'src/app/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RepetitionType } from '../plan-session-group-activity';
 import { Paginated } from '../paginated';
-import { Subscription } from 'rxjs';
-import { faTasks } from '@fortawesome/free-solid-svg-icons';
+import { combineLatest, fromEvent, of, Subscription } from 'rxjs';
+import { faBackspace, faSearch, faTasks } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
 
@@ -19,6 +19,16 @@ import { AlertService } from 'src/app/alert/alert.service';
 })
 export class WorkoutsComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
+  searchSubscription: Subscription;
+
+  toDate: Date;
+  fromDate: Date;
+  lastFromDateFilter: Date;
+  lastToDateFilter: Date;
+
+  searchFilter: string;
+  queryParams: {};
+
   paginatedWorkouts: Paginated<Workout>;
   workouts: Workout[];
 
@@ -32,6 +42,10 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   repetitionType = RepetitionType;
 
   loading: boolean = false;
+  faSearch = faSearch;
+  faBackspace = faBackspace;
+
+  lastSearchedFilter = '';
 
   constructor(
     private workoutsService: WorkoutsService,
@@ -42,10 +56,14 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     private errorService: ErrorService,
     private router: Router,
   ) { 
-    this.paramChangedSubscription = route.paramMap.subscribe(val =>
-      {
-        this.loadParameterDependentData(val.get('username'), val.get('page'));
-      });
+    this.paramChangedSubscription = combineLatest(this.route.paramMap, this.route.queryParamMap)
+    .pipe(map(results => ({params: results[0], query: results[1]})))
+    .subscribe(results => {
+        this.searchFilter = results.query.get('search');
+        this.fromDate = results.query.get('from') ? new Date(results.query.get('from')) : null;
+        this.toDate = results.query.get('to') ? new Date(results.query.get('to')) : null;
+        this.loadParameterDependentData(results.params.get('username'), results.params.get('page'));
+    });
   }
 
   isLoggedIn() {
@@ -53,10 +71,28 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.lastSearchedFilter = '';
+    this.setupSearch();
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
+  }
+
+  setupSearch() {
+    const searchBox = document.getElementById('search-input');
+
+    const typeahead = fromEvent(searchBox, 'input').pipe(
+      map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(() => of(true))
+    );
+
+    this.searchSubscription = typeahead.subscribe(() => {
+      this.search();
+    });
   }
 
   loadParameterDependentData(username: string, page: string): void {
@@ -77,8 +113,11 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     if (username) {
       this.loading = true;
       this.loadingService.load();
+
+      this.queryParams = this.getQueryParams();
+
       this.workoutsService
-      .getWorkouts(username, pageParameter, this.pageSize)
+      .getWorkouts(username, pageParameter, this.pageSize, this.searchFilter, this.fromDate, this.toDate)
       .pipe(
         catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => 
         { 
@@ -97,9 +136,77 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
           this.workouts = paginated.results;
           this.currentPage = Number(pageParameter);
           this.loading = false;
+
+          this.lastSearchedFilter = this.searchFilter;
+          this.lastFromDateFilter = this.fromDate;
+          this.lastToDateFilter = this.toDate;
           this.loadingService.unload();
         });
     }
+  }
+
+  search() {
+    if (this.lastSearchedFilter != this.searchFilter ||
+      this.lastFromDateFilter != this.fromDate ||
+      this.lastToDateFilter != this.toDate) {
+      this.currentPage = 1;
+    }
+
+    this.queryParams = this.getQueryParams();
+    const navigatedLink = ['/users', this.username, 'workouts'];
+
+    if (this.currentPage && this.currentPage > 1) {
+      navigatedLink.push(this.currentPage.toString());
+    }
+
+    this.router.navigate(navigatedLink, { queryParams: this.getQueryParams() });
+  }
+
+  setFilterFromDate(e) {
+    if (e) {
+      this.fromDate = new Date(e);
+    }
+    else {
+      this.fromDate = null;
+    }
+
+    this.search();
+  }
+
+  setFilterToDate(e) {
+    if (e) {
+      this.toDate = new Date(e);
+    }
+    else {
+      this.toDate = null;
+    }
+
+    this.search();
+  }
+
+  clearFilters() {
+    this.searchFilter = '';
+    this.fromDate = null;
+    this.toDate = null;
+    this.search();
+  }
+
+  getQueryParams() {
+    let queryParams = {}
+    
+    if (this.searchFilter && this.searchFilter.length > 0) {
+      queryParams['search']= this.searchFilter;
+    }
+
+    if (this.fromDate) {
+      queryParams['from']= this.fromDate.toISOString();
+    }
+
+    if (this.toDate) {
+      queryParams['to']= this.toDate.toISOString();
+    }
+
+    return queryParams;
   }
 
   deleteWorkout(workout): void {

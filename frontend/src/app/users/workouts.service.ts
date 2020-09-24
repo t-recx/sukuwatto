@@ -105,7 +105,7 @@ export class WorkoutsService {
       );
   }
 
-  getWorkouts (username: string, page: number = null, page_size: number = null): Observable<Paginated<Workout>> {
+  getWorkouts (username: string, page: number = null, page_size: number = null, search_filter: string = null, start__gte: Date, start__lte: Date): Observable<Paginated<Workout>> {
     let options = {};
     let params = new HttpParams();
 
@@ -121,7 +121,19 @@ export class WorkoutsService {
       params = params.set('page_size', page_size.toString());
     }
 
-    if (username || page || page_size) {
+    if (search_filter) {
+      params = params.set('search', search_filter.toString());
+    }
+
+    if (start__lte) {
+      params = params.set('start__lte', start__lte.toISOString());
+    }
+
+    if (start__gte) {
+      params = params.set('start__gte', start__gte.toISOString());
+    }
+
+    if (username || page || page_size || search_filter || start__lte || start__gte) {
       options = {params: params};
     }
 

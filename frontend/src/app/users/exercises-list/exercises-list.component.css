@@ -11,6 +11,7 @@
     background-color: #ffffff !important;
     margin-right: 15px;
     width: 100%;
+    min-width: 0;
 }
 
 .search-buttons {
