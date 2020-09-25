@@ -213,7 +213,7 @@
                         <div class="siimple-form-field siimple--my-0">
                             <div class="siimple-form-field-label">Profile visibility</div>
                             <select class="siimple-select siimple-select--fluid" name="profileVisibility"
-                                id="profileVisibility" [(ngModel)]="user.visibility_profile"
+                                id="profileVisibility" [(ngModel)]="user.visibility"
                                 #profileVisibility="ngModel">
                                 <option *ngFor="let profileVisibilityModel of visibilityLabel | keyvalue"
                                     value={{profileVisibilityModel.key}}>

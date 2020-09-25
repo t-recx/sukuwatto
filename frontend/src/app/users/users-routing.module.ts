@@ -22,6 +22,7 @@ import { MeasurementsComponent } from './measurements/measurements.component';
 import { PublicPlansComponent } from './public-plans/public-plans.component';
 import { AdoptedPlansComponent } from './adopted-plans/adopted-plans.component';
 import { OwnedPlansComponent } from './owned-plans/owned-plans.component';
+import { UsersSearchComponent } from './users-search/users-search.component';
 
 const routes: Routes = [
   { 
@@ -98,6 +99,16 @@ const routes: Routes = [
         path: 'message/:correspondent',
         canActivate: [AuthGuard],
         component: MessageDetailComponent,
+      },
+      {
+        path: 'search-users/:page',
+        canActivateChild: [AuthGuard],
+        component: UsersSearchComponent,
+      },
+      {
+        path: 'search-users',
+        canActivateChild: [AuthGuard],
+        component: UsersSearchComponent,
       },
       {
         path: 'workouts/:page',

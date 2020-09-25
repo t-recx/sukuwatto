@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
-import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -17,12 +17,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   iconExercises = faDumbbell;
   iconPlans = faCalendarAlt;
   iconMeasurements = faWeight;
+  iconUsers = faUsers;
 
   isRouterLinkPlans = false;
   routerSubscription: Subscription;
 
   constructor(
-    public authService: AuthService, 
+    public authService: AuthService,
     private router: Router,
   ) {
     this.routerSubscription = router.events.subscribe(e => {

@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div class="siimple-tabs siimple--mt-2 siimple--mb-2" *ngIf="hasAdoptedPlans || hasOwnedPlans">
+<div class="siimple-tabs siimple--mt-2 siimple--mb-2 siimple--mt-3" *ngIf="hasAdoptedPlans || hasOwnedPlans">
   <a class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isPublic"
     [routerLink]="['/users', username, 'plans']" >
     Public
