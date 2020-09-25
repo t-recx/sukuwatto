@@ -1,0 +1,22 @@
+<div class="toolbar">
+    <div class="toolbar-title">Users</div>
+</div>
+
+<div class="search-box">
+    <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
+        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel">
+    <div class="search-buttons">
+        <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
+            <fa-icon [icon]="faBackspace" class=""></fa-icon>
+        </button>
+    </div>
+</div>
+
+<div *ngIf="!loading && users">
+    <app-users-follow-list [users]=users [loading]=loading [showActionButton]=false>
+    </app-users-follow-list>
+
+    <app-pagination [paginatedRecords]="paginatedUsers" [currentPage]="currentPage"
+        [link]="['/users', username, 'search-users']" [queryParams]=queryParams>
+    </app-pagination>
+</div>

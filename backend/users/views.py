@@ -23,6 +23,7 @@ from django.db.models import Q
 from django.utils.safestring import mark_safe
 from sqtrex.visibility import VisibilityQuerysetMixin
 from social.models import UserAction
+from rest_framework.filters import SearchFilter
 
 class CanSeeUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -94,6 +95,17 @@ class FollowRequestsList(generics.ListAPIView):
 
         return Response(serializer.data)
 
+class UserListView(generics.ListAPIView, VisibilityQuerysetMixin):
+    pagination_class = StandardResultsSetPagination
+    permission_classes = [IsAuthenticated]
+    filter_backends = [SearchFilter]
+    search_fields = ['username']
+    queryset = get_user_model().objects.order_by('username').all()
+    serializer_class = UserMinimalSerializer
+
+    def get_queryset(self): 
+        return self.get_queryset_visibility_user_model(get_user_model().objects.all().order_by('username'), self.request.user)
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -115,7 +127,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             permission_classes = [AllowAny]
         elif self.action == 'list' or self.action == 'retrieve':
-            permission_classes = [AllowAny]
+            permission_classes = [IsAdminUser]
         elif self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsUserOrReadOnly]
         elif self.action == 'destroy':
@@ -363,11 +375,11 @@ def get_user(request):
     return Response(UserHiddenSerializer(user).data)
 
 def can_see_user(request_user, user):
-    if user.visibility_profile == Visibility.OWN_USER and user != request_user:
+    if user.visibility == Visibility.OWN_USER and user != request_user:
         return False
-    elif user.visibility_profile == Visibility.REGISTERED_USERS and not request_user.is_authenticated:
+    elif user.visibility == Visibility.REGISTERED_USERS and not request_user.is_authenticated:
         return False
-    elif user.visibility_profile == Visibility.FOLLOWERS and not user == request_user and not user.followers.filter(id=request_user.id):
+    elif user.visibility == Visibility.FOLLOWERS and not user == request_user and not user.followers.filter(id=request_user.id):
         return False
 
     return True

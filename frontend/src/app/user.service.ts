@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './user';
 import { Observable } from 'rxjs';
-import { catchError, tap, shareReplay } from 'rxjs/operators';
+import { catchError, tap, shareReplay, map } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
+import { Paginated } from './users/paginated';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private usersSearchApiUrl = `${environment.apiUrl}/users-search/`;
   private userApiUrl = `${environment.apiUrl}/get-user/`;
   private usersEmailApiUrl = `${environment.apiUrl}/user-email/`;
   private usersChangePasswordApiUrl = `${environment.apiUrl}/user-change-password/`;
@@ -30,6 +32,27 @@ export class UserService {
     private http: HttpClient, 
     private errorService: ErrorService,
     private alertService: AlertService) { }
+
+  search(page: number, page_size: number, search_filter: string): Observable<Paginated<User>> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (search_filter) {
+      params = params.set('search', search_filter);
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    options = {params: params};
+
+    return this.http.get<Paginated<User>>(`${this.usersSearchApiUrl}`, options)
+  }
 
   resetPasswordValidateToken(token: string): Observable<any> {
     return this.http.post<any>(`${this.usersResetPasswordValidateTokenApiUrl}`, { token }, this.httpOptions);

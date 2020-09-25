@@ -37,7 +37,7 @@ export class User {
     profile_filename: string;
     is_staff: boolean;
     follow_approval_required: boolean;
-    visibility_profile: Visibility;
+    visibility: Visibility;
     hidden: boolean;
 
     constructor(init?: Partial<User>) {
