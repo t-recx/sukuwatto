@@ -25,6 +25,8 @@ export class WorkoutFinishStatsComponent implements OnInit, OnChanges {
   distanceSmallerUnit: Unit;
   distanceUnit: Unit;
 
+  energyUnit: Unit;
+
   calories: number;
 
   showStats: boolean = false;
@@ -39,10 +41,14 @@ export class WorkoutFinishStatsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.workout) {
+      this.unitsService.convertWorkout(this.workout);
+    }
+
     const warmups = this.workout.groups.flatMap(w => w.warmups.map(s => s)) ?? [];
     const sets = this.workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
 
-    const activities = [...warmups, ...sets];
+    const activities = [...warmups, ...sets].filter(s => s.done);
 
     if (changes.end || changes.workout) {
       if (this.workout.start && this.end) {
@@ -78,7 +84,9 @@ export class WorkoutFinishStatsComponent implements OnInit, OnChanges {
           .reduce((a,b) => a + b, 0);
       }
 
-      this.calories = activities.filter(x => x.calories).reduce((a, b) => a + b.calories, 0);
+      this.calories = activities
+        .filter(x => x.calories)
+        .reduce((a, b) => a + this.unitsService.convertToUserUnit(b.calories, b.energy_unit), 0);
     }
 
     this.showStats = this.speed != null || this.distance != null || this.calories != null || this.ellapsedTime != null;
@@ -90,9 +98,14 @@ export class WorkoutFinishStatsComponent implements OnInit, OnChanges {
 
   private selectDistanceAndSpeedUnit() {
     let units = this.unitsService.getUnitList();
-    let meters = units.filter(x => x.abbreviation == 'm')[0]
-    let feet = units.filter(x => x.abbreviation == 'ft')[0]
+    let meters = units.filter(x => x.abbreviation == 'm')[0];
+    let feet = units.filter(x => x.abbreviation == 'ft')[0];
     let distanceUnitID: number;
+    let energyUnitID: number;
+
+    energyUnitID = this.unitsService.getUserEnergyUnit();
+
+    this.energyUnit = units.filter(u => u.id == energyUnitID)[0];
 
     if (this.authService.getUserDistanceUnitId()) {
       let userUnit = units.filter(u => u.id == +this.authService.getUserDistanceUnitId())[0];

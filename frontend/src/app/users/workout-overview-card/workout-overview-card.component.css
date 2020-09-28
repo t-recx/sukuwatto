@@ -65,3 +65,7 @@ span.info-separator:first-child, span.info-separator:last-child{
     align-items: center;
     border-bottom-right-radius: 0px !important;
 }
+
+.activities-list > *:not(:last-child) {
+    margin-bottom: 12px;
+}

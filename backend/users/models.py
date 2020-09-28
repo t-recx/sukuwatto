@@ -44,6 +44,8 @@ class CustomUser(AbstractUser):
     default_weight_unit = models.IntegerField(null=True)
     default_speed_unit = models.IntegerField(null=True)
     default_distance_unit = models.IntegerField(null=True)
+    # KCAL = 15
+    default_energy_unit = models.IntegerField(default=15)
 
     default_visibility_workouts = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
     default_visibility_user_bio_datas = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)

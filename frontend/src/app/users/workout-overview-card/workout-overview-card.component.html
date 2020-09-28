@@ -5,213 +5,208 @@
 
 <article class="siimple-card" *ngIf="workout">
     <header class="siimple-card-header">
-        <a class="siimple-link workout-card-header-link" 
-        [routerLink]="routerLink">
+        <a class="siimple-link workout-card-header-link" [routerLink]="routerLink">
             {{workout.name}}
         </a>
 
-        <div *ngIf="showSaveDeleteButtons && !deleting && isLoggedIn()" class="siimple--ml-2 siimple-modal-header-close" (click)="toggleDeleteModal()">
+        <div *ngIf="showSaveDeleteButtons && !deleting && isLoggedIn()" class="siimple--ml-2 siimple-modal-header-close"
+            (click)="toggleDeleteModal()">
         </div>
 
-        <fa-icon class="loading-delete-icon siimple--ml-2" [icon]="faCircleNotch" [spin]=true *ngIf="deleting"></fa-icon>
+        <fa-icon class="loading-delete-icon siimple--ml-2" [icon]="faCircleNotch" [spin]=true *ngIf="deleting">
+        </fa-icon>
 
         <span class="siimple--float-right siimple-small" *ngIf="dateString && !detailView">
             {{dateString}}
         </span>
     </header>
     <div class="siimple-card-body">
-        <!-- cardio exercises -->
+        <div class="activities-list">
+            <!-- cardio exercises -->
 
-        <!-- tracked -->
-        <div *ngIf="trackedActivities && trackedActivities.length > 0">
-            <div class="tracked-activities-toolbar-container siimple-btn-group">
-                <button 
-                    type="button"
-                    class="siimple-btn siimple-btn--light activity-previous-arrow"
-                    *ngIf="trackedActivities.length > 1"
-                    (click)="selectPreviousTrackedActivity()">
-                    <fa-icon [icon]="faChevronLeft"></fa-icon>
-                </button>
+            <!-- tracked -->
+            <div *ngIf="trackedActivities && trackedActivities.length > 0">
+                <div class="tracked-activities-toolbar-container siimple-btn-group">
+                    <button type="button" class="siimple-btn siimple-btn--light activity-previous-arrow"
+                        *ngIf="trackedActivities.length > 1" (click)="selectPreviousTrackedActivity()">
+                        <fa-icon [icon]="faChevronLeft"></fa-icon>
+                    </button>
 
-                <div class=" tracked-activity-title-container" 
-                    [class.tracked-activity-title-no-arrows]="trackedActivities.length == 1"
-                    >
-                    <span class="siimple--text-bold">
-                        {{selectedTrackedActivity.exercise.name}}
-                    </span>
-                    <span class="tracked-activity-info">
-                        <span *ngIf="selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit">
-                            {{selectedTrackedActivity.distance}} {{getUnitCode(selectedTrackedActivity.distance_unit)}}
+                    <div class=" tracked-activity-title-container"
+                        [class.tracked-activity-title-no-arrows]="trackedActivities.length == 1">
+                        <span class="siimple--text-bold">
+                            {{selectedTrackedActivity.exercise.name}}
                         </span>
-                        <span class="info-separator"
-                            *ngIf="(selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit) &&
-                            ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit))"
-                        >|</span>
-                        <span *ngIf="selectedTrackedActivity.time && selectedTrackedActivity.time_unit">
-                            {{getTimeToHumanReadable(selectedTrackedActivity)}}
+                        <span class="tracked-activity-info">
+                            <span *ngIf="selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit">
+                                {{selectedTrackedActivity.distance}}
+                                {{getUnitCode(selectedTrackedActivity.distance_unit)}}
+                            </span>
+                            <span class="info-separator"
+                                *ngIf="(selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit) &&
+                            ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit))">|</span>
+                            <span *ngIf="selectedTrackedActivity.time && selectedTrackedActivity.time_unit">
+                                {{getTimeToHumanReadable(selectedTrackedActivity)}}
+                            </span>
+                            <span class="info-separator"
+                                *ngIf="(selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit) &&
+                            ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit))">|</span>
+                            <span *ngIf="selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit">
+                                {{selectedTrackedActivity.speed}} {{getUnitCode(selectedTrackedActivity.speed_unit)}}
+                            </span>
                         </span>
-                        <span class="info-separator"
-                            *ngIf="(selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit) &&
-                            ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit))"
-                        >|</span>
-                        <span *ngIf="selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit">
-                            {{selectedTrackedActivity.speed}} {{getUnitCode(selectedTrackedActivity.speed_unit)}}
-                        </span>
-                    </span>
+                    </div>
+
+                    <button type="button" class="siimple-btn siimple-btn--light activity-next-arrow"
+                        *ngIf="trackedActivities.length > 1" (click)="selectNextTrackedActivity()">
+                        <fa-icon [icon]="faChevronRight"></fa-icon>
+                    </button>
                 </div>
 
-                <button 
-                    type="button"
-                    class="siimple-btn siimple-btn--light activity-next-arrow"
-                    *ngIf="trackedActivities.length > 1"
-                    (click)="selectNextTrackedActivity()"
-                    >
-                    <fa-icon [icon]="faChevronRight"></fa-icon>
-                </button>
+                <div class="tracked-activity-container" *ngFor="let activity of trackedActivities">
+                    <app-workout-set-geolocation [workout]="workout" [workoutActivity]="activity" [allowEdit]="false"
+                        [exercise]="activity.exercise" [zoomControl]="false"
+                        *ngIf="activity == selectedTrackedActivity">
+                    </app-workout-set-geolocation>
+                </div>
             </div>
 
-            <div class="tracked-activity-container" *ngFor="let activity of trackedActivities">
-                <app-workout-set-geolocation 
-                    [workout]="workout"
-                    [workoutActivity]="activity" [allowEdit]="false"
-                    [exercise]="activity.exercise"
-                    [zoomControl]="false"
-                    *ngIf="activity == selectedTrackedActivity">
-                </app-workout-set-geolocation>
-            </div>
+            <!-- untracked -->
+            <table class="siimple-table siimple-table--striped siimple-table--border"
+                *ngIf="cardioWorkoutActivities && cardioWorkoutActivities.length > 0">
+                <thead class="siimple-table-header">
+                    <tr class="siimple-table-row">
+                        <th class="siimple-table-cell exercise-cardio-column-header">Exercise</th>
+                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">Time
+                        </th>
+                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">
+                            Distance</th>
+                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">Speed
+                        </th>
+                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">VO2
+                            <span class="siimple--display-sm-none">max</span></th>
+                    </tr>
+                </thead>
+                <tbody class="siimple-table-body">
+                    <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of cardioWorkoutActivities">
+                        <td class="siimple-table-cell">
+                            <span class="phones-only">
+                                {{workoutActivity.exercise.short_name}}
+                            </span>
+                            <span class="siimple--display-sm-none">
+                                {{workoutActivity.exercise.name}}
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">
+                            <span *ngIf="workoutActivity.time">
+                                <span *ngIf="workoutActivity.time % 1 == 0">
+                                    {{workoutActivity.time | number: '1.0-0'}}
+                                </span>
+                                <span *ngIf="workoutActivity.time % 1 != 0">
+                                    {{workoutActivity.time}}
+                                </span>
+                                <span>
+                                    {{getUnitCode(workoutActivity.time_unit)}}
+                                </span>
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">
+                            <span *ngIf="workoutActivity.distance">
+                                <span *ngIf="workoutActivity.distance % 1 == 0">
+                                    {{workoutActivity.distance | number: '1.0-0'}}
+                                </span>
+                                <span *ngIf="workoutActivity.distance % 1 != 0">
+                                    {{workoutActivity.distance}}
+                                </span>
+                                <span>
+                                    {{getUnitCode(workoutActivity.distance_unit)}}
+                                </span>
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">
+                            <span *ngIf="workoutActivity.speed">
+                                <span *ngIf="workoutActivity.speed % 1 == 0">
+                                    {{workoutActivity.speed | number: '1.0-0'}}
+                                </span>
+                                <span *ngIf="workoutActivity.speed % 1 != 0">
+                                    {{workoutActivity.speed}}
+                                </span>
+                                <span>
+                                    {{getUnitCode(workoutActivity.speed_unit)}}
+                                </span>
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">
+                            <span *ngIf="workoutActivity.vo2max">
+                                <span *ngIf="workoutActivity.vo2max % 1 == 0">
+                                    {{workoutActivity.vo2max | number: '1.0-0'}}
+                                </span>
+                                <span *ngIf="workoutActivity.vo2max % 1 != 0">
+                                    {{workoutActivity.vo2max}}
+                                </span>
+                                <span>
+                                    %
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <!-- strength exercises -->
+            <table class="siimple-table siimple-table--striped siimple-table--border"
+                *ngIf="strengthWorkoutActivities && strengthWorkoutActivities.length > 0">
+                <thead class="siimple-table-header">
+                    <tr class="siimple-table-row">
+                        <th class="siimple-table-cell">Exercise</th>
+                        <th class="siimple-table-cell" align="center">Weight</th>
+                        <th class="siimple-table-cell" align="center">Sets</th>
+                        <th class="siimple-table-cell" align="center">Reps</th>
+                    </tr>
+                </thead>
+                <tbody class="siimple-table-body">
+                    <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of strengthWorkoutActivities">
+                        <td class="siimple-table-cell">
+                            <span class="phones-only">
+                                {{workoutActivity.exercise.short_name}}
+                            </span>
+                            <span class="siimple--display-sm-none">
+                                {{workoutActivity.exercise.name}}
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell" align="center">
+                            <span *ngIf="workoutActivity.weight">
+                                <span *ngIf="workoutActivity.weight % 1 == 0">
+                                    {{workoutActivity.weight | number: '1.0-0'}}
+                                </span>
+                                <span *ngIf="workoutActivity.weight % 1 != 0">
+                                    {{workoutActivity.weight}}
+                                </span>
+                                <span>
+                                    {{getUnitCode(workoutActivity.weight_unit)}}
+                                </span>
+                            </span>
+                            <span *ngIf="!workoutActivity.weight">
+                                <span>
+                                    (bar)
+                                </span>
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell" align="center">
+                            <span *ngIf="workoutActivity.number_of_sets">
+                                <span>{{workoutActivity.number_of_sets}}</span>
+                            </span>
+                        </td>
+                        <td class="siimple-table-cell" align="center">
+                            <span *ngIf="workoutActivity.number_of_repetitions">
+                                <span>{{workoutActivity.number_of_repetitions}}</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <!-- untracked -->
-        <table class="siimple-table siimple-table--striped siimple-table--border"
-            *ngIf="cardioWorkoutActivities && cardioWorkoutActivities.length > 0">
-            <thead class="siimple-table-header">
-                <tr class="siimple-table-row">
-                    <th class="siimple-table-cell exercise-cardio-column-header">Exercise</th>
-                    <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">Time</th>
-                    <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">Distance</th>
-                    <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">Speed</th>
-                    <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">VO2 <span class="siimple--display-sm-none">max</span></th>
-                </tr>
-            </thead>
-            <tbody class="siimple-table-body">
-                <tr class="siimple-table-row link-row"  *ngFor="let workoutActivity of cardioWorkoutActivities">
-                    <td class="siimple-table-cell">
-                        <span class="phones-only">
-                            {{workoutActivity.exercise.short_name}}
-                        </span>
-                        <span class="siimple--display-sm-none">
-                            {{workoutActivity.exercise.name}}
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">
-                        <span *ngIf="workoutActivity.time">
-                            <span *ngIf="workoutActivity.time % 1 == 0">
-                                {{workoutActivity.time | number: '1.0-0'}}
-                            </span>
-                            <span *ngIf="workoutActivity.time % 1 != 0">
-                                {{workoutActivity.time}}
-                            </span>
-                            <span>
-                                {{getUnitCode(workoutActivity.time_unit)}}
-                            </span>
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">
-                        <span *ngIf="workoutActivity.distance">
-                            <span *ngIf="workoutActivity.distance % 1 == 0">
-                                {{workoutActivity.distance | number: '1.0-0'}}
-                            </span>
-                            <span *ngIf="workoutActivity.distance % 1 != 0">
-                                {{workoutActivity.distance}}
-                            </span>
-                            <span>
-                                {{getUnitCode(workoutActivity.distance_unit)}}
-                            </span>
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">
-                        <span *ngIf="workoutActivity.speed">
-                            <span *ngIf="workoutActivity.speed % 1 == 0">
-                                {{workoutActivity.speed | number: '1.0-0'}}
-                            </span>
-                            <span *ngIf="workoutActivity.speed % 1 != 0">
-                                {{workoutActivity.speed}}
-                            </span>
-                            <span>
-                                {{getUnitCode(workoutActivity.speed_unit)}}
-                            </span>
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">
-                        <span *ngIf="workoutActivity.vo2max">
-                            <span *ngIf="workoutActivity.vo2max % 1 == 0">
-                                {{workoutActivity.vo2max | number: '1.0-0'}}
-                            </span>
-                            <span *ngIf="workoutActivity.vo2max % 1 != 0">
-                                {{workoutActivity.vo2max}}
-                            </span>
-                            <span>
-                                %
-                            </span>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-
-        <!-- strength exercises -->
-        <table class="siimple-table siimple-table--striped siimple-table--border"
-            *ngIf="strengthWorkoutActivities && strengthWorkoutActivities.length > 0">
-            <thead class="siimple-table-header">
-                <tr class="siimple-table-row">
-                    <th class="siimple-table-cell">Exercise</th>
-                    <th class="siimple-table-cell" align="center">Weight</th>
-                    <th class="siimple-table-cell" align="center">Sets</th>
-                    <th class="siimple-table-cell" align="center">Reps</th>
-                </tr>
-            </thead>
-            <tbody class="siimple-table-body">
-                <tr class="siimple-table-row link-row"  *ngFor="let workoutActivity of strengthWorkoutActivities">
-                    <td class="siimple-table-cell">
-                        <span class="phones-only">
-                            {{workoutActivity.exercise.short_name}}
-                        </span>
-                        <span class="siimple--display-sm-none">
-                            {{workoutActivity.exercise.name}}
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell" align="center">
-                        <span *ngIf="workoutActivity.weight">
-                            <span *ngIf="workoutActivity.weight % 1 == 0">
-                                {{workoutActivity.weight | number: '1.0-0'}}
-                            </span>
-                            <span *ngIf="workoutActivity.weight % 1 != 0">
-                                {{workoutActivity.weight}}
-                            </span>
-                            <span>
-                                {{getUnitCode(workoutActivity.weight_unit)}}
-                            </span>
-                        </span>
-                        <span *ngIf="!workoutActivity.weight">
-                            <span>
-                                (bar)
-                            </span>
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell" align="center">
-                        <span *ngIf="workoutActivity.number_of_sets">
-                            <span>{{workoutActivity.number_of_sets}}</span>
-                        </span>
-                    </td>
-                    <td class="siimple-table-cell" align="center">
-                        <span *ngIf="workoutActivity.number_of_repetitions">
-                            <span>{{workoutActivity.number_of_repetitions}}</span>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
         <div *ngIf="detailView" class="siimple--mt-3">
             <div class="siimple-rule"></div>
 
@@ -225,21 +220,13 @@
     </div>
 
     <footer class="siimple-card-footer">
-        <app-card-social-interaction 
-            [target_workout]=workout.id
-            [shareTitle]="shareTitle"
-            [shareLink]="shareLink"
-            [likeNumber]=workout.likes
-            [commentNumber]=workout.comment_number
-        content_type_model='workout' [id]=workout.id></app-card-social-interaction>
+        <app-card-social-interaction [target_workout]=workout.id [shareTitle]="shareTitle" [shareLink]="shareLink"
+            [likeNumber]=workout.likes [commentNumber]=workout.comment_number content_type_model='workout'
+            [id]=workout.id></app-card-social-interaction>
     </footer>
 </article>
 
-<app-delete-modal 
-    [(visible)]="deleteModalVisible"
-    title='Delete workout?'
-    body='This will delete your workout and associated data. Are you sure you want to proceed?'
-    (deleted)="delete()"
-    (canceled)="toggleDeleteModal()"
-    >
+<app-delete-modal [(visible)]="deleteModalVisible" title='Delete workout?'
+    body='This will delete your workout and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+    (canceled)="toggleDeleteModal()">
 </app-delete-modal>

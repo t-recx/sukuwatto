@@ -60,6 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.default_weight_unit = validated_data.get('default_weight_unit', instance.default_weight_unit)
         instance.default_speed_unit = validated_data.get('default_speed_unit', instance.default_speed_unit)
         instance.default_distance_unit = validated_data.get('default_distance_unit', instance.default_distance_unit)
+        instance.default_energy_unit = validated_data.get('default_energy_unit', instance.default_energy_unit)
         instance.default_visibility_workouts = validated_data.get('default_visibility_workouts', instance.default_visibility_workouts)
         instance.default_visibility_user_bio_datas = validated_data.get('default_visibility_user_bio_datas', instance.default_visibility_user_bio_datas)
         instance.follow_approval_required = validated_data.get('follow_approval_required', instance.follow_approval_required)
@@ -76,6 +77,7 @@ class UserSerializer(serializers.ModelSerializer):
         'system', 'biography', 'location', 'profile_filename',
         'follow_approval_required',
         'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
+        'default_energy_unit',
         'is_staff', 'default_visibility_workouts', 'visibility', 'default_visibility_user_bio_datas']
         extra_kwargs = {'password': {'write_only': True, 'required': False},
             'email': {'write_only': True, 'required': False},

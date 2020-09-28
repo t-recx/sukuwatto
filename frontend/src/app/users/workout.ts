@@ -28,6 +28,7 @@ export class Workout {
     visibility: Visibility;
 
     calories: number;
+    energy_unit: number;
     likes: number;
     comment_number: number;
 

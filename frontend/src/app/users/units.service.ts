@@ -126,6 +126,20 @@ export class UnitsService {
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Time
       },
+      {
+        id: 15,
+        name: "Kilocalories",
+        abbreviation: "kcal",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Energy
+      },
+      {
+        id: 16,
+        name: "Kilojoules",
+        abbreviation: "kJ",
+        system: MeasurementSystem.Metric,
+        measurement_type: MeasurementType.Energy
+      },
     ];
   }
 
@@ -149,15 +163,39 @@ export class UnitsService {
   }
 
   getToUnit(fromUnit: number) {
-    const toUnitCode = this.getToUnitCode(this.getUnitCode(fromUnit));
+    if (fromUnit) {
+      const toUnitCode = this.getToUnitCode(this.getUnitCode(fromUnit));
 
-    return this.units.filter(u => u.abbreviation == toUnitCode)[0].id;
+      return this.units.filter(u => u.abbreviation == toUnitCode)[0].id;
+    }
+    else {
+      return fromUnit;
+    }
   }
 
   getToUnitCode(fromUnit: string) {
     let toUnitCode = fromUnit;
 
     if (this.authService.isLoggedIn()) {
+      if (this.authService.getUserEnergyUnitId()) {
+        if (+this.authService.getUserEnergyUnitId() == this.units.filter(u => u.abbreviation == 'kJ')[0].id) {
+          if (fromUnit == 'kcal') {
+            toUnitCode = 'kJ';
+          }
+        }
+        else {
+          if (fromUnit == 'kJ') {
+            toUnitCode = 'kcal';
+          }
+        }
+      }
+      else {
+        // if no unit use kcal by default
+        if (fromUnit == 'kJ') {
+          toUnitCode = 'kcal';
+        }
+      }
+
       if (this.authService.getUserUnitSystem() == MeasurementSystem.Imperial) {
         switch (fromUnit) {
           case 'kg':
@@ -217,7 +255,7 @@ export class UnitsService {
     return this.convert(value, fromUnitCode, this.getToUnitCode(fromUnitCode));
   }
 
-  convert(value: any, fromUnit: any, toUnit: any) {
+  convert(value: number, fromUnit: any, toUnit: any) {
     let fromUnitCode = '';
 
     if (fromUnit.abbreviation) {
@@ -247,16 +285,42 @@ export class UnitsService {
     toUnitCode = toUnitCode == 'mph' ? 'mi' : toUnitCode;
     toUnitCode = toUnitCode == 'km/h' ? 'km' : toUnitCode;
 
-    if (toUnitCode != fromUnitCode) {
-      let num = uz(value + fromUnitCode).convert(toUnitCode).value;
+    return this.unitConversion(value, fromUnitCode, toUnitCode);
+  }
 
-      return this.roundValue(num, fromUnitCode, toUnitCode);
+  unitConversion(value: number, fromUnitCode: string, toUnitCode: string): number {
+    value = Number(value);
+    let num = 0;
+
+    if (fromUnitCode == toUnitCode) {
+      return value;
+    }
+    
+    if (fromUnitCode == null || toUnitCode == null) {
+      return value;
     }
 
-    return value;
+    if (fromUnitCode == 'kcal' && toUnitCode == 'kJ') {
+      num = value * 4.18400;
+    }
+    else if (fromUnitCode == 'kJ' && toUnitCode == 'kcal') {
+      num = value * 0.239005736;
+    }
+    else {
+      num = uz(value + fromUnitCode).convert(toUnitCode).value;
+    }
+
+    return this.roundValue(num, fromUnitCode, toUnitCode);
   }
 
   roundValue(num: number, fromUnitCode: string, toUnitCode: string): number {
+    if (fromUnitCode == 'kcal' && toUnitCode == 'kJ') {
+      return Math.round(num);
+    }
+    else if (fromUnitCode == 'kJ' && toUnitCode == 'kcal') {
+      return Math.round(num);
+    }
+
     return Math.round((num + Number.EPSILON) * 1000) / 1000;
   }
 
@@ -285,9 +349,43 @@ export class UnitsService {
     return plan;
   }
 
+  getUserEnergyUnit(): number {
+    const kcal = this.units.filter(x => x.abbreviation == 'kcal')[0];
+    const kjoules = this.units.filter(x => x.abbreviation == 'kJ')[0];
+    let energyUnitID: number;
+
+    if (this.authService.isLoggedIn() && this.authService.getUserEnergyUnitId()) {
+      const userUnit = this.units.filter(u => u.id == +this.authService.getUserEnergyUnitId())[0];
+
+      if (userUnit && userUnit.abbreviation == 'kJ') {
+        energyUnitID = kjoules.id;
+      }
+      else {
+        energyUnitID = kcal.id;
+      }
+    }
+    else {
+      energyUnitID = kcal.id;
+    }
+
+    return energyUnitID;
+  }
+
+  convertEnergyUnit(model: any) {
+    if (model.energy_unit) {
+      if (model.calories) {
+        model.calories = this.convertToUserUnit(model.calories, model.energy_unit);
+      }
+
+      model.energy_unit = this.getToUnit(model.energy_unit);
+    }
+  }
+
   convertWorkout(workout: Workout) {
     if (workout) {
       workout.start = new Date(workout.start);
+
+      this.convertEnergyUnit(workout);
 
       if (workout.groups) {
         workout.groups.forEach(group => {
@@ -296,6 +394,7 @@ export class UnitsService {
               this.convertWeightValue(s);
               this.convertSpeedValue(s);
               this.convertDistanceValue(s);
+              this.convertEnergyUnit(s);
             });
           }
           if (group.warmups) {
@@ -303,6 +402,7 @@ export class UnitsService {
               this.convertWeightValue(s);
               this.convertSpeedValue(s);
               this.convertDistanceValue(s);
+              this.convertEnergyUnit(s);
             });
           }
         });

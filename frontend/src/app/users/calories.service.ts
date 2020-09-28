@@ -25,7 +25,7 @@ export class CaloriesService {
     return 70;
   }
 
-  requestActivityCalories(lastUserBioData: UserBioData, workout: Workout, activity: WorkoutSet): Observable<number> {
+  requestActivityCalories(lastUserBioData: UserBioData, workout: Workout, activity: WorkoutSet, energy_unit: number): Observable<number> {
     let userWeightKgs = null;
 
     if (lastUserBioData && lastUserBioData.weight) {
@@ -42,14 +42,14 @@ export class CaloriesService {
     .pipe(
       concatMap(mets => 
         new Observable<number>(o => {
-          o.next(+this.getActivityCalories(userWeightKgs, workout, activity, mets));
+          o.next(+this.getActivityCalories(userWeightKgs, workout, activity, mets, energy_unit));
           o.complete();
         })
       )
     );
   }
 
-  requestWorkoutCalories(lastUserBioData: UserBioData, workout: Workout): Observable<number> {
+  requestWorkoutCalories(lastUserBioData: UserBioData, workout: Workout, energy_unit: number): Observable<number> {
     let userWeightKgs = null;
 
     if (lastUserBioData && lastUserBioData.weight) {
@@ -65,7 +65,7 @@ export class CaloriesService {
 
     const activities = [...warmups, ...sets];
 
-    return forkJoin (activities.map(activity => this.requestActivityCalories(lastUserBioData, workout, activity)))
+    return forkJoin (activities.map(activity => this.requestActivityCalories(lastUserBioData, workout, activity, energy_unit)))
     .pipe(
       flatMap(calories => 
         new Observable<number>(o => {
@@ -76,7 +76,7 @@ export class CaloriesService {
     );
   }
 
-  getActivityCalories(userWeightKgs: number, workout: Workout, activity: WorkoutSet, mets: MetabolicEquivalentTask[]): number {
+  getActivityCalories(userWeightKgs: number, workout: Workout, activity: WorkoutSet, mets: MetabolicEquivalentTask[], energy_unit: number): number {
     if (!mets) {
       return 0;
     }
@@ -158,7 +158,11 @@ export class CaloriesService {
       return 0;
     }
 
-    return Math.round(met.met * userWeightKgs * hours);
+    if (hours <= 0) {
+      return 0;
+    }
+
+    return this.unitsService.convert(Math.round(met.met * userWeightKgs * hours), 'kcal', energy_unit);
   }
 
   private getMet(distance: number, distance_unit: number, mets: MetabolicEquivalentTask[], units: Unit[], hours: number, met: MetabolicEquivalentTask) {

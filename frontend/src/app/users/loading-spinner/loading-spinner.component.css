@@ -3,7 +3,7 @@
     position: absolute;
     left: 19px;
     top: 23px;
-    z-index: 51;
+    z-index: 501;
     color: white;
     background-color: #4e91e4;
     pointer-events: none;
@@ -28,7 +28,7 @@
   position: absolute;
   left: calc(156px + 40px); 
   top: 28px;
-  z-index: 51;
+  z-index: 501;
   color: white;
   background-color: #4e91e4;
   pointer-events: none;
@@ -51,7 +51,7 @@
   position: absolute;
   left: calc((100% - 960px)/2 + 140px + 40px); 
   top: 28px;
-  z-index: 51;
+  z-index: 501;
   color: white;
   background-color: #4e91e4;
   pointer-events: none;

@@ -84,8 +84,8 @@
                 <div class="siimple-grid-row stats-item "
                 [class.clickable]="allowEdit"
                 (click)="toggleCaloriesDetail()">
-                    <div class="siimple-grid-col siimple-grid-col--6">Calories</div>
-                    <div class="siimple-grid-col siimple-grid-col--6" align="right">{{workoutActivity.calories}}kcal</div>
+                    <div class="siimple-grid-col siimple-grid-col--5">Energy</div>
+                    <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">{{workoutActivity.calories}}{{energyUnit.abbreviation}}</div>
                 </div>
                 <div class="siimple-grid-row stats-item" *ngIf="workoutActivity.caloriesDetailed && allowEdit">
                     <div class="siimple-grid-col siimple-grid-col--12">

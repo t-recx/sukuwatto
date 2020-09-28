@@ -16,6 +16,8 @@ class Unit(models.IntegerChoices):
     MPH = 12
     MILLISECOND = 13
     HOUR = 14
+    KCAL = 15
+    KJOULES = 16
 
 class UserBioData(models.Model):
     EVERYONE = 'e'
@@ -360,6 +362,7 @@ class Workout(models.Model):
     status = models.CharField(default=INPROGRESS, max_length=1, choices=STATUS)
 
     calories = models.DecimalField(max_digits=8, decimal_places=3, null=True);
+    energy_unit = models.IntegerField(choices=Unit.choices, default=Unit.KCAL)
 
     visibility = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 
@@ -434,6 +437,7 @@ class WorkoutSet(AbstractWorkoutActivity):
     plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
+    energy_unit = models.IntegerField(choices=Unit.choices, default=Unit.KCAL)
 
 class WorkoutWarmUp(AbstractWorkoutActivity):
     workout_group = models.ForeignKey(WorkoutGroup, related_name="warmups", on_delete=models.CASCADE)
@@ -447,6 +451,7 @@ class WorkoutWarmUp(AbstractWorkoutActivity):
     plan_speed_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_distance_unit = models.IntegerField(choices=Unit.choices, null=True)
     plan_time_unit = models.IntegerField(choices=Unit.choices, null=True)
+    energy_unit = models.IntegerField(choices=Unit.choices, default=Unit.KCAL)
 
 class AbstractActivityTimeSegment(models.Model):
     start = models.DateTimeField(null=True)

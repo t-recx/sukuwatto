@@ -31,6 +31,7 @@ export class User {
     default_weight_unit: number;
     default_speed_unit: number;
     default_distance_unit: number;
+    default_energy_unit: number;
     default_visibility_workouts: Visibility;
     default_visibility_user_bio_datas: Visibility;
     system: MeasurementSystem;
