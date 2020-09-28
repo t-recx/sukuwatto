@@ -59,6 +59,7 @@ export class WorkoutSet {
     working_speed_percentage: number;
 
     calories: number;
+    energy_unit: number;
 
     met: number;
     met_set_by_user: boolean;

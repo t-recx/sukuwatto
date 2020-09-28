@@ -40,11 +40,23 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
         self.assertTrue(CustomUser.objects.get(username=self.user1['username']).check_password(new_password))
 
     def test_listing_data_should_not_bring_back_sensitive_information(self):
-        response = self.client.get('/api/users/')
+        self.authenticate(self.user1)
+
+        response = self.client.get(f'/api/users-search/?page=1&page_size=10')
 
         data = json.loads(response.content)
-        self.assertFalse(any('password' in x for x in data))
-        self.assertFalse(any('email' in x for x in data))
+        self.assertFalse(any('password' in x for x in data['results']))
+        self.assertFalse(any('email' in x for x in data['results']))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_should_not_bring_back_sensitive_information(self):
+        response = self.client.get(f'/api/get-user/?username={self.user1["username"]}')
+
+        data = json.loads(response.content)
+        if 'password' in data:
+            self.fail('password present erroneously')
+        if 'email' in data:
+            self.fail('email present erroneously')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_email_when_user_not_authenticated_should_return_nothing(self):

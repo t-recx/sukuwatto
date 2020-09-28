@@ -192,6 +192,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <div class="siimple-form-field-label">Default energy unit</div>
+                            <select class="siimple-select siimple-select--fluid" name="default_energy_unit"
+                                id="default_energy_unit" required [(ngModel)]="user.default_energy_unit"
+                                #default_energy_unit="ngModel">
+                                <option *ngFor="let default_energy_unitModel of energyUnits"
+                                    value={{default_energy_unitModel.id}}>
+                                    {{default_energy_unitModel.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

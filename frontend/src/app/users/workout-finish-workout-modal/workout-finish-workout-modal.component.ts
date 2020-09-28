@@ -59,6 +59,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
 
   loadChartData() {
     if (!this.showStrengthProgressCharts()) {
+      this.progressData = null;
       return;
     }
 

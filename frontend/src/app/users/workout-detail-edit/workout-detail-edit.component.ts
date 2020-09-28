@@ -21,6 +21,7 @@ import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 import { Visibility } from 'src/app/visibility';
+import { UnitsService } from '../units.service';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -163,6 +164,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   deleting: boolean = false;
 
   constructor(
+    private unitsService: UnitsService,
     private route: ActivatedRoute,
     private service: WorkoutsService,
     private userBioDataService: UserBioDataService,
@@ -284,6 +286,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.workout.plan = null;
       this.workout.plan_session = null;
       this.workout.start = new Date();
+      this.workout.energy_unit = this.unitsService.getUserEnergyUnit();
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
 
       this.loadAdoptedPlans();
@@ -655,9 +658,12 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     const warmups = this.workout.groups.flatMap(w => w.warmups.map(s => s)) ?? [];
     const sets = this.workout.groups.flatMap(w => w.sets.map(s => s)) ?? [];
 
-    const activities = [...warmups, ...sets];
+    const activities = [...warmups, ...sets].filter(s => s.done);
 
-    this.workout.calories =  activities.reduce((a, b) => a + b.calories, 0);
+    this.workout.calories = activities
+      .filter(x => x.calories)
+      .reduce((a, b) => a + this.unitsService.convertToUserUnit(b.calories, b.energy_unit), 0);
+    this.workout.energy_unit = this.unitsService.getUserEnergyUnit();
   }
 
   finishWorkout(): void {

@@ -38,6 +38,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   mets: MetabolicEquivalentTask[];
 
   speedUnit: Unit;
+  energyUnit: Unit;
 
   distanceUnit: Unit;
   distanceInSmallerUnit: number = 0;
@@ -196,8 +197,14 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     }
   }
 
+  selectEnergyUnit() {
+    this.energyUnit = this.unitsService.getUnitList().filter(x => x.id == this.unitsService.getUserEnergyUnit())[0];
+  }
+
   ngOnInit(): void {
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.pause());
+
+    this.selectEnergyUnit();
 
     this.initActivityParameters();
 
@@ -606,11 +613,19 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
 
   updateCalories() {
     if (this.allowEdit) {
+      if (!this.energyUnit) {
+        this.selectEnergyUnit();
+      }
+
       this.caloriesService.requestActivityCalories(
         this.userBioData,
         this.workout,
-        this.workoutActivity
-      ).subscribe(calories => this.workoutActivity.calories = calories);
+        this.workoutActivity,
+        this.energyUnit.id
+      ).subscribe(calories => { 
+        this.workoutActivity.calories = calories;
+        this.workoutActivity.energy_unit = this.energyUnit.id;
+      });
     }
   }
 
@@ -804,7 +819,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       this.distanceSmallerUnit = units.filter(u => u.abbreviation == 'ft')[0];
     }
   }
-
 
   private updateRoute() {
     if (this.workoutActivity.positions &&

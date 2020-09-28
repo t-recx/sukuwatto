@@ -61,7 +61,7 @@
   height: 120vh;
   background: black;
   opacity: 0%;
-  z-index: 49;
+  z-index: 490;
   will-change: opacity;
 }
 
@@ -70,7 +70,7 @@
   top: 64px;
   height: 100%;
   background-color: white;
-  z-index: 50; 
+  z-index: 500; 
   box-shadow: 2px 0px 4px 0px rgba(138,154,173,0.5);;
   overflow: hidden !important;
   transition: 300ms;
@@ -85,7 +85,7 @@
 
 .menu-buttons-container {
   position: relative;
-  z-index: 50;
+  z-index: 500;
   top: calc(100vh - 320px);
   padding-left: 5px;
   padding-right: 5px;
@@ -96,7 +96,7 @@
   position: fixed;
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 500;
   top: 0;
 }
 
@@ -110,5 +110,5 @@
   top: 0;
   width: 15px;
   height: 100%;
-  z-index: 49;
+  z-index: 490;
 }

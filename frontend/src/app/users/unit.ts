@@ -6,6 +6,7 @@ export enum MeasurementType {
     Distance = 'd',
     Time = 't',
     Speed = 's',
+    Energy = 'e',
 }
 
 export const MeasurementTypeLabel = new Map<string, string>([
@@ -14,6 +15,7 @@ export const MeasurementTypeLabel = new Map<string, string>([
   [MeasurementType.Distance, 'Distance'],
   [MeasurementType.Time, 'Time'],
   [MeasurementType.Speed, 'Speed'],
+  [MeasurementType.Energy, 'Energy'],
 ]);
 
 export class Unit {

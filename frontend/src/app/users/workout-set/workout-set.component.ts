@@ -3,7 +3,7 @@ import { WorkoutSet } from '../workout-set';
 import { Exercise, ExerciseType } from '../exercise';
 import { RepetitionType, RepetitionTypeLabel, SpeedType, TimeType, DistanceType, Vo2MaxType } from '../plan-session-group-activity';
 import { faCheck, faEdit, faTimesCircle, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
-import { Unit } from '../unit';
+import { MeasurementType, Unit } from '../unit';
 import { UnitsService } from '../units.service';
 import { WorkoutSetPosition } from '../workout-set-position';
 import { CaloriesService } from '../calories.service';
@@ -71,76 +71,91 @@ export class WorkoutSetComponent implements OnInit {
       }
 
       this.workoutActivity.done = !this.workoutActivity.done;
-      this.caloriesService.requestActivityCalories(this.userBioData, this.workout, this.workoutActivity)
-      .subscribe(calories => this.workoutActivity.calories = calories);
 
-      if (this.workoutActivity.done) {
-        this.workoutActivity.in_progress = false;
-        this.workoutActivity.end = new Date();
+      this.updateActivityBasedOnDone();
+    }
+  }
 
-        if (this.workoutActivity.exercise) {
-          if (this.workoutActivity.exercise.exercise_type == ExerciseType.Strength) {
-            if (!this.workoutActivity.number_of_repetitions) {
-              if (this.workoutActivity.repetition_type == RepetitionType.Standard) {
-                this.workoutActivity.number_of_repetitions = this.workoutActivity.expected_number_of_repetitions;
-              }
-              else if (this.workoutActivity.repetition_type == RepetitionType.Range) {
-                this.editingRepetitions = true;
-              }
-              else if (this.workoutActivity.repetition_type != RepetitionType.None) {
-                this.editingRepetitions = true;
+  updateActivityBasedOnDone() {
+    if (this.workoutActivity.done) {
+      this.updateCalories();
+      this.workoutActivity.in_progress = false;
+      this.workoutActivity.end = new Date();
+
+      if (this.workoutActivity.exercise) {
+        if (this.workoutActivity.exercise.exercise_type == ExerciseType.Strength) {
+          if (!this.workoutActivity.number_of_repetitions) {
+            if (this.workoutActivity.repetition_type == RepetitionType.Standard) {
+              this.workoutActivity.number_of_repetitions = this.workoutActivity.expected_number_of_repetitions;
+            }
+            else if (this.workoutActivity.repetition_type == RepetitionType.Range) {
+              this.editingRepetitions = true;
+            }
+            else if (this.workoutActivity.repetition_type != RepetitionType.None) {
+              this.editingRepetitions = true;
+            }
+          }
+        }
+        else if (this.workoutActivity.exercise.exercise_type == ExerciseType.Cardio) {
+          if (!this.workoutActivity.distance) {
+            if (this.workoutActivity.distance_type && this.workoutActivity.distance_type != DistanceType.None) {
+              if (this.workoutActivity.expected_distance) {
+                this.workoutActivity.distance = this.workoutActivity.expected_distance;
               }
             }
           }
-          else if (this.workoutActivity.exercise.exercise_type == ExerciseType.Cardio) {
-            if (!this.workoutActivity.distance) {
-              if (this.workoutActivity.distance_type && this.workoutActivity.distance_type != DistanceType.None) {
-                if (this.workoutActivity.expected_distance) {
-                  this.workoutActivity.distance = this.workoutActivity.expected_distance;
-                }
+
+          if (!this.workoutActivity.speed) {
+            if (this.workoutActivity.speed_type && this.workoutActivity.speed_type != SpeedType.None) {
+              if (this.workoutActivity.expected_speed) {
+                this.workoutActivity.speed = this.workoutActivity.expected_speed;
               }
             }
+          }
 
-            if (!this.workoutActivity.speed) {
-              if (this.workoutActivity.speed_type && this.workoutActivity.speed_type != SpeedType.None) {
-                if (this.workoutActivity.expected_speed) {
-                  this.workoutActivity.speed = this.workoutActivity.expected_speed;
-                }
+          if (!this.workoutActivity.time) {
+            if (this.workoutActivity.time_type && this.workoutActivity.time_type != TimeType.None) {
+              if (this.workoutActivity.expected_time) {
+                this.workoutActivity.time = this.workoutActivity.expected_time;
               }
             }
+          }
 
-            if (!this.workoutActivity.time) {
-              if (this.workoutActivity.time_type && this.workoutActivity.time_type != TimeType.None) {
-                if (this.workoutActivity.expected_time) {
-                  this.workoutActivity.time = this.workoutActivity.expected_time;
-                }
-              }
-            }
-
-            if (!this.workoutActivity.vo2max) {
-              if (this.workoutActivity.vo2max_type && this.workoutActivity.vo2max_type != Vo2MaxType.None) {
-                if (this.workoutActivity.expected_vo2max) {
-                  this.workoutActivity.vo2max = this.workoutActivity.expected_vo2max;
-                }
+          if (!this.workoutActivity.vo2max) {
+            if (this.workoutActivity.vo2max_type && this.workoutActivity.vo2max_type != Vo2MaxType.None) {
+              if (this.workoutActivity.expected_vo2max) {
+                this.workoutActivity.vo2max = this.workoutActivity.expected_vo2max;
               }
             }
           }
         }
       }
-      else {
-        this.workoutActivity.in_progress = false;
-        this.workoutActivity.start = null;
-        this.workoutActivity.end = null;
-      }
-
-
-      this.statusChanged.emit();
     }
+    else {
+      this.workoutActivity.in_progress = false;
+      this.workoutActivity.start = null;
+      this.workoutActivity.end = null;
+      this.workoutActivity.calories = 0;
+    }
+
+    this.statusChanged.emit();
+  }
+
+  private updateCalories() {
+    let energyUnit = this.unitsService.getUserEnergyUnit();
+
+    this.caloriesService.requestActivityCalories(this.userBioData, this.workout, this.workoutActivity,
+      energyUnit)
+      .subscribe(calories => {
+        this.workoutActivity.calories = calories;
+        this.workoutActivity.energy_unit = energyUnit;
+      });
   }
 
   onWorkingSetEditClosed(): void {
     this.workoutActivity.editing = false;
     
+    this.updateActivityBasedOnDone();
   }
 
   onWorkingSetEditRepetitionsClosed(): void {

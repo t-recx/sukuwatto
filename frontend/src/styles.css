@@ -342,6 +342,10 @@ ul {
     margin-bottom: 5px;
 }
 
+.modal-window {
+  z-index: 600;
+}
+
 .modal-window-body {
   overscroll-behavior: contain;
 }

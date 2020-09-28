@@ -25,9 +25,9 @@
                 </div>
             </div>
             <div class="siimple-grid-row stats-item " *ngIf="calories">
-                <div class="siimple-grid-col siimple-grid-col--6">Calories</div>
-                <div class="siimple-grid-col siimple-grid-col--6" align="right">
-                    {{calories}}kcal
+                <div class="siimple-grid-col siimple-grid-col--5">Energy</div>
+                <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">
+                    {{calories}}{{energyUnit.abbreviation}}
                 </div>
             </div>
         </div>

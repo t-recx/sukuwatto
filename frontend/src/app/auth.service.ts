@@ -81,6 +81,7 @@ export class AuthService {
     this.setUnitSystem(null);
     this.setUserWeightUnitId(null);
     this.setUserDistanceUnitId(null);
+    this.setUserEnergyUnitId(null);
     this.setUserSpeedUnitId(null);
     this.setUserID(null);
     this.setIsStaff(null);
@@ -139,6 +140,7 @@ export class AuthService {
         this.setUnitSystem(user.system);
         this.setUserWeightUnitId(user.default_weight_unit.toString());
         this.setUserDistanceUnitId(user.default_distance_unit.toString());
+        this.setUserEnergyUnitId(user.default_energy_unit.toString());
         this.setUserSpeedUnitId(user.default_speed_unit.toString());
         this.setUserDefaultWorkoutVisibility(user.default_visibility_workouts);
         this.setUserDefaultMeasurementVisibility(user.default_visibility_user_bio_datas);
@@ -194,6 +196,10 @@ export class AuthService {
     return this.getLocalStorageItem('weight_unit_id');
   }
 
+  public getUserEnergyUnitId(): string {
+    return this.getLocalStorageItem('energy_unit_id');
+  }
+
   public getUserDistanceUnitId(): string {
     return this.getLocalStorageItem('distance_unit_id');
   }
@@ -242,6 +248,10 @@ export class AuthService {
 
   public setUserDistanceUnitId(unit: string) {
     this.setLocalStorageItem('distance_unit_id', unit);
+  }
+
+  public setUserEnergyUnitId(unit: string) {
+    this.setLocalStorageItem('energy_unit_id', unit);
   }
 
   public setUserSpeedUnitId(unit: string) {

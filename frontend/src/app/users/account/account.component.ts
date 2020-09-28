@@ -34,6 +34,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   units: Unit[];
   weightUnits: Unit[];
   heightUnits: Unit[];
+  energyUnits: Unit[];
 
   selectedTabType: AccountTabType = AccountTabType.General;
   tabType = AccountTabType;
@@ -122,6 +123,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.bioDataDate = new Date();
     this.weightUnits = [];
     this.heightUnits = [];
+    this.energyUnits = [];
     this.loadUnits();
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
@@ -159,6 +161,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       this.units = units;
       this.weightUnits = units.filter(u => u.measurement_type == MeasurementType.Weight);
       this.heightUnits = units.filter(u => u.measurement_type == MeasurementType.Height);
+      this.energyUnits = units.filter(u => u.measurement_type == MeasurementType.Energy);
     });
 
   }
@@ -218,6 +221,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
         this.authService.setUnitSystem(this.user.system);
         this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
         this.authService.setUserDefaultMeasurementVisibility(this.user.default_visibility_user_bio_datas);
+        this.authService.setUserEnergyUnitId(this.user.default_energy_unit ? this.user.default_energy_unit.toString() : null);
 
         this.router.navigateByUrl(`/users/${this.user.username}/profile`);
       });
