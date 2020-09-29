@@ -24,6 +24,7 @@ export class ResetPasswordComponent implements OnInit {
   resetText: string;
 
   newPassword: string = '';
+  confirmPassword: string = '';
 
   constructor(
     private userService: UserService,
@@ -69,8 +70,8 @@ export class ResetPasswordComponent implements OnInit {
     this.resetting = true;
 
     if (!this.valid()) {
-
       this.resetting = false;
+      return;
     }
 
     this.userService.resetConfirmPassword(this.token, this.newPassword).subscribe(x => {
@@ -106,7 +107,15 @@ export class ResetPasswordComponent implements OnInit {
       return false;
     }
 
+    if (!this.confirmPassword || 0 == this.confirmPassword.trim().length) {
+      return false;
+    }
+
     if (this.passwordValidations && this.passwordValidations.length > 0) {
+      return false;
+    }
+
+    if (this.newPassword != this.confirmPassword) {
       return false;
     }
 
