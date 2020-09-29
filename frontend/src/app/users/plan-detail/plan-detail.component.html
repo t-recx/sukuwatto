@@ -2,6 +2,7 @@
     <div *ngIf="!userIsOwner">
       <app-plan-card [plan]=plan 
         [showSaveDeleteButtons]=false 
+        [commentsSectionOpen]=true
         [detailView]=true>
       </app-plan-card>
     </div>

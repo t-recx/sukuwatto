@@ -22,6 +22,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
   @Input() detailView: boolean = false;
+  @Input() commentsSectionOpen: boolean = false;
   @Output() deleted = new EventEmitter();
 
   notFound: boolean = false;
