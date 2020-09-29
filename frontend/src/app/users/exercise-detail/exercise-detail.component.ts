@@ -21,6 +21,7 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
   deleteModalVisible: boolean = false;
   userIsOwner: boolean = false;
 
+  notFound: boolean = false;
   loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
@@ -95,12 +96,20 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
       return;
     }
 
+    this.notFound = false;
+    this.userIsOwner = false;
+
     if (id) {
       this.loading = true;
       this.loadingService.load();
       this.service.getExercise(id).subscribe(exercise => {
         this.exercise = exercise;
-        this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
+        if (this.exercise) {
+          this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
+        }
+        else {
+          this.notFound = true;
+        }
         this.loading = false;
         this.loadingService.unload();
       });

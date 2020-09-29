@@ -341,11 +341,13 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
         if (this.workout && this.workout.plan) {
           if (this.adoptedPlans.filter(a => a.id == this.workout.plan).length == 0) {
               this.plansService.getPlan(this.workout.plan).subscribe(additionalPlan => {
-                this.adoptedPlans.push(additionalPlan);
+                if (additionalPlan) {
+                  this.adoptedPlans.push(additionalPlan);
 
-                this.planSessions = this.adoptedPlans
-                  .filter(plan => plan.id == this.workout.plan)
-                  .map(plan => plan.sessions)[0];
+                  this.planSessions = this.adoptedPlans
+                    .filter(plan => plan.id == this.workout.plan)
+                    .map(plan => plan.sessions)[0];
+                }
 
                 this.loadingAdoptedPlans = false;
               });

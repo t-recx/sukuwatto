@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../post';
 import {Location} from '@angular/common';
+import { PostsService } from '../posts.service';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -12,12 +14,16 @@ import {Location} from '@angular/common';
 export class PostDetailComponent implements OnInit,OnDestroy {
   id: number;
 
+  notFound = false;
+  post: Post = null;
   paramChangedSubscription: Subscription;
 
   constructor(
     private router: Router,
     route: ActivatedRoute,
     private location: Location,
+    private postsService: PostsService,
+    private loadingService: LoadingService,
   ) {
     this.paramChangedSubscription = route.paramMap.subscribe(val => {
       this.loadParameterDependentData(val.get('id'));
@@ -32,7 +38,18 @@ export class PostDetailComponent implements OnInit,OnDestroy {
   }
 
   loadParameterDependentData(id: string) {
+    this.notFound = false;
+    this.loadingService.load();
     this.id = +id;
+
+    this.postsService.getPost(this.id).subscribe(post => {
+      this.post = post;
+
+      if (!this.post) {
+        this.notFound = true;
+      }
+      this.loadingService.unload();
+    });
   }
 
   postDeleted(post: Post) {

@@ -1,2 +1,8 @@
-<app-post-detail-card [id]=id [showHeader]=true [commentsSectionOpen]=true
-(deleted)="postDeleted($event)"></app-post-detail-card>
+<div *ngIf="notFound">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+<div *ngIf="post">
+    <app-post-detail-card [post]=post [showHeader]=true [commentsSectionOpen]=true (deleted)="postDeleted($event)">
+    </app-post-detail-card>
+</div>

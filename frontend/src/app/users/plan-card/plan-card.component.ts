@@ -87,6 +87,9 @@ export class PlanCardComponent implements OnInit {
   }
 
   private setupPlan(p: Plan) {
+    if (!p) {
+      return;
+    }
     this.routerLink = ['/users', p.user.username, 'plan', p.id];
     this.setAdoptButtonVisibility();
     this.unitsService.convertPlan(p);
