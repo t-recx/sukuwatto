@@ -67,7 +67,9 @@ export class PostsService {
         }),
         catchError(this.errorService.handleError<Post>('getPost', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch post');
+          if (e && e.status && e.status != 404) { 
+            this.alertService.error('Unable to fetch post');
+          }
         }, null))
       );
   }

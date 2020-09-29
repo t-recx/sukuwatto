@@ -66,8 +66,10 @@ export class ExercisesService {
         map(response => this.getProperlyTypedExercise(response)),
         catchError(this.errorService.handleError<Exercise>('getExercise', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch exercise');
-        }, new Exercise()))
+          if (e && e.status && e.status != 404) { 
+            this.alertService.error('Unable to fetch exercise');
+          }
+        }, null))
       );
   }
 

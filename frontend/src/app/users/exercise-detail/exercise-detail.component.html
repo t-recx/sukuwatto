@@ -5,8 +5,14 @@
 
 <div *ngIf="!loading">
     <div *ngIf="!userIsOwner">
-        <app-exercise-card [exercise]=exercise [commentsSectionOpen]=true [detailView]=true>
-        </app-exercise-card>
+        <div *ngIf="notFound">
+            <app-page-not-found>
+            </app-page-not-found>
+        </div>
+        <div *ngIf="exercise">
+            <app-exercise-card [exercise]=exercise [commentsSectionOpen]=true [detailView]=true>
+            </app-exercise-card>
+        </div>
     </div>
 
     <div *ngIf="userIsOwner">

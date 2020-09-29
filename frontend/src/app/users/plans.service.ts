@@ -180,8 +180,10 @@ export class PlansService {
         map(response => this.getProperlyTypedPlan(response)),
         catchError(this.errorService.handleError<Plan>('getPlan', (e: any) => 
         { 
-          this.alertService.error('Unable to fetch plan');
-        }, new Plan()))
+          if (e && e.status && e.status != 404) { 
+            this.alertService.error('Unable to fetch plan');
+          }
+        }, null))
       );
   }
 

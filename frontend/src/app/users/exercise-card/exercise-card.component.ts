@@ -58,6 +58,10 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
   }
 
   private setupExercise(e: Exercise) {
+    if (!e) {
+      return;
+    }
+
     this.routerLink = ['/users', this.username, 'exercise', this.exercise.id];
     this.shareTitle = 'sukuwatto: ' + e.name + ' exercise';
     this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);

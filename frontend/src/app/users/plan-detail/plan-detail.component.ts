@@ -37,6 +37,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   saving: boolean = false;
   savingAndAdopting: boolean = false;
   deleting: boolean = false;
+  notFound: boolean = false;
 
   pausedSubscription: Subscription;
   resumedSubscription: Subscription;
@@ -137,15 +138,24 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
+    this.notFound = false;
+    this.userIsOwner = false;
+
     if (id) {
       this.loading = true;
       this.loadingService.load();
       this.service.getPlan(id).subscribe(plan => {
         this.plan = plan;
-        this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
-        if (this.plan.sessions && this.plan.sessions.length > 0) {
-          this.selectedSession = this.plan.sessions[0];
+        if (this.plan) {
+          this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
+          if (this.plan.sessions && this.plan.sessions.length > 0) {
+            this.selectedSession = this.plan.sessions[0];
+          }
         }
+        else {
+          this.notFound = true;
+        }
+
         this.loading = false;
         this.loadingService.unload();
       });

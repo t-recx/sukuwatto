@@ -70,12 +70,14 @@ export class PostDetailCardComponent implements OnInit {
 
   private setupPost(p: Post) {
     this.post = p;
-    this.postImages = !this.post.post_images ? [] : this.post.post_images.map(u => u.url);
-    this.selectCurrentImage();
-    this.checkOwner();
-    this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
-    this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
-    this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+    if (this.post) {
+      this.postImages = !this.post.post_images ? [] : this.post.post_images.map(u => u.url);
+      this.selectCurrentImage();
+      this.checkOwner();
+      this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
+      this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
+      this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+    }
   }
 
   checkOwner() {
