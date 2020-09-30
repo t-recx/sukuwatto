@@ -1,0 +1,5 @@
+<div class="map" leaflet [class.maximized]="workoutActivity.maximized"
+    [(leafletCenter)]="workoutActivity.center" [leafletOptions]="options"
+    [leafletFitBounds]="fitBounds" (leafletMapReady)="onMapReady($event)">
+    <div *ngIf="route" [leafletLayer]="route"></div>
+</div>

@@ -1,0 +1,21 @@
+.map {
+  position: relative;
+  height: 300px;
+  padding: 0;
+  z-index: 10;
+}
+
+.leaflet-container {
+  font-size: 12px;
+  line-height: 1.5;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.maximized {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 600;
+}
