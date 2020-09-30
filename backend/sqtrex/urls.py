@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/mets/', get_mets, name='mets'),
     path('api/user-available-chart-data/', get_available_chart_data, name='user-available-chart-data'),
     path('api/workout-last/', workout_views.get_last_workout, name='workout-last'),
+    path('api/workouts-overview-list/', workout_views.WorkoutOverviewList.as_view(), name='workouts-overview-list'),
     path('api/workouts-by-date/', workout_views.get_workouts_by_date, name='workouts-by-date'),
     path('api/workout-last-position/', workout_views.get_last_workout_position, name='workout-last-position'),
     path('api/workout-group-last/', workout_views.get_last_workout_group, name='workout-group-last'),

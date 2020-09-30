@@ -122,17 +122,13 @@ class WorkoutSetNoPositionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutSet
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 
-            'weight', 'expected_weight', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
-            'speed_type', 'expected_speed', 'expected_speed_up_to', 'speed',
-            'vo2max_type', 'expected_vo2max', 'expected_vo2max_up_to', 'vo2max',
-            'distance_type', 'expected_distance', 'expected_distance_up_to', 'distance',
-            'time_type', 'expected_time', 'expected_time_up_to', 'time',
-            'working_distance_percentage',
-            'working_time_percentage',
-            'working_speed_percentage',
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'number_of_repetitions', 
+            'weight', 'done', 'working_weight_percentage', 
+            'speed_type', 'speed',
+            'vo2max_type', 'vo2max',
+            'distance_type', 'distance',
+            'time_type', 'time',
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
-            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
             'tracking',
             'segments',
             'calories', 'met', 'met_set_by_user', 'energy_unit'
@@ -145,17 +141,13 @@ class WorkoutWarmUpNoPositionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutWarmUp
-        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'expected_number_of_repetitions', 'expected_number_of_repetitions_up_to', 'number_of_repetitions', 
-            'weight', 'expected_weight', 'done', 'plan_session_group_activity', 'working_weight_percentage', 'in_progress',
-            'speed_type', 'expected_speed', 'expected_speed_up_to', 'speed',
-            'vo2max_type', 'expected_vo2max', 'expected_vo2max_up_to', 'vo2max',
-            'distance_type', 'expected_distance', 'expected_distance_up_to', 'distance',
-            'time_type', 'expected_time', 'expected_time_up_to', 'time',
-            'working_distance_percentage',
-            'working_time_percentage',
-            'working_speed_percentage',
+        fields = ['id', 'order', 'start', 'end', 'exercise', 'repetition_type', 'number_of_repetitions', 
+            'weight', 'done', 'working_weight_percentage', 
+            'speed_type', 'speed',
+            'vo2max_type', 'vo2max',
+            'distance_type', 'distance',
+            'time_type', 'time',
             'weight_unit', 'speed_unit', 'time_unit', 'distance_unit',
-            'plan_weight_unit', 'plan_speed_unit', 'plan_time_unit', 'distance_unit',
             'tracking',
             'segments',
             'calories', 'met', 'met_set_by_user', 'energy_unit'

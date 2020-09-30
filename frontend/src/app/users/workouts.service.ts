@@ -20,6 +20,7 @@ import { UserAvailableChartData } from './user-available-chart-data';
 })
 export class WorkoutsService {
   private workoutsUrl= `${environment.apiUrl}/workouts/`;
+  private workoutsOverviewUrl= `${environment.apiUrl}/workouts-overview-list/`;
   private workoutVisibleUrl= `${environment.apiUrl}/workout-visible/`;
   private workoutEditableUrl= `${environment.apiUrl}/workout-editable/`;
   private workoutsByDateUrl= `${environment.apiUrl}/workouts-by-date/`;
@@ -102,6 +103,49 @@ export class WorkoutsService {
         {
           this.alertService.error('Unable to fetch workouts');
         }, []))
+      );
+  }
+
+  getWorkoutsOverview (username: string, page: number = null, page_size: number = null, search_filter: string = null, start__gte: Date, start__lte: Date): Observable<Paginated<Workout>> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('user__username', username);
+    }
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+
+    if (page_size) {
+      params = params.set('page_size', page_size.toString());
+    }
+
+    if (search_filter) {
+      params = params.set('search', search_filter.toString());
+    }
+
+    if (start__lte) {
+      params = params.set('start__lte', start__lte.toISOString());
+    }
+
+    if (start__gte) {
+      params = params.set('start__gte', start__gte.toISOString());
+    }
+
+    if (username || page || page_size || search_filter || start__lte || start__gte) {
+      options = {params: params};
+    }
+
+    return this.http.get<Paginated<Workout>>(`${this.workoutsOverviewUrl}`, options)
+      .pipe(
+        map(response => {
+          if (response.results) {
+            response.results = this.getProperlyTypedWorkouts(response.results);
+          }
+          return response;
+        })
       );
   }
 

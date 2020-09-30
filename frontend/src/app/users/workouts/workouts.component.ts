@@ -117,7 +117,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
       this.queryParams = this.getQueryParams();
 
       this.workoutsService
-      .getWorkouts(username, pageParameter, this.pageSize, this.searchFilter, this.fromDate, this.toDate)
+      .getWorkoutsOverview(username, pageParameter, this.pageSize, this.searchFilter, this.fromDate, this.toDate)
       .pipe(
         catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => 
         { 

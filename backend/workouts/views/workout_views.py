@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics, status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
 from workouts.models import Workout, WorkingParameter, WorkoutWarmUp, WorkoutSet, WorkoutGroup, WorkoutSetPosition
-from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutNoPositionsSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer
+from workouts.serializers.workout_serializer import WorkoutSerializer, WorkoutFlatSerializer, WorkoutNoPositionsSerializer, WorkoutSetPositionSerializer, WorkingParameterSerializer, WorkoutWarmUpSerializer, WorkoutSetSerializer, WorkoutGroupSerializer, WorkoutOverviewSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from sqtrex.pagination import StandardResultsSetPagination
@@ -47,6 +47,39 @@ class WorkoutViewSet(StandardPermissionsMixin, VisibilityQuerysetMixin, viewsets
 
         return obj
 
+class WorkoutOverviewList(VisibilityQuerysetMixin, generics.ListAPIView):
+    """
+    """
+    serializer_class = WorkoutOverviewSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = {'user__username':['exact'], 'start': ['gte', 'lte']}
+    search_fields = ['name', 'plan__name', 'plan__short_name']
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        return self.get_queryset_visibility(Workout.objects.all().order_by('-start'), self.request.user)
+
+    def get_object(self):
+        # Perform the lookup filtering.
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+
+        assert lookup_url_kwarg in self.kwargs, (
+            'Expected view %s to be called with a URL keyword argument '
+            'named "%s". Fix your URL conf, or set the `.lookup_field` '
+            'attribute on the view correctly.' %
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+
+        queryset = self.get_queryset_visibility(Workout.objects.filter(**filter_kwargs), self.request.user)
+
+        obj = get_object_or_404(queryset, **filter_kwargs)
+
+        # May raise a permission denied
+        self.check_object_permissions(self.request, obj)
+
+        return obj
 
 @api_view(['GET'])
 def get_workouts_by_date(request):
