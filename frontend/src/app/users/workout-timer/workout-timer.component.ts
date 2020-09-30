@@ -4,6 +4,7 @@ import { Workout } from '../workout';
 import { WorkoutSet } from '../workout-set';
 import { map, takeUntil, repeatWhen } from 'rxjs/operators';
 import { WorkoutGroup } from '../workout-group';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-workout-timer',
@@ -20,11 +21,14 @@ export class WorkoutTimerComponent implements OnInit, OnDestroy {
   activityInProgress: WorkoutSet;
   visible: boolean = false;
   timerActive: boolean = false;
+  enabled: boolean = true;
 
   currentTimerDate: Date;
   private secondsTimer: Observable<any>;
   private workoutActivityStatusChangedSubscription: Subscription;
   private timerSubscription: Subscription;
+
+  faTimes = faTimes;
 
   constructor() { }
 
@@ -61,6 +65,10 @@ export class WorkoutTimerComponent implements OnInit, OnDestroy {
   }
 
   activityStatusChanged() {
+    if (!this.enabled) {
+      return;
+    }
+
     let activities: WorkoutSet[] = [];
 
     for (let group of this.workout.groups) {
@@ -116,5 +124,11 @@ export class WorkoutTimerComponent implements OnInit, OnDestroy {
     else {
       this.startTimer();
     }
+  }
+
+  disableTimer() {
+    this.stopTimer();
+    this.visible = false;
+    this.enabled = false;
   }
 }
