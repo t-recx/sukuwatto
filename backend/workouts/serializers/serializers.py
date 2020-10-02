@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask
+from workouts.models import Exercise, Muscle, MuscleExercise, Unit, UserBioData, MetabolicEquivalentTask
 from workouts.exercise_service import ExerciseService
 from users.serializers import UserSerializer
 from workouts.utils import get_differences
@@ -12,20 +12,66 @@ class MetabolicEquivalentTaskSerializer(serializers.ModelSerializer):
         fields = ['id', 'exercise', 'code', 'description', 'met', 'from_value', 'to_value', 'unit',
             'exercise_type', 'mechanics', 'force', 'modality', 'section', 'can_be_automatically_selected']
 
+class MuscleSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=Muscle()._meta.get_field('id'), required=False)
+
+    class Meta:
+        model = Muscle
+        fields = ['id', 'name', 'description']
+
+class MuscleExerciseSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=MuscleExercise()._meta.get_field('id'), required=False)
+    muscle = MuscleSerializer(required=False)
+
+    class Meta:
+        model = MuscleExercise
+        fields = ['id', 'muscle', 'role']
+
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
     user = UserSerializer(read_only=True)
+    muscles = MuscleExerciseSerializer(many=True, required=False)
 
     class Meta:
         model = Exercise
-        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'muscle', 'level', 'creation', 'user', 'likes', 'comment_number']
+        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'level', 'creation', 'user', 'likes', 'comment_number', 'muscles']
         read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
     def create(self, validated_data):
+        muscles_data = None
+
+        if 'muscles' in validated_data:
+            muscles_data = validated_data.pop('muscles')
+
         exercise = Exercise.objects.create(user=self.context.get("request").user, **validated_data)
 
+        if muscles_data is not None:
+            self.create_muscles(exercise, muscles_data)
+
         return exercise
+
+    def create_muscles(self, exercise, muscles_data):
+        for muscle_data in muscles_data:
+            muscle = muscle_data.pop('muscle')
+            muscle_model = Muscle.objects.get(pk=muscle['id'])
+            MuscleExercise.objects.create(exercise=exercise, muscle=muscle_model, 
+                **muscle_data)
+
+    def update_muscles(self, muscles_data):
+        for muscle_data in muscles_data:
+            instances = MuscleExercise.objects.filter(pk=muscle_data.get('id'))
+
+            if len(instances) == 0:
+                continue
+
+            instance = instances.first()
+
+            muscle = muscle_data.get('muscle')
+            muscle_model = Muscle.objects.get(pk=muscle['id'])
+            instance.muscle = muscle_model
+            instance.role = muscle_data.get('role', instance.role)
+            instance.save()
 
     def update(self, instance, validated_data):
         es = ExerciseService()
@@ -41,10 +87,28 @@ class ExerciseSerializer(serializers.ModelSerializer):
         instance.force = validated_data.get('force', instance.force)
         instance.modality = validated_data.get('modality', instance.modality)
         instance.section = validated_data.get('section', instance.section)
-        instance.muscle = validated_data.get('muscle', instance.muscle)
         instance.level = validated_data.get('level', instance.level)
 
         instance.save()
+
+        muscles_data = None
+        
+        if 'muscles' in validated_data:
+            muscles_data = validated_data.pop('muscles')
+
+        muscles = MuscleExercise.objects.filter(exercise=instance)
+
+        if muscles_data is not None:
+            new_data, updated_data, deleted_ids = get_differences(muscles_data, muscles.values())
+
+            self.create_muscles(instance, new_data)
+
+            self.update_muscles(updated_data)
+
+            muscles_to_delete = MuscleExercise.objects.filter(id__in=deleted_ids)
+            muscles_to_delete.delete()
+        else:
+            muscles.delete()
 
         return instance
 

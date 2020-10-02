@@ -76,7 +76,7 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
   }
 
   exerciseHasDescriptionFields(): boolean {
-    return (this.exercise.description != null && this.exercise.description.trim().length > 0) || 
-      (this.exercise.muscle != null && this.exercise.muscle.trim().length > 0);
+    return (this.exercise.description != null && this.exercise.description.trim().length > 0) ||
+    (this.exercise.muscles && this.exercise.muscles.length > 0);
   }
 }

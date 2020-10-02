@@ -114,7 +114,6 @@ class Exercise(models.Model):
     modality = models.CharField(max_length=1, null=True, choices=MODALITIES)
     section = models.CharField(max_length=1, null=True, choices=SECTIONS)
     user = models.ForeignKey(get_user_model(), null=True, on_delete=models.CASCADE)
-    muscle = models.CharField(max_length=200, null=True, blank=True)
     level = models.CharField(max_length=1, null=True, choices=LEVELS)
     creation = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
@@ -122,6 +121,32 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+
+class Muscle(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+
+class MuscleExercise(models.Model):
+    AGONIST = 'a'
+    ANTAGONIST = 'n'
+    SYNERGIST = 's'
+    FIXATOR = 'f'
+    TARGET = 't'
+    DYNAMIC_STABILIZER = 'd'
+    ANTAGONIST_STABILIZER = 'z'
+    ROLES = [
+        (AGONIST, 'Agonist'),
+        (ANTAGONIST, 'Antagonist'),
+        (SYNERGIST, 'Synergist'),
+        (FIXATOR, 'Fixator'),
+        (TARGET, 'Target'),
+        (DYNAMIC_STABILIZER, 'Dynamic stabilizer'),
+        (ANTAGONIST_STABILIZER, 'Antagonist stabilizer'),
+    ]
+
+    muscle = models.ForeignKey(Muscle, on_delete=models.CASCADE, null=False)
+    role = models.CharField(max_length=1, choices=ROLES)
+    exercise = models.ForeignKey(Exercise, null=False, related_name="muscles", on_delete=models.CASCADE)
 
 class MetabolicEquivalentTask(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, blank= True, null=True)

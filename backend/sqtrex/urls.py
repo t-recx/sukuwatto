@@ -3,7 +3,7 @@ from django.urls import include, path
 from rest_framework import routers
 from users.views import UserViewSet, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet, user_liked
-from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data
+from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data, MuscleList
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/owned-plans-paginated/', plan_views.OwnedPlansPaginatedList.as_view(), name='owned-plans-paginated'),
     path('api/adopted-plans-paginated/', plan_views.AdoptedPlansPaginatedList.as_view(), name='adopted-plans-paginated'),
     path('api/plans-paginated/', plan_views.PlanPaginatedList.as_view(), name='plans-paginated'),
+    path('api/muscles/', MuscleList.as_view(), name='muscles'),
     path('api/metabolic-equivalent-tasks/', MetabolicEquivalentTaskList.as_view(), name='metabolic-equivalent-tasks'),
     path('api/mets/', get_mets, name='mets'),
     path('api/user-available-chart-data/', get_available_chart_data, name='user-available-chart-data'),
