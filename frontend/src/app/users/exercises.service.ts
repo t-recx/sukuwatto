@@ -105,7 +105,6 @@ export class ExercisesService {
       exercise.mechanics = null;
       exercise.modality = null;
       exercise.section = null;
-      exercise.muscle = null;
     }
 
     if (exercise.id && exercise.id > 0) {
@@ -192,6 +191,15 @@ export class ExercisesService {
 
     if (!exercise.exercise_type) {
       return false;
+    }
+
+    if (exercise.muscles) {
+      if (exercise.muscles.filter(m => !m.muscle || !m.muscle.id).length > 0) {
+        return false;
+      }
+      if (exercise.muscles.filter(m => !m.role).length > 0) {
+        return false;
+      }
     }
 
     return true;

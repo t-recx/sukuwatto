@@ -1,4 +1,5 @@
 import { User } from '../user';
+import { MuscleExercise } from './muscle-exercise';
 
 export enum ExerciseType {
     Cardio = 'c',
@@ -87,7 +88,7 @@ export class Exercise {
     forceLabel: string;
     mechanics: Mechanics;
     mechanicsLabel: string;
-    muscle: string;
+    muscles: MuscleExercise[];
     level: Level;
     levelLabel: string;
     user: User;
@@ -97,5 +98,8 @@ export class Exercise {
 
     constructor(init?: Partial<Exercise>) {
         Object.assign(this, init);
+        if (!this.muscles) {
+          this.muscles = [];
+        }
     }
 }

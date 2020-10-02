@@ -1,15 +1,61 @@
 <div *ngIf="exercise.description">
-    <h4 class="siimple-h4 siimple--mt-0">
+    <!-- <h4 class="siimple-h4 siimple--mt-0">
         Description
-    </h4>
+    </h4> -->
     <p class="siimple-p keep-original-formatting">{{exercise.description}}</p>
 </div>
 
-<div *ngIf="exercise.muscle">
-    <h4 class="siimple-h4 siimple--mt-0">
-        Muscles targeted
-    </h4>
-    <ul class="muscle-list">
-        <li>{{exercise.muscle}}</li>
-    </ul>
+<div *ngIf="exercise.muscles">
+    <!-- <h4 class="siimple-h4 siimple--mt-0">
+        Muscles
+    </h4> -->
+
+    <div *ngIf="targetMuscles && targetMuscles.length > 0">
+        <h5 class="muscle-header">Target</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of targetMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="agonistMuscles && agonistMuscles.length > 0">
+        <h5 class="muscle-header">Agonists</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of agonistMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="antagonistMuscles && antagonistMuscles.length > 0">
+        <h5 class="muscle-header">Antagonists</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of antagonistMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="synergistMuscles && synergistMuscles.length > 0">
+        <h5 class="muscle-header">Synergists</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of synergistMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="fixatorMuscles && fixatorMuscles.length > 0">
+        <h5 class="muscle-header">Fixators</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of fixatorMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="dynamicStabilizerMuscles && dynamicStabilizerMuscles.length > 0">
+        <h5 class="muscle-header">Dynamic stabilizers</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of dynamicStabilizerMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
+
+    <div *ngIf="antagonistStabilizerMuscles && antagonistStabilizerMuscles.length > 0">
+        <h5 class="muscle-header">Antagonist stabilizers</h5>
+        <ul class="muscle-list">
+            <li *ngFor="let muscleExercise of antagonistStabilizerMuscles">{{muscleExercise.name}}</li>
+        </ul>
+    </div>
 </div>

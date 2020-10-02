@@ -7,8 +7,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
-from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer
-from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet
+from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer
+from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet, Muscle
 from sqtrex.pagination import StandardResultsSetPagination
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.exercise_service import ExerciseService
@@ -37,6 +37,10 @@ class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     pagination_class = StandardResultsSetPagination
     search_fields = ['name']
     ordering_fields = ['name', 'mechanics', 'force', 'section', 'modality']
+
+class MuscleList(ListAPIView):
+    queryset = Muscle.objects.all().order_by('name')
+    serializer_class = MuscleSerializer
 
 class MetabolicEquivalentTaskList(ListAPIView):
     queryset = MetabolicEquivalentTask.objects.all()

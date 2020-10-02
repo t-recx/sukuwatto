@@ -2,3 +2,14 @@
     list-style-type: disc;
     padding-left: 40px;
 }
+
+.muscle-header {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 22px;
+    color: #546778;
+    padding: 0;
+    margin-bottom: .5em;
+    margin-top: 0 !important;
+}
