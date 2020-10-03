@@ -32,8 +32,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   @Input() quickActivity: boolean = false;
   pausedSubscription: Subscription;
   finishGeolocationActivities: Subscription;
+  refreshExpiredSubscription: Subscription;
 
   notFound: boolean = false;
+  refreshExpired: boolean = false;
 
   ngAfterViewInit(): void {
     this.serializerUtils.restoreScrollPosition();
@@ -54,7 +56,16 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
     this.finishGeolocationActivities.unsubscribe();
+    this.refreshExpiredSubscription.unsubscribe();
 
+    if (!this.refreshExpired) {
+      this.removeSerialization();
+    }
+
+    this.refreshExpired = false;
+  }
+
+  private removeSerialization() {
     localStorage.removeItem(this.stateWorkoutId);
     localStorage.removeItem(this.statePreviousWorkoutId);
     localStorage.removeItem(this.stateNotesVisibilityId);
@@ -224,6 +235,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     this.triedToSave = false;
     this.userBioData = null;
     this.deleteModalVisible = false;
+    this.refreshExpired = false;
 
     this.route.paramMap.subscribe(params => this.loadViewData(params.get('username'), params.get('id')));
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
@@ -231,6 +243,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       if (this.quickActivity) {
         this.showFinishWorkoutModal();
       }
+    });
+    this.refreshExpiredSubscription = this.authService.refreshExpired.subscribe(x => {
+      this.serialize();
+      this.refreshExpired = true;
     });
   }
 

@@ -31,8 +31,10 @@ export class MeasurementDetailComponent implements OnInit, AfterViewInit, OnDest
   faCircleNotch = faCircleNotch;
 
   pausedSubscription: Subscription;
+  refreshExpiredSubscription: Subscription;
 
   notFound: boolean = false;
+  refreshExpired: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,16 +53,29 @@ export class MeasurementDetailComponent implements OnInit, AfterViewInit, OnDest
 
   ngOnInit() {
     this.triedToSave = false;
+    this.refreshExpired = false;
 
     this.route.paramMap.subscribe(params =>
       this.loadOrInitializeUserBioData(params.get('id')));
 
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+    this.refreshExpiredSubscription = this.authService.refreshExpired.subscribe(x => {
+      this.serialize();
+      this.refreshExpired = true;
+    });
   }
 
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
+    this.refreshExpiredSubscription.unsubscribe();
 
+    if (!this.refreshExpired) {
+      this.removeSerialization();
+    }
+    this.refreshExpired = false;
+  }
+
+  private removeSerialization() {
     localStorage.removeItem('state_measurement_has_state');
     localStorage.removeItem('state_measurement_detail_measurement');
     this.serializerUtils.removeScrollPosition();
@@ -100,6 +115,7 @@ export class MeasurementDetailComponent implements OnInit, AfterViewInit, OnDest
 
     this.notFound = false;
     this.userIsOwner = false;
+    this.refreshExpired = false;
 
     if (id) {
       this.loading = true;

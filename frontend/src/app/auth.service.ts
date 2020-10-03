@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from './token';
 import { User } from './user';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { catchError, tap, concatMap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
@@ -16,6 +16,7 @@ import { Visibility } from './visibility';
 })
 export class AuthService {
   redirectUrl: string = null;
+  refreshExpired = new Subject();
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

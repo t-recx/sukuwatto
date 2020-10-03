@@ -38,9 +38,11 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   savingAndAdopting: boolean = false;
   deleting: boolean = false;
   notFound: boolean = false;
+  refreshExpired: boolean = false;
 
   pausedSubscription: Subscription;
   resumedSubscription: Subscription;
+  refreshExpiredSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,17 +62,31 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
     //this.resumedSubscription = this.cordovaService.paused.subscribe(() => this.restore());
+    this.refreshExpired = false;
 
     this.route.paramMap.subscribe(params => {
       this.triedToSave = false;
       this.loadOrInitializePlan(params.get('id'));
     });
+    this.refreshExpiredSubscription = this.authService.refreshExpired.subscribe(x => {
+      this.serialize();
+      this.refreshExpired = true;
+    });
   }
 
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
+    this.refreshExpiredSubscription.unsubscribe();
     //this.resumedSubscription.unsubscribe();
 
+    if (!this.refreshExpired) {
+      this.removeSerialization();
+    }
+
+    this.refreshExpired = false;
+  }
+
+  private removeSerialization() {
     localStorage.removeItem('state_plan_detail_has_state');
     localStorage.removeItem('state_plan_detail_selected_session_index');
     localStorage.removeItem('state_plan_detail_plan');
@@ -120,7 +136,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.plan.sessions && this.plan.sessions.length > 0) {
-      if (sessionIndex && sessionIndex < this.plan.sessions.length) {
+      if (sessionIndex != null && sessionIndex < this.plan.sessions.length) {
         this.selectedSession = this.plan.sessions[sessionIndex];
       }
     }
@@ -140,6 +156,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.notFound = false;
     this.userIsOwner = false;
+    this.refreshExpired = false;
 
     if (id) {
       this.loading = true;
