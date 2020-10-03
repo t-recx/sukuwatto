@@ -30,6 +30,10 @@
         </app-user-tag>
 
         <div class="comment-date">
+            <small class="siimple-small siimple--text-bold tooltip siimple--mr-1" *ngIf="comment.action_object_comment && comment.action_object_comment.edited_date">
+                edited
+            </small>
+
             <small class="siimple-small">{{comment.timestamp.toString() | timeAgo}}</small>
         </div>
 

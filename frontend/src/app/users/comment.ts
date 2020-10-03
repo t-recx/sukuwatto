@@ -15,5 +15,6 @@ export class Comment {
     target_user_bio_data: number;
 
     date: Date;
+    edited_date: Date;
     user: User;
 }

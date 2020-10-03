@@ -155,7 +155,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   }
 
   setComments(stream: Action[]) {
-    this.commentActions = stream.filter(a => a.verb == 'commented');
+    this.commentActions = stream.filter(a => a.verb == 'commented').sort((a,b) => a.timestamp.valueOf() - b.timestamp.valueOf());
   }
 
   checkIfUserLikedContent() {
