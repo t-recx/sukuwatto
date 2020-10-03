@@ -84,7 +84,7 @@ export class PieChartComponent implements OnInit, OnChanges {
       .attr("fill", d => color(d.data.name))
       .attr("d", <any>arc)
       .append("title")
-      .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
+      .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}%`);
 
     
     const fontSize = environment.application ? 10 : 8;

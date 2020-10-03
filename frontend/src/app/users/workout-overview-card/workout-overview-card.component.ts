@@ -35,7 +35,6 @@ export class WorkoutOverviewCardComponent implements OnInit {
   strengthWorkoutActivities: WorkoutOverview[] = [];
 
   deleteModalVisible: boolean = false;
-  dateString: string;
 
   deleting: boolean = false;
 
@@ -52,12 +51,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
     private workoutsService: WorkoutsService,
     private authService: AuthService,
     private router: Router,
-    private timeService: TimeService,
   ) { }
-
-  getTimeToHumanReadable(activity: WorkoutSet) {
-    return this.timeService.toHumanReadable(this.unitsService.convert(activity.time, activity.time_unit, 'ms'));
-  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -66,7 +60,6 @@ export class WorkoutOverviewCardComponent implements OnInit {
   ngOnInit() {
     this.deleteModalVisible = false;
     this.deleting = false;
-    this.dateString = null;
 
     if (!this.workout) {
       this.workoutsService.getWorkout(this.id)
@@ -94,10 +87,6 @@ export class WorkoutOverviewCardComponent implements OnInit {
     this.setCardioWorkoutActivities(workout);
 
     this.strengthWorkoutActivities = this.getResumedStrengthActivities(workout);
-
-    if (workout.start) {
-      this.dateString = (new Date(workout.start)).toLocaleDateString();
-    }
 
     this.routerLink = ['/users', workout.user.username, 'workout', workout.id];
     this.shareTitle = 'sukuwatto: ' + workout.user.username + '\'s workout - ' + workout.name;

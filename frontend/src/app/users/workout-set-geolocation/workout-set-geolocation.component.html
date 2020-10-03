@@ -68,24 +68,24 @@
                     <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
                     <div class="siimple-grid-col siimple-grid-col--6" align="right"
                         *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance < 1">
-                        {{distanceInSmallerUnit}}{{distanceSmallerUnit.abbreviation}}
+                        {{distanceInSmallerUnit |locale}}{{distanceSmallerUnit.abbreviation}}
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6" align="right"
                         *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance >= 1">
-                        {{workoutActivity.distance}}{{distanceUnit.abbreviation}}
+                        {{workoutActivity.distance|locale}}{{distanceUnit.abbreviation}}
                     </div>
                 </div>
                 <div class="siimple-grid-row stats-item">
                     <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
                     <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
-                        {{workoutActivity.speed}}{{speedUnit.abbreviation}}
+                        {{workoutActivity.speed|locale}}{{speedUnit.abbreviation}}
                     </div>
                 </div>
                 <div class="siimple-grid-row stats-item "
                 [class.clickable]="allowEdit"
                 (click)="toggleCaloriesDetail()">
                     <div class="siimple-grid-col siimple-grid-col--5">Energy</div>
-                    <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">{{workoutActivity.calories}}{{energyUnit.abbreviation}}</div>
+                    <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">{{workoutActivity.calories|locale}}{{energyUnit.abbreviation}}</div>
                 </div>
                 <div class="siimple-grid-row stats-item" *ngIf="workoutActivity.caloriesDetailed && allowEdit">
                     <div class="siimple-grid-col siimple-grid-col--12">

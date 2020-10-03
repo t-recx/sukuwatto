@@ -15,7 +15,7 @@
                         </div>
                         <div align="right" class="siimple-table-cell siimple--text-bold weight-table-cell"
                             [style.color]="colors[series.name]">
-                            {{getWorkoutTopValue(series)}} {{weightUnitCode}}
+                            {{getWorkoutTopValue(series)|locale}} {{weightUnitCode}}
                         </div>
                         <div align="center" class="siimple-table-cell">
                             <span class="siimple-tag siimple-tag--success" *ngIf="isPR(series)">PR</span>

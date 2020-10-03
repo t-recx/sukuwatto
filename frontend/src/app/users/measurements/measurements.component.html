@@ -28,7 +28,7 @@
         <tr class="siimple-table-row link-row" *ngFor="let measurement of measurements; trackBy: measurementTracker"
             (click)="navigate(measurement)">
             <td class="siimple-table-cell">{{measurement.date | date: 'short' }}</td>
-            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.weight">{{measurement.weight}} {{getUnitCode(measurement.weight_unit)}}</span></td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.weight">{{measurement.weight |locale}} {{getUnitCode(measurement.weight_unit)}}</span></td>
         </tr>
     </tbody>
 </table>
@@ -59,9 +59,9 @@
         <tr class="siimple-table-row link-row" *ngFor="let measurement of measurements; trackBy: measurementTracker"
             (click)="navigate(measurement)">
             <td class="siimple-table-cell">{{measurement.date | date: 'short' }}</td>
-            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.weight">{{measurement.weight}} {{getUnitCode(measurement.weight_unit)}}</span></td>
-            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.body_fat_percentage">{{measurement.body_fat_percentage}}%</span></td>
-            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.muscle_mass_percentage">{{measurement.muscle_mass_percentage}}%</span> </td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.weight">{{measurement.weight |locale}} {{getUnitCode(measurement.weight_unit)}}</span></td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.body_fat_percentage">{{measurement.body_fat_percentage |locale}}%</span></td>
+            <td class="siimple-table-cell" align="right"><span *ngIf="measurement.muscle_mass_percentage">{{measurement.muscle_mass_percentage |locale}}%</span> </td>
         </tr>
     </tbody>
 </table>

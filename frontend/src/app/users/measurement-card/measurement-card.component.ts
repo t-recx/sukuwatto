@@ -20,8 +20,6 @@ export class MeasurementCardComponent implements OnInit {
   shareTitle: string;
   shareLink: string;
 
-  dateString: string;
-
   constructor(
     private router: Router,
     private userProgressService: UserProgressService,
@@ -47,7 +45,6 @@ export class MeasurementCardComponent implements OnInit {
       this.routerLink = ['/users', measurement.user.username, 'measurement', measurement.id];
       this.shareTitle = 'sukuwatto: ' + measurement.user.username + '\'s measurement (' + measurement.creation.toLocaleDateString() + ')';
       this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
-      this.dateString = this.userBioData.date.toLocaleDateString();
     }
   }
 

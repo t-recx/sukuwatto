@@ -30,11 +30,8 @@ style="padding: 10px;"
             </span>
 
             <span *ngIf="workoutActivity.speed && !workoutActivity.tracking">
-                <span *ngIf="workoutActivity.speed % 1 == 0">
-                    {{workoutActivity.speed | number: '1.0-0'}}
-                </span>
-                <span *ngIf="workoutActivity.speed % 1 != 0">
-                    {{workoutActivity.speed}}
+                <span >
+                    {{workoutActivity.speed |locale}}
                 </span>
             </span>
 
@@ -42,20 +39,14 @@ style="padding: 10px;"
                 <span *ngIf="workoutActivity.speed_type==speedType.Standard ||
                     workoutActivity.speed_type==speedType.Range ||
                     workoutActivity.speed_type==speedType.Parameter">
-                    <span *ngIf="workoutActivity.expected_speed % 1 == 0">
-                        {{workoutActivity.expected_speed | number: '1.0-0'}}
-                    </span>
-                    <span *ngIf="workoutActivity.expected_speed % 1 != 0">
-                        {{workoutActivity.expected_speed}}
+                    <span >
+                        {{workoutActivity.expected_speed |locale}}
                     </span>
                 </span>
                 <span *ngIf="workoutActivity.speed_type==speedType.Range">
                     -
-                    <span *ngIf="workoutActivity.expected_speed_up_to % 1 == 0">
-                        {{workoutActivity.expected_speed_up_to | number: '1.0-0'}}
-                    </span>
-                    <span *ngIf="workoutActivity.expected_speed_up_to % 1 != 0">
-                        {{workoutActivity.expected_speed_up_to}}
+                    <span >
+                        {{workoutActivity.expected_speed_up_to |locale}}
                     </span>
                 </span>
                 <span *ngIf="workoutActivity.speed_type==speedType.AFAP">
@@ -75,11 +66,8 @@ style="padding: 10px;"
             </span>
 
             <span *ngIf="workoutActivity.distance && !workoutActivity.tracking">
-                <span *ngIf="workoutActivity.distance % 1 == 0">
-                    {{workoutActivity.distance | number: '1.0-0'}}
-                </span>
-                <span *ngIf="workoutActivity.distance % 1 != 0">
-                    {{workoutActivity.distance}}
+                <span >
+                    {{workoutActivity.distance |locale}}
                 </span>
             </span>
 
@@ -87,20 +75,14 @@ style="padding: 10px;"
                 <span *ngIf="workoutActivity.distance_type==distanceType.Standard ||
                     workoutActivity.distance_type==distanceType.Range ||
                     workoutActivity.distance_type==distanceType.Parameter">
-                    <span *ngIf="workoutActivity.expected_distance % 1 == 0">
-                        {{workoutActivity.expected_distance | number: '1.0-0'}}
-                    </span>
-                    <span *ngIf="workoutActivity.expected_distance % 1 != 0">
-                        {{workoutActivity.expected_distance}}
+                    <span >
+                        {{workoutActivity.expected_distance | locale}}
                     </span>
                 </span>
                 <span *ngIf="workoutActivity.distance_type==distanceType.Range">
                     -
-                    <span *ngIf="workoutActivity.expected_distance_up_to % 1 == 0">
-                        {{workoutActivity.expected_distance_up_to | number: '1.0-0'}}
-                    </span>
-                    <span *ngIf="workoutActivity.expected_distance_up_to % 1 != 0">
-                        {{workoutActivity.expected_distance_up_to}}
+                    <span >
+                        {{workoutActivity.expected_distance_up_to |locale}}
                     </span>
                 </span>
             </span>
@@ -126,11 +108,8 @@ style="padding: 10px;"
             </span>
 
             <span *ngIf="workoutActivity.time && !workoutActivity.tracking">
-                <span *ngIf="workoutActivity.time % 1 == 0">
-                    {{workoutActivity.time | number: '1.0-0'}}
-                </span>
-                <span *ngIf="workoutActivity.time % 1 != 0">
-                    {{workoutActivity.time}}
+                <span>
+                    {{workoutActivity.time |locale}}
                 </span>
             </span>
 
@@ -138,20 +117,14 @@ style="padding: 10px;"
                 <span *ngIf="workoutActivity.time_type==timeType.Standard ||
                     workoutActivity.time_type==timeType.Range ||
                     workoutActivity.time_type==timeType.Parameter">
-                    <span *ngIf="workoutActivity.expected_time % 1 == 0">
-                        {{workoutActivity.expected_time | number: '1.0-0'}}
-                    </span>
-                    <span *ngIf="workoutActivity.expected_time % 1 != 0">
-                        {{workoutActivity.expected_time}}
+                    <span >
+                        {{workoutActivity.expected_time |locale}}
                     </span>
                 </span>
                 <span *ngIf="workoutActivity.time_type==timeType.Range">
                     -
-                    <span *ngIf="workoutActivity.expected_time_up_to % 1 == 0">
-                        {{workoutActivity.expected_time_up_to | number: '1.0-0'}}
-                    </span>
-                    <span *ngIf="workoutActivity.expected_time_up_to % 1 != 0">
-                        {{workoutActivity.expected_time_up_to}}
+                    <span >
+                        {{workoutActivity.expected_time_up_to |locale}}
                     </span>
                 </span>
             </span>
@@ -167,26 +140,20 @@ style="padding: 10px;"
             </span>
 
             <span *ngIf="workoutActivity.vo2max">
-                <span>{{workoutActivity.vo2max | number: '1.0-0'}}%</span>
+                <span>{{workoutActivity.vo2max | locale}}%</span>
             </span>
 
             <span *ngIf="!workoutActivity.vo2max">
                 <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Standard ||
                     workoutActivity.vo2max_type == vo2MaxType.Range">
-                    <span *ngIf="workoutActivity.expected_vo2max % 1 == 0">
-                        {{workoutActivity.expected_vo2max | number: '1.0-0'}}%
-                    </span>
-                    <span *ngIf="workoutActivity.expected_vo2max % 1 != 0">
-                        {{workoutActivity.expected_vo2max}}%
+                    <span >
+                        {{workoutActivity.expected_vo2max |locale}}%
                     </span>
                 </span>
                 <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Range">
                     -
-                    <span *ngIf="workoutActivity.expected_vo2max_up_to % 1 == 0">
-                        {{workoutActivity.expected_vo2max_up_to | number: '1.0-0'}}%
-                    </span>
-                    <span *ngIf="workoutActivity.expected_vo2max_up_to % 1 != 0">
-                        {{workoutActivity.expected_vo2max_up_to}}%
+                    <span >
+                        {{workoutActivity.expected_vo2max_up_to |locale}}%
                     </span>
                 </span>
             </span>
@@ -202,11 +169,8 @@ style="padding: 10px;"
             x
         </span>
         <span *ngIf="workoutActivity.weight">
-            <span *ngIf="workoutActivity.weight % 1 == 0">
-                {{workoutActivity.weight | number: '1.0-0'}}
-            </span>
-            <span *ngIf="workoutActivity.weight % 1 != 0">
-                {{workoutActivity.weight}}
+            <span >
+                {{workoutActivity.weight |locale}}
             </span>
             <span>
                 {{getUnitCode(workoutActivity.weight_unit)}}
