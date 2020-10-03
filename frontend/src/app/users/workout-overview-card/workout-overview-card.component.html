@@ -16,8 +16,8 @@
         <fa-icon class="loading-delete-icon siimple--ml-2" [icon]="faCircleNotch" [spin]=true *ngIf="deleting">
         </fa-icon>
 
-        <span class="siimple--float-right siimple-small" *ngIf="dateString && !detailView">
-            {{dateString}}
+        <span class="siimple--float-right siimple-small" *ngIf="workout.start && !detailView">
+            {{workout.start |localeDate}}
         </span>
     </header>
     <div class="siimple-card-body">
@@ -39,20 +39,20 @@
                         </span>
                         <span class="tracked-activity-info">
                             <span *ngIf="selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit">
-                                {{selectedTrackedActivity.distance}}
+                                {{selectedTrackedActivity.distance |locale}}
                                 {{getUnitCode(selectedTrackedActivity.distance_unit)}}
                             </span>
                             <span class="info-separator"
                                 *ngIf="(selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit) &&
                             ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit))">|</span>
                             <span *ngIf="selectedTrackedActivity.time && selectedTrackedActivity.time_unit">
-                                {{getTimeToHumanReadable(selectedTrackedActivity)}}
+                                {{selectedTrackedActivity.time | humanReadableTime:selectedTrackedActivity.time_unit}}
                             </span>
                             <span class="info-separator"
                                 *ngIf="(selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit) &&
                             ((selectedTrackedActivity.time && selectedTrackedActivity.time_unit) || (selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit))">|</span>
                             <span *ngIf="selectedTrackedActivity.speed && selectedTrackedActivity.speed_unit">
-                                {{selectedTrackedActivity.speed}} {{getUnitCode(selectedTrackedActivity.speed_unit)}}
+                                {{selectedTrackedActivity.speed | locale}} {{getUnitCode(selectedTrackedActivity.speed_unit)}}
                             </span>
                         </span>
                     </div>
@@ -98,24 +98,15 @@
                         </td>
                         <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">
                             <span *ngIf="workoutActivity.time">
-                                <span *ngIf="workoutActivity.time % 1 == 0">
-                                    {{workoutActivity.time | number: '1.0-0'}}
-                                </span>
-                                <span *ngIf="workoutActivity.time % 1 != 0">
-                                    {{workoutActivity.time}}
-                                </span>
-                                <span>
-                                    {{getUnitCode(workoutActivity.time_unit)}}
+                                <span >
+                                    {{workoutActivity.time |humanReadableTime:workoutActivity.time_unit}}
                                 </span>
                             </span>
                         </td>
                         <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">
                             <span *ngIf="workoutActivity.distance">
-                                <span *ngIf="workoutActivity.distance % 1 == 0">
-                                    {{workoutActivity.distance | number: '1.0-0'}}
-                                </span>
-                                <span *ngIf="workoutActivity.distance % 1 != 0">
-                                    {{workoutActivity.distance}}
+                                <span >
+                                    {{workoutActivity.distance |locale}}
                                 </span>
                                 <span>
                                     {{getUnitCode(workoutActivity.distance_unit)}}
@@ -124,11 +115,8 @@
                         </td>
                         <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">
                             <span *ngIf="workoutActivity.speed">
-                                <span *ngIf="workoutActivity.speed % 1 == 0">
-                                    {{workoutActivity.speed | number: '1.0-0'}}
-                                </span>
-                                <span *ngIf="workoutActivity.speed % 1 != 0">
-                                    {{workoutActivity.speed}}
+                                <span >
+                                    {{workoutActivity.speed |locale}}
                                 </span>
                                 <span>
                                     {{getUnitCode(workoutActivity.speed_unit)}}
@@ -137,11 +125,8 @@
                         </td>
                         <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">
                             <span *ngIf="workoutActivity.vo2max">
-                                <span *ngIf="workoutActivity.vo2max % 1 == 0">
-                                    {{workoutActivity.vo2max | number: '1.0-0'}}
-                                </span>
-                                <span *ngIf="workoutActivity.vo2max % 1 != 0">
-                                    {{workoutActivity.vo2max}}
+                                <span >
+                                    {{workoutActivity.vo2max |locale}}
                                 </span>
                                 <span>
                                     %
@@ -176,11 +161,8 @@
                         </td>
                         <td class="siimple-table-cell" align="center">
                             <span *ngIf="workoutActivity.weight">
-                                <span *ngIf="workoutActivity.weight % 1 == 0">
-                                    {{workoutActivity.weight | number: '1.0-0'}}
-                                </span>
-                                <span *ngIf="workoutActivity.weight % 1 != 0">
-                                    {{workoutActivity.weight}}
+                                <span >
+                                    {{workoutActivity.weight |locale}}
                                 </span>
                                 <span>
                                     {{getUnitCode(workoutActivity.weight_unit)}}

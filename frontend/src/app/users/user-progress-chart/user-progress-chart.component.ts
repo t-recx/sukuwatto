@@ -141,6 +141,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         let yAxis2 = g => g
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y))
+        // .call(d3.axisLeft(y).tickFormat((d, i) => d.toLocaleString())) // <- produces weird results on the pt locale (like 1 - 1,5 - 2 - 2,5 and it gets uneven)
         .call(g => g.select(".domain").remove())
         .call(g => g.selectAll(".tick text").attr("font-size", fontSize))
         .call(g => g.selectAll(".tick line").attr("display", "none"))

@@ -56,11 +56,8 @@
                                         <span *ngIf="workoutActivity.speed">
                                             <span *ngIf="workoutActivity.speed_type==speedType.Standard ||
                                             workoutActivity.speed_type==speedType.Range">
-                                                <span *ngIf="workoutActivity.speed % 1 == 0">
-                                                    {{workoutActivity.speed | number: '1.0-0'}}
-                                                </span>
-                                                <span *ngIf="workoutActivity.speed % 1 != 0">
-                                                    {{workoutActivity.speed}}
+                                                <span>
+                                                    {{workoutActivity.speed |locale}}
                                                 </span>
                                             </span>
 
@@ -68,11 +65,8 @@
                                                 <span>
                                                     -
                                                 </span>
-                                                <span *ngIf="workoutActivity.speed_up_to % 1 == 0">
-                                                    {{workoutActivity.speed_up_to | number: '1.0-0'}}
-                                                </span>
-                                                <span *ngIf="workoutActivity.speed_up_to % 1 != 0">
-                                                    {{workoutActivity.speed_up_to}}
+                                                <span >
+                                                    {{workoutActivity.speed_up_to |locale}}
                                                 </span>
                                             </span>
 
@@ -86,7 +80,7 @@
                                         </span>
 
                                         <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_speed_percentage)">
-                                            {{workoutActivity.working_speed_percentage | number: '1.0-0'}}% working speed
+                                            {{workoutActivity.working_speed_percentage | locale}}% working speed
                                         </span>
                                     </span>
 
@@ -98,22 +92,16 @@
                                         <span *ngIf="workoutActivity.distance">
                                             <span *ngIf="workoutActivity.distance_type==distanceType.Standard ||
                                             workoutActivity.distance_type==distanceType.Range">
-                                                <span *ngIf="workoutActivity.distance % 1 == 0">
-                                                    {{workoutActivity.distance | number: '1.0-0'}}
-                                                </span>
-                                                <span *ngIf="workoutActivity.distance % 1 != 0">
-                                                    {{workoutActivity.distance}}
+                                                <span >
+                                                    {{workoutActivity.distance |locale}}
                                                 </span>
                                             </span>
                                             <span *ngIf="workoutActivity.distance_type==distanceType.Range">
                                                 <span>
                                                     -
                                                 </span>
-                                                <span *ngIf="workoutActivity.distance_up_to % 1 == 0">
-                                                    {{workoutActivity.distance_up_to | number: '1.0-0'}}
-                                                </span>
-                                                <span *ngIf="workoutActivity.distance_up_to % 1 != 0">
-                                                    {{workoutActivity.distance_up_to}}
+                                                <span >
+                                                    {{workoutActivity.distance_up_to |locale}}
                                                 </span>
                                             </span>
                                         </span>
@@ -123,7 +111,7 @@
                                         </span>
 
                                         <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_distance_percentage)">
-                                            {{workoutActivity.working_distance_percentage | number: '1.0-0'}}% working distance
+                                            {{workoutActivity.working_distance_percentage | locale}}% working distance
                                         </span>
                                     </span>
 
@@ -143,22 +131,16 @@
                                         <span *ngIf="workoutActivity.time">
                                             <span *ngIf="workoutActivity.time_type==timeType.Standard ||
                                             workoutActivity.time_type==timeType.Range">
-                                                <span *ngIf="workoutActivity.time % 1 == 0">
-                                                    {{workoutActivity.time | number: '1.0-0'}}
-                                                </span>
-                                                <span *ngIf="workoutActivity.time % 1 != 0">
-                                                    {{workoutActivity.time}}
+                                                <span >
+                                                    {{workoutActivity.time | locale}}
                                                 </span>
                                             </span>
                                             <span *ngIf="workoutActivity.time_type==timeType.Range">
                                                 <span>
                                                     -
                                                 </span>
-                                                <span *ngIf="workoutActivity.time_up_to % 1 == 0">
-                                                    {{workoutActivity.time_up_to | number: '1.0-0'}}
-                                                </span>
-                                                <span *ngIf="workoutActivity.time_up_to % 1 != 0">
-                                                    {{workoutActivity.time_up_to}}
+                                                <span >
+                                                    {{workoutActivity.time_up_to |locale}}
                                                 </span>
                                             </span>
                                         </span>
@@ -168,7 +150,7 @@
                                         </span>
 
                                         <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_time_percentage)">
-                                            {{workoutActivity.working_time_percentage | number: '1.0-0'}}% working time
+                                            {{workoutActivity.working_time_percentage | locale}}% working time
                                         </span>
                                     </span>
 
@@ -182,22 +164,16 @@
                                         <span *ngIf="workoutActivity.vo2max">
                                             <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Standard ||
                                             workoutActivity.vo2max_type==vo2MaxType.Range">
-                                                <span *ngIf="workoutActivity.vo2max % 1 == 0">
-                                                    {{workoutActivity.vo2max | number: '1.0-0'}}%
-                                                </span>
-                                                <span *ngIf="workoutActivity.vo2max % 1 != 0">
-                                                    {{workoutActivity.vo2max}}%
+                                                <span >
+                                                    {{workoutActivity.vo2max |locale}}%
                                                 </span>
                                             </span>
                                             <span *ngIf="workoutActivity.vo2max_type==vo2MaxType.Range">
                                                 <span>
                                                     -
                                                 </span>
-                                                <span *ngIf="workoutActivity.vo2max_up_to % 1 == 0">
-                                                    {{workoutActivity.vo2max_up_to | number: '1.0-0'}}%
-                                                </span>
-                                                <span *ngIf="workoutActivity.vo2max_up_to % 1 != 0">
-                                                    {{workoutActivity.vo2max_up_to}}%
+                                                <span >
+                                                    {{workoutActivity.vo2max_up_to |locale}}%
                                                 </span>
                                             </span>
                                         </span>
@@ -226,7 +202,7 @@
                                         AMRAP
                                     </span>
                                     <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_weight_percentage)">
-                                        ({{workoutActivity.working_weight_percentage}}%)
+                                        ({{workoutActivity.working_weight_percentage |locale}}%)
                                     </span>
                                 </span>
                             </span>

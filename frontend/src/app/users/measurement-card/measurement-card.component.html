@@ -4,8 +4,8 @@
             {{userBioData.date | date: 'EEEE'}}'s measurement
         </a>
 
-        <span class="siimple--float-right siimple-small" *ngIf="dateString && !detailView">
-            {{dateString}}
+        <span class="siimple--float-right siimple-small" *ngIf="userBioData.date && !detailView">
+            {{userBioData.date | localeDate}}
         </span>
     </header>
     <div class="siimple-card-body">
@@ -31,7 +31,7 @@
                                     </span>
                                 </td>
                                 <td class="siimple-table-cell cell" align="right">
-                                    {{userBioData.weight}}
+                                    {{userBioData.weight |locale}}
                                     {{getUnitCode(userBioData.weight_unit)}}
                                 </td>
                             </tr>
@@ -42,7 +42,7 @@
                                     </span>
                                 </td>
                                 <td class="siimple-table-cell cell" align="right">
-                                    {{userBioData.height}}
+                                    {{userBioData.height |locale}}
                                     {{getUnitCode(userBioData.height_unit)}}
                                 </td>
                             </tr>
@@ -53,7 +53,7 @@
                                     </span>
                                 </td>
                                 <td class="siimple-table-cell cell" align="right">
-                                    {{userBioData.body_fat_percentage}}%
+                                    {{userBioData.body_fat_percentage |locale}}%
                                 </td>
                             </tr>
                             <tr class="siimple-table-row" *ngIf="userBioData.water_weight_percentage">
@@ -63,7 +63,7 @@
                                     </span>
                                 </td>
                                 <td class="siimple-table-cell cell" align="right">
-                                    {{userBioData.water_weight_percentage}}%
+                                    {{userBioData.water_weight_percentage |locale}}%
                                 </td>
                             </tr>
                             <tr class="siimple-table-row" *ngIf="userBioData.muscle_mass_percentage">
@@ -73,17 +73,17 @@
                                     </span>
                                 </td>
                                 <td class="siimple-table-cell cell" align="right">
-                                    {{userBioData.muscle_mass_percentage}}%
+                                    {{userBioData.muscle_mass_percentage |locale}}%
                                 </td>
                             </tr>
                             <tr class="siimple-table-row" *ngIf="userBioData.bone_mass_weight">
                                 <td class="siimple-table-cell cell">
                                     <span class="siimple--text-bold">
-                                        Bone mass weight
+                                        Bone mass
                                     </span>
                                 </td>
                                 <td class="siimple-table-cell cell" align="right">
-                                    {{userBioData.bone_mass_weight}} 
+                                    {{userBioData.bone_mass_weight |locale}} 
                                     {{getUnitCode(userBioData.bone_mass_weight_unit)}}
                                 </td>
                             </tr>

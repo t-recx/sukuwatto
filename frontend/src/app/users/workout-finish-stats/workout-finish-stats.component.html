@@ -11,23 +11,23 @@
                 <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
                 <div class="siimple-grid-col siimple-grid-col--6" align="right"
                     *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && distance < 1">
-                    {{distanceInSmallerUnit}}{{distanceSmallerUnit.abbreviation}}
+                    {{distanceInSmallerUnit |locale}}{{distanceSmallerUnit.abbreviation}}
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--6" align="right"
                     *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && distance >= 1">
-                    {{distance}}{{distanceUnit.abbreviation}}
+                    {{distance |locale}}{{distanceUnit.abbreviation}}
                 </div>
             </div>
             <div class="siimple-grid-row stats-item" *ngIf="speed">
                 <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
                 <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
-                    {{speed}}{{speedUnit.abbreviation}}
+                    {{speed |locale}}{{speedUnit.abbreviation}}
                 </div>
             </div>
             <div class="siimple-grid-row stats-item " *ngIf="calories">
                 <div class="siimple-grid-col siimple-grid-col--5">Energy</div>
                 <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">
-                    {{calories}}{{energyUnit.abbreviation}}
+                    {{calories |locale}}{{energyUnit.abbreviation}}
                 </div>
             </div>
         </div>
