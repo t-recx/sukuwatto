@@ -76,6 +76,7 @@ export class TokenInterceptor implements HttpInterceptor {
                                     return this.authService.logout().pipe(
                                         tap(() => {
                                             this.authService.redirectUrl = window.location.pathname;
+                                            this.authService.refreshExpired.next();
                                             this.router.navigate(['/login']);
                                         })
                                     );

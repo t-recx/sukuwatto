@@ -25,12 +25,14 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
   loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
+  refreshExpired: boolean = false;
 
   faSave = faSave;
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
 
   pausedSubscription: Subscription;
+  refreshExpiredSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,16 +51,30 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   ngOnInit() {
     this.triedToSave = false;
+    this.refreshExpired = false;
 
     this.route.paramMap.subscribe(params =>
       this.loadOrInitializeExercise(params.get('id')));
 
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize()) ;
+    this.refreshExpiredSubscription = this.authService.refreshExpired.subscribe(x => {
+      this.serialize();
+      this.refreshExpired = true;
+    });
   }
 
   ngOnDestroy(): void {
     this.pausedSubscription.unsubscribe();
+    this.refreshExpiredSubscription.unsubscribe();
 
+    if (!this.refreshExpired) {
+      this.removeSerialization();
+    }
+
+    this.refreshExpired = false;
+  }
+
+  private removeSerialization() {
     localStorage.removeItem('state_exercise_has_state');
     localStorage.removeItem('state_exercise_detail_exercise');
     this.serializerUtils.removeScrollPosition();
@@ -98,6 +114,7 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
     this.notFound = false;
     this.userIsOwner = false;
+    this.refreshExpired = false;
 
     if (id) {
       this.loading = true;
