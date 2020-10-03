@@ -7,3 +7,7 @@
 .profile-user-info {
   padding-left: 5px;
 }
+
+.profile-user-info-container {
+  white-space: nowrap;
+}

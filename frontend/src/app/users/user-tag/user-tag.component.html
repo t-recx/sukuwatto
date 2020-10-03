@@ -1,12 +1,16 @@
-<span class="profile-avatar">
-    <img *ngIf="profile_filename && !imageHidden" [src]="getProfileImageURL()" class="round-image profile-image" (error)="hideImage()" />
+<span class="profile-user-info-container">
 
-    <fa-icon *ngIf="!profile_filename || imageHidden" [icon]="faUserCircle" 
-        class="siimple--color-primary profile-icon" size="2x"
-        [styles]="{'vertical-align': 'middle'}">
-    </fa-icon>
-</span>
+    <span class="profile-avatar">
+        <img *ngIf="profile_filename && !imageHidden" [src]="getProfileImageURL()" class="round-image profile-image"
+            (error)="hideImage()" />
 
-<span class="profile-user-info">
-    <app-user-link [username]=username></app-user-link>
+        <fa-icon *ngIf="!profile_filename || imageHidden" [icon]="faUserCircle"
+            class="siimple--color-primary profile-icon" size="2x" [styles]="{'vertical-align': 'middle'}">
+        </fa-icon>
+    </span>
+
+    <span class="profile-user-info">
+        <app-user-link [username]=username></app-user-link>
+    </span>
+
 </span>
