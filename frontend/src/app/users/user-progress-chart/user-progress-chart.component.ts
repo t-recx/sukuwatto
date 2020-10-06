@@ -65,7 +65,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             .style('max-height', '300px')
             ;
 
-        let x = d3.scaleUtc()
+        let x = d3.scaleTime()
             .domain(d3.extent<Date, Date>(this.progressData.dates, d => d))
             .range([margin.left, width - margin.right]);
 
