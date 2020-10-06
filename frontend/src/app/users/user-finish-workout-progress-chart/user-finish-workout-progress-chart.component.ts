@@ -71,7 +71,7 @@ export class UserFinishWorkoutProgressChartComponent implements OnInit {
           .attr('height', height)
             ;
 
-        let x = d3.scaleUtc()
+        let x = d3.scaleTime()
             .domain(d3.extent<Date, Date>(this.progressData.dates, d => d))
             .range([margin.left, width - margin.right])
 
