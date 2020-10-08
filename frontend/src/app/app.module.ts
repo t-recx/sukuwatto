@@ -29,6 +29,7 @@ import { PlanComponent } from './plan/plan.component';
 import { ShareComponent } from './share/share.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { DemoNavigationComponent } from './demo-navigation/demo-navigation.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { DemoNavigationComponent } from './demo-navigation/demo-navigation.compo
     ShareComponent,
     JumbotronComponent,
     DemoNavigationComponent,
+    ContactUsComponent,
   ],
   imports: [
     AlertModule,
