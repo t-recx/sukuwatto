@@ -13,6 +13,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { TrackComponent } from './track/track.component';
 import { PlanComponent } from './plan/plan.component';
 import { ShareComponent } from './share/share.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
   { path: 'cookie-policy', component: CookiePolicyComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'contact-us', component: ContactUsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
