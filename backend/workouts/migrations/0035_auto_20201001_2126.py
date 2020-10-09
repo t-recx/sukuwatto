@@ -85,5 +85,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(migrate_to_muscle_exercise),
+        # migrations.RunPython(migrate_to_muscle_exercise),
     ]

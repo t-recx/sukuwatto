@@ -121,7 +121,7 @@ class MessageTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
         self.user2_instance = self.create_user(self.user2)
 
         self.message_service.create(self.user1_instance, self.user2_instance, 
-            'hello!')
+            'hello!', 'aaa')
 
     def test_listing_last_messages_when_user_not_authenticated_should_return_unauthorized(self):
         response = self.client.get('/api/last-messages/')

@@ -66,6 +66,7 @@ export class MessagesService {
   getProperlyTypedMessages(messages: Message[]): Message[] {
     for(let message of messages) {
       message.date = new Date(message.date);
+      message.edited_date = message.edited_date ? new Date(message.edited_date) : message.edited_date;
     }
 
     return messages;

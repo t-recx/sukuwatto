@@ -10,13 +10,13 @@ from workouts.utils import get_differences
 class MessageReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'uuid', 'date', 'from_user', 'to_user', 'message']
+        fields = ['id', 'uuid', 'date', 'edited_date', 'from_user', 'to_user', 'message']
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'uuid', 'date', 'from_user', 'to_user', 'message']
-        read_only_fields = ['date', 'from_user']
+        fields = ['id', 'uuid', 'date', 'edited_date', 'from_user', 'to_user', 'message']
+        read_only_fields = ['date', 'edited_date', 'from_user']
 
 class LastMessageSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
