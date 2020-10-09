@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from workouts.models import Workout, Plan, Exercise, UserBioData
 from django.utils.timezone import now
+from django_cryptography.fields import encrypt
 
 class Post(models.Model):
     title = models.CharField(max_length=200, null=True)
@@ -49,7 +50,7 @@ class Message(models.Model):
     edited_date = models.DateTimeField(null=True)
     from_user = models.ForeignKey(get_user_model(), related_name='from_user', on_delete=models.CASCADE)
     to_user = models.ForeignKey(get_user_model(), related_name='to_user', on_delete=models.CASCADE)
-    message = models.TextField()
+    message = encrypt(models.TextField())
 
 class LastMessage(models.Model):
     date = models.DateTimeField()
