@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChildren, ViewChild, QueryList, ElementRef, AfterViewInit, AfterViewChecked, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, ViewChild, QueryList, ElementRef, AfterViewInit, AfterViewChecked, Renderer2, HostListener } from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import { faPaperPlane, faUserCircle, faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUserCircle, faClock, faCheckCircle, faTimes, faTrash, faEdit, faPen, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/user';
 import { Message } from '../message';
 import { environment } from 'src/environments/environment';
@@ -28,16 +28,24 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
   loading: boolean = false;
   imageHidden: boolean = false;
 
+  messageBeingEdited: Message = null;
+
   previousScrollHeight: number = 0;
   loadingOlderMessages: boolean = false;
 
+  @ViewChild('messageInput', { read: ElementRef }) messageInput: ElementRef;
   @ViewChild('scrollframe') scrollFrame: ElementRef;
   @ViewChildren('message') itemElements: QueryList<any>;
 
   faPaperPlane = faPaperPlane;
   faUserCircle = faUserCircle;
   faClock = faClock;
+  faTimes = faTimes;
   faCheckCircle = faCheckCircle;
+  faTrash = faTrash;
+  faEdit = faEdit;
+  faPen = faPen;
+  faCopy = faCopy;
 
   chatroomName: string;
   username: string;
@@ -248,8 +256,19 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.chatSocket
       .subscribe(newMessage => {
         if (this.messages) {
-          newMessage.date = new Date(newMessage.date);
-          this.newMessageSubject.next(newMessage);
+          if (newMessage.type == 'chat_message') {
+            newMessage.date = new Date(newMessage.date);
+            this.newMessageSubject.next(newMessage);
+          }
+          else if (newMessage.type == 'delete_message') {
+            this.messages = this.messages.filter(u => u.uuid != newMessage.uuid);
+          }
+          else if (newMessage.type == 'edit_message') {
+            newMessage.date = new Date(newMessage.date);
+            newMessage.edited_date = new Date(newMessage.edited_date);
+
+            this.replaceMessage(newMessage);
+          }
         }
       },
       () => {
@@ -287,21 +306,101 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     return this.timeService.getTime(date);
   }
 
+  replaceMessage(newMessage: Message) {
+    const i = this.messages.findIndex(x => x.uuid == newMessage.uuid);
+
+    if (i >= 0) {
+      this.messages[i] = newMessage;
+    }
+  }
+
   sendMessage(): void {
     if (this.chatSocket && this.newMessage && this.newMessage.trim().length > 0) {
-      let newMessage = new Message();
+      let newMessage: Message;
 
-      newMessage.date = new Date();
-      newMessage.uuid = uuid();
-      newMessage.from_user = this.user.id;
-      newMessage.to_user = this.correspondent.id;
-      newMessage.message = this.newMessage;
-      newMessage.unreceived = true;
+      if (this.messageBeingEdited) {
+        newMessage = new Message(this.messageBeingEdited);
 
-      this.messages.push(newMessage);
-      this.chatSocket.next(newMessage);
+        newMessage.message = this.newMessage;
+        newMessage.type = 'edit_message';
+        newMessage.edited_date = new Date();
+        newMessage.edit_unconfirmed = true;
+
+        this.replaceMessage(newMessage);
+
+        this.messageBeingEdited = null;
+      }
+      else {
+        newMessage = new Message();
+        newMessage.type = "chat_message";
+        newMessage.date = new Date();
+        newMessage.uuid = uuid();
+        newMessage.from_user = this.user.id;
+        newMessage.to_user = this.correspondent.id;
+        newMessage.message = this.newMessage;
+        newMessage.unreceived = true;
+
+        this.messages.push(newMessage);
+      }
 
       this.newMessage = "";
+      this.chatSocket.next(newMessage);
+    }
+  }
+
+  deleteMessage(message: Message) {
+    message.type = "delete_message";
+
+    this.chatSocket.next(message);
+  }
+
+  editMessage(message: Message) {
+    this.messageBeingEdited = message;
+    this.newMessage = message.message;
+
+    this.messageInput.nativeElement.focus();
+  }
+
+  copyToClipboard(message: Message){
+    const val = message.message;
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+
+  toggleContextMenu(message: Message) {
+    if (!this.messageWasSent(message)) {
+      return;
+    }
+
+    message.context_menu_open = !message.context_menu_open;
+
+    if (message.context_menu_open) {
+      if (this.messages) {
+        this.messages.filter(x => x.context_menu_open && x != message).forEach(x => x.context_menu_open = false);
+      }
+    }
+  }
+
+  cancelEdit()  {
+    this.messageBeingEdited = null;
+    this.newMessage = "";
+
+    setTimeout(() => this.messageInput.nativeElement.focus());
+  }
+
+  @HostListener('document:click')
+  clickout() {
+    if (this.messages) {
+      this.messages.filter(x => x.context_menu_open).forEach(x => x.context_menu_open = false);
     }
   }
 }

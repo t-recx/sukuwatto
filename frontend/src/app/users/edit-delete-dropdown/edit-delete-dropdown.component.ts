@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter,  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, HostListener  } from '@angular/core';
 import { faTrash, faEdit, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -16,6 +16,8 @@ export class EditDeleteDropdownComponent implements OnInit {
 
   optionsVisible: boolean = false;
 
+  toggling: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -30,6 +32,15 @@ export class EditDeleteDropdownComponent implements OnInit {
   }
 
   toggleOptionsModal() {
+    this.toggling = true;
     this.optionsVisible = !this.optionsVisible;
+    setTimeout(() => this.toggling = false, 200);
+  }
+
+  @HostListener('document:click')
+  clickout() {
+    if (this.optionsVisible && !this.toggling) {
+      this.optionsVisible = false;
+    }
   }
 }

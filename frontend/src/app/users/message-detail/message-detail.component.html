@@ -5,34 +5,44 @@
         <div class="chat-container">
           <div class="user-bar siimple--bg-light">
             <div class="avatar">
-              <img *ngIf="correspondent.profile_filename && !imageHidden"
-                  [src]="getProfileImageURL(correspondent)" class="round-image profile-image" (error)="hideImage()"/>
+              <img *ngIf="correspondent.profile_filename && !imageHidden" [src]="getProfileImageURL(correspondent)"
+                class="round-image profile-image" (error)="hideImage()" />
               <fa-icon *ngIf="!correspondent.profile_filename || imageHidden" [icon]="faUserCircle"
-                  class="siimple--color-primary " size="2x">
+                class="siimple--color-primary " size="2x">
               </fa-icon>
             </div>
-            <div class="name siimple-h6 siimple--mb-0 siimple--mt-0 siimple-link" [routerLink]="['/users', correspondent.username, 'profile']">
+            <div class="name siimple-h6 siimple--mb-0 siimple--mt-0 siimple-link"
+              [routerLink]="['/users', correspondent.username, 'profile']">
               <span>{{getUserContactName(correspondent)}}</span>
             </div>
           </div>
           <div class="conversation">
-            <div class="conversation-container" (scroll)="scrolled($event)" (window:resize)="windowResized()" #scrollframe>
+            <div class="conversation-container" (scroll)="scrolled($event)" (window:resize)="windowResized()"
+              #scrollframe>
               <div class="older-messages-retriever-container" *ngIf="loadingOlderMessages">
                 <small class="siimple-small">Loading older messages...</small>
               </div>
 
               <div *ngFor="let message of messages; let i = index;">
-                <div *ngIf="messages[i - 1] && message.date.toLocaleDateString() != messages[i - 1].date.toLocaleDateString()"
+                <div
+                  *ngIf="messages[i - 1] && message.date.toLocaleDateString() != messages[i - 1].date.toLocaleDateString()"
                   class="date-separator-container">
                   <small class="siimple-small">{{message.date.toLocaleDateString()}}</small>
                   <div class="siimple-rule date-separator-rule"></div>
                 </div>
-                <div class="message" [ngClass]="{'sent siimple--bg-success siimple--color-white': messageWasSent(message),
+                <div (contextmenu)="toggleContextMenu(message); $event.preventDefault()" class="message no-select"
+                  [ngClass]="{'sent siimple--bg-success siimple--color-white': messageWasSent(message),
                                          'received siimple--bg-light siimple--color-dark': messageWasReceived(message)}">
                   {{message.message}}
                   <span class="metadata">
                     <span class="time" [ngClass]="{'siimple--color-light': messageWasSent(message)}">
                       {{getMessageTime(message.date)}}
+                    </span>
+                    <span class="tick" *ngIf="message.edited_date" [title]="'Edited: ' + getMessageTime(message.edited_date)">
+                      <fa-icon [icon]="faClock" class="tick-waiting" size="xs" *ngIf="message.edit_unconfirmed">
+                      </fa-icon>
+                      <fa-icon [icon]="faPen" class="" size="xs" *ngIf="!message.edit_unconfirmed">
+                      </fa-icon>
                     </span>
                     <span class="tick" *ngIf="messageWasSent(message)">
                       <fa-icon [icon]="faClock" class="tick-waiting" size="xs" *ngIf="message.unreceived">
@@ -41,23 +51,39 @@
                       </fa-icon>
                     </span>
                   </span>
+
+                  <div class="dropdown siimple--color-dark" *ngIf="message.context_menu_open">
+                    <div class="dropdown-content">
+                      <div class="dropdown-content-item" (click)="copyToClipboard(message)">
+                        <fa-icon [icon]="faCopy" class="siimple--mr-1"></fa-icon>
+                        Copy
+                      </div>
+                      <div class="dropdown-content-item" (click)="editMessage(message)">
+                        <fa-icon [icon]="faEdit" class="siimple--mr-1"></fa-icon>
+                        Edit
+                      </div>
+                      <div class="dropdown-content-item" (click)="deleteMessage(message)">
+                        <fa-icon [icon]="faTrash" class="siimple--mr-1 trash-icon"></fa-icon>
+                        Delete
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <form class="conversation-compose">
-              <input 
-                (keyup.enter)="sendMessage()"
-                id = "messageInput"
-                [(ngModel)]="newMessage"
-                applyFocus
-                #messageInput="ngModel"
-                type="text"
-                required
-                class="input-msg siimple-input" name="messageInput" 
-                placeholder="Type a message" autocomplete="off" >
+              <input (keyup.enter)="sendMessage()"  [(ngModel)]="newMessage" applyFocus
+                #messageInput="ngModel" type="text" required class="input-msg siimple-input" name="messageInput"
+                placeholder="Type a message" autocomplete="off">
+              <button type="button" class="send" (mousedown)="cancelEdit(); $event.preventDefault()"
+              *ngIf="messageBeingEdited" >
+                <div class="circle siimple--bg-error">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </div>
+              </button>
               <button type="button" class="send" (mousedown)="sendMessage(); $event.preventDefault()">
                 <div class="circle siimple--bg-primary">
-                    <fa-icon [icon]="faPaperPlane"></fa-icon>
+                  <fa-icon [icon]="faPaperPlane"></fa-icon>
                 </div>
               </button>
             </form>
