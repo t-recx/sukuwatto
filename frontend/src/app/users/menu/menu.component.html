@@ -18,7 +18,13 @@
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconMessages" class="menu-icon-image"></fa-icon>
         </div>
-        Messages
+        <span class="menu-item-label">Messages</span>
+
+        <div class="menu-tag-item "
+            *ngIf="unread_messages_count > 0">
+            <span *ngIf="unread_messages_count < 10">{{unread_messages_count}}</span>
+            <span *ngIf="unread_messages_count >= 10">9+</span>
+        </div>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'workouts']">

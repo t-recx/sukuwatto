@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit, OnDestroy {
+  @Input() unread_messages_count: number;
   iconHome = faHome;
   iconProfile = faAddressCard;
   iconMessages = faComments;

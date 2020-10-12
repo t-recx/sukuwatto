@@ -5,7 +5,7 @@
 import { environmentDevHost, environmentDevPort } from 'src/environments/hosts';
 
 export const environment = {
-  showAuthButtons: false,
+  showAuthButtons: true,
   production: false,
   application: false,
   mediaUrl: 'https://' + environmentDevHost + (environmentDevPort ? ':' + environmentDevPort : ''),

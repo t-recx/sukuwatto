@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div *ngIf="lastMessages && !loading">
+    <div *ngIf="lastMessages">
         <ul class="siimple-list siimple-list--hover siimple--mt-3">
             <li class="siimple-list-item" *ngFor="let lastMessage of lastMessages"
                 [routerLink]="['/users', username, 'message', lastMessage.correspondent.username]">

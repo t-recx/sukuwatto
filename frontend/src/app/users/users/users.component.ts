@@ -8,7 +8,9 @@ import { HostListener } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { RefreshService } from '../refresh.service';
 import { environment } from 'src/environments/environment';
-import { first } from 'rxjs/operators';
+import { delay, first, repeatWhen } from 'rxjs/operators';
+import { LastMessagesService } from '../last-messages.service';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'app-users',
@@ -34,6 +36,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   menuLeft = -this.menuWidthOpen - 5;
   menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
+
+  updateConversationSubscription: Subscription;
+  pollTimeUnreadConversationsMilliseconds: number = 30000;
+  updateLastMessageRead: Subscription;
+  pausedSubscription: any;
 
   updateMenuTranslateX() {
     this.menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
@@ -62,6 +69,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   isScrolling = false;
   isMovingDropdown = false;
 
+  unread_messages_count: number = 0;
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     if (!this.menuDropDownVisible) {
@@ -86,6 +95,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(
+    private lastMessagesService: LastMessagesService,
+    private cordovaService: CordovaService,
     public authService: AuthService,
     public route: ActivatedRoute,
     private router: Router,
@@ -119,7 +130,28 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
+    if (this.authService.isLoggedIn()) {
+      this.updateConversationSubscription = this.lastMessagesService.getUnreadConversationsNumber()
+      .pipe(
+        repeatWhen(x => x.pipe(delay(this.pollTimeUnreadConversationsMilliseconds)))
+      )
+      .subscribe(u => {
+        this.updateUnreadMessageCount(u);
+      });
+
+      this.updateLastMessageRead = this.lastMessagesService.lastMessageUpdated.subscribe(x => {
+        this.lastMessagesService.getUnreadConversationsNumber()
+        .subscribe(u => this.updateUnreadMessageCount(u));
+      });
+    }
+
     this.onResize();
+  }
+
+  private updateUnreadMessageCount(u: number) {
+    if (u != null) {
+      this.unread_messages_count = u;
+    }
   }
 
   updateApplication() {
@@ -134,10 +166,32 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingSubscription = this.loadingService.state.subscribe(s => setTimeout(() => this.loading = s));
   }
 
+  serialize() {
+    localStorage.setItem('state_users_has_state', JSON.stringify(true));
+    localStorage.setItem('state_users_unread_messages_count', JSON.stringify(this.unread_messages_count));
+  }
+
+  restore(): boolean {
+    const hasState = JSON.parse(localStorage.getItem('state_users_detail_has_state'));
+
+    if (!hasState) {
+      return false;
+    }
+
+    this.unread_messages_count = JSON.parse(localStorage.getItem('state_users_unread_messages_count'));
+
+    return true;
+  }
+
   ngOnDestroy(): void {
     this.resetBodyOverflow();
     this.loadingSubscription.unsubscribe();
     this.routerNavigationSubscription.unsubscribe();
+    this.pausedSubscription.unsubscribe();
+
+    if (this.updateConversationSubscription) {
+      this.updateConversationSubscription.unsubscribe();
+    }
 
     if (this.checkForUpdatesProgramatically) {
       this.updateAvailableSubscription.unsubscribe();
@@ -147,6 +201,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.username = this.authService.getUsername();
+
+    this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
+    this.restore();
   }
 
   toggleMenuVisibility(): void {
