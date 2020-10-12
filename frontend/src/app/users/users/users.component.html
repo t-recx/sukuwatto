@@ -47,7 +47,7 @@
         [style.transition.ms]="transitionMenuMs"
         (touchstart)="touchStart($event)" (touchend)="touchEnd($event)" (touchmove)="touchMove($event)"
         >
-        <app-menu></app-menu>
+        <app-menu [unread_messages_count]=unread_messages_count></app-menu>
     </div>
 
     <div>
@@ -58,7 +58,7 @@
         <div class="siimple-grid-row">
             <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
                 <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none siimple--display-md-none">
-                    <app-menu></app-menu>
+                    <app-menu [unread_messages_count]=unread_messages_count></app-menu>
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12 siimple-grid-col-md--12">
                     <router-outlet></router-outlet>

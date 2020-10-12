@@ -42,6 +42,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
   page: number = 1;
   pageSize: number = 10;
   innerHeight = 0;
+  unreadMessagesUpdated: Subscription;
+  lastUnreadConversationDate: Date;
 
   constructor(
     private lastMessagesService: LastMessagesService,
@@ -56,6 +58,19 @@ export class MessagesComponent implements OnInit, OnDestroy {
       {
         this.loadParameterDependentData(val.get('username'));
       });
+
+    this.unreadMessagesUpdated = lastMessagesService.unreadConversationsUpdated.subscribe(u => {
+      if (u != null && u > 0) {
+        if (this.authService.isCurrentUserLoggedIn(this.username)) {
+          lastMessagesService.getLastUnreadConversationDate().subscribe(date => {
+            if (this.lastUnreadConversationDate == null || this.lastUnreadConversationDate.valueOf() != date.valueOf()) {
+              this.updateLastMessages();
+              this.lastUnreadConversationDate = date;
+            }
+          });
+        }
+      }
+    });
   }
 
   getPageSize() {
@@ -92,6 +107,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.unreadMessagesUpdated.unsubscribe();
   }
 
   newMessage(): void {
@@ -114,17 +130,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.username = username;
     this.newMessageVisible = false;
     this.forbidden = false;
+    this.lastUnreadConversationDate = null;
     if (username == this.authService.getUsername()) {
 
-      this.loading = true;
-      this.loadingService.load();
-      this.lastMessagesService.get()
-      .subscribe(lastMessages => {
-        this.lastMessages = lastMessages
-                            .sort((a,b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
-        this.loading = false;
-        this.loadingService.unload();
-      });
+      this.updateLastMessages();
 
       this.loadUsers();
     }
@@ -134,6 +143,23 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
 
     this.imageHidden = false;
+  }
+
+  private updateLastMessages() {
+    this.loading = true;
+    this.loadingService.load();
+    this.lastMessagesService.get()
+      .subscribe(lastMessages => {
+        this.lastMessages = lastMessages
+          .sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
+
+        if (this.lastMessages && this.lastMessages.length > 0) {
+          this.lastUnreadConversationDate = this.lastMessages[0].date;
+        }
+
+        this.loading = false;
+        this.loadingService.unload();
+      });
   }
 
   private loadUsers(increment: number = 0) {

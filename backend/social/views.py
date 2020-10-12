@@ -129,6 +129,20 @@ def user_liked(request):
 
     return Response(user_liked_object(request.user, content_type_id, object_id))
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def unread_conversations(request):
+    conversations = LastMessage.objects.filter(Q(user=request.user), Q(unread_count__gt=0)).count()
+
+    return Response(conversations)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_date_last_unread_conversations(request):
+    last_date = LastMessage.objects.filter(Q(user=request.user), Q(unread_count__gt=0)).latest('date').date
+
+    return Response(last_date)
+
 def user_liked_object(user, content_type_id, object_id):
     return get_queryset_like(user, content_type_id, object_id).exists()
 
