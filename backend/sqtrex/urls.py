@@ -8,7 +8,7 @@ from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
 from django.conf.urls.static import static
-from sqtrex.views import ContentTypeList
+from sqtrex.views import ContentTypeList, site_status
 from django.conf.urls import url, include
 from django_rest_passwordreset.views import reset_password_request_token, reset_password_confirm, reset_password_validate_token
 
@@ -23,6 +23,7 @@ router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('api/status/', site_status, name='status'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout/', TokenCookieDeleteView.as_view(), name='logout'),
