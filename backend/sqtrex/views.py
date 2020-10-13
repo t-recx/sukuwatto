@@ -11,7 +11,3 @@ class ContentTypeList(generics.ListAPIView):
     serializer_class = ContentTypeSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['model']
-
-@api_view(['GET'])
-def site_status(request):
-    return Response(status=status.HTTP_204_NO_CONTENT)
