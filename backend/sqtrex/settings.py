@@ -80,8 +80,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_ALLOW_ALL = bool(int(os.environ.get("CORS_ORIGIN_ALLOW_ALL", default=0)))
 
-CORS_URLS_REGEX = '^(?!\/api\/status).*$'
-
 SECURE_SSL_REDIRECT = bool(int(os.environ.get("SECURE_SSL_REDIRECT", default=1)))
 
 USE_X_FORWARDED_HOST = True
