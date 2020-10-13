@@ -221,8 +221,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         .subscribe(u => this.updateUnreadMessageCount(u));
     });
 
-    this.lastMessagesService.getUnreadConversationsNumber()
-      .subscribe(u => this.updateUnreadMessageCount(u));
+    if (this.authService.isLoggedIn()) {
+      this.lastMessagesService.getUnreadConversationsNumber()
+        .subscribe(u => this.updateUnreadMessageCount(u));
+    }
   }
 
   createFeedSocket() {
