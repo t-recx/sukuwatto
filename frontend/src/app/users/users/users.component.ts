@@ -226,20 +226,22 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   createFeedSocket() {
-    this.feedSocket = this.feedService.getFeedSocket(this.username);
-    this.feedSocket
-      .subscribe(data => {
-        if (data.type && data.type.includes('message')) {
-          this.feedService.newMessageSubject.next(data);
-        }
+    if (this.authService.isLoggedIn()) {
+      this.feedSocket = this.feedService.getFeedSocket(this.username);
+      this.feedSocket
+        .subscribe(data => {
+          if (data.type && data.type.includes('message')) {
+            this.feedService.newMessageSubject.next(data);
+          }
 
-        this.feedService.dataSubject.next(data);
-      },
-      () => {
-        setTimeout(() => {
-          this.createFeedSocket();
-        }, 1000);
-      });
+          this.feedService.dataSubject.next(data);
+        },
+          () => {
+            setTimeout(() => {
+              this.createFeedSocket();
+            }, 1000);
+          });
+    }
   }
 
   toggleMenuVisibility(): void {
