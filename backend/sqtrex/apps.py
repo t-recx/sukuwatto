@@ -1,8 +1,8 @@
-from django.apps import AppConfig
+# from django.apps import AppConfig
 
 
-class SqtrexConfig(AppConfig):
-    name = 'sqtrex'
+# class SqtrexConfig(AppConfig):
+#     name = 'sqtrex'
 
-    def ready(self):
-        import sqtrex.handlers
+#     def ready(self):
+#         import sqtrex.handlers

@@ -23,7 +23,7 @@ router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('api/status/', site_status, name='status'),
+    # path('api/status/', site_status, name='status'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout/', TokenCookieDeleteView.as_view(), name='logout'),
