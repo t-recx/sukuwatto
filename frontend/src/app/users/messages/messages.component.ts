@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { MessagesService } from '../messages.service';
 import { AuthService } from 'src/app/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/user';
 import { environment } from 'src/environments/environment';
 import { LastMessagesService } from '../last-messages.service';
@@ -12,6 +12,8 @@ import { FollowService } from '../follow.service';
 import { LoadingService } from '../loading.service';
 import { Paginated } from '../paginated';
 import { TimeService } from '../time.service';
+import { FeedService } from '../feed.service';
+import { debounce, filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-messages',
@@ -42,10 +44,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
   page: number = 1;
   pageSize: number = 10;
   innerHeight = 0;
-  unreadMessagesUpdated: Subscription;
-  lastUnreadConversationDate: Date;
+  feedSubscription: Subscription;
 
   constructor(
+    feedService: FeedService,
     private lastMessagesService: LastMessagesService,
     private authService: AuthService,
     public route: ActivatedRoute, 
@@ -54,23 +56,17 @@ export class MessagesComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private timeService: TimeService,
   ) { 
+    this.feedSubscription = feedService.newMessageSubject
+    .pipe(filter(x => x.from_user != +this.authService.getUserId()), debounce(() => interval(1500)), 
+    switchMap(x => this.lastMessagesService.get()))
+    .subscribe(x => {
+      this.updateLastMessagesWithArray(x);
+    });
+
     this.paramChangedSubscription = route.paramMap.subscribe(val => 
       {
         this.loadParameterDependentData(val.get('username'));
       });
-
-    this.unreadMessagesUpdated = lastMessagesService.unreadConversationsUpdated.subscribe(u => {
-      if (u != null && u > 0) {
-        if (this.authService.isCurrentUserLoggedIn(this.username)) {
-          lastMessagesService.getLastUnreadConversationDate().subscribe(date => {
-            if (this.lastUnreadConversationDate == null || this.lastUnreadConversationDate.valueOf() != date.valueOf()) {
-              this.updateLastMessages();
-              this.lastUnreadConversationDate = date;
-            }
-          });
-        }
-      }
-    });
   }
 
   getPageSize() {
@@ -107,7 +103,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
-    this.unreadMessagesUpdated.unsubscribe();
+    this.feedSubscription.unsubscribe();
   }
 
   newMessage(): void {
@@ -130,7 +126,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.username = username;
     this.newMessageVisible = false;
     this.forbidden = false;
-    this.lastUnreadConversationDate = null;
     if (username == this.authService.getUsername()) {
 
       this.updateLastMessages();
@@ -148,18 +143,19 @@ export class MessagesComponent implements OnInit, OnDestroy {
   private updateLastMessages() {
     this.loading = true;
     this.loadingService.load();
+
     this.lastMessagesService.get()
       .subscribe(lastMessages => {
-        this.lastMessages = lastMessages
-          .sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
-
-        if (this.lastMessages && this.lastMessages.length > 0) {
-          this.lastUnreadConversationDate = this.lastMessages[0].date;
-        }
+        this.updateLastMessagesWithArray(lastMessages);
 
         this.loading = false;
         this.loadingService.unload();
       });
+  }
+
+  private updateLastMessagesWithArray(lastMessages: LastMessage[]) {
+    this.lastMessages = lastMessages
+      .sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
   }
 
   private loadUsers(increment: number = 0) {

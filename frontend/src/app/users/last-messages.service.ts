@@ -75,11 +75,11 @@ export class LastMessagesService {
       );
   }
 
-  updateLastMessageRead(correspondent_id: number): Observable<any> {
+  updateLastMessageRead(correspondent_id: number, generateEvent: boolean = true): Observable<any> {
     return this.http.post<any>(`${this.updateLastMessageUrl}`, 
       {correspondent: correspondent_id}, this.httpOptions)
       .pipe(
-        tap(x => this.lastMessageUpdated.next()),
+        tap(x => { if (generateEvent) { this.lastMessageUpdated.next(); } }),
         catchError(this.errorService.handleError<any>('get', (e: any) => 
         { 
           this.alertService.error('Unable to update last message read');
