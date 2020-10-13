@@ -14,6 +14,8 @@ class ChatConsumer(WebsocketConsumer):
         if self.scope["user"].is_anonymous:
             self.close()
 
+            return
+
         user1 = self.scope['url_route']['kwargs']['user']
         user2 = self.scope['url_route']['kwargs']['correspondent']
 
@@ -35,6 +37,8 @@ class ChatConsumer(WebsocketConsumer):
             return
 
         self.room_name = user1 + '_' + user2
+        self.user1_room_name = user1
+        self.user2_room_name = user2
 
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -62,8 +66,7 @@ class ChatConsumer(WebsocketConsumer):
             date = text_data_json['date']
 
             # Send message to room group
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_name,
+            self.send_data(
                 {
                     'type': 'chat_message',
                     'from_user': self.scope["user"].id,
@@ -80,8 +83,7 @@ class ChatConsumer(WebsocketConsumer):
             edited_date = text_data_json['edited_date']
 
             # Send message to room group
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_name,
+            self.send_data(
                 {
                     'type': 'edit_message',
                     'from_user': self.scope["user"].id,
@@ -94,8 +96,7 @@ class ChatConsumer(WebsocketConsumer):
 
             self.message_service.update(self.scope["user"], self.correspondent, message, uuid)
         elif data_type == 'delete_message':
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_name,
+            self.send_data(
                 {
                     'type': 'delete_message',
                     'uuid': uuid
@@ -104,46 +105,81 @@ class ChatConsumer(WebsocketConsumer):
 
             self.message_service.delete(self.scope["user"], uuid)
 
+    def send_data(self, data):
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_name, data
+        )
+
+        if self.scope["user"].username != self.user1_room_name:
+            async_to_sync(self.channel_layer.group_send)(
+                self.user1_room_name, data
+            )
+
+        if self.scope["user"].username != self.user2_room_name:
+            async_to_sync(self.channel_layer.group_send)(
+                self.user2_room_name, data
+            )
+
     # Receive message from room group
     def chat_message(self, event):
-        from_user = event['from_user']
-        uuid = event['uuid']
-        message = event['message']
-        date = event['date']
-
         # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'type': 'chat_message',
-            'from_user': from_user,
-            'date': date,
-            'uuid': uuid,
-            'message': message
-        }))
+        self.send(text_data=json.dumps(event))
 
     # Receive message from room group
     def edit_message(self, event):
-        from_user = event['from_user']
-        uuid = event['uuid']
-        message = event['message']
-        date = event['date']
-        edited_date = event['edited_date']
-
         # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'type': 'edit_message',
-            'from_user': from_user,
-            'date': date,
-            'edited_date': edited_date,
-            'uuid': uuid,
-            'message': message
-        }))
+        self.send(text_data=json.dumps(event))
 
     # Receive message from room group
     def delete_message(self, event):
-        uuid = event['uuid']
-
         # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'type': 'delete_message',
-            'uuid': uuid
-        }))
+        self.send(text_data=json.dumps(event))
+
+class FeedConsumer(WebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def connect(self):
+        if self.scope["user"].is_anonymous:
+            self.close()
+
+            return
+
+        username = self.scope['url_route']['kwargs']['user']
+
+        if self.scope["user"].username != username:
+            self.close() # not allowed to use this room
+
+            return
+
+        self.room_name = username
+
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_name,
+            self.channel_name
+        )
+
+        self.accept()
+
+    def disconnect(self, close_code):
+        # Leave room group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_name,
+            self.channel_name
+        )
+
+    # Receive message from room group
+    def chat_message(self, event):
+        # Send message to WebSocket
+        self.send(text_data=json.dumps(event))
+
+    # Receive message from room group
+    def edit_message(self, event):
+        # Send message to WebSocket
+        self.send(text_data=json.dumps(event))
+
+    # Receive message from room group
+    def delete_message(self, event):
+        # Send message to WebSocket
+        self.send(text_data=json.dumps(event))

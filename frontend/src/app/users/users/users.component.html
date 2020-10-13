@@ -4,7 +4,7 @@
     (touchstart)="touchBodyStart($event)" (touchend)="touchBodyEnd($event)" (touchmove)="touchBodyMove($event)"
 >
     <div class="siimple-navbar siimple-navbar--primary siimple-navbar--large navbar">
-        <app-loading-spinner  *ngIf="loading"></app-loading-spinner>
+        <app-loading-spinner *ngIf="loading"></app-loading-spinner>
 
         <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
         <ng-template #loggedTitle>
@@ -12,6 +12,7 @@
                 <span class="menu-icon md-and-lower-only" (click)="toggleMenuVisibility()">
                     <fa-icon [icon]="faBars" *ngIf="!menuDropDownVisible"></fa-icon>
                     <fa-icon [icon]="faTimes" class="menu-close-icon" *ngIf="menuDropDownVisible"></fa-icon>
+                    <div class="notification-menu-icon" [class.notification-menu-icon-loading]="loading" *ngIf="!menuDropDownVisible &&  unread_messages_count > 0"></div>
                 </span>
             </div>
         

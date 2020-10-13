@@ -112,3 +112,29 @@
   height: 100%;
   z-index: 490;
 }
+
+.notification-menu-icon {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+
+  -webkit-box-shadow: 2px 1px 4px 0px rgba(0,0,0,0.55);
+  -moz-box-box-shadow: 2px 1px 4px 0px rgba(0,0,0,0.55);
+  box-shadow: 2px 1px 4px 0px rgba(0,0,0,0.55);
+  position: absolute;
+  top: 22px;
+  left: 30px;
+
+  /* background-color: #ee675d !important; */
+
+  background-color: orange !important;
+}
+
+.notification-menu-icon-loading {
+  visibility: visible;
+  animation: 0s linear 0.2s forwards delayedHide; 
+}
+
+ @keyframes delayedHide {
+   to { visibility: hidden; }
+ }

@@ -1,16 +1,19 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ApplicationRef } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
-import { faBars, faTimes, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
-import { concat, interval, Subscription } from 'rxjs';
+import { concat, interval, Subject, Subscription } from 'rxjs';
 import { HostListener } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { RefreshService } from '../refresh.service';
 import { environment } from 'src/environments/environment';
-import { delay, first, repeatWhen } from 'rxjs/operators';
+import { debounce, delay, filter, first, repeatWhen, switchMap } from 'rxjs/operators';
 import { LastMessagesService } from '../last-messages.service';
 import { CordovaService } from 'src/app/cordova.service';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { FeedService } from '../feed.service';
+import { Message } from '../message';
 
 @Component({
   selector: 'app-users',
@@ -18,6 +21,8 @@ import { CordovaService } from 'src/app/cordova.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
+  feedSocket: WebSocketSubject<any>;
+
   menuDropDownVisible: boolean = false;
 
   faBars = faBars;
@@ -39,12 +44,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   updateConversationSubscription: Subscription;
   pollTimeUnreadConversationsMilliseconds: number = 30000;
-  updateLastMessageRead: Subscription;
+  updateLastMessageReadSubscription: Subscription;
   pausedSubscription: any;
-
-  updateMenuTranslateX() {
-    this.menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
-  }
 
   screenWidth = 0;
   screenHeight = 0;
@@ -70,6 +71,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   isMovingDropdown = false;
 
   unread_messages_count: number = 0;
+  newMessageSubscription: Subscription;
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
@@ -94,7 +96,12 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.updateMenuTranslateX();
   }
 
+  updateMenuTranslateX() {
+    this.menuTranslateX = 'translate(' + this.menuLeft + 'vw)';
+  }
+
   constructor(
+    private feedService: FeedService,
     private lastMessagesService: LastMessagesService,
     private cordovaService: CordovaService,
     public authService: AuthService,
@@ -127,21 +134,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.updateAvailableSubscription = swUpdate.available.subscribe(x => {
         this.updateSnackbarVisible = true;
-      });
-    }
-
-    if (this.authService.isLoggedIn()) {
-      this.updateConversationSubscription = this.lastMessagesService.getUnreadConversationsNumber()
-      .pipe(
-        repeatWhen(x => x.pipe(delay(this.pollTimeUnreadConversationsMilliseconds)))
-      )
-      .subscribe(u => {
-        this.updateUnreadMessageCount(u);
-      });
-
-      this.updateLastMessageRead = this.lastMessagesService.lastMessageUpdated.subscribe(x => {
-        this.lastMessagesService.getUnreadConversationsNumber()
-        .subscribe(u => this.updateUnreadMessageCount(u));
       });
     }
 
@@ -189,14 +181,17 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routerNavigationSubscription.unsubscribe();
     this.pausedSubscription.unsubscribe();
 
-    if (this.updateConversationSubscription) {
-      this.updateConversationSubscription.unsubscribe();
-    }
-
     if (this.checkForUpdatesProgramatically) {
       this.updateAvailableSubscription.unsubscribe();
       this.checkUpdatesSubscription.unsubscribe();
     }
+
+    if (this.feedSocket) {
+      this.feedSocket.unsubscribe();
+    }
+
+    this.newMessageSubscription.unsubscribe();
+    this.updateLastMessageReadSubscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -204,6 +199,47 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());
     this.restore();
+
+    if (this.feedSocket) {
+      this.feedSocket.unsubscribe();
+    }
+
+    this.createFeedSocket();
+
+    this.newMessageSubscription = this.feedService.newMessageSubject
+      .pipe(filter(x => x.from_user != +this.authService.getUserId()), debounce(() => interval(1500)), 
+      switchMap(x =>
+        this.lastMessagesService.getUnreadConversationsNumber()
+      ))
+      .subscribe(u => {
+        this.updateUnreadMessageCount(u);
+      });
+
+    this.updateLastMessageReadSubscription =
+    this.lastMessagesService.lastMessageUpdated.subscribe(x => {
+      this.lastMessagesService.getUnreadConversationsNumber()
+        .subscribe(u => this.updateUnreadMessageCount(u));
+    });
+
+    this.lastMessagesService.getUnreadConversationsNumber()
+      .subscribe(u => this.updateUnreadMessageCount(u));
+  }
+
+  createFeedSocket() {
+    this.feedSocket = this.feedService.getFeedSocket(this.username);
+    this.feedSocket
+      .subscribe(data => {
+        if (data.type && data.type.includes('message')) {
+          this.feedService.newMessageSubject.next(data);
+        }
+
+        this.feedService.dataSubject.next(data);
+      },
+      () => {
+        setTimeout(() => {
+          this.createFeedSocket();
+        }, 1000);
+      });
   }
 
   toggleMenuVisibility(): void {

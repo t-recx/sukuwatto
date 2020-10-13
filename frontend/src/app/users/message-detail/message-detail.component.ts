@@ -85,8 +85,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy, AfterViewCheck
     this.newMessageSubject = new Subject<Message>();
 
     this.newMessageSubscription = this.newMessageSubject
-      .pipe(filter(x => x.from_user != this.user.id), debounce(() => interval(2000)), switchMap(x =>
-        this.lastMessagesService.updateLastMessageRead(this.correspondent.id)
+      .pipe(filter(x => x.from_user != this.user.id), debounce(() => interval(500)), switchMap(x =>
+        this.lastMessagesService.updateLastMessageRead(this.correspondent.id, false)
       ))
       .subscribe();
 

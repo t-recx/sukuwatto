@@ -18,6 +18,10 @@
 
 }
 
+.main-menu-item {
+    display: flex;
+}
+
 @media only screen and (min-width: 960px) {
     .menu-icon-image-container {
         width: 27px;
@@ -55,7 +59,8 @@
     background-color: #4e91e4 !important;
     color: #fff !important;
 	display: flex;
-	justify-content: center;
+    justify-content: center;
+    margin-left: 4px;
 }
 
 .menu-item-label {
