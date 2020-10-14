@@ -1,5 +1,5 @@
 FROM nginx:stable-alpine
-ENV VERSION 3
+ENV VERSION 4
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
