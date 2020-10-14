@@ -11,11 +11,6 @@ constantly==15.1.0
 cryptography==2.9.2
 daphne==2.5.0
 Django==3.0.5
-
-# To support django 3+
-# django-activity-stream
-git+git://github.com/t-recx/django-activity-stream.git
-
 django-cors-headers==3.2.1
 django-cryptography==1.0
 django-filter==2.2.0
