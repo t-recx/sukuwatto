@@ -1,29 +1,264 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Unit, MeasurementType } from './unit';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { MeasurementSystem } from '../user';
-import { uz, Classes } from 'unitz-ts';
 import { Workout } from './workout';
 import { WorkoutOverview } from './workout-activity-resumed';
 import { UserBioData } from './user-bio-data';
 import { Plan } from './plan';
 import { ProgressionStrategy } from './plan-progression-strategy';
+import { UnitConversion } from './unit-conversion';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnitsService {
   private units: Unit[];
+  private unitConversions: UnitConversion[];
 
   public monthInMilliseconds: number = 2592000000;
 
   constructor(
     private authService: AuthService,
   ) {
-    Classes.addDefaults();
     this.initUnits();
+    this.initUnitConversions();
+  }
+
+  initUnitConversions() {
+    this.unitConversions = [
+      {
+        from: 'kg',
+        to: 'lb',
+        multiplier: 2.20462262
+      },
+      {
+        from: 'lb',
+        to: 'kg',
+        multiplier: 0.45359237
+      },
+      {
+        from: 'cm',
+        to: 'km',
+        multiplier: 0.00001
+      },
+      {
+        from: 'km',
+        to: 'cm',
+        multiplier: 100000
+      },
+      {
+        from: 'cm',
+        to: 'mi',
+        multiplier: 0.000006214
+      },
+      {
+        from: 'mi',
+        to: 'cm',
+        multiplier: 160934.4
+      },
+      {
+        from: 'cm',
+        to: 'm',
+        multiplier: 0.01
+      },
+      {
+        from: 'm',
+        to: 'cm',
+        multiplier: 100
+      },
+      {
+        from: 'cm',
+        to: 'yd',
+        multiplier: 0.010936133
+      },
+      {
+        from: 'yd',
+        to: 'cm',
+        multiplier: 91.44
+      },
+      {
+        from: 'cm',
+        to: 'ft',
+        multiplier: 0.032808399
+      },
+      {
+        from: 'ft',
+        to: 'cm',
+        multiplier: 30.48
+      },
+      {
+        from: 'm',
+        to: 'ft',
+        multiplier: 3.2808399
+      },
+      {
+        from: 'ft',
+        to: 'm',
+        multiplier: 0.3048
+      },
+      {
+        from: 'km',
+        to: 'ft',
+        multiplier: 3280.8399
+      },
+      {
+        from: 'ft',
+        to: 'km',
+        multiplier: 0.0003048
+      },
+      {
+        from: 'yd',
+        to: 'ft',
+        multiplier: 3
+      },
+      {
+        from: 'ft',
+        to: 'yd',
+        multiplier: 0.333333333
+      },
+      {
+        from: 'mi',
+        to: 'ft',
+        multiplier: 5280
+      },
+      {
+        from: 'ft',
+        to: 'mi',
+        multiplier: 0.000189393939
+      },
+      {
+        from: 'km',
+        to: 'mi',
+        multiplier: 0.621371192
+      },
+      {
+        from: 'mi',
+        to: 'km',
+        multiplier: 1.609344
+      },
+      {
+        from: 'km',
+        to: 'm',
+        multiplier: 1000
+      },
+      {
+        from: 'm',
+        to: 'km',
+        multiplier: 0.001
+      },
+      {
+        from: 'km',
+        to: 'yd',
+        multiplier: 1093.6133
+      },
+      {
+        from: 'yd',
+        to: 'km',
+        multiplier: 0.0009144
+      },
+      {
+        from: 'mi',
+        to: 'm',
+        multiplier: 1609.344
+      },
+      {
+        from: 'm',
+        to: 'mi',
+        multiplier: 0.000621371192
+      },
+      {
+        from: 'mi',
+        to: 'yd',
+        multiplier: 1760
+      },
+      {
+        from: 'yd',
+        to: 'mi',
+        multiplier: 0.000568181818
+      },
+      {
+        from: 'm',
+        to: 'yd',
+        multiplier: 1.0936133
+      },
+      {
+        from: 'yd',
+        to: 'm',
+        multiplier: 0.9144
+      },
+      {
+        from: 'min',
+        to: 's',
+        multiplier: 60
+      },
+      {
+        from: 's',
+        to: 'min',
+        multiplier: 0.0166666667
+      },
+      {
+        from: 'min',
+        to: 'ms',
+        multiplier: 60000
+      },
+      {
+        from: 'ms',
+        to: 'min',
+        multiplier: 0.00001666666
+      },
+      {
+        from: 'min',
+        to: 'hr',
+        multiplier: 0.0166666667
+      },
+      {
+        from: 'hr',
+        to: 'min',
+        multiplier: 60
+      },
+      {
+        from: 's',
+        to: 'ms',
+        multiplier: 1000
+      },
+      {
+        from: 'ms',
+        to: 's',
+        multiplier: 0.001
+      },
+      {
+        from: 's',
+        to: 'hr',
+        multiplier: 0.000277777778
+      },
+      {
+        from: 'hr',
+        to: 's',
+        multiplier: 3600
+      },
+      {
+        from: 'ms',
+        to: 'hr',
+        multiplier: 0.000000278
+      },
+      {
+        from: 'hr',
+        to: 'ms',
+        multiplier: 3600000
+      },
+      {
+        from: 'kcal',
+        to: 'kJ',
+        multiplier: 4.18400
+      },
+      {
+        from: 'kJ',
+        to: 'kcal',
+        multiplier: 0.239005736
+      },
+    ];
   }
 
   initUnits() {
@@ -300,14 +535,15 @@ export class UnitsService {
       return value;
     }
 
-    if (fromUnitCode == 'kcal' && toUnitCode == 'kJ') {
-      num = value * 4.18400;
-    }
-    else if (fromUnitCode == 'kJ' && toUnitCode == 'kcal') {
-      num = value * 0.239005736;
+    const conversion = this.unitConversions.filter(x => x.from == fromUnitCode && x.to == toUnitCode)[0];
+
+    if (conversion) {
+      num = value * conversion.multiplier;
     }
     else {
-      num = uz(value + fromUnitCode).convert(toUnitCode).value;
+      console.error('no conversion available ' + fromUnitCode + ' -> ' + toUnitCode);
+
+      return value;
     }
 
     return this.roundValue(num, fromUnitCode, toUnitCode);
