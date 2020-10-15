@@ -3,7 +3,7 @@
     </app-page-not-found>
 </div>
 
-<article class="siimple-card" *ngIf="workout">
+<article class="siimple-card" *ngIf="workout && !loading">
     <header class="siimple-card-header">
         <a class="siimple-link workout-card-header-link" [routerLink]="routerLink">
             {{workout.name}}

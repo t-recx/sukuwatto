@@ -25,6 +25,7 @@ export class WorkoutOverviewCardComponent implements OnInit {
   @Input() commentsSectionOpen: boolean = false;
   @Output() deleted = new EventEmitter();
 
+  loading: boolean = false;
   notFound: boolean = false;
 
   trackedActivities: WorkoutSet[];
@@ -61,6 +62,8 @@ export class WorkoutOverviewCardComponent implements OnInit {
     this.deleteModalVisible = false;
     this.deleting = false;
 
+    this.loading = true;
+    
     if (!this.workout) {
       this.workoutsService.getWorkout(this.id)
       .subscribe(w =>
@@ -83,6 +86,8 @@ export class WorkoutOverviewCardComponent implements OnInit {
   }
 
   loadWorkoutData(workout: Workout) {
+    this.unitsService.convertWorkout(workout);
+
     this.setTrackedActivities(workout);
     this.setCardioWorkoutActivities(workout);
 
@@ -91,6 +96,8 @@ export class WorkoutOverviewCardComponent implements OnInit {
     this.routerLink = ['/users', workout.user.username, 'workout', workout.id];
     this.shareTitle = 'sukuwatto: ' + workout.user.username + '\'s workout - ' + workout.name;
     this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+
+    this.loading = false;
   }
 
   isTracked(s: WorkoutSet): boolean {

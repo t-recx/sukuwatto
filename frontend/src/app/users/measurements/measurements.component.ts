@@ -152,6 +152,11 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
     )
       .subscribe(paginated => {
         this.paginatedMeasurements = paginated;
+
+        if (paginated.results) {
+          paginated.results.forEach(r => this.unitsService.convertUserBioData(r));
+        }
+
         this.measurements = paginated.results ? paginated.results : [];
 
         this.loadingService.unload();
