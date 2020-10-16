@@ -259,7 +259,11 @@ def follow_user(requesting_user, followed_user, bypass_approval):
             followed_user.follower_requests.remove(requesting_user)
 
         followed_user.followers.add(requesting_user)
+        followed_user.followers_number += 1
+        followed_user.save()
         requesting_user.following.add(followed_user)
+        requesting_user.followings_number += 1
+        requesting_user.save()
 
         if not UserAction.objects.filter(user=requesting_user, verb='started following', target_user=followed_user).exists():
             UserAction.objects.create(user=requesting_user, verb='started following', target_user=followed_user)
@@ -276,7 +280,11 @@ def do_unfollow(request):
 
     if instance.followers.filter(id=request.user.id).exists():
         instance.followers.remove(request.user)
+        instance.followers_number -= 1
+        instance.save()
         request.user.following.remove(instance)
+        request.user.followings_number -= 1
+        request.user.save()
 
         UserAction.objects.filter(user=request.user, verb='started following', target_user=instance).delete()
 

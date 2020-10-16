@@ -44,16 +44,20 @@
                 </div>
 
                 <div class="profile-field">
-                    <fa-icon [icon]="faAt" style="width: 14px;display: inline-block;"></fa-icon>
+                    <fa-icon [icon]="faAt" [fixedWidth]=true ></fa-icon>
                     <span class="siimple--pl-1">{{user.username}}</span>
                 </div>
                 <div class="profile-field" *ngIf="user.location">
-                    <fa-icon [icon]="faMapMarkerAlt" style="width: 14px;display: inline-block;"></fa-icon>
+                    <fa-icon [icon]="faMapMarkerAlt" [fixedWidth]=true></fa-icon>
                     <span class="siimple--pl-1">{{user.location}}</span>
                 </div>
                 <div class="profile-field" *ngIf="birthDate">
-                    <fa-icon [icon]="faBirthdayCake"></fa-icon>
+                    <fa-icon [icon]="faBirthdayCake" [fixedWidth]=true></fa-icon>
                     <span class="siimple--pl-1">{{birthDate | date:'MMMM, y'}}</span>
+                </div>
+                <div class="profile-field">
+                    <span class=""><span class="siimple--text-bold">{{user.followers_number | locale}}</span> followers</span>
+                    <span class="siimple--ml-2"><span class="siimple--text-bold">{{user.followings_number | locale}}</span> following</span>
                 </div>
                 <div class="profile-field keep-original-formatting">
                     {{user.biography}}

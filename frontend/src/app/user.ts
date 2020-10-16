@@ -40,6 +40,8 @@ export class User {
     follow_approval_required: boolean;
     visibility: Visibility;
     hidden: boolean;
+    followers_number: number;
+    followings_number: number;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);
