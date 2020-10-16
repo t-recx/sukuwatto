@@ -387,6 +387,7 @@ export class ProfileComponent implements OnInit {
 
       if (this.isFollowed) {
         this.followers = [new User({id: +this.authService.getUserId(), username: this.authService.getUsername()}), ...this.followers];
+        this.user.followers_number += 1;
       }
 
       this.operating = false;
@@ -402,6 +403,8 @@ export class ProfileComponent implements OnInit {
       if (!x || !x.error) {
         this.followers = this.followers.filter(f => f.id != +this.authService.getUserId());
 
+        this.user.followers_number -= 1;
+
         this.isFollowed = false;
         this.hasFollowRequest = false;
       }
@@ -413,6 +416,8 @@ export class ProfileComponent implements OnInit {
       {
         if (!x || !x.error) {
           this.following = this.following.filter(f => f.id != user.id);
+
+          this.user.followings_number -= 1;
         }
       });
   }
@@ -423,6 +428,8 @@ export class ProfileComponent implements OnInit {
         if (!x || !x.error) {
           this.requests = this.requests.filter(f => f.id != user.id);
           this.followers.push(user);
+
+          this.user.followers_number += 1;
         }
       });
   }
