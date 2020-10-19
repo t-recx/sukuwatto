@@ -23,6 +23,9 @@ import { PublicPlansComponent } from './public-plans/public-plans.component';
 import { AdoptedPlansComponent } from './adopted-plans/adopted-plans.component';
 import { OwnedPlansComponent } from './owned-plans/owned-plans.component';
 import { UsersSearchComponent } from './users-search/users-search.component';
+import { ProfileFollowersComponent } from './profile-followers/profile-followers.component';
+import { ProfileFollowingComponent } from './profile-following/profile-following.component';
+import { ProfileRequestsComponent } from './profile-requests/profile-requests.component';
 
 const routes: Routes = [
   { 
@@ -44,6 +47,21 @@ const routes: Routes = [
         path: 'profile',
         canActivateChild: [],
         component: ProfileComponent,
+      },
+      {
+        path: 'followers',
+        canActivateChild: [],
+        component: ProfileFollowersComponent,
+      },
+      {
+        path: 'following',
+        canActivateChild: [],
+        component: ProfileFollowingComponent,
+      },
+      {
+        path: 'requests',
+        canActivateChild: [],
+        component: ProfileRequestsComponent,
       },
       {
         path: 'post/:id',

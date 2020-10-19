@@ -20,6 +20,7 @@ export class FollowService {
   private followersUrl= `${environment.apiUrl}/followers/`;
   private followingUrl= `${environment.apiUrl}/following/`;
   private followRequestsUrl = `${environment.apiUrl}/follow-requests/`;
+  private followRequestsNumberUrl = `${environment.apiUrl}/follow-request-number/`;
   private isFollowingUrl= `${environment.apiUrl}/is-following/`;
 
   constructor(
@@ -128,7 +129,17 @@ export class FollowService {
       );
   }
 
+  getFollowRequestNumber(): Observable<number> {
+    let options = {};
 
+    return this.http.get<number>(`${this.followRequestsNumberUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<number>('requestNumber', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch follow request number');
+        }, 0))
+      );
+  }
 
   getFollowing(username: string, page: number = null, page_size: number = null): Observable<Paginated<User>> {
     let options = {};
@@ -150,13 +161,7 @@ export class FollowService {
       options = {params: params};
     }
 
-    return this.http.get<Paginated<User>>(`${this.followingUrl}`, options)
-      .pipe(
-        catchError(this.errorService.handleError<Paginated<User>>('following', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch following');
-        }, new Paginated<User>()))
-      );
+    return this.http.get<Paginated<User>>(`${this.followingUrl}`, options);
   }
 
   getFollowers(username: string, page: number = null, page_size: number = null): Observable<Paginated<User>> {
@@ -179,12 +184,6 @@ export class FollowService {
       options = {params: params};
     }
 
-    return this.http.get<Paginated<User>>(`${this.followersUrl}`, options)
-      .pipe(
-        catchError(this.errorService.handleError<Paginated<User>>('followers', (e: any) => 
-        { 
-          this.alertService.error('Unable to fetch followers');
-        }, new Paginated<User>()))
-      );
+    return this.http.get<Paginated<User>>(`${this.followersUrl}`, options);
   }
 }

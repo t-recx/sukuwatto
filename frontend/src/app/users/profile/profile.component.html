@@ -55,9 +55,20 @@
                     <fa-icon [icon]="faBirthdayCake" [fixedWidth]=true></fa-icon>
                     <span class="siimple--pl-1">{{birthDate | date:'MMMM, y'}}</span>
                 </div>
-                <div class="profile-field">
-                    <span class=""><span class="siimple--text-bold">{{user.followers_number | locale}}</span> followers</span>
-                    <span class="siimple--ml-2"><span class="siimple--text-bold">{{user.followings_number | locale}}</span> following</span>
+                <div class="profile-field" *ngIf="!user.hidden">
+                    <span class="clickable" [routerLink]="['/users', username, 'followers']"><span
+                            class="siimple--text-bold">{{user.followers_number | locale}}</span> followers</span>
+                    <span class="clickable siimple--ml-2" [routerLink]="['/users', username, 'following']"><span
+                            class="siimple--text-bold">{{user.followings_number | locale}}</span> following</span>
+                    <span class="clickable siimple--ml-2" *ngIf="requests_number > 0"
+                        [routerLink]="['/users', username, 'requests']"><span
+                            class="siimple--text-bold">{{requests_number | locale}}</span> requests</span>
+                </div>
+                <div class="profile-field" *ngIf="user.hidden">
+                    <span ><span
+                            class="siimple--text-bold">{{user.followers_number | locale}}</span> followers</span>
+                    <span class="siimple--ml-2" ><span
+                            class="siimple--text-bold">{{user.followings_number | locale}}</span> following</span>
                 </div>
                 <div class="profile-field keep-original-formatting">
                     {{user.biography}}
@@ -67,57 +78,20 @@
     </div>
 
     <div class="" *ngIf="!user.hidden">
-        <div class="siimple-tabs">
-            <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab==profileTab.Overview"
-                (click)="selectTab(profileTab.Overview)">
-                Overview
-            </div>
-            <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab==profileTab.Followers"
-                (click)="selectTab(profileTab.Followers)">
-                Followers
-            </div>
-            <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab==profileTab.Following"
-                (click)="selectTab(profileTab.Following)">
-                Following
-            </div>
-            <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab==profileTab.Requests"
-                (click)="selectTab(profileTab.Requests)" *ngIf="canShowRequestsTab">
-                Requests
-            </div>
+        <div class="siimple-rule">
         </div>
 
         <div>
-            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Overview">
-                <app-user-progress-charts [username]=username>
-                </app-user-progress-charts>
-
-                <div class="siimple--mt-4" *ngIf="loading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-
-                <div *ngIf="!loading">
-                    <app-feed [actions]=actions [paginated]=paginated [loadingOlderActions]=loadingOlderActions>
-                    </app-feed>
-                </div>
+            <app-user-progress-charts [username]=username>
+            </app-user-progress-charts>
+        
+            <div class="siimple--mt-4" *ngIf="loading">
+                <app-loading-spinner></app-loading-spinner>
             </div>
-            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Followers">
-                <app-users-follow-list [users]=followers [loading]=loadingFollowers [showActionButton]=false>
-                </app-users-follow-list>
-            </div>
-            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Following">
-                <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
-                    [loading]=loadingFollowing
-                    [actionIcon]=faUserMinus actionText="Unfollow" (actionPressed)="unfollowUser($event)">
-                </app-users-follow-list>
-            </div>
-            <div class="tab-content" [class.tab-content-selected]="selectedTab==profileTab.Requests">
-                <app-users-follow-list [users]=requests 
-                    [loading]=loadingRequests
-                    [showDeleteButton]=true
-                    [deleteIcon]=faTimes (deletePressed)="rejectUser($event)"
-                    [showActionButton]=true
-                    [actionIcon]=faCheck actionText="Accept" (actionPressed)="acceptUser($event)">
-                </app-users-follow-list>
+        
+            <div *ngIf="!loading">
+                <app-feed [actions]=actions [paginated]=paginated [loadingOlderActions]=loadingOlderActions>
+                </app-feed>
             </div>
         </div>
     </div>

@@ -1,0 +1,32 @@
+<div *ngIf="initFollowing && !notFound && !forbidden">
+    <div class="toolbar">
+        <div class="toolbar-title" style="width: 100%;">
+
+            <a class="siimple-link" [routerLink]="['/users', username, 'profile']" style="font-size: 30px;">
+                <fa-icon [icon]="arrowLeft" class="siimple--mr-1"></fa-icon>
+                {{username}}
+            </a> 
+
+            <div class="siimple-rule"></div>
+
+            <div>
+                Following
+            </div>
+        </div>
+    </div>
+
+    <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
+        [loading]=loadingFollowing [actionIcon]=faUserMinus actionText="Unfollow"
+        (actionPressed)="unfollowUser($event)">
+    </app-users-follow-list>
+</div>
+
+<div *ngIf="notFound">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+
+<div *ngIf="forbidden">
+    <app-forbidden>
+    </app-forbidden>
+</div>

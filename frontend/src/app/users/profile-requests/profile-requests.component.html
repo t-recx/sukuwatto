@@ -1,0 +1,25 @@
+<div *ngIf="initRequests && !forbidden">
+        <div class="toolbar-title" style="width: 100%;">
+
+            <a class="siimple-link" [routerLink]="['/users', username, 'profile']" style="font-size: 30px;">
+                <fa-icon [icon]="arrowLeft" class="siimple--mr-1"></fa-icon>
+                {{username}}
+            </a> 
+
+            <div class="siimple-rule"></div>
+
+            <div>
+                Follower requests
+            </div>
+        </div>
+
+    <app-users-follow-list [users]=requests [loading]=loadingRequests [showDeleteButton]=true [deleteIcon]=faTimes
+        (deletePressed)="rejectUser($event)" [showActionButton]=true [actionIcon]=faCheck actionText="Accept"
+        (actionPressed)="acceptUser($event)">
+    </app-users-follow-list>
+</div>
+
+<div *ngIf="forbidden">
+    <app-forbidden>
+    </app-forbidden>
+</div>
