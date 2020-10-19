@@ -19,7 +19,7 @@ class UserHiddenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'username', 'profile_filename', 'hidden']
+        fields = ['id', 'username', 'profile_filename', 'followers_number', 'followings_number', 'hidden']
 
 class UserMinimalSerializer(serializers.ModelSerializer):
     class Meta:

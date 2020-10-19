@@ -42,6 +42,9 @@ class FollowersList(generics.ListAPIView):
 
         user = get_object_or_404(get_user_model(), username=username)
 
+        if not can_see_user(request.user, user):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         queryset = user.followers.all().order_by('username')
 
         page = self.paginate_queryset(queryset)
@@ -63,6 +66,9 @@ class FollowingList(generics.ListAPIView):
         username = request.query_params.get('username', None)
 
         user = get_object_or_404(get_user_model(), username=username)
+
+        if not can_see_user(request.user, user):
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         queryset = user.following.all().order_by('username')
 
@@ -217,6 +223,11 @@ class ActorStreamList(StreamList):
 
 class ExpressInterestCreate(generics.CreateAPIView):
     serializer_class = ExpressInterestSerializer
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def follow_request_number(request):
+    return Response(request.user.follower_requests.count())
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
