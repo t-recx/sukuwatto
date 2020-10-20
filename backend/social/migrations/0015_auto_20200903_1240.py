@@ -80,5 +80,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(migrate_from_actstream, rollback_from_actstream),
+        # migrations.RunPython(migrate_from_actstream, rollback_from_actstream),
     ]

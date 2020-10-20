@@ -44,17 +44,11 @@ export class LoginComponent implements OnInit {
     this.signInText = "Signing in...";
 
     let username = null;
-    let email = null;
     let password = this.user.password;
 
-    if (this.user.username.includes('@') && this.user.username.includes('.')) {
-      email = this.user.username;
-    }
-    else {
-      username = this.user.username;
-    }
+    username = this.user.username.trim();
 
-    this.authService.login(username, email, password)
+    this.authService.login(username, password)
       .subscribe(token => {
         if (this.authService.isLoggedIn()) {
           let redirect = this.authService.redirectUrl;
