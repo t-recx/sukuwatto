@@ -89,18 +89,7 @@ export class UserService {
   }
 
   create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.usersApiUrl}`, user, this.httpOptions)
-    .pipe(
-      catchError(this.errorService.handleError<User>('create', (e: any) => 
-      {
-        if (e.error && e.error.username) {
-          this.alertService.error('Unable to sign up: username already taken');
-        }
-        else {
-          this.alertService.error('Unable to sign up, try again later');
-        }
-      }))
-    );
+    return this.http.post<User>(`${this.usersApiUrl}`, user, this.httpOptions);
   }
 
   update(user: User): Observable<User> {

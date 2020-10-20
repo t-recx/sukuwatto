@@ -41,6 +41,9 @@
                             <div *ngIf="username.invalid && (username.dirty || triedToSignUp)">
                                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                             </div>
+                            <div *ngIf="usernameError && triedToSignUp">
+                                <div class="siimple-field-helper siimple--color-error">{{usernameError}}</div>
+                            </div>
                         </div>
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Email address</div>
