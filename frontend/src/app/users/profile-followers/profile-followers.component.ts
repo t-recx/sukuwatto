@@ -7,6 +7,7 @@ import { ErrorService } from 'src/app/error.service';
 import { User } from 'src/app/user';
 import { FollowService } from '../follow.service';
 import { LoadingService } from '../loading.service';
+import { PageSizeService } from '../page-size.service';
 import { Paginated } from '../paginated';
 
 @Component({
@@ -32,6 +33,7 @@ export class ProfileFollowersComponent implements OnInit {
     private route: ActivatedRoute,
     private errorService: ErrorService,
     private alertService: AlertService,
+    private pageSizeService: PageSizeService,
   ) { }
 
   ngOnInit(): void {
@@ -40,19 +42,7 @@ export class ProfileFollowersComponent implements OnInit {
   }
 
   setPageSize() {
-    const innerHeight = window.innerHeight;
-
-    const navBarHeight = 294;
-    const footerHeight = 187;
-    const actionHeight = 32;
-
-    let ps = Math.ceil((innerHeight - navBarHeight - footerHeight) / actionHeight);
-
-    if (ps < 3) {
-      ps = 3;
-    }
-
-    this.pageSize = ps;
+    this.pageSize = this.pageSizeService.getPageSize(32);
   }
 
   private load(username: string) {
@@ -110,7 +100,7 @@ export class ProfileFollowersComponent implements OnInit {
   }
 
   @HostListener('window:scroll', []) onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
+    if (this.pageSizeService.canScroll()) {
       if (this.paginatedFollowers.next) {
         this.loadFollowers(1);
       }

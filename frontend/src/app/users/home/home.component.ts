@@ -12,6 +12,7 @@ import { LoadingService } from '../loading.service';
 import { environment } from 'src/environments/environment';
 import { PostImage } from '../post-image';
 import { RefreshService } from '../refresh.service';
+import { PageSizeService } from '../page-size.service';
 
 @Component({
   selector: 'app-home',
@@ -60,6 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private postsService: PostsService,
     private loadingService: LoadingService,
     private refreshService: RefreshService,
+    private pageSizeService: PageSizeService,
   ) {
     this.refreshingSubscription = this.refreshService.refreshing.subscribe(() => {
       this.refreshingWithPullDown = true;
@@ -81,24 +83,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  getPageSize() {
-    this.innerHeight = window.innerHeight;
-
-    const navBarHeight = 294;
-    const footerHeight = 187;
-    const actionHeight = 69;
-
-    let ps = Math.ceil((this.innerHeight - navBarHeight - footerHeight) / actionHeight);
-
-    if (ps < 3) {
-      ps = 3;
-    }
-
-    return ps;
-  }
-
   setPageSize() {
-    this.pageSize = this.getPageSize();
+    this.pageSize = this.pageSizeService.getPageSize(69);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -118,7 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.newActivityButtonVisible = true;
     }
 
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
+    if (this.pageSizeService.canScroll()) {
       this.loadOlderActions();
     }
 
