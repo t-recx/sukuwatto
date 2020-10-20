@@ -12,6 +12,7 @@ import { Action } from '../action';
 import { Paginated } from '../paginated';
 import { StreamsService } from '../streams.service';
 import { LoadingService } from '../loading.service';
+import { PageSizeService } from '../page-size.service';
 
 @Component({
   selector: 'app-profile',
@@ -74,6 +75,7 @@ export class ProfileComponent implements OnInit {
     private messagesService: MessagesService,
     private streamsService: StreamsService,
     private loadingService: LoadingService,
+    private pageSizeService: PageSizeService,
   ) { }
 
   getPageSize(navBarHeight = 64, actionHeight = 69) {
@@ -110,7 +112,7 @@ export class ProfileComponent implements OnInit {
   }
 
   @HostListener('window:scroll', []) onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 160) {
+    if (this.pageSizeService.canScroll()) {
       this.loadOlderActions();
     }
   }
