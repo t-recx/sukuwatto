@@ -24,45 +24,18 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private jwtHelper: JwtService,
-    private userService: UserService,
     private errorService: ErrorService,
     private alertService: AlertService) {
   }
 
-  login(username: string, email: string, password: string): Observable<Token> {
+  login(username: string, password: string): Observable<Token> {
     username = username ? username.toLowerCase() : username;
-    email = email ? email.toLowerCase() : email;
 
-    if (!username || username.trim().length == 0) {
-      return this.userService.getUser(null, email).pipe(
-        concatMap(user => {
-          if (!user) {
-            this.alertService.error('Incorrect username or password');
-
-            return new Observable<Token>(o => {
-              o.next(null);
-              o.complete();
-            });
-          }
-
-          user.password = password;
-
-          return this.loginByUser(user);
-        })
-      );
-    }
-
-    return this.loginByUser(new User({username, password}));
-  }
-
-  loginByUser(user: User): Observable<Token> {
-    return this.http.post<Token>(`${environment.apiUrl}/token/`, user, this.httpOptions)
+    return this.http.post<Token>(`${environment.apiUrl}/token/`, {username, password}, this.httpOptions)
       .pipe(
         tap((newToken: Token) => {
           if (newToken) {
-            this.setSession(user, newToken);
-            this.setUserData(user.username);
+            this.setSession(newToken);
           }
         }),
         catchError(this.errorService.handleError<Token>('login', (e: any) => {
@@ -129,27 +102,23 @@ export class AuthService {
     this.setLocalStorageItem('logged_in', value);
   }
 
-  private setSession(user: User, token: Token) {
-    this.setIsLoggedIn('true');
-    this.setTokenMessaging(token.messaging);
-    this.setUsername(user.username)
-  }
+  private setSession(token: Token) {
+    if (token.user) {
+      this.setIsLoggedIn('true');
 
-  private setUserData(username: string) {
-    this.userService.getUser(username).subscribe(user => {
-      if (user) { 
-        this.setUnitSystem(user.system);
-        this.setUserWeightUnitId(user.default_weight_unit.toString());
-        this.setUserDistanceUnitId(user.default_distance_unit.toString());
-        this.setUserEnergyUnitId(user.default_energy_unit.toString());
-        this.setUserSpeedUnitId(user.default_speed_unit.toString());
-        this.setUserDefaultWorkoutVisibility(user.default_visibility_workouts);
-        this.setUserDefaultMeasurementVisibility(user.default_visibility_user_bio_datas);
+      this.setUsername(token.user.username);
 
-        this.setUserID(user.id.toString());
-        this.setIsStaff(user.is_staff);
-      }
-    });
+      this.setUnitSystem(token.user.system);
+      this.setUserWeightUnitId(token.user.default_weight_unit.toString());
+      this.setUserDistanceUnitId(token.user.default_distance_unit.toString());
+      this.setUserEnergyUnitId(token.user.default_energy_unit.toString());
+      this.setUserSpeedUnitId(token.user.default_speed_unit.toString());
+      this.setUserDefaultWorkoutVisibility(token.user.default_visibility_workouts);
+      this.setUserDefaultMeasurementVisibility(token.user.default_visibility_user_bio_datas);
+
+      this.setUserID(token.user.id.toString());
+      this.setIsStaff(token.user.is_staff);
+    }
   }
 
   private getLocalStorageItem(key: string): string {
@@ -167,10 +136,6 @@ export class AuthService {
 
   public getIsLoggedIn(): string {
     return this.getLocalStorageItem('logged_in');
-  }
-
-  public getMessagingToken(): string {
-    return this.getLocalStorageItem('messaging_token');
   }
 
   public getUsername(): string {
@@ -277,9 +242,5 @@ export class AuthService {
 
   public setUserDefaultActivityTypeStrength(activityTypeStrength: boolean) {
     this.setLocalStorageItem('default_activity_type_strength', activityTypeStrength.toString());
-  }
-
-  setTokenMessaging(token: string) {
-    this.setLocalStorageItem('messaging_token', token);
   }
 }

@@ -134,7 +134,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       )
       .subscribe(user => {
         if (user) {
-          this.authService.login(this.user.username, null, this.user.password)
+          this.authService.login(this.user.username, this.user.password)
             .subscribe(token => {
               if (this.authService.isLoggedIn()) {
                 let redirect = this.authService.redirectUrl ?

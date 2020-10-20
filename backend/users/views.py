@@ -11,7 +11,7 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, UserHiddenSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer
+from .serializers import UserSerializer, UserHiddenSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer, CustomTokenObtainPairSerializer
 from sqtrex.serializers import ActionSerializer
 from django.shortcuts import get_object_or_404
 from sqtrex.permissions import IsUserOrReadOnly
@@ -24,6 +24,7 @@ from django.utils.safestring import mark_safe
 from sqtrex.visibility import VisibilityQuerysetMixin
 from social.models import UserAction
 from rest_framework.filters import SearchFilter
+from rest_framework_simplejwt.views import TokenViewBase, TokenCookieViewMixin
 
 class CanSeeUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -380,13 +381,9 @@ def get_user(request):
     user = None
     profile_filename = None
     username = request.query_params.get('username', None)
-    email = request.query_params.get('email', None)
 
     if username is not None:
         user = get_object_or_404(get_user_model(), username=username)
-
-    if email is not None:
-        user = get_object_or_404(get_user_model(), email=email)
 
     if can_see_user(request.user, user):
         return Response(UserSerializer(user).data)
@@ -407,3 +404,12 @@ def can_see_user(request_user, user):
 @permission_classes([IsAuthenticated])
 def get_email(request):
     return Response(request.user.email)
+
+class CustomTokenObtainPairView(TokenCookieViewMixin, TokenViewBase):
+    """
+    Takes a set of user credentials and returns an access and refresh JSON web
+    token pair to prove the authentication of those credentials.
+    """
+    serializer_class = CustomTokenObtainPairSerializer
+
+token_obtain_pair = CustomTokenObtainPairView.as_view()
