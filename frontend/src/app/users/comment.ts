@@ -12,6 +12,7 @@ export class Comment {
     target_exercise: number;
     target_workout: number;
     target_post: number;
+    target_feature: number;
     target_user_bio_data: number;
 
     date: Date;

@@ -3,6 +3,7 @@ from django.urls import include, path
 from rest_framework import routers
 from users.views import UserViewSet, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate, follow_request_number, CustomTokenObtainPairView
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet, user_liked, unread_conversations, get_date_last_unread_conversations
+from development.views import FeatureViewSet
 from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data, MuscleList
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
@@ -19,6 +20,7 @@ router.register(r'plans', plan_views.PlanViewSet)
 router.register(r'workouts', workout_views.WorkoutViewSet, 'Workout')
 router.register(r'user-bio-datas', user_bio_views.UserBioDataViewSet)
 router.register(r'posts', PostViewSet)
+router.register(r'features', FeatureViewSet)
 router.register(r'comments', CommentViewSet)
 
 urlpatterns = [

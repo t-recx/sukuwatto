@@ -106,6 +106,7 @@ INSTALLED_APPS = [
     'tokens',
     'workouts',
     'social',
+    'development',
     'channels',
     'rest_framework',
     'django_rest_passwordreset',

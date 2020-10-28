@@ -6,6 +6,7 @@ from users.serializers import UserSerializer, UserMinimalSerializer
 from workouts.serializers.workout_serializer import WorkoutOverviewSerializer
 from workouts.serializers.plan_serializer import PlanSerializer
 from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer
+from development.serializers import FeatureSerializer
 
 class ContentTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,6 +23,7 @@ class ActionSerializer(serializers.ModelSerializer):
     target_comment = CommentMinimalSerializer()
     target_exercise = ExerciseSerializer()
     target_user_bio_data = UserBioDataSerializer()
+    target_feature = FeatureSerializer()
 
     action_object_user = UserMinimalSerializer()
     action_object_workout = WorkoutOverviewSerializer()
@@ -30,6 +32,7 @@ class ActionSerializer(serializers.ModelSerializer):
     action_object_comment = CommentMinimalSerializer()
     action_object_exercise = ExerciseSerializer()
     action_object_user_bio_data = UserBioDataSerializer()
+    action_object_feature = FeatureSerializer()
 
     class Meta:
         model = UserAction

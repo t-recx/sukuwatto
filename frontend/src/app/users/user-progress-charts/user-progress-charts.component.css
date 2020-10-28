@@ -11,10 +11,11 @@
 .current-series {
     padding: 5px;
     display: inline-block;
+    flex-grow: 1;
 }
 
 .navigation-box {
-    display: block;
+    display: flex;
     vertical-align: top;
     width: calc(100% - 20px);
     background-color: #dde5ee;

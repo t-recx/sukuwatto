@@ -26,6 +26,9 @@ import { UsersSearchComponent } from './users-search/users-search.component';
 import { ProfileFollowersComponent } from './profile-followers/profile-followers.component';
 import { ProfileFollowingComponent } from './profile-following/profile-following.component';
 import { ProfileRequestsComponent } from './profile-requests/profile-requests.component';
+import { FeaturesComponent } from './features/features.component';
+import { FeatureDetailComponent } from './feature-detail/feature-detail.component';
+import { FeatureDetailEditComponent } from './feature-detail-new/feature-detail-new.component';
 
 const routes: Routes = [
   { 
@@ -67,6 +70,26 @@ const routes: Routes = [
         path: 'post/:id',
         canActivateChild: [],
         component: PostDetailComponent,
+      },
+      {
+        path: 'features/:page',
+        canActivateChild: [],
+        component: FeaturesComponent,
+      },
+      {
+        path: 'features',
+        canActivateChild: [],
+        component: FeaturesComponent,
+      },
+      {
+        path: 'feature/:id',
+        canActivateChild: [],
+        component: FeatureDetailComponent,
+      },
+      {
+        path: 'feature',
+        canActivate: [AuthGuard],
+        component: FeatureDetailEditComponent,
       },
       {
         path: 'plans/:page',

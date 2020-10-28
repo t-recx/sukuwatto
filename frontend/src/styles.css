@@ -408,3 +408,24 @@ ul {
 .link-row {
     cursor: pointer;
 }
+
+.search-box {
+    display: flex;
+    background-color: #eef2f7;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.search-box-input {
+    background-color: #ffffff !important;
+    margin-right: 15px;
+    width: 100%;
+    min-width: 0;
+}
+
+.search-buttons {
+    margin-left: auto;
+    white-space: nowrap;
+}
