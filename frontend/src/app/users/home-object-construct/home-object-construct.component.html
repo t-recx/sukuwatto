@@ -38,6 +38,13 @@
         </a>
     </ng-template>
 
+    <ng-template [ngSwitchCase]="'feature'">
+        <a class="siimple-link"
+            [routerLink]="['/users', username, 'feature', object_id]">
+            feature
+        </a>
+    </ng-template>
+
     <ng-template ngSwitchDefault>
         {{display_name}}
     </ng-template>

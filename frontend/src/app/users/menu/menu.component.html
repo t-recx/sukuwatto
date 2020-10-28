@@ -62,4 +62,11 @@
         </div>
         Users
     </a>
+    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+        [routerLink]="['/users', authService.getUsername(), 'features']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconDevelopment" class="menu-icon-image"></fa-icon>
+        </div>
+        Features
+    </a>
 </div>

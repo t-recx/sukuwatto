@@ -1,0 +1,148 @@
+<article class="siimple-card" *ngIf="feature">
+    <header class="siimple-card-header feature-header" *ngIf="!editing">
+        <span class="user-profile" >
+            <span >
+                <span class="siimple--mr-1">
+                    #{{feature.id}}
+                </span>
+                <a class="siimple-link" [routerLink]=routerLink>
+                    <span *ngIf="feature.title">
+                        {{feature.title}}
+                    </span>
+                </a>
+            </span>
+        </span>
+
+        <small class="siimple-small time">{{getTime(feature.date)}}</small>
+
+        <small class="siimple-small edited-time" *ngIf="feature.edited_date">
+            (edited: {{getTime(feature.edited_date)}})
+        </small>
+
+        <app-edit-delete-dropdown class="self-centered edit-delete-dropdown" (edited)="toggleEditing()" (deleted)="showDeleteModal()"
+            *ngIf="authenticatedUserIsOwner">
+        </app-edit-delete-dropdown>
+    </header>
+    <header class="siimple-card-header feature-header" *ngIf="editing">
+        <span class="user-profile" >
+            <input type="text" class="siimple-input siimple-input--fluid feature-title-input" name="title"
+                id="title" [(ngModel)]="feature.title" #title="ngModel" required
+                maxlength="30" placeholder="Title">
+            <div *ngIf="title.invalid && triedToSave">
+                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+            </div>
+        </span>
+
+        <app-edit-delete-dropdown class="self-centered edit-delete-dropdown" (edited)="toggleEditing()" (deleted)="showDeleteModal()"
+            *ngIf="authenticatedUserIsOwner">
+        </app-edit-delete-dropdown>
+    </header>
+    <div class="siimple-card-body">
+        <div *ngIf="editing" class="siimple-form feature-form">
+            <div class="siimple-form-field">
+                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newFeature"
+                    id="newFeature" required [(ngModel)]="feature.text" #newFeature="ngModel" placeholder="Description">
+                </textarea>
+                <div *ngIf="newFeature.invalid && triedToSave">
+                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                </div>
+            </div>
+
+            <div class="siimple--clearfix feature-buttons-container">
+                <app-post-images-upload
+                (addedImage)="addImage($event)"
+                (removedImage)="deleteImage($event)"
+                (uploadingImage)="uploadingInProgress()"
+                (stoppedUploadingImage)="stoppedUploading()"
+                [postImages]="featureImages"
+                ></app-post-images-upload>
+
+                <button class="siimple-btn siimple-btn--primary feature-button" 
+                    [disabled]="updating || imageUploading"
+                    [class.siimple-btn--disabled]="updating || imageUploading" 
+                    (click)="update()">
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="updating">
+                    </fa-icon>
+                    <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
+                    Update
+                </button>
+            </div>
+        </div>
+        <div *ngIf="!editing" class="">
+            <div class="keep-original-formatting">
+                {{feature.text}}
+            </div>
+
+            <div class="siimple-rule siimple--mt-3" *ngIf="feature.feature_images && feature.feature_images.length > 0"></div>
+            <div class="feature-images-container " *ngIf="feature.feature_images && feature.feature_images.length > 0">
+
+                <div class="feature-image-container">
+                    <img class="feature-image" [src]="currentImageUrl">
+                </div>
+
+                <div class="feature-image-cursors" *ngIf="feature.feature_images && feature.feature_images.length > 1">
+                    <div class="feature-image-cursor-overlay " (click)="previousImage()" #previousOverlay>
+                    </div>
+                
+                    <div class="feature-image-previous">
+                        <fa-icon [icon]="faChevronLeft"></fa-icon>
+                    </div>
+                
+                    <div class="feature-image-cursor-overlay feature-image-cursor-overlay-next" (click)="nextImage()" #nextOverlay>
+                    </div>
+                
+                    <div class="feature-image-next">
+                        <fa-icon [icon]="faChevronRight"></fa-icon>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dot-container" *ngIf="feature.feature_images && feature.feature_images.length > 1">
+                <span class="dot" [class.active]="featureImageIndex == i" *ngFor="let featureImage of feature.feature_images; let i = index"
+                    (click)="selectImage(i)"></span>
+            </div>
+
+            <div *ngIf="detailView" class="siimple--mt-3">
+                <div class="siimple-rule "></div>
+            
+                <div class="owner-user-container">
+                    <app-user-tag [username]=feature.user.username [profile_filename]=feature.user.profile_filename>
+                    </app-user-tag>
+            
+                    <small class="siimple-small siimple--ml-2">{{feature.date.toString() | timeAgo}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="siimple-card-footer feature-footer">
+        <app-card-social-interaction [shareTitle]="shareTitle" [shareLink]="shareLink" [likeNumber]=feature.likes
+            [target_feature]=feature.id
+            [commentNumber]=feature.comment_number content_type_model='feature' [id]=feature.id
+            [commentsSectionOpen]=commentsSectionOpen>
+        </app-card-social-interaction>
+    </footer>
+</article>
+
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
+    <div class="siimple-modal-content">
+        <header class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Delete Feature?</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
+        </header>
+        <div class="siimple-modal-body modal-window-body">
+            <p class="siimple-p">
+                This will delete your feature and associated data! Are you sure you want to proceed?
+            </p>
+        </div>
+        <footer class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                Yes
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
+                Cancel
+            </button>
+        </footer>
+    </div>
+</div>

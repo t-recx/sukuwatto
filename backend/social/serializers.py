@@ -2,8 +2,10 @@ from rest_framework import serializers
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from datetime import datetime
-from social.models import Message, LastMessage, Post, Comment, PostImage
+from social.models import Message, LastMessage, Post, Comment, PostImage, UserAction
 from users.serializers import UserSerializer, UserMinimalSerializer
+from development.models import Feature
+from development.serializers import FeatureSerializer
 from django.utils import timezone
 from workouts.utils import get_differences
 
@@ -112,7 +114,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'text', 'date', 'edited_date', 'user', 'comment_target_object_id', 'comment_target_content_type',
-            'target_plan', 'target_workout', 'target_post', 'target_exercise', 'target_user_bio_data']
+            'target_plan', 'target_workout', 'target_post', 'target_exercise', 'target_user_bio_data', 'target_feature']
         extra_kwargs = {'user': {'required': False},'date': {'required': False}}
 
     def create(self, validated_data):

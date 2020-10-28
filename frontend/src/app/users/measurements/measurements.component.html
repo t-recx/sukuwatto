@@ -4,7 +4,7 @@
     <div class="toolbar-buttons" *ngIf="isLoggedIn()">
         <button class="siimple-btn siimple-btn--primary toolbar-button" 
           [routerLink]="['/users', username, 'measurement']">
-            <fa-icon [icon]="faWeight" class="siimple--mr-1"></fa-icon>
+            <fa-icon [icon]="faWeight" class="siimple--mr-1" [fixedWidth]=true></fa-icon>
             New
         </button>
     </div>

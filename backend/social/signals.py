@@ -2,6 +2,7 @@ from django.db.models.signals import post_save, pre_delete
 from social.models import Post, Comment, UserAction
 from social.utils import get_user_actions_filtered_by_object
 from workouts.models import Workout, Plan, Exercise, UserBioData
+from development.models import Feature
 from pprint import pprint
 from users.models import CustomUser
 from django.contrib.contenttypes.models import ContentType
@@ -22,6 +23,7 @@ def comment_user_actions_handler(sender, instance, created, **kwargs):
         target_post = None
         target_exercise = None
         target_user_bio_data = None
+        target_feature = None
 
         if object_model == 'workout':
             target_workout = Workout.objects.get(pk=object_id)
@@ -33,6 +35,8 @@ def comment_user_actions_handler(sender, instance, created, **kwargs):
             target_exercise = Exercise.objects.get(pk=object_id)
         elif object_model == 'userbiodata':
             target_user_bio_data = UserBioData.objects.get(pk=object_id)
+        elif object_model == 'feature':
+            target_feature = Feature.objects.get(pk=object_id)
 
         UserAction.objects.create(
             user=instance.user, verb='commented', 
@@ -41,6 +45,7 @@ def comment_user_actions_handler(sender, instance, created, **kwargs):
             target_workout=target_workout, 
             target_plan=target_plan, 
             target_exercise=target_exercise, 
+            target_feature=target_feature, 
             target_user_bio_data=target_user_bio_data)
 
 def comment_update_comments_number_handler(sender, instance, created, **kwargs):
@@ -57,6 +62,8 @@ def comment_update_comments_number_handler(sender, instance, created, **kwargs):
             model = instance.target_exercise
         elif instance.target_user_bio_data:
             model = instance.target_user_bio_data
+        elif instance.target_feature:
+            model = instance.target_feature
 
         if model:
             model.comment_number += 1
@@ -79,6 +86,8 @@ def delete_comment_activity(sender, instance, **kwargs):
         model = instance.target_exercise
     elif instance.target_user_bio_data:
         model = instance.target_user_bio_data
+    elif instance.target_feature:
+        model = instance.target_feature
 
     if model:
         model.comment_number -= 1

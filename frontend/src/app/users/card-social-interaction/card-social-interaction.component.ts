@@ -31,6 +31,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @Input() target_exercise: number;
   @Input() target_workout: number;
   @Input() target_user_bio_data: number;
+  @Input() target_feature: number;
 
   content_type_id: number;
   content_type_user_id: number;
@@ -79,6 +80,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.createCommentSectionVisible = true;
     this.triedToComment = false;
+    this.usersThatLiked = [];
 
     this.loadingService.load();
     this.contentTypesService.get('customuser').subscribe(contentTypeUser => {
@@ -205,6 +207,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     comment.comment_target_object_id = this.id.toString();
     comment.target_plan = this.target_plan;
     comment.target_post = this.target_post;
+    comment.target_feature = this.target_feature;
     comment.target_workout = this.target_workout;
     comment.target_exercise = this.target_exercise;
     comment.target_user_bio_data = this.target_user_bio_data;

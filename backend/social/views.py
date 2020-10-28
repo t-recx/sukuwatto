@@ -10,14 +10,14 @@ from rest_framework import generics, status, mixins
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 from django.contrib.auth import get_user_model
-from pprint import pprint
 from social.message_service import MessageService
 from sqtrex.pagination import StandardResultsSetPagination
-from sqtrex.serializers import ActionSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.models import Workout, Plan, Exercise, UserBioData
+from sqtrex.serializers import ActionSerializer
+from development.models import Feature
 
 class ActionObjectStreamList(generics.ListAPIView):
     def list(self, request):
@@ -188,6 +188,7 @@ def toggle_like(request):
     target_post = None
     target_exercise = None
     target_user_bio_data = None
+    target_feature = None
 
     if object_model == 'workout':
         model = Workout.objects.get(pk=object_id)
@@ -204,10 +205,13 @@ def toggle_like(request):
     elif object_model == 'userbiodata':
         model = UserBioData.objects.get(pk=object_id)
         target_user_bio_data = model
+    elif object_model == 'feature':
+        model = Feature.objects.get(pk=object_id)
+        target_feature = model
 
     if not deleted:
         UserAction.objects.create(user=request.user, verb='liked', target_workout=target_workout, target_plan=target_plan,
-            target_post=target_post, target_exercise=target_exercise, target_user_bio_data=target_user_bio_data)
+            target_post=target_post, target_exercise=target_exercise, target_user_bio_data=target_user_bio_data, target_feature=target_feature)
 
     if model is not None:
         if deleted:

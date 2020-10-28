@@ -1,0 +1,35 @@
+<div class="toolbar">
+    <div class="toolbar-title">Features</div>
+
+    <div class="toolbar-buttons" *ngIf="isLoggedIn()">
+        <button class="siimple-btn siimple-btn--primary toolbar-button" 
+          [routerLink]="['/users', username, 'feature']">
+            <fa-icon [icon]="faCode" class="siimple--mr-1" [fixedWidth]=true></fa-icon>
+            New
+        </button>
+    </div>
+</div>
+
+<div class="search-box">
+    <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
+        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel">
+    <div class="search-buttons">
+        <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
+            <fa-icon [icon]="faBackspace" class=""></fa-icon>
+        </button>
+    </div>
+</div>
+
+<div class="" *ngIf="!loading">
+  <ul class="">
+    <li *ngFor="let feature of features">
+      <app-feature-detail-card [detailView]=true [feature]=feature 
+        (deleted)="deleteFeature(feature)">
+      </app-feature-detail-card>
+    </li>
+  </ul>
+
+  <app-pagination [paginatedRecords]="paginatedFeatures" [currentPage]="currentPage"
+    [link]="['/users', username, 'features']" [queryParams]=queryParams>
+  </app-pagination>
+</div>

@@ -41,6 +41,17 @@
                 </span>
             </ng-template>
 
+            <ng-template [ngSwitchCase]="'requested'">
+                <span class="action-info">
+                    requested a new
+                    <span>
+                        <app-home-object-construct object_type='feature' [username]='action.user.username'
+                            [object_id]=action.action_object_feature.id>
+                        </app-home-object-construct>
+                    </span>
+                </span>
+            </ng-template>
+
             <ng-template [ngSwitchCase]="'trained'">
                 <span class="action-info">
                     finished a
@@ -130,6 +141,15 @@
                             </app-home-object-construct>
                         </span>
                     </span>
+
+                    <span *ngIf="action.target_feature">
+                        liked a
+                        <span>
+                            <app-home-object-construct object_type='feature' [username]=action.target_feature.user.username
+                                [object_id]=action.target_feature.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -179,6 +199,15 @@
                             </app-home-object-construct>
                         </span>
                     </span>
+
+                    <span *ngIf="action.target_feature">
+                        commented a
+                        <span>
+                            <app-home-object-construct object_type='feature' [username]=action.target_feature.user.username
+                                [object_id]=action.target_feature.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -188,6 +217,13 @@
                 <div class="card-container">
                     <app-post-detail-card [post]=action.action_object_post [showHeader]=false>
                     </app-post-detail-card>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'requested'">
+                <div class="card-container">
+                    <app-feature-detail-card [feature]=action.action_object_feature [detailView]=false>
+                    </app-feature-detail-card>
                 </div>
             </ng-template>
 

@@ -1,0 +1,10 @@
+<div *ngIf="notFound">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+
+<div *ngIf="!notFound">
+    <app-feature-detail-card [id]=id [detailView]=true [commentsSectionOpen]=true
+        (deleted)="featureDeleted($event)">
+    </app-feature-detail-card>
+</div>
