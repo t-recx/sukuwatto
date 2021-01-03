@@ -10,6 +10,9 @@ import { User } from 'src/app/user';
 import { environment } from 'src/environments/environment';
 import { LoadingService } from '../loading.service';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from 'src/app/error.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-card-social-interaction',
@@ -32,6 +35,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @Input() target_workout: number;
   @Input() target_user_bio_data: number;
   @Input() target_feature: number;
+  @Input() target_release: number;
 
   content_type_id: number;
   content_type_user_id: number;
@@ -44,6 +48,8 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   faShareAlt = faShareAlt;
 
   loading: boolean = false;
+
+  modalSupportVisible: boolean = false;
 
   usersThatLiked: User[];
 
@@ -69,6 +75,8 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     private streamsService: StreamsService,
     private commentsService: CommentsService,
     private loadingService: LoadingService,
+    private errorService: ErrorService,
+    private alertService: AlertService,
     ) {
     const w: any = window;
 
@@ -170,22 +178,36 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   toggleLike(): void {
     this.liking = true;
 
-    this.streamsService.toggleLike(this.content_type_id, this.id).subscribe(x => {
-      this.liked = !this.liked;
+    this.streamsService.toggleLike(this.content_type_id, this.id)
+    .pipe(
+      catchError(this.errorService.handleError<any>('toggleLike', (e: any) => 
+      {
+        if (e && e.status && e.status == 403) {
+          this.modalSupportVisible = true;
+        }
+        else {
+          this.alertService.error('Unable to like, try again later');
+        }
+      }, 'error'))
+    )
+    .subscribe(x => {
+      if (x != 'error') {
+        this.liked = !this.liked;
 
-      if (this.liked) {
-        this.likeNumber += 1;
+        if (this.liked) {
+          this.likeNumber += 1;
 
-        let user = new User();
-        user.username = this.authService.getUsername();
-        this.usersThatLiked.push(user);
+          let user = new User();
+          user.username = this.authService.getUsername();
+          this.usersThatLiked.push(user);
+        }
+        else {
+          this.likeNumber -= 1;
+
+          this.usersThatLiked = this.usersThatLiked.filter(x => x.username != this.authService.getUsername());
+        }
+        this.liking = false;
       }
-      else {
-        this.likeNumber -= 1;
-
-        this.usersThatLiked = this.usersThatLiked.filter(x => x.username != this.authService.getUsername());
-      }
-      this.liking = false;
     });
   }
 
@@ -208,6 +230,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     comment.target_plan = this.target_plan;
     comment.target_post = this.target_post;
     comment.target_feature = this.target_feature;
+    comment.target_release = this.target_release;
     comment.target_workout = this.target_workout;
     comment.target_exercise = this.target_exercise;
     comment.target_user_bio_data = this.target_user_bio_data;
@@ -218,13 +241,27 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     }
 
     this.commenting= true;
-    this.commentsService.createComment(comment).subscribe(x => 
+    this.commentsService.saveComment(comment)
+    .pipe(
+      catchError(this.errorService.handleError<Comment>('updateComment', (e: any) => 
       {
-        this.newCommentText = "";
-        this.loadComments();
-        this.triedToComment = false;
-        this.commenting= false;
-        this.commentNumber += 1;
+        if (e && e.status && e.status == 403) {
+          this.modalSupportVisible = true;
+        }
+        else {
+          this.alertService.error('Unable to save comment, try again later');
+        }
+      }, null))
+    )
+    .subscribe(x => 
+      {
+        if (x != null) {
+          this.newCommentText = "";
+          this.loadComments();
+          this.triedToComment = false;
+          this.commenting= false;
+          this.commentNumber += 1;
+        }
       });
   }
 

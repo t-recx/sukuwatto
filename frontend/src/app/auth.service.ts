@@ -61,6 +61,7 @@ export class AuthService {
     this.setIsStaff(null);
     this.setUserDefaultWorkoutVisibility(null);
     this.setUserDefaultMeasurementVisibility(null);
+    this.setUserTier(null);
   }
 
   public getLogoutUrl(): string {
@@ -117,6 +118,7 @@ export class AuthService {
       this.setUserDefaultMeasurementVisibility(token.user.default_visibility_user_bio_datas);
 
       this.setUserID(token.user.id.toString());
+      this.setUserTier(token.user.tier.toString());
       this.setIsStaff(token.user.is_staff);
     }
   }
@@ -144,6 +146,10 @@ export class AuthService {
 
   public getUserId(): string {
     return this.getLocalStorageItem('user_id');
+  }
+
+  public getUserTier(): string {
+    return this.getLocalStorageItem('tier');
   }
 
   public userIsStaff(): boolean {
@@ -230,6 +236,10 @@ export class AuthService {
 
   private setUserID(id: string) {
     this.setLocalStorageItem('user_id', id);
+  }
+
+  public setUserTier(tier: string) {
+    this.setLocalStorageItem('tier', tier);
   }
 
   private setUsername(username: string) {

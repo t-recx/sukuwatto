@@ -1,0 +1,23 @@
+<div class="toolbar">
+    <div class="toolbar-title">Releases</div>
+
+    <div class="toolbar-buttons" *ngIf="isLoggedIn() && isAdmin()">
+        <button class="siimple-btn siimple-btn--primary toolbar-button" [routerLink]="['/users', username, 'release']">
+            <fa-icon [icon]="faBoxOpen" class="siimple--mr-1" [fixedWidth]=true></fa-icon>
+            New
+        </button>
+    </div>
+</div>
+
+<div class="">
+    <ul class="">
+        <li *ngFor="let release of releases">
+            <app-release-card [detailView]=true [release]=release>
+            </app-release-card>
+        </li>
+    </ul>
+
+    <app-pagination [paginatedRecords]="paginatedReleases" [currentPage]="currentPage"
+        [link]="['/users', username, 'releases']">
+    </app-pagination>
+</div>

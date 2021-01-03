@@ -4,6 +4,9 @@ import { CommentsService } from '../comments.service';
 import { AuthService } from 'src/app/auth.service';
 import { Action } from '../action';
 import { faCircleNotch, faComment, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from 'src/app/error.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-comment-card',
@@ -27,10 +30,13 @@ export class CommentCardComponent implements OnInit {
   updating: boolean = false;
 
   triedToSave: boolean = false;
+  modalSupportVisible: boolean = false;
 
   constructor(
     private commentsService: CommentsService,
     private authService: AuthService,
+    private errorService: ErrorService,
+    private alertService: AlertService,
     ) { }
 
   ngOnInit() {
@@ -62,10 +68,24 @@ export class CommentCardComponent implements OnInit {
 
       delete this.comment.action_object_comment.date;
 
-      this.commentsService.saveComment(this.comment.action_object_comment).subscribe(y => {
+      this.commentsService.saveComment(this.comment.action_object_comment)
+      .pipe(
+        catchError(this.errorService.handleError<Comment>('updateComment', (e: any) => 
+        {
+          if (e && e.status && e.status == 403) {
+            this.modalSupportVisible = true;
+          }
+          else {
+            this.alertService.error('Unable to save comment, try again later');
+          }
+        }, null))
+      )
+      .subscribe(y => {
         this.updating = false;
-        this.editing = false;
-        this.triedToSave = false;
+        if (y != null) {
+          this.editing = false;
+          this.triedToSave = false;
+        }
       });
     }
   }
@@ -79,9 +99,24 @@ export class CommentCardComponent implements OnInit {
   }
 
   delete() {
-    this.commentsService.deleteComment(+this.comment.action_object_comment.id)
-    .subscribe(x => 
-      this.deleted.emit(this.comment));
+    this.commentsService
+      .deleteComment(+this.comment.action_object_comment.id)
+      .pipe(
+        catchError(this.errorService.handleError<any>('updateComment', (e: any) => {
+          if (e && e.status && e.status == 403) {
+            this.modalSupportVisible = true;
+          }
+          else {
+            this.alertService.error('Unable to save comment, try again later');
+          }
+        }, 'error'))
+      )
+      .subscribe(x => {
+        this.hideDeleteModal();
+        if (x != 'error') {
+          this.deleted.emit(this.comment);
+        }
+      });
   }
 
   toggleEditing() {

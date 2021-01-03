@@ -1,5 +1,17 @@
 import { Visibility } from './visibility';
 
+export enum Tier {
+    Novice = 'n',
+    Intermediate = 'i',
+    Advanced = 'a',
+}
+
+export const TierLabel = new Map<string, string>([
+  [Tier.Novice, 'Novice'],
+  [Tier.Intermediate, 'Intermediate'],
+  [Tier.Advanced, 'Advanced'],
+]);
+
 export enum MeasurementSystem {
     Metric = 'm',
     Imperial = 'i',
@@ -42,6 +54,7 @@ export class User {
     hidden: boolean;
     followers_number: number;
     followings_number: number;
+    tier: Tier;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);

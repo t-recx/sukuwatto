@@ -66,3 +66,10 @@
 .menu-item-label {
     flex-grow: 1;
 }
+
+.menu-rule {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}

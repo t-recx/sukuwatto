@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
+import { Tier } from 'src/app/user';
 import { environment } from 'src/environments/environment';
 import { Feature } from '../feature';
 import { FeatureImage } from '../feature-image';
@@ -26,6 +27,8 @@ export class FeatureDetailEditComponent implements OnInit, AfterViewInit, OnDest
   saving: boolean = false;
   deleting: boolean = false;
 
+  Tier = Tier;
+
   faSave = faSave;
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
@@ -40,6 +43,8 @@ export class FeatureDetailEditComponent implements OnInit, AfterViewInit, OnDest
 
   notFound: boolean = false;
   refreshExpired: boolean = false;
+
+  userCanCreateFeatures: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -123,6 +128,8 @@ export class FeatureDetailEditComponent implements OnInit, AfterViewInit, OnDest
     this.userIsOwner = false;
     this.refreshExpired = false;
 
+    this.userCanCreateFeatures = this.authService.userIsStaff() || this.authService.getUserTier() == Tier.Advanced;
+
     if (id) {
       this.loading = true;
       this.loadingService.load();
@@ -176,8 +183,10 @@ export class FeatureDetailEditComponent implements OnInit, AfterViewInit, OnDest
 
     this.deleting = true;
     this.service.deleteFeature(this.feature).subscribe(e => {
-      this.deleting = false;
-      this.navigateToList();
+      if (e != null) {
+        this.deleting = false;
+        this.navigateToList();
+      }
     });
   }
 

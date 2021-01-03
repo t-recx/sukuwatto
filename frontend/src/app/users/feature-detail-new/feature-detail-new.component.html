@@ -48,18 +48,24 @@
 
             <div class="detail-operations-separator"></div>
 
-            <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()"
-                [class.siimple-btn--disabled]="saving" [disabled]="saving">
-                <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
-                <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
-                Save
-            </button>
-            <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2"
-                [class.siimple-btn--disabled]="deleting" [disabled]="deleting" (click)="showDeleteModal()">
-                <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
-                <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-                Delete
-            </button>
+            <div *ngIf="userCanCreateFeatures">
+                <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success siimple--mt-2" (click)="save()"
+                    [class.siimple-btn--disabled]="saving" [disabled]="saving">
+                    <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
+                    Save
+                </button>
+                <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2"
+                    [class.siimple-btn--disabled]="deleting" [disabled]="deleting" (click)="showDeleteModal()">
+                    <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
+                    Delete
+                </button>
+            </div>
+
+            <div *ngIf="!userCanCreateFeatures" class="siimple--mt-2">
+                <app-support-tip [tier]="Tier.Advanced"></app-support-tip>
+            </div>
         </form>
     </div>
 </div>

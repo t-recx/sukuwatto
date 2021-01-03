@@ -34,6 +34,15 @@ class CustomUser(AbstractUser):
         (OWN_USER, 'Own user')
     ]
 
+    NOVICE = 'n'
+    INTERMEDIATE = 'i'
+    ADVANCED = 'a'
+    TIERS = [
+        (NOVICE, 'Novice'),
+        (INTERMEDIATE, 'Intermediate'),
+        (ADVANCED, 'Advanced'),
+    ]
+
     gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
     year_birth = models.IntegerField(null=True)
     month_birth = models.IntegerField(null=True)
@@ -59,6 +68,8 @@ class CustomUser(AbstractUser):
     follower_requests = models.ManyToManyField("self", related_name='user_follower_requests', blank=True, symmetrical=False)
     followers_number = models.IntegerField(default=0)
     followings_number = models.IntegerField(default=0)
+
+    tier = models.CharField(max_length=1, choices=TIERS, default=NOVICE)
 
     def __str__(self):
         return self.username

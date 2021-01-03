@@ -5,22 +5,38 @@
                 <span class="siimple--mr-1">
                     #{{feature.id}}
                 </span>
-                <a class="siimple-link" [routerLink]=routerLink>
+                <a class="siimple-link" [routerLink]=routerLink 
+                *ngIf="canNavigate">
                     <span *ngIf="feature.title">
                         {{feature.title}}
                     </span>
                 </a>
+                <span class="siimple-link" (click)="select()"
+                *ngIf="!canNavigate">
+                    <span *ngIf="feature.title">
+                        {{feature.title}}
+                    </span>
+                </span>
             </span>
         </span>
 
-        <small class="siimple-small time">{{getTime(feature.date)}}</small>
+        <span class="siimple-tag state-tag siimple-tag--warning"
+            *ngIf="feature.state == 'c'" >
+            closed
+        </span>
 
-        <small class="siimple-small edited-time" *ngIf="feature.edited_date">
+        <small class="siimple-small time" *ngIf="feature.state != 'c'">{{getTime(feature.date)}}</small>
+        
+        <small class="siimple-small edited-time" *ngIf="feature.edited_date && feature.state != 'c'">
             (edited: {{getTime(feature.edited_date)}})
         </small>
 
+        <div *ngIf="showCancelButton" (click)="cancel()" class="feature-remove" >
+            <fa-icon [icon]="faTimes" class=""></fa-icon>
+        </div>
+
         <app-edit-delete-dropdown class="self-centered edit-delete-dropdown" (edited)="toggleEditing()" (deleted)="showDeleteModal()"
-            *ngIf="authenticatedUserIsOwner">
+            *ngIf="(authenticatedUserIsOwner || userIsStaff) && !showCancelButton">
         </app-edit-delete-dropdown>
     </header>
     <header class="siimple-card-header feature-header" *ngIf="editing">
@@ -57,15 +73,31 @@
                 [postImages]="featureImages"
                 ></app-post-images-upload>
 
-                <button class="siimple-btn siimple-btn--primary feature-button" 
-                    [disabled]="updating || imageUploading"
-                    [class.siimple-btn--disabled]="updating || imageUploading" 
-                    (click)="update()">
-                    <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="updating">
-                    </fa-icon>
-                    <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
-                    Update
-                </button>
+                <div class="feature-buttons-container">
+                    <button class="siimple-btn siimple-btn--error toggle-button siimple--mr-1" [disabled]="toggling || imageUploading"
+                        [class.siimple-btn--disabled]="toggling || imageUploading" (click)="toggle()" *ngIf="feature.state == 'o'">
+                        <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="toggling">
+                        </fa-icon>
+                        <fa-icon [icon]="faLock" class="siimple--mr-1" *ngIf="!toggling"></fa-icon>
+                        Close
+                    </button>
+                
+                    <button class="siimple-btn siimple-btn--success toggle-button siimple--mr-1" [disabled]="toggling || imageUploading"
+                        [class.siimple-btn--disabled]="toggling || imageUploading" (click)="toggle()" *ngIf="feature.state == 'c'">
+                        <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="toggling">
+                        </fa-icon>
+                        <fa-icon [icon]="faLockOpen" class="siimple--mr-1" *ngIf="!toggling"></fa-icon>
+                        Reopen
+                    </button>
+                
+                    <button class="siimple-btn siimple-btn--primary feature-button" [disabled]="updating || imageUploading"
+                        [class.siimple-btn--disabled]="updating || imageUploading" (click)="update()">
+                        <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="updating">
+                        </fa-icon>
+                        <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
+                        Update
+                    </button>
+                </div>
             </div>
         </div>
         <div *ngIf="!editing" class="">

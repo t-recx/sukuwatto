@@ -45,6 +45,13 @@
         </a>
     </ng-template>
 
+    <ng-template [ngSwitchCase]="'release'">
+        <a class="siimple-link"
+            [routerLink]="['/users', username, 'release', object_id]">
+            release
+        </a>
+    </ng-template>
+
     <ng-template ngSwitchDefault>
         {{display_name}}
     </ng-template>

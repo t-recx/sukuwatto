@@ -1,0 +1,81 @@
+.join-button {
+    margin-top: 10px;
+    /* margin-bottom: 10px; */
+    min-width: 228px;
+    font-weight: 700;
+}
+
+.select-tier-header {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.tier-price-container-free {
+  min-height: 152px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tier-price-container {
+  text-align: center;
+}
+
+.tier-header {
+  text-align: center;
+}
+
+.tier-body {
+  height: 100%;
+}
+
+.tier-price {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #546778;
+    margin-bottom: .5em;
+}
+
+.tier-period {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #546778;
+    padding: 0;
+    margin-bottom: .5em;
+}
+
+.tier-ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.tier-list {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+@media only screen and (min-width:961px) {
+    .tier-card {
+        max-width: 256px;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+}
+
+@media only screen and (max-width:960px) {
+  .tier-card {
+    width: calc(100vw - 40px);
+    display: flex;
+    flex-flow: column nowrap;
+  }
+}
+
+.support-about {
+  font-size: 24px;
+  line-height: 1.5;
+}
+

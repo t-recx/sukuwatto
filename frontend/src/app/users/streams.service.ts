@@ -43,13 +43,7 @@ export class StreamsService {
 
   toggleLike(content_type_id: number|string, object_id: number|string): Observable<any> {
     return this.http.post<any>(this.toggleLikeUrl, 
-      {content_type_id: content_type_id.toString(), object_id: object_id.toString()}, this.httpOptions)
-    .pipe(
-      catchError(this.errorService.handleError<any>('toggleLike', (e: any) => 
-      {
-        this.alertService.error('Unable to like, try again later');
-      }, {}))
-    );
+      {content_type_id: content_type_id.toString(), object_id: object_id.toString()}, this.httpOptions);
   }
 
   getUserStream(page: number, page_size: number): Observable<Paginated<Action>> {

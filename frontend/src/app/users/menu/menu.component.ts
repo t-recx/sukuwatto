@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
-import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight, faUsers, faCode } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight, faUsers, faCode, faBoxOpen, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -20,8 +20,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   iconMeasurements = faWeight;
   iconUsers = faUsers;
   iconDevelopment = faCode;
+  iconReleases = faBoxOpen;
+  iconSupport = faHeart;
 
   isRouterLinkPlans = false;
+  isRouterLinkHome = false;
   routerSubscription: Subscription;
 
   constructor(
@@ -30,9 +33,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   ) {
     this.routerSubscription = router.events.subscribe(e => {
       this.checkIfCurrentRouterUrlIsPlans(router);
+      this.checkIfCurrentRouterUrlIsHome(router);
     });
     
     this.checkIfCurrentRouterUrlIsPlans(router);
+    this.checkIfCurrentRouterUrlIsHome(router);
    }
 
   private checkIfCurrentRouterUrlIsPlans(router: Router) {
@@ -44,6 +49,17 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.isRouterLinkPlans = router.url.startsWith(prefix + '/plans') ||
         router.url.startsWith(prefix + '/adopted-plans') ||
         router.url.startsWith(prefix + '/owned-plans');
+    }
+  }
+
+  private checkIfCurrentRouterUrlIsHome(router: Router) {
+    if (!this.authService.isLoggedIn()) {
+      this.isRouterLinkHome = false;
+    }
+    else {
+      const prefix = '/users/' + this.authService.getUsername();
+      this.isRouterLinkHome = router.url.startsWith(prefix + '/home') ||
+        router.url == prefix;
     }
   }
 

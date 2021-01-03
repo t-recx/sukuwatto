@@ -16,14 +16,14 @@ class AuthTestCaseMixin():
         self.client.logout()
 
 class UserTestCaseMixin():
-    def create_user(self, user, is_staff = False):
+    def create_user(self, user, is_staff = False, tier='n'):
         email = None
 
         if 'email' in user:
             email = user['email']
 
         return CustomUser.objects.create_user(username=user['username'], email=email, password=user['password'], 
-            is_staff = is_staff)
+            is_staff = is_staff, tier = tier)
 
 class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
     def setUp(self):
@@ -62,7 +62,6 @@ class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
         self.authenticate(user)
 
         response = self.client.post(self.get_resource_endpoint(), data, format='json')
-
         return json.loads(response.content)['id']
 
     def update_resource(self, resource_id, data):
