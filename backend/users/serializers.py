@@ -82,9 +82,10 @@ class UserSerializer(serializers.ModelSerializer):
         'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
         'default_energy_unit',
         'is_staff', 'default_visibility_workouts', 'visibility', 'default_visibility_user_bio_datas',
-        'followers_number', 'followings_number']
+        'followers_number', 'followings_number', 'tier']
         extra_kwargs = {'password': {'write_only': True, 'required': False},
             'email': {'write_only': True, 'required': False},
+            'tier': {'read_only': True, 'required': False},
             'is_staff': { 'read_only': True, 'required': False},
             'followers_number': {'read_only': True, 'required': False},
             'followings_number': {'read_only': True, 'required': False}

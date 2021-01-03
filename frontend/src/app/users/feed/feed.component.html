@@ -92,6 +92,14 @@
                             </app-home-object-construct>
                         </span>
                     </span>
+                    <span *ngIf="action.action_object_release">
+                        created a
+                        <span>
+                            <app-home-object-construct object_type='release' [username]=action.user.username
+                                [object_id]=action.action_object_release.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -147,6 +155,15 @@
                         <span>
                             <app-home-object-construct object_type='feature' [username]=action.target_feature.user.username
                                 [object_id]=action.target_feature.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
+
+                    <span *ngIf="action.target_release">
+                        liked a
+                        <span>
+                            <app-home-object-construct object_type='release' [username]=action.target_release.user.username
+                                [object_id]=action.target_release.id>
                             </app-home-object-construct>
                         </span>
                     </span>
@@ -208,6 +225,15 @@
                             </app-home-object-construct>
                         </span>
                     </span>
+
+                    <span *ngIf="action.target_release">
+                        commented a
+                        <span>
+                            <app-home-object-construct object_type='release' [username]=action.target_release.user.username
+                                [object_id]=action.target_release.id>
+                            </app-home-object-construct>
+                        </span>
+                    </span>
                 </span>
             </ng-template>
 
@@ -254,6 +280,11 @@
                 <span *ngIf="action.action_object_plan">
                     <div class="card-container">
                         <app-plan-card [plan]=action.action_object_plan></app-plan-card>
+                    </div>
+                </span>
+                <span *ngIf="action.action_object_release">
+                    <div class="card-container">
+                        <app-release-card [release]=action.action_object_release></app-release-card>
                     </div>
                 </span>
             </ng-template>

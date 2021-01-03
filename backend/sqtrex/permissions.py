@@ -24,6 +24,16 @@ class IsUserOrReadOnly(permissions.BasePermission):
         
         return obj == request.user or request.user.is_staff
 
+# WARNING: see comments above
+class IsAdvancedUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated and (request.user.tier == 'a' or request.user.is_staff)
+
+# WARNING: see comments above
+class IsIntermediateUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated and (request.user.tier == 'i' or request.user.is_staff)
+
 class StandardPermissionsMixin():
     def get_permissions(self):
         if self.action == 'create':
@@ -33,6 +43,15 @@ class StandardPermissionsMixin():
         elif self.action == 'destroy':
             permission_classes = [IsOwnerOrReadOnly]
         elif self.action == 'list' or self.action == 'retrieve':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
+
+class AdminCreationOnlyPermissionsMixin():
+    def get_permissions(self):
+        if self.action == 'list' or self.action == 'retrieve':
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAdminUser]

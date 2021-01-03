@@ -6,6 +6,7 @@ import { User } from '../user';
 import { Comment } from './comment';
 import { UserBioData } from './user-bio-data';
 import { Feature } from './feature';
+import { Release } from './release';
 
 export class Action {
     id: number;
@@ -22,6 +23,7 @@ export class Action {
     target_comment: Comment;
     target_user_bio_data: UserBioData;
     target_feature: Feature;
+    target_release: Release;
     target_user: User;
 
     action_object_workout: Workout;
@@ -31,6 +33,7 @@ export class Action {
     action_object_comment: Comment;
     action_object_user_bio_data: UserBioData;
     action_object_feature: Feature;
+    action_object_release: Release;
     action_object_user: User;
 
     timestamp: Date;

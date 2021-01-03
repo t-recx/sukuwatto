@@ -1,0 +1,36 @@
+.release-header {
+  display: flex;
+  flex-grow: 1;
+  align-self: center;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.user-profile {
+  flex-grow: 1;
+  align-self: center;
+}
+
+.state-tag {
+  margin: 10px;
+}
+
+.deploy-tag {
+  margin: 10px;
+}
+
+.vote-btn {
+  float: right;
+}
+
+.release-form {
+    margin-bottom: 10px !important;
+}
+
+.release-buttons-container {
+    display: flex;
+}
+
+.release-button {
+    margin-left: auto;
+}

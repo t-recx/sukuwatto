@@ -153,6 +153,11 @@ ul {
   list-style-type: none;
 }
 
+.list-item {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .toolbar {
   display: flex;
   align-items: center;

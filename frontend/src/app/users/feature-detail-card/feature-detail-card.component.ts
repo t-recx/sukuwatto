@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { Feature } from '../feature';
+import { Feature, FeatureState } from '../feature';
 import { FeaturesService } from '../features.service';
 import { AuthService } from 'src/app/auth.service';
-import { faStickyNote, faCircleNotch, faCheck, faTimes, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStickyNote, faCircleNotch, faCheck, faTimes, faChevronLeft, faChevronRight, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { TimeService } from '../time.service';
 import { environment } from 'src/environments/environment';
@@ -17,8 +17,12 @@ export class FeatureDetailCardComponent implements OnInit {
   @Input() id: number;
   @Input() feature: Feature = null;
   @Input() detailView: boolean = true;
+  @Input() canNavigate: boolean = true;
   @Input() commentsSectionOpen: boolean = false;
+  @Input() showCancelButton: boolean = false;
   @Output() deleted = new EventEmitter();
+  @Output() cancelled = new EventEmitter();
+  @Output() selected = new EventEmitter();
 
   @ViewChild('previousOverlay') previousOverlay: ElementRef;
   @ViewChild('nextOverlay') nextOverlay: ElementRef;
@@ -29,12 +33,16 @@ export class FeatureDetailCardComponent implements OnInit {
   faTimes = faTimes;
   faChevronLeft = faChevronLeft;
   faChevronRight = faChevronRight;
+  faLock = faLock;
+  faLockOpen = faLockOpen;
 
   imageUploading = false;
 
   authenticatedUserIsOwner: boolean = false;
+  userIsStaff: boolean = false;
 
   updating: boolean = false;
+  toggling: boolean = false;
 
   deleteModalVisible: boolean = false;
 
@@ -83,9 +91,11 @@ export class FeatureDetailCardComponent implements OnInit {
   checkOwner() {
     if (this.feature) {
       this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.feature.user.username);
+      this.userIsStaff = this.authService.userIsStaff();
     }
     else {
       this.authenticatedUserIsOwner = false;
+      this.userIsStaff = false;
     }
   }
 
@@ -108,7 +118,22 @@ export class FeatureDetailCardComponent implements OnInit {
   delete() {
     this.featuresService.deleteFeature(this.feature).subscribe(x => { 
       this.deleteModalVisible = false;
-      this.deleted.emit(this.feature);
+
+      if (x != null) {
+        this.deleted.emit(this.feature);
+      }
+    });
+  }
+
+  toggle() {
+    this.toggling = true;
+    this.featuresService.toggleFeature(this.feature.id).subscribe(newState => {
+      this.toggling = false;
+
+      if (newState != null) {
+        this.feature.state = newState;
+        this.toggleEditing();
+      }
     });
   }
 
@@ -189,5 +214,13 @@ export class FeatureDetailCardComponent implements OnInit {
 
   stoppedUploading() {
     this.imageUploading = false;
+  }
+
+  cancel() {
+    this.cancelled.emit();
+  }
+
+  select() {
+    this.selected.emit();
   }
 }

@@ -95,36 +95,17 @@ export class CommentsService {
   }
 
   createComment(comment: Comment): Observable<Comment> {
-    return this.http.post<Comment>(this.commentsUrl, comment, this.httpOptions)
-    .pipe(
-      tap((newComment: Comment) => { }),
-      catchError(this.errorService.handleError<Comment>('createComment', (e: any) => 
-      {
-        this.alertService.error('Unable to create comment, try again later');
-      }, comment))
-    );
+    return this.http.post<Comment>(this.commentsUrl, comment, this.httpOptions);
   }
 
   updateComment(comment: Comment): Observable<Comment> {
-    return this.http.patch<Comment>(`${this.commentsUrl}${comment.id}/`, comment, this.httpOptions)
-    .pipe(
-      tap((newComment: Comment) => { }),
-      catchError(this.errorService.handleError<Comment>('updateComment', (e: any) => 
-      {
-        this.alertService.error('Unable to update comment, try again later');
-      }, comment))
-    );
+    return this.http.patch<Comment>(`${this.commentsUrl}${comment.id}/`, comment, this.httpOptions);
   }
 
   deleteComment(comment: Comment | number): Observable<Comment> {
     const id = typeof comment === 'number' ? comment : comment.id;
     const url = `${this.commentsUrl}${id}/`;
 
-    return this.http.delete<Comment>(url, this.httpOptions).pipe(
-      catchError(this.errorService.handleError<Comment>('deleteComment', (e: any) => 
-      {
-        this.alertService.error('Unable to delete comment, try again later');
-      }, new Comment()))
-    );
+    return this.http.delete<Comment>(url, this.httpOptions);
   }
 }

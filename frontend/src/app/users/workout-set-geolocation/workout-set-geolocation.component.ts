@@ -547,7 +547,7 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     }, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
   }
 
-  private addPositionToRoute(p: Position | any) {
+  private addPositionToRoute(p: any) {
     if (!this.workoutActivity.positions) {
       this.workoutActivity.positions = [];
     }

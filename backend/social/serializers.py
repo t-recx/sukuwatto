@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from sqtrex.exceptions import CustomAPIException
+from rest_framework import status
+from rest_framework.exceptions import APIException
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from datetime import datetime
@@ -114,8 +117,17 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'text', 'date', 'edited_date', 'user', 'comment_target_object_id', 'comment_target_content_type',
-            'target_plan', 'target_workout', 'target_post', 'target_exercise', 'target_user_bio_data', 'target_feature']
+            'target_plan', 'target_workout', 'target_post', 'target_exercise', 'target_user_bio_data', 'target_feature',
+            'target_release']
         extra_kwargs = {'user': {'required': False},'date': {'required': False}}
+
+    def validate_target_feature(self, target_feature):
+        user = self.context['request'].user
+
+        if target_feature != None and not user.is_staff and user.tier == 'n':
+            raise CustomAPIException(detail='Tier doesn''t allow commenting of features', status_code=status.HTTP_403_FORBIDDEN)
+
+        return target_feature
 
     def create(self, validated_data):
         request = self.context.get("request")

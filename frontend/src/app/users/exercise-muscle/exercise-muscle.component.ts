@@ -36,7 +36,6 @@ export class ExerciseMuscleComponent implements OnInit, OnChanges {
     }
     else {
       this.muscle.muscle = this.muscles.filter(m => m.id == id)[0];
-      console.log(this.muscle);
     }
   }
 

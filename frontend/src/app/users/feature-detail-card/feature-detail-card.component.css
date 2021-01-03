@@ -120,7 +120,7 @@
     display: flex;
 }
 
-.feature-button {
+.feature-buttons-container {
     margin-left: auto;
 }
 
@@ -130,4 +130,24 @@
 
 .feature-title-input {
   background-color: white;
+}
+
+.feature-remove {
+  margin-top: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.feature-remove:hover {
+  opacity: 1;
+}
+
+.feature-remove::before, .feature-remove::after {
+  background-color: #546778;
+  position: absolute;
+}
+
+.state-tag {
+  margin: 10px;
 }

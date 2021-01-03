@@ -6,13 +6,14 @@ import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
 import { Paginated } from './paginated';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Feature } from './feature';
+import { Feature, FeatureState } from './feature';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeaturesService {
   private featuresUrl= `${environment.apiUrl}/features/`;
+  private toggleFeatureUrl = `${environment.apiUrl}/toggle-feature/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +25,7 @@ export class FeaturesService {
     private alertService: AlertService
   ) { }
 
-  getFeatures (page: number, page_size: number, search_filter: string): Observable<Paginated<Feature>> {
+  getFeatures (page: number, page_size: number, search_filter: string, state: FeatureState): Observable<Paginated<Feature>> {
     let options = {};
     let params = new HttpParams();
 
@@ -40,7 +41,11 @@ export class FeaturesService {
       params = params.set('search', search_filter.toString());
     }
 
-    if (page || page_size || search_filter) {
+    if (state) {
+      params = params.set('state', state.toString());
+    }
+
+    if (page || page_size || search_filter || state) {
       options = {params: params};
     }
 
@@ -95,6 +100,16 @@ export class FeaturesService {
     return this.createFeature(feature);
   }
 
+  toggleFeature(id: number): Observable<FeatureState> {
+    return this.http.post<any>(this.toggleFeatureUrl, { id }, this.httpOptions)
+    .pipe(
+      catchError(this.errorService.handleError<FeatureState>('toggleFeature', (e: any) => 
+      {
+        this.alertService.error('Unable to toggle feature, try again later');
+      }, null))
+    );
+  }
+
   createFeature(feature: Feature): Observable<Feature> {
     return this.http.post<Feature>(this.featuresUrl, feature, this.httpOptions)
     .pipe(
@@ -112,7 +127,17 @@ export class FeaturesService {
       tap((newFeature: Feature) => { }),
       catchError(this.errorService.handleError<Feature>('updateFeature', (e: any) => 
       {
-        this.alertService.error('Unable to update feature, try again later');
+        if (e && e.status && e.status == 403) {
+          if (feature.release != null) {
+            this.alertService.error('Unable to update feature: it\'s already associated with a release');
+          }
+          else {
+            this.alertService.error('You don\'t have permission to update this feature');
+          }
+        }
+        else {
+          this.alertService.error('Unable to update feature, try again later');
+        }
       }, this.getProperlyTypedFeature(feature)))
     );
   }
@@ -124,8 +149,18 @@ export class FeaturesService {
     return this.http.delete<Feature>(url, this.httpOptions).pipe(
       catchError(this.errorService.handleError<Feature>('deleteFeature', (e: any) => 
       {
-        this.alertService.error('Unable to delete feature, try again later');
-      }, new Feature()))
+        if (e && e.status && e.status == 403) {
+          if (feature.release != null) {
+            this.alertService.error('Unable to delete feature: it\'s already associated with a release');
+          }
+          else {
+            this.alertService.error('You don\'t have permission to delete this feature');
+          }
+        }
+        else {
+          this.alertService.error('Unable to delete feature, try again later');
+        }
+      }, null))
     );
   }
 

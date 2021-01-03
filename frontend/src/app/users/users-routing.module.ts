@@ -3,7 +3,6 @@ import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { ProfileComponent } from './profile/profile.component';
-import { PlansComponent } from './plans/plans.component';
 import { PlanDetailComponent } from './plan-detail/plan-detail.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.component';
@@ -29,6 +28,9 @@ import { ProfileRequestsComponent } from './profile-requests/profile-requests.co
 import { FeaturesComponent } from './features/features.component';
 import { FeatureDetailComponent } from './feature-detail/feature-detail.component';
 import { FeatureDetailEditComponent } from './feature-detail-new/feature-detail-new.component';
+import { ReleasesComponent } from './releases/releases.component';
+import { ReleaseDetailComponent } from './release-detail/release-detail.component';
+import { SupportComponent } from './support/support.component';
 
 const routes: Routes = [
   { 
@@ -90,6 +92,26 @@ const routes: Routes = [
         path: 'feature',
         canActivate: [AuthGuard],
         component: FeatureDetailEditComponent,
+      },
+      {
+        path: 'releases/:page',
+        canActivateChild: [],
+        component: ReleasesComponent,
+      },
+      {
+        path: 'releases',
+        canActivateChild: [],
+        component: ReleasesComponent,
+      },
+      {
+        path: 'release/:id',
+        canActivateChild: [],
+        component: ReleaseDetailComponent,
+      },
+      {
+        path: 'release',
+        canActivate: [AuthGuard],
+        component: ReleaseDetailComponent,
       },
       {
         path: 'plans/:page',
@@ -220,6 +242,11 @@ const routes: Routes = [
         path: 'account',
         canActivate: [AuthGuard],
         component: AccountComponent,
+      },
+      {
+        path: 'support',
+        canActivate: [AuthGuard],
+        component: SupportComponent,
       },
     ]
   }, 

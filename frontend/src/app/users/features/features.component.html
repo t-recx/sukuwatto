@@ -10,26 +10,11 @@
     </div>
 </div>
 
-<div class="search-box">
-    <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
-        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel">
-    <div class="search-buttons">
-        <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
-            <fa-icon [icon]="faBackspace" class=""></fa-icon>
-        </button>
-    </div>
-</div>
-
-<div class="" *ngIf="!loading">
-  <ul class="">
-    <li *ngFor="let feature of features">
-      <app-feature-detail-card [detailView]=true [feature]=feature 
-        (deleted)="deleteFeature(feature)">
-      </app-feature-detail-card>
-    </li>
-  </ul>
-
-  <app-pagination [paginatedRecords]="paginatedFeatures" [currentPage]="currentPage"
-    [link]="['/users', username, 'features']" [queryParams]=queryParams>
-  </app-pagination>
-</div>
+<app-features-list 
+    [page]=page 
+    [link]="['/users', username, 'features']" 
+    [searchFilter]=searchFilter
+    [username]="username"
+    [featureClickNavigates]=true
+    [queryParams]=queryParams>
+</app-features-list>

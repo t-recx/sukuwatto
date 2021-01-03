@@ -1,0 +1,18 @@
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="visible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Feature restricted</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
+        </div>
+        <div class="siimple-modal-body modal-window-body">
+            <app-support-tip [tier]=tier></app-support-tip>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="close()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+

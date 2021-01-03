@@ -3,7 +3,7 @@ from django.urls import include, path
 from rest_framework import routers
 from users.views import UserViewSet, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate, follow_request_number, CustomTokenObtainPairView
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet, user_liked, unread_conversations, get_date_last_unread_conversations
-from development.views import FeatureViewSet
+from development.views import FeatureViewSet, ReleaseViewSet, toggle_feature
 from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data, MuscleList
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
@@ -21,6 +21,7 @@ router.register(r'workouts', workout_views.WorkoutViewSet, 'Workout')
 router.register(r'user-bio-datas', user_bio_views.UserBioDataViewSet)
 router.register(r'posts', PostViewSet)
 router.register(r'features', FeatureViewSet)
+router.register(r'releases', ReleaseViewSet)
 router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
@@ -79,6 +80,7 @@ urlpatterns = [
     path('api/last-unread-conversation/', get_date_last_unread_conversations, name='last-unread-conversation'),
     path('api/exercise-in-use/', exercise_in_use, name='exercise-in-use'),
     path('api/exercise-in-use-on-other-users-resources/', exercise_in_use_in_other_users_resources, name='exercise-in-use-on-other-users-resources'),
+    path('api/toggle-feature/', toggle_feature, name="toggle-feature"),
     path('api/password-reset-validate-token/', reset_password_validate_token, name="reset-password-validate"),
     path('api/password-reset-confirm/', reset_password_confirm, name="reset-password-confirm"),
     path('api/password-reset/', reset_password_request_token, name="reset-password-request"),
