@@ -7,12 +7,14 @@ import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './users/paginated';
+import { UserRegistration } from './users/user-registration';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private usersRegistrationApiUrl = `${environment.apiUrl}/sign-up/`;
   private usersSearchApiUrl = `${environment.apiUrl}/users-search/`;
   private userApiUrl = `${environment.apiUrl}/get-user/`;
   private usersEmailApiUrl = `${environment.apiUrl}/user-email/`;
@@ -88,8 +90,8 @@ export class UserService {
     ;
   }
 
-  create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.usersApiUrl}`, user, this.httpOptions);
+  create(user: UserRegistration): Observable<UserRegistration> {
+    return this.http.post<UserRegistration>(`${this.usersRegistrationApiUrl}`, user, this.httpOptions);
   }
 
   update(user: User): Observable<User> {

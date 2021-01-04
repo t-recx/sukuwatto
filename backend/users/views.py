@@ -1,4 +1,5 @@
 from sqtrex.pagination import StandardResultsSetPagination
+from rest_framework import mixins
 from rest_framework import permissions
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.contenttypes.models import ContentType
@@ -11,7 +12,7 @@ from rest_framework import permissions, status, viewsets, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-from .serializers import UserSerializer, UserHiddenSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer, CustomTokenObtainPairSerializer
+from .serializers import UserSerializer, UserRegistrationSerializer, UserHiddenSerializer, UserMinimalSerializer, GroupSerializer, FileSerializer, ExpressInterestSerializer, CustomTokenObtainPairSerializer
 from sqtrex.serializers import ActionSerializer
 from django.shortcuts import get_object_or_404
 from sqtrex.permissions import IsUserOrReadOnly
@@ -113,7 +114,25 @@ class UserListView(generics.ListAPIView, VisibilityQuerysetMixin):
     def get_queryset(self): 
         return self.get_queryset_visibility_user_model(get_user_model().objects.all().order_by('username'), self.request.user)
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserRegistrationView(generics.CreateAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = get_user_model().objects.order_by('username').all()
+    serializer_class = UserRegistrationSerializer
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+
+        instance.set_password(instance.password)
+        
+        instance.save()
+
+class UserViewSet(mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -123,17 +142,8 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['username', 'email']
 
-    def perform_create(self, serializer):
-        instance = serializer.save()
-
-        instance.set_password(instance.password)
-        
-        instance.save()
-
     def get_permissions(self):
-        if self.action == 'create':
-            permission_classes = [AllowAny]
-        elif self.action == 'list' or self.action == 'retrieve':
+        if self.action == 'list' or self.action == 'retrieve':
             permission_classes = [IsAdminUser]
         elif self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsUserOrReadOnly]

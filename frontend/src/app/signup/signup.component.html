@@ -166,10 +166,16 @@
                 </div>
             </div>
             <div class="siimple-grid-row">
+                <re-captcha
+                    (resolved)="resolvedCaptcha($event)"
+                ></re-captcha>
+            </div>
+            <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12" style="padding-bottom: 0px;height: 36px;">
                     <div class="siimple-form-field">
                         <button class="siimple-btn siimple-btn--success siimple--text-bold" type="submit"
-                            [disabled]="signingUp || !acceptedTerms" [class.siimple-btn--disabled]="signingUp || !acceptedTerms">
+                            [disabled]="signingUp || !acceptedTerms || !captchaSolved" [class.siimple-btn--disabled]="signingUp || !acceptedTerms || !captchaSolved"
+                            >
                             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="signingUp"></fa-icon>
                             {{ signUpText }}
                         </button>

@@ -110,7 +110,10 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'django_rest_passwordreset',
+    'drf_recaptcha',
 ]
+
+DRF_RECAPTCHA_SECRET_KEY = os.environ.get("DRF_RECAPTCHA_SECRET_KEY")
 
 SITE_ID = 1
 
