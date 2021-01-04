@@ -6,7 +6,9 @@ from rest_framework.test import APIRequestFactory
 from users.models import CustomUser
 from sqtrex.tests import AuthTestCaseMixin, UserTestCaseMixin
 from django.contrib.contenttypes.models import ContentType
+from django.test import override_settings
 
+@override_settings(DRF_RECAPTCHA_TESTING=True)
 class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
     def setUp(self):
         self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
@@ -73,49 +75,49 @@ class UserTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
         self.assertEqual(data, self.user1['email'])
 
     def test_create_should_allow_creation_to_anyone(self):
-        response = self.client.post('/api/users/', { 'username': 'new', 'email': 'new@new.com', 'password': 'new9834098432', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'username': 'new', 'email': 'new@new.com', 'password': 'new9834098432', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(CustomUser.objects.count(), 3)
         self.assertNotEqual(CustomUser.objects.get(Q(username='new'), Q(email='new@new.com')), None)
 
     def test_create_should_ignore_is_staff(self):
-        response = self.client.post('/api/users/', { 'is_staff': 'true', 'username': 'new', 'email': 'new@new.com', 'password': 'new9834098432', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'is_staff': 'true', 'username': 'new', 'email': 'new@new.com', 'password': 'new9834098432', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(CustomUser.objects.count(), 3)
         self.assertNotEqual(CustomUser.objects.get(Q(username='new'), Q(email='new@new.com'), Q(is_staff=False)), None)
 
     def test_create_should_not_allow_short_passwords(self):
-        response = self.client.post('/api/users/', { 'password': 's@AAt', 'username': 'new', 'email': 'new@new.com', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'password': 's@AAt', 'username': 'new', 'email': 'new@new.com', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertContains(response, 
             'This password is too short. It must contain at least 8 characters.'
             , status_code=400)
 
     def test_create_should_not_allow_common_passwords(self):
-        response = self.client.post('/api/users/', { 'password': 'pineapple', 'username': 'new', 'email': 'new@new.com', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'password': 'pineapple', 'username': 'new', 'email': 'new@new.com', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertContains(response, 
             'This password is too common.'
             , status_code=400)
 
     def test_create_should_not_allow_passwords_with_elements_of_the_user_data(self):
-        response = self.client.post('/api/users/', { 'password': 'ghost02193', 'username': 'ghost02193', 'email': 'new@new.com', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'password': 'ghost02193', 'username': 'ghost02193', 'email': 'new@new.com', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertContains(response, 
             'The password is too similar to the username.'
             , status_code=400)
 
     def test_create_should_not_allow_exclusively_numeric_passwords(self):
-        response = self.client.post('/api/users/', { 'password': '2493284098324', 'username': 'new', 'email': 'new@new.com', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'password': '2493284098324', 'username': 'new', 'email': 'new@new.com', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertContains(response, 
             'This password is entirely numeric.'
             , status_code=400)
 
     def test_create_should_not_allow_percentage_signs_on_passwords(self):
-        response = self.client.post('/api/users/', { 'password': "2fdksiREfd@%%adf%eo", 'username': 'new', 'email': 'new@new.com', 'system': 'm' }, format='json')
+        response = self.client.post('/api/sign-up/', { 'password': "2fdksiREfd@%%adf%eo", 'username': 'new', 'email': 'new@new.com', 'system': 'm', 'recaptcha': 'test' }, format='json')
 
         self.assertContains(response, 
             'This password contains an illegal character: %.'

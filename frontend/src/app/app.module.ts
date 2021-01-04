@@ -1,3 +1,4 @@
+import { RecaptchaModule, RecaptchaSettings, RECAPTCHA_SETTINGS } from 'ng-recaptcha';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -31,6 +32,8 @@ import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { DemoNavigationComponent } from './demo-navigation/demo-navigation.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 
+const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +65,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     UsersModule,
     SharedModule,
     FontAwesomeModule,
+    RecaptchaModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
@@ -69,7 +73,11 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: globalSettings,
+    },
   ],
   bootstrap: [AppComponent]
 })

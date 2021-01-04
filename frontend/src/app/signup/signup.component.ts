@@ -10,6 +10,7 @@ import { Unit, MeasurementType } from '../users/unit';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
+import { UserRegistration } from '../users/user-registration';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,7 @@ import { AlertService } from '../alert/alert.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit, OnDestroy {
-  user: User;
+  user: UserRegistration;
   signingUp: boolean;
   triedToSignUp: boolean;
   signUpText: string;
@@ -26,6 +27,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   units: Unit[];
   acceptedTerms: boolean = false;
   usernameError: string = null;
+  captchaSolved: boolean = false;
+  captchaResponse: string = null;
 
   faCircleNotch = faCircleNotch;
 
@@ -39,7 +42,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.user = new User();
+    this.user = new UserRegistration();
     this.triedToSignUp = false;
     this.acceptedTerms = false;
     this.signingUp = false;
@@ -120,6 +123,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.user.username = this.user.username.trim();
     this.user.email = this.user.email.trim();
 
+    this.user.recaptcha = this.captchaResponse;
+
     this.userService.create(this.user)
       .pipe(
         catchError(this.errorService.handleError<User>('create', (e: any) => 
@@ -151,5 +156,10 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.signUpText = "Sign up";
         }
       });
+  }
+
+  resolvedCaptcha(response: string) {
+    this.captchaResponse = response;
+    this.captchaSolved = response != null;
   }
 }

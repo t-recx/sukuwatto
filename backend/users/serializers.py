@@ -9,6 +9,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken, SlidingToken, UntypedToken
+from drf_recaptcha.fields import ReCaptchaV2Field
 
 class ExpressInterestSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[UniqueValidator(queryset=UserInterest.objects.all())])
@@ -29,8 +30,12 @@ class UserMinimalSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ['id', 'username','profile_filename']
 
-class UserSerializer(serializers.ModelSerializer):
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    recaptcha = ReCaptchaV2Field()
+
     def validate(self, data):
+        data.pop("recaptcha")
+
         if "password" in data:
             errors = dict()
 
@@ -42,13 +47,33 @@ class UserSerializer(serializers.ModelSerializer):
             if errors:
                 raise serializers.ValidationError(errors)
 
-        return super(UserSerializer, self).validate(data)
+        return super(UserRegistrationSerializer, self).validate(data)
 
     def create(self, validated_data):
         validated_data['username'] = validated_data['username'].lower()
         validated_data['email'] = validated_data['email'].lower()
         return get_user_model().objects.create(**validated_data)
 
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'password', 'email', 'first_name', 'last_name', 
+        'month_birth', 'year_birth', 'username', 'gender', 'groups', 
+        'system', 'biography', 'location', 'profile_filename',
+        'follow_approval_required',
+        'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
+        'default_energy_unit',
+        'is_staff', 'default_visibility_workouts', 'visibility', 'default_visibility_user_bio_datas',
+        'followers_number', 'followings_number', 'tier', 'recaptcha']
+        extra_kwargs = {'password': {'write_only': True, 'required': False},
+            'email': {'write_only': True, 'required': False},
+            'tier': {'read_only': True, 'required': False},
+            'is_staff': { 'read_only': True, 'required': False},
+            'followers_number': {'read_only': True, 'required': False},
+            'followings_number': {'read_only': True, 'required': False},
+            'recaptcha': {'write_only': True}
+            }
+
+class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email', instance.email).lower()
         instance.first_name = validated_data.get('first_name', instance.first_name)
@@ -88,7 +113,7 @@ class UserSerializer(serializers.ModelSerializer):
             'tier': {'read_only': True, 'required': False},
             'is_staff': { 'read_only': True, 'required': False},
             'followers_number': {'read_only': True, 'required': False},
-            'followings_number': {'read_only': True, 'required': False}
+            'followings_number': {'read_only': True, 'required': False},
             }
 
 class GroupSerializer(serializers.ModelSerializer):
