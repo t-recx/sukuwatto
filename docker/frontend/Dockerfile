@@ -1,9 +1,9 @@
 FROM node:10
-ENV VERSION 27
+ENV VERSION 28
 
 WORKDIR /usr/src/app
 COPY package.json ./
-RUN npm install --production
+RUN npm install
 
 COPY . .
 RUN npm run build
