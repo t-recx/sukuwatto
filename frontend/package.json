@@ -32,6 +32,7 @@
     "image-conversion": "^2.1.1",
     "leaflet": "^1.6.0",
     "ng-recaptcha": "^7.0.0",
+    "ng2-adsense": "^8.0.1",
     "ngx-image-cropper": "^3.2.1",
     "rxjs": "~6.5.5",
     "siimple": "^3.3.1",
