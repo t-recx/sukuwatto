@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/auth.service';
 import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight, faUsers, faCode, faBoxOpen, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-menu',
@@ -26,6 +27,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   isRouterLinkPlans = false;
   isRouterLinkHome = false;
   routerSubscription: Subscription;
+  showSupportSection = false;
 
   constructor(
     public authService: AuthService,
@@ -68,6 +70,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.showSupportSection = environment.showSupportSection;
   }
 
 }

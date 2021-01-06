@@ -31,6 +31,7 @@ import { ShareComponent } from './share/share.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { DemoNavigationComponent } from './demo-navigation/demo-navigation.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { AdsenseModule } from 'ng2-adsense';
 
 const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
 
@@ -66,6 +67,10 @@ const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
     SharedModule,
     FontAwesomeModule,
     RecaptchaModule,
+    // AdsenseModule.forRoot({
+    //   adClient: 'ca-pub-2433367066163338',
+    //   adSlot: 7259870550,
+    // }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [

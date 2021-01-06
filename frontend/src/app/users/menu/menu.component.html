@@ -70,27 +70,29 @@
         Users
     </a>
 
-    <div class="siimple-rule menu-rule"></div>
+    <div *ngIf="showSupportSection">
+        <div class="siimple-rule menu-rule"></div>
 
-    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'features']">
-        <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconDevelopment" class="menu-icon-image"></fa-icon>
-        </div>
-        Features
-    </a>
-    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'releases']">
-        <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconReleases" class="menu-icon-image"></fa-icon>
-        </div>
-        Releases
-    </a>
-    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-        [routerLink]="['/users', authService.getUsername(), 'support']">
-        <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconSupport" class="menu-icon-image"></fa-icon>
-        </div>
-        Support
-    </a>
+        <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+            [routerLink]="['/users', authService.getUsername(), 'features']">
+            <div class="menu-icon-image-container">
+            <fa-icon [icon]="iconDevelopment" class="menu-icon-image"></fa-icon>
+            </div>
+            Features
+        </a>
+        <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+            [routerLink]="['/users', authService.getUsername(), 'releases']">
+            <div class="menu-icon-image-container">
+            <fa-icon [icon]="iconReleases" class="menu-icon-image"></fa-icon>
+            </div>
+            Releases
+        </a>
+        <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+            [routerLink]="['/users', authService.getUsername(), 'support']">
+            <div class="menu-icon-image-container">
+            <fa-icon [icon]="iconSupport" class="menu-icon-image"></fa-icon>
+            </div>
+            Support
+        </a>
+    </div>
 </div>

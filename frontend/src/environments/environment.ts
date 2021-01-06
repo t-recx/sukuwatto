@@ -7,6 +7,7 @@ import { environmentDevRecaptchaKey } from './settings';
 
 export const environment = {
   showAuthButtons: true,
+  showSupportSection: false,
   production: false,
   application: false,
   mediaUrl: 'https://' + environmentDevHost + (environmentDevPort ? ':' + environmentDevPort : ''),
