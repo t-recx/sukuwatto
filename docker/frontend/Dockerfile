@@ -1,9 +1,9 @@
-FROM node:15
-ENV VERSION 26
+FROM node:10
+ENV VERSION 27
 
 WORKDIR /usr/src/app
 COPY package.json ./
-RUN npm install
+RUN npm install --production
 
 COPY . .
 RUN npm run build
