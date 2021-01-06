@@ -1,7 +1,7 @@
 # builder - temporary image to build pip wheels
 FROM python:3.8-buster as builder
 LABEL mantainer="jnnlbruno@gmail.com"
-ENV VERSION 29 
+ENV VERSION 30 
 
 WORKDIR /usr/src/app
 
@@ -43,7 +43,10 @@ RUN apt-get -yqq install python3-dev libpq-dev netcat
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
-RUN pip install --no-cache /wheels/*
+# Was causing problems, see https://github.com/pypa/pip/issues/9168
+#RUN pip install --no-cache /wheels/* 
+# Workaround:
+RUN pip install --no-cache /wheels/* --use-deprecated=legacy-resolver
 
 COPY ./entrypoint.sh $APP_HOME
 COPY . $APP_HOME
