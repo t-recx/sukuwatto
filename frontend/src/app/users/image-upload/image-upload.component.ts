@@ -159,7 +159,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
           this.uploadText = this.defaultUploadText;
         }
       );
-    })
+    });
   }
 
   ok() {

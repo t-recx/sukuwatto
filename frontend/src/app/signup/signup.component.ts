@@ -141,14 +141,16 @@ export class SignupComponent implements OnInit, OnDestroy {
         if (user) {
           this.authService.login(this.user.username, this.user.password)
             .subscribe(token => {
-              if (this.authService.isLoggedIn()) {
-                let redirect = this.authService.redirectUrl ?
-                  this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
+              setTimeout(() => {
+                if (this.authService.isLoggedIn()) {
+                  let redirect = this.authService.redirectUrl ?
+                    this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
 
-                this.signingUp = false;
-                this.signUpText = "Sign up";
-                this.router.navigateByUrl(redirect);
-              }
+                  this.signingUp = false;
+                  this.signUpText = "Sign up";
+                  this.router.navigateByUrl(redirect);
+                }
+              }, 125);
             });
         }
         else {
