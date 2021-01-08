@@ -122,7 +122,7 @@ export class UserProgressService {
   }
 
   getUserBioDataProgress(username: string): Observable<UserProgressChartData> {
-    return this.userBioDataService.getLastUserBioData(username).pipe(
+    return this.userBioDataService.getLastUserBodyComposition(username).pipe(
       concatMap(userBioData =>
         this.userBioDataToProgressChart(userBioData)
       ));

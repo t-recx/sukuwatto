@@ -87,7 +87,7 @@ export class UserProgressChartsComponent implements OnInit {
                     this.availableCharts.push( { name: 'Isolation exercises', chartType: ChartCategory.Isolated });
                 }
 
-                if (a.has_distance_exercises) {
+                if (a.has_distance_exercises_last_month) {
                     const name = "Distance - " + (new Date()).toLocaleString('en-GB', { month: 'long' });
                     this.availableCharts.push( { name, chartType: ChartCategory.DistanceMonth });
                 }

@@ -9,6 +9,7 @@ from sqtrex.permissions import StandardPermissionsMixin
 from rest_framework.filters import OrderingFilter 
 from rest_framework.generics import ListAPIView
 from sqtrex.visibility import VisibilityQuerysetMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
 class UserBioDataList(VisibilityQuerysetMixin, ListAPIView):
@@ -86,23 +87,50 @@ class UserBioDataViewSet(StandardPermissionsMixin, VisibilityQuerysetMixin, view
 
 @api_view(['GET'])
 def get_last_user_bio_data(request):
-    if request.method == 'GET':
-        visibility_provider = VisibilityQuerysetMixin()
+    visibility_provider = VisibilityQuerysetMixin()
 
-        queryset = visibility_provider.get_queryset_visibility(UserBioData.objects.all().order_by('-date'), request.user)
+    queryset = UserBioData.objects.all()
 
-        username = request.query_params.get('username', None)
+    username = request.query_params.get('username', None)
 
-        if username is not None:
-            queryset = queryset.filter(user__username=username)
+    if username is not None:
+        queryset = queryset.filter(user__username=username)
 
-        date_lte = request.query_params.get('date_lte', None)
+    date_lte = request.query_params.get('date_lte', None)
 
-        if date_lte is not None:
-            queryset = queryset.filter(date__lte=date_lte)
+    if date_lte is not None:
+        queryset = queryset.filter(date__lte=date_lte)
 
-        queryset = queryset.first()
+    queryset = visibility_provider.get_queryset_visibility(queryset.order_by('-date'), request.user)
 
-        serializer = UserBioDataSerializer(queryset)
+    queryset = queryset.first()
 
-        return Response(serializer.data)
+    serializer = UserBioDataSerializer(queryset)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_last_user_body_composition(request):
+    visibility_provider = VisibilityQuerysetMixin()
+
+    queryset = UserBioData.objects.filter(Q(body_fat_percentage__isnull=False) | 
+            Q(muscle_mass_percentage__isnull=False) |
+            Q(water_weight_percentage__isnull=False))
+
+    username = request.query_params.get('username', None)
+
+    if username is not None:
+        queryset = queryset.filter(user__username=username)
+
+    date_lte = request.query_params.get('date_lte', None)
+
+    if date_lte is not None:
+        queryset = queryset.filter(date__lte=date_lte)
+
+    queryset = visibility_provider.get_queryset_visibility(queryset.order_by('-date'), request.user)
+
+    queryset = queryset.first()
+
+    serializer = UserBioDataSerializer(queryset)
+
+    return Response(serializer.data)
