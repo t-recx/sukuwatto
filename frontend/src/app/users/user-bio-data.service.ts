@@ -15,6 +15,7 @@ export class UserBioDataService {
   private userbiodatasUrl= `${environment.apiUrl}/user-bio-datas/`;
   private userbiodatabydatesUrl= `${environment.apiUrl}/user-bio-datas-by-date/`;
   private userbiodataLast= `${environment.apiUrl}/user-bio-data-last/`;
+  private userBodyCompositionLast= `${environment.apiUrl}/user-body-composition-last/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -97,6 +98,34 @@ export class UserBioDataService {
         { 
           this.alertService.error('Unable to fetch userbiodatas');
         }, new Paginated<UserBioData>()))
+      );
+  }
+
+  getLastUserBodyComposition(username: string, date_lte: Date = null): Observable<UserBioData> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (username || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<UserBioData>(`${this.userBodyCompositionLast}`, options)
+      .pipe(
+        map(response => {
+          return this.getProperlyTypedUserBioData(response);
+        }),
+        catchError(this.errorService.handleError<UserBioData>('getLastUserBodyComposition', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch last body composition');
+        }, new UserBioData()))
       );
   }
 

@@ -16,6 +16,8 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from sqtrex.visibility import VisibilityQuerysetMixin, Visibility
+from django.utils.dateparse import parse_datetime
+from django.utils import timezone
 
 class FilterByExerciseType(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
@@ -103,12 +105,23 @@ def get_available_chart_data(request):
 
     has_distance_exercises = cardio_sets.filter(distance__isnull=False).filter(distance__gt=0).exists()
 
+    last_date = None
+
+    if date_lte is not None:
+        last_date = parse_datetime(date_lte)
+
+    if last_date is None:
+        last_date = timezone.now()
+
+    has_distance_exercises_last_month = cardio_sets.filter(Q(workout_group__workout__start__year=last_date.year), Q(workout_group__workout__start__month=last_date.month)).filter(distance__isnull=False).filter(distance__gt=0).exists()
+
     return Response({ 
         'has_compound_exercises': has_compound_exercises
         ,'has_isolation_exercises': has_isolation_exercises
         ,'has_distance_exercises': has_distance_exercises
         ,'has_weight_records': has_weight_records
         ,'has_bio_data_records': has_bio_data_records
+        ,'has_distance_exercises_last_month': has_distance_exercises_last_month
     })
 
 @api_view(['GET'])
