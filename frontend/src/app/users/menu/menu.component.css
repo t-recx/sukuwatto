@@ -53,7 +53,7 @@
 
 .scrollable-menu {
     overflow-y: auto;
-    max-height: calc(100% - 74px);
+    max-height: calc(100% - 64px);
 }
 
 .menu-tag-item {
