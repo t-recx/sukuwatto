@@ -1,0 +1,27 @@
+<div class="siimple-card" >
+    <div class="siimple-card-header" align="center">
+        <!-- 
+            <span *ngIf="selectedLeaderboardTimespan == leaderboardTimespan.Week">Weekly</span>
+            <span *ngIf="selectedLeaderboardTimespan == leaderboardTimespan.Month">Monthly</span>
+            <span *ngIf="selectedLeaderboardTimespan == leaderboardTimespan.Year">Yearly</span> 
+        -->
+        Leaderboard
+    </div>
+
+    <div class="siimple-card-body" *ngIf="positions == null || positions.length == 0">
+        <div class="no-ranks-for-time-period">No ranks for this time period.</div> 
+        <div class="be-the-first">Be the first!</div>
+    </div>
+
+    <div class="siimple-card-body"  *ngFor="let position of positions">
+        <app-leaderboard-item [position]=position></app-leaderboard-item>
+    </div>
+
+    <div class="siimple-card-footer">
+        <div class="leaderboard-timespan">
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.Week"  [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.Week" (click)="changeTimespan(leaderboardTimespan.Week)">Week</span>
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.Month" [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.Month" (click)="changeTimespan(leaderboardTimespan.Month)">Month</span>
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.Year"  [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.Year" (click)="changeTimespan(leaderboardTimespan.Year)">Year</span>
+        </div>
+    </div>
+</div>

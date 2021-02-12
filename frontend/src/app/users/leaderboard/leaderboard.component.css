@@ -1,0 +1,14 @@
+.leaderboard-timespan {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 400 !important;
+}
+
+.no-ranks-for-time-period {
+    text-align: center;
+}
+
+.be-the-first {
+    text-align: center;
+    font-weight: 700 !important;
+}

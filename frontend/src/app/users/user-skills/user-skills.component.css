@@ -1,0 +1,8 @@
+.skill-progress-title {
+    display: flex;
+}
+
+.skill-progress-label {
+    font-weight: 700;
+    flex-grow: 1;
+}

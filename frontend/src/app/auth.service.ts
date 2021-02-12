@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
 import { JwtService } from './jwt.service';
 import { Visibility } from './visibility';
+import { LeaderboardTimespan } from './users/leaderboard-position';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,8 @@ export class AuthService {
     this.setUserDefaultWorkoutVisibility(null);
     this.setUserDefaultMeasurementVisibility(null);
     this.setUserTier(null);
+    this.setUserLevel(null);
+    this.setUserExperience(null);
   }
 
   public getLogoutUrl(): string {
@@ -107,20 +110,26 @@ export class AuthService {
     if (token.user) {
       this.setIsLoggedIn('true');
 
-      this.setUsername(token.user.username);
-
-      this.setUnitSystem(token.user.system);
-      this.setUserWeightUnitId(token.user.default_weight_unit.toString());
-      this.setUserDistanceUnitId(token.user.default_distance_unit.toString());
-      this.setUserEnergyUnitId(token.user.default_energy_unit.toString());
-      this.setUserSpeedUnitId(token.user.default_speed_unit.toString());
-      this.setUserDefaultWorkoutVisibility(token.user.default_visibility_workouts);
-      this.setUserDefaultMeasurementVisibility(token.user.default_visibility_user_bio_datas);
-
-      this.setUserID(token.user.id.toString());
-      this.setUserTier(token.user.tier.toString());
-      this.setIsStaff(token.user.is_staff);
+      this.loadUser(token.user);
     }
+  }
+
+  public loadUser(user: User) {
+    this.setUsername(user.username);
+
+    this.setUnitSystem(user.system);
+    this.setUserWeightUnitId(user.default_weight_unit.toString());
+    this.setUserDistanceUnitId(user.default_distance_unit.toString());
+    this.setUserEnergyUnitId(user.default_energy_unit.toString());
+    this.setUserSpeedUnitId(user.default_speed_unit.toString());
+    this.setUserDefaultWorkoutVisibility(user.default_visibility_workouts);
+    this.setUserDefaultMeasurementVisibility(user.default_visibility_user_bio_datas);
+
+    this.setUserID(user.id.toString());
+    this.setUserTier(user.tier.toString());
+    this.setIsStaff(user.is_staff);
+    this.setUserLevel(user.level.toString());
+    this.setUserExperience(user.experience.toString());
   }
 
   private getLocalStorageItem(key: string): string {
@@ -150,6 +159,14 @@ export class AuthService {
 
   public getUserTier(): string {
     return this.getLocalStorageItem('tier');
+  }
+
+  public getUserLevel(): string {
+    return this.getLocalStorageItem('level');
+  }
+
+  public getUserExperience(): string {
+    return this.getLocalStorageItem('experience');
   }
 
   public userIsStaff(): boolean {
@@ -198,12 +215,34 @@ export class AuthService {
     }
   }
 
+  stringToLeaderboardTimespan(ts: string): LeaderboardTimespan {
+    if (ts && ts.length > 0) {
+      switch (ts) {
+        case LeaderboardTimespan.Week:
+          return LeaderboardTimespan.Week;
+        case LeaderboardTimespan.Month:
+          return LeaderboardTimespan.Month;
+        case LeaderboardTimespan.Year:
+          return LeaderboardTimespan.Year;
+        case LeaderboardTimespan.AllTime:
+          return LeaderboardTimespan.AllTime;
+      }
+    }
+    else {
+      return LeaderboardTimespan.Week;
+    }
+  }
+
   public getUserDefaultWorkoutVisibility(): Visibility {
     return this.stringToVisibility(this.getLocalStorageItem('default_workout_visibility'));
   }
 
   public getUserDefaultMeasurementVisibility(): Visibility {
     return this.stringToVisibility(this.getLocalStorageItem('default_measurement_visibility'));
+  }
+
+  public getLeaderboardTimespan(): LeaderboardTimespan {
+    return this.stringToLeaderboardTimespan(this.getLocalStorageItem('default_leaderboard_timespan'));
   }
 
   public setUserDefaultWorkoutVisibility(v: string) {
@@ -242,6 +281,14 @@ export class AuthService {
     this.setLocalStorageItem('tier', tier);
   }
 
+  public setUserLevel(level: string) {
+    this.setLocalStorageItem('level', level);
+  }
+
+  public setUserExperience(experience: string) {
+    this.setLocalStorageItem('experience', experience);
+  }
+
   private setUsername(username: string) {
     this.setLocalStorageItem('username', username);
   }
@@ -252,5 +299,9 @@ export class AuthService {
 
   public setUserDefaultActivityTypeStrength(activityTypeStrength: boolean) {
     this.setLocalStorageItem('default_activity_type_strength', activityTypeStrength.toString());
+  }
+
+  public setLeaderboardTimespan(ts: LeaderboardTimespan) {
+    this.setLocalStorageItem('default_leaderboard_timespan', ts.toString());
   }
 }

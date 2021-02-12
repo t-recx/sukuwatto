@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { User } from 'src/app/user';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/environments/environment';
-import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch, faClock, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch, faClock, faCheck, faTimes, faPortrait } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
 import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
@@ -46,6 +46,7 @@ export class ProfileComponent implements OnInit {
   notFound: boolean = false;
 
   faAt = faAt;
+  faPortrait = faPortrait;
   faEnvelope = faEnvelope;
   faUserPlus = faUserPlus;
   faUserMinus = faUserMinus;

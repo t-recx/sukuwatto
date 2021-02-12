@@ -1,10 +1,12 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenCookieDeleteView
 from django.urls import include, path
 from rest_framework import routers
-from users.views import UserViewSet, UserRegistrationView, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate, follow_request_number, CustomTokenObtainPairView
+from users.views import UserViewSet, UserRegistrationView, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate, follow_request_number, CustomTokenObtainPairView, user_exists
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet, user_liked, unread_conversations, get_date_last_unread_conversations
 from development.views import FeatureViewSet, ReleaseViewSet, toggle_feature
-from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data, MuscleList
+from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data, MuscleList, UserSkillsList
+from workouts.views.views import WeeklyLeaderboardDashboardList, YearlyLeaderboardDashboardList, MonthlyLeaderboardDashboardList, AllTimeLeaderboardDashboardList
+from workouts.views.views import WeeklyLeaderboardList, YearlyLeaderboardList, MonthlyLeaderboardList, AllTimeLeaderboardList
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
@@ -62,11 +64,13 @@ urlpatterns = [
     path('api/user-stream/', UserStreamList.as_view()),
     path('api/users-search/', UserListView.as_view(), name='users-search'),
     path('api/user-liked/', user_liked, name='user-liked'),
+    path('api/user-exists/', user_exists, name='user-exists'),
     path('api/actor-stream/', ActorStreamList.as_view()),
     path('api/target-stream/', TargetStreamList.as_view()),
     path('api/action-object-stream/', ActionObjectStreamList.as_view()),
     path('api/followers/', FollowersList.as_view(), name="followers"),
     path('api/following/', FollowingList.as_view(), name="following"),
+    path('api/user-skills/', UserSkillsList.as_view(), name="user-skills"),
     path('api/follow-requests/', FollowRequestsList.as_view(), name="follow-requests"),
     path('api/follow-request-number/', follow_request_number, name="follow-request-number"),
     path('api/is-following/', get_is_following, name="is-following"),
@@ -80,6 +84,14 @@ urlpatterns = [
     path('api/update-last-message/', update_last_message, name='update-last-message'),
     path('api/unread-conversations/', unread_conversations, name='unread-conversations'),
     path('api/last-unread-conversation/', get_date_last_unread_conversations, name='last-unread-conversation'),
+    path('api/weekly-leaderboard/', WeeklyLeaderboardList.as_view(), name='weekly-leaderboard'),
+    path('api/monthly-leaderboard/', MonthlyLeaderboardList.as_view(), name='monthly-leaderboard'),
+    path('api/yearly-leaderboard/', YearlyLeaderboardList.as_view(), name='yearly-leaderboard'),
+    path('api/alltime-leaderboard/', AllTimeLeaderboardList.as_view(), name='alltime-leaderboard'),
+    path('api/weekly-leaderboard-dashboard/', WeeklyLeaderboardDashboardList.as_view(), name='weekly-leaderboard-dashboard'),
+    path('api/monthly-leaderboard-dashboard/', MonthlyLeaderboardDashboardList.as_view(), name='monthly-leaderboard-dashboard'),
+    path('api/yearly-leaderboard-dashboard/', YearlyLeaderboardDashboardList.as_view(), name='yearly-leaderboard-dashboard'),
+    path('api/alltime-leaderboard-dashboard/', AllTimeLeaderboardDashboardList.as_view(), name='alltime-leaderboard-dashboard'),
     path('api/exercise-in-use/', exercise_in_use, name='exercise-in-use'),
     path('api/exercise-in-use-on-other-users-resources/', exercise_in_use_in_other_users_resources, name='exercise-in-use-on-other-users-resources'),
     path('api/toggle-feature/', toggle_feature, name="toggle-feature"),

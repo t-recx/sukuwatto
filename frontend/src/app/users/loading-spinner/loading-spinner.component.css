@@ -47,9 +47,10 @@
     }
 }
 
+@media only screen and (max-width: 1280px) {
 .loading-spinner-lg-and-higher {
   position: absolute;
-  left: calc((100% - 960px)/2 + 140px + 40px); 
+  left: calc(20px + 140px + 40px); 
   top: 28px;
   z-index: 501;
   color: white;
@@ -58,6 +59,22 @@
   visibility: hidden;
   /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
   animation: 0s linear 0.2s forwards delayedShow; 
+}
+}
+
+@media only screen and (min-width: 1280px) {
+.loading-spinner-lg-and-higher {
+  position: absolute;
+  left: calc((100% - 1280px)/2 + 140px + 40px); 
+  top: 28px;
+  z-index: 501;
+  color: white;
+  background-color: #4e91e4;
+  pointer-events: none;
+  visibility: hidden;
+  /* we delay the spinner a bit to prevent unnecessary flickering when loading is quick */
+  animation: 0s linear 0.2s forwards delayedShow; 
+}
 }
 
  @keyframes delayedShow {

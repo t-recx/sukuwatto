@@ -1,3 +1,14 @@
+.user-profile-menu-container {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .user-profile-menu-container {
+        display: block !important;
+        margin: 10px;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .main-menu-item {
         padding-left: 13px;

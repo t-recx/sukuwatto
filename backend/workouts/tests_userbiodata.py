@@ -61,13 +61,13 @@ class UserBioDataTestCase(CRUDTestCaseMixin, APITestCase):
 
         data = json.loads(response.content)
 
-        self.assertEqual(data['id'], 2)
+        self.assertEqual(data['id'], two)
 
         response = self.client.get(f'{url}?username={self.user2["username"]}&date_lte=''2020-01-01T21:21:21.782Z''')
 
         data = json.loads(response.content)
 
-        self.assertEqual(data['id'], 6)
+        self.assertEqual(data['id'], six)
 
         response = self.client.get(f'{url}?username=nonexistent&date_lte=''2020-01-01T21:21:21.782Z''')
 

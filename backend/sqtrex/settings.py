@@ -111,6 +111,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_rest_passwordreset',
     'drf_recaptcha',
+    'huey.contrib.djhuey',
 ]
 
 DRF_RECAPTCHA_SECRET_KEY = os.environ.get("DRF_RECAPTCHA_SECRET_KEY")
@@ -239,3 +240,14 @@ MEDIA_URL =  '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 ASGI_APPLICATION = "sqtrex.routing.application"
+
+HUEY = {
+    'immediate': False,
+    'connection': {
+        'host': os.environ.get("HUEY_HOST"),
+        'host': os.environ.get("HUEY_PORT"),
+    },
+    'consumer': {
+        'workers': 2
+    }
+}

@@ -26,14 +26,7 @@ from sqtrex.visibility import VisibilityQuerysetMixin
 from social.models import UserAction
 from rest_framework.filters import SearchFilter
 from rest_framework_simplejwt.views import TokenViewBase, TokenCookieViewMixin
-
-class CanSeeUserPermission(permissions.BasePermission):
-    def has_permission(self, request, view):
-        username = request.query_params.get('username', None)
-
-        user = get_object_or_404(get_user_model(), username=username)
-
-        return can_see_user(request.user, user)
+from users.permissions import CanSeeUserPermission, can_see_user
 
 class FollowersList(generics.ListAPIView):
     pagination_class = StandardResultsSetPagination
@@ -236,6 +229,15 @@ class ExpressInterestCreate(generics.CreateAPIView):
     serializer_class = ExpressInterestSerializer
 
 @api_view(['GET'])
+def user_exists(request):
+    username = request.query_params.get('username', None)
+
+    if username is None:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(get_user_model().objects.filter(username=username).exists())
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def follow_request_number(request):
     return Response(request.user.follower_requests.count())
@@ -399,16 +401,6 @@ def get_user(request):
         return Response(UserSerializer(user).data)
 
     return Response(UserHiddenSerializer(user).data)
-
-def can_see_user(request_user, user):
-    if user.visibility == Visibility.OWN_USER and user != request_user:
-        return False
-    elif user.visibility == Visibility.REGISTERED_USERS and not request_user.is_authenticated:
-        return False
-    elif user.visibility == Visibility.FOLLOWERS and not user == request_user and not user.followers.filter(id=request_user.id):
-        return False
-
-    return True
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

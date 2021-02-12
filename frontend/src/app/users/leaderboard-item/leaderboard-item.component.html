@@ -1,0 +1,14 @@
+<div class="leaderboard-item">
+    <span class="leaderboard-rank siimple--text-bold">
+        {{position.rank}}
+    </span>
+
+    <span class="leaderboard-user">
+        <app-user-tag [username]=position.user.username [profile_filename]=position.user.profile_filename >
+        </app-user-tag>
+    </span>
+        
+    <small class="siimple-small leaderboard-experience">
+        {{position.experience |locale}} XP
+    </small>
+</div>

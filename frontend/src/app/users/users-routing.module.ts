@@ -31,6 +31,8 @@ import { FeatureDetailEditComponent } from './feature-detail-new/feature-detail-
 import { ReleasesComponent } from './releases/releases.component';
 import { ReleaseDetailComponent } from './release-detail/release-detail.component';
 import { SupportComponent } from './support/support.component';
+import { UserSkillsComponent } from './user-skills/user-skills.component';
+import { LeaderboardListComponent } from './leaderboard-list/leaderboard-list.component';
 
 const routes: Routes = [
   { 
@@ -62,6 +64,11 @@ const routes: Routes = [
         path: 'following',
         canActivateChild: [],
         component: ProfileFollowingComponent,
+      },
+      {
+        path: 'skills',
+        canActivateChild: [],
+        component: UserSkillsComponent,
       },
       {
         path: 'requests',
@@ -237,6 +244,16 @@ const routes: Routes = [
         path: 'measurement',
         canActivate: [AuthGuard],
         component: MeasurementDetailComponent,
+      },
+      {
+        path: 'leaderboards',
+        canActivateChild: [],
+        component: LeaderboardListComponent,
+      },
+      {
+        path: 'leaderboards/:page',
+        canActivateChild: [],
+        component: LeaderboardListComponent,
       },
       {
         path: 'account',

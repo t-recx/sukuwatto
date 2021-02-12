@@ -1,0 +1,39 @@
+<div class="toolbar">
+    <div class="toolbar-title">Leaderboards</div>
+</div>
+
+<div class="search-box">
+    <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
+        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel">
+    <div class="search-buttons">
+        <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
+            <fa-icon [icon]="faBackspace" class=""></fa-icon>
+        </button>
+    </div>
+</div>
+
+<div class="siimple-card">
+    <div class="siimple-card-header">
+        <div class="leaderboard-timespan">
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.Week"
+                [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.Week"
+                (click)="changeTimespan(leaderboardTimespan.Week)">Week</span>
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.Month"
+                [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.Month"
+                (click)="changeTimespan(leaderboardTimespan.Month)">Month</span>
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.Year"
+                [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.Year"
+                (click)="changeTimespan(leaderboardTimespan.Year)">Year</span>
+            <span [class.siimple--text-bold]="selectedLeaderboardTimespan == leaderboardTimespan.AllTime"
+                [class.siimple-link]="selectedLeaderboardTimespan != leaderboardTimespan.AllTime"
+                (click)="changeTimespan(leaderboardTimespan.AllTime)">All Time</span>
+        </div>
+    </div>
+    <div class="siimple-card-body" *ngFor="let position of positions">
+        <app-leaderboard-item [position]=position></app-leaderboard-item>
+    </div>
+</div>
+
+<app-pagination [paginatedRecords]="paginatedPositions" [currentPage]="page"
+    [link]="['/users', username, 'leaderboards']" [queryParams]=queryParams>
+</app-pagination>

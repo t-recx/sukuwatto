@@ -44,6 +44,10 @@
             (click)="selectTabType(tabType.Privacy)">
             Privacy
         </div>
+        <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTabType==tabType.Perks"
+            (click)="selectTabType(tabType.Perks)">
+            Perks
+        </div>
     </div>
 
     <div>
@@ -265,6 +269,47 @@
                                     {{defaultMeasurementVisibilityModel.value}}
                                 </option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" [class.tab-content-selected]="selectedTabType==tabType.Perks">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <label class="siimple-label">Use custom class</label>
+                            <div class="siimple-switch">
+                                <input type="checkbox" name="custom_class" id="custom_class" [(ngModel)]="user.custom_class" #custom_class="ngModel"
+                                (change)="customClassToggle()">
+                                <label for="custom_class"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <label class="siimple-label">Primary class</label>
+                            <input
+                                [class.siimple-input--disabled]="!user.custom_class"
+                                [disabled]="!user.custom_class"
+                                type="text" class="siimple-input siimple-input--fluid" name="primary_class"
+                                id="primary_class" [(ngModel)]="user.primary_class" #primary_class="ngModel" maxlength="200"
+                                placeholder="Primary class">
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--12">
+                        <div class="siimple-form-field siimple--my-0">
+                            <label class="siimple-label">Secondary class</label>
+                            <input 
+                                [class.siimple-input--disabled]="!user.custom_class"
+                                [disabled]="!user.custom_class"
+                                type="text" class="siimple-input siimple-input--fluid" name="secondary_class"
+                                id="secondary_class" [(ngModel)]="user.secondary_class" #secondary_class="ngModel" maxlength="200"
+                                placeholder="Secondary class">
                         </div>
                     </div>
                 </div>

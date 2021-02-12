@@ -56,6 +56,14 @@ export class User {
     followings_number: number;
     tier: Tier;
 
+    experience: number;
+    level: number;
+    primary_class: string;
+    secondary_class: string;
+    custom_class: boolean;
+    primary_class_computed: string;
+    secondary_class_computed: string;
+
     constructor(init?: Partial<User>) {
         Object.assign(this, init);
     }

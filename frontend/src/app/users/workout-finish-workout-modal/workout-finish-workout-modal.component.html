@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="siimple-card siimple--mb-0">
+                <div class="siimple-card">
                     <div class="siimple-card-body chart-card-body">
                         <div class="loading-container" *ngIf="loading">
                             <div class="siimple-spinner siimple-spinner--primary siimple-spinner--large"></div>
@@ -73,6 +73,33 @@
                 </div>
             </div>
             <div class="siimple-modal-footer">
+                <div class="siimple--mb-4 progress-bar-level-container">
+                    <!-- <div class="level-tag-item level-tag-item--current siimple--mr-1" >
+                        {{currentLevel}} 
+                    </div> -->
+                    <div class="progress-label">
+                        Progress
+                    </div>
+                    <div class="siimple-progress siimple--mb-0" style="background-color: white;"
+                        [class.siimple-progress--primary]="experienceBarIncreasing"
+                        [class.siimple-progress--warning]="!experienceBarIncreasing"
+                    >
+                        <span [style.width.%]="experienceBarWidth" 
+                            [style.transition-timing-function]="'ease-in-out'"
+                            [style.transition-duration.ms]=transitionMs></span>
+                    </div>
+                    <div class="level-tag-item level-tag-item--next siimple--ml-1">
+                        {{currentLevel+1}} 
+                        <div *ngFor="let levelUp of levelUpObjects" [id]="levelUp.id" class="level-up" 
+                            [style.color]="levelUp.color"
+                            [style.opacity]="levelUp.Opacity"
+                            [style.margin-bottom.px]="levelUp.MarginBottom"
+                            >
+                            {{levelUp.text}}
+                        </div>
+                    </div>
+                </div>
+
                 <button class="siimple-btn siimple-btn--success" type="button" (click)="finishWorkout()"
                     [disabled]="finishing"
                     [class.siimple-btn--disabled]="finishing">
@@ -84,6 +111,9 @@
                     <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
                     Cancel
                 </button>
+                <div class="xp-added">
+                    {{deltaExperience >= 0 ? '+': ''}}{{deltaExperience | locale}} XP
+                </div>
             </div>
         </div>
     </div>

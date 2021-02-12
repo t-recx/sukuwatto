@@ -1,7 +1,7 @@
 # builder - temporary image to build pip wheels
 FROM python:buster as builder
 LABEL mantainer="jnnlbruno@gmail.com"
-ENV VERSION 33 
+ENV VERSION 41 
 
 WORKDIR /usr/src/app
 
@@ -16,12 +16,6 @@ RUN apt-get -yqq install python3-dev libpq-dev
 
 RUN pip install --upgrade pip
 
-# lint
-RUN pip install flake8
-COPY . /usr/src/app/
-# TODO: uncomment after fixing 
-#RUN flake8 --ignore=E501,F401
-
 # install dependencies
 COPY ./requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
@@ -35,7 +29,9 @@ RUN groupadd -r app && useradd -r -g app app
 
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
+ENV MEDIA_HOME=/home/app/web/media
 RUN mkdir $APP_HOME
+RUN mkdir $MEDIA_HOME
 WORKDIR $APP_HOME
 
 RUN apt-get -yqq update
@@ -52,6 +48,7 @@ COPY ./entrypoint.sh $APP_HOME
 COPY . $APP_HOME
 
 RUN chown -R app:app $APP_HOME
+RUN chown -R app:app $MEDIA_HOME
 
 USER app
 

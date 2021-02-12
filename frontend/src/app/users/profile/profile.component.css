@@ -13,11 +13,16 @@
     margin-bottom: 10px;
 }
 
-.name-field {
+.name-container {
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
 .action-button-group {
     margin-bottom: 30px;
+}
+
+.user-level-field {
+    margin: 0px;
+    color:#879aab;
 }

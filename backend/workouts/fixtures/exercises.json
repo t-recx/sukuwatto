@@ -5,7 +5,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Lower",
             "short_name": "Full Reverse Crunch",
             "name": "Full Reverse Crunch",
             "level": "a",
@@ -21,7 +20,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Lower",
             "short_name": "Incline Hip Thrust",
             "name": "Incline Hip Thrust",
             "level": "a",
@@ -37,7 +35,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Lower",
             "short_name": "Incline Reverse Crunch",
             "name": "Incline Reverse Crunch",
             "level": "a",
@@ -53,7 +50,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Lower",
             "short_name": "Lying Hip Thrust",
             "name": "Lying Hip Thrust",
             "level": "a",
@@ -69,7 +65,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Lower",
             "short_name": "Reverse Crunch",
             "name": "Reverse Crunch",
             "level": "b",
@@ -85,7 +80,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Lower",
             "short_name": "Reverse Medicine Ball Crunch",
             "name": "Reverse Medicine Ball Crunch",
             "level": "a",
@@ -101,7 +95,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Alternating Heel Touch",
             "name": "Alternating Heel Touch",
             "level": "b",
@@ -117,7 +110,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Bent-Knee Medicine Ball Hip Rotation",
             "name": "Bent-Knee Medicine Ball Hip Rotation",
             "level": "a",
@@ -133,7 +125,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Cbl Chop",
             "name": "Cable Chop",
             "level": "a",
@@ -149,7 +140,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Cross Crunch",
             "name": "Cross Crunch",
             "level": "b",
@@ -165,7 +155,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Cross Crunch w/ Medicine Ball",
             "name": "Cross Crunch w/ Medicine Ball",
             "level": "a",
@@ -181,7 +170,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Decline Cross Sit-Up",
             "name": "Decline Cross Sit-Up",
             "level": "a",
@@ -197,7 +185,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Decline Sit-Up w/ Twist",
             "name": "Decline Sit-Up w/ Twist",
             "level": "a",
@@ -213,7 +200,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Reverse Cbl Chop",
             "name": "Reverse Cable Chop",
             "level": "a",
@@ -229,7 +215,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Seated Medicine Ball Twist",
             "name": "Seated Medicine Ball Twist",
             "level": "a",
@@ -245,7 +230,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Obliques",
             "short_name": "Trunk Rotator",
             "name": "Trunk Rotator",
             "level": "a",
@@ -261,7 +245,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Front Plank (from knees)",
             "name": "Front Plank (from knees)",
             "level": "b",
@@ -277,7 +260,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Front Plank (from toes)",
             "name": "Front Plank (from toes)",
             "level": "i",
@@ -293,7 +275,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Front Plank (tripod - 1 arm and 2 legs or 2 legs and 1 arm)",
             "name": "Front Plank (tripod - 1 arm and 2 legs or 2 legs and 1 arm)",
             "level": "a",
@@ -309,7 +290,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Side-Plank (from knees)",
             "name": "Side-Plank (from knees)",
             "level": "i",
@@ -325,7 +305,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Side-Plank (hip lift)",
             "name": "Side-Plank (hip lift)",
             "level": "b",
@@ -341,7 +320,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Side-Plank (from toes)",
             "name": "Side-Plank (from toes)",
             "level": "a",
@@ -357,7 +335,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Ab Cycle",
             "name": "Ab Cycle",
             "level": "a",
@@ -373,7 +350,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Kneeling Ab Rollout",
             "name": "Kneeling Ab Rollout",
             "level": "i",
@@ -389,7 +365,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Medicine Ball V-Up",
             "name": "Medicine Ball V-Up",
             "level": "a",
@@ -405,7 +380,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "V-Up",
             "name": "V-Up",
             "level": "b",
@@ -421,7 +395,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Total",
             "short_name": "Weighted V-Up",
             "name": "Weighted V-Up",
             "level": "i",
@@ -437,7 +410,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Bent Knee Sit-Up",
             "name": "Bent Knee Sit-Up",
             "level": "b",
@@ -453,7 +425,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Bent-Knee Crunch",
             "name": "Bent-Knee Crunch",
             "level": "b",
@@ -469,7 +440,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Crunch",
             "name": "Crunch",
             "level": "b",
@@ -485,7 +455,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Decline Crunch",
             "name": "Decline Crunch",
             "level": "a",
@@ -501,7 +470,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Decline Sit-Up",
             "name": "Decline Sit-Up",
             "level": "a",
@@ -517,7 +485,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Heel Touch",
             "name": "Heel Touch",
             "level": "b",
@@ -533,7 +500,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Sit-Up",
             "name": "Sit-Up",
             "level": "b",
@@ -549,7 +515,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Abdominals - Upper",
             "short_name": "Weighted Crunch",
             "name": "Weighted Crunch",
             "level": "i",
@@ -565,7 +530,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Assisted Pull-Up",
             "name": "Assisted Pull-Up",
             "level": "b",
@@ -581,7 +545,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Close-Grip Lat Pulldown",
             "name": "Close-Grip Lat Pulldown",
             "level": "b",
@@ -597,7 +560,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Inverted Pull-Up",
             "name": "Inverted Pull-Up",
             "level": "a",
@@ -613,7 +575,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Lat Pulldown",
             "name": "Lat Pulldown",
             "level": "b",
@@ -629,7 +590,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Pull-Up",
             "name": "Pull-Up",
             "level": "b",
@@ -645,7 +605,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Reverse-Grip Lat Pulldown",
             "name": "Reverse-Grip Lat Pulldown",
             "level": "i",
@@ -661,7 +620,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Reverse-Grip Pull-Up",
             "name": "Reverse-Grip Pull-Up",
             "level": "a",
@@ -677,7 +635,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "V-Bar Pull-Up",
             "name": "V-Bar Pull-Up",
             "level": "a",
@@ -693,7 +650,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Latissimus Dorsi",
             "short_name": "Wide-Grip Lat Pulldown",
             "name": "Wide-Grip Lat Pulldown",
             "level": "b",
@@ -709,7 +665,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Alternating DB Row",
             "name": "Bent-Over Alternating Dumbbell Row",
             "level": "i",
@@ -725,7 +680,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Row",
             "name": "Bent-Over Barbell Row",
             "level": "b",
@@ -741,7 +695,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over DB Row",
             "name": "Bent-Over Dumbbell Row",
             "level": "b",
@@ -757,7 +710,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Hammer DB Row",
             "name": "Bent-Over Hammer Dumbbell Row",
             "level": "b",
@@ -773,7 +725,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Long Row",
             "name": "Bent-Over Long Barbell Row",
             "level": "i",
@@ -789,7 +740,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Reverse-Grip Row",
             "name": "Bent-Over Reverse-Grip Barbell Row",
             "level": "a",
@@ -805,7 +755,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Bent-Over Single-Arm Long Row",
             "name": "Bent-Over Single-Arm Long Barbell Row",
             "level": "a",
@@ -821,7 +770,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Machine Row",
             "name": "Machine Row",
             "level": "b",
@@ -837,7 +785,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "One Arm DB Row",
             "name": "One Arm Dumbbell Row",
             "level": "b",
@@ -853,7 +800,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Reverse Incline DB Row",
             "name": "Reverse Incline Dumbbell Row",
             "level": "a",
@@ -869,7 +815,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Rope Cbl Row",
             "name": "Rope Cable Row",
             "level": "i",
@@ -885,7 +830,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Seated Cbl Row",
             "name": "Seated Cable Row",
             "level": "b",
@@ -901,7 +845,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Seated Row",
             "name": "Seated Row",
             "level": "b",
@@ -917,7 +860,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Single-Arm Cbl Row",
             "name": "Single-Arm Cable Row",
             "level": "i",
@@ -933,7 +875,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Single-Arm DB Row",
             "name": "Single-Arm Dumbbell Row",
             "level": "b",
@@ -949,7 +890,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Single-Arm Lat Pulldown",
             "name": "Single-Arm Lat Pulldown",
             "level": "i",
@@ -965,7 +905,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Standing Cbl Row",
             "name": "Standing Cable Row",
             "level": "b",
@@ -981,7 +920,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Back - Lat.Dorsi/Rhomboids",
             "short_name": "Standing Single-Arm Cbl Row",
             "name": "Standing Single-Arm Cable Row",
             "level": "i",
@@ -997,7 +935,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Alternating DB Curl",
             "name": "Alternating Dumbbell Curl",
             "level": "b",
@@ -1013,7 +950,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Alternating Hammer Curl",
             "name": "Alternating Hammer Curl",
             "level": "b",
@@ -1029,7 +965,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Curl",
             "name": "Barbell Curl",
             "level": "b",
@@ -1045,7 +980,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Bicep Curl",
             "name": "Bicep Curl",
             "level": "b",
@@ -1061,7 +995,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Bottom/Top/Full Curls",
             "name": "Bottom/Top/Full Curls",
             "level": "a",
@@ -1077,7 +1010,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Cbl Curl",
             "name": "Cable Curl",
             "level": "i",
@@ -1093,7 +1025,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Concentration DB Curl",
             "name": "Concentration Dumbbell Curl",
             "level": "i",
@@ -1109,7 +1040,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Cross Body Hammer Curl",
             "name": "Cross Body Hammer Curl",
             "level": "a",
@@ -1125,7 +1055,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "DB Curl",
             "name": "Dumbbell Curl",
             "level": "b",
@@ -1141,7 +1070,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "EZ-Bar Curl",
             "name": "EZ-Bar Curl",
             "level": "i",
@@ -1157,7 +1085,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Hammer Curl",
             "name": "Hammer Curl",
             "level": "b",
@@ -1173,7 +1100,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Incline Alternating DB Curl",
             "name": "Incline Alternating Dumbbell Curl",
             "level": "a",
@@ -1189,7 +1115,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Incline Alternating Hammer Curl",
             "name": "Incline Alternating Hammer Curl",
             "level": "a",
@@ -1205,7 +1130,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Incline DB Curl",
             "name": "Incline Dumbbell Curl",
             "level": "a",
@@ -1221,7 +1145,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Incline Hammer Curl",
             "name": "Incline Hammer Curl",
             "level": "a",
@@ -1237,7 +1160,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Kneeling Cbl Curl",
             "name": "Kneeling Cable Curl",
             "level": "b",
@@ -1253,7 +1175,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Lying Cbl Curl",
             "name": "Lying Cable Curl",
             "level": "i",
@@ -1269,7 +1190,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Lying Double Biceps Cbl Curl",
             "name": "Lying Double Biceps Cable Curl",
             "level": "i",
@@ -1285,7 +1205,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Lying High Cbl Curl",
             "name": "Lying High Cable Curl",
             "level": "a",
@@ -1301,7 +1220,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Machine Curl",
             "name": "Machine Curl",
             "level": "b",
@@ -1317,7 +1235,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Overhead Double Biceps Cbl Curl",
             "name": "Overhead Double Biceps Cable Curl",
             "level": "a",
@@ -1333,7 +1250,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Overhead Rope Cbl Curl",
             "name": "Overhead Rope Cable Curl",
             "level": "a",
@@ -1349,7 +1265,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Preacher Curl",
             "name": "Preacher Barbell Curl",
             "level": "a",
@@ -1365,7 +1280,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Preacher Cbl Curl",
             "name": "Preacher Cable Curl",
             "level": "a",
@@ -1381,7 +1295,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Preacher DB Curl",
             "name": "Preacher Dumbbell Curl",
             "level": "i",
@@ -1397,7 +1310,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Preacher EZ-Bar Curl",
             "name": "Preacher EZ-Bar Curl",
             "level": "a",
@@ -1413,7 +1325,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Preacher Hammer DB Curl",
             "name": "Preacher Hammer Dumbbell Curl",
             "level": "i",
@@ -1429,7 +1340,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Preacher Single-Arm DB Curl",
             "name": "Preacher Single-Arm Dumbbell Curl",
             "level": "i",
@@ -1445,7 +1355,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Reverse Curl",
             "name": "Reverse Curl",
             "level": "a",
@@ -1461,7 +1370,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Rope Cbl Curl",
             "name": "Rope Cable Curl",
             "level": "i",
@@ -1477,7 +1385,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Seated Alternating Curl",
             "name": "Seated Alternating Curl",
             "level": "b",
@@ -1493,7 +1400,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Seated Alternating Hammer Curl",
             "name": "Seated Alternating Hammer Curl",
             "level": "b",
@@ -1509,7 +1415,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Seated DB Curl",
             "name": "Seated Dumbbell Curl",
             "level": "b",
@@ -1525,7 +1430,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Seated Hammer Curl",
             "name": "Seated Hammer Curl",
             "level": "b",
@@ -1541,7 +1445,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Single-Arm Curl",
             "name": "Single-Arm Barbell Curl",
             "level": "b",
@@ -1557,7 +1460,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Single-Arm Cbl Curl",
             "name": "Single-Arm Cable Curl",
             "level": "i",
@@ -1573,7 +1475,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Single-Arm DB Curl w/ Incline Bench",
             "name": "Single-Arm Dumbbell Curl w/ Incline Bench",
             "level": "b",
@@ -1589,7 +1490,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Spider Curl",
             "name": "Spider Curl",
             "level": "a",
@@ -1605,7 +1505,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Raise",
             "name": "Barbell Calf Raise",
             "level": "a",
@@ -1621,7 +1520,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Press",
             "name": "Calf Press",
             "level": "b",
@@ -1637,7 +1535,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Raise - Seated",
             "name": "Calf Raise - Seated",
             "level": "b",
@@ -1653,7 +1550,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Calf Raise - Standing",
             "name": "Calf Raise - Standing",
             "level": "b",
@@ -1669,7 +1565,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "DB Calf Raise",
             "name": "Dumbbell Calf Raise",
             "level": "b",
@@ -1685,7 +1580,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Single-Leg Calf Press",
             "name": "Single-Leg Calf Press",
             "level": "a",
@@ -1701,7 +1595,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Single-Leg DB Calf Raise",
             "name": "Single-Leg Dumbbell Calf Raise",
             "level": "a",
@@ -1717,7 +1610,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Gastrocnemius",
             "short_name": "Smith Machine Calf Raise",
             "name": "Smith Machine Calf Raise",
             "level": "i",
@@ -1733,7 +1625,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Soleus",
             "short_name": "Seated Calf Raise",
             "name": "Seated Calf Raise",
             "level": "b",
@@ -1749,7 +1640,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Calves - Soleus",
             "short_name": "Seated Single-Leg Calf Raise",
             "name": "Seated Single-Leg Calf Raise",
             "level": "i",
@@ -1765,7 +1655,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Alternating DB Bench Press",
             "name": "Alternating Dumbbell Bench Press",
             "level": "i",
@@ -1781,7 +1670,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Bench Press",
             "name": "Barbell Bench Press",
             "level": "i",
@@ -1797,7 +1685,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Chest Press",
             "name": "Chest Press",
             "level": "b",
@@ -1813,7 +1700,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Decline DB Bench Press",
             "name": "Decline Dumbbell Bench Press",
             "level": "a",
@@ -1829,7 +1715,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Decline Smith Machine Bench Press",
             "name": "Decline Smith Machine Bench Press",
             "level": "a",
@@ -1845,7 +1730,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "DB Bench Press",
             "name": "Dumbbell Bench Press",
             "level": "b",
@@ -1861,7 +1745,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "DB Push-Up",
             "name": "Dumbbell Push-Up",
             "level": "b",
@@ -1877,7 +1760,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Elevated Push-Up",
             "name": "Elevated Push-Up",
             "level": "a",
@@ -1893,7 +1775,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Flat Bench Press",
             "name": "Flat Bench Press",
             "level": "i",
@@ -1909,7 +1790,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Alternating DB Bench Press",
             "name": "Incline Alternating Dumbbell Bench Press",
             "level": "a",
@@ -1925,7 +1805,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Bench Press",
             "name": "Incline Barbell Bench Press",
             "level": "a",
@@ -1941,7 +1820,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Bench Press",
             "name": "Incline Bench Press",
             "level": "a",
@@ -1957,7 +1835,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline DB Bench Press",
             "name": "Incline Dumbbell Bench Press",
             "level": "a",
@@ -1973,7 +1850,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Hammer DB Bench Press",
             "name": "Incline Hammer Dumbbell Bench Press",
             "level": "a",
@@ -1989,7 +1865,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Single-Arm DB Bench Press",
             "name": "Incline Single-Arm Dumbbell Bench Press",
             "level": "a",
@@ -2005,7 +1880,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Smith Machine Bench Press",
             "name": "Incline Smith Machine Bench Press",
             "level": "a",
@@ -2021,7 +1895,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Twisting DB Bench Press",
             "name": "Incline Twisting Dumbbell Bench Press",
             "level": "a",
@@ -2037,7 +1910,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Kneeling Push-Up",
             "name": "Kneeling Push-Up",
             "level": "b",
@@ -2053,7 +1925,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Machine Bench Press",
             "name": "Machine Bench Press",
             "level": "b",
@@ -2069,7 +1940,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Machine Vertical Bench Press",
             "name": "Machine Vertical Bench Press",
             "level": "b",
@@ -2085,7 +1955,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Medicine Ball Crossover Push-Up",
             "name": "Medicine Ball Crossover Push-Up",
             "level": "a",
@@ -2101,7 +1970,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Push-Up",
             "name": "Push-Up",
             "level": "b",
@@ -2117,7 +1985,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Single-Arm DB Bench Press",
             "name": "Single-Arm Dumbbell Bench Press",
             "level": "i",
@@ -2133,7 +2000,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Smith Machine Bench Press",
             "name": "Smith Machine Bench Press",
             "level": "i",
@@ -2149,7 +2015,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Twisting DB Bench Press",
             "name": "Twisting Dumbbell Bench Press",
             "level": "b",
@@ -2165,7 +2030,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Wide-Grip Push-Up",
             "name": "Wide-Grip Push-Up",
             "level": "b",
@@ -2181,7 +2045,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Cbl Crossover",
             "name": "Cable Crossover",
             "level": "a",
@@ -2197,7 +2060,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Cbl Fly",
             "name": "Cable Fly",
             "level": "a",
@@ -2213,7 +2075,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Decline DB Fly",
             "name": "Decline Dumbbell Fly",
             "level": "a",
@@ -2229,7 +2090,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "DB Fly",
             "name": "Dumbbell Fly",
             "level": "b",
@@ -2245,7 +2105,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "High Cbl Crossover",
             "name": "High Cable Crossover",
             "level": "a",
@@ -2261,7 +2120,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Cbl Fly",
             "name": "Incline Cable Fly",
             "level": "a",
@@ -2277,7 +2135,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline DB Fly",
             "name": "Incline Dumbbell Fly",
             "level": "a",
@@ -2293,7 +2150,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Incline Twisting DB Fly",
             "name": "Incline Twisting Dumbbell Fly",
             "level": "a",
@@ -2309,7 +2165,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Low Cbl Crossover",
             "name": "Low Cable Crossover",
             "level": "i",
@@ -2325,7 +2180,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Pec Deck",
             "name": "Pec Deck",
             "level": "b",
@@ -2341,7 +2195,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Chest - Pectoralis",
             "short_name": "Pec Deck Fly",
             "name": "Pec Deck Fly",
             "level": "b",
@@ -2357,7 +2210,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Bent-Knee Single-Leg Hip Lift",
             "name": "Bent-Knee Single-Leg Hip Lift",
             "level": "a",
@@ -2373,7 +2225,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Elevated Hip Lift",
             "name": "Elevated Hip Lift",
             "level": "i",
@@ -2389,7 +2240,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Elevated Single-Leg Hip Lift",
             "name": "Elevated Single-Leg Hip Lift",
             "level": "a",
@@ -2405,7 +2255,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Hip Lift",
             "name": "Hip Lift",
             "level": "b",
@@ -2421,7 +2270,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Single-Leg Hip Lift",
             "name": "Single-Leg Hip Lift",
             "level": "i",
@@ -2437,7 +2285,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Deadlift",
             "name": "Deadlift",
             "level": "a",
@@ -2453,7 +2300,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Leg Curl",
             "name": "Leg Curl",
             "level": "b",
@@ -2469,7 +2315,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Lying Alternating Leg Curl",
             "name": "Lying Alternating Leg Curl",
             "level": "i",
@@ -2485,7 +2330,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Lying Leg Curl",
             "name": "Lying Leg Curl",
             "level": "b",
@@ -2501,7 +2345,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Lying Single-Leg Curl",
             "name": "Lying Single-Leg Curl",
             "level": "i",
@@ -2517,7 +2360,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Seated Leg Curl",
             "name": "Seated Leg Curl",
             "level": "b",
@@ -2533,7 +2375,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Diagonal Lunge",
             "name": "Barbell Diagonal Lunge",
             "level": "a",
@@ -2549,7 +2390,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Hack Squat",
             "name": "Barbell Hack Squat",
             "level": "a",
@@ -2565,7 +2405,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lunge",
             "name": "Barbell Lunge",
             "level": "i",
@@ -2581,7 +2420,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Reverse Lunge",
             "name": "Barbell Reverse Lunge",
             "level": "i",
@@ -2597,7 +2435,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Side Lunge",
             "name": "Barbell Side Lunge",
             "level": "i",
@@ -2613,7 +2450,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Split Squat",
             "name": "Barbell Split Squat",
             "level": "a",
@@ -2629,7 +2465,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Squat",
             "name": "Barbell Squat",
             "level": "b",
@@ -2645,7 +2480,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Step-Up",
             "name": "Barbell Step-Up",
             "level": "a",
@@ -2661,7 +2495,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Walking Lunge",
             "name": "Barbell Walking Lunge",
             "level": "a",
@@ -2677,7 +2510,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Diagonal Lunge",
             "name": "Diagonal Lunge",
             "level": "i",
@@ -2693,7 +2525,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Diagonal Lunge",
             "name": "Dumbbell Diagonal Lunge",
             "level": "a",
@@ -2709,7 +2540,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Lunge",
             "name": "Dumbbell Lunge",
             "level": "b",
@@ -2725,7 +2555,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Reverse Lunge",
             "name": "Dumbbell Reverse Lunge",
             "level": "i",
@@ -2741,7 +2570,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Side Lunge",
             "name": "Dumbbell Side Lunge",
             "level": "i",
@@ -2757,7 +2585,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Split Squat",
             "name": "Dumbbell Split Squat",
             "level": "a",
@@ -2773,7 +2600,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Squat",
             "name": "Dumbbell Squat",
             "level": "b",
@@ -2789,7 +2615,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Step-Up",
             "name": "Dumbbell Step-Up",
             "level": "b",
@@ -2805,7 +2630,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "DB Walking Lunge",
             "name": "Dumbbell Walking Lunge",
             "level": "a",
@@ -2821,7 +2645,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Forward Lunge",
             "name": "Forward Lunge",
             "level": "b",
@@ -2837,7 +2660,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Squat",
             "name": "Lateral Barbell Squat",
             "level": "i",
@@ -2853,7 +2675,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Step-Up",
             "name": "Lateral Barbell Step-Up",
             "level": "a",
@@ -2869,7 +2690,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Squat",
             "name": "Lateral Squat",
             "level": "b",
@@ -2885,7 +2705,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lateral Step-Up",
             "name": "Lateral Step-Up",
             "level": "b",
@@ -2901,7 +2720,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Leg Press",
             "name": "Leg Press",
             "level": "b",
@@ -2917,7 +2735,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lunge",
             "name": "Lunge",
             "level": "b",
@@ -2933,7 +2750,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Lying Machine Squat",
             "name": "Lying Machine Squat",
             "level": "b",
@@ -2949,7 +2765,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Machine Hack Squat",
             "name": "Machine Hack Squat",
             "level": "b",
@@ -2965,7 +2780,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Reverse Lunge",
             "name": "Reverse Lunge",
             "level": "b",
@@ -2981,7 +2795,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Arm Side Squat",
             "name": "Single-Arm Barbell Side Squat",
             "level": "a",
@@ -2997,7 +2810,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Arm DB Side Squat",
             "name": "Single-Arm Dumbbell Side Squat",
             "level": "i",
@@ -3013,7 +2825,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Squat",
             "name": "Single-Leg Barbell Squat",
             "level": "a",
@@ -3029,7 +2840,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Box Squat",
             "name": "Single-Leg Box Squat",
             "level": "a",
@@ -3045,7 +2855,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg DB Box Squat",
             "name": "Single-Leg Dumbbell Box Squat",
             "level": "a",
@@ -3061,7 +2870,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg DB Squat",
             "name": "Single-Leg Dumbbell Squat",
             "level": "i",
@@ -3077,7 +2885,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Squat",
             "name": "Single-Leg Squat",
             "level": "i",
@@ -3093,7 +2900,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Smith Machine Squat",
             "name": "Smith Machine Squat",
             "level": "i",
@@ -3109,7 +2915,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Split Squat",
             "name": "Split Squat",
             "level": "a",
@@ -3125,7 +2930,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Step-Up",
             "name": "Step-Up",
             "level": "b",
@@ -3141,7 +2945,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Walking Lunge",
             "name": "Walking Lunge",
             "level": "i",
@@ -3157,7 +2960,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Alternating Leg Extension",
             "name": "Alternating Leg Extension",
             "level": "i",
@@ -3173,7 +2975,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Leg Extension",
             "name": "Leg Extension",
             "level": "b",
@@ -3189,7 +2990,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Single-Leg Extension",
             "name": "Single-Leg Extension",
             "level": "i",
@@ -3205,7 +3005,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Lower Back - Erector Spinae",
             "short_name": "Alternating Superman",
             "name": "Alternating Superman",
             "level": "b",
@@ -3221,7 +3020,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Lower Back - Erector Spinae",
             "short_name": "Back Raise",
             "name": "Back Raise",
             "level": "b",
@@ -3237,7 +3035,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Lower Back - Erector Spinae",
             "short_name": "Quadruped Alternating Superman",
             "name": "Quadruped Alternating Superman",
             "level": "b",
@@ -3253,7 +3050,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Lower Back - Erector Spinae",
             "short_name": "Superman",
             "name": "Superman",
             "level": "b",
@@ -3269,7 +3065,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Lower Back - Erector Spinae",
             "short_name": "Superman Hold",
             "name": "Superman Hold",
             "level": "b",
@@ -3285,7 +3080,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Arnold DB Press",
             "name": "Arnold Dumbbell Press",
             "level": "i",
@@ -3301,7 +3095,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Shoulder Press",
             "name": "Barbell Shoulder Press",
             "level": "a",
@@ -3317,7 +3110,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Alternating Shoulder Press",
             "name": "Dumbbell Alternating Shoulder Press",
             "level": "b",
@@ -3333,7 +3125,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Front Raise",
             "name": "Dumbbell Front Raise",
             "level": "b",
@@ -3349,7 +3140,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Shoulder Press",
             "name": "Dumbbell Shoulder Press",
             "level": "i",
@@ -3365,7 +3155,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Twisting Shoulder Press",
             "name": "Dumbbell Twisting Shoulder Press",
             "level": "i",
@@ -3381,7 +3170,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Machine Shoulder Press",
             "name": "Machine Shoulder Press",
             "level": "b",
@@ -3397,7 +3185,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Seated DB Rear Delt Elbow Raise",
             "name": "Seated Dumbbell Rear Delt Elbow Raise",
             "level": "i",
@@ -3413,7 +3200,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Single-Arm DB Shoulder Press",
             "name": "Single-Arm Dumbbell Shoulder Press",
             "level": "b",
@@ -3429,7 +3215,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Smith Machine Shoulder Press",
             "name": "Smith Machine Shoulder Press",
             "level": "a",
@@ -3445,7 +3230,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Front Raise",
             "name": "Barbell Front Raise",
             "level": "i",
@@ -3461,7 +3245,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Bent-Over Cbl Rear Delt Raise",
             "name": "Bent-Over Cable Rear Delt Raise",
             "level": "a",
@@ -3477,7 +3260,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Bent-Over DB Rear Delt Raise",
             "name": "Bent-Over Dumbbell Rear Delt Raise",
             "level": "i",
@@ -3493,7 +3275,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Cbl Front Raise",
             "name": "Cable Front Raise",
             "level": "i",
@@ -3509,7 +3290,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Cbl Lateral Raise",
             "name": "Cable Lateral Raise",
             "level": "i",
@@ -3525,7 +3305,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Lateral Raise",
             "name": "Dumbbell Lateral Raise",
             "level": "b",
@@ -3541,7 +3320,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Front Plate Raise",
             "name": "Front Plate Raise",
             "level": "b",
@@ -3557,7 +3335,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Kneeling Single-Arm Cbl Rear Delt Raise",
             "name": "Kneeling Single-Arm Cable Rear Delt Raise",
             "level": "a",
@@ -3573,7 +3350,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Lying DB External Rotation",
             "name": "Lying Dumbbell External Rotation",
             "level": "b",
@@ -3589,7 +3365,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Lying DB Rear Delt Raise",
             "name": "Lying Dumbbell Rear Delt Raise",
             "level": "b",
@@ -3605,7 +3380,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Lying Single-Arm DB Rear Delt Raise",
             "name": "Lying Single-Arm Dumbbell Rear Delt Raise",
             "level": "b",
@@ -3621,7 +3395,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Pec Deck Real Delt Extensions",
             "name": "Pec Deck Real Delt Extensions",
             "level": "i",
@@ -3637,7 +3410,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Reverse Incline DB Rear Delt Raise",
             "name": "Reverse Incline Dumbbell Rear Delt Raise",
             "level": "a",
@@ -3653,7 +3425,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Seated DB Rear Delt Raise",
             "name": "Seated Dumbbell Rear Delt Raise",
             "level": "b",
@@ -3669,7 +3440,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Single-Arm Cbl Lateral Raise",
             "name": "Single-Arm Cable Lateral Raise",
             "level": "i",
@@ -3685,7 +3455,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Rotator Cuff",
             "short_name": "Cbl External Rotation",
             "name": "Cable External Rotation",
             "level": "b",
@@ -3701,7 +3470,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Close-Grip Bench Press",
             "name": "Close-Grip Bench Press",
             "level": "a",
@@ -3717,7 +3485,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Forward Lean Dips",
             "name": "Forward Lean Dips",
             "level": "i",
@@ -3733,7 +3500,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Assisted Dips",
             "name": "Assisted Dips",
             "level": "b",
@@ -3749,7 +3515,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Bench Dips",
             "name": "Bench Dips",
             "level": "i",
@@ -3765,7 +3530,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Diamond Push-Up",
             "name": "Diamond Push-Up",
             "level": "i",
@@ -3781,7 +3545,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Dips",
             "name": "Dips",
             "level": "i",
@@ -3797,7 +3560,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Machine Dips",
             "name": "Machine Dips",
             "level": "b",
@@ -3813,7 +3575,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Decline DB Triceps Extension",
             "name": "Decline Dumbbell Triceps Extension",
             "level": "a",
@@ -3829,7 +3590,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Decline EZ-Bar Tricep Extension",
             "name": "Decline EZ-Bar Tricep Extension",
             "level": "a",
@@ -3845,7 +3605,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Decline Single DB Triceps Extension",
             "name": "Decline Single Dumbbell Triceps Extension",
             "level": "a",
@@ -3861,7 +3620,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Decline Single-Arm DB Triceps Extension",
             "name": "Decline Single-Arm Dumbbell Triceps Extension",
             "level": "a",
@@ -3877,7 +3635,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "DB Kickback",
             "name": "Dumbbell Kickback",
             "level": "b",
@@ -3893,7 +3650,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Incline EZ-Bar Tricep Extension",
             "name": "Incline EZ-Bar Tricep Extension",
             "level": "a",
@@ -3909,7 +3665,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Kneeling Cbl Triceps Extension",
             "name": "Kneeling Cable Triceps Extension",
             "level": "b",
@@ -3925,7 +3680,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Leaning Overhead Tricep Extension",
             "name": "Leaning Overhead Tricep Extension",
             "level": "i",
@@ -3941,7 +3695,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Low Cbl Triceps Extension",
             "name": "Low Cable Triceps Extension",
             "level": "i",
@@ -3957,7 +3710,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying Cbl Triceps Extension",
             "name": "Lying Cable Triceps Extension",
             "level": "i",
@@ -3973,7 +3725,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying EZ-Bar Triceps Extension",
             "name": "Lying EZ-Bar Triceps Extension",
             "level": "i",
@@ -3989,7 +3740,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying Overhead EZ-Bar Tricep Extension",
             "name": "Lying Overhead EZ-Bar Tricep Extension",
             "level": "i",
@@ -4005,7 +3755,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying Reverse EZ-Bar Triceps Extension",
             "name": "Lying Reverse EZ-Bar Triceps Extension",
             "level": "a",
@@ -4021,7 +3770,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying Single DB Triceps Extension",
             "name": "Lying Single Dumbbell Triceps Extension",
             "level": "b",
@@ -4037,7 +3785,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying Single-Arm DB Triceps Extension",
             "name": "Lying Single-Arm Dumbbell Triceps Extension",
             "level": "b",
@@ -4053,7 +3800,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Lying Tricep Extensions",
             "name": "Lying Tricep Extensions",
             "level": "b",
@@ -4069,7 +3815,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Overhead DB Triceps Extension",
             "name": "Overhead Dumbbell Triceps Extension",
             "level": "b",
@@ -4085,7 +3830,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Overhead EZ-Bar Triceps Extension",
             "name": "Overhead EZ-Bar Triceps Extension",
             "level": "a",
@@ -4101,7 +3845,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Overhead Rope Cbl Tricep Extension",
             "name": "Overhead Rope Cable Tricep Extension",
             "level": "i",
@@ -4117,7 +3860,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Overhead Single DB Tricep Extension",
             "name": "Overhead Single Dumbbell Tricep Extension",
             "level": "b",
@@ -4133,7 +3875,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Overhead Single-Arm Cbl Tricep Extension",
             "name": "Overhead Single-Arm Cable Tricep Extension",
             "level": "i",
@@ -4149,7 +3890,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Overhead Single-Arm DB Tricep Extension",
             "name": "Overhead Single-Arm Dumbbell Tricep Extension",
             "level": "b",
@@ -4165,7 +3905,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Reverse Tricep Pushdown",
             "name": "Reverse Tricep Pushdown",
             "level": "a",
@@ -4181,7 +3920,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Rope Triceps Pushdown",
             "name": "Rope Triceps Pushdown",
             "level": "i",
@@ -4197,7 +3935,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Single-Arm Towel Triceps Pushdown",
             "name": "Single-Arm Towel Triceps Pushdown",
             "level": "b",
@@ -4213,7 +3950,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Single-Arm Triceps Pushdown",
             "name": "Single-Arm Triceps Pushdown",
             "level": "i",
@@ -4229,7 +3965,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Towel Triceps Pushdown",
             "name": "Towel Triceps Pushdown",
             "level": "b",
@@ -4245,7 +3980,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Tricep Extensions",
             "name": "Tricep Extensions",
             "level": "b",
@@ -4261,7 +3995,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Tricep Pushdown",
             "name": "Tricep Pushdown",
             "level": "b",
@@ -4277,7 +4010,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "Tricep Pushdown",
             "name": "Tricep Pushdown",
             "level": "b",
@@ -4293,7 +4025,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Triceps",
             "short_name": "V-Bar Tricep Pushdown",
             "name": "V-Bar Tricep Pushdown",
             "level": "b",
@@ -4309,7 +4040,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Hamstrings",
             "short_name": "Romanian Deadlift",
             "name": "Romanian Deadlift",
             "level": "a",
@@ -4325,7 +4055,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Overhead Press",
             "name": "Barbell Overhead Press",
             "level": "a",
@@ -4341,7 +4070,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "Shrug",
             "name": "Barbell Shrug",
             "level": "a",
@@ -4357,7 +4085,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Shoulders - Delts/Traps",
             "short_name": "DB Shrug",
             "name": "Dumbbell Shrug",
             "level": "a",
@@ -4373,7 +4100,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Mountain Bicycling",
             "name": "Mountain Bicycling",
             "level": null,
@@ -4389,7 +4115,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "BMX Bicycling",
             "name": "BMX Bicycling",
             "level": null,
@@ -4405,7 +4130,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Bicycling",
             "name": "Bicycling",
             "level": null,
@@ -4421,7 +4145,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Stationary Bicycling",
             "name": "Stationary Bicycling",
             "level": null,
@@ -4437,7 +4160,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Wii Fit Balance/Yoga",
             "name": "Wii Fit Balance/Yoga",
             "level": null,
@@ -4453,7 +4175,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Wii Fit Aerobic/Resistance",
             "name": "Wii Fit Aerobic/Resistance",
             "level": null,
@@ -4469,7 +4190,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "DDR",
             "name": "Dance Dance Revolution",
             "level": null,
@@ -4485,7 +4205,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Elliptical",
             "name": "Elliptical",
             "level": null,
@@ -4501,7 +4220,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rope Skipping",
             "name": "Rope Skipping",
             "level": null,
@@ -4517,7 +4235,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rowing",
             "name": "Rowing",
             "level": null,
@@ -4533,7 +4250,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Stair-Treadmill",
             "name": "Stair-Treadmill",
             "level": null,
@@ -4549,7 +4265,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Ski Machine",
             "name": "Ski Machine",
             "level": null,
@@ -4565,7 +4280,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Stretching",
             "name": "Stretching",
             "level": null,
@@ -4581,7 +4295,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Pilates",
             "name": "Pilates",
             "level": null,
@@ -4597,7 +4310,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Water Aerobics",
             "name": "Water Aerobics",
             "level": null,
@@ -4613,7 +4325,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Yoga - Hatha",
             "name": "Yoga - Hatha",
             "level": null,
@@ -4629,7 +4340,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Yoga - Power",
             "name": "Yoga - Power",
             "level": null,
@@ -4645,7 +4355,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Yoga - Nadisodhana",
             "name": "Yoga - Nadisodhana",
             "level": null,
@@ -4661,7 +4370,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Yoga - Surya Namaskar",
             "name": "Yoga - Surya Namaskar",
             "level": null,
@@ -4677,7 +4385,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Jogging",
             "name": "Jogging",
             "level": null,
@@ -4693,7 +4400,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Running",
             "name": "Running",
             "level": null,
@@ -4709,7 +4415,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Archery",
             "name": "Archery",
             "level": null,
@@ -4725,7 +4430,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Broomball",
             "name": "Broomball",
             "level": null,
@@ -4741,7 +4445,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Badminton",
             "name": "Badminton",
             "level": null,
@@ -4757,7 +4460,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Basketball",
             "name": "Basketball",
             "level": null,
@@ -4773,7 +4475,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Billiards",
             "name": "Billiards",
             "level": null,
@@ -4789,7 +4490,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Bowling",
             "name": "Bowling",
             "level": null,
@@ -4805,7 +4505,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Boxing",
             "name": "Boxing",
             "level": null,
@@ -4821,7 +4520,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Nordic walking",
             "name": "Nordic walking",
             "level": null,
@@ -4837,7 +4535,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Obstacle course",
             "name": "Obstacle course",
             "level": null,
@@ -4853,7 +4550,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Cheerleading",
             "name": "Cheerleading",
             "level": null,
@@ -4869,7 +4565,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Coaching",
             "name": "Coaching",
             "level": null,
@@ -4885,7 +4580,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Cricket",
             "name": "Cricket",
             "level": null,
@@ -4901,7 +4595,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Croquet",
             "name": "Croquet",
             "level": null,
@@ -4917,7 +4610,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Curling",
             "name": "Curling",
             "level": null,
@@ -4933,7 +4625,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Darts",
             "name": "Darts",
             "level": null,
@@ -4949,7 +4640,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Fencing",
             "name": "Fencing",
             "level": null,
@@ -4965,7 +4655,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Football",
             "name": "Football",
             "level": null,
@@ -4981,7 +4670,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Frisbee",
             "name": "Frisbee",
             "level": null,
@@ -4997,7 +4685,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Golf",
             "name": "Golf",
             "level": null,
@@ -5013,7 +4700,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Gymnastics",
             "name": "Gymnastics",
             "level": null,
@@ -5029,7 +4715,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Handball",
             "name": "Handball",
             "level": null,
@@ -5045,7 +4730,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Hockey",
             "name": "Hockey",
             "level": null,
@@ -5061,7 +4745,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Horseback riding",
             "name": "Horseback riding",
             "level": null,
@@ -5077,7 +4760,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Martial Arts",
             "name": "Martial Arts",
             "level": null,
@@ -5093,7 +4775,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Bocce ball / lawn bowling",
             "name": "Bocce ball / lawn bowling",
             "level": null,
@@ -5109,7 +4790,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Kickball",
             "name": "Kickball",
             "level": null,
@@ -5125,7 +4805,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Lacrosse",
             "name": "Lacrosse",
             "level": null,
@@ -5141,7 +4820,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Off-Road Motor Sports",
             "name": "Off-Road Motor Sports",
             "level": null,
@@ -5157,7 +4835,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Paddleball",
             "name": "Paddleball",
             "level": null,
@@ -5173,7 +4850,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Polo - Horseback",
             "name": "Polo - Horseback",
             "level": null,
@@ -5189,7 +4865,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Racquetball",
             "name": "Racquetball",
             "level": null,
@@ -5205,7 +4880,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rock/Mountain climbing",
             "name": "Rock/Mountain climbing",
             "level": null,
@@ -5221,7 +4895,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rodeo sports",
             "name": "Rodeo sports",
             "level": null,
@@ -5237,7 +4910,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rope jumping",
             "name": "Rope jumping",
             "level": null,
@@ -5253,7 +4925,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rugby",
             "name": "Rugby",
             "level": null,
@@ -5269,7 +4940,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Shuffleboard",
             "name": "Shuffleboard",
             "level": null,
@@ -5285,7 +4955,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Skateboarding",
             "name": "Skateboarding",
             "level": null,
@@ -5301,7 +4970,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Rollerblading",
             "name": "Rollerblading",
             "level": null,
@@ -5317,7 +4985,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Skydiving",
             "name": "Skydiving",
             "level": null,
@@ -5333,7 +5000,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Soccer",
             "name": "Soccer",
             "level": null,
@@ -5349,7 +5015,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Sledding",
             "name": "Sledding",
             "level": null,
@@ -5365,7 +5030,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Baseball / Softball",
             "name": "Baseball / Softball",
             "level": null,
@@ -5381,7 +5045,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Squash",
             "name": "Squash",
             "level": null,
@@ -5397,7 +5060,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Table tennis / Ping pong",
             "name": "Table tennis / Ping pong",
             "level": null,
@@ -5413,7 +5075,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Tai chi - Qi gong",
             "name": "Tai chi - Qi gong",
             "level": null,
@@ -5429,7 +5090,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Tennis",
             "name": "Tennis",
             "level": null,
@@ -5445,7 +5105,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Trampoline",
             "name": "Trampoline",
             "level": null,
@@ -5461,7 +5120,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Volleyball",
             "name": "Volleyball",
             "level": null,
@@ -5477,7 +5135,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Wrestling",
             "name": "Wrestling",
             "level": null,
@@ -5493,7 +5150,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Wallyball",
             "name": "Wallyball",
             "level": null,
@@ -5509,7 +5165,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Track and field",
             "name": "Track and field",
             "level": null,
@@ -5525,7 +5180,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Backpacking",
             "name": "Backpacking",
             "level": null,
@@ -5541,7 +5195,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Hiking",
             "name": "Hiking",
             "level": null,
@@ -5557,7 +5210,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Marching",
             "name": "Marching",
             "level": null,
@@ -5573,7 +5225,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Stair climbing",
             "name": "Stair climbing",
             "level": null,
@@ -5589,7 +5240,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Walking",
             "name": "Walking",
             "level": null,
@@ -5605,7 +5255,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Canoeing",
             "name": "Canoeing",
             "level": null,
@@ -5621,7 +5270,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Diving",
             "name": "Diving",
             "level": null,
@@ -5637,7 +5285,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Kayaking",
             "name": "Kayaking",
             "level": null,
@@ -5653,7 +5300,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Paddle boat",
             "name": "Paddle boat",
             "level": null,
@@ -5669,7 +5315,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Sailing",
             "name": "Sailing",
             "level": null,
@@ -5685,7 +5330,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Water skiing",
             "name": "Water skiing",
             "level": null,
@@ -5701,7 +5345,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Jet skiing",
             "name": "Jet skiing",
             "level": null,
@@ -5717,7 +5360,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Skindiving/Scubadiving",
             "name": "Skindiving/Scubadiving",
             "level": null,
@@ -5733,7 +5375,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Snorkeling",
             "name": "Snorkeling",
             "level": null,
@@ -5749,7 +5390,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Surfing",
             "name": "Surfing",
             "level": null,
@@ -5765,7 +5405,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Paddle boarding",
             "name": "Paddle boarding",
             "level": null,
@@ -5781,7 +5420,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Freestyle",
             "name": "Swimming - Freestyle",
             "level": null,
@@ -5797,7 +5435,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Front crawl",
             "name": "Swimming - Front crawl",
             "level": null,
@@ -5813,7 +5450,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Backstroke",
             "name": "Swimming - Backstroke",
             "level": null,
@@ -5829,7 +5465,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Breaststroke",
             "name": "Swimming - Breaststroke",
             "level": null,
@@ -5845,7 +5480,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Butterfly",
             "name": "Swimming - Butterfly",
             "level": null,
@@ -5861,7 +5495,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Crawl",
             "name": "Swimming - Crawl",
             "level": null,
@@ -5877,7 +5510,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Sidestroke",
             "name": "Swimming - Sidestroke",
             "level": null,
@@ -5893,7 +5525,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Swimming - Synchronized",
             "name": "Swimming - Synchronized",
             "level": null,
@@ -5909,7 +5540,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Water aerobics/calisthenics",
             "name": "Water aerobics/calisthenics",
             "level": null,
@@ -5925,7 +5555,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Water polo",
             "name": "Water polo",
             "level": null,
@@ -5941,7 +5570,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Water volleyball",
             "name": "Water volleyball",
             "level": null,
@@ -5957,7 +5585,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Wind/Kite surfing",
             "name": "Wind/Kite surfing",
             "level": null,
@@ -5973,7 +5600,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Ice skating",
             "name": "Ice skating",
             "level": null,
@@ -5989,7 +5615,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Skiing",
             "name": "Skiing",
             "level": null,
@@ -6005,7 +5630,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Roller skating",
             "name": "Roller skating",
             "level": null,
@@ -6021,7 +5645,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Bocce ball / lawn bowling",
             "name": "Bocce ball / lawn bowling",
             "level": null,
@@ -6037,7 +5660,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Jai alai",
             "name": "Jai alai",
             "level": null,
@@ -6053,7 +5675,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Hang gliding",
             "name": "Hang gliding",
             "level": null,
@@ -6069,7 +5690,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "High ropes",
             "name": "High ropes",
             "level": null,
@@ -6085,7 +5705,6 @@
         "fields": {
             "exercise_type":"c",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs",
             "short_name": "Broomball",
             "name": "Broomball",
             "level": null,
@@ -6101,7 +5720,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "BW Squat",
             "name": "Body-weight Squat",
             "level": "b",
@@ -6117,7 +5735,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Legs - Quadriceps",
             "short_name": "Burpees",
             "name": "Burpees",
             "level": "b",
@@ -6133,7 +5750,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": "Biceps",
             "short_name": "Chin-Up",
             "name": "Chin-Up",
             "level": "b",
@@ -6149,7 +5765,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "C&J",
             "name": "Clean and Jerk",
             "level": null,
@@ -6165,7 +5780,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Clean",
             "name": "Clean",
             "level": null,
@@ -6181,7 +5795,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Hang Clean",
             "name": "Hang Clean",
             "level": null,
@@ -6197,7 +5810,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Jump Shrug",
             "name": "Jump Shrug",
             "level": null,
@@ -6213,7 +5825,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Hang Jump Shrug",
             "name": "Hang Jump Shrug",
             "level": null,
@@ -6229,7 +5840,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "High Pulls",
             "name": "High Pulls",
             "level": null,
@@ -6245,7 +5855,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Hang High Pulls",
             "name": "Hang High Pulls",
             "level": null,
@@ -6261,7 +5870,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Split Jerk",
             "name": "Split Jerk",
             "level": null,
@@ -6277,7 +5885,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Split Jerk (behind neck)",
             "name": "Split Jerk (behind neck)",
             "level": null,
@@ -6293,7 +5900,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Push Press",
             "name": "Push Press",
             "level": null,
@@ -6309,7 +5915,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Push Press (behind neck)",
             "name": "Push Press (behind neck)",
             "level": null,
@@ -6325,7 +5930,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Front Squat",
             "name": "Front Squat",
             "level": null,
@@ -6341,7 +5945,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Snatch",
             "name": "Snatch",
             "level": null,
@@ -6357,7 +5960,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Hang Snatch",
             "name": "Hang Snatch",
             "level": null,
@@ -6373,7 +5975,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Overhead Squat",
             "name": "Overhead Squat",
             "level": null,
@@ -6389,7 +5990,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Press Under",
             "name": "Press Under",
             "level": null,
@@ -6405,7 +6005,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "Press Under (quick drop)",
             "name": "Press Under (quick drop)",
             "level": null,
@@ -6421,7 +6020,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "DB Clean",
             "name": "Dumbbell Clean",
             "level": null,
@@ -6437,7 +6035,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "DB Hang Clean",
             "name": "Dumbbell Hang Clean",
             "level": null,
@@ -6453,7 +6050,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "KB C&J",
             "name": "Kettlebell Clean and Jerk",
             "level": null,
@@ -6469,7 +6065,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "DB Clean",
             "name": "Dumbbell Clean",
             "level": null,
@@ -6485,7 +6080,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "DB Snatch",
             "name": "Dumbbell Snatch",
             "level": null,
@@ -6501,7 +6095,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "KB Clean",
             "name": "Kettlebell Clean",
             "level": null,
@@ -6517,7 +6110,6 @@
         "fields": {
             "exercise_type":"s",
             "creation":"2020-05-15T00:31:59.213Z",
-            "muscle": null,
             "short_name": "KB Snatch",
             "name": "Kettlebell Snatch",
             "level": null,

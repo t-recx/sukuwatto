@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { Workout } from '../workout';
 import { UserProgressService } from '../user-progress.service';
 import { AuthService } from 'src/app/auth.service';
@@ -8,6 +8,9 @@ import { ExerciseType } from '../exercise';
 import { VisibilityLabel } from 'src/app/visibility';
 import { WorkoutGeneratorService } from '../workout-generator.service';
 import { PlanSession } from '../plan-session';
+import { LevelService } from '../level.service';
+import { LevelUpObject } from './level-up-object';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-workout-finish-workout-modal',
@@ -32,8 +35,19 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   faCheck = faCheck;
   faCircleNotch = faCircleNotch;
   faEye = faEye;
+  experienceBarWidth: number = 0;
+
+  experienceBarIncreasing: boolean;
+
+  transitionMs: number = 0;
 
   endDateEditVisible: boolean = false;
+
+  currentLevel: number;
+
+  deltaExperience: number;
+
+  levelUpObjects: LevelUpObject[] = [];
 
   toggleEndDateEdit() {
     this.endDateEditVisible = !this.endDateEditVisible;
@@ -43,6 +57,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private userProgressService: UserProgressService,
     private workoutGeneratorService: WorkoutGeneratorService,
+    private levelService: LevelService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,11 +65,99 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
       if (this.visible) {
         this.finishing = false;
         this.loadChartData();
+        this.currentLevel = +this.authService.getUserLevel();
+        this.deltaExperience = this.levelService.getExperienceWorkout(this.workout) - (this.workout.experience ?? 0);
+        this.setExperience(this.deltaExperience, this.currentLevel, +this.authService.getUserExperience());
       }
     }
   }
 
+  levelUp() {
+    this.level(true);
+  }
+
+  levelDown() {
+    this.level(false);
+  }
+
+  level(up: boolean) {
+    const levelUpObject = new LevelUpObject();
+    levelUpObject.id = uuid();
+
+    this.levelUpObjects.push(levelUpObject);
+
+    if (up) {
+      levelUpObject.text = "Level Up!";
+      levelUpObject.color = "#fbc850";
+    }
+    else {
+      levelUpObject.text = "Level Down!";
+      levelUpObject.color = "#ee675d";
+    }
+
+    setTimeout(() => {
+      levelUpObject.MarginBottom = 110;
+      levelUpObject.Opacity = 0;
+    });
+  }
+
   ngOnInit(): void {
+  }
+
+  clearLevelUpObjects() {
+     this.levelUpObjects = [];
+  }
+
+  setExperience(deltaExperience: number, userLevel: number, current: number): void {
+      this.currentLevel = userLevel;
+      const min = this.levelService.getLevelExperience(userLevel);
+      const max = this.levelService.getLevelExperience(userLevel + 1);
+      let updated = current + deltaExperience;
+      let callAgain = false;
+      let incLevel = 0;
+
+      this.experienceBarIncreasing = deltaExperience >= 0;
+
+      if (updated > max) {
+        deltaExperience = deltaExperience - (max - current);
+        updated = max;
+        callAgain = true;
+        incLevel = 1;
+      }
+
+      if (updated < min) {
+        updated = min;
+        deltaExperience = deltaExperience - (min - current);
+        callAgain = true;
+        incLevel = -1;
+      }
+
+      setTimeout(() => {
+        this.transitionMs = 0;
+        this.experienceBarWidth = ((current - min) / (max - min)) * 100;
+      });
+
+      setTimeout(() => {
+        this.transitionMs = 300;
+        this.experienceBarWidth = ((updated - min) / (max - min)) * 100;
+
+        if (callAgain) {
+          setTimeout(() => {
+            current = updated;
+
+            if (incLevel == 1) {
+              this.levelUp();
+            } else if (incLevel == -1) {
+              this.levelDown();
+            }
+
+            this.setExperience(deltaExperience, userLevel + incLevel, current);
+          }, 450);
+        }
+        else {
+          setTimeout(() => this.clearLevelUpObjects(), 850);
+        }
+      }, 100);
   }
 
   loadChartData() {
@@ -100,6 +203,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
   }
 
   hideFinishWorkout(): void {
+    this.transitionMs = 0;
     this.closed.emit();
   }
 
@@ -160,3 +264,4 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
       return new Date(year, month, day, hour, minute);
   }
 }
+

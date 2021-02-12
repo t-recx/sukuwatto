@@ -1,0 +1,29 @@
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+}
+
+.leaderboard-rank {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.leaderboard-user {
+    flex-grow: 1;
+}
+
+.leaderboard-experience {
+    display: flex;
+    align-items: center;
+}
+
+.leaderboard-timespan {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 400 !important;
+}
+
+.leaderboard-timespan-item {
+
+}

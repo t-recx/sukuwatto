@@ -1,0 +1,47 @@
+<div class="siimple-card" *ngIf="user && username" [class.siimple--mb-0]="simplified">
+    <div class="siimple-card-header" *ngIf="!simplified">
+        <div *ngIf="user.first_name || user.last_name" class="siimple-h5 name-field">
+            {{user.first_name}} {{user.last_name}}
+        </div>
+        <div *ngIf="!(user.first_name || user.last_name)" class="siimple-h5 name-field">
+            {{user.username}}
+        </div>
+    </div>
+    <div class="siimple-card-body">
+        <div class="image-container">
+            <img *ngIf="user.profile_filename && !imageHidden" [src]=profileImageURL (error)="hideImage()" />
+            <fa-icon *ngIf="!user.profile_filename || imageHidden" [icon]="faUserCircle" class="siimple--color-primary"
+                size="10x"></fa-icon>
+        </div>
+
+        <div class="user-class">
+            {{user.primary_class}} <span *ngIf="user.secondary_class">/
+                {{user.secondary_class}}</span>
+        </div>
+    </div>
+    <div class="siimple-card-body">
+        <small class="siimple-small">
+            <span class="siimple--text-bold">
+                LEVEL {{user.level}}
+            </span>
+            <span style="float:right;">
+                {{user.experience | locale}} / {{nextLevelExperience | locale}} XP
+            </span>
+        </small>
+    </div>
+    <div class="siimple-card-footer" *ngIf="!simplified">
+        <div class="progress-bar-level-container">
+            <!-- <div class="progress-label">
+                                {{user.primary_class}} <span *ngIf="user.secondary_class">/
+                                    {{user.secondary_class}}</span>
+                            </div> -->
+
+            <div class="siimple-progress siimple-progress--primary siimple--mb-0" style="background-color: white;">
+                <span [style.width.%]="experienceBarWidthUser"></span>
+            </div>
+            <div class="level-tag-item level-tag-item--next siimple--ml-1">
+                {{user.level+1}}
+            </div>
+        </div>
+    </div>
+</div>
