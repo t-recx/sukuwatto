@@ -245,7 +245,7 @@ HUEY = {
     'immediate': False,
     'connection': {
         'host': os.environ.get("HUEY_HOST"),
-        'host': os.environ.get("HUEY_PORT"),
+        'port': os.environ.get("HUEY_PORT"),
     },
     'consumer': {
         'workers': 2
