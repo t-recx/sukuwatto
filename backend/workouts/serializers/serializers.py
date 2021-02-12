@@ -1,16 +1,56 @@
 from django.contrib.auth.models import AnonymousUser
 from pprint import pprint
 from rest_framework import serializers
-from workouts.models import Exercise, Muscle, MuscleExercise, Unit, UserBioData, MetabolicEquivalentTask
+from workouts.models import Exercise, Muscle, MuscleExercise, Unit, UserBioData, MetabolicEquivalentTask, UserSkill, Skill, WeeklyLeaderboardPosition, YearlyLeaderboardPosition, MonthlyLeaderboardPosition, AllTimeLeaderboardPosition
 from workouts.exercise_service import ExerciseService
 from users.serializers import UserSerializer
 from workouts.utils import get_differences
+
+class WeeklyLeaderboardSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = WeeklyLeaderboardPosition
+        fields = ['id', 'user', 'experience', 'rank']
+
+class MonthlyLeaderboardSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = MonthlyLeaderboardPosition
+        fields = ['id', 'user', 'experience', 'rank']
+
+class YearlyLeaderboardSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = YearlyLeaderboardPosition
+        fields = ['id', 'user', 'experience', 'rank']
+
+class AllTimeLeaderboardSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = AllTimeLeaderboardPosition
+        fields = ['id', 'user', 'experience', 'rank']
 
 class MetabolicEquivalentTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = MetabolicEquivalentTask
         fields = ['id', 'exercise', 'code', 'description', 'met', 'from_value', 'to_value', 'unit',
             'exercise_type', 'mechanics', 'force', 'modality', 'section', 'can_be_automatically_selected']
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
+        fields = ['id', 'name', 'class_name']
+
+class UserSkillSerializer(serializers.ModelSerializer):
+    skill = SkillSerializer(required=False)
+
+    class Meta:
+        model = UserSkill
+        fields = ['id', 'experience', 'level', 'skill', 'user']
 
 class MuscleSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Muscle()._meta.get_field('id'), required=False)

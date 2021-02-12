@@ -14,8 +14,16 @@
                 </div>
             </div>
             <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--sm-12">
-                <div *ngIf="user.first_name || user.last_name" class="siimple-h5 name-field">
-                    {{user.first_name}} {{user.last_name}}
+                <div class="name-container">
+                    <div *ngIf="user.first_name || user.last_name" class="siimple-h5 name-field">
+                        {{user.first_name}} {{user.last_name}}
+                    </div>
+                    <div *ngIf="!(user.first_name || user.last_name)" class="siimple-h5 name-field">
+                        @{{user.username}}
+                    </div>
+                    <div class="clickable siimple-h6 user-level-field" [routerLink]="['/users', username, 'skills']">
+                        Level {{user.level}} {{user.primary_class}} <span *ngIf="user.secondary_class">/ {{user.secondary_class}}</span>
+                    </div>
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed && !hasFollowRequest" (click)="follow()"
@@ -43,7 +51,7 @@
                     </button>
                 </div>
 
-                <div class="profile-field">
+                <div class="profile-field" *ngIf="user.first_name || user.last_name">
                     <fa-icon [icon]="faAt" [fixedWidth]=true ></fa-icon>
                     <span class="siimple--pl-1">{{user.username}}</span>
                 </div>

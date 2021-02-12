@@ -1,23 +1,26 @@
 import json
 from django.shortcuts import get_object_or_404
 from users.views import can_see_user
+from users.permissions import CanSeeUserPermission
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
-from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer
-from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet, Muscle
+from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer
+from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet, Muscle, UserSkill, WeeklyLeaderboardPosition, MonthlyLeaderboardPosition, YearlyLeaderboardPosition, AllTimeLeaderboardPosition
 from sqtrex.pagination import StandardResultsSetPagination
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.exercise_service import ExerciseService
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q
+from django.db.models import Max, F, Q
 from sqtrex.visibility import VisibilityQuerysetMixin, Visibility
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
+from django.db.models.functions.window import RowNumber
+from django.db.models.expressions import Window
 
 class FilterByExerciseType(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
@@ -48,6 +51,127 @@ class MetabolicEquivalentTaskList(ListAPIView):
     queryset = MetabolicEquivalentTask.objects.all()
     serializer_class = MetabolicEquivalentTaskSerializer
     #permission_classes = [IsAuthenticated]
+
+def get_leaderboard_dashboard_list(request, model, serializer):
+    positions = model.objects.filter(rank__isnull=False) 
+    positions_number = positions.count()
+    queryset = positions
+    max_rank = positions.aggregate(Max('rank'))['rank__max']
+
+    if positions_number > 5:
+        user_queryset = None
+        queryset_user = None
+
+        if request.user.is_authenticated:
+            queryset_user = queryset.filter(user=request.user)
+
+        if queryset_user is None:
+            queryset_user = queryset
+
+        user_queryset = queryset_user.first()
+
+        take_previous = 2
+        take_next = 2
+
+        if user_queryset.rank == 1:
+            take_previous = 0
+            take_next = 4
+        elif user_queryset.rank == 2:
+            take_previous = 1
+            take_next = 3
+        elif user_queryset.rank == max_rank:
+            take_previous = 4
+            take_next = 0
+        elif user_queryset.rank == max_rank - 1:
+            take_previous = 3
+            take_next = 1
+
+        queryset = queryset.exclude(user=request.user)
+        before = queryset.filter(experience__gte=user_queryset.experience).order_by('-rank')[:take_previous]
+        after = queryset.exclude(id__in=before.values('id')).filter(experience__lte=user_queryset.experience).order_by('rank')[:take_next]
+        queryset = before | queryset_user | after
+
+    return Response(WeeklyLeaderboardSerializer(queryset.order_by('rank'), many=True).data)
+
+class WeeklyLeaderboardDashboardList(ListAPIView):
+    def list(self, request):
+        return get_leaderboard_dashboard_list(request, WeeklyLeaderboardPosition, WeeklyLeaderboardSerializer)
+
+class MonthlyLeaderboardDashboardList(ListAPIView):
+    def list(self, request):
+        return get_leaderboard_dashboard_list(request, MonthlyLeaderboardPosition, MonthlyLeaderboardSerializer)
+        
+class YearlyLeaderboardDashboardList(ListAPIView):
+    def list(self, request):
+        return get_leaderboard_dashboard_list(request, YearlyLeaderboardPosition, YearlyLeaderboardSerializer)
+
+class AllTimeLeaderboardDashboardList(ListAPIView):
+    def list(self, request):
+        return get_leaderboard_dashboard_list(request, AllTimeLeaderboardPosition, AllTimeLeaderboardSerializer)
+
+def get_leaderboard_queryset(model):
+    return model.objects.filter(rank__isnull=False) 
+
+class WeeklyLeaderboardList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['user__username']
+    serializer_class = WeeklyLeaderboardSerializer
+
+    def get_queryset(self):
+        return get_leaderboard_queryset(WeeklyLeaderboardPosition)
+
+class MonthlyLeaderboardList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['user__username']
+    serializer_class = MonthlyLeaderboardSerializer
+
+    def get_queryset(self):
+        return get_leaderboard_queryset(MonthlyLeaderboardPosition)
+        
+class YearlyLeaderboardList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['user__username']
+    serializer_class = YearlyLeaderboardSerializer
+
+    def get_queryset(self):
+        return get_leaderboard_queryset(YearlyLeaderboardPosition)
+
+class AllTimeLeaderboardList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['user__username']
+    serializer_class = AllTimeLeaderboardSerializer
+
+    def get_queryset(self):
+        return get_leaderboard_queryset(AllTimeLeaderboardPosition)
+
+class UserSkillsList(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    permission_classes = [CanSeeUserPermission]
+
+    def list(self, request):
+        username = request.query_params.get('username', None)
+
+        user = get_object_or_404(get_user_model(), username=username)
+
+        if not can_see_user(request.user, user):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        queryset = UserSkill.objects.filter(user=user).order_by('-experience')
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = UserSkillSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = UserSkillSerializer(queryset, many=True)
+
+        return Response(serializer.data)
 
 @api_view(['GET'])
 def get_available_chart_data(request):

@@ -17,7 +17,7 @@ class IsIntermediateUserAndStateAllowsEdit(permissions.BasePermission):
         if request.user.is_staff:
             return True
             
-        return obj.user == request.user and (obj.target_feature == None or request.user.tier != 'n')
+        return obj.user == request.user and (obj.target_feature is None or request.user.tier != 'n')
 
 class CommentPermissionsMixin():
     def get_permissions(self):

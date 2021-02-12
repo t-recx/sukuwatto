@@ -14,6 +14,7 @@ import { latLng } from 'leaflet';
 import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-geolocation.component';
 import { WorkoutSetTimeSegment } from './workout-set-time-segment';
 import { UserAvailableChartData } from './user-available-chart-data';
+import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class WorkoutsService {
 
   geolocationActivitiesFinished = new Subject();
 
+  workoutCreated = new Subject<Workout>();
+  workoutUpdated = new Subject<Workout>();
+  workoutDeleted = new Subject<Workout>();
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -38,7 +43,8 @@ export class WorkoutsService {
   constructor(
     private http: HttpClient,
     private errorService: ErrorService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private authService: AuthService,
   ) { }
 
   getAvailableChartData (username: string, date_gte: Date, date_lte: Date): Observable<UserAvailableChartData> {
@@ -442,6 +448,10 @@ export class WorkoutsService {
   createWorkout(workout: Workout): Observable<Workout> {
     return this.http.post<Workout>(this.workoutsUrl, workout, this.httpOptions)
     .pipe(
+      tap(savedWorkout => {
+        this.updateUserExperience(savedWorkout);
+        this.workoutCreated.next(savedWorkout);
+      }),
       map(response => {
         return this.getProperlyTypedWorkout(response);
       }),
@@ -455,6 +465,10 @@ export class WorkoutsService {
   updateWorkout(workout: Workout): Observable<Workout> {
     return this.http.put<Workout>(`${this.workoutsUrl}${workout.id}/`, workout, this.httpOptions)
     .pipe(
+      tap(savedWorkout => {
+        this.updateUserExperience(savedWorkout);
+        this.workoutUpdated.next(savedWorkout);
+      }),
       map(response => {
         return this.getProperlyTypedWorkout(response);
       }),
@@ -470,6 +484,9 @@ export class WorkoutsService {
     const url = `${this.workoutsUrl}${id}/`;
 
     return this.http.delete<Workout>(url, this.httpOptions).pipe(
+      tap(savedWorkout => {
+        this.workoutDeleted.next(savedWorkout);
+      }),
       catchError(this.errorService.handleError<Workout>('deleteWorkout', (e: any) => 
       {
         this.alertService.error('Unable to delete workout, try again later');
@@ -479,6 +496,13 @@ export class WorkoutsService {
 
   finishGeolocationActivity() {
     this.geolocationActivitiesFinished.next();
+  }
+
+  private updateUserExperience(savedWorkout: Workout) {
+    if (savedWorkout.user) {
+      this.authService.setUserLevel(savedWorkout.user.level.toString());
+      this.authService.setUserExperience(savedWorkout.user.experience.toString());
+    }
   }
 }
 

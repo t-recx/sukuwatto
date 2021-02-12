@@ -1,4 +1,10 @@
 <div class="siimple-menu siimple--mb-0 navigation-menu scrollable-menu" *ngIf="authService.isLoggedIn()">
+    <div class="user-profile-menu-container" *ngIf="authService.isLoggedIn">
+        <app-user-profile-level [username]="authService.getUsername()" [simplified]=true></app-user-profile-level>
+        <!-- <app-leaderboard [username]=username></app-leaderboard> -->
+
+    </div>
+
     <a class="siimple-menu-item main-menu-item siimple--display-md-none siimple--display-sm-none" 
         [class.siimple-menu-item--selected]="isRouterLinkHome"
         [routerLink]="['/users', authService.getUsername(), 'home']">
@@ -68,6 +74,13 @@
         <fa-icon [icon]="iconUsers" class="menu-icon-image"></fa-icon>
         </div>
         Users
+    </a>
+    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+        [routerLink]="['/users', authService.getUsername(), 'leaderboards']">
+        <div class="menu-icon-image-container">
+        <fa-icon [icon]="iconLeaderboards" class="menu-icon-image"></fa-icon>
+        </div>
+        Leaderboards
     </a>
 
     <div *ngIf="showSupportSection">

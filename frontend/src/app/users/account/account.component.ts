@@ -16,6 +16,7 @@ import { VisibilityLabel } from 'src/app/visibility';
 export enum AccountTabType {
   General,
   Privacy,
+  Perks
 }
 
 @Component({
@@ -35,6 +36,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   weightUnits: Unit[];
   heightUnits: Unit[];
   energyUnits: Unit[];
+
+  perksTabVisible: boolean = false;
 
   selectedTabType: AccountTabType = AccountTabType.General;
   tabType = AccountTabType;
@@ -117,6 +120,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     return true;
   }
 
+  customClassToggle() {
+    if (!this.user.custom_class) {
+      this.user.primary_class = this.user.primary_class_computed;
+      this.user.secondary_class = this.user.secondary_class_computed;
+    }
+  }
+
   loadUserData(username: string) {
     this.forbidden = false;
     this.username = username;
@@ -130,6 +140,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.allowed = this.authService.isCurrentUserLoggedIn(this.username);
     this.forbidden = !this.allowed;
     this.triedToSave = false;
+    this.perksTabVisible = false;
 
     if (this.allowed) {
       if (this.restore()) {
@@ -141,6 +152,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       this.userService.getUser(this.username).subscribe(user => {
         if (user) {
           this.user = user;
+          this.perksTabVisible = this.user.is_staff || this.user.tier == 'a';
 
           this.userService.getEmail().subscribe(email => {
             this.user.email = email;

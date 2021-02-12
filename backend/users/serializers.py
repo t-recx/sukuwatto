@@ -94,6 +94,11 @@ class UserSerializer(serializers.ModelSerializer):
         instance.follow_approval_required = validated_data.get('follow_approval_required', instance.follow_approval_required)
         instance.visibility = validated_data.get('visibility', instance.visibility)
 
+        if instance.tier == 'a' or instance.is_staff:
+            instance.custom_class = validated_data.get('custom_class', instance.custom_class)
+            instance.primary_class = validated_data.get('primary_class', instance.primary_class)
+            instance.secondary_class = validated_data.get('secondary_class', instance.secondary_class)
+
         instance.save()
 
         return instance
@@ -107,13 +112,20 @@ class UserSerializer(serializers.ModelSerializer):
         'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
         'default_energy_unit',
         'is_staff', 'default_visibility_workouts', 'visibility', 'default_visibility_user_bio_datas',
-        'followers_number', 'followings_number', 'tier']
+        'followers_number', 'followings_number', 'tier',
+        'experience', 'level',
+        'primary_class', 'secondary_class', 'custom_class',
+        'primary_class_computed', 'secondary_class_computed']
         extra_kwargs = {'password': {'write_only': True, 'required': False},
             'email': {'write_only': True, 'required': False},
             'tier': {'read_only': True, 'required': False},
             'is_staff': { 'read_only': True, 'required': False},
             'followers_number': {'read_only': True, 'required': False},
             'followings_number': {'read_only': True, 'required': False},
+            'experience': {'read_only': True, 'required': False},
+            'level': {'read_only': True, 'required': False},
+            'primary_class_computed': {'read_only': True, 'required': False},
+            'secondary_class_computed': {'read_only': True, 'required': False},
             }
 
 class GroupSerializer(serializers.ModelSerializer):

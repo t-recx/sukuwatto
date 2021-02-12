@@ -32,6 +32,8 @@ export class Workout {
     likes: number;
     comment_number: number;
 
+    experience: number;
+
     constructor(init?: Partial<Workout>) {
         this.groups = [];
         this.working_parameters = [];

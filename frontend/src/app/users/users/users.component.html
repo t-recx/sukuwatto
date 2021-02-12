@@ -3,7 +3,7 @@
 <div class="site-body"
     (touchstart)="touchBodyStart($event)" (touchend)="touchBodyEnd($event)" (touchmove)="touchBodyMove($event)"
 >
-    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--large navbar">
+    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--extra-large navbar">
         <app-loading-spinner *ngIf="loading"></app-loading-spinner>
 
         <div *ngIf="authService.isLoggedIn(); then loggedTitle else notLoggedTitle"></div>
@@ -55,22 +55,23 @@
         <app-alert></app-alert>
     </div>
 
-    <main class="site-content siimple-content siimple-content--large content-body">
+    <main class="site-content siimple-content siimple-content--extra-large content-body" *ngIf="authService.isLoggedIn()">
         <div class="siimple-grid-row">
-            <div *ngIf="authService.isLoggedIn(); else notLoggedContent">
-                <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none siimple--display-md-none">
-                    <app-menu [unread_messages_count]=unread_messages_count></app-menu>
-                </div>
-                <div class="siimple-grid-col siimple-grid-col--10 siimple-grid-col-sm--12 siimple-grid-col-md--12">
-                    <router-outlet></router-outlet>
-                </div>
+            <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none siimple--display-md-none">
+                <app-menu [unread_messages_count]=unread_messages_count></app-menu>
             </div>
-            <ng-template #notLoggedContent>
-                <div class="siimple-grid-col siimple-grid-col--12">
-                    <router-outlet></router-outlet>
-                </div>
-            </ng-template>
+            <div class="siimple-grid-col siimple-grid-col--7 siimple-grid-col-sm--12 siimple-grid-col-md--12 siimple-grid-col-xl--10">
+                <router-outlet></router-outlet>
+            </div>
+            <div class="siimple-grid-col siimple-grid-col--3 siimple--display-xl-none">
+                <app-user-profile-level [username]=username></app-user-profile-level>
+                <app-leaderboard [username]=username></app-leaderboard>
+            </div>
         </div>
+    </main>
+
+    <main class="site-content siimple-content siimple-content--large content-body" *ngIf="!authService.isLoggedIn()">
+        <router-outlet></router-outlet>
     </main>
 
     <app-footer></app-footer>

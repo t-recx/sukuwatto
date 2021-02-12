@@ -47,8 +47,8 @@ class CustomUser(AbstractUser):
     year_birth = models.IntegerField(null=True)
     month_birth = models.IntegerField(null=True)
     system = models.CharField(max_length=1, choices=SYSTEMS)
-    location = models.CharField(max_length=200, null=True)
-    biography = models.TextField(null=True)
+    location = models.CharField(max_length=200, null=True, blank=True)
+    biography = models.TextField(null=True, blank=True)
     profile_filename = models.CharField(max_length=1024, null=True)
     default_weight_unit = models.IntegerField(null=True)
     default_speed_unit = models.IntegerField(null=True)
@@ -61,7 +61,7 @@ class CustomUser(AbstractUser):
 
     visibility = models.CharField(max_length=1, choices=VISIBILITIES, default=EVERYONE)
 
-    follow_approval_required  = models.BooleanField(default=False)
+    follow_approval_required = models.BooleanField(default=False)
 
     followers = models.ManyToManyField("self", related_name='user_followers', blank=True, symmetrical=False)
     following = models.ManyToManyField("self", related_name='user_following', blank=True, symmetrical=False)
@@ -70,6 +70,15 @@ class CustomUser(AbstractUser):
     followings_number = models.IntegerField(default=0)
 
     tier = models.CharField(max_length=1, choices=TIERS, default=NOVICE)
+
+    experience = models.IntegerField(default=1000)
+    level = models.IntegerField(default=1)
+    primary_class = models.CharField(max_length=200, null=True, default='Athlete')
+    secondary_class = models.CharField(max_length=200, null=True)
+    primary_class_computed = models.CharField(max_length=200, null=True, default='Athlete')
+    secondary_class_computed = models.CharField(max_length=200, null=True)
+
+    custom_class = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

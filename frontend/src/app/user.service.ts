@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './user';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { catchError, tap, shareReplay, map } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './users/paginated';
 import { UserRegistration } from './users/user-registration';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private userExistsApiUrl = `${environment.apiUrl}/user-exists/`;
   private usersRegistrationApiUrl = `${environment.apiUrl}/sign-up/`;
   private usersSearchApiUrl = `${environment.apiUrl}/users-search/`;
   private userApiUrl = `${environment.apiUrl}/get-user/`;
@@ -26,12 +28,15 @@ export class UserService {
   private usersResetPasswordValidateTokenApiUrl = `${environment.apiUrl}/password-reset-validate-token/`;
   private expressInterestApiUrl = `${environment.apiUrl}/express-interest/`;
 
+  userUpdated = new Subject<User>();
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(
     private http: HttpClient, 
+    private authService: AuthService,
     private errorService: ErrorService,
     private alertService: AlertService) { }
 
@@ -97,7 +102,7 @@ export class UserService {
   update(user: User): Observable<User> {
     return this.http.put<User>(`${this.usersApiUrl}${user.id}/`, user, this.httpOptions)
     .pipe(
-      tap((newUser: User) => { }),
+      tap((updated: User) => { this.userUpdated.next(updated); }),
       catchError(this.errorService.handleError<User>('update', (e: any) => 
       {
         this.alertService.error('Unable to update account, try again later');
@@ -117,6 +122,25 @@ export class UserService {
     );
   }
 
+  userExists(username: string): Observable<boolean> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    options = {params: params};
+
+    return this.http.get<boolean>(`${this.userExistsApiUrl}`, options)
+      .pipe(
+        catchError(this.errorService.handleError<boolean>('userExists', (e: any) => 
+        { 
+          this.alertService.error('Unable to check user existence');
+        }, null))
+      );
+  }
+
   getUser(username: string): Observable<User> {
     let options = {};
     let params = new HttpParams();
@@ -129,6 +153,13 @@ export class UserService {
 
     return this.http.get<User>(`${this.userApiUrl}`, options)
       .pipe(
+        tap(user => {
+          if (user && this.authService.isLoggedIn() && user.username == this.authService.getUsername()) {
+            // since we're getting the user anyway, we take the opportunity 
+            // to refresh the authenticated user's info
+            this.authService.loadUser(user);
+          }
+        }),
         catchError(this.errorService.handleError<User>('getUser', (e: any) => 
         { 
           if (e.status != 404) {

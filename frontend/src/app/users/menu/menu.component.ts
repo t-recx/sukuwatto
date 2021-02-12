@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
-import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight, faUsers, faCode, faBoxOpen, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faTasks, faDumbbell, faCalendarAlt, faComments, faHome, faWeight, faUsers, faCode, faBoxOpen, faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   iconDevelopment = faCode;
   iconReleases = faBoxOpen;
   iconSupport = faHeart;
+  iconLeaderboards = faTrophy;
 
   isRouterLinkPlans = false;
   isRouterLinkHome = false;

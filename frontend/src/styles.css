@@ -434,3 +434,44 @@ ul {
     margin-left: auto;
     white-space: nowrap;
 }
+
+.siimple-input--disabled {
+  opacity: 0.6 !important;
+}
+
+.progress-bar-level-container {
+    display: flex;
+    align-items: center;
+}
+
+.progress-label {
+    margin-right: 10px;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.level-tag-item {
+    height: 24px;
+    width: 13px;
+    align-self: center;
+    border-radius: 50%;
+    padding-left: 6px;
+    padding-right: 6px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+    color: #fff !important;
+  display: flex;
+  flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.level-tag-item--current {
+    background-color: #4e91e4 !important;
+}
+
+.level-tag-item--next {
+    background-color: #4acf7f;
+}

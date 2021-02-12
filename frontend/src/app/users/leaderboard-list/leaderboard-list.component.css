@@ -1,0 +1,6 @@
+.leaderboard-timespan {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 400 !important;
+    width: 100%;
+}

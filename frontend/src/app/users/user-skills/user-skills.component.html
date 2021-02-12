@@ -1,0 +1,68 @@
+<div *ngIf="initSkills && !notFound && !forbidden">
+    <div class="toolbar">
+        <div class="toolbar-title" style="width: 100%;">
+
+            <a class="siimple-link" [routerLink]="['/users', username, 'profile']" style="font-size: 30px;">
+                <fa-icon [icon]="arrowLeft" class="siimple--mr-1"></fa-icon>
+                {{username}}
+            </a>
+
+            <div class="siimple-rule"></div>
+
+            <div>
+                Skills
+            </div>
+        </div>
+    </div>
+
+    <div class="siimple-grid">
+        <div class="siimple-grid-row">
+            <div class="siimple-grid-col siimple-grid-col--5 siimple-grid-col--sm-12">
+
+                <app-user-profile-level [username]=username>
+                </app-user-profile-level>
+
+            </div>
+            <div class="siimple-grid-col siimple-grid-col--7 siimple-grid-col--sm-12">
+
+                <ul class="siimple-list siimple--mt-0 " *ngIf="skills && skills.length > 0">
+                    <li class="siimple-list-item list-item" *ngFor="let userSkill of skills">
+                        <div class="skill-progress-title siimple--mb-1">
+                            <div class="skill-progress-label">
+                                {{userSkill.skill.name}}
+                            </div>
+                            <small class="skill-progress-points siimple-small">
+                                {{userSkill.experience | locale}} / {{userSkillExperienceNextLevel[userSkill.id] | locale}} XP
+                            </small>
+                        </div>
+
+                        <div class="progress-bar-level-container">
+                            <div class="siimple-progress siimple-progress--primary siimple--mb-0"
+                                style="background-color: white;" *ngIf="experienceBarWidth[userSkill.id] != null">
+                                <span [style.width.%]="experienceBarWidth[userSkill.id]"></span>
+                            </div>
+                            <div class="level-tag-item level-tag-item--next siimple--ml-1">
+                                {{userSkill.level+1}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="actions-retriever-container" *ngIf="loadingSkills">
+        <div class="siimple-spinner siimple-spinner--primary"></div>
+    </div>
+</div>
+
+<div *ngIf="notFound">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+
+<div *ngIf="forbidden">
+    <app-forbidden>
+    </app-forbidden>
+</div>

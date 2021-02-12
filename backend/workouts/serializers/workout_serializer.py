@@ -4,6 +4,7 @@ from workouts.models import Workout, WorkoutSet, WorkoutWarmUp, WorkoutGroup, Wo
 from workouts.utils import get_differences
 from workouts.serializers.serializers import ExerciseSerializer
 from django.contrib.auth import get_user_model
+from workouts.level_service import LevelService
 import pprint
 
 class WorkingParameterSerializer(serializers.ModelSerializer):
@@ -210,10 +211,12 @@ class WorkoutSerializer(serializers.ModelSerializer):
     working_parameters = WorkingParameterSerializer(many=True, required=False)
     user = UserSerializer(read_only=True)
 
+    level_service = LevelService()
+
     class Meta:
         model = Workout
-        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'energy_unit', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility', 'likes', 'comment_number']
-        read_only_fields = ('likes','comment_number',)
+        fields = ['id', 'start', 'end', 'name', 'notes', 'calories', 'energy_unit', 'plan', 'plan_session', 'groups', 'working_parameters', 'user', 'status', 'visibility', 'likes', 'comment_number', 'experience']
+        read_only_fields = ('likes','comment_number','experience',)
         extra_kwargs = {'user': {'required': False}}
 
     def create(self, validated_data):
@@ -238,6 +241,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
         if working_parameters_data is not None:
             self.create_working_parameters(workout, working_parameters_data)
+
+        if workout.status == Workout.FINISHED:
+            self.level_service.create_experience_workout(workout)
 
         return workout
 
@@ -304,6 +310,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
             model.objects.create(workout_activity=activity, **segment_data)
 
     def update(self, instance, validated_data):
+        if instance.status == Workout.FINISHED:
+            self.level_service.remove_experience_workout(instance)
+
         instance.start = validated_data.get('start', instance.start)
         instance.end = validated_data.get('end', instance.end)
         instance.name = validated_data.get('name', instance.name)
@@ -315,7 +324,6 @@ class WorkoutSerializer(serializers.ModelSerializer):
         instance.calories = validated_data.get('calories', instance.calories)
         instance.energy_unit = validated_data.get('energy_unit', instance.energy_unit)
         instance.visibility = validated_data.get('visibility', instance.visibility)
-
         instance.save()
 
         groups_data = None
@@ -354,6 +362,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
             working_parameters_to_delete.delete()
         else:
             working_parameters.delete()
+
+        if instance.status == Workout.FINISHED:
+            self.level_service.create_experience_workout(instance)
 
         return instance
 

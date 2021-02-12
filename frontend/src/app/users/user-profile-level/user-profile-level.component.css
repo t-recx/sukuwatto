@@ -1,0 +1,24 @@
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.image-container img {
+    /* max-width: calc(192px - 20%); */
+    max-width: 192px;
+    max-height: 196px;
+    width: auto;
+    height: auto;
+}
+
+.name-field {
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.user-class {
+    text-align: center;
+    font-weight: 700;
+    margin-top: 10px;
+}

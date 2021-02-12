@@ -4,7 +4,7 @@ services:
   wsgi:
     build: 
       context: ./backend/
-      dockerfile: ../docker/wsgi/Dockerfile
+      dockerfile: ../docker/django/Dockerfile
     command: gunicorn sqtrex.wsgi:application --log-file=- --bind 0.0.0.0:8000
     expose:
       - 8000
@@ -18,7 +18,7 @@ services:
   asgi:
     build: 
       context: ./backend/
-      dockerfile: ../docker/asgi/Dockerfile
+      dockerfile: ../docker/django/Dockerfile
     command: daphne --port 8001 --bind 0.0.0.0 sqtrex.asgi:application
     expose:
       - 8001
@@ -26,6 +26,16 @@ services:
       - ./.env.prod
     depends_on:
       - db
+      - redis
+    restart: always
+  huey:
+    build: 
+      context: ./backend/
+      dockerfile: ../docker/django/Dockerfile
+    command: python manage.py run_huey
+    env_file:
+      - ./.env.prod
+    depends_on:
       - redis
     restart: always
   db:
