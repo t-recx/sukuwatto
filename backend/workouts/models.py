@@ -357,6 +357,37 @@ class PlanSessionProgressionStrategy(AbstractProgressionStrategy):
 class PlanSessionGroupProgressionStrategy(AbstractProgressionStrategy):
     plan_session_group = models.ForeignKey(PlanSessionGroup, related_name="progressions", on_delete=models.CASCADE, null=True)
 
+class Skill(models.Model):
+    name = models.CharField(max_length=200)
+    class_name = models.CharField(max_length=200)
+
+class SkillExercise(models.Model):
+    PARAMETER_TYPE_DISTANCE = 'd'
+    PARAMETER_TYPE_REPETITIONS = 'r'
+    PARAMETER_TYPE_SPEED = 's'
+    PARAMETER_TYPES = [
+        (PARAMETER_TYPE_DISTANCE, 'Distance'),
+        (PARAMETER_TYPE_REPETITIONS, 'Repetitions'),
+        (PARAMETER_TYPE_SPEED, 'Speed'),
+    ]
+
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="exercises")
+    exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT, null=True)
+    exercise_type = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.EXERCISE_TYPES)
+    modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
+    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
+    unit = models.IntegerField(choices=Unit.choices, null=True)
+    parameter_type = models.CharField(max_length=1, choices=PARAMETER_TYPES, null=True)
+    parameter_from = models.IntegerField(null=True)
+    parameter_to = models.IntegerField(null=True)
+
+class UserSkill(models.Model):
+    experience = models.IntegerField(default=1000)
+    level = models.IntegerField(default=1)
+
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="skills")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
 class Workout(models.Model):
     INPROGRESS = 'p'
     FINISHED = 'f'
@@ -453,6 +484,8 @@ class AbstractWorkoutActivity(models.Model):
 
     experience = models.IntegerField(default=0)
 
+    skill_exercise = models.ForeignKey(SkillExercise, on_delete=models.SET_NULL, null=True)
+
     class Meta:
         abstract = True
 
@@ -520,37 +553,6 @@ class WorkingParameter(models.Model):
     previous_parameter_value = models.DecimalField(max_digits=8, decimal_places=3, null=True)
     previous_unit = models.IntegerField(choices=Unit.choices, null=True)
     manually_changed = models.BooleanField(default=False)
-
-class Skill(models.Model):
-    name = models.CharField(max_length=200)
-    class_name = models.CharField(max_length=200)
-
-class SkillExercise(models.Model):
-    PARAMETER_TYPE_DISTANCE = 'd'
-    PARAMETER_TYPE_REPETITIONS = 'r'
-    PARAMETER_TYPE_SPEED = 's'
-    PARAMETER_TYPES = [
-        (PARAMETER_TYPE_DISTANCE, 'Distance'),
-        (PARAMETER_TYPE_REPETITIONS, 'Repetitions'),
-        (PARAMETER_TYPE_SPEED, 'Speed'),
-    ]
-
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="exercises")
-    exercise = models.ForeignKey(Exercise, on_delete=models.PROTECT, null=True)
-    exercise_type = models.CharField(max_length=1, blank= True, null=True, choices=Exercise.EXERCISE_TYPES)
-    modality = models.CharField(max_length=1, null=True, choices=Exercise.MODALITIES)
-    mechanics = models.CharField(max_length=1, null=True, choices=Exercise.MECHANICS)
-    unit = models.IntegerField(choices=Unit.choices, null=True)
-    parameter_type = models.CharField(max_length=1, choices=PARAMETER_TYPES, null=True)
-    parameter_from = models.IntegerField(null=True)
-    parameter_to = models.IntegerField(null=True)
-
-class UserSkill(models.Model):
-    experience = models.IntegerField(default=1000)
-    level = models.IntegerField(default=1)
-
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="skills")
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
 class AbstractLeaderboardPosition(models.Model):
     experience = models.IntegerField(default=0)

@@ -302,7 +302,7 @@ class LevelService():
         return queryset.first()
 
     def remove_experience_from_activity(self, activity, user):
-        skill_exercise = self.get_skill_exercise(activity.exercise, activity.number_of_repetitions, activity.distance, activity.distance_unit, activity.speed, activity.speed_unit)
+        skill_exercise = activity.skill_exercise
 
         if skill_exercise is not None:        
             user_skill = UserSkill.objects.filter(user=user, skill=skill_exercise.skill).first()
@@ -404,6 +404,8 @@ class LevelService():
             self.recalculate_level(user_skill)
 
             user_skill.save()
+
+        activity.skill_exercise = skill_exercise
 
         activity.save()
 
