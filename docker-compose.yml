@@ -49,14 +49,12 @@ services:
     build:
       context: ./frontend/
       dockerfile: ../docker/frontend/Dockerfile
-    command: npm run build
     volumes:
       - frontend_data:/usr/src/app/dist/frontend
   frontend-android:
     build:
       context: ./frontend/
-      dockerfile: ../docker/frontend/Dockerfile
-    command: npm run build-android
+      dockerfile: ../docker/frontend-android/Dockerfile
     volumes:
       - frontend-android_data:/usr/src/app/dist/frontend-android
   nginx:
