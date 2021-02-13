@@ -50,18 +50,18 @@ services:
       context: ./frontend/
       dockerfile: ../docker/frontend/Dockerfile
     volumes:
-      - frontend_data:/usr/src/app/dist/frontend
+      - frontend_data:/usr/src/app/www/frontend
   frontend-android:
     build:
       context: ./frontend/
       dockerfile: ../docker/frontend-android/Dockerfile
     volumes:
-      - frontend-android_data:/usr/src/app/dist/frontend-android
+      - frontend-android_data:/usr/src/app/www/frontend-android
   nginx:
     build: ./docker/nginx
     volumes:
-      - frontend_data:/usr/src/app/dist/frontend
-      - frontend-android_data:/usr/src/app/dist/frontend-android
+      - frontend_data:/usr/src/app/www/frontend
+      - frontend-android_data:/usr/src/app/www/frontend-android
       - media_volume:/home/app/web/media
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
