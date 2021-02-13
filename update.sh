@@ -1,5 +1,5 @@
 #!/bin/bash
-git pull && sudo docker-compose down && sudo docker volume rm sqtrex_frontend-android_data && sudo docker volume rm sqtrex_frontend_data && sudo docker-compose up -d --build && sudo docker-compose exec wsgi python manage.py migrate --noinput
+git pull && sudo docker-compose down && sudo docker-compose up -d --build && sudo docker-compose exec wsgi python manage.py migrate --noinput
 
 echo '-----------------------------------------------------'
 echo '                     All done!                       '

@@ -1,10 +1,12 @@
 FROM node:10
-ENV VERSION 33
+ENV VERSION 35
 
 WORKDIR /usr/src/app
-COPY package.json ./
-RUN npm install
+COPY package*.json ./
+RUN npm ci
 
 COPY . .
 
 RUN npm run build-android
+
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
