@@ -202,4 +202,8 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     this.showCropModal = false;
   }
 
+  clearImage() {
+    this.imageMediaURL = null;
+    this.uploaded.emit(null);
+  }
 }
