@@ -44,6 +44,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.selectedLeaderboardTimespan = this.authService.getLeaderboardTimespan();
+
     this.updateLeaderboard();
   }
 

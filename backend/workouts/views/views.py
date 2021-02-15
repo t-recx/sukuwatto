@@ -65,7 +65,7 @@ def get_leaderboard_dashboard_list(request, model, serializer):
         if request.user.is_authenticated:
             queryset_user = queryset.filter(user=request.user)
 
-        if queryset_user is None:
+        if not queryset_user.exists():
             queryset_user = queryset
 
         user_queryset = queryset_user.first()
