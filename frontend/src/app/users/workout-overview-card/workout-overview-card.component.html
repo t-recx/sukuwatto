@@ -144,9 +144,18 @@
                 <thead class="siimple-table-header">
                     <tr class="siimple-table-row">
                         <th class="siimple-table-cell">Exercise</th>
-                        <th class="siimple-table-cell" align="center">Weight</th>
-                        <th class="siimple-table-cell" align="center">Sets</th>
-                        <th class="siimple-table-cell" align="center">Reps</th>
+                        <th class="siimple-table-cell" align="center">
+                            <span class="phones-only">W</span>
+                            <span class="siimple--display-sm-none">Weight</span>
+                        </th>
+                        <th class="siimple-table-cell" align="center">
+                            <span class="phones-only">S</span>
+                            <span class="siimple--display-sm-none">Sets</span>
+                        </th>
+                        <th class="siimple-table-cell" align="center">
+                            <span class="phones-only">R</span>
+                            <span class="siimple--display-sm-none">Reps</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="siimple-table-body">
@@ -168,9 +177,12 @@
                                     {{getUnitCode(workoutActivity.weight_unit)}}
                                 </span>
                             </span>
-                            <span *ngIf="!workoutActivity.weight">
-                                <span>
+                            <span *ngIf="!workoutActivity.weight && workoutActivity.exercise ">
+                                <span *ngIf="workoutActivity.exercise.modality != 'x'">
                                     (bar)
+                                </span>
+                                <span *ngIf="workoutActivity.exercise.modality == 'x'">
+                                    N/A
                                 </span>
                             </span>
                         </td>

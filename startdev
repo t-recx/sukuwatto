@@ -15,6 +15,13 @@ HOST=$(ifconfig | grep 192 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.)
 sed -i "s/localhost/${HOST}/g" frontend/src/environments/hosts.ts
 sed "s/localhost/${HOST}/g" devsettings.def > devsettings
 
+if ! nc -z 0.0.0.0 6379
+then
+  echo 'Redis container not running, starting...'
+  sudo docker run -p 6379:6379 -d redis:5 
+  echo 'Redis: OK!'
+fi
+
 ./startdevbackend ${2:-${HOST}:8000} ${3:-8443} &
 ./startdevfrontend ${4:-${HOST}} ${1} &
 

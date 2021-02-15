@@ -164,20 +164,22 @@ style="padding: 10px;"
         </span>
     </span>
 
-    <span *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 's'">
-        <span>
-            x
-        </span>
-        <span *ngIf="workoutActivity.weight">
-            <span >
-                {{workoutActivity.weight |locale}}
-            </span>
+    <span *ngIf="workoutActivity.exercise && workoutActivity.exercise.exercise_type == 's' ">
+        <span *ngIf="workoutActivity.weight || workoutActivity.exercise.modality != 'x'" >
             <span>
-                {{getUnitCode(workoutActivity.weight_unit)}}
+                x
             </span>
-        </span>
-        <span *ngIf="!workoutActivity.weight">
-            (bar)
+            <span *ngIf="workoutActivity.weight">
+                <span >
+                    {{workoutActivity.weight |locale}}
+                </span>
+                <span>
+                    {{getUnitCode(workoutActivity.weight_unit)}}
+                </span>
+            </span>
+            <span *ngIf="!workoutActivity.weight">
+                (bar)
+            </span>
         </span>
         <span *ngIf="workoutActivity.repetition_type!=repetitionType.None">
             x
