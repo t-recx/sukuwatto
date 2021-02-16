@@ -464,7 +464,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    if (document.scrollingElement.scrollTop == 0 && this.touchBodyMovePageY > this.touchBodyStartPageY) {
+    if (document.scrollingElement.scrollTop == 0 && this.touchBodyMovePageY > this.touchBodyStartPageY && !this.menuDropDownVisible) {
       this.refreshService.refresh();
     }
   }

@@ -11,9 +11,9 @@
         [class.hidden-chart-legend-label]="isHidden(series)" (click)="toggle(series)"
         *ngFor="let series of progressData.series">
         <div class="chart-legend-swatch" [style.background-color]="colors[series.name]"></div>
-        <span class="chart-legend-label" >
+        <small class="chart-legend-label siimple-small" >
           {{series.name}}
-        </span>
+        </small>
       </div>
     </div>
   </div>
