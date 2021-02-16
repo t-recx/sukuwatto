@@ -92,6 +92,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   modalExerciseType: ExerciseType = ExerciseType.Cardio;
   exerciseModalVisible = false;
 
+  firstPosition: boolean;
+
   constructor(
     private alertService: AlertService,
     private authService: AuthService,
@@ -442,6 +444,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   startTracking() {
+    this.firstPosition = true;
+
     if (this.BackgroundGeolocation) {
       // we're on a phone
       this.workoutActivity.trackingType = GeoTrackingType.BackgroundGeolocation;
@@ -550,6 +554,14 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   private addPositionToRoute(p: any) {
     if (!this.workoutActivity.positions) {
       this.workoutActivity.positions = [];
+    }
+
+    if (this.firstPosition) {
+      // we'll ignore the first position
+      // since sometimes it seems cached outdated positions are used
+      // on the very first position
+      this.firstPosition = false;
+      return;
     }
 
     let newPosition;
