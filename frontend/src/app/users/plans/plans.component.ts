@@ -145,6 +145,7 @@ export class PlansComponent implements OnInit, OnChanges, OnDestroy, AfterViewIn
       return;
     }
 
+    this.plans = [];
     this.loadPlans(this.username, page, searchFilter, reloadOn404);
   }
 

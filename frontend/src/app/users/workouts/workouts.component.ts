@@ -98,6 +98,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   loadParameterDependentData(username: string, page: string): void {
     this.username = username;
     this.page = page;
+    this.workouts = [];
     this.getWorkouts(username, page);
   }
 
@@ -212,5 +213,9 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   deleteWorkout(workout): void {
     this.workoutsService.deleteWorkout(workout)
     .subscribe(_ => this.getWorkouts(this.username, this.page, true));
+  }
+
+  isOwner(workout: Workout) {
+    return this.authService.isCurrentUserLoggedIn(workout.user.username);
   }
 }
