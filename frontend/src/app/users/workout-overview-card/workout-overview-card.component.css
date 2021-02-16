@@ -2,6 +2,13 @@
     /* width: 100%; */
 }
 
+@media only screen and (max-width: 600px) {
+    .more-than-two-columns {
+        font-size: 13px;
+        color: #879aab;
+    }
+}
+
 .cardio-value-column {
     white-space: nowrap;
 }

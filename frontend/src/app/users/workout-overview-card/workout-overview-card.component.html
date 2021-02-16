@@ -72,8 +72,11 @@
 
             <!-- untracked -->
             <table class="siimple-table siimple-table--striped siimple-table--border"
-                *ngIf="cardioWorkoutActivities && cardioWorkoutActivities.length > 0">
-                <thead class="siimple-table-header">
+                *ngIf="cardioWorkoutActivities && cardioWorkoutActivities.length > 0"
+                >
+                <thead class="siimple-table-header"
+                [class.more-than-two-columns]="(showDistanceColumn ? 1 : 0) + (showSpeedColumn ? 1 : 0) + (showVo2MaxColumn ? 1 : 0) + (showTimeColumn ? 1 : 0) > 2"
+                >
                     <tr class="siimple-table-row">
                         <th class="siimple-table-cell exercise-cardio-column-header">Exercise</th>
                         <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">Time
@@ -86,7 +89,9 @@
                             <span class="siimple--display-sm-none">max</span></th>
                     </tr>
                 </thead>
-                <tbody class="siimple-table-body">
+                <tbody class="siimple-table-body"
+                [class.more-than-two-columns]="(showDistanceColumn ? 1 : 0) + (showSpeedColumn ? 1 : 0) + (showVo2MaxColumn ? 1 : 0) + (showTimeColumn ? 1 : 0) > 2"
+                >
                     <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of cardioWorkoutActivities">
                         <td class="siimple-table-cell">
                             <span class="phones-only">
@@ -145,16 +150,13 @@
                     <tr class="siimple-table-row">
                         <th class="siimple-table-cell">Exercise</th>
                         <th class="siimple-table-cell" align="center">
-                            <span class="phones-only">W</span>
-                            <span class="siimple--display-sm-none">Weight</span>
+                            <span class="">Weight</span>
                         </th>
                         <th class="siimple-table-cell" align="center">
-                            <span class="phones-only">S</span>
-                            <span class="siimple--display-sm-none">Sets</span>
+                            <span class="">Sets</span>
                         </th>
                         <th class="siimple-table-cell" align="center">
-                            <span class="phones-only">R</span>
-                            <span class="siimple--display-sm-none">Reps</span>
+                            <span class="">Reps</span>
                         </th>
                     </tr>
                 </thead>
