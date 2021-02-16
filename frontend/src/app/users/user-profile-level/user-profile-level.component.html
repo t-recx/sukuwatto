@@ -14,7 +14,7 @@
                 size="10x"></fa-icon>
         </div>
 
-        <div class="user-class">
+        <div class="user-class clickable" [routerLink]="['/users', username, 'skills']">
             {{user.primary_class}} <span *ngIf="user.secondary_class">/
                 {{user.secondary_class}}</span>
         </div>

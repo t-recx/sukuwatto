@@ -17,13 +17,13 @@
 
     <div class="siimple-grid">
         <div class="siimple-grid-row">
-            <div class="siimple-grid-col siimple-grid-col--5 siimple-grid-col--sm-12">
+            <div class="siimple-grid-col siimple-grid-col--5 siimple-grid-col--sm-12 col-profile">
 
                 <app-user-profile-level [username]=username>
                 </app-user-profile-level>
 
             </div>
-            <div class="siimple-grid-col siimple-grid-col--7 siimple-grid-col--sm-12">
+            <div class="siimple-grid-col siimple-grid-col--7 siimple-grid-col--sm-12 col-skills">
 
                 <ul class="siimple-list siimple--mt-0 " *ngIf="skills && skills.length > 0">
                     <li class="siimple-list-item list-item" *ngFor="let userSkill of skills">

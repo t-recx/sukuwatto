@@ -6,3 +6,13 @@
     font-weight: 700;
     flex-grow: 1;
 }
+
+@media only screen and (max-width: 600px) {
+    .col-profile {
+        padding-bottom: 0px;
+    }
+
+    .col-skills {
+        padding-top: 0px;
+    }
+}
