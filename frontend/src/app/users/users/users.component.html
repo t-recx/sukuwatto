@@ -65,7 +65,13 @@
             </div>
             <div class="siimple-grid-col siimple-grid-col--3 siimple--display-xl-none">
                 <app-user-profile-level [username]=username></app-user-profile-level>
-                <app-leaderboard [username]=username></app-leaderboard>
+                <div *ngIf="isRouterLinkBody || isRouterLinkWorkouts">
+                    <app-user-progress-charts [username]=username [visibleChartData]="chartDataVisibility" *ngIf="chartDataVisibility">
+                    </app-user-progress-charts>
+                </div>
+                <div *ngIf="!isRouterLinkWorkouts && !isRouterLinkBody">
+                    <app-leaderboard [username]=username></app-leaderboard>
+                </div>
             </div>
         </div>
     </main>

@@ -22,3 +22,7 @@
     font-weight: 700;
     margin-top: 10px;
 }
+
+.progress-bar-span {
+    transition-duration: 0ms;
+}

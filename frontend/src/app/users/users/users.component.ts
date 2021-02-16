@@ -14,6 +14,7 @@ import { CordovaService } from 'src/app/cordova.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { FeedService } from '../feed.service';
 import { Message } from '../message';
+import { UserVisibleChartData } from '../user-available-chart-data';
 
 @Component({
   selector: 'app-users',
@@ -73,6 +74,19 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   unread_messages_count: number = 0;
   newMessageSubscription: Subscription;
 
+  isRouterLinkWorkouts: boolean = false;
+  isRouterLinkBody: boolean = false;
+
+  chartDataVisibility: UserVisibleChartData = null;
+  chartDataBodyVisibility = new UserVisibleChartData({
+    show_bio_data_records: true,
+    show_weight_records: true });
+  chartDataWorkoutsVisibility = new UserVisibleChartData({
+    show_compound_exercises: true,
+    show_distance_exercises: true,
+    show_distance_exercises_last_month: true,
+    show_isolation_exercises: true });
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     if (!this.menuDropDownVisible) {
@@ -121,8 +135,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
           this.setDropDownVisible(false);
         }
       }
+
+      this.checkRouterLinks(router);
     });
 
+    this.checkRouterLinks(router);
     this.checkForUpdatesProgramatically = swUpdate.isEnabled && environment.application;
 
     if (this.checkForUpdatesProgramatically) {
@@ -138,6 +155,28 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.onResize();
+  }
+
+  checkRouterLinks(router: Router) {
+    if (!this.authService.isLoggedIn()) {
+      this.isRouterLinkBody = false;
+      this.isRouterLinkWorkouts = false;
+    }
+    else {
+      const prefix = '/users/' + this.authService.getUsername();
+      this.isRouterLinkBody = router.url.startsWith(prefix + '/measurement');
+      this.isRouterLinkWorkouts = router.url.startsWith(prefix + '/workout');
+
+      if (this.isRouterLinkBody) {
+        this.chartDataVisibility = this.chartDataBodyVisibility;
+      }
+      else if (this.isRouterLinkWorkouts) {
+        this.chartDataVisibility = this.chartDataWorkoutsVisibility;
+      }
+      else {
+        this.chartDataVisibility = null;
+      }
+    }
   }
 
   private updateUnreadMessageCount(u: number) {

@@ -223,9 +223,9 @@ def get_available_chart_data(request):
 
     cardio_sets = sets.filter(exercise__exercise_type=Exercise.CARDIO)
 
-    has_compound_exercises = strength_sets.filter(exercise__mechanics=Exercise.COMPOUND).exists()
+    has_compound_exercises = strength_sets.filter(exercise__mechanics=Exercise.COMPOUND).filter(weight__gt=0).exists()
 
-    has_isolation_exercises = strength_sets.filter(exercise__mechanics=Exercise.ISOLATED).exists()
+    has_isolation_exercises = strength_sets.filter(exercise__mechanics=Exercise.ISOLATED).filter(weight__gt=0).exists()
 
     has_distance_exercises = cardio_sets.filter(distance__isnull=False).filter(distance__gt=0).exists()
 

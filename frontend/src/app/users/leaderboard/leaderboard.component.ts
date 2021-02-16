@@ -21,6 +21,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy, OnChanges {
   workoutUpdatedSubscription: Subscription;
   workoutDeletedSubscription: Subscription;
 
+  loading: boolean = false;
+
   constructor(
     private leaderboardService: LeaderboardService,
     private workoutService: WorkoutsService,
@@ -56,8 +58,10 @@ export class LeaderboardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateLeaderboard() {
+    this.loading = true;
     this.leaderboardService.getDashboard(this.selectedLeaderboardTimespan).subscribe(positions => {
       this.positions = positions;
+      this.loading = false;
     });
   }
 

@@ -87,7 +87,8 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             .domain([minY, maxY]).nice()
             .range([height - margin.bottom, margin.top])
 
-        const fontSize = environment.application ? 10 : 8;
+        //const fontSize = environment.application ? 10 : 8;
+        const fontSize = 8;
 
         let ticksX;
 
