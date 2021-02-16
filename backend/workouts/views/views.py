@@ -110,7 +110,7 @@ class AllTimeLeaderboardDashboardList(ListAPIView):
         return get_leaderboard_dashboard_list(request, AllTimeLeaderboardPosition, AllTimeLeaderboardSerializer)
 
 def get_leaderboard_queryset(model):
-    return model.objects.filter(rank__isnull=False) 
+    return model.objects.filter(rank__isnull=False).order_by('rank')
 
 class WeeklyLeaderboardList(ListAPIView):
     pagination_class = StandardResultsSetPagination

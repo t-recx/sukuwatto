@@ -11,7 +11,7 @@
 }
 
 @media only screen and (max-width: 320px) {
-.logo {
+.navbar-small-phone-not-logged {
   display: none;
 }
 }
