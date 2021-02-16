@@ -42,10 +42,10 @@
   </div>
 </div>
 
-<div class="" *ngIf="!loading">
+<div class="" *ngIf="workouts && workouts.length > 0">
   <ul class="">
     <li *ngFor="let workout of workouts">
-      <app-workout-overview-card [detailView]=false [workout]=workout [showSaveDeleteButtons]=true
+      <app-workout-overview-card [detailView]=false [workout]=workout [showSaveDeleteButtons]="isOwner(workout)"
         (deleted)="deleteWorkout(workout)">
       </app-workout-overview-card>
     </li>
