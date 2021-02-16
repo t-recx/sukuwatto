@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Paginated } from './paginated';
 import { UserBioData } from './user-bio-data';
 import { catchError, tap, map } from 'rxjs/operators';
@@ -20,6 +20,10 @@ export class UserBioDataService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+
+  measurementCreated = new Subject<UserBioData>();
+  measurementUpdated = new Subject<UserBioData>();
+  measurementDeleted = new Subject<UserBioData>();
 
   constructor(
     private http: HttpClient,
@@ -226,7 +230,7 @@ export class UserBioDataService {
   createUserBioData(userbiodata: UserBioData): Observable<UserBioData> {
     return this.http.post<UserBioData>(this.userbiodatasUrl, userbiodata, this.httpOptions)
     .pipe(
-      tap((newUserBioData: UserBioData) => { }),
+      tap((newUserBioData: UserBioData) => { this.measurementCreated.next(newUserBioData); }),
       catchError(this.errorService.handleError<UserBioData>('createUserBioData', (e: any) => 
       {
         this.alertService.error('Unable to create userbiodata, try again later');
@@ -237,7 +241,7 @@ export class UserBioDataService {
   updateUserBioData(userbiodata: UserBioData): Observable<UserBioData> {
     return this.http.put<UserBioData>(`${this.userbiodatasUrl}${userbiodata.id}/`, userbiodata, this.httpOptions)
     .pipe(
-      tap((newUserBioData: UserBioData) => { }),
+      tap((updatedUserBioData: UserBioData) => { this.measurementUpdated.next(updatedUserBioData); }),
       catchError(this.errorService.handleError<UserBioData>('updateUserBioData', (e: any) => 
       {
         this.alertService.error('Unable to update userbiodata, try again later');
@@ -250,6 +254,7 @@ export class UserBioDataService {
     const url = `${this.userbiodatasUrl}${id}/`;
 
     return this.http.delete<UserBioData>(url, this.httpOptions).pipe(
+      tap((deletedUserBioData: UserBioData) => { this.measurementDeleted.next(deletedUserBioData); }),
       catchError(this.errorService.handleError<UserBioData>('deleteUserBioData', (e: any) => 
       {
         this.alertService.error('Unable to delete userbiodata, try again later');

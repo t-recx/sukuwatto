@@ -9,8 +9,11 @@
     </div>
 
     <div class="siimple-card-body" *ngIf="positions == null || positions.length == 0">
-        <div class="no-ranks-for-time-period">No ranks for this time period.</div> 
-        <div class="be-the-first">Be the first!</div>
+        <div class="siimple--mt-2 siimple--mb-2 siimple-spinner siimple-spinner--primary siimple-spinner--large" *ngIf="loading"></div>
+        <div *ngIf="!loading">
+            <div class="no-ranks-for-time-period">No ranks for this time period.</div> 
+            <div class="be-the-first">Be the first!</div>
+        </div>
     </div>
 
     <div class="siimple-card-body"  *ngFor="let position of positions">

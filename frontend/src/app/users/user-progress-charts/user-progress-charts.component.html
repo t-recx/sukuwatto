@@ -1,8 +1,8 @@
-<div class="siimple-card siimple--mb-4" *ngIf="availableCharts && availableCharts.length > 0 && !loading">
+<div class="siimple-card siimple--mb-4" *ngIf="availableCharts && availableCharts.length > 0">
   <div class="siimple-card-body">
     <div class="navigation-box" align="center">
 
-      <button class="siimple-btn siimple-btn--primary navigation-previous" (click)="previous()" *ngIf="availableCharts.length > 1">
+      <button class="siimple-btn siimple-btn--small siimple-btn--primary navigation-previous" (click)="previous()" *ngIf="availableCharts.length > 1">
         <fa-icon [icon]="faArrowLeft"></fa-icon>
       </button>
 
@@ -10,7 +10,7 @@
         {{currentChart.name}}
       </span>
 
-      <button class="siimple-btn siimple-btn--primary navigation-next" (click)="next()" *ngIf="availableCharts.length > 1">
+      <button class="siimple-btn siimple-btn--small siimple-btn--primary navigation-next" (click)="next()" *ngIf="availableCharts.length > 1">
         <fa-icon [icon]="faArrowRight"></fa-icon>
       </button>
     </div>

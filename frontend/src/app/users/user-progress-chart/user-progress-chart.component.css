@@ -3,11 +3,7 @@
 }
 
 .chart-legend {
-  display: flex;
-  min-height: 33px;
   font: 10px sans-serif;
-  /* margin-left: 10px;*/
-  flex-flow: row wrap;
 }
 
 .chart-legend-item {
