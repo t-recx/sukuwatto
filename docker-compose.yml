@@ -51,11 +51,6 @@ services:
       dockerfile: ../docker/frontend/Dockerfile
     volumes:
       - frontend_data:/usr/src/app/www/frontend
-  frontend-android:
-    build:
-      context: ./frontend/
-      dockerfile: ../docker/frontend-android/Dockerfile
-    volumes:
       - frontend-android_data:/usr/src/app/www/frontend-android
   nginx:
     build: ./docker/nginx
