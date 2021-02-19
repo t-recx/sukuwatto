@@ -7,6 +7,7 @@ import { Workout } from '../workout';
 import { Observable, Subscription } from 'rxjs';
 import { ExerciseType } from '../exercise';
 import { UserBioData } from '../user-bio-data';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workout-group',
@@ -110,6 +111,7 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
 
     newSet.order = order;
     newSet.calories = 0;
+    newSet.tracking = environment.application;
 
     return newSet;
   }
