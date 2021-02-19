@@ -268,6 +268,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
     activity.editing = true;
     activity.quick = true;
+    activity.tracking = true;
 
     if (!this.workout.groups[0].sets) {
       this.workout.groups[0].sets = [];
