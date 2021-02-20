@@ -47,7 +47,7 @@ def email_user_data(data_request_id):
             # message:
             email_plaintext_message,
             # from:
-            "noreply@" + host,
+            "{} <noreply@{}>".format(settings.WEBAPP_NAME, host),
             # to:
             [user.email]
         )

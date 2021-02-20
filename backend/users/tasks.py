@@ -23,7 +23,7 @@ def email_reset_password_link(username, email, url):
         # message:
         email_plaintext_message,
         # from:
-        "noreply@" + host,
+        "{} <noreply@{}>".format(settings.WEBAPP_NAME, host),
         # to:
         [email]
     )
