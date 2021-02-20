@@ -3,32 +3,32 @@ from pprint import pprint
 from rest_framework import serializers
 from workouts.models import Exercise, Muscle, MuscleExercise, Unit, UserBioData, MetabolicEquivalentTask, UserSkill, Skill, WeeklyLeaderboardPosition, YearlyLeaderboardPosition, MonthlyLeaderboardPosition, AllTimeLeaderboardPosition
 from workouts.exercise_service import ExerciseService
-from users.serializers import UserSerializer
+from users.serializers import UserMinimalSerializer
 from workouts.utils import get_differences
 
 class WeeklyLeaderboardSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
 
     class Meta:
         model = WeeklyLeaderboardPosition
         fields = ['id', 'user', 'experience', 'rank']
 
 class MonthlyLeaderboardSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
 
     class Meta:
         model = MonthlyLeaderboardPosition
         fields = ['id', 'user', 'experience', 'rank']
 
 class YearlyLeaderboardSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
 
     class Meta:
         model = YearlyLeaderboardPosition
         fields = ['id', 'user', 'experience', 'rank']
 
 class AllTimeLeaderboardSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
 
     class Meta:
         model = AllTimeLeaderboardPosition
@@ -69,7 +69,7 @@ class MuscleExerciseSerializer(serializers.ModelSerializer):
 
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
     muscles = MuscleExerciseSerializer(many=True, required=False)
 
     class Meta:
@@ -153,7 +153,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
         return instance
 
 class UserBioDataSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserMinimalSerializer(read_only=True)
 
     class Meta:
         model = UserBioData
