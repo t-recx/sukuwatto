@@ -23,6 +23,10 @@ DEBUG = bool(int(os.environ.get("DEBUG", default=0)))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+HOST = os.environ.get("HOST")
+
+WEBAPP_NAME = os.environ.get("WEBAPP_NAME")
+
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
 
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
@@ -242,6 +246,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 ASGI_APPLICATION = "sqtrex.routing.application"
 
 HUEY = {
+    'huey_class': 'huey.PriorityRedisHuey',
     'immediate': False,
     'connection': {
         'host': os.environ.get("HUEY_HOST"),

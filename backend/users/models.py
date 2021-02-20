@@ -43,6 +43,8 @@ class CustomUser(AbstractUser):
         (ADVANCED, 'Advanced'),
     ]
 
+    email = models.EmailField(unique=True)
+
     gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
     year_birth = models.IntegerField(null=True)
     month_birth = models.IntegerField(null=True)

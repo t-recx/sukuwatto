@@ -19,6 +19,7 @@ killgroup(){
 }
 
 python backend/manage.py runserver ${1:-127.0.0.1:8000}  &
+python backend/manage.py run_huey &
 echo "socat openssl-listen:${2:-8443},fork,reuseaddr,cert=backend/ssl/cert.pem,verify=0 tcp:${1:-127.0.0.1:8000} &"
 socat openssl-listen:${2:-8443},fork,reuseaddr,cert=backend/ssl/cert.pem,verify=0 tcp:${1:-127.0.0.1:8000} &
 wait

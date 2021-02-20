@@ -42,7 +42,7 @@
                                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
                             </div>
                             <div *ngIf="usernameError && triedToSignUp">
-                                <div class="siimple-field-helper siimple--color-error">{{usernameError}}</div>
+                                <div class="siimple-field-helper siimple--color-error error-label">{{usernameError}}</div>
                             </div>
                         </div>
                         <div class="siimple-form-field">
@@ -59,6 +59,9 @@
                                 <div *ngIf="email.errors?.pattern" class="siimple-field-helper siimple--color-error">
                                     Please insert a valid email
                                 </div>
+                            </div>
+                            <div *ngIf="emailError && triedToSignUp">
+                                <div class="siimple-field-helper siimple--color-error error-label">{{emailError}}</div>
                             </div>
                         </div>
                         <div class="siimple-form-field">

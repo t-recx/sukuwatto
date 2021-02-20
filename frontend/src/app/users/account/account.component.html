@@ -186,6 +186,9 @@
                                     Please insert a valid email
                                 </div>
                             </div>
+                            <div *ngIf="emailError && triedToSave">
+                                <div class="siimple-field-helper siimple--color-error error-label">{{emailError}}</div>
+                            </div>
                         </div>
                         <div class="siimple-form-field">
                             <div class="siimple-form-field-label">Gender</div>

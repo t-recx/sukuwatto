@@ -8,44 +8,16 @@ from django.db.models import F
 from django.db.models.signals import pre_delete
 from .models import CustomUser
 from workouts.rank_service import RankService
+from users.tasks import email_reset_password_link
+from django.conf import settings
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    host = 'sukuwatto.com'
-    """
-    Handles password reset tokens
-    When a token is created, an e-mail needs to be sent to the user
-    :param sender: View Class that sent the signal
-    :param instance: View Instance that sent the signal
-    :param reset_password_token: Token Model Object
-    :param args:
-    :param kwargs:
-    :return:
-    """
-    # send an e-mail to the user
-    context = {
-        'current_user': reset_password_token.user,
-        'username': reset_password_token.user.username,
-        'email': reset_password_token.user.email,
-        'reset_password_url':  "https://" + host + "/reset-password/" + reset_password_token.key
-    }
+    host = settings.HOST
 
-    # render email text
-    email_html_message = render_to_string('user_reset_password.html', context)
-    email_plaintext_message = render_to_string('user_reset_password.txt', context)
+    link = "https://" + host + "/reset-password/" + reset_password_token.key
 
-    msg = EmailMultiAlternatives(
-        # title:
-        "Password Reset for {title}".format(title="Sukuwatto"),
-        # message:
-        email_plaintext_message,
-        # from:
-        "noreply@" + host,
-        # to:
-        [reset_password_token.user.email]
-    )
-    msg.attach_alternative(email_html_message, "text/html")
-    msg.send()
+    email_reset_password_link(reset_password_token.user.username, reset_password_token.user.email, link)
 
 def delete_user_account(sender, instance, **kwargs):
     users_with_follower = CustomUser.objects.filter(followers__id=instance.id)

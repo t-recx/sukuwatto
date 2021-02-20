@@ -27,6 +27,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   units: Unit[];
   acceptedTerms: boolean = false;
   usernameError: string = null;
+  emailError: string = null;
   captchaSolved: boolean = false;
   captchaResponse: string = null;
 
@@ -120,6 +121,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.signUpText = "Signing up...";
 
     this.usernameError = null;
+    this.emailError = null;
     this.user.username = this.user.username.trim();
     this.user.email = this.user.email.trim();
 
@@ -131,6 +133,9 @@ export class SignupComponent implements OnInit, OnDestroy {
         {
           if (e.error && e.error.username) {
             this.usernameError = e.error.username;
+          }
+          else if (e.error && e.error.email) {
+            this.emailError = e.error.email;
           }
           else {
             this.alertService.error('Unable to sign up, try again later');

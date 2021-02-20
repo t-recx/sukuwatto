@@ -12,6 +12,8 @@ import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 import { Subscription } from 'rxjs';
 import { VisibilityLabel } from 'src/app/visibility';
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from 'src/app/error.service';
 
 export enum AccountTabType {
   General,
@@ -40,6 +42,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   heightUnits: Unit[];
   energyUnits: Unit[];
 
+  emailError: string;
   perksTabVisible: boolean = false;
 
   selectedTabType: AccountTabType = AccountTabType.General;
@@ -84,6 +87,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     private loadingService: LoadingService,
     private cordovaService: CordovaService,
     private serializerUtils: SerializerUtilsService,
+    private errorService: ErrorService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -134,6 +138,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadUserData(username: string) {
     this.forbidden = false;
+    this.emailError = null;
     this.username = username;
     this.bioDataDate = new Date();
     this.weightUnits = [];
@@ -235,15 +240,30 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.saving = true;
 
     this.userService.update(this.user)
-      .subscribe(() => {
-        this.saving = false;
+      .pipe(
+        catchError(this.errorService.handleError<User>('update', (e: any) => 
+        {
+          this.saving = false;
 
-        this.authService.setUnitSystem(this.user.system);
-        this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
-        this.authService.setUserDefaultMeasurementVisibility(this.user.default_visibility_user_bio_datas);
-        this.authService.setUserEnergyUnitId(this.user.default_energy_unit ? this.user.default_energy_unit.toString() : null);
+          if (e && e.error && e.error.email) {
+            this.emailError = e.error.email;
+          }
+          else {
+            this.alertService.error('Unable to update account, try again later');
+          }
+        }, null))
+      )
+      .subscribe(x => {
+        if (x != null) {
+          this.saving = false;
 
-        this.router.navigateByUrl(`/users/${this.user.username}/profile`);
+          this.authService.setUnitSystem(this.user.system);
+          this.authService.setUserDefaultWorkoutVisibility(this.user.default_visibility_workouts);
+          this.authService.setUserDefaultMeasurementVisibility(this.user.default_visibility_user_bio_datas);
+          this.authService.setUserEnergyUnitId(this.user.default_energy_unit ? this.user.default_energy_unit.toString() : null);
+
+          this.router.navigateByUrl(`/users/${this.user.username}/profile`);
+        }
       });
   }
 
