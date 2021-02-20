@@ -1,7 +1,7 @@
 import json
 import uuid
 import os
-from zipfile import ZipFile
+from zipfile import ZipFile, ZIP_DEFLATED
 from huey import crontab
 from huey.contrib.djhuey import db_periodic_task, db_task
 from django.contrib.auth import get_user_model
@@ -115,7 +115,7 @@ def attach_file(msg, request_id, data):
 
     filename = request_id + '.zip'
 
-    with ZipFile(filename, 'w') as zipped:
+    with ZipFile(filename, 'w', ZIP_DEFLATED) as zipped:
         zipped.write(filename_json)
 
     msg.attach_file(filename)
