@@ -475,3 +475,27 @@ ul {
 .level-tag-item--next {
     background-color: #4acf7f;
 }
+
+.detail-operations-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.operation-button {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .operation-button {
+        margin-right: 0px !important;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:400px) {
+    .new-group-button {
+        width: 100%;
+    }
+}
