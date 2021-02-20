@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UnitsService } from '../units.service';
 import { Unit, MeasurementType } from '../unit';
 import { AlertService } from 'src/app/alert/alert.service';
-import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave, faKey, faTrash, faWeight, faCheck, faTimes, faDoorClosed, faFileArchive } from '@fortawesome/free-solid-svg-icons';
 import { LoadingService } from '../loading.service';
 import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
@@ -30,7 +30,10 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   allowed: boolean;
   triedToSave: boolean;
   deleteModalVisible: boolean;
+  alreadyProcessingDataRequest: boolean;
   passwordModalVisible: boolean;
+  requestDataModalVisible: boolean;
+  requestConfirmationModalVisible: boolean;
   bioDataDate: Date;
   units: Unit[];
   weightUnits: Unit[];
@@ -56,10 +59,12 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   faCheck = faCheck;
   faTimes = faTimes;
   faDoorClosed = faDoorClosed;
+  faFileArchive = faFileArchive;
 
   loading: boolean = false;
   saving: boolean = false;
   deleting: boolean = false;
+  requesting: boolean = false;
 
   visibilityLabel = VisibilityLabel;
 
@@ -137,6 +142,9 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadUnits();
     this.deleteModalVisible = false;
     this.passwordModalVisible = false;
+    this.requestDataModalVisible = false;
+    this.alreadyProcessingDataRequest = false
+    this.requestDataModalVisible = false;
     this.allowed = this.authService.isCurrentUserLoggedIn(this.username);
     this.forbidden = !this.allowed;
     this.triedToSave = false;
@@ -260,5 +268,34 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return true;
+  }
+
+  requestPersonalData() {
+    this.hideRequestConfirmationModal();
+
+    this.userService.requestPersonalData().subscribe(res => {
+      if (res && res.status) {
+        if (res.status === 202) {
+          this.alreadyProcessingDataRequest = true;
+          this.requestDataModalVisible = true;
+        }
+        else if (res.status === 201) {
+          this.alreadyProcessingDataRequest = false;
+          this.requestDataModalVisible = true;
+        }
+      }
+    });
+  }
+
+  confirmRequestPersonalData() {
+    this.requestConfirmationModalVisible = true;
+  }
+
+  hideRequestDataModal() {
+    this.requestDataModalVisible = false;
+  }
+
+  hideRequestConfirmationModal() {
+    this.requestConfirmationModalVisible = false;
   }
 }

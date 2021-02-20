@@ -11,7 +11,7 @@ from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
 from django.conf import settings
 from django.conf.urls.static import static
-from sqtrex.views import ContentTypeList
+from sqtrex.views import ContentTypeList, request_personal_data
 from django.conf.urls import url, include
 from django_rest_passwordreset.views import reset_password_request_token, reset_password_confirm, reset_password_validate_token
 
@@ -95,6 +95,7 @@ urlpatterns = [
     path('api/exercise-in-use/', exercise_in_use, name='exercise-in-use'),
     path('api/exercise-in-use-on-other-users-resources/', exercise_in_use_in_other_users_resources, name='exercise-in-use-on-other-users-resources'),
     path('api/toggle-feature/', toggle_feature, name="toggle-feature"),
+    path('api/request-personal-data/', request_personal_data, name="request-personal-data"),
     path('api/password-reset-validate-token/', reset_password_validate_token, name="reset-password-validate"),
     path('api/password-reset-confirm/', reset_password_confirm, name="reset-password-confirm"),
     path('api/password-reset/', reset_password_request_token, name="reset-password-request"),

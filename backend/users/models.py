@@ -88,3 +88,6 @@ class File(models.Model):
 
     def __str__(self):
         return self.file.name
+
+class UserDataRequest(models.Model):
+    user = models.ForeignKey(CustomUser, related_name='user_data_request', on_delete=models.CASCADE)
