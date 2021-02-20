@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { User } from './user';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap, shareReplay, map } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
   private usersApiUrl = `${environment.apiUrl}/users/`;
+  private usersRequestDataApiUrl = `${environment.apiUrl}/request-personal-data/`;
   private userExistsApiUrl = `${environment.apiUrl}/user-exists/`;
   private usersRegistrationApiUrl = `${environment.apiUrl}/sign-up/`;
   private usersSearchApiUrl = `${environment.apiUrl}/users-search/`;
@@ -65,13 +66,23 @@ export class UserService {
     return this.http.post<any>(`${this.usersResetPasswordValidateTokenApiUrl}`, { token }, this.httpOptions);
   }
 
+  requestPersonalData(): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${this.usersRequestDataApiUrl}`, null, { observe: 'response' })
+    .pipe(
+      catchError(this.errorService.handleError<any>('requestPersonalData', (e: any) => 
+      {
+        this.alertService.error('Unable to request data, try again later');
+      }, {error:true}))
+    );
+  }
+
   resetConfirmPassword(token: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.usersResetPasswordConfirmApiUrl}`, { token, password }, this.httpOptions)
     .pipe(
       catchError(this.errorService.handleError<any>('resetConfirmPassword', (e: any) => 
       {
         this.alertService.error('Unable to reset password, try again later');
-      }, {error:true}))
+      }))
     );
   }
 

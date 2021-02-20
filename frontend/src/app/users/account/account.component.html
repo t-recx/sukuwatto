@@ -27,6 +27,70 @@
     </div>
 </div>
 
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestConfirmationModalVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">Personal data request</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hideRequestConfirmationModal()"></div>
+        </div>
+        <div class="siimple-modal-body modal-window-body">
+            <p class="siimple-p">
+                This will collect and process your personal information and send you a copy to the e-mail account associated with your profile.
+            </p>
+            <p class="siimple-p">
+                Would you like to proceed?
+            </p>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="requestPersonalData()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                Yes
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideRequestConfirmationModal()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestDataModalVisible">
+    <div class="siimple-modal-content">
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title">
+                Personal data request 
+                <span *ngIf="alreadyProcessingDataRequest">underway</span>
+                <span *ngIf="!alreadyProcessingDataRequest">sent</span>
+            </div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="hideRequestDataModal()"></div>
+        </div>
+        <div class="siimple-modal-body modal-window-body">
+            <div *ngIf="alreadyProcessingDataRequest">
+                <p class="siimple-p">
+                    We're still processing an earlier request made by you. You should get your data in your e-mail account soon.
+                </p>
+                <p class="siimple-p">
+                    If that's not the case, please contact our support. Thank you.
+                </p>
+            </div>
+            <div *ngIf="!alreadyProcessingDataRequest">
+                <p class="siimple-p">
+                    Thank you for your request.
+                </p>
+                <p class="siimple-p">
+                    We'll be sending your personal data to the e-mail account associated with your profile as soon as we're done processing it.
+                </p>
+            </div>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="hideRequestDataModal()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+
 <app-user-change-password-modal [visible]=passwordModalVisible (closed)="hidePasswordModal()">
 </app-user-change-password-modal>
 
@@ -319,18 +383,29 @@
 
     <div class="detail-operations-separator"></div>
 
-    <div class="siimple--mt-2">
-        <button class="siimple-btn siimple-btn--success" (click)="save()" [class.siimple-btn--disabled]="saving"
+    <div class="detail-operations-container">
+        <button class="siimple-btn siimple-btn--success operation-button" (click)="save()" [class.siimple-btn--disabled]="saving"
+            type="button"
             [disabled]="saving">
             <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
             Save
         </button>
-        <button class="siimple-btn siimple-btn--warning siimple--ml-2" (click)="showPasswordModal()">
+        <button class="siimple-btn siimple-btn--warning operation-button" (click)="showPasswordModal()"
+            type="button"
+        >
             <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
             Change
         </button>
-        <button class="siimple-btn siimple-btn--error siimple--ml-2" (click)="showDeleteModal()"
+        <button class="siimple-btn siimple-btn--primary operation-button" (click)="confirmRequestPersonalData()"
+            type="button"
+            [class.siimple-btn--disabled]="requesting" [disabled]="requesting">
+            <fa-icon [icon]="faFileArchive" class="  siimple--mr-1" *ngIf="!requesting"></fa-icon>
+            <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="requesting"></fa-icon>
+            Request data
+        </button>
+        <button class="siimple-btn siimple-btn--error operation-button" (click)="showDeleteModal()"
+            type="button"
             [class.siimple-btn--disabled]="deleting" [disabled]="deleting">
             <fa-icon [icon]="faDoorClosed" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>

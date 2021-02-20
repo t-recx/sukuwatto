@@ -1,0 +1,4 @@
+Hi {{ username }}, your personal data request is ready and can be found attached to this email.
+
+Thanks,
+The Sukuwatto team
