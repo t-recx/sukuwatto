@@ -8,7 +8,7 @@
     margin-top: 10px;
 }
 
-@media only screen and (max-width: 524px) {
+@media only screen and (max-width: 600px) {
     .operation-button {
         margin-right: 10px;
         margin-top: 10px;
