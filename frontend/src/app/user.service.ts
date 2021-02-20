@@ -112,13 +112,7 @@ export class UserService {
 
   update(user: User): Observable<User> {
     return this.http.put<User>(`${this.usersApiUrl}${user.id}/`, user, this.httpOptions)
-    .pipe(
-      tap((updated: User) => { this.userUpdated.next(updated); }),
-      catchError(this.errorService.handleError<User>('update', (e: any) => 
-      {
-        this.alertService.error('Unable to update account, try again later');
-      }))
-    );
+      .pipe(tap((updated: User) => { this.userUpdated.next(updated); }));
   }
 
   delete(user: User): Observable<User> {

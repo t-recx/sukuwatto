@@ -20,6 +20,7 @@ from workouts.models import UserBioData, Exercise, Plan, UserSkill, Workout, Wee
 from workouts.serializers.serializers import UserBioDataSerializer, ExerciseSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer
 from workouts.serializers.workout_serializer import WorkoutSerializer  
 from workouts.serializers.plan_serializer import PlanSerializer
+from django.conf import settings
 
 @db_task()
 def email_user_data(data_request_id):
@@ -28,7 +29,7 @@ def email_user_data(data_request_id):
     try:
         user = request.user
 
-        host = 'sukuwatto.com'
+        host = settings.HOST
 
         # send an e-mail to the user
         context = {
@@ -41,7 +42,7 @@ def email_user_data(data_request_id):
 
         msg = EmailMultiAlternatives(
             # title:
-            "Your personal data in {title}".format(title="Sukuwatto"),
+            "Your personal data in {title}".format(title=settings.WEBAPP_NAME),
             # message:
             email_plaintext_message,
             # from:

@@ -18,7 +18,7 @@ sed "s/localhost/${HOST}/g" devsettings.def > devsettings
 if ! nc -z 0.0.0.0 6379
 then
   echo 'Redis container not running, starting...'
-  sudo docker run -p 6379:6379 -d redis:5 
+  sudo docker run -p 6379:6379 -d redis:6 
   echo 'Redis: OK!'
 fi
 
