@@ -1,21 +1,3 @@
-.detail-operations-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.operation-button {
-    margin-right: 10px;
-    margin-top: 10px;
-}
-
-@media only screen and (max-width: 600px) {
-    .operation-button {
-        margin-right: 10px;
-        margin-top: 10px;
-        width: 100%;
-    }
-}
-
  .error-label::first-letter {
      text-transform: uppercase;
  }

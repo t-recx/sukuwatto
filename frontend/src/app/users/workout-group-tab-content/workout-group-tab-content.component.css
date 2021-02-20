@@ -2,3 +2,9 @@
     padding: 10px;
     padding-top: 0px !important;
 }
+
+@media only screen and (max-width:400px) {
+    .new-activity-button {
+        width: 100%;
+    }
+}
