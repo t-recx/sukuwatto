@@ -1,6 +1,7 @@
 import json
 import uuid
 import os
+from zipfile import ZipFile
 from huey import crontab
 from huey.contrib.djhuey import db_periodic_task, db_task
 from django.contrib.auth import get_user_model
@@ -9,7 +10,7 @@ from django.core import serializers
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMultiAlternatives
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserMinimalSerializer
 from users.models import UserDataRequest
 from development.models import Feature
 from development.serializers import FeatureSerializer
@@ -59,6 +60,10 @@ def email_user_data(data_request_id):
 
         data['user'] = UserSerializer(user).data
 
+        data['followers'] = UserMinimalSerializer(user.followers, many=True).data
+
+        data['following'] = UserMinimalSerializer(user.following, many=True).data
+
         features = Feature.objects.filter(user=user)
         data['features'] = FeatureSerializer(features, many=True).data
 
@@ -106,16 +111,22 @@ def email_user_data(data_request_id):
     request.delete()
 
 def attach_file(msg, request_id, data):
-    filename = write_file(request_id, json.dumps(data))
+    filename_json = write_file(request_id, json.dumps(data))
+
+    filename = request_id + '.zip'
+
+    with ZipFile(filename, 'w') as zipped:
+        zipped.write(filename_json)
 
     msg.attach_file(filename)
 
+    os.remove(filename_json)
     os.remove(filename)
 
 def write_file(request_id, s):
     filename = request_id + '.json'
 
-    text_file = open(filename, "w")
+    text_file = open(filename, 'w')
     text_file.write(s)
     text_file.close() 
 
