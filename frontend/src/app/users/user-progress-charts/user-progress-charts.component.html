@@ -6,8 +6,8 @@
         <fa-icon [icon]="faArrowLeft"></fa-icon>
       </button>
 
-      <span class="current-series siimple--text-bold siimple--bg-light siimple--rounded" align="center" *ngIf="currentChart">
-        {{currentChart.name}}
+      <span class="current-series siimple--text-bold siimple--bg-light siimple--rounded" align="center">
+        <span *ngIf="currentChart" >{{currentChart.name}}</span>
       </span>
 
       <button class="siimple-btn siimple-btn--small siimple-btn--primary navigation-next" (click)="next()" *ngIf="availableCharts.length > 1">
