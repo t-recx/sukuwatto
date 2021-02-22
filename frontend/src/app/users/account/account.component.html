@@ -109,7 +109,8 @@
             Privacy
         </div>
         <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTabType==tabType.Perks"
-            (click)="selectTabType(tabType.Perks)">
+            (click)="selectTabType(tabType.Perks)"
+            *ngIf="perksTabVisible">
             Perks
         </div>
     </div>
