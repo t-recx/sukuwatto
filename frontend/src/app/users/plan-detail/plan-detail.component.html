@@ -5,7 +5,8 @@
             </app-page-not-found>
         </div>
         <div *ngIf="plan">
-            <app-plan-card [plan]=plan [showSaveDeleteButtons]=false [commentsSectionOpen]=true [detailView]=true>
+            <app-plan-card [plan]=plan [showSaveDeleteButtons]=false [commentsSectionOpen]=true [detailView]=true
+            (adopted)="planAdopted()"     >
             </app-plan-card>
         </div>
     </div>
@@ -91,25 +92,31 @@
 
             <div class="detail-operations-separator"></div>
 
-            <div class="detail-operations-container">
-                <button type="button" class="siimple-btn siimple-btn--success operation-button" (click)="save()"
+            <div class="plans-detail-operations-container">
+                <button type="button" class="siimple-btn siimple-btn--success plans-operation-button" (click)="save()"
                     [class.siimple-btn--disabled]="saving" [disabled]="saving">
                     <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
                     Save
                 </button>
-                <button type="button" class="siimple-btn siimple-btn--primary operation-button"
+                <button type="button" class="siimple-btn siimple-btn--operation plans-operation-button"
                     (click)="saveAndAdopt()" [class.siimple-btn--disabled]="savingAndAdopting"
-                    [disabled]="savingAndAdopting" *ngIf="!plan.id">
-                    <fa-icon [icon]="faAdopt" class="  siimple--mr-1" *ngIf="!savingAndAdopting"></fa-icon>
+                    [disabled]="savingAndAdopting" *ngIf="showAdoptButton">
+                    <fa-icon [icon]="faChild" class="  siimple--mr-1" *ngIf="!savingAndAdopting"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="savingAndAdopting"></fa-icon>
-                    Save and adopt
+                    Adopt
                 </button>
-                <button type="button" *ngIf="plan.id" class="siimple-btn siimple-btn--error operation-button"
+                <button *ngIf="showLeaveButton" class="siimple-btn adopt-plan-button siimple-btn--operation plans-operation-button" (click)="leave()"
+                    [disabled]="leaving">
+                    <fa-icon [icon]="faMinusCircle" class="siimple--mr-1" *ngIf="!leaving"></fa-icon>
+                    <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="leaving"></fa-icon>
+                    Abandon
+                </button>
+                <button type="button" *ngIf="plan.id" class="siimple-btn siimple-btn--error plans-operation-button plans-operation-button-delete"
                     (click)="toggleDeleteModal()" [class.siimple-btn--disabled]="deleting" [disabled]="deleting">
-                    <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
-                    <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-                    Delete
+                    <fa-icon [icon]="faTrash" class="" *ngIf="!deleting"></fa-icon>
+                    <fa-icon [icon]="faCircleNotch" [spin]=true class="" *ngIf="deleting"></fa-icon>
+                    <span class="plans-operation-label-delete">Delete</span>
                 </button>
             </div>
         </form>

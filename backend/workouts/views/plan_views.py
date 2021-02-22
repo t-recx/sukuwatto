@@ -147,69 +147,81 @@ def adopt_plan(request, pk):
         if user is None or isinstance(user, AnonymousUser):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        plan.pk = None
-        plan.id = None
-        plan.parent_plan_id = pk
-        plan.user = user
-        plan.public = False
-        plan.save()
+        adopted_plan = None
 
-        plan_progressions = PlanProgressionStrategy.objects.filter(plan__id=pk)
-        for plan_progression in plan_progressions:
-            plan_progression.pk = None
-            plan_progression.id = None
-            plan_progression.plan = plan
-            plan_progression.save()
+        if plan.user == user and plan.parent_plan_id is not None and not plan.adoption_users.exists():
+            # this plan has been cloned before by this user, but has no adopted users
+            # so instead of cloning again, we'll just re-use it
+            adopted_plan = plan
+        else:
+            adopted_plan = clone_plan(plan, pk, user)
 
-        sessions = PlanSession.objects.filter(plan__id=pk)
-        for session in sessions:
-            plan_session_progressions = PlanSessionProgressionStrategy.objects.filter(plan_session__id=session.id)
-            groups = PlanSessionGroup.objects.filter(plan_session__id=session.id)
+        adopted_plan.adoption_users.add(user)
 
-            session.pk = None
-            session.id = None
-            session.plan = plan
-            session.save()
-
-            for plan_session_progression in plan_session_progressions:
-                plan_session_progression.pk = None
-                plan_session_progression.id = None
-                plan_session_progression.plan_session = session
-                plan_session_progression.save()
-
-            for group in groups:
-                plan_session_group_progressions = PlanSessionGroupProgressionStrategy.objects.filter(plan_session_group__id=group.id)
-
-                exercises = PlanSessionGroupExercise.objects.filter(plan_session_group__id=group.id)
-                warmups = PlanSessionGroupWarmUp.objects.filter(plan_session_group__id=group.id)
-
-                group.pk = None
-                group.id = None
-                group.plan_session = session
-                group.save()
-
-                for exercise in exercises:
-                    exercise.pk = None
-                    exercise.id = None
-                    exercise.plan_session_group = group
-                    exercise.save()
-
-                for warmup in warmups:
-                    warmup.pk = None
-                    warmup.id = None
-                    warmup.plan_session_group = group
-                    warmup.save()
-
-                for plan_session_group_progression in plan_session_group_progressions:
-                    plan_session_group_progression.pk = None
-                    plan_session_group_progression.id = None
-                    plan_session_group_progression.plan_session_group = group
-                    plan_session_group_progression.save()
-
-        updated_plan = Plan.objects.get(pk=plan.pk)
-
-        plan.adoption_users.add(user)
-
-        serializer = PlanSerializer(updated_plan)
+        serializer = PlanSerializer(adopted_plan)
 
         return Response(serializer.data)
+
+def clone_plan(plan, pk, user):
+    plan.pk = None
+    plan.id = None
+    plan.parent_plan_id = pk
+    plan.user = user
+    plan.public = False
+    plan.save()
+
+    plan_progressions = PlanProgressionStrategy.objects.filter(plan__id=pk)
+    for plan_progression in plan_progressions:
+        plan_progression.pk = None
+        plan_progression.id = None
+        plan_progression.plan = plan
+        plan_progression.save()
+
+    sessions = PlanSession.objects.filter(plan__id=pk)
+    for session in sessions:
+        plan_session_progressions = PlanSessionProgressionStrategy.objects.filter(plan_session__id=session.id)
+        groups = PlanSessionGroup.objects.filter(plan_session__id=session.id)
+
+        session.pk = None
+        session.id = None
+        session.plan = plan
+        session.save()
+
+        for plan_session_progression in plan_session_progressions:
+            plan_session_progression.pk = None
+            plan_session_progression.id = None
+            plan_session_progression.plan_session = session
+            plan_session_progression.save()
+
+        for group in groups:
+            plan_session_group_progressions = PlanSessionGroupProgressionStrategy.objects.filter(plan_session_group__id=group.id)
+
+            exercises = PlanSessionGroupExercise.objects.filter(plan_session_group__id=group.id)
+            warmups = PlanSessionGroupWarmUp.objects.filter(plan_session_group__id=group.id)
+
+            group.pk = None
+            group.id = None
+            group.plan_session = session
+            group.save()
+
+            for exercise in exercises:
+                exercise.pk = None
+                exercise.id = None
+                exercise.plan_session_group = group
+                exercise.save()
+
+            for warmup in warmups:
+                warmup.pk = None
+                warmup.id = None
+                warmup.plan_session_group = group
+                warmup.save()
+
+            for plan_session_group_progression in plan_session_group_progressions:
+                plan_session_group_progression.pk = None
+                plan_session_group_progression.id = None
+                plan_session_group_progression.plan_session_group = group
+                plan_session_group_progression.save()
+
+    cloned_plan = Plan.objects.get(pk=plan.pk)
+
+    return cloned_plan

@@ -32,11 +32,11 @@ class PostTestCase(CRUDTestCaseMixin, APITestCase):
 class CommentTestCase(CRUDTestCaseMixin, APITestCase):
     def setUp(self):
         self.staff_user = { 'username': 'staff', 'password': 'test', 'email': 'test@test.org'}
-        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
-        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
-        self.user_novice = { 'username': 'novice', 'password': 'novice', 'email': 'test@test.org'}
-        self.user_intermediate = { 'username': 'intermediate', 'password': 'intermediate', 'email': 'test@test.org'}
-        self.user_advanced = { 'username': 'advanced', 'password': 'advanced', 'email': 'test@test.org'}
+        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test1@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test2@test.org'}
+        self.user_novice = { 'username': 'novice', 'password': 'novice', 'email': 'test3@test.org'}
+        self.user_intermediate = { 'username': 'intermediate', 'password': 'intermediate', 'email': 'test4@test.org'}
+        self.user_advanced = { 'username': 'advanced', 'password': 'advanced', 'email': 'test5@test.org'}
         self.create_user(self.user1, tier='n')
         self.create_user(self.user2, tier='n')
         self.create_user(self.user_novice, tier='n')
@@ -152,7 +152,7 @@ class CommentTestCase(CRUDTestCaseMixin, APITestCase):
 class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
     def setUp(self):
         self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
-        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test2@test.org'}
         self.create_user(self.user1)
         self.create_user(self.user2)
 
@@ -208,7 +208,7 @@ class MessageTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
     def setUp(self):
         self.message_service = MessageService()
         self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
-        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test2@test.org'}
         self.user1_instance = self.create_user(self.user1)
         self.user2_instance = self.create_user(self.user2)
 

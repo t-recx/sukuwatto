@@ -1,0 +1,17 @@
+.exercises-detail-operations-container {
+    margin-top: 10px;
+}
+
+.exercises-operation-button:not(:last-child) {
+    margin-right: 10px !important;
+}
+
+.exercises-detail-operations-container {
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .exercises-operation-button {
+        width: 100%;
+    }
+}

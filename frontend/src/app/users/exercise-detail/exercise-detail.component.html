@@ -21,8 +21,8 @@
 
         <div class="detail-operations-separator"></div>
 
-        <div class="detail-operations-container">
-            <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success operation-button" (click)="save()"
+        <div class="exercises-detail-operations-container">
+            <button *ngIf="showSaveButton()" class="siimple-btn siimple-btn--success exercises-operation-button" (click)="save()"
                 [class.siimple-btn--disabled]="saving"
                 [disabled]="saving"
             >
@@ -30,7 +30,7 @@
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
                 Save
             </button>
-            <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error  operation-button"
+            <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error  exercises-operation-button"
                 [class.siimple-btn--disabled]="deleting"
                 [disabled]="deleting"
                 (click)="showDeleteModal()">

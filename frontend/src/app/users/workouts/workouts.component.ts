@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { WorkoutsService } from '../workouts.service';
 import { Workout } from '../workout';
 import { AuthService } from 'src/app/auth.service';
@@ -11,6 +11,7 @@ import { LoadingService } from '../loading.service';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { UserVisibleChartData } from '../user-available-chart-data';
 
 @Component({
   selector: 'app-workouts',
@@ -47,6 +48,23 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   lastSearchedFilter = '';
 
+  chartDataVisibility = new UserVisibleChartData({
+    show_compound_exercises: true,
+    show_distance_exercises: true,
+    show_distance_exercises_last_month: true,
+    show_isolation_exercises: true });
+
+  chartsVisible = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.setChartVisibility();
+  }
+
+  setChartVisibility() {
+    this.chartsVisible = window.innerWidth <= 1280;
+  }
+
   constructor(
     private workoutsService: WorkoutsService,
     private authService: AuthService,
@@ -71,6 +89,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.setChartVisibility();
     this.lastSearchedFilter = '';
     this.setupSearch();
   }

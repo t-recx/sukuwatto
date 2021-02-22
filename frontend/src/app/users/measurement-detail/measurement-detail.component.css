@@ -1,0 +1,18 @@
+.body-detail-operations-container {
+    margin-top: 10px;
+}
+
+.body-operation-button:not(:last-child) {
+    margin-right: 10px !important;
+}
+
+.body-detail-operations-container {
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .body-operation-button {
+        width: 100%;
+    }
+}
+

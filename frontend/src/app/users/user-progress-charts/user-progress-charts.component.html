@@ -6,7 +6,7 @@
         <fa-icon [icon]="faArrowLeft"></fa-icon>
       </button>
 
-      <span class="current-series siimple--text-bold siimple--bg-light siimple--rounded" align="center">
+      <span class="current-series siimple--text-bold siimple--bg-light siimple--rounded" align="center" *ngIf="currentChart">
         {{currentChart.name}}
       </span>
 
@@ -18,11 +18,11 @@
     <div *ngIf="currentProgressData">
       <div *ngIf="currentProgressData.type == UserProgressChartType.Line ||
                   currentProgressData.type == UserProgressChartType.Area">
-        <app-user-progress-chart [progressData]=currentProgressData>
+        <app-user-progress-chart [width]="chartWidth" [progressData]=currentProgressData>
         </app-user-progress-chart>
       </div>
       <div *ngIf="currentProgressData.type == UserProgressChartType.Pie">
-        <app-pie-chart [progressData]=currentProgressData>
+        <app-pie-chart [width]="chartWidth" [progressData]=currentProgressData>
         </app-pie-chart>
       </div>
     </div>

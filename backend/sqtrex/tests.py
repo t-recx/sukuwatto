@@ -28,8 +28,8 @@ class UserTestCaseMixin():
 class CRUDTestCaseMixin(ABC, UserTestCaseMixin, AuthTestCaseMixin):
     def setUp(self):
         self.staff_user = { 'username': 'staff', 'password': 'test', 'email': 'test@test.org'}
-        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
-        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
+        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test1@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test2@test.org'}
         self.create_user(self.user1)
         self.create_user(self.user2)
         self.create_user(self.staff_user, True)

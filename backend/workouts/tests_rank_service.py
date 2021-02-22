@@ -9,12 +9,12 @@ class RankServiceTestCase(UserTestCaseMixin, TestCase):
     def setUp(self):
         self.rank_service = RankService()
 
-        self.user1 = self.create_user({'username': 'one', 'password':'pass'})
-        self.user2 = self.create_user({'username': 'two', 'password':'pass'})
-        self.user3 = self.create_user({'username': 'three', 'password':'pass'})
-        self.user4 = self.create_user({'username': 'four', 'password':'pass'})
-        self.user5 = self.create_user({'username': 'five', 'password':'pass'})
-        self.user6 = self.create_user({'username': 'six', 'password':'pass'})
+        self.user1 = self.create_user({'username': 'one', 'password':'pass', 'email': 'one@o.org'})
+        self.user2 = self.create_user({'username': 'two', 'password':'pass', 'email': 'two@o.org'})
+        self.user3 = self.create_user({'username': 'three', 'password':'pass', 'email': 'three@o.org'})
+        self.user4 = self.create_user({'username': 'four', 'password':'pass', 'email': 'four@o.org'})
+        self.user5 = self.create_user({'username': 'five', 'password':'pass', 'email': 'five@o.org'})
+        self.user6 = self.create_user({'username': 'six', 'password':'pass', 'email': 'six@o.org'})
 
         self.one = WeeklyLeaderboardPosition.objects.create(experience=1000, user=self.user1)
         self.two = WeeklyLeaderboardPosition.objects.create(experience=500, user=self.user2)

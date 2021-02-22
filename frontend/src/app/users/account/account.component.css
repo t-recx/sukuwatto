@@ -1,3 +1,9 @@
  .error-label::first-letter {
      text-transform: uppercase;
  }
+
+ @media screen and (max-width: 345px) {
+    .account-settings-label {
+        display: none;
+    }
+ }

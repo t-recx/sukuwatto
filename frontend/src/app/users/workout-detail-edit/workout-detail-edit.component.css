@@ -1,0 +1,31 @@
+.workouts-detail-operations-container {
+    margin-top: 10px;
+}
+
+.workouts-operation-button:not(:last-child) {
+    margin-right: 10px !important;
+}
+
+.workouts-detail-operations-container {
+    display: flex;
+}
+
+.workouts-operation-label-delete{
+    margin-left: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .workouts-operation-button {
+        width: 100%;
+    }
+
+    .workouts-operation-button-delete {
+        width: unset !important;
+    }
+
+    .workouts-operation-label-delete {
+        display: none;
+        margin-left: 0px !important;
+    }
+}
+

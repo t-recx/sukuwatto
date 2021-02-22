@@ -10,6 +10,11 @@
     </div>
 </div>
 
+<div *ngIf="chartsVisible">
+    <app-user-progress-charts [username]=username [visibleChartData]="chartDataVisibility" *ngIf="chartDataVisibility">
+    </app-user-progress-charts>
+</div>
+
 <table
     class="phones-only row-border hover siimple-table siimple-table--striped siimple-table--border siimple-table--hover">
     <thead class="siimple-table-header">
