@@ -9,6 +9,10 @@
   </div>
 </div>
 
+<div class="workouts-chart-container" *ngIf="chartsVisible">
+    <app-user-progress-charts [username]=username [visibleChartData]="chartDataVisibility" *ngIf="chartDataVisibility">
+    </app-user-progress-charts>
+</div>
 
 <div class="search-box">
   <div class="siimple-grid">

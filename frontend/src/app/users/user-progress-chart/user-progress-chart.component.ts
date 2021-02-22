@@ -12,10 +12,12 @@ import { ChartCategory } from '../chart-category';
 })
 export class UserProgressChartComponent implements OnInit, OnChanges {
     @Input() progressData: UserProgressChartData;
+    @Input() width: number;
 
     hiddenSeries: string[] = [];
     colors = {};
     hostElement; // Native element hosting the SVG container
+    showLegend = true;
 
     constructor(
         private elRef: ElementRef,
@@ -27,10 +29,8 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.progressData) {
-            this.hiddenSeries = [];
-            this.createChart();
-        }
+        this.hiddenSeries = [];
+        this.createChart();
     }
 
     toggle(series: UserProgressChartSeries): void {
@@ -49,6 +49,10 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
     }
 
     private createChart() {
+        if (!this.width || this.width <= 0) {
+            return;
+        }
+
         d3.select(this.hostElement).select('.svg-chart').select('svg').remove();
 
         if (!this.progressData || !this.progressData.dates || this.progressData.dates.length == 0 || 
@@ -56,9 +60,9 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             return;
         }
 
-        let margin = ({ top: 10, right: 20, bottom: 20, left: 30 });
-        let width= 290;
+        let margin = ({ top: 10, right: 10, bottom: 20, left: 35 });
         let height= 180;
+        let width = this.width;
 
         const svg = d3.select(this.hostElement).select('.svg-chart').append('svg')
             .attr('viewBox', '0 0 ' + width + ' ' + height)
@@ -81,6 +85,10 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             }
 
             maxY += delta;
+            this.showLegend = false;
+        }
+        else {
+            this.showLegend = true;
         }
 
         let y = d3.scaleLinear()
@@ -88,7 +96,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             .range([height - margin.bottom, margin.top])
 
         //const fontSize = environment.application ? 10 : 8;
-        const fontSize = 8;
+        const fontSize = 12;
 
         let ticksX;
 

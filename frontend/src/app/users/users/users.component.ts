@@ -87,12 +87,20 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     show_distance_exercises_last_month: true,
     show_isolation_exercises: true });
 
+  rightSideBarVisible = false;
+
+  setRightSideBarVisible() {
+    this.rightSideBarVisible = window.innerWidth > 1280;
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     if (!this.menuDropDownVisible) {
       this.dropDownHidden = true;
       setTimeout(() => this.dropDownHidden = false, this.transitionMenuMsDefault);
     }
+
+    this.setRightSideBarVisible();
 
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
@@ -234,6 +242,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    this.setRightSideBarVisible();
+
     this.username = this.authService.getUsername();
 
     this.pausedSubscription = this.cordovaService.paused.subscribe(() => this.serialize());

@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { faWeight } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { ErrorService } from 'src/app/error.service';
 import { LoadingService } from '../loading.service';
 import { Paginated } from '../paginated';
 import { UnitsService } from '../units.service';
+import { UserVisibleChartData } from '../user-available-chart-data';
 import { UserBioData } from '../user-bio-data';
 import { UserBioDataService } from '../user-bio-data.service';
 
@@ -31,12 +32,27 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
   measurements: UserBioData[] = [];
   paginatedMeasurements: Paginated<UserBioData>;
 
+  chartDataVisibility = new UserVisibleChartData({
+    show_bio_data_records: true,
+    show_weight_records: true });
+
   link: any;
 
   queryParams: {};
 
   sortIndex = 0;
   columnOrder = {};
+
+  chartsVisible = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.setChartVisibility();
+  }
+
+  setChartVisibility() {
+    this.chartsVisible = window.innerWidth <= 1280;
+  }
 
   getUnitCode(id: number): string {
     return this.unitsService.getUnitCode(id);
@@ -120,6 +136,7 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.setChartVisibility();
   }
 
   loadParameterDependentData(username: string, page: string, ordering: string) {

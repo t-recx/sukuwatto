@@ -8,9 +8,9 @@ from sqtrex.tests import CRUDTestCaseMixin, AuthTestCaseMixin, UserTestCaseMixin
 class FeatureTestCase(CRUDTestCaseMixin, APITestCase):
     def setUp(self):
         self.staff_user = { 'username': 'staff', 'password': 'test', 'email': 'test@test.org'}
-        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test@test.org'}
-        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test@test.org'}
-        self.user_novice = { 'username': 'novice', 'password': 'novice', 'email': 'test@test.org'}
+        self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test2@test.org'}
+        self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test3@test.org'}
+        self.user_novice = { 'username': 'novice', 'password': 'novice', 'email': 'test4@test.org'}
         self.create_user(self.user1, tier='a')
         self.create_user(self.user2, tier='a')
         self.create_user(self.user_novice, tier='n')
@@ -77,7 +77,7 @@ class FeatureTestCase(CRUDTestCaseMixin, APITestCase):
 class ReleaseTestCase(AuthTestCaseMixin, UserTestCaseMixin, APITestCase):
     def setUp(self):
         self.staff_user = { 'username': 'staff', 'password': 'test', 'email': 'test@test.org'}
-        self.regular_user = { 'username': 'novice', 'password': 'novice', 'email': 'test@test.org'}
+        self.regular_user = { 'username': 'novice', 'password': 'novice', 'email': 'test1@test.org'}
         self.create_user(self.staff_user, True)
         self.create_user(self.regular_user)
 

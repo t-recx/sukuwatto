@@ -96,7 +96,7 @@
 
 <div *ngIf="allowed && user && !loading">
     <div class="toolbar">
-        <div class="toolbar-title">Account settings</div>
+        <div class="toolbar-title">Account <span class="account-settings-label">settings</span></div>
     </div>
 
     <div class="siimple-tabs siimple--mt-2 siimple--mb-2">
@@ -394,13 +394,13 @@
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
             Save
         </button>
-        <button class="siimple-btn siimple-btn--warning operation-button" (click)="showPasswordModal()"
+        <button class="siimple-btn siimple-btn--operation operation-button" (click)="showPasswordModal()"
             type="button"
         >
             <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
             Change password
         </button>
-        <button class="siimple-btn siimple-btn--primary operation-button" (click)="confirmRequestPersonalData()"
+        <button class="siimple-btn siimple-btn--operation operation-button" (click)="confirmRequestPersonalData()"
             type="button"
             [class.siimple-btn--disabled]="requesting" [disabled]="requesting">
             <fa-icon [icon]="faFileArchive" class="  siimple--mr-1" *ngIf="!requesting"></fa-icon>

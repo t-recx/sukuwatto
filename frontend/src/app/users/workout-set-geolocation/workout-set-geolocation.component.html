@@ -4,7 +4,7 @@
     [leafletFitBounds]="fitBounds" (leafletMapReady)="onMapReady($event)">
     <div *ngIf="route" [leafletLayer]="route"></div>
 
-    <button class="stats-button siimple-btn siimple-btn--primary" type="button" (click)="showStats()"
+    <button class="stats-button siimple-btn siimple-btn--dark" type="button" (click)="showStats()"
         *ngIf="allowEdit">
         <fa-icon [icon]="faChartBar"></fa-icon>
     </button>
@@ -12,7 +12,7 @@
     <div *ngIf="allowEdit">
         <button type="button" class="siimple-btn 
             siimple-btn--small
-            siimple-btn--primary size-button" (click)="toggleMaximize()"
+            siimple-btn--dark size-button" (click)="toggleMaximize()"
             *ngIf="allowToggleSize">
             <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
             <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
@@ -30,7 +30,7 @@
             {{startText}}
         </button>
 
-        <button class="recenter-button siimple-btn siimple-btn--primary" type="button" (click)="recenter()"
+        <button class="recenter-button siimple-btn siimple-btn--dark" type="button" (click)="recenter()"
             *ngIf="workoutActivity.collectingPositions && workoutActivity.userOperatingMap">
             <fa-icon [icon]="faDotCircle"></fa-icon>
         </button>
@@ -117,7 +117,7 @@
         </div>
 
         <div class=" stats-footer">
-            <button type="button" class="siimple-btn siimple-btn--primary map-button" (click)="showMap()">
+            <button type="button" class="siimple-btn siimple-btn--operation map-button" (click)="showMap()">
                 <fa-icon [icon]="faMapMarkedAlt" class=""></fa-icon>
             </button>
 
@@ -142,7 +142,7 @@
                 </button>
 
                 <button type="button" class="siimple--ml-2 siimple-btn 
-                                siimple-btn--primary siimple--float-right" (click)="toggleMaximize()"
+                                siimple-btn--operation siimple--float-right" (click)="toggleMaximize()"
                                 *ngIf="allowToggleSize" >
                     <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
                     <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angu
 import { PlansService } from '../plans.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from '../plan';
-import { faCalendarPlus, faTimesCircle, faSave, faTrash, faCircleNotch, faAudioDescription, faChild } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faTimesCircle, faSave, faTrash, faCircleNotch, faAudioDescription, faChild, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { PlanSession } from '../plan-session';
 import { AuthService } from 'src/app/auth.service';
 import { AlertService } from 'src/app/alert/alert.service';
@@ -21,9 +21,13 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   faTimesCircle = faTimesCircle;
 
   faSave = faSave;
-  faAdopt = faChild;
+  faChild = faChild;
+  faMinusCircle = faMinusCircle;
   faTrash = faTrash;
   faCircleNotch = faCircleNotch;
+
+  showAdoptButton: boolean = false;
+  showLeaveButton: boolean = false;
 
   plan: Plan;
   selectedSession: PlanSession;
@@ -33,6 +37,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   userIsOwner: boolean = false;
 
+  leaving: boolean = false;
   loading: boolean = false;
   saving: boolean = false;
   savingAndAdopting: boolean = false;
@@ -168,6 +173,8 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           if (this.plan.sessions && this.plan.sessions.length > 0) {
             this.selectedSession = this.plan.sessions[0];
           }
+
+          this.setAdoptButtonVisibility();
         }
         else {
           this.notFound = true;
@@ -180,6 +187,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     else {
       this.plan = new Plan();
       this.userIsOwner = true;
+      this.setAdoptButtonVisibility();
     }
   }
 
@@ -279,5 +287,37 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.deleting = false;
       this.goBackToList();
     });
+  }
+
+  setAdoptButtonVisibility() {
+    if (this.authService.isLoggedIn() && this.plan.id) {
+      this.service.isAdopted(this.plan.id, +this.authService.getUserId()).subscribe(itIs => {
+        if (itIs) {
+          this.showAdoptButton = false;
+          this.showLeaveButton = true;
+        }
+        else {
+          this.showAdoptButton = true;
+          this.showLeaveButton = false;
+        }
+      });
+    }
+    else {
+      this.showAdoptButton = true;
+      this.showLeaveButton = false;
+    }
+  }
+
+  leave() {
+    this.leaving = true;
+    this.service.leavePlan(this.plan).subscribe(savedPlan =>
+      {
+        this.leaving = false;
+        this.goBackToList();
+      });
+  }
+
+  planAdopted() {
+    this.router.navigate(['/users', this.authService.getUsername(), 'adopted-plans']);
   }
 }

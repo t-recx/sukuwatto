@@ -97,7 +97,7 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showWorkingParameters()">
+                        <button class="siimple-btn siimple-btn--operation siimple-btn--fluid" type="button" (click)="showWorkingParameters()">
                             <fa-icon [icon]="faWeightHanging" class="siimple--mr-1"></fa-icon>
                             Parameters
                         </button>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--6 siimple--py-0">
                     <div class="siimple-form-field">
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="showUserBioData()">
+                        <button class="siimple-btn siimple-btn--operation siimple-btn--fluid" type="button" (click)="showUserBioData()">
                             <fa-icon [icon]="faWeight" class="siimple--mr-1"></fa-icon>
                             Body
                         </button>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <button class="siimple-btn siimple-btn--primary siimple-btn--fluid" type="button" (click)="toggleNotesVisibility()">
+                        <button class="siimple-btn siimple-btn--operation siimple-btn--fluid" type="button" (click)="toggleNotesVisibility()">
                             <fa-icon [icon]="faBook" class="siimple--mr-1" *ngIf="!notesVisibility"></fa-icon>
                             <fa-icon [icon]="faBookOpen" class="siimple--mr-1" *ngIf="notesVisibility"></fa-icon>
                             Notes
@@ -142,7 +142,7 @@
                     </app-workout-group>
                 </div>
             </div>
-            <button class="siimple-btn siimple-btn--primary new-group-button" type="button" (click)="newGroup()">
+            <button class="siimple-btn siimple-btn--operation new-group-button" type="button" (click)="newGroup()">
                 <fa-icon [icon]="faLayerGroup" class="siimple--mr-1"></fa-icon>
                 New group
             </button>
@@ -150,8 +150,8 @@
 
         <div class="detail-operations-separator"></div>
         
-        <div class="detail-operations-container">
-            <button class="siimple-btn siimple-btn--primary operation-button" (click)="save()" 
+        <div class="workouts-detail-operations-container">
+            <button class="siimple-btn siimple-btn--primary workouts-operation-button" (click)="save()" 
                 type="button"
                 [disabled]="saving"
                 [class.siimple-btn--disabled]="saving">
@@ -159,7 +159,7 @@
                 <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="saving"></fa-icon>
                 Save
             </button>
-            <button class="siimple-btn siimple-btn--success operation-button" (click)="showFinishWorkoutModal()"
+            <button class="siimple-btn siimple-btn--success workouts-operation-button" (click)="showFinishWorkoutModal()"
                 type="button"
                 [disabled]="finishing"
                 [class.siimple-btn--disabled]="finishing">
@@ -167,13 +167,13 @@
                 <fa-icon [icon]="faCircleNotch" class="  siimple--mr-1" [spin]=true *ngIf="finishing"></fa-icon>
                 Finish
             </button>
-            <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error operation-button" (click)="toggleDeleteModal()"
+            <button *ngIf="workout.id && workout.id > 0" class="siimple-btn siimple-btn--error workouts-operation-button workouts-operation-button-delete" (click)="toggleDeleteModal()"
                 type="button"
                 [disabled]="deleting"
                 [class.siimple-btn--disabled]="deleting">
-                <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
-                <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="deleting"></fa-icon>
-                Delete
+                <fa-icon [icon]="faTrash" class="" *ngIf="!deleting"></fa-icon>
+                <fa-icon [icon]="faCircleNotch" class="" [spin]=true *ngIf="deleting"></fa-icon>
+                <span class="workouts-operation-label-delete">Delete</span>
             </button>
         </div>
     </form>

@@ -6,7 +6,7 @@
         <input #fileInputControl type="file" id="file" class="siimple-input siimple-input--fluid siimple--mt-2" accept="image/*"
             [disabled]="uploading" (change)="onChange($event)" />
         <div class="image-input-container siimple-btn-group">
-            <label class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--mt-2"
+            <label class="siimple-btn siimple-btn--operation siimple-btn--fluid siimple--mt-2"
                 [class.siimple-btn--disabled]="uploading" for="file">
                 <fa-icon [icon]="faFileImport" class="siimple--mr-1" *ngIf="!uploading"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="uploading"></fa-icon>

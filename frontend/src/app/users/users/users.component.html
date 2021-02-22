@@ -63,7 +63,7 @@
             <div class="siimple-grid-col siimple-grid-col--7 siimple-grid-col-sm--12 siimple-grid-col-md--12 siimple-grid-col-xl--10">
                 <router-outlet></router-outlet>
             </div>
-            <div class="siimple-grid-col siimple-grid-col--3 siimple--display-xl-none">
+            <div class="siimple-grid-col siimple-grid-col--3" *ngIf="rightSideBarVisible">
                 <app-user-profile-level [username]=username></app-user-profile-level>
                 <div *ngIf="isRouterLinkBody || isRouterLinkWorkouts">
                     <app-user-progress-charts [username]=username [visibleChartData]="chartDataVisibility" *ngIf="chartDataVisibility">

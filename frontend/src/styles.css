@@ -499,3 +499,8 @@ ul {
         width: 100%;
     }
 }
+
+.siimple-btn--operation {
+  background-color: #dde5ee;
+  color: #546778;
+}

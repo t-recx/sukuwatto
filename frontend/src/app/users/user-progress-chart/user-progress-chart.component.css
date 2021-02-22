@@ -24,6 +24,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: calc(100% - 15px - 0.5em);
+    color: #546778;
 }
 
 .hidden-chart-legend-label {

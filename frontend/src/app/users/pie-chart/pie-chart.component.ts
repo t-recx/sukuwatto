@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PieChartComponent implements OnInit, OnChanges {
   @Input() progressData: UserProgressChartData;
+  @Input() width;
   data: PieChartSeries[];
 
   hostElement; // Native element hosting the SVG container
@@ -25,9 +26,7 @@ export class PieChartComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.progressData) {
-      this.createChart();
-    }
+    this.createChart();
   }
 
   private arcLabel(width, height) {
@@ -45,6 +44,10 @@ export class PieChartComponent implements OnInit, OnChanges {
   }
 
   private createChart() {
+    if (!this.width || this.width <= 0) {
+      return;
+    }
+
     d3.select(this.hostElement).select('.svg-chart').select('svg').remove();
 
     this.convertData();
@@ -53,8 +56,14 @@ export class PieChartComponent implements OnInit, OnChanges {
       return;
     }
 
-    let width = 290;
-    let height = 180;
+    let size = this.width;
+
+    if (size > 300) {
+      size = 300;
+    }
+
+    let width = size;
+    let height = size;
 
     let color = d3.scaleOrdinal<string>()
       .domain(this.data.map(d => d.name))
@@ -87,7 +96,7 @@ export class PieChartComponent implements OnInit, OnChanges {
       .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}%`);
 
     
-    const fontSize = environment.application ? 10 : 8;
+    const fontSize = 12;
 
     svg.append("g")
       .attr("font-family", "sans-serif")

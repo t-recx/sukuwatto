@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, OnDestroy, ElementRef, HostListener, AfterViewInit, AfterViewChecked, AfterContentInit } from '@angular/core';
 import { UserProgressService } from '../user-progress.service';
 import { Mechanics } from '../exercise';
 import { UserProgressData } from '../user-progress-data';
@@ -19,10 +19,11 @@ import { UserBioDataService } from '../user-bio-data.service';
     templateUrl: './user-progress-charts.component.html',
     styleUrls: ['./user-progress-charts.component.css']
 })
-export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy {
+export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {
     @Input() username: string;
     @Input() visibleChartData: UserVisibleChartData = null;
 
+    chartWidth: number;
     faArrowLeft = faArrowLeft;
     faArrowRight = faArrowRight;
 
@@ -67,7 +68,14 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
         private loadingService: LoadingService,
         private workoutsService: WorkoutsService,
         private unitsService: UnitsService,
+        private el: ElementRef,
     ) { }
+
+    ngAfterViewChecked(): void {
+        if (!this.chartWidth || this.chartWidth <= 0) {
+            this.adjustChartWidth();
+        }
+    }
 
     ngOnDestroy(): void {
         this.bioDataCreatedSubscription.unsubscribe();
@@ -77,6 +85,15 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
         this.workoutCreatedSubscription.unsubscribe();
         this.workoutUpdatedSubscription.unsubscribe();
         this.workoutDeletedSubscription.unsubscribe();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.adjustChartWidth();
+    }
+
+    adjustChartWidth() {
+        this.chartWidth = this.el.nativeElement.offsetWidth - 30;
     }
 
     ngOnInit(): void {
