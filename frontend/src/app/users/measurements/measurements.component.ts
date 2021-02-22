@@ -51,7 +51,7 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
   }
 
   setChartVisibility() {
-    this.chartsVisible = window.innerWidth <= 1280;
+    this.chartsVisible = !this.authService.isCurrentUserLoggedIn(this.username) || window.innerWidth <= 1280;
   }
 
   getUnitCode(id: number): string {

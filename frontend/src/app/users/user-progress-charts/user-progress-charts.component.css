@@ -24,6 +24,7 @@
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
+    min-height: 34px;
 }
 
 .loading-container {

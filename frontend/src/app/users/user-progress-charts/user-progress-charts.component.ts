@@ -123,6 +123,7 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        this.currentProgressData = null;
         this.loadCharts(true);
     }
 
