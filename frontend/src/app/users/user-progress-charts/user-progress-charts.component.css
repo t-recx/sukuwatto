@@ -1,3 +1,5 @@
+:host { display: block; }
+
 .navigation-previous {
     float: left;
     text-align: left;
