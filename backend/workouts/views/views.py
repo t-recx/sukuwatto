@@ -33,9 +33,6 @@ class FilterByExerciseType(BaseFilterBackend):
         return queryset
 
 class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
-    """
-    API endpoint that allows exercises to be viewed or edited.
-    """
     queryset = Exercise.objects.all().order_by('name')
     serializer_class = ExerciseSerializer
     filter_backends = [SearchFilter, FilterByExerciseType, OrderingFilter]

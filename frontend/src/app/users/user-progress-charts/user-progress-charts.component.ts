@@ -13,6 +13,8 @@ import { Workout } from '../workout';
 import { Observable, of, Subscription } from 'rxjs';
 import { ChartCategory } from '../chart-category';
 import { UserBioDataService } from '../user-bio-data.service';
+import { ChartDistanceMonth } from '../chart-distance-month';
+import { ChartStrength } from '../chart-strength';
 
 @Component({
     selector: 'app-user-progress-charts',
@@ -221,9 +223,6 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
             case ChartCategory.DistanceMonth:
                 this.loadDistanceMonthChart(refresh);
                 break;
-            case ChartCategory.DistanceMonthsComparison:
-                this.loadDistanceMonthComparisonChart(refresh);
-                break;
             case ChartCategory.Isolated:
                 this.loadIsolatedCharts(refresh);
                 break;
@@ -231,33 +230,6 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
                 this.loadCompoundCharts(refresh);
                 break;
         }
-    }
-
-    loadDistanceMonthComparisonChart(refresh = false) {
-        if (this.distanceMonthComparisonData && !refresh) {
-            this.currentProgressData = this.distanceMonthComparisonData;
-            return;
-        }
-
-        this.loadingService.load();
-
-        let workoutObservable: Observable<Workout[]>;
-
-        if (this.workouts && this.workouts.length > 0) {
-            workoutObservable = of(this.workouts);
-        }
-        else {
-            workoutObservable = this.workoutsService.getWorkoutsByDate(this.username, this.date_gte, this.date_lte);
-        }
-
-        workoutObservable.subscribe(workouts => {
-            this.userProgressService.getDistanceMonthComparisonProgress(workouts).subscribe(p => {
-                this.distanceMonthComparisonData = p;
-                this.currentProgressData = this.distanceMonthComparisonData;
-
-                this.loadingService.unload();
-            });
-        });
     }
 
     loadDistanceMonthChart(refresh = false) {
@@ -268,17 +240,12 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
 
         this.loadingService.load();
 
-        let workoutObservable: Observable<Workout[]>;
+        let chartDistanceMonthObservable: Observable<ChartDistanceMonth[]>;
 
-        if (this.workouts && this.workouts.length > 0) {
-            workoutObservable = of(this.workouts);
-        }
-        else {
-            workoutObservable = this.workoutsService.getWorkoutsByDate(this.username, this.date_gte, this.date_lte);
-        }
+        chartDistanceMonthObservable = this.workoutsService.getChartDistanceMonth(this.username, this.date_gte, this.date_lte);
 
-        workoutObservable.subscribe(workouts => {
-            this.userProgressService.getDistanceMonthProgress(workouts, new Date()).subscribe(p => {
+        chartDistanceMonthObservable.subscribe(data => {
+            this.userProgressService.getDistanceMonthProgress(data, new Date()).subscribe(p => {
                 this.distanceMonthData = p;
                 this.currentProgressData = this.distanceMonthData;
 
@@ -295,23 +262,11 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
 
         this.loadingService.load();
 
-        let workoutObservable: Observable<Workout[]>;
+        this.userProgressService.getUserChartStrength(this.username, Mechanics.Isolated, this.date_gte, this.date_lte).subscribe(p => {
+            this.isolatedProgressData = p;
+            this.currentProgressData = this.isolatedProgressData;
 
-        if (this.workouts && this.workouts.length > 0) {
-            workoutObservable = of(this.workouts);
-        }
-        else {
-            workoutObservable = this.workoutsService.getWorkoutsByDate(this.username, this.date_gte, this.date_lte);
-        }
-
-        workoutObservable.subscribe(workouts => {
-            this.userProgressService.getUserStrengthProgress(workouts).subscribe(p => {
-                this.isolatedProgressData = this.getProgressDataByMechanics('Isolation exercises', p, Mechanics.Isolated);
-                this.isolatedProgressData.category = ChartCategory.Isolated;
-                this.currentProgressData = this.isolatedProgressData;
-
-                this.loadingService.unload();
-            });
+            this.loadingService.unload();
         });
     }
 
@@ -323,23 +278,11 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
 
         this.loadingService.load();
 
-        let workoutObservable: Observable<Workout[]>;
+        this.userProgressService.getUserChartStrength(this.username, Mechanics.Compound, this.date_gte, this.date_lte).subscribe(p => {
+            this.compoundProgressData = p;
+            this.currentProgressData = this.compoundProgressData;
 
-        if (this.workouts && this.workouts.length > 0) {
-            workoutObservable = of(this.workouts);
-        }
-        else {
-            workoutObservable = this.workoutsService.getWorkoutsByDate(this.username, this.date_gte, this.date_lte);
-        }
-
-        workoutObservable.subscribe(workouts => {
-            this.userProgressService.getUserStrengthProgress(workouts).subscribe(p => {
-                this.compoundProgressData = this.getProgressDataByMechanics('Compound exercises', p, Mechanics.Compound);
-                this.compoundProgressData.category = ChartCategory.Compound;
-                this.currentProgressData = this.compoundProgressData;
-
-                this.loadingService.unload();
-            });
+            this.loadingService.unload();
         });
     }
 
@@ -399,16 +342,5 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
         this.currentChart = this.availableCharts[this.currentIndex];
         this.currentProgressData = null;
         this.loadChartByType(this.currentChart.chartType, true);
-    }
-
-    getProgressDataByMechanics(n: string, pd: UserProgressData, mechanics: Mechanics) {
-        const npd = new UserProgressChartData();
-
-        npd.name = n;
-        npd.unitCode = pd.unitCode;
-        npd.series = pd.series.filter(x => x.exercise.mechanics == mechanics).map(x => new UserProgressChartSeries(x.exercise.short_name, x.dataPoints.map(y => new UserProgressChartDataPoint(x.exercise.short_name, y.weight, y.date))));
-        npd.dates = [... new Set(npd.series.flatMap(x => x.dataPoints.map(y => y.date)))];
-
-        return npd;
     }
 }

@@ -4,17 +4,13 @@
 </div>
 
 <div class="chart-legend-container" *ngIf="showLegend">
-  <div class="chart-legend siimple-grid " *ngIf="progressData">
-    <div class="siimple-grid-row">
-      <div class="clickable chart-legend-item siimple-grid-col 
-        siimple-grid-col--12"
-        [class.hidden-chart-legend-label]="isHidden(series)" (click)="toggle(series)"
-        *ngFor="let series of progressData.series">
-        <div class="chart-legend-swatch" [style.background-color]="colors[series.name]"></div>
-        <small class="chart-legend-label siimple-small" >
-          {{series.name}}
-        </small>
-      </div>
+  <div class="chart-legend  " *ngIf="progressData">
+    <div class="clickable chart-legend-item" [class.hidden-chart-legend-label]="isHidden(series)" (click)="toggle(series)"
+      *ngFor="let series of progressData.series">
+      <div class="chart-legend-swatch" [style.background-color]="colors[series.name]"></div>
+      <small class="chart-legend-label siimple-small">
+        {{series.name}}
+      </small>
     </div>
   </div>
 </div>

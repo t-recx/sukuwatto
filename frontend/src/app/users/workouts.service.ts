@@ -15,6 +15,9 @@ import { GeoTrackingType, GeoView } from './workout-set-geolocation/workout-set-
 import { WorkoutSetTimeSegment } from './workout-set-time-segment';
 import { UserAvailableChartData } from './user-available-chart-data';
 import { AuthService } from '../auth.service';
+import { ChartDistanceMonth } from './chart-distance-month';
+import { ChartStrength } from './chart-strength';
+import { Mechanics } from './exercise';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +32,8 @@ export class WorkoutsService {
   private workoutGroupLast= `${environment.apiUrl}/workout-group-last/`;
   private workoutLastWorkoutPosition = `${environment.apiUrl}/workout-last-position/`;
   private availableChartDataUrl= `${environment.apiUrl}/user-available-chart-data/`;
+  private chartDistanceMonthURL = `${environment.apiUrl}/chart-distance-month/`;
+  private chartStrengthURL = `${environment.apiUrl}/chart-strength-progress/`;
 
   geolocationActivitiesFinished = new Subject();
 
@@ -74,6 +79,108 @@ export class WorkoutsService {
           this.alertService.error('Unable to fetch available chart data');
         }, null))
       );
+  }
+
+  getChartStrength(username: string, mechanics: Mechanics, date_gte: Date, date_lte: Date): Observable<ChartStrength[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (mechanics) {
+      params = params.set('mechanics', mechanics);
+    }
+
+    if (date_lte) {
+      params = params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (date_gte) {
+      params = params.set('date_gte', date_gte.toISOString());
+    }
+
+    if (username || date_gte || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<ChartStrength[]>(`${this.chartStrengthURL}`, options)
+      .pipe(
+        map(response => {
+          if (response) {
+            response = this.getProperlyTypedChartStrength(response);
+          }
+
+          return response;
+        }),
+        catchError(this.errorService.handleError<ChartStrength[]>('getChartStrength', (e: any) => 
+        {
+          this.alertService.error('Unable to fetch values for chart');
+        }, []))
+      );
+
+  }
+
+  getProperlyTypedChartStrength(values: ChartStrength[]) {
+    if (values) {
+      values.forEach(x => {
+        x.weight = +x.weight;
+        x.weight_unit = +x.weight_unit;
+        x.date = new Date(x.date);
+      });
+    }
+
+    return values;
+  }
+
+  getChartDistanceMonth(username: string, date_gte: Date, date_lte: Date): Observable<ChartDistanceMonth[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date_lte', date_lte.toISOString());
+    }
+
+    if (date_gte) {
+      params = params.set('date_gte', date_gte.toISOString());
+    }
+
+    if (username || date_gte || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<ChartDistanceMonth[]>(`${this.chartDistanceMonthURL}`, options)
+      .pipe(
+        map(response => {
+          if (response) {
+            response = this.getProperlyTypedChartDistanceMonths(response);
+          }
+
+          return response;
+        }),
+        catchError(this.errorService.handleError<ChartDistanceMonth[]>('getChartDistanceMonths', (e: any) => 
+        {
+          this.alertService.error('Unable to fetch values for chart distance/months');
+        }, []))
+      );
+
+  }
+
+  getProperlyTypedChartDistanceMonths(values: ChartDistanceMonth[]) {
+    if (values) {
+      values.forEach(x => {
+        x.distance = +x.distance;
+        x.distance_unit = +x.distance_unit;
+        x.date = new Date(x.date);
+      });
+    }
+
+    return values;
   }
 
   getWorkoutsByDate (username: string, date_gte: Date, date_lte: Date): Observable<Workout[]> {
@@ -404,12 +511,34 @@ export class WorkoutsService {
   getProperlyTypedWorkoutActivities(g: WorkoutSet[]): WorkoutSet[] {
     if (g) {
       g.forEach(activity => {
+        activity.distance_unit = activity.distance_unit ? +activity.distance_unit : activity.distance_unit;
+        activity.speed_unit = activity.speed_unit ? +activity.speed_unit : activity.speed_unit;
+        activity.weight_unit = activity.weight_unit ? +activity.weight_unit : activity.weight_unit;
+        activity.time_unit = activity.time_unit ? +activity.time_unit : activity.time_unit;
+        activity.energy_unit = activity.energy_unit ? +activity.energy_unit : activity.energy_unit;
+
+        activity.plan_distance_unit = activity.plan_distance_unit ? +activity.plan_distance_unit : activity.plan_distance_unit;
+        activity.plan_speed_unit = activity.plan_speed_unit ? +activity.plan_speed_unit : activity.plan_speed_unit;
+        activity.plan_weight_unit = activity.plan_weight_unit ? +activity.plan_weight_unit : activity.plan_weight_unit;
+        activity.plan_time_unit = activity.plan_time_unit ? +activity.plan_time_unit : activity.plan_time_unit;
+
         activity.calories = activity.calories ? +activity.calories : activity.calories;
         activity.speed = activity.speed ? +activity.speed : activity.speed;
         activity.distance = activity.distance ? +activity.distance : activity.distance;
         activity.time = activity.time ? +activity.time : activity.time;
         activity.vo2max = activity.vo2max ? +activity.vo2max : activity.vo2max;
         activity.weight = activity.weight ? +activity.weight : activity.weight;
+
+        activity.expected_speed = activity.expected_speed ? +activity.expected_speed : activity.expected_speed;
+        activity.expected_distance = activity.expected_distance ? +activity.expected_distance : activity.expected_distance;
+        activity.expected_time = activity.expected_time ? +activity.expected_time : activity.expected_time;
+        activity.expected_vo2max = activity.expected_vo2max ? +activity.expected_vo2max : activity.expected_vo2max;
+        activity.expected_weight = activity.expected_weight ? +activity.expected_weight : activity.expected_weight;
+
+        activity.expected_speed_up_to = activity.expected_speed_up_to ? +activity.expected_speed_up_to : activity.expected_speed_up_to;
+        activity.expected_distance_up_to = activity.expected_distance_up_to ? +activity.expected_distance_up_to : activity.expected_distance_up_to;
+        activity.expected_time_up_to = activity.expected_time_up_to ? +activity.expected_time_up_to : activity.expected_time_up_to;
+        activity.expected_vo2max_up_to = activity.expected_vo2max_up_to ? +activity.expected_vo2max_up_to : activity.expected_vo2max_up_to;
 
         activity.working_weight_percentage = activity.working_weight_percentage ? +activity.working_weight_percentage : activity.working_weight_percentage;
         activity.working_speed_percentage = activity.working_speed_percentage ? +activity.working_speed_percentage : activity.working_speed_percentage;

@@ -3,6 +3,9 @@
 }
 
 .chart-legend {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .chart-legend-item {

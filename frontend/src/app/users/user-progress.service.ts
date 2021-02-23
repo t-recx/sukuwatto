@@ -7,9 +7,10 @@ import { UnitsService } from './units.service';
 import { UserBioDataService } from './user-bio-data.service';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartSeries, UserProgressChartType } from './user-progress-chart-data';
 import { Workout } from './workout';
-import { ExerciseType } from './exercise';
+import { ExerciseType, Mechanics } from './exercise';
 import { ChartCategory } from './chart-category';
 import { UserBioData } from './user-bio-data';
+import { ChartDistanceMonth } from './chart-distance-month';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,7 @@ export class UserProgressService {
     private unitsService: UnitsService,
   ) { }
 
-  getDistanceMonthComparisonProgress(workouts: Workout[]): Observable<UserProgressChartData> {
-    return new Observable<UserProgressChartData>(obs => {
-
-    });
-  }
-
-  getDistanceMonthProgress(workouts: Workout[], date: Date): Observable<UserProgressChartData> {
+  getDistanceMonthProgress(sets: ChartDistanceMonth[], date: Date): Observable<UserProgressChartData> {
     return new Observable<UserProgressChartData>(obs => {
       const data = new UserProgressChartData();
       data.category = ChartCategory.DistanceMonth;
@@ -36,22 +31,13 @@ export class UserProgressService {
 
       data.name = "Distance " + date.toLocaleString('en-GB', { month: 'long' });
 
-      const sets = workouts
-      .filter(w => (new Date(w.start)).getMonth() == date.getMonth() && (new Date(w.start)).getFullYear() == date.getFullYear())
-      .map(w => this.unitsService.convertWorkout(w))
-      .map(w => this.unitsService.convertWorkoutDistanceToBiggerUnits(w))
-      .flatMap(w => w
-        .groups.flatMap(g => g.
-          sets.filter(s => s.distance > 0 && s.distance_unit)
-          .flatMap(s => ({set: s, workout: w}))));
+      sets.forEach(w => this.unitsService.convertSetDistanceValueToBiggerUnit(w));
 
-      if (sets.length > 0 && sets[0].set && sets[0].set.distance_unit) {
-        data.unitCode = this.unitsService.getUnitCode(sets[0].set.distance_unit);
+      if (sets.length > 0) {
+        data.unitCode = this.unitsService.getUnitCode(sets[0].distance_unit);
       }
 
-      const rawValues = sets.map(x => new UserProgressChartDataPoint(x.set.exercise.name, x.set.distance,
-        new Date(x.workout.start.getFullYear(), x.workout.start.getMonth(), x.workout.start.getDate())));
-
+      const rawValues = sets.map(x => new UserProgressChartDataPoint(x.exercise_name, x.distance, x.date));
 
       let values: UserProgressChartDataPoint[] = [];
 
@@ -121,6 +107,39 @@ export class UserProgressService {
       o.date));
   }
 
+  getUserChartStrength(username: string, mechanics: Mechanics, date_gte: Date, date_lte: Date) : Observable<UserProgressChartData> {
+    return this.workoutsService.getChartStrength(username, mechanics, date_gte, date_lte).pipe(
+      concatMap(values => new Observable<UserProgressChartData>(obs =>{
+          const data = new UserProgressChartData();
+
+          data.name = (mechanics == Mechanics.Compound ? 'Compound' : 'Isolated') + ' exercises';
+          data.type = UserProgressChartType.Line;
+          data.category = mechanics == Mechanics.Compound ? ChartCategory.Compound : ChartCategory.Isolated;
+
+          values.forEach(v => this.unitsService.convertWeightValue(v));
+
+          data.dates = [...new Set(values.map(x => x.date))];
+          data.series = [...new Set(values.map(x => x.exercise_name))].map(exercise_name =>
+            new UserProgressChartSeries(exercise_name,
+              data
+              .dates
+              .filter(date => values.filter(x => x.date == date && x.exercise_name == exercise_name).length > 0)
+              .map(date => new UserProgressChartDataPoint(exercise_name,
+                // we'll do this on the off chance that we have on the same date different weight units for the same exercise:
+                values
+                .filter(y => y.exercise_name == exercise_name && y.date == date)
+                .reduce((a, b) => a + b.weight, 0),
+                date))));
+
+          if (values.length > 0) {
+            data.unitCode = this.unitsService.getUnitCode(values[0].weight_unit);
+          }
+
+          obs.next(data);
+          obs.complete();
+      })));
+  }
+
   getUserBioDataProgress(username: string): Observable<UserProgressChartData> {
     return this.userBioDataService.getLastUserBodyComposition(username).pipe(
       concatMap(userBioData =>
@@ -173,6 +192,38 @@ export class UserProgressService {
     });
   }
 
+  getUserWeightData(username: string, date_gte: Date, date_lte: Date): Observable<UserProgressChartData> {
+    return this.userBioDataService.getChartWeight(username, date_gte, date_lte).pipe(
+      concatMap(userBioDataRecords =>
+          new Observable<UserProgressChartData>(obs => {
+          let data = new UserProgressChartData();
+          data.category = ChartCategory.Weight;
+          data.name = "Weight";
+
+          const records =
+            userBioDataRecords
+            .filter(w => w.weight_unit)
+            .filter(w => w.weight)
+            .map(ubd => this.unitsService.convertUserBioData(ubd))
+            ;
+
+          const dataPoints = records.map(x => new UserProgressChartDataPoint(data.name, x.weight, x.date));
+
+          if (records.length > 0) {
+            data.unitCode = this.unitsService.getUnitCode(records[0].weight_unit);
+          }
+
+          data.series = [new UserProgressChartSeries("Weight", dataPoints)];
+          data.dates = [...new Set(dataPoints.map(x => x.date))];
+
+          obs.next(data);
+          obs.complete();
+          })
+      ));
+  }
+
+  // still used on the finish workout modal
+  // but should probably be replaced by the methods above eventually...
   getFinishWorkoutStrengthProgress(username: string, finishedWorkout: Workout): Observable<UserProgressData> {
     let date_gte = new Date(finishedWorkout.start);
     date_gte = new Date(date_gte.valueOf() - this.unitsService.monthInMilliseconds);
@@ -237,6 +288,8 @@ export class UserProgressService {
                     .filter(s => s.weight && s.weight_unit && s.weight > 0)
                     .map(s => s.exercise.id))].flatMap(id =>
                       [g.sets
+                        .filter(s => s.done)
+                        .filter(s => s.weight && s.weight_unit && s.weight > 0)
                         .filter(s => s.exercise.id == id)
                         .filter(s => s.exercise.exercise_type == ExerciseType.Strength)
                         .sort((a, b) => b.weight - a.weight)[0]]
@@ -274,34 +327,4 @@ export class UserProgressService {
 
     return transformed;
  }
-
-  getUserWeightData(username: string, date_gte: Date, date_lte: Date): Observable<UserProgressChartData> {
-    return this.userBioDataService.getUserBioDatasByDate(username, date_gte, date_lte).pipe(
-      concatMap(userBioDataRecords =>
-          new Observable<UserProgressChartData>(obs => {
-          let data = new UserProgressChartData();
-          data.category = ChartCategory.Weight;
-          data.name = "Weight";
-
-          const records =
-            userBioDataRecords
-            .filter(w => w.weight_unit)
-            .filter(w => w.weight)
-            .map(ubd => this.unitsService.convertUserBioData(ubd))
-            ;
-
-          const dataPoints = records.map(x => new UserProgressChartDataPoint(data.name, x.weight, x.date));
-
-          if (records.length > 0) {
-            data.unitCode = this.unitsService.getUnitCode(records[0].weight_unit);
-          }
-
-          data.series = [new UserProgressChartSeries("Weight", dataPoints)];
-          data.dates = [...new Set(dataPoints.map(x => x.date))];
-
-          obs.next(data);
-          obs.complete();
-          })
-      ));
-  }
 } 
