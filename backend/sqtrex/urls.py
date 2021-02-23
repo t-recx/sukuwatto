@@ -9,6 +9,7 @@ from workouts.views.views import WeeklyLeaderboardDashboardList, YearlyLeaderboa
 from workouts.views.views import WeeklyLeaderboardList, YearlyLeaderboardList, MonthlyLeaderboardList, AllTimeLeaderboardList
 from workouts.views import plan_views
 from workouts.views import workout_views, user_bio_views
+from workouts.views import chart_views
 from django.conf import settings
 from django.conf.urls.static import static
 from sqtrex.views import ContentTypeList, request_personal_data
@@ -50,6 +51,9 @@ urlpatterns = [
     path('api/workout-group-last/', workout_views.get_last_workout_group, name='workout-group-last'),
     path('api/workout-visible/', workout_views.workout_visible, name='workout-visible'),
     path('api/workout-editable/', workout_views.workout_editable, name='workout-editable'),
+    path('api/chart-distance-month/', chart_views.chart_distance_month, name='chart-distance-month'),
+    path('api/chart-strength-progress/', chart_views.chart_strength_progress, name='chart-strength-progress'),
+    path('api/chart-weight/', chart_views.ChartWeightList.as_view(), name='chart-weight'),
     path('api/user-bio-datas-by-date/', user_bio_views.UserBioDataList.as_view(), name='user-bio-data-by-date'),
     path('api/user-bio-data-last/', user_bio_views.get_last_user_bio_data, name='user-bio-data-last'),
     path('api/user-body-composition-last/', user_bio_views.get_last_user_body_composition, name='user-body-composition-last'),

@@ -16,6 +16,7 @@ export class UserBioDataService {
   private userbiodatabydatesUrl= `${environment.apiUrl}/user-bio-datas-by-date/`;
   private userbiodataLast= `${environment.apiUrl}/user-bio-data-last/`;
   private userBodyCompositionLast= `${environment.apiUrl}/user-body-composition-last/`;
+  private chartWeightUrl= `${environment.apiUrl}/chart-weight/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -30,6 +31,42 @@ export class UserBioDataService {
     private errorService: ErrorService,
     private alertService: AlertService
   ) { }
+
+  getChartWeight(username: string, date_gte: Date, date_lte: Date): Observable<UserBioData[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (username) {
+      params = params.set('user__username', username);
+    }
+
+    if (date_lte) {
+      params = params.set('date__lte', date_lte.toISOString());
+    }
+
+    if (date_gte) {
+      params = params.set('date__gte', date_gte.toISOString());
+    }
+
+    if (username || date_gte || date_lte) {
+      options = {params: params};
+    }
+
+    return this.http.get<UserBioData[]>(`${this.chartWeightUrl}`, options)
+      .pipe(
+        map(response => {
+          if (response) {
+            response = this.getProperlyTypedUserBioDatas(response);
+          }
+          return response;
+        }),
+        catchError(this.errorService.handleError<UserBioData[]>('getChartWeight', (e: any) => 
+        { 
+          this.alertService.error('Unable to fetch weight chart');
+        }, []))
+      );
+  }
+
 
   getUserBioDatasByDate (username: string, date_gte: Date, date_lte: Date): Observable<UserBioData[]> {
     let options = {};
@@ -59,7 +96,7 @@ export class UserBioDataService {
           }
           return response;
         }),
-        catchError(this.errorService.handleError<UserBioData[]>('getUserBioDatas', (e: any) => 
+        catchError(this.errorService.handleError<UserBioData[]>('getUserBioDatasByDate', (e: any) => 
         { 
           this.alertService.error('Unable to fetch userbiodatas');
         }, []))

@@ -13,9 +13,6 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
 class UserBioDataList(VisibilityQuerysetMixin, ListAPIView):
-    """
-    API endpoint that allows users bio data to be viewed or edited.
-    """
     queryset = UserBioData.objects.all()
     serializer_class = UserBioDataSerializer
     filter_backends = [DjangoFilterBackend]
@@ -48,9 +45,6 @@ class UserBioDataList(VisibilityQuerysetMixin, ListAPIView):
 
 
 class UserBioDataViewSet(StandardPermissionsMixin, VisibilityQuerysetMixin, viewsets.ModelViewSet):
-    """
-    API endpoint that allows users bio data to be viewed or edited.
-    """
     queryset = UserBioData.objects.all()
     serializer_class = UserBioDataSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]

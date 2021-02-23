@@ -4,5 +4,4 @@ export enum ChartCategory {
     BioData = 3,
     Weight = 4,
     DistanceMonth = 5,
-    DistanceMonthsComparison = 6,
 }

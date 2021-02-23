@@ -475,45 +475,32 @@ export class UnitsService {
   }
 
   convertToUserUnit(value: any, fromUnit: any) {
-    let fromUnitCode = '';
-
-    if (fromUnit.abbreviation) {
-      fromUnitCode = fromUnit.abbreviation;
-    }
-    else if (typeof fromUnit === 'number') {
-      fromUnitCode = this.getUnitCode(fromUnit);
-    }
-    else {
-      fromUnitCode = fromUnit;
-    }
+    const fromUnitCode = this.getUnitCodeFromUnknownType(fromUnit)
 
     return this.convert(value, fromUnitCode, this.getToUnitCode(fromUnitCode));
   }
 
+  getUnitCodeFromUnknownType(unit: any) {
+    let unitCode = '';
+
+    if (unit.abbreviation) {
+      unitCode = unit.abbreviation;
+    }
+    else if (typeof unit === 'number' ||
+      this.units.filter(x => x.abbreviation == unit).length == 0) {
+      unitCode = this.getUnitCode(unit);
+    }
+    else {
+      unitCode = unit;
+    }
+
+    return unitCode;
+  }
+
   convert(value: number, fromUnit: any, toUnit: any) {
-    let fromUnitCode = '';
+    let fromUnitCode = this.getUnitCodeFromUnknownType(fromUnit);
 
-    if (fromUnit.abbreviation) {
-      fromUnitCode = fromUnit.abbreviation;
-    }
-    else if (typeof fromUnit === 'number') {
-      fromUnitCode = this.getUnitCode(fromUnit);
-    }
-    else {
-      fromUnitCode = fromUnit;
-    }
-
-    let toUnitCode = '';
-
-    if (toUnit.abbreviation) {
-      toUnitCode = toUnit.abbreviation;
-    }
-    else if (typeof toUnit === 'number') {
-      toUnitCode = this.getUnitCode(toUnit);
-    }
-    else {
-      toUnitCode = toUnit;
-    }
+    let toUnitCode = this.getUnitCodeFromUnknownType(toUnit);
 
     fromUnitCode = fromUnitCode == 'mph' ? 'mi' : fromUnitCode;
     fromUnitCode = fromUnitCode == 'km/h' ? 'km' : fromUnitCode;
@@ -772,6 +759,12 @@ export class UnitsService {
         model.plan_distance_unit = newUnit;
       }
 
+      this.convertSetDistanceValueToBiggerUnit(model);
+    }
+  }
+
+  convertSetDistanceValueToBiggerUnit(model: { distance: number, distance_unit: number }) {
+    if (model) {
       if (model.distance_unit) {
         const newUnit = this.getBiggerDistanceUnit(model.distance_unit);
 

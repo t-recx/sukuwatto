@@ -236,6 +236,13 @@ export class PlansService {
   getProperlyTypedActivities(activities: PlanSessionGroupActivity[]): PlanSessionGroupActivity[] {
     if (activities) {
       activities.forEach(activity => {
+        activity.distance_unit = activity.distance_unit ? +activity.distance_unit : activity.distance_unit;
+        activity.speed_unit = activity.speed_unit ? +activity.speed_unit : activity.speed_unit;
+        activity.time_unit = activity.time_unit ? +activity.time_unit : activity.time_unit;
+
+        activity.number_of_repetitions = activity.number_of_repetitions ? +activity.number_of_repetitions : activity.number_of_repetitions;
+        activity.number_of_repetitions_up_to = activity.number_of_repetitions_up_to ? +activity.number_of_repetitions_up_to : activity.number_of_repetitions_up_to;
+
         activity.speed = activity.speed ? +activity.speed : activity.speed;
         activity.speed_up_to = activity.speed_up_to ? +activity.speed_up_to : activity.speed_up_to;
         activity.time = activity.time ? +activity.time : activity.time;
