@@ -242,7 +242,9 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
 
         let chartDistanceMonthObservable: Observable<ChartDistanceMonth[]>;
 
-        chartDistanceMonthObservable = this.workoutsService.getChartDistanceMonth(this.username, this.date_gte, this.date_lte);
+
+        const startOfMonth = new Date(new Date(this.date_lte.getFullYear(), this.date_lte.getMonth(), 1));
+        chartDistanceMonthObservable = this.workoutsService.getChartDistanceMonth(this.username, startOfMonth, this.date_lte);
 
         chartDistanceMonthObservable.subscribe(data => {
             this.userProgressService.getDistanceMonthProgress(data, new Date()).subscribe(p => {
