@@ -1,92 +1,156 @@
-.submit-box {
-    display: flex;
-    background-color: #eef2f7;
-    border-radius: 5px;
-    margin-top: 10px;
-    padding: 15px;
+.logo {
+  display: inline-block;
+  width:40px;
+  height:32px;
+  background-color: white;
+  -webkit-mask: url(../../assets/images/logo.svg) no-repeat;
+  mask: url(../../assets/images/logo.svg) no-repeat;
+  /* -webkit-mask: url(../../../assets/images/logo.svg) no-repeat center;
+  mask: url(../../../assets/images/logo.svg) no-repeat center; */
+  mask-size: 32px;
 }
 
-.submit-box-input {
-    background-color: #ffffff !important;
-    margin-right: 5px;
-    width: 100%;
-    overflow: hidden;
+.logo-container {
+  display: flex;
 }
 
-.submit-buttons {
-    margin-left: auto;
+.ready-to-go-logo {
+  display: inline-block;
+  width: 400px;
+  height: 320px;
+  background-color: #546778;
+  -webkit-mask: url(../../assets/images/logo.svg) no-repeat;
+  mask: url(../../assets/images/logo.svg) no-repeat;
+  /* -webkit-mask: url(../../../assets/images/logo.svg) no-repeat center;
+  mask: url(../../../assets/images/logo.svg) no-repeat center; */
+  mask-size: 320px;
 }
 
-.submit-button {
-  white-space: nowrap;
+.hero-container {
+  display: flex;
 }
 
-.feature-card:hover .siimple-card-body {
-  background-color:  #f6f8fb;
-  cursor: pointer;
+.hero-header {
+  font-weight: 800;
 }
 
-.siimple-card-body {
-  transition: all .3s ease;
+.hero-subtitle {
+  font-size: 20px;
 }
 
-@media only screen and (max-width:480px) {
-.under-development-text {
-  font-size: 13px;
-  color: #879aab;
-}
+.hero-image-container {
+  text-align: center;
 }
 
-@media only screen and (min-width:651px) {
-.feature-card {
-    max-width: 306px;
-}
+.hero-image {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 15px 50px 20px rgba(51,51,79,.12);
 }
 
-@media only screen and (max-width:650px) {
-  .feature-card {
-    width: calc(100vw - 40px);
+.all-devices-image {
+  max-width: 100%;
+}
+
+.ready-to-go-image {
+  max-width: 100%;
+}
+
+.device-type-emphasis {
+  font-weight: 600;
+}
+
+.hero-button {
+}
+
+@media only screen and (min-width: 800px) {
+  .hero-button {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    font-size: 20px;
+    line-height: 30px;
   }
 }
 
-.feature-list {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+@media only screen and (max-width: 768px) {
+  .hero-description-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }
 
-@media only screen and (min-width:959px) {
-  .feature-card:not(:first-child):not(:last-child) {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-
-  .express-interest-card {
-    width: 939px;
-    margin-left: 11px;
-  }
-
-  .read-more-button {
+@media only screen and (max-width: 359px) {
+  .small-screens-hide {
     display: none;
   }
 }
 
-@media only screen and (max-width:958px) {
-  .read-more-button {
-    margin-top: 10px;
+@media only screen and (max-width: 384px) {
+  .for-free-span {
+    display: none;
   }
 }
 
-.thank-you {
-  padding: 10px;
+@media only screen and (max-width: 324px) {
+  .the-app-span {
+    display: none;
+  }
 }
 
-.thank-you-phones {
-  padding-bottom: 10px;
-  margin-top: 20px;
-}
-
-.index-demo-image {
+.community-support-image {
   max-width: 100%;
-  height: auto;
+}
+
+.community-support-container {
+  text-align: center;
+}
+
+.features-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  /* background-color: #eef2f7; */
+  padding: 10px;
+  border: 2px solid #eef2f7;
+  flex: 1 1 300px;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);
+}
+
+@media only screen and (max-width: 1111px) {
+  .feature-card:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .feature-card {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+.feature-card-title {
+  text-align: center;
+  font-weight: 700;
+}
+
+.feature-card-icon-container {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.feature-card-description {
+  text-align: center;
+  line-height: 25.5px;
+}
+
+.features-introduction {
+  text-align: center;
 }

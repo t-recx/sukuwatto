@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { faThumbsUp, faComments, faComment, faCircleNotch, faShareAlt } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faComments, faComment, faCircleNotch, faShareAlt, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { StreamsService } from '../streams.service';
 import { Action } from '../action';
 import { AuthService } from 'src/app/auth.service';
@@ -36,6 +36,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @Input() target_user_bio_data: number;
   @Input() target_feature: number;
   @Input() target_release: number;
+  @Input() useArrowUp = false;
 
   content_type_id: number;
   content_type_user_id: number;
@@ -46,6 +47,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   faComment = faComment;
   faCircleNotch = faCircleNotch;
   faShareAlt = faShareAlt;
+  faArrowUp = faArrowUp;
 
   loading: boolean = false;
 

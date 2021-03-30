@@ -43,7 +43,7 @@
         <span class="user-profile" >
             <input type="text" class="siimple-input siimple-input--fluid feature-title-input" name="title"
                 id="title" [(ngModel)]="feature.title" #title="ngModel" required
-                maxlength="30" placeholder="Title">
+                maxlength="200" placeholder="Title">
             <div *ngIf="title.invalid && triedToSave">
                 <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
             </div>
@@ -150,6 +150,7 @@
         <app-card-social-interaction [shareTitle]="shareTitle" [shareLink]="shareLink" [likeNumber]=feature.likes
             [target_feature]=feature.id
             [commentNumber]=feature.comment_number content_type_model='feature' [id]=feature.id
+            [useArrowUp]=true
             [commentsSectionOpen]=commentsSectionOpen>
         </app-card-social-interaction>
     </footer>

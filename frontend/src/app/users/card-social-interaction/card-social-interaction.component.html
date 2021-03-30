@@ -21,8 +21,7 @@
 <div class="social-interaction-buttons">
     <span class="like-button button-link no-select" [class.liked]="liked"
     >
-        <fa-icon 
-        [icon]="faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" ></fa-icon>
+        <fa-icon [icon]="useArrowUp ? faArrowUp : faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" ></fa-icon>
 
         <span class="likes" (click)="toggleUserLikesModal()">
             {{likeNumber}}

@@ -1,127 +1,207 @@
-<div class="site-body">
-    <app-jumbotron></app-jumbotron>
-
-    <main class="site-content siimple-content siimple-content--extra-large content-body">
-        <div class="feature-list">
-            <a href="/plan">
-                <div class="siimple-card feature-card clickable">
-                    <div class="siimple-card-header">
-                        <div class="siimple-h5 siimple--mb-0">
-                            <fa-icon [icon]="planIcon" class="siimple--mr-1" size="lg"></fa-icon>
-                            Plan
-                        </div>
-                    </div>
-                    <div class="siimple-card-body ">
-                        <div class="siimple--mt-1 siimple--mb-2">
-                            <div class="siimple--mb-3" align="center">
-                                <img class="index-demo-image" src="assets/images/index-plan-card.png" width="280" height="200">
-                            </div>
-
-                            <div class="index-demo-card-text">Create a plan or choose from our list of curated and
-                                user-submitted plans.</div>
-
-                            <button class="siimple-btn siimple-btn--primary siimple-btn--fluid read-more-button">
-                                Read more
-                                <fa-icon [icon]="arrowRight" class="siimple--ml-1"></fa-icon>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+<div class="site-body ">
+    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--extra-large navbar">
+        <div class="logo-container">
+            <div class="logo clickable" routerLink="/"></div>
+            <a class="siimple-navbar-title navbar-small-phone-not-logged" routerLink="/">
+                sukuwatto
             </a>
 
-            <a href="/track">
-                <div class="siimple-card feature-card clickable">
-                    <div class="siimple-card-header">
-                        <div class="siimple-h5 siimple--mb-0">
-                            <fa-icon [icon]="trackIcon" class="siimple--mr-1" size="lg"></fa-icon>
-                            Track
-                        </div>
-                    </div>
-                    <div class="siimple-card-body ">
-                        <div class="siimple--mt-1 siimple--mb-2">
-                            <div class="siimple--mb-3" align="center">
-                                <img class="index-demo-image" src="assets/images/index-track-card.png" width="280" height="200">
-                            </div>
-
-                            <div class="index-demo-card-text">Record your workouts and keep track of your goals.</div>
-
-                            <button class="siimple-btn siimple-btn--primary siimple-btn--fluid read-more-button">
-                                Read more
-                                <fa-icon [icon]="arrowRight" class="siimple--ml-1"></fa-icon>
-                            </button>
-                        </div>
-                    </div>
+            <div class="siimple--ml-auto">
+                <div class="siimple-btn-group" >
+                    <button routerLink="/signup/" class="siimple-btn siimple-btn--success " type="button">
+                        <fa-icon [icon]="faUserPlus" class=""></fa-icon>
+                        <span class="siimple--ml-1 ">Sign up</span>
+                    </button>
+                    <button routerLink="/login/" class="siimple-btn " type="button">
+                        <fa-icon [icon]="faSignInAlt" class=""></fa-icon>
+                        <span class="siimple--ml-1 siimple--display-sm-none">Sign in</span>
+                    </button>
                 </div>
-            </a>
-
-            <a href="/share">
-                <div class="siimple-card feature-card clickable">
-                    <div class="siimple-card-header">
-                        <div class="siimple-h5 siimple--mb-0">
-                            <fa-icon [icon]="shareIcon" class="siimple--mr-1" size="lg"></fa-icon>
-                            Share
-                        </div>
-                    </div>
-                    <div class="siimple-card-body ">
-                        <div class="siimple--mt-1 siimple--mb-2">
-                            <div class="siimple--mb-3" align="center">
-                                <img class="index-demo-image" src="assets/images/index-share-card.png" width="280" height="200">
-                            </div>
-
-                            <div class="index-demo-card-text">Share your progress with friends and family.</div>
-
-                            <button class="siimple-btn siimple-btn--primary siimple-btn--fluid read-more-button">
-                                Read more
-                                <fa-icon [icon]="arrowRight" class="siimple--ml-1"></fa-icon>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </a>
+            </div>
         </div>
+    </div>
 
-        <div class="siimple-card express-interest-card" *ngIf="!submitted && !showAuthButtons">
-            <div class=" siimple-card-body">
-                <div>
-                    <div class="under-development-text">
-                        Sukuwatto is currently under development. Leave us your email address to keep up with the news:
+    <main class="site-content siimple-content siimple-content--extra-large content-body with-inter-font">
+        <div class="hero-container siimple-content siimple-content--large">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--md-12 hero-description-container">
+                        <h1 class="siimple-h1 hero-header ">
+                            Social fitness platform <span class="small-screens-hide">for athletes and enthusiasts.</span>
+                        </h1>
+                        <p class="siimple-p hero-subtitle ">
+                            Workout, share and play, all in the same app.
+                        </p>
+                        <button type="button" class="siimple-btn hero-button siimple-btn--primary with-inter-font"  routerLink="/signup/" >
+                            Sign up <span class="for-free-span">for free</span>
+                        </button>
+                        <button type="button" class="siimple-btn hero-button siimple--ml-2 with-inter-font"
+                            routerLink="/android-download/">
+                            <fa-icon [icon]="appDownloadIcon" class="siimple--mr-1"></fa-icon>
+                            Get <span class="the-app-span">the</span> app
+                        </button>
                     </div>
-                    <div class="submit-box">
-                        <input type="email" class="siimple-input submit-box-input " id="email" required 
-                            (keydown.enter)="submitEmailSubscription()" placeholder="Your email"
-                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [ngModelOptions]="{updateOn: 'blur'}"
-                            [(ngModel)]=emailSubscription #email="ngModel">
-
-                        <div class="submit-buttons">
-                            <button type="button"
-                                class=" siimple--text-bold siimple-btn siimple-btn--success siimple--ml-1 submit-button"
-                                [disabled]="submitting" (click)="submitEmailSubscription()">
-                                <fa-icon [icon]="loadingIcon" class="siimple--mr-1" *ngIf="submitting"></fa-icon>
-                                <fa-icon [icon]="submitIcon" class="siimple--mr-1" *ngIf="!submitting"></fa-icon>
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-
-                    <div *ngIf="email.invalid && (triedToSubmit || this.invalidEmail)">
-                        <div *ngIf="email.errors?.required || email.errors?.pattern || invalidEmail"
-                            class="siimple-field-helper siimple--color-error">
-                            Please insert a valid email
-                        </div>
+                    <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--md-12 hero-image-container">
+                        <img class="image-phone-border hero-image" src="../../assets/images/sukuwatto-mobile-screenshot.jpg" >
                     </div>
                 </div>
             </div>
         </div>
 
-        <div *ngIf="submitted">
-            <div class="siimple-h5 siimple--mb-0  siimple--color-primary thank-you siimple--display-sm-none"
-                align="center">
-                Thank you! We'll keep you posted.
-                <fa-icon [icon]="happyIcon" class="siimple--mr-1" size="lg"></fa-icon>
+        <div class="siimple-rule"></div>
+
+        <div class="hero-container siimple-content siimple-content--extra-large">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--md-12 hero-image-container">
+                        <img class=" all-devices-image" src="../../assets/images/sukuwatto-all-devices.png" >
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--md-12 hero-description-container">
+                        <h1 class="siimple-h1 hero-header  siimple--mt-0">
+                            All plans, all activities, all devices: One app.
+                        </h1>
+                        <p class="siimple-p hero-subtitle ">
+                            Train once, see everywhere: Sukuwatto has a cloud-first approach and looks great on your 
+                            <span class="device-type-emphasis">computer</span>, 
+                            <span class="device-type-emphasis">tablet</span> or 
+                            <span class="device-type-emphasis">phone</span>.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="siimple-h6 siimple--mb-0  siimple--color-primary thank-you-phones phones-only" align="center">
-                Thank you! We'll keep you posted.
-                <fa-icon [icon]="happyIcon" class="siimple--mr-1" size="lg"></fa-icon>
+        </div>
+
+        <div class="siimple-rule"></div>
+
+        <div class=" siimple-content siimple-content--extra-large ">
+            <div class="features-introduction">
+                <h1 class="siimple-h1 hero-header  siimple--mt-0">
+                    It's time to level up.
+                </h1>
+                <p class="siimple-p hero-subtitle ">
+                    From strength to cardio, aesthetic to functional - Sukuwatto covers all the bases.
+                </p>
+            </div>
+        
+            <div class="features-container ">
+                <div class="feature-card">
+                    <div class="feature-card-icon-container">
+                        <fa-icon [icon]="planIcon" size="6x"></fa-icon>
+                    </div>
+                    <h3 class="feature-card-title siimple-h3">
+                        Plan
+                    </h3>
+                    <div class="feature-card-description">
+                        <ul>
+                            <li>
+                                Choose a routine
+                            </li>
+                            <li>
+                                Set progressions for key parameters
+                            </li>
+                            <li>
+                                Create your own plan
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <div class="feature-card">
+                    <div class="feature-card-icon-container">
+                        <fa-icon [icon]="trackIcon" size="6x"></fa-icon>
+                    </div>
+                    <h3 class="feature-card-title siimple-h3">
+                        Track
+                    </h3>
+                    <div class="feature-card-description">
+                        <ul>
+                            <li>
+                                Log your gym sessions
+                            </li>
+                            <li>
+                                Map out your outdoor workouts
+                            </li>
+                            <li>
+                                Keep tabs on your progress
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <div class="feature-card">
+                    <div class="feature-card-icon-container">
+                        <fa-icon [icon]="shareIcon" size="6x"></fa-icon>
+                    </div>
+                    <h3 class="feature-card-title siimple-h3">
+                        Share
+                    </h3>
+                    <div class="feature-card-description">
+                        <ul>
+                            <li>
+                                Meet other athletes
+                            </li>
+                            <li>
+                                Like, comment, and share activities
+                            </li>
+                            <li>
+                                Chat with your friends
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="siimple-rule"></div>
+
+        <div class="community-support-container siimple-content siimple-content--large">
+            <div class="">
+                <h1 class="siimple-h1 hero-header  siimple--mt-0">
+                    Free for all, supported by the community.
+                </h1>
+                <p class="siimple-p hero-subtitle ">
+                    Use for free, contribute to steer development and keep us running.
+                </p>
+            </div>
+            <div class="community-support-image-container">
+                <img srcset="../../assets/images/features-list-smaller.png 360w,
+                            ../../assets/images/features-list.png 768w"
+                    sizes="(max-width: 600px) 360px,
+                            768px"
+                    src="../../assets/images/features-list.png"
+                    alt="List of requested features"
+                    class="community-support-image">
+            </div>
+        </div>
+
+        <div class="siimple-rule"></div>
+
+        <div class="hero-container siimple-content siimple-content--large">
+            <div class="siimple-grid">
+                <div class="siimple-grid-row">
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--md-12 hero-description-container">
+                        <div class="hero-description-container">
+                            <h1 class="siimple-h1 hero-header ">
+                                Ready to go?
+                            </h1>
+                            <p class="siimple-p hero-subtitle ">
+                                Try Sukuwatto today.
+                            </p>
+                            <button type="button" class="siimple-btn hero-button siimple-btn--primary with-inter-font"
+                                routerLink="/signup/">
+                                Sign up <span class="for-free-span">for free</span>
+                            </button>
+                            <button type="button" class="siimple-btn hero-button siimple--ml-2 with-inter-font"
+                                routerLink="/android-download/">
+                                <fa-icon [icon]="appDownloadIcon" class="siimple--mr-1"></fa-icon>
+                                Get <span class="the-app-span">the</span> app
+                            </button>
+                        </div>
+                    </div>
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--md-12 hero-image-container siimple--pt-5">
+                        <fa-icon [icon]="faSnowboarding" size="10x" class=""></fa-icon>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

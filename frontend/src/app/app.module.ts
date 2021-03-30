@@ -25,12 +25,9 @@ import { MainLogoComponent } from './main-logo/main-logo.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { SharedModule } from './shared/shared.module';
-import { TrackComponent } from './track/track.component';
-import { PlanComponent } from './plan/plan.component';
-import { ShareComponent } from './share/share.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
-import { DemoNavigationComponent } from './demo-navigation/demo-navigation.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { AndroidDownloadComponent } from './android-download/android-download.component';
 
 const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
 
@@ -49,12 +46,9 @@ const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
     PrivacyPolicyComponent,
     AutofocusDirective,
     MainLogoComponent,
-    TrackComponent,
-    PlanComponent,
-    ShareComponent,
     JumbotronComponent,
-    DemoNavigationComponent,
     ContactUsComponent,
+    AndroidDownloadComponent,
   ],
   imports: [
     AlertModule,
