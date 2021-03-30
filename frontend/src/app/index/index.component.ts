@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { faEnvelope, faLaughBeam, faCalendarAlt, faRunning, faShareAlt, faHeart, faCircleNotch, faSmile, faLaugh, faCalendar, faCalendarDay, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faLaughBeam, faCalendarAlt, faRunning, faShareAlt, faHeart, faCircleNotch, faSmile, faLaugh, faCalendar, faCalendarDay, faArrowCircleRight, faSignInAlt, faUserPlus, faSnowboarding } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '../user.service';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
 import { environment } from 'src/environments/environment';
+import { faAndroid } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-index',
@@ -13,10 +14,11 @@ import { environment } from 'src/environments/environment';
 })
 export class IndexComponent implements OnInit {
 
-  showAuthButtons: boolean = environment.showAuthButtons;
-
   emailSubscription: string;
+  faSignInAlt = faSignInAlt;
+  faUserPlus = faUserPlus;
 
+  appDownloadIcon = faAndroid;
   submitIcon = faHeart;
   planIcon = faCalendarAlt;
   trackIcon = faRunning;
@@ -24,6 +26,8 @@ export class IndexComponent implements OnInit {
   happyIcon = faLaugh;
   arrowRight = faArrowCircleRight;
   
+  faSnowboarding = faSnowboarding;
+
   loadingIcon = faCircleNotch;
   invalidEmail = false;
 

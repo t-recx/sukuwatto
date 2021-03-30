@@ -1,0 +1,107 @@
+<div class="site-body ">
+    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--extra-large navbar">
+        <div class="logo-container">
+            <div class="logo clickable" routerLink="/"></div>
+            <a class="siimple-navbar-title navbar-small-phone-not-logged" routerLink="/">
+                sukuwatto
+            </a>
+
+            <div class="siimple--ml-auto">
+                <div class="siimple-btn-group">
+                    <button routerLink="/signup/" class="siimple-btn siimple-btn--success " type="button">
+                        <fa-icon [icon]="faUserPlus" class=""></fa-icon>
+                        <span class="siimple--ml-1 ">Sign up</span>
+                    </button>
+                    <button routerLink="/login/" class="siimple-btn " type="button">
+                        <fa-icon [icon]="faSignInAlt" class=""></fa-icon>
+                        <span class="siimple--ml-1 siimple--display-sm-none">Sign in</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="site-content siimple-content siimple-content--medium content-body with-inter-font">
+        <div class="qr-code-container" *ngIf="!onAndroid">
+            <img class="" src="../../assets/images/sukuwatto-android-qr-code.jpeg" >
+
+            <h4 class="siimple-h4 siimple--mt-0">
+                To get started, go to <a class="siimple-link" href="https://www.sukuwatto.com/android-download">sukuwatto.com/android-download</a> on your android device or scan the image above.
+            </h4>
+        </div>
+
+        <div *ngIf="onAndroid">
+            <h1 class="siimple-h1 thank-you-header">
+                Thank you!
+            </h1>
+
+            <h2 class="siimple-h2">
+                Instructions
+            </h2>
+
+            <div class="siimple-rule"></div>
+
+            <div class="steps-container">
+                <div class="step-container">
+                    <div class="step-bubble">
+                        1
+                    </div>
+                    <div>
+                        <h3 class="siimple-h3 step-title">
+                            Download file
+                        </h3>
+                        <p class="siimple-p">
+                            The download popup will appear shortly. Don't forget to press download.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <div class="step-bubble">
+                        2
+                    </div>
+                    <div>
+                        <h3 class="siimple-h3 step-title">
+                            Open file
+                        </h3>
+                        <p class="siimple-p">
+                            Locate the downloaded file on your device and open it to start the installation.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <div class="step-bubble">
+                        3
+                    </div>
+                    <div>
+                        <h3 class="siimple-h3 step-title">
+                            Update settings
+                        </h3>
+                        <p class="siimple-p">
+                            Update the browser settings to allow installs from this source.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-container">
+                    <div class="step-bubble">
+                        4
+                    </div>
+                    <div>
+                        <h3 class="siimple-h3 step-title">
+                            Install app
+                        </h3>
+                        <p class="siimple-p">
+                            Press the install button on the bottom to start the installation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <app-footer></app-footer>
+</div>
+
+<app-alert></app-alert>

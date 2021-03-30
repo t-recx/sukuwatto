@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-info.component.css']
 })
 export class UserInfoComponent implements OnInit {
-  showAuthButtons: boolean = environment.showAuthButtons;
 
   faUserCircle = faUserCircle;
   faUserPlus = faUserPlus;

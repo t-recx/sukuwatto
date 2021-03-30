@@ -8,8 +8,6 @@ import { environment } from 'src/environments/environment';
 })
 export class JumbotronComponent implements OnInit {
 
-  showAuthButtons: boolean = environment.showAuthButtons;
-
   constructor() { }
 
   ngOnInit(): void {
