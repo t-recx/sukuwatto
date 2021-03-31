@@ -243,6 +243,12 @@ ul {
     }
 }
 
+@media only screen and (max-width: 599px) {
+    .md-and-higher-only {
+        display: none;
+    }
+}
+
 @media only screen and (min-width: 769px) {
     .md-and-lower-only {
         display: none;

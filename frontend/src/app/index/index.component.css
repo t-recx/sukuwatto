@@ -14,18 +14,6 @@
   display: flex;
 }
 
-.ready-to-go-logo {
-  display: inline-block;
-  width: 400px;
-  height: 320px;
-  background-color: #546778;
-  -webkit-mask: url(../../assets/images/logo.svg) no-repeat;
-  mask: url(../../assets/images/logo.svg) no-repeat;
-  /* -webkit-mask: url(../../../assets/images/logo.svg) no-repeat center;
-  mask: url(../../../assets/images/logo.svg) no-repeat center; */
-  mask-size: 320px;
-}
-
 .hero-container {
   display: flex;
 }
@@ -54,6 +42,7 @@
 
 .ready-to-go-image {
   max-width: 100%;
+  box-shadow: 0 15px 50px 20px rgba(51,51,79,.12);
 }
 
 .device-type-emphasis {
