@@ -1,33 +1,6 @@
-.logo {
-  display: inline-block;
-  width:40px;
-  height:32px;
-  background-color: white;
-  -webkit-mask: url(../../assets/images/logo.svg) no-repeat;
-  mask: url(../../assets/images/logo.svg) no-repeat;
-  /* -webkit-mask: url(../../../assets/images/logo.svg) no-repeat center;
-  mask: url(../../../assets/images/logo.svg) no-repeat center; */
-  mask-size: 32px;
-}
-
-.logo-container {
-  display: flex;
-}
 
 .hero-container {
   display: flex;
-}
-
-.hero-header {
-  font-weight: 800;
-}
-
-.hero-subtitle {
-  font-size: 20px;
-}
-
-.hero-image-container {
-  text-align: center;
 }
 
 .hero-image {

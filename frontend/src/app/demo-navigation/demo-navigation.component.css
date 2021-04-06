@@ -1,0 +1,24 @@
+.demo-navigation-container {
+    padding: 12px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.demo-navigation-item-text {
+    font-size: 28px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.demo-navigation-item {
+    display: flex;
+    align-items: center;
+}
+
+.demo-navigation-item-back {
+    float: left;
+}
+
+.demo-navigation-item-next {
+    float: right;
+}

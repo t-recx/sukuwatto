@@ -15,8 +15,6 @@ import { faAndroid } from '@fortawesome/free-brands-svg-icons';
 export class IndexComponent implements OnInit {
 
   emailSubscription: string;
-  faSignInAlt = faSignInAlt;
-  faUserPlus = faUserPlus;
 
   appDownloadIcon = faAndroid;
   submitIcon = faHeart;

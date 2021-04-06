@@ -1,25 +1,5 @@
 <div class="site-body ">
-    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--extra-large navbar">
-        <div class="logo-container">
-            <div class="logo clickable" routerLink="/"></div>
-            <a class="siimple-navbar-title navbar-small-phone-not-logged" routerLink="/">
-                sukuwatto
-            </a>
-
-            <div class="siimple--ml-auto">
-                <div class="siimple-btn-group" >
-                    <button routerLink="/signup/" class="siimple-btn siimple-btn--success " type="button">
-                        <fa-icon [icon]="faUserPlus" class=""></fa-icon>
-                        <span class="siimple--ml-1 ">Sign up</span>
-                    </button>
-                    <button routerLink="/login/" class="siimple-btn " type="button">
-                        <fa-icon [icon]="faSignInAlt" class=""></fa-icon>
-                        <span class="siimple--ml-1 siimple--display-sm-none">Sign in</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-navbar-index></app-navbar-index>
 
     <main class="site-content siimple-content siimple-content--extra-large content-body with-inter-font">
         <div class="hero-container siimple-content siimple-content--large">
@@ -73,10 +53,10 @@
 
         <div class="siimple-rule"></div>
 
-        <div class=" siimple-content siimple-content--extra-large ">
+        <div class=" siimple-content siimple-content--extra-large " id="features">
             <div class="features-introduction">
                 <h1 class="siimple-h1 hero-header  siimple--mt-0">
-                    It's time to level up.
+                    The most complete fitness solution out there.
                 </h1>
                 <p class="siimple-p hero-subtitle ">
                     From strength to cardio, aesthetic to functional - Sukuwatto covers all the bases.
@@ -84,7 +64,7 @@
             </div>
         
             <div class="features-container ">
-                <div class="feature-card">
+                <div class="feature-card clickable" routerLink="/plan">
                     <div class="feature-card-icon-container">
                         <fa-icon [icon]="planIcon" size="6x"></fa-icon>
                     </div>
@@ -106,7 +86,7 @@
                     </div>
                 </div>
         
-                <div class="feature-card">
+                <div class="feature-card clickable" routerLink="/track">
                     <div class="feature-card-icon-container">
                         <fa-icon [icon]="trackIcon" size="6x"></fa-icon>
                     </div>
@@ -128,7 +108,7 @@
                     </div>
                 </div>
         
-                <div class="feature-card">
+                <div class="feature-card clickable " routerLink="/share">
                     <div class="feature-card-icon-container">
                         <fa-icon [icon]="shareIcon" size="6x"></fa-icon>
                     </div>
@@ -149,6 +129,23 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="siimple-rule"></div>
+
+        <div class="community-support-container siimple-content siimple-content--large">
+            <div class="">
+                <h1 class="siimple-h1 hero-header  siimple--mt-0">
+                    It's time to level up.
+                </h1>
+                <p class="siimple-p hero-subtitle ">
+                    Fitness doesn't have to be boring: Exercise to rise in the ranks and find out your class.
+                </p>
+            </div>
+            <div class="community-support-image-container siimple--mt-4">
+                <img src="../../assets/images/level-up-smaller.png" class="hero-image phones-only">
+                <img src="../../assets/images/level-up.png" class="hero-image md-and-higher-only">
             </div>
         </div>
 
