@@ -12,6 +12,9 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { AndroidDownloadComponent } from './android-download/android-download.component';
+import { PlanComponent } from './plan/plan.component';
+import { ShareComponent } from './share/share.component';
+import { TrackComponent } from './track/track.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
@@ -24,6 +27,9 @@ const routes: Routes = [
     loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule),
     canActivate: []
   },
+  { path: 'plan', component: PlanComponent },
+  { path: 'track', component: TrackComponent },
+  { path: 'share', component: ShareComponent },
   { path: 'android-download', component: AndroidDownloadComponent },
   { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
   { path: 'cookie-policy', component: CookiePolicyComponent },
@@ -36,6 +42,7 @@ export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: 'always',
   scrollPositionRestoration: 'enabled',
   onSameUrlNavigation: 'reload',
+  anchorScrolling: 'enabled',
 };
 
 @NgModule({
