@@ -55,7 +55,7 @@
         <div *ngIf="!editing" class="">
             <div class="post-images-container" *ngIf="post.post_images && post.post_images.length > 0">
                 <div class="post-image-container">
-                    <img class="post-image" [src]="currentImageUrl">
+                    <img class="post-image" [src]="currentImageUrl" alt="Attached post image">
                 </div>
 
                 <div class="post-image-cursors" *ngIf="post.post_images && post.post_images.length > 1">

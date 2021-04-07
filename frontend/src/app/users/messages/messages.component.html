@@ -42,7 +42,7 @@
                         <div>
                             <img *ngIf="lastMessage.correspondent.profile_filename && !imageHidden"
                                 [src]="getProfileImageURL(lastMessage.correspondent)" class="round-image profile-image"
-                                (error)="hideImage()" />
+                                (error)="hideImage()" alt="User profile picture" />
                             <fa-icon *ngIf="!lastMessage.correspondent.profile_filename || imageHidden"
                                 [icon]="faUserCircle" class="siimple--color-primary " size="3x">
                             </fa-icon>

@@ -23,7 +23,10 @@
 
     <main class="site-content siimple-content siimple-content--medium content-body with-inter-font">
         <div class="qr-code-container" *ngIf="!onAndroid">
-            <img class="" src="../../assets/images/sukuwatto-android-qr-code.jpeg" >
+            <picture>
+                <source type="image/webp" class="" srcset="../../assets/images/sukuwatto-android-qr-code.webp">
+                <img class="" src="../../assets/images/sukuwatto-android-qr-code.jpeg" alt="QR code for the android download URL">
+            </picture>
 
             <h4 class="siimple-h4 siimple--mt-0">
                 To get started, go to <a class="siimple-link" href="https://www.sukuwatto.com/android-download">sukuwatto.com/android-download</a> on your android device or scan the image above.

@@ -30,7 +30,7 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "node_modules/siimple/dist/siimple.min.css",
+              "src/siimple.min.css",
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"
             ],

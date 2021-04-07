@@ -12,17 +12,17 @@
                         <p class="siimple-p hero-subtitle ">
                             Workout, share and play, all in the same app.
                         </p>
-                        <button type="button" class="siimple-btn hero-button siimple-btn--primary with-inter-font"  routerLink="/signup/" >
+                        <button type="button" class="siimple-btn hero-button siimple-btn--primary with-inter-font"  routerLink="/signup/"  aria-label="Sign up">
                             Sign up <span class="for-free-span">for free</span>
                         </button>
                         <button type="button" class="siimple-btn hero-button siimple--ml-2 with-inter-font"
-                            routerLink="/android-download/">
-                            <fa-icon [icon]="appDownloadIcon" class="siimple--mr-1"></fa-icon>
+                            routerLink="/android-download/" aria-label="Get the android app">
+                            <fa-icon [icon]="appDownloadIcon" class="siimple--mr-1" aria-hidden="true"></fa-icon>
                             Get <span class="the-app-span">the</span> app
                         </button>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--md-12 hero-image-container">
-                        <img class="image-phone-border hero-image" src="../../assets/images/sukuwatto-mobile-screenshot.jpg" >
+                        <img class="image-phone-border hero-image" src="../../assets/images/sukuwatto-mobile-screenshot.jpg" alt="Sukuwatto android app">
                     </div>
                 </div>
             </div>
@@ -34,7 +34,10 @@
             <div class="siimple-grid">
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--md-12 hero-image-container">
-                        <img class=" all-devices-image" src="../../assets/images/sukuwatto-all-devices.png" >
+                        <picture>
+                            <source type="image/webp" class=" all-devices-image" srcset="../../assets/images/sukuwatto-all-devices.webp" >
+                            <img class=" all-devices-image" src="../../assets/images/sukuwatto-all-devices.png" alt="Sukuwatto running on a computer, tablet and phone" >
+                        </picture>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--md-12 hero-description-container">
                         <h1 class="siimple-h1 hero-header  siimple--mt-0">
@@ -68,9 +71,9 @@
                     <div class="feature-card-icon-container">
                         <fa-icon [icon]="planIcon" size="6x"></fa-icon>
                     </div>
-                    <h3 class="feature-card-title siimple-h3">
+                    <div class="feature-card-title siimple-h3">
                         Plan
-                    </h3>
+                    </div>
                     <div class="feature-card-description">
                         <ul>
                             <li>
@@ -90,9 +93,9 @@
                     <div class="feature-card-icon-container">
                         <fa-icon [icon]="trackIcon" size="6x"></fa-icon>
                     </div>
-                    <h3 class="feature-card-title siimple-h3">
+                    <div class="feature-card-title siimple-h3">
                         Track
-                    </h3>
+                    </div>
                     <div class="feature-card-description">
                         <ul>
                             <li>
@@ -112,9 +115,9 @@
                     <div class="feature-card-icon-container">
                         <fa-icon [icon]="shareIcon" size="6x"></fa-icon>
                     </div>
-                    <h3 class="feature-card-title siimple-h3">
+                    <div class="feature-card-title siimple-h3">
                         Share
-                    </h3>
+                    </div>
                     <div class="feature-card-description">
                         <ul>
                             <li>
@@ -144,8 +147,14 @@
                 </p>
             </div>
             <div class="community-support-image-container siimple--mt-4">
-                <img src="../../assets/images/level-up-smaller.png" class="hero-image phones-only">
-                <img src="../../assets/images/level-up.png" class="hero-image md-and-higher-only">
+                <picture>
+                    <source type="image/webp" srcset="../../assets/images/level-up-smaller.webp" class="hero-image phones-only">
+                    <img src="../../assets/images/level-up-smaller.png" class="hero-image phones-only" alt="User skills example">
+                </picture>
+                <picture>
+                    <source type="image/webp" srcset="../../assets/images/level-up.webp" class="hero-image md-and-higher-only">
+                    <img src="../../assets/images/level-up.png" class="hero-image md-and-higher-only" alt="User skills example">
+                </picture>
             </div>
         </div>
 
@@ -161,8 +170,14 @@
                 </p>
             </div>
             <div class="community-support-image-container">
-                <img src="../../assets/images/features-list-smaller.png" class="community-support-image phones-only">
-                <img src="../../assets/images/features-list.png" class="community-support-image md-and-higher-only ">
+                <picture>
+                    <source type="image/webp" srcset="../../assets/images/features-list-smaller.webp" class="community-support-image phones-only">
+                    <img src="../../assets/images/features-list-smaller.png" class="community-support-image phones-only" alt="Feature requests list">
+                </picture>
+                <picture>
+                    <source type="image/webp" srcset="../../assets/images/features-list.webp" class="community-support-image md-and-higher-only ">
+                    <img src="../../assets/images/features-list.png" class="community-support-image md-and-higher-only " alt="Feature requests list">
+                </picture>
             </div>
         </div>
 
@@ -179,19 +194,21 @@
                             <p class="siimple-p hero-subtitle ">
                                 Try Sukuwatto today.
                             </p>
-                            <button type="button" class="siimple-btn hero-button siimple-btn--primary with-inter-font"
-                                routerLink="/signup/">
+                            <button type="button" class="siimple-btn hero-button siimple-btn--primary with-inter-font"  routerLink="/signup/"  aria-label="Sign up">
                                 Sign up <span class="for-free-span">for free</span>
                             </button>
                             <button type="button" class="siimple-btn hero-button siimple--ml-2 with-inter-font"
-                                routerLink="/android-download/">
-                                <fa-icon [icon]="appDownloadIcon" class="siimple--mr-1"></fa-icon>
+                                routerLink="/android-download/" aria-label="Get the android app">
+                                <fa-icon [icon]="appDownloadIcon" class="siimple--mr-1" aria-hidden="true"></fa-icon>
                                 Get <span class="the-app-span">the</span> app
                             </button>
                         </div>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--lg-5 siimple-grid-col--md-12 hero-image-container ">
-                        <img class=" ready-to-go-image " src="../../assets/images/ready-to-go.jpg" >
+                        <picture>
+                            <source type="image/webp" class=" ready-to-go-image " srcset="../../assets/images/ready-to-go.webp" >
+                            <img class=" ready-to-go-image " src="../../assets/images/ready-to-go.jpg" alt="Squat rack on an empty gym">
+                        </picture>
                     </div>
                 </div>
             </div>
