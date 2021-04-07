@@ -39,10 +39,11 @@ const routes: Routes = [
 ];
 
 export const routingConfiguration: ExtraOptions = {
-  paramsInheritanceStrategy: 'always',
-  scrollPositionRestoration: 'enabled',
-  onSameUrlNavigation: 'reload',
-  anchorScrolling: 'enabled',
+    paramsInheritanceStrategy: 'always',
+    scrollPositionRestoration: 'enabled',
+    onSameUrlNavigation: 'reload',
+    anchorScrolling: 'enabled',
+    relativeLinkResolution: 'legacy'
 };
 
 @NgModule({

@@ -32,10 +32,7 @@
 }
 
 .post-image-container {
-  display: flex;
-  align-items: start;
-  justify-content: center;
-  flex-wrap: wrap;
+  text-align: center;
 }
 
 /* 

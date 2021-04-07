@@ -21,7 +21,7 @@
 <div class="siimple-grid-col siimple-grid-col--2 siimple-grid-col-sm--6">
     <input type="number" class="siimple-input siimple-input--fluid" name="parameter_value" id="parameter_value"
         [(ngModel)]="workingParameter.parameter_value" #parameter_value="ngModel" placeholder="Value"
-        (change)="onWeightChange($event)">
+        (input)="onWeightChange($event)">
 
     <div *ngIf="parameter_value.invalid && (parameter_value.dirty || triedToHide)">
         <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>

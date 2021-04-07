@@ -13,7 +13,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { Paginated } from '../paginated';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
-import { fromEvent } from 'rxjs/internal/observable/fromEvent';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-plans',
