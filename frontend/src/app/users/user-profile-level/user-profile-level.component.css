@@ -1,7 +1,5 @@
 .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: start;
+    text-align: center;
 }
 
 .image-container img {

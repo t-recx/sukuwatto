@@ -3,12 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from './token';
 import { User } from './user';
 import { Observable, Subject } from 'rxjs';
-import { catchError, tap, concatMap } from 'rxjs/operators';
+import { catchError, tap} from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
 import { environment } from 'src/environments/environment';
-import { UserService } from './user.service';
-import { JwtService } from './jwt.service';
 import { Visibility } from './visibility';
 import { LeaderboardTimespan } from './users/leaderboard-position';
 
