@@ -1,22 +1,22 @@
 <div class="siimple--float-right">
     <div *ngIf="authService.isLoggedIn(); else notLoggedBlock" class="siimple-btn-group">
-        <button class="siimple-btn with-separator" [routerLink]="['/users', authService.getUsername(), 'account']" type="button">
-            <fa-icon [icon]="faUserCircle" class=""></fa-icon>
+        <button class="siimple-btn with-separator" [routerLink]="['/users', authService.getUsername(), 'account']" type="button" aria-label="Account settings">
+            <fa-icon [icon]="faUserCircle" class="" aria-hidden="true"></fa-icon>
             <span class="siimple--ml-1 siimple--display-sm-none ">{{authService.getUsername()}}</span>
         </button>
-        <button class="siimple-btn" (click)="logout()" type="button">
-            <fa-icon [icon]="faSignOutAlt" class=""></fa-icon>
+        <button class="siimple-btn" (click)="logout()" type="button" aria-label="Sign out">
+            <fa-icon [icon]="faSignOutAlt" class="" aria-hidden="true"></fa-icon>
             <span class="siimple--ml-1 siimple--display-sm-none">Sign out</span>
         </button>
     </div>
     <ng-template #notLoggedBlock>
         <div class="siimple-btn-group" >
-            <button routerLink="/signup/" class="siimple-btn siimple-btn--success" type="button">
-                <fa-icon [icon]="faUserPlus" class=""></fa-icon>
+            <button routerLink="/signup/" class="siimple-btn siimple-btn--success" type="button" aria-label="Sign up">
+                <fa-icon [icon]="faUserPlus" class="" aria-hidden="true"></fa-icon>
                 <span class="siimple--ml-1 ">Sign up</span>
             </button>
-            <button routerLink="/login/" class="siimple-btn" type="button">
-                <fa-icon [icon]="faSignInAlt" class=""></fa-icon>
+            <button routerLink="/login/" class="siimple-btn" type="button" aria-label="Sign in">
+                <fa-icon [icon]="faSignInAlt" class="" aria-hidden="true"></fa-icon>
                 <span class="siimple--ml-1 siimple--display-sm-none">Sign in</span>
             </button>
         </div>

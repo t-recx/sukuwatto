@@ -1,7 +1,7 @@
 <div class="siimple-card" [style.display]="visible ? 'block' : 'none'">
     <div class="siimple-card-body" align="center">
         <div class="image-container">
-            <img *ngIf="imageURL" [src]="imageMediaURL" />
+            <img *ngIf="imageURL" [src]="imageMediaURL"  alt="Uploaded image" />
         </div>
         <input #fileInputControl type="file" id="file" class="siimple-input siimple-input--fluid siimple--mt-2" accept="image/*"
             [disabled]="uploading" (change)="onChange($event)" />

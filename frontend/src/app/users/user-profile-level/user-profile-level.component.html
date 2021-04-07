@@ -9,7 +9,7 @@
     </div>
     <div class="siimple-card-body">
         <div class="image-container">
-            <img *ngIf="user.profile_filename && !imageHidden" [src]=profileImageURL (error)="hideImage()" />
+            <img *ngIf="user.profile_filename && !imageHidden" [src]=profileImageURL (error)="hideImage()" alt="User profile picture" />
             <fa-icon *ngIf="!user.profile_filename || imageHidden" [icon]="faUserCircle" class="siimple--color-primary"
                 size="10x"></fa-icon>
         </div>
