@@ -120,10 +120,27 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .tickFormat(d3.timeFormat("%-d"));
         }
         else {
-            ticksX =
-                d3.axisBottom(x)
-                .ticks(width / 80)
-                .tickSizeOuter(0);
+            if (this.monthDiffFromArray(this.progressData.dates) > 4) {
+                ticksX =
+                    d3.axisBottom(x)
+                    .ticks(width / 80)
+                    .tickSizeOuter(0)
+                    .tickFormat((date) => {
+                    if (date instanceof Date) {
+                        if (d3.timeYear(date) < date) {
+                            return d3.timeFormat('%b')(date);
+                        } else {
+                            return d3.timeFormat('%Y')(date);
+                        }
+                    }
+                });
+            }
+            else {
+                ticksX =
+                    d3.axisBottom(x)
+                    .ticks(width / 80)
+                    .tickSizeOuter(0);
+            }
         }
 
         let xAxis = g => g
@@ -133,6 +150,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 )
             .call(g => g.selectAll(".tick text")
                 .attr("font-size", fontSize)
+                .attr('font-family', "'Roboto', 'sans-serif'")
                 );
 
         let yAxis = g => g
@@ -152,7 +170,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         .call(d3.axisLeft(y))
         // .call(d3.axisLeft(y).tickFormat((d, i) => d.toLocaleString())) // <- produces weird results on the pt locale (like 1 - 1,5 - 2 - 2,5 and it gets uneven)
         .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick text").attr("font-size", fontSize))
+        .call(g => g.selectAll(".tick text").attr("font-size", fontSize).attr('font-family', "'Roboto', 'sans-serif'"))
         .call(g => g.selectAll(".tick line").attr("display", "none"))
             .call(g => g.select(".tick:last-of-type")
             .append("rect")
@@ -168,6 +186,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             .attr("font-size", fontSize)
             .attr("text-anchor", "start")
             .attr("font-weight", "bold")
+            .attr('font-family', "'Roboto', 'sans-serif'")
             .text(this.progressData.unitCode ?? '')
             )
         ;
@@ -270,5 +289,21 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
             });
 
         return svg.node();
+    }
+
+    monthDiffFromArray(dates: Date[]) {
+        if (!dates || dates.length <= 1) {
+            return 0;
+        }
+
+        const minDate = new Date(Math.min.apply(null, dates));
+        const maxDate = new Date(Math.max.apply(null, dates));
+
+        return this.monthDiff(minDate, maxDate);
+    }
+
+    monthDiff(dateFrom, dateTo) {
+        return dateTo.getMonth() - dateFrom.getMonth() + 
+            (12 * (dateTo.getFullYear() - dateFrom.getFullYear()))
     }
 }
