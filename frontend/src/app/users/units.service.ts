@@ -265,21 +265,21 @@ export class UnitsService {
     this.units = [
       {
         id: 1,
-        name: "Kilogram",
+        name: "Kilograms",
         abbreviation: "kg",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Weight
       },
       {
         id: 2,
-        name: "Pound",
+        name: "Pounds",
         abbreviation: "lb",
         system: MeasurementSystem.Imperial,
         measurement_type: MeasurementType.Weight
       },
       {
         id: 3,
-        name: "Centimeter",
+        name: "Centimeters",
         abbreviation: "cm",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Height
@@ -293,42 +293,42 @@ export class UnitsService {
       },
       {
         id: 5,
-        name: "Kilometer",
+        name: "Kilometers",
         abbreviation: "km",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Distance
       },
       {
         id: 6,
-        name: "Mile",
+        name: "Miles",
         abbreviation: "mi",
         system: MeasurementSystem.Imperial,
         measurement_type: MeasurementType.Distance
       },
       {
         id: 7,
-        name: "Minute",
+        name: "Minutes",
         abbreviation: "min",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Time
       },
       {
         id: 8,
-        name: "Meter",
+        name: "Meters",
         abbreviation: "m",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Distance
       },
       {
         id: 9,
-        name: "Second",
+        name: "Seconds",
         abbreviation: "s",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Time
       },
       {
         id: 10,
-        name: "Yard",
+        name: "Yards",
         abbreviation: "yd",
         system: MeasurementSystem.Imperial,
         measurement_type: MeasurementType.Distance
@@ -356,7 +356,7 @@ export class UnitsService {
       },
       {
         id: 14,
-        name: "Hour",
+        name: "Hours",
         abbreviation: "hr",
         system: MeasurementSystem.Metric,
         measurement_type: MeasurementType.Time

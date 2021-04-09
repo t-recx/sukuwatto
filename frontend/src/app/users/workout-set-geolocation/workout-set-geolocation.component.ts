@@ -48,7 +48,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   distanceSubscription: Subscription;
 
   fitBounds: LatLngBounds = null;
-  startText: string = "Start";
 
   options: any;
 
@@ -313,6 +312,10 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   toggleCaloriesDetail() {
+    if (!this.allowEdit) {
+      return;
+    }
+
     this.workoutActivity.caloriesDetailed = !this.workoutActivity.caloriesDetailed;
   }
 
@@ -847,11 +850,6 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
       }
 
       this.distanceSubject.next(this.workoutActivity.distance);
-
-      this.startText = 'Continue';
-    }
-    else {
-      this.startText = 'Start';
     }
   }
 

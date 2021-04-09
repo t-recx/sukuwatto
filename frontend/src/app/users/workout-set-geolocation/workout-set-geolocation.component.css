@@ -1,6 +1,6 @@
 .map {
   position: relative;
-  height: 300px;
+  height: 400px;
   padding: 0;
   z-index: 10;
 }
@@ -15,7 +15,7 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  min-height: 300px;
+  min-height: 400px;
 }
 
 .stats-item {
@@ -26,6 +26,34 @@
 .stats-body {
   flex-grow:1;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-distance {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.stats-distance-text {
+  font-size: 72px;
+  color: black;
+}
+
+.stats-speed-calories-container {
+  display: flex;
+  text-transform: uppercase;
+}
+
+.stats-time-text {
+}
+
+.stats-speed-calories-item {
+  width: 50%;
+  text-align: center;
 }
 
 .maximized {
@@ -44,65 +72,81 @@
   padding-right: 16px;
   text-align: center;
   background-color: #eef2f7;
-  font-size: 32px;
-  font-weight: 600;
 }
 
 .stats-footer {
-  height: 16.5px;
-  position: relative;
   background-color: #f6f5f5;
+  display: flex;
+  padding: 20px;
+  align-items: center;
 }
 
-.stats-action-buttons-container {
-  position: absolute;
-  bottom: 25px;
-  right: 10px;
+.bottom-bar-button {
+  height: 34px;
 }
 
-.map-button {
-  position: absolute;
-  bottom: 25px;
-  left: 10px;
+.action-button {
+  z-index: 401;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  margin: auto;
 }
+
+
 
 .start-button {
   position: absolute;
-  bottom: 25px;
-  left:0;
+  bottom: 20px;
+  left:4px;
   right:0;
   margin: auto;
   z-index: 401;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  text-align: center;
 }
 
-.recenter-button {
-  position: absolute;
-  bottom: 70px;
-  left: 10px;
-  right: 0;
+.stop-button {
+  margin: auto;
   z-index: 401;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  text-align: center;
 }
 
-.stats-button {
-  position: absolute;
-  bottom: 25px;
-  left: 10px;
-  right: 0;
+.finish-button {
+  margin: auto;
   z-index: 401;
-  width: 48px;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+}
+
+.stats-pause-finish-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .stop-finish-bar {
   position: absolute;
-  bottom: 25px;
-  right:10px;
-  z-index: 401;
+  left: 68px;
+  bottom: 18px;
+  width: calc(100% - 132px);
+  justify-content: center;
+  height: 60px;
+  display: flex;
 }
 
 .size-button {
   position: absolute;
-  left: 10px;
-  top: 10px;
+  right: 20px;
+  bottom: 31px;
   z-index: 401;
 }
 
@@ -111,4 +155,27 @@
   right: 10px;
   top: 10px;
   z-index: 401;
+}
+
+.stats-button {
+  position: absolute;
+  bottom: 31px;
+  left: 20px;
+  right: 0;
+  z-index: 401;
+  width: 48px;
+}
+
+.recenter-button {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  right: 0;
+  z-index: 401;
+  width: 48px;
+}
+
+.stats-calories-detailed-container  {
+  flex: 1;
+  padding: 20px;
 }

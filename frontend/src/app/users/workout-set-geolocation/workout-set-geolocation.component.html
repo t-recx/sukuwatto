@@ -5,47 +5,45 @@
     <div *ngIf="route" [leafletLayer]="route"></div>
 
     <button class="stats-button siimple-btn siimple-btn--dark" type="button" (click)="showStats()"
-        *ngIf="allowEdit">
-        <fa-icon [icon]="faChartBar"></fa-icon>
+        *ngIf="allowEdit" aria-label="Show stats">
+        <fa-icon [icon]="faChartBar" aria-hidden="true"></fa-icon>
     </button>
 
     <div *ngIf="allowEdit">
         <button type="button" class="siimple-btn 
-            siimple-btn--small
             siimple-btn--dark size-button" (click)="toggleMaximize()"
+            aria-label="Toggle map size"
             *ngIf="allowToggleSize">
-            <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
-            <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
+            <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized" aria-hidden="true"></fa-icon>
+            <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized" aria-hidden="true"></fa-icon>
         </button>
 
         <button type="button" class="siimple-btn 
             siimple-btn--small
-            siimple-btn--dark stop-tracking-button" (click)="disableTracking()">
-            <fa-icon [icon]="faTimes"></fa-icon>
+            siimple-btn--dark stop-tracking-button" (click)="disableTracking()"
+            aria-label="Stop tracking">
+            <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
         </button>
 
         <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
-            *ngIf="!workoutActivity.collectingPositions">
-            <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
-            {{startText}}
+            *ngIf="!workoutActivity.collectingPositions" aria-label="Start">
+            <fa-icon [icon]="faPlay" class="siimple--mr-1" aria-hidden="true" style="margin-left: 6px;"></fa-icon>
         </button>
 
         <button class="recenter-button siimple-btn siimple-btn--dark" type="button" (click)="recenter()"
-            *ngIf="workoutActivity.collectingPositions && workoutActivity.userOperatingMap">
-            <fa-icon [icon]="faDotCircle"></fa-icon>
+            *ngIf="workoutActivity.collectingPositions && workoutActivity.userOperatingMap" aria-label="Recenter map">
+            <fa-icon [icon]="faDotCircle" aria-hidden="true"></fa-icon>
         </button>
 
         <div class="stop-finish-bar">
             <button class="stop-button siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
-                *ngIf="workoutActivity.collectingPositions">
-                <fa-icon [icon]="faPause" class="siimple--mr-1"></fa-icon>
-                Pause
+                *ngIf="workoutActivity.collectingPositions" aria-label="Pause">
+                <fa-icon [icon]="faPause" class="siimple--mr-1" aria-hidden="true" style="margin-left:4px;"></fa-icon>
             </button>
 
-            <button class="siimple--ml-2 finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
-                type="button" *ngIf="workoutActivity.collectingPositions">
-                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                Finish
+            <button class=" finish-button siimple-btn siimple-btn--success" (click)="finishActivity()"
+                type="button" *ngIf="workoutActivity.collectingPositions" aria-label="Finish">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1" aria-hidden="true" style="margin-left:4px;"></fa-icon>
             </button>
         </div>
     </div>
@@ -53,101 +51,134 @@
 
 <div class="  tab-content" [class.tab-content-selected]="workoutActivity.currentView == geoView.Stats" [class.maximized]="workoutActivity.maximized">
     <div class=" stats" [class.maximized]="workoutActivity.maximized">
-        <div class="stats-header " [class.siimple-link]="allowEdit" *ngIf="workoutActivity.maximized"
+        <div class="stats-header siimple-h1" [class.siimple-link]="allowEdit" *ngIf="workoutActivity.maximized"
         (click)="changeExercise()">
             {{workoutActivity.exercise.name}}
         </div>
-
-        <div class="stats-body">
-            <div class="siimple-grid">
-                <div class="siimple-grid-row stats-item">
-                    <div class="siimple-grid-col siimple-grid-col--4">Time</div>
-                    <div class="siimple-grid-col siimple-grid-col--8" align="right">{{workoutActivity.ellapsedTime}}</div>
+        
+        <div class=" stats-calories-detailed-container" *ngIf="workoutActivity.caloriesDetailed && allowEdit">
+            <div class="siimple-card ">
+                <div class="siimple-h2">
+                    Calories - Activity
                 </div>
-                <div class="siimple-grid-row stats-item">
-                    <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
-                    <div class="siimple-grid-col siimple-grid-col--6" align="right"
-                        *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance < 1">
-                        {{distanceInSmallerUnit |locale}}{{distanceSmallerUnit.abbreviation}}
+                <div class="siimple-card-body">
+                    <div class="siimple-form-field">
+                        <label class="siimple-field-label" for="username">MET</label>
+                        <select class="siimple-select siimple-select--fluid" name="met" id="met" required
+                            [(ngModel)]="workoutActivity.met" #met="ngModel" (change)="setMETbyUser()">
+                            <option *ngFor="let metModel of mets" value={{metModel.id}}>
+                                {{metModel.description}}
+                            </option>
+                        </select>
                     </div>
-                    <div class="siimple-grid-col siimple-grid-col--6" align="right"
-                        *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance >= 1">
-                        {{workoutActivity.distance|locale}}{{distanceUnit.abbreviation}}
-                    </div>
-                </div>
-                <div class="siimple-grid-row stats-item">
-                    <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
-                    <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
-                        {{workoutActivity.speed|locale}}{{speedUnit.abbreviation}}
-                    </div>
-                </div>
-                <div class="siimple-grid-row stats-item "
-                [class.clickable]="allowEdit"
-                (click)="toggleCaloriesDetail()">
-                    <div class="siimple-grid-col siimple-grid-col--5">Energy</div>
-                    <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">{{workoutActivity.calories|locale}}{{energyUnit.abbreviation}}</div>
-                </div>
-                <div class="siimple-grid-row stats-item" *ngIf="workoutActivity.caloriesDetailed && allowEdit">
-                    <div class="siimple-grid-col siimple-grid-col--12">
-                        <div class="siimple-card siimple--mb-0">
-                            <div class="siimple-card-body">
-                                <div class="siimple-form-field">
-                                    <label class="siimple-field-label" for="username">MET</label>
-                                    <select class="siimple-select siimple-select--fluid" name="met" id="met" required
-                                        [(ngModel)]="workoutActivity.met" #met="ngModel" (change)="setMETbyUser()">
-                                        <option *ngFor="let metModel of mets" value={{metModel.id}}>
-                                            {{metModel.description}}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="siimple-form-field siimple--mb-0">
-                                    <label class="siimple-label">Manual selection</label>
-                                    <div class="siimple-switch">
-                                        <input type="checkbox" name="met_set_by_user" id="met_set_by_user"
-                                            [(ngModel)]="workoutActivity.met_set_by_user"
-                                            #met_set_by_user="ngModel">
-                                        <label for="met_set_by_user"></label>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="siimple-form-field siimple--mb-0">
+                        <label class="siimple-label">Manual selection</label>
+                        <div class="siimple-switch">
+                            <input type="checkbox" name="met_set_by_user" id="met_set_by_user"
+                                [(ngModel)]="workoutActivity.met_set_by_user"
+                                #met_set_by_user="ngModel">
+                            <label for="met_set_by_user"></label>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="siimple-btn siimple-btn--dark"
+                (click)="toggleCaloriesDetail()" aria-label="Go back">
+                Back
+            </button>
+        </div>
+
+        <div class="stats-body" *ngIf="!workoutActivity.caloriesDetailed ">
+            <div class="">
+                <div class=" centered-text">
+                    <div class="siimple-h2 stats-time-text">
+                        {{workoutActivity.ellapsedTime}}
+                    </div>
+                    <div class="">
+                        TIME
+                    </div>
+                </div>
+            </div>
+        
+            <div class="stats-distance">
+                <div class="centered-text">
+                    <div class="siimple-h1 stats-distance-text">
+                        <div class=""
+                            *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance < 1">
+                            {{distanceInSmallerUnit |locale}}
+                        </div>
+                        <div class=""
+                            *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance >= 1">
+                            {{workoutActivity.distance|locale}}
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class=""
+                            *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance < 1">
+                            {{distanceSmallerUnit.name}}
+                        </div>
+                        <div class=""
+                            *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance >= 1">
+                            {{distanceUnit.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="stats-speed-calories-container">
+                <div class="stats-speed-calories-item">
+                    <div class="stats-speed-calories-text siimple-h3">
+                        {{workoutActivity.speed|locale}}
+                    </div>
+                    <div>
+                        {{speedUnit.abbreviation}}
+                    </div>
+                </div>
+                <div class=" stats-speed-calories-item"
+                    [class.clickable]="allowEdit"
+                    (click)="toggleCaloriesDetail()"
+                >
+                    <div class="stats-speed-calories-text siimple-h3">
+                        {{workoutActivity.calories|locale}}
+                    </div>
+                    <div>
+                        {{energyUnit.abbreviation}}
                     </div>
                 </div>
             </div>
         </div>
 
         <div class=" stats-footer">
-            <button type="button" class="siimple-btn siimple-btn--operation map-button" (click)="showMap()">
-                <fa-icon [icon]="faMapMarkedAlt" class=""></fa-icon>
+            <button type="button" class="siimple-btn siimple-btn--operation bottom-bar-button" (click)="showMap()"
+                aria-label="Show map">
+                <fa-icon [icon]="faMapMarkedAlt" class="" aria-hidden="true"></fa-icon>
             </button>
 
+            <div class="stats-pause-finish-container">
+                <button class="action-button  siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
+                    *ngIf="!workoutActivity.collectingPositions && allowEdit" aria-label="Start">
+                    <fa-icon [icon]="faPlay" class="siimple--mr-1" aria-hidden="true" style="margin-left: 6px;"></fa-icon>
+                </button>
 
-            <button class="start-button siimple-btn siimple-btn--primary" (click)="startTracking()" type="button"
-                *ngIf="!workoutActivity.collectingPositions && allowEdit">
-                <fa-icon [icon]="faPlay" class="siimple--mr-1"></fa-icon>
-                Start
+                <button class="action-button  siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
+                    *ngIf="workoutActivity.collectingPositions" aria-label="Pause">
+                    <fa-icon [icon]="faPause" class="siimple--mr-1" aria-hidden="true" style="margin-left: 4px;"></fa-icon>
+                </button>
+
+                <button class="action-button  siimple-btn siimple-btn--success" (click)="finishActivity()" type="button"
+                    *ngIf="workoutActivity.collectingPositions" aria-label="Stop">
+                    <fa-icon [icon]="faCheck" class="siimple--mr-1" aria-hidden="true" style="margin-left: 4px;"></fa-icon>
+                </button>
+            </div>
+
+            <button type="button" class="siimple-btn bottom-bar-button
+                                            siimple-btn--operation " (click)="toggleMaximize()" 
+                aria-label="Toggle size"
+                                            [style.visibility]="allowToggleSize ? 'visible' : 'hidden'">
+                <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized" aria-hidden="true"></fa-icon>
+                <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized" aria-hidden="true"></fa-icon>
             </button>
-
-            <span class="stats-action-buttons-container" *ngIf="allowEdit">
-                <button class="siimple--ml-2 siimple-btn siimple-btn--primary" (click)="stopTracking()" type="button"
-                    *ngIf="workoutActivity.collectingPositions">
-                    <fa-icon [icon]="faPause" class="siimple--mr-1"></fa-icon>
-                    Pause
-                </button>
-
-                <button class="siimple--ml-2 siimple-btn siimple-btn--success" (click)="finishActivity()" type="button"
-                    *ngIf="workoutActivity.collectingPositions">
-                    <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                    Finish
-                </button>
-
-                <button type="button" class="siimple--ml-2 siimple-btn 
-                                siimple-btn--operation siimple--float-right" (click)="toggleMaximize()"
-                                *ngIf="allowToggleSize" >
-                    <fa-icon [icon]="faCompress" *ngIf="workoutActivity.maximized"></fa-icon>
-                    <fa-icon [icon]="faExpand" *ngIf="!workoutActivity.maximized"></fa-icon>
-                </button>
-            </span>
         </div>
     </div>
 </div>
