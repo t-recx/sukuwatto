@@ -6,7 +6,7 @@
 <article class="siimple-card" *ngIf="workout && !loading">
     <header class="siimple-card-header">
         <a class="siimple-link workout-card-header-link" [routerLink]="routerLink">
-            {{workout.name}}
+            {{workout.name | translate}}
         </a>
 
         <div *ngIf="showSaveDeleteButtons && !deleting && isLoggedIn()" class="siimple--ml-2 siimple-modal-header-close"
@@ -35,7 +35,7 @@
                     <div class=" tracked-activity-title-container"
                         [class.tracked-activity-title-no-arrows]="trackedActivities.length == 1">
                         <span class="siimple--text-bold">
-                            {{selectedTrackedActivity.exercise.name}}
+                            {{selectedTrackedActivity.exercise.name | translate}}
                         </span>
                         <span class="tracked-activity-info">
                             <span *ngIf="selectedTrackedActivity.distance && selectedTrackedActivity.distance_unit">
@@ -78,27 +78,27 @@
                 [class.more-than-two-columns]="(showDistanceColumn ? 1 : 0) + (showSpeedColumn ? 1 : 0) + (showVo2MaxColumn ? 1 : 0) + (showTimeColumn ? 1 : 0) > 2"
                 >
                     <tr class="siimple-table-row">
-                        <th class="siimple-table-cell exercise-cardio-column-header">Exercise</th>
-                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">Time
+                        <th translate class="siimple-table-cell exercise-cardio-column-header">Exercise</th>
+                        <th translate class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">Time
                         </th>
-                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">
+                        <th translate class="siimple-table-cell cardio-value-column" align="center" *ngIf="showDistanceColumn">
                             Distance</th>
-                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">Speed
+                        <th translate class="siimple-table-cell cardio-value-column" align="center" *ngIf="showSpeedColumn">Speed
                         </th>
-                        <th class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">VO2
-                            <span class="siimple--display-sm-none">max</span></th>
+                        <th translate class="siimple-table-cell cardio-value-column" align="center" *ngIf="showVo2MaxColumn">VO2
+                            max</th>
                     </tr>
                 </thead>
                 <tbody class="siimple-table-body"
                 [class.more-than-two-columns]="(showDistanceColumn ? 1 : 0) + (showSpeedColumn ? 1 : 0) + (showVo2MaxColumn ? 1 : 0) + (showTimeColumn ? 1 : 0) > 2"
                 >
-                    <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of cardioWorkoutActivities">
+                    <tr class="siimple-table-row " *ngFor="let workoutActivity of cardioWorkoutActivities">
                         <td class="siimple-table-cell">
                             <span class="phones-only">
-                                {{workoutActivity.exercise.short_name}}
+                                {{workoutActivity.exercise.short_name | translate}}
                             </span>
                             <span class="siimple--display-sm-none">
-                                {{workoutActivity.exercise.name}}
+                                {{workoutActivity.exercise.name | translate}}
                             </span>
                         </td>
                         <td class="siimple-table-cell cardio-value-column" align="center" *ngIf="showTimeColumn">
@@ -148,26 +148,26 @@
                 *ngIf="strengthWorkoutActivities && strengthWorkoutActivities.length > 0">
                 <thead class="siimple-table-header">
                     <tr class="siimple-table-row">
-                        <th class="siimple-table-cell">Exercise</th>
-                        <th class="siimple-table-cell" align="center">
+                        <th translate class="siimple-table-cell">Exercise</th>
+                        <th translate class="siimple-table-cell" align="center">
                             <span class="">Weight</span>
                         </th>
-                        <th class="siimple-table-cell" align="center">
+                        <th translate class="siimple-table-cell" align="center">
                             <span class="">Sets</span>
                         </th>
-                        <th class="siimple-table-cell" align="center">
+                        <th translate class="siimple-table-cell" align="center">
                             <span class="">Reps</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody class="siimple-table-body">
-                    <tr class="siimple-table-row link-row" *ngFor="let workoutActivity of strengthWorkoutActivities">
+                    <tr class="siimple-table-row " *ngFor="let workoutActivity of strengthWorkoutActivities">
                         <td class="siimple-table-cell">
                             <span class="phones-only">
-                                {{workoutActivity.exercise.short_name}}
+                                {{workoutActivity.exercise.short_name | translate}}
                             </span>
                             <span class="siimple--display-sm-none">
-                                {{workoutActivity.exercise.name}}
+                                {{workoutActivity.exercise.name | translate}}
                             </span>
                         </td>
                         <td class="siimple-table-cell" align="center">
@@ -180,10 +180,10 @@
                                 </span>
                             </span>
                             <span *ngIf="!workoutActivity.weight && workoutActivity.exercise ">
-                                <span *ngIf="workoutActivity.exercise.modality != 'x'">
+                                <span *ngIf="workoutActivity.exercise.modality != 'x'" translate>
                                     (bar)
                                 </span>
-                                <span *ngIf="workoutActivity.exercise.modality == 'x'">
+                                <span *ngIf="workoutActivity.exercise.modality == 'x'" translate>
                                     N/A
                                 </span>
                             </span>
@@ -222,7 +222,7 @@
     </footer>
 </article>
 
-<app-delete-modal [(visible)]="deleteModalVisible" title='Delete workout?'
-    body='This will delete your workout and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+<app-delete-modal [(visible)]="deleteModalVisible" title="'Delete workout?' | translate"
+    [body]="'This will delete your workout and associated data. Are you sure you want to proceed?' | translate" (deleted)="delete()"
     (canceled)="toggleDeleteModal()">
 </app-delete-modal>

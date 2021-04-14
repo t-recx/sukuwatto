@@ -9,7 +9,8 @@
     "build-android-dev": "./build-android-dev.sh",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "i18n:extract": "./mark_for_translation.rb  > src/app/translation-fixtures.ts && ngx-translate-extract --input ./src --output ./src/assets/i18n/*.json --clean --format -k namespaced-json"
   },
   "private": true,
   "dependencies": {
@@ -23,11 +24,14 @@
     "@angular/router": "^11.2.8",
     "@angular/service-worker": "^11.2.8",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
+    "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
     "@fortawesome/angular-fontawesome": "^0.8.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@fortawesome/free-regular-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "d3": "^5.16.0",
     "hammerjs": "^2.0.8",
     "image-conversion": "^2.1.1",
@@ -45,6 +49,7 @@
     "@angular/cli": "^11.2.7",
     "@angular/compiler-cli": "^11.2.8",
     "@angular/language-service": "^11.2.8",
+    "@biesbjerg/ngx-translate-extract": "^7.0.3",
     "@types/d3": "^5.7.2",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",

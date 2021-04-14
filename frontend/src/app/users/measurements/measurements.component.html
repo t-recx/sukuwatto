@@ -1,11 +1,13 @@
 <div class="toolbar measurements-toolbar">
-    <div class="toolbar-title">Body <span class="siimple--display-sm-none ">Measurements</span></div>
+    <div class="toolbar-title" translate>Body Measurements</div>
 
     <div class="toolbar-buttons" *ngIf="isLoggedIn()">
         <button class="siimple-btn siimple-btn--primary toolbar-button" 
           [routerLink]="['/users', username, 'measurement']">
             <fa-icon [icon]="faWeight" class="siimple--mr-1" [fixedWidth]=true></fa-icon>
-            New
+            <span translate>
+                New
+            </span>
         </button>
     </div>
 </div>
@@ -22,11 +24,11 @@
             <th (click)="toggleSort('date')"
                 [class.siimple-table-cell--asc]="columnOrder['date'] && columnOrder['date'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['date'] && columnOrder['date'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Date</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Date</th>
             <th (click)="toggleSort('weight')"
                 [class.siimple-table-cell--asc]="columnOrder['weight'] && columnOrder['weight'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['weight'] && columnOrder['weight'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Weight</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Weight</th>
         </tr>
     </thead>
     <tbody class="siimple-table-body">
@@ -45,19 +47,19 @@
             <th (click)="toggleSort('date')"
                 [class.siimple-table-cell--asc]="columnOrder['date'] && columnOrder['date'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['date'] && columnOrder['date'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Date</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Date</th>
             <th (click)="toggleSort('weight')"
                 [class.siimple-table-cell--asc]="columnOrder['weight'] && columnOrder['weight'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['weight'] && columnOrder['weight'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Weight</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Weight</th>
             <th (click)="toggleSort('body_fat_percentage')"
                 [class.siimple-table-cell--asc]="columnOrder['body_fat_percentage'] && columnOrder['body_fat_percentage'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['body_fat_percentage'] && columnOrder['body_fat_percentage'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">BF %</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>BF %</th>
             <th (click)="toggleSort('muscle_mass_percentage')"
                 [class.siimple-table-cell--asc]="columnOrder['muscle_mass_percentage'] && columnOrder['muscle_mass_percentage'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['muscle_mass_percentage'] && columnOrder['muscle_mass_percentage'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Muscle %</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Muscle %</th>
         </tr>
     </thead>
     <tbody class="siimple-table-body">

@@ -21,44 +21,44 @@
 
     <div *ngIf="userIsStaff">
         <form class="siimple-card siimple-form siimple--mb-0" #exerciseForm="ngForm">
-            <div class="siimple-form-title form-title">Release detail</div>
+            <div class="siimple-form-title form-title" translate>Release detail</div>
 
             <div class="siimple-form-field">
-                <div class="siimple-form-field-label">Version</div>
+                <div class="siimple-form-field-label" translate>Version</div>
                 <input type="text" class="siimple-input siimple-input--fluid" required name="version" id="version"
                     applyFocus [(ngModel)]="release.version" #version="ngModel">
 
                 <div *ngIf="version.invalid && (version.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
             <div class="siimple-form-field">
-                <div class="siimple-form-field-label">Description</div>
+                <div class="siimple-form-field-label" translate>Description</div>
                 <textarea required type="text" class="siimple-textarea siimple-textarea--fluid" rows="3"
                     name="description" id="description" [(ngModel)]="release.description"
                     #description="ngModel">
                 </textarea>
 
                 <div *ngIf="description.invalid && (description.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
             <div class="siimple-form-field">
-                <div class="siimple-form-field-label">Deploy date</div>
+                <div class="siimple-form-field-label" translate>Deploy date</div>
                 <input type="date" class="siimple-input-date siimple-input--fluid"  name="deploy_date" id="deploy_date"
                     [ngModel]="release.deploy_date | date:'yyyy-MM-dd'" 
                     (ngModelChange)="setReleaseDeployDate($event)"
                     #deploy_date="ngModel">
 
                 <div *ngIf="(deploy_date.invalid || (release.state=='d' && !release.deploy_date)) && (deploy_date.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
             <div class="siimple-form-field">
-                <div class="siimple-form-field-label">State</div>
+                <div class="siimple-form-field-label" translate>State</div>
                 <select required class="siimple-select siimple-select--fluid" name="state" id="state"
                     [(ngModel)]="release.state" #state="ngModel">
                     <option [ngValue]="null"></option>
@@ -69,12 +69,12 @@
                 </select>
 
                 <div *ngIf="state.invalid && (state.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
             <div class="siimple-card">
-                <div class="siimple-card-header">
+                <div class="siimple-card-header" translate>
                     Features
                 </div>
                 <div class="siimple-card-body">
@@ -86,7 +86,9 @@
 
                     <button class="siimple-btn siimple-btn--primary siimple--mt-2" (click)="showFeatureSelection()" type="button">
                         <fa-icon [icon]="faCode" class="  siimple--mr-1" ></fa-icon>
-                        Add feature
+                        <span translate>
+                            Add feature
+                        </span>
                     </button>
                 </div>
             </div>
@@ -98,14 +100,18 @@
                 [class.siimple-btn--disabled]="saving" [disabled]="saving">
                 <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
-                Save
+                <span translate>
+                    Save
+                </span>
             </button>
             <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2"
                 type="button"
                 [class.siimple-btn--disabled]="deleting" [disabled]="deleting" (click)="showDeleteModal()">
                 <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-                Delete
+                <span translate>
+                    Delete
+                </span>
             </button>
         </form>
     </div>

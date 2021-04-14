@@ -1,7 +1,7 @@
 <div class="exercises-input-control">
     <input class="exercise-name-box siimple-input clickable no-round-right" 
-        [value]="getExerciseName()"
-        placeholder="Select an exercise"
+        [value]="getExerciseName() | translate"
+        [placeholder]="'Select an exercise' | translate" 
         readonly (click)="search()">
 
     <button 

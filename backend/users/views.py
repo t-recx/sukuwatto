@@ -351,6 +351,9 @@ def validate_password(request):
     errors = list()
 
     try:
+        if "recaptcha" in request.data:
+            request.data.pop('recaptcha')
+
         password_validation.validate_password(password=request.data.get('password'), user=get_user_model()(**request.data))
     except ValidationError as e:
         errors = list(e.messages)

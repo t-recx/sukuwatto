@@ -76,6 +76,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isRouterLinkWorkouts: boolean = false;
   isRouterLinkBody: boolean = false;
+  isRouterLinkSupport: boolean = false;
 
   chartDataVisibility: UserVisibleChartData = null;
   chartDataBodyVisibility = new UserVisibleChartData({
@@ -90,7 +91,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   rightSideBarVisible = false;
 
   setRightSideBarVisible() {
-    this.rightSideBarVisible = window.innerWidth > 1280;
+    this.rightSideBarVisible = window.innerWidth > 1280 && !this.isRouterLinkSupport;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -169,11 +170,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.authService.isLoggedIn()) {
       this.isRouterLinkBody = false;
       this.isRouterLinkWorkouts = false;
+      this.isRouterLinkSupport = false;
     }
     else {
       const prefix = '/users/' + this.authService.getUsername();
       this.isRouterLinkBody = router.url.startsWith(prefix + '/measurement');
       this.isRouterLinkWorkouts = router.url.startsWith(prefix + '/workout');
+      this.isRouterLinkSupport = router.url.startsWith(prefix + '/support');
 
       if (this.isRouterLinkBody) {
         this.chartDataVisibility = this.chartDataBodyVisibility;
@@ -185,6 +188,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         this.chartDataVisibility = null;
       }
     }
+
+    this.setRightSideBarVisible();
   }
 
   private updateUnreadMessageCount(u: number) {

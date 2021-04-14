@@ -3,37 +3,37 @@
         <div class="siimple-grid-row">
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Order</div>
+                    <div class="siimple-form-field-label" translate>Order</div>
                     <input type="number" class="siimple-input siimple-input--fluid" required name="order" id="order"
-                        [(ngModel)]="planSessionGroupExercise.order" #order="ngModel" placeholder="Order">
+                        [(ngModel)]="planSessionGroupExercise.order" #order="ngModel" [placeholder]="'Order' | translate">
 
                     <div *ngIf="order.invalid && (order.dirty || triedToSave)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
             </div>
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Sets</div>
+                    <div class="siimple-form-field-label" translate>Sets</div>
                     <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_sets"
                         id="number_of_sets" [(ngModel)]="planSessionGroupExercise.number_of_sets"
-                        #number_of_sets="ngModel" placeholder="Sets">
+                        #number_of_sets="ngModel" [placeholder]="'Sets' | translate">
 
                     <div *ngIf="number_of_sets.invalid && (number_of_sets.dirty || triedToSave)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
             </div>
             <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Exercise</div>
+                    <div class="siimple-form-field-label" translate>Exercise</div>
                     <exercises-input [(ngModel)]="planSessionGroupExercise.exercise" #exercise="ngModel" name="exercise"
                         (change)="exerciseChanged()"
                         id="exercise" required>
                     </exercises-input>
 
                     <div *ngIf="exercise.invalid && (exercise.dirty || triedToSave)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             *ngIf="planSessionGroupExercise.exercise && planSessionGroupExercise.exercise.exercise_type == 's'">
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Repetition type</div>
+                    <div class="siimple-form-field-label" translate>Repetition type</div>
                     <select class="siimple-select siimple-select--fluid" name="repetition_type" required
                         id="repetition_type" [(ngModel)]="planSessionGroupExercise.repetition_type"
                         #repetition_type="ngModel" (change)="repetitionTypeChange()">
@@ -53,7 +53,7 @@
                     </select>
 
                     <div *ngIf="repetition_type.invalid && (repetition_type.dirty || triedToSave)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
             </div>
@@ -61,14 +61,14 @@
                 *ngIf="planSessionGroupExercise.repetition_type == repetitionTypeEnum.Standard || planSessionGroupExercise.repetition_type == repetitionTypeEnum.Range ">
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Reps</div>
+                        <div class="siimple-form-field-label" translate>Reps</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required
                             name="number_of_repetitions" id="number_of_repetitions"
                             [(ngModel)]="planSessionGroupExercise.number_of_repetitions"
-                            #number_of_repetitions="ngModel" placeholder="Reps">
+                            #number_of_repetitions="ngModel" [placeholder]="'Reps' | translate">
 
                         <div *ngIf="number_of_repetitions.invalid && (number_of_repetitions.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -76,24 +76,24 @@
             <div *ngIf="planSessionGroupExercise.repetition_type == repetitionTypeEnum.Range">
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Up to</div>
+                        <div class="siimple-form-field-label" translate>Up to</div>
                         <input type="number" class="siimple-input siimple-input--fluid"
                             name="number_of_repetitions_up_to" id="number_of_repetitions_up_to"
                             [(ngModel)]="planSessionGroupExercise.number_of_repetitions_up_to"
-                            #number_of_repetitions_up_to="ngModel" placeholder="Up to">
+                            #number_of_repetitions_up_to="ngModel" [placeholder]="'Up to' | translate">
                     </div>
                 </div>
             </div>
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
-                    <div class="siimple-form-field-label">Work weight (%)</div>
+                    <div class="siimple-form-field-label" translate>Work weight (%)</div>
                     <input type="number" class="siimple-input siimple-input--fluid" required
                         name="working_weight_percentage" id="working_weight_percentage"
                         [(ngModel)]="planSessionGroupExercise.working_weight_percentage"
-                        #working_weight_percentage="ngModel" placeholder="% Work Weight">
+                        #working_weight_percentage="ngModel" [placeholder]="'% Work Weight' | translate">
 
                     <div *ngIf="working_weight_percentage.invalid && (working_weight_percentage.dirty || triedToSave)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Speed type</div>
+                        <div class="siimple-form-field-label" translate>Speed type</div>
                         <select class="siimple-select siimple-select--fluid" name="speed_type" required id="speed_type"
                             [(ngModel)]="planSessionGroupExercise.speed_type" #speed_type="ngModel"
                             (change)="speedTypeChange()">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Distance type</div>
+                        <div class="siimple-form-field-label" translate>Distance type</div>
                         <select class="siimple-select siimple-select--fluid" name="distance_type" required
                             id="distance_type" [(ngModel)]="planSessionGroupExercise.distance_type"
                             #distance_type="ngModel" (change)="distanceTypeChange()">
@@ -129,7 +129,7 @@
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Time type</div>
+                        <div class="siimple-form-field-label" translate>Time type</div>
                         <select class="siimple-select siimple-select--fluid" name="time_type" required id="time_type"
                             [(ngModel)]="planSessionGroupExercise.time_type" #time_type="ngModel"
                             (change)="timeTypeChange()">
@@ -143,7 +143,7 @@
 
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">VO2 max type</div>
+                        <div class="siimple-form-field-label" translate>VO2 max type</div>
                         <select class="siimple-select siimple-select--fluid" name="vo2Max_type" required
                             id="vo2Max_type" [(ngModel)]="planSessionGroupExercise.vo2max_type" #vo2Max_type="ngModel"
                             (change)="vo2MaxTypeChange()">
@@ -163,13 +163,13 @@
                         *ngIf="planSessionGroupExercise.speed_type == speedTypeEnum.Standard || planSessionGroupExercise.speed_type == speedTypeEnum.Range ">
                         <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
                             <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Speed</div>
+                                <div class="siimple-form-field-label" translate>Speed</div>
                                 <input type="number" class="siimple-input siimple-input--fluid" required name="speed"
                                     id="speed" [(ngModel)]="planSessionGroupExercise.speed" #speed="ngModel"
-                                    placeholder="Speed">
+                                    [placeholder]="'Speed' | translate">
 
                                 <div *ngIf="speed.invalid && (speed.dirty || triedToSave)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty
+                                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty
                                     </div>
                                 </div>
                             </div>
@@ -178,10 +178,10 @@
                     <div *ngIf="planSessionGroupExercise.speed_type == speedTypeEnum.Range">
                         <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
                             <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Up to</div>
+                                <div class="siimple-form-field-label" translate>Up to</div>
                                 <input type="number" class="siimple-input siimple-input--fluid" name="speed_up_to"
                                     id="speed_up_to" [(ngModel)]="planSessionGroupExercise.speed_up_to"
-                                    #speed_up_to="ngModel" placeholder="Up to">
+                                    #speed_up_to="ngModel" [placeholder]="'Up to' | translate">
                             </div>
                         </div>
                     </div>
@@ -189,7 +189,7 @@
                                     planSessionGroupExercise.speed_type == speedTypeEnum.Range  ">
                         <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0">
                             <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Unit</div>
+                                <div class="siimple-form-field-label" translate>Unit</div>
                                 <select class="siimple-select siimple-select--fluid" name="speed_unit" id="speed_unit"
                                     [(ngModel)]="planSessionGroupExercise.speed_unit" #speed_unit="ngModel">
                                     <option *ngFor="let unitModel of speedUnits" value={{unitModel.id}}>
@@ -198,7 +198,7 @@
                                 </select>
 
                                 <div *ngIf="speed_unit.invalid && (speed_unit.dirty || triedToSave)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty
+                                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty
                                     </div>
                                 </div>
                             </div>
@@ -207,15 +207,15 @@
                     <div *ngIf="planSessionGroupExercise.speed_type == speedTypeEnum.Parameter">
                         <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
                             <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Work Speed (%)</div>
+                                <div class="siimple-form-field-label" translate>Work Speed (%)</div>
                                 <input type="number" class="siimple-input siimple-input--fluid" required
                                     name="working_speed_percentage" id="working_speed_percentage"
                                     [(ngModel)]="planSessionGroupExercise.working_speed_percentage"
-                                    #working_speed_percentage="ngModel" placeholder="% Work Speed">
+                                    #working_speed_percentage="ngModel" [placeholder]="'% Work Speed' | translate">
 
                                 <div
                                     *ngIf="working_speed_percentage.invalid && (working_speed_percentage.dirty || triedToSave)">
-                                    <div class="siimple-field-helper siimple--color-error">This field can't be empty
+                                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty
                                     </div>
                                 </div>
                             </div>
@@ -229,13 +229,13 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.distance_type == distanceTypeEnum.Standard || planSessionGroupExercise.distance_type == distanceTypeEnum.Range ">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Distance</div>
+                        <div class="siimple-form-field-label" translate>Distance</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required name="distance"
                             id="distance" [(ngModel)]="planSessionGroupExercise.distance" #distance="ngModel"
-                            placeholder="Distance">
+                            [placeholder]="'Distance' | translate">
 
                         <div *ngIf="distance.invalid && (distance.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -243,17 +243,17 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.distance_type == distanceTypeEnum.Range">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Up to</div>
+                        <div class="siimple-form-field-label" translate>Up to</div>
                         <input type="number" class="siimple-input siimple-input--fluid" name="distance_up_to"
                             id="distance_up_to" [(ngModel)]="planSessionGroupExercise.distance_up_to"
-                            #distance_up_to="ngModel" placeholder="Up to">
+                            #distance_up_to="ngModel" [placeholder]="'Up to' | translate">
                     </div>
                 </div>
 
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0" *ngIf="planSessionGroupExercise.distance_type == distanceTypeEnum.Standard || 
                                     planSessionGroupExercise.distance_type == distanceTypeEnum.Range  ">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Unit</div>
+                        <div class="siimple-form-field-label" translate>Unit</div>
                         <select class="siimple-select siimple-select--fluid" name="distance_unit" id="distance_unit"
                             [(ngModel)]="planSessionGroupExercise.distance_unit" #distance_unit="ngModel">
                             <option *ngFor="let unitModel of distanceUnits" value={{unitModel.id}}>
@@ -262,7 +262,7 @@
                         </select>
 
                         <div *ngIf="distance_unit.invalid && (distance_unit.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -270,15 +270,15 @@
                 <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.distance_type == distanceTypeEnum.Parameter">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Work Distance (%)</div>
+                        <div class="siimple-form-field-label" translate>Work Distance (%)</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required
                             name="working_distance_percentage" id="working_distance_percentage"
                             [(ngModel)]="planSessionGroupExercise.working_distance_percentage"
-                            #working_distance_percentage="ngModel" placeholder="% Work Distance">
+                            #working_distance_percentage="ngModel" [placeholder]="'% Work Distance' | translate">
 
                         <div
                             *ngIf="working_distance_percentage.invalid && (working_distance_percentage.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -289,12 +289,12 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.time_type == timeTypeEnum.Standard || planSessionGroupExercise.time_type == timeTypeEnum.Range ">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Time</div>
+                        <div class="siimple-form-field-label" translate>Time</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required name="time" id="time"
-                            [(ngModel)]="planSessionGroupExercise.time" #time="ngModel" placeholder="Time">
+                            [(ngModel)]="planSessionGroupExercise.time" #time="ngModel" [placeholder]="'Time' | translate">
 
                         <div *ngIf="time.invalid && (time.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -302,17 +302,17 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.time_type == timeTypeEnum.Range">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Up to</div>
+                        <div class="siimple-form-field-label" translate>Up to</div>
                         <input type="number" class="siimple-input siimple-input--fluid" name="time_up_to"
                             id="time_up_to" [(ngModel)]="planSessionGroupExercise.time_up_to" #time_up_to="ngModel"
-                            placeholder="Up to">
+                            [placeholder]="'Up to' | translate">
                     </div>
                 </div>
 
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12 siimple--py-0" *ngIf="planSessionGroupExercise.time_type == timeTypeEnum.Standard || 
                                     planSessionGroupExercise.time_type == timeTypeEnum.Range  ">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Unit</div>
+                        <div class="siimple-form-field-label" translate>Unit</div>
                         <select class="siimple-select siimple-select--fluid" name="time_unit" id="time_unit"
                             [(ngModel)]="planSessionGroupExercise.time_unit" #time_unit="ngModel">
                             <option *ngFor="let unitModel of timeUnits" value={{unitModel.id}}>
@@ -321,7 +321,7 @@
                         </select>
 
                         <div *ngIf="time_unit.invalid && (time_unit.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -329,14 +329,14 @@
                 <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.time_type == timeTypeEnum.Parameter">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Work Time (%)</div>
+                        <div class="siimple-form-field-label" translate>Work Time (%)</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required
                             name="working_time_percentage" id="working_time_percentage"
                             [(ngModel)]="planSessionGroupExercise.working_time_percentage"
-                            #working_time_percentage="ngModel" placeholder="% Work Time">
+                            #working_time_percentage="ngModel" [placeholder]="'% Work Time' | translate">
 
                         <div *ngIf="working_time_percentage.invalid && (working_time_percentage.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -347,23 +347,23 @@
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.vo2max_type == vo2MaxTypeEnum.Standard || planSessionGroupExercise.vo2max_type == vo2MaxTypeEnum.Range ">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">VO2 max</div>
+                        <div class="siimple-form-field-label" translate>VO2 max</div>
                         <input type="number" class="siimple-input siimple-input--fluid" required name="vo2max"
                             id="vo2max" [(ngModel)]="planSessionGroupExercise.vo2max" #vo2max="ngModel"
-                            placeholder="Vo2 max">
+                            [placeholder]="'Vo2 max' | translate">
 
                         <div *ngIf="vo2max.invalid && (vo2max.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0"
                     *ngIf="planSessionGroupExercise.vo2max_type == vo2MaxTypeEnum.Range">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Up to</div>
+                        <div class="siimple-form-field-label" translate>Up to</div>
                         <input type="number" class="siimple-input siimple-input--fluid" name="vo2max_up_to"
                             id="vo2max_up_to" [(ngModel)]="planSessionGroupExercise.vo2max_up_to"
-                            #vo2max_up_to="ngModel" placeholder="Up to">
+                            #vo2max_up_to="ngModel" [placeholder]="'Up to' | translate">
                     </div>
                 </div>
             </div>

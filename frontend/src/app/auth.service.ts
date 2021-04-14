@@ -302,4 +302,5 @@ export class AuthService {
   public setLeaderboardTimespan(ts: LeaderboardTimespan) {
     this.setLocalStorageItem('default_leaderboard_timespan', ts.toString());
   }
+
 }

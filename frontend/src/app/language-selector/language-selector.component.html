@@ -1,0 +1,29 @@
+<div class="language-select-container siimple-footer-link" (click)="toggleLanguagePopup()">
+    <fa-icon [icon]="faGlobe" class="siimple--mr-1" ></fa-icon>
+    <span>{{currentLanguage}}</span>
+</div>
+
+<div class="siimple-modal modal-window siimple-modal--small " *ngIf="languagePopupVisible">
+    <div class="siimple-modal-content language-modal-content">
+        <div class="siimple-modal-body modal-window-body">
+            <ul class="siimple-list" >
+                <li class="siimple-list-item siimple-link siimple--display-flex" (click)="changeLanguage('en')">
+                    <img src="../../assets/flags/gb.svg" alt="Flag of the United Kingdom" class="flag">
+                    English
+                    <span >&nbsp;</span>
+                    <span class="translated-language-name">
+                        (<span translate>English</span>)
+                    </span> 
+                </li>
+                <li class="siimple-list-item siimple-link siimple--display-flex" (click)="changeLanguage('pt')">
+                    <img src="../../assets/flags/pt.svg" alt="Flag of Portugal" class="flag">
+                    Português
+                    <span >&nbsp;</span>
+                    <span class="translated-language-name">
+                        (<span translate>Português</span>)
+                    </span> 
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

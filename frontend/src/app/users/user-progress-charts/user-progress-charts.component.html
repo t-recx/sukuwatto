@@ -7,7 +7,8 @@
       </button>
 
       <span class="current-series siimple--text-bold siimple--bg-light siimple--rounded" align="center">
-        <span *ngIf="currentChart" >{{currentChart.name}}</span>
+        <span *ngIf="currentChart" >{{currentChart.name | translate}}</span>
+        <span *ngIf="currentChart && currentChart.timePeriod"> - {{currentChart.timePeriod | translate}}</span>
       </span>
 
       <button class="siimple-btn siimple-btn--small siimple-btn--primary navigation-next" (click)="next()" *ngIf="availableCharts.length > 1">

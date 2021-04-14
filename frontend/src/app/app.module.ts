@@ -11,7 +11,6 @@ import { SignupComponent } from './signup/signup.component';
 import { IndexComponent } from './index/index.component';
 import { UsersModule } from './users/users.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './alert/alert.module';
 import { TokenInterceptor } from './token.interceptor';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
@@ -32,8 +31,15 @@ import { TrackComponent } from './track/track.component';
 import { ShareComponent } from './share/share.component';
 import { NavbarIndexComponent } from './navbar-index/navbar-index.component';
 import { DemoNavigationComponent } from './demo-navigation/demo-navigation.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -66,8 +72,15 @@ const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
     FormsModule,
     UsersModule,
     SharedModule,
-    FontAwesomeModule,
     RecaptchaModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [

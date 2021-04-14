@@ -1,7 +1,7 @@
 <div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-repetitions-modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Workout Activity</div>
+            <div class="siimple-modal-header-title" translate>Workout Activity</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hide()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
@@ -9,9 +9,9 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Repetitions done</div>
+                            <div class="siimple-form-field-label" translate>Repetitions done</div>
                             <input type="number" class="siimple-input siimple-input--fluid" required name="number_of_repetitions" id="number_of_repetitions"
-                                [(ngModel)]="workoutActivity.number_of_repetitions" #number_of_repetitions="ngModel" placeholder="Repetitions Number">
+                                [(ngModel)]="workoutActivity.number_of_repetitions" #number_of_repetitions="ngModel" [placeholder]="'Repetitions Number' | translate">
                         </div>
                     </div>
                 </div>
@@ -20,7 +20,9 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="hide()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>
+                    OK
+                </span>
             </button>
         </div>
     </div>

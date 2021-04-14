@@ -167,8 +167,8 @@ export class UserProgressChartsComponent implements OnInit, OnChanges, OnDestroy
 
             if (a.has_distance_exercises_last_month && (!this.visibleChartData || this.visibleChartData.show_distance_exercises_last_month)) {
                 if (this.availableCharts.filter(x => x.chartType == ChartCategory.DistanceMonth).length == 0) {
-                    const name = "Distance - " + (new Date()).toLocaleString('en-GB', { month: 'long' });
-                    this.availableCharts.push( { name, chartType: ChartCategory.DistanceMonth });
+                    const name = "Distance";
+                    this.availableCharts.push( { name, chartType: ChartCategory.DistanceMonth, timePeriod: (new Date()).toLocaleString('en-GB', { month: 'long' }) });
                 }
             }
             else {

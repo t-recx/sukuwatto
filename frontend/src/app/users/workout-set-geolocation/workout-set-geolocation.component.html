@@ -53,26 +53,26 @@
     <div class=" stats" [class.maximized]="workoutActivity.maximized">
         <div class="stats-header siimple-h1" [class.siimple-link]="allowEdit" *ngIf="workoutActivity.maximized"
         (click)="changeExercise()">
-            {{workoutActivity.exercise.name}}
+            {{workoutActivity.exercise.name | translate}}
         </div>
         
         <div class=" stats-calories-detailed-container" *ngIf="workoutActivity.caloriesDetailed && allowEdit">
             <div class="siimple-card ">
-                <div class="siimple-h2">
+                <div class="siimple-h2" translate>
                     Calories - Activity
                 </div>
                 <div class="siimple-card-body">
                     <div class="siimple-form-field">
                         <label class="siimple-field-label" for="username">MET</label>
-                        <select class="siimple-select siimple-select--fluid" name="met" id="met" required
+                        <select class="siimple-select siimple-select--fluid " name="met" id="met" required
                             [(ngModel)]="workoutActivity.met" #met="ngModel" (change)="setMETbyUser()">
-                            <option *ngFor="let metModel of mets" value={{metModel.id}}>
-                                {{metModel.description}}
+                            <option *ngFor="let metModel of mets" value={{metModel.id}} >
+                                {{metModel.description | translate}}
                             </option>
                         </select>
                     </div>
                     <div class="siimple-form-field siimple--mb-0">
-                        <label class="siimple-label">Manual selection</label>
+                        <label class="siimple-label" translate>Manual selection</label>
                         <div class="siimple-switch">
                             <input type="checkbox" name="met_set_by_user" id="met_set_by_user"
                                 [(ngModel)]="workoutActivity.met_set_by_user"
@@ -84,7 +84,7 @@
             </div>
 
             <button type="button" class="siimple-btn siimple-btn--dark"
-                (click)="toggleCaloriesDetail()" aria-label="Go back">
+                (click)="toggleCaloriesDetail()" aria-label="Go back" translate>
                 Back
             </button>
         </div>
@@ -92,10 +92,10 @@
         <div class="stats-body" *ngIf="!workoutActivity.caloriesDetailed ">
             <div class="">
                 <div class=" centered-text">
-                    <div class="siimple-h2 stats-time-text">
+                    <div class="siimple-h2 stats-time-text siimple--mb-2">
                         {{workoutActivity.ellapsedTime}}
                     </div>
-                    <div class="">
+                    <div class="" translate>
                         TIME
                     </div>
                 </div>
@@ -103,7 +103,7 @@
         
             <div class="stats-distance">
                 <div class="centered-text">
-                    <div class="siimple-h1 stats-distance-text">
+                    <div class="siimple-h1 stats-distance-text siimple--mb-2">
                         <div class=""
                             *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && workoutActivity.distance < 1">
                             {{distanceInSmallerUnit |locale}}
@@ -128,7 +128,7 @@
         
             <div class="stats-speed-calories-container">
                 <div class="stats-speed-calories-item">
-                    <div class="stats-speed-calories-text siimple-h3">
+                    <div class="stats-speed-calories-text siimple-h3 siimple--mb-2">
                         {{workoutActivity.speed|locale}}
                     </div>
                     <div>
@@ -139,7 +139,7 @@
                     [class.clickable]="allowEdit"
                     (click)="toggleCaloriesDetail()"
                 >
-                    <div class="stats-speed-calories-text siimple-h3">
+                    <div class="stats-speed-calories-text siimple-h3 siimple--mb-2">
                         {{workoutActivity.calories|locale}}
                     </div>
                     <div>

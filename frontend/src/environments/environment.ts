@@ -6,7 +6,7 @@ import { environmentDevHost, environmentDevPort } from 'src/environments/hosts';
 import { environmentDevRecaptchaKey } from './settings';
 
 export const environment = {
-  showSupportSection: false,
+  showSupportSection: true,
   production: false,
   application: false,
   mediaUrl: 'https://' + environmentDevHost + (environmentDevPort ? ':' + environmentDevPort : ''),

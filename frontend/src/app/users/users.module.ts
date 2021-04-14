@@ -6,7 +6,6 @@ import { UsersRoutingModule } from './users-routing.module';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { ProfileComponent } from './profile/profile.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { MenuComponent } from './menu/menu.component';
 import { PlansComponent } from './plans/plans.component';
@@ -125,7 +124,6 @@ export class TimeAgoExtendsPipe extends TimeAgoPipe {}
     SharedModule,
     CommonModule,
     UsersRoutingModule,
-    FontAwesomeModule,
     FormsModule,
     LeafletModule,
     ImageCropperModule

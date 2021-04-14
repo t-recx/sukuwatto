@@ -1,6 +1,6 @@
 <div class="siimple-card  siimple--mb-0">
     <div class="siimple-card-header">
-        Progressions - {{type_label}}
+        <span translate>Progressions</span> - {{type_label}}
     </div>
     <div class="siimple-card-body">
         <div class="siimple-card siimple--mb-0" *ngFor="let progression of progressions">
@@ -16,7 +16,7 @@
         </div>
         <button class="siimple-btn siimple--mt-2 siimple-btn--operation new-group-button" type="button" (click)="newProgression()">
             <fa-icon [icon]="faChartLine" class="siimple--mr-1"></fa-icon>
-            Add progression
+            <span translate>Add progression</span>
         </button>
     </div>
 </div>

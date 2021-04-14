@@ -1,7 +1,7 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Feature restricted</div>
+            <div class="siimple-modal-header-title" translate>Feature restricted</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
@@ -10,7 +10,9 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="close()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>
+                    OK
+                </span>
             </button>
         </div>
     </div>

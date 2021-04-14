@@ -1,12 +1,12 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="usersLikesModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Likes</div>
+            <div class="siimple-modal-header-title" translate>Likes</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="toggleUserLikesModal()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
             <div *ngIf="!usersThatLiked || usersThatLiked.length == 0">
-                <span class="siimple-p">No one liked this yet. Be the first!</span>
+                <span class="siimple-p" translate>No one liked this yet. Be the first!</span>
             </div>
 
             <app-users-follow-list [users]=usersThatLiked [loading]=loading [showActionButton]=false></app-users-follow-list>
@@ -38,7 +38,7 @@
 
     <span class="share-button button-link no-select" (click)="share()" *ngIf="canShare">
         <fa-icon [icon]="faShareAlt" class="siimple--mr-1"></fa-icon>
-        Share
+        <span translate>Share</span>
     </span>
 </div>
 
@@ -49,18 +49,18 @@
     <div class="siimple-form-field siimple--pt-2" *ngIf="createCommentSectionVisible">
         <textarea type="text" class="siimple-textarea siimple-textarea--fluid comment-textarea" rows="2" name="newComment" id="newComment"
             required
-            [(ngModel)]="newCommentText" #newComment="ngModel" placeholder="Write your comment here">
+            [(ngModel)]="newCommentText" #newComment="ngModel" [placeholder]="'Write your comment here' | translate">
             </textarea>
 
         <div *ngIf="newComment.invalid && triedToComment">
-            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
         </div>
     </div>
     <div class="siimple--clearfix">
         <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()"
         >
             <fa-icon [icon]="faComment" class="siimple--mr-1" ></fa-icon>
-            Comment
+            <span translate>Comment</span>
         </button>
     </div>
 </div>

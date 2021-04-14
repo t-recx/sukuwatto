@@ -1,10 +1,17 @@
-<div class="siimple-content siimple-content--extra-small siimple--pb-0">
+<div class="siimple-content siimple-content--extra-small ">
     <div class="siimple--px-5 siimple--py-5">
         <div class="siimple-h2 siimple--text-bold siimple--mb-1" align="center">
             <app-main-logo></app-main-logo>
         </div>
         <div class="siimple-paragraph siimple-paragraph--lead" align="center">
-            Sign in to use the {{environmentTypeLabel}}
+            <span translate>Sign in to use the</span>
+
+            <span *ngIf="environment.application" translate>
+                app
+            </span>
+            <span *ngIf="!environment.application" translate>
+                website
+            </span>
         </div>
         <div>
             <app-alert></app-alert>
@@ -12,39 +19,46 @@
         <form class="siimple-card" #loginForm="ngForm" (submit)="login()">
             <div class="siimple-card-body">
                 <div class="siimple-field">
-                    <label class="siimple-field-label" for="username">Username</label>
+                    <label class="siimple-field-label" for="username" translate>Username</label>
                     <input name="username" id="username" [(ngModel)]="user.username" #username="ngModel" type="text"
                         applyFocus
                         required class="siimple-input siimple-input--fluid" >
 
                     <div *ngIf="username.invalid && (username.dirty || triedToLogin)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
                 <div class="siimple-field">
-                    <label class="siimple-field-label" for="password">Password
+                    <label class="siimple-field-label" for="password" ><span translate>Password</span>
                       <a class="siimple-link
-                        siimple--float-right" routerLink='/reset-password-request/'>Forgot password?</a></label>
+                        siimple--float-right" routerLink='/reset-password-request/' translate>Forgot password?</a></label>
                     <input name="password" id="password" [(ngModel)]="user.password" type="password" #password="ngModel"
                         required class="siimple-input siimple-input--fluid">
 
                     <div *ngIf="password.invalid && (password.dirty || triedToLogin)">
-                        <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                     </div>
                 </div>
 
                 <button name="login" type="submit" [disabled]="loggingIn" [class.siimple-btn--disabled]="loggingIn"
                     class="siimple-btn siimple-btn--success siimple-btn--fluid siimple--text-bold">
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="loggingIn"></fa-icon>
-                    {{ signInText }}
+                    <span *ngIf="!loggingIn" translate>Sign in</span>
+                    <span *ngIf="loggingIn" translate>Signing in...</span>
                 </button>
             </div>
         </form>
 
         <div class="siimple-card siimple--mb-0" align="center">
             <div class="siimple-card-body">
-                Don't have an account? <a class="siimple-link" routerLink="/signup/">Create an account</a>.
+                <span translate>Don't have an account?</span> 
+                <span>&nbsp;</span>
+                <a class="siimple-link" routerLink="/signup/" translate>Create an account</a>.
             </div>
         </div>
+    </div>
+
+    <div class="siimple--mt-2 siimple--px-5">
+        <app-language-selector></app-language-selector>
     </div>
 </div>

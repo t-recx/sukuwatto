@@ -7,148 +7,82 @@
     </div>
     <form class="siimple-card siimple-form siimple--mb-0" #signUpForm="ngForm" (submit)="signUp()">
         <div class="siimple-card-body">
-            <div class="siimple-form-title">Create your account</div>
-            <div class="siimple-form-detail">Fill the form to create your account</div>
+            <div class="siimple-form-title" translate>Create your account</div>
+            <div class="siimple-form-detail" translate>Fill the form to create your account</div>
             <div class="siimple-grid">
-                <!-- <div class="siimple-grid-row">
-                    <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
-                        <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">First name</div>
-                            <input type="text" class="siimple-input siimple-input--fluid" name="first_name"
-                                applyFocus
-                                id="first_name" [(ngModel)]="user.first_name" #first_name="ngModel" maxlength="30"
-                                placeholder="First name" >
-                        </div>
-                    </div>
-                    <div class="siimple-grid-col siimple-grid-col--6 siimple--py-0">
-                        <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Last name</div>
-                            <input type="text" class="siimple-input siimple-input--fluid" name="last_name"
-                                id="last_name" [(ngModel)]="user.last_name" type="last_name" #last_name="ngModel"
-                                maxlength="150" placeholder="Last name">
-                        </div>
-                    </div>
-                </div> -->
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Username</div>
+                            <div class="siimple-form-field-label" translate>Username</div>
                             <input type="text" class="siimple-input siimple-input--fluid" required name="username"
                                 id="username" [(ngModel)]="user.username" #username="ngModel"
                                 applyFocus
-                                placeholder="Your username">
+                                [placeholder]="'Your username' | translate">
 
                             <div *ngIf="username.invalid && (username.dirty || triedToSignUp)">
-                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                             </div>
                             <div *ngIf="usernameError && triedToSignUp">
-                                <div class="siimple-field-helper siimple--color-error error-label">{{usernameError}}</div>
+                                <div class="siimple-field-helper siimple--color-error error-label">{{usernameError | translate}}</div>
                             </div>
                         </div>
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Email address</div>
+                            <div class="siimple-form-field-label" translate>Email address</div>
                             <input type="email" class="siimple-input siimple-input--fluid" required name="email"
                                 id="email" [(ngModel)]="user.email" #email="ngModel"
                                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [ngModelOptions]="{updateOn: 'blur'}"
-                                placeholder="Your email address">
+                                [placeholder]="'Your email address' | translate">
 
-                            <div *ngIf="email.invalid && (email.dirty || triedToSignUp)">
-                                <div *ngIf="email.errors?.required" class="siimple-field-helper siimple--color-error">
+                            <div *ngIf="!(emailError && triedToSignUp) && email.invalid && (email.dirty || triedToSignUp)">
+                                <div *ngIf="email.errors?.required" class="siimple-field-helper siimple--color-error" translate>
                                     This field can't be empty
                                 </div>
-                                <div *ngIf="email.errors?.pattern" class="siimple-field-helper siimple--color-error">
-                                    Please insert a valid email
+                                <div *ngIf="email.errors?.pattern" class="siimple-field-helper siimple--color-error" translate>
+                                    Enter a valid email address.
                                 </div>
                             </div>
                             <div *ngIf="emailError && triedToSignUp">
-                                <div class="siimple-field-helper siimple--color-error error-label">{{emailError}}</div>
+                                <div class="siimple-field-helper siimple--color-error error-label">{{emailError | translate}}</div>
                             </div>
                         </div>
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Password</div>
+                            <div class="siimple-form-field-label" translate>Password</div>
                             <input type="password" class="siimple-input siimple-input--fluid" required name="password"
                                 id="password" [(ngModel)]="user.password" type="password" #password="ngModel"
-                                placeholder="Your password">
+                                [placeholder]="'Your password' | translate">
 
                             <div *ngIf="password.invalid && (password.dirty || triedToSignUp)">
-                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                             </div>
 
                             <div *ngIf="passwordValidations">
                                 <div class="siimple-field-helper siimple--color-error siimple--mb-0"
                                     *ngFor="let validation of passwordValidations">
-                                    {{validation}}
+                                    {{validation | translate}}
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Gender</div>
-                            <div class="siimple-radio">
-                                <input type="radio" name="gender" value="m" id="male" [checked]="user.gender === 'm'"
-                                    [(ngModel)]="user.gender">
-                                <label for="male"></label>
-                            </div>
-                            <label class="siimple-label clickable" for="male">Male</label>
-                            <div class="siimple-radio">
-                                <input type="radio" name="gender" value="f" id="female" [checked]="user.gender === 'f'"
-                                    [(ngModel)]="user.gender">
-                                <label for="female"></label>
-                            </div>
-                            <label class="siimple-label clickable" for="female">Female</label>
-                            <div class="siimple-radio">
-                                <input type="radio" name="gender" value="n" id="nonbinary"
-                                    [checked]="user.gender === 'n'" [(ngModel)]="user.gender">
-                                <label for="nonbinary"></label>
-                            </div>
-                            <label class="siimple-label clickable" for="nonbinary">Non-binary</label>
-                        </div> -->
                     </div>
                 </div>
-                <!-- <div class="siimple-grid-row">
-                    <div class="siimple-grid-col siimple-grid-col--6">
-                        <div class="siimple-form-field-label">Month of birth</div>
-                        <select class="siimple-select siimple-select--fluid" [(ngModel)]="user.month_birth"
-                            name="month_birth">
-                            <option value="" selected></option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                    </div>
-                    <div class="siimple-grid-col siimple-grid-col--6">
-                        <div class="siimple-form-field-label">Year of birth</div>
-                        <input type="number" class="siimple-input siimple-input--fluid" [(ngModel)]="user.year_birth"
-                            name="year_birth">
-                    </div>
-                </div> -->
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <div class="siimple-form-field-label">Measurement units</div>
+                            <div class="siimple-form-field-label" translate>Measurement units</div>
                             <div class="siimple-radio">
                                 <input type="radio" name="system" value="m" id="metric" [checked]="user.system === 'm'"
                                     [(ngModel)]="user.system">
                                 <label for="metric"></label>
                             </div>
-                            <label class="siimple-label clickable" for="metric">Metric</label>
+                            <label class="siimple-label clickable" for="metric" translate>Metric</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="system" value="i" id="imperial"
                                     [checked]="user.system === 'i'" [(ngModel)]="user.system">
                                 <label for="imperial"></label>
                             </div>
-                            <label class="siimple-label clickable" for="imperial">Imperial</label>
+                            <label class="siimple-label clickable" for="imperial" translate>Imperial</label>
 
                             <div *ngIf="!user.system && triedToSignUp">
-                                <div class="siimple-field-helper siimple--color-error siimple--mb-0">This field can't be empty</div>
+                                <div class="siimple-field-helper siimple--color-error siimple--mb-0" translate>This field can't be empty</div>
                             </div>
                         </div>
                     </div>
@@ -161,8 +95,8 @@
                                 <label for="terms-checkbox"></label>
                             </div>
                             <label class="siimple-label">
-                                <span class="clickable" (click)="toggleAcceptTerms()">I agree to the </span> 
-                                <a class="siimple-link" routerLink='/terms-and-conditions/'>terms and conditions</a>.
+                                <span class="clickable" (click)="toggleAcceptTerms()" translate>I agree to the </span> 
+                                <a class="siimple-link" routerLink='/terms-and-conditions/' translate>terms and conditions</a>.
                             </label>
                         </div>
                     </div>
@@ -182,11 +116,20 @@
                             [disabled]="signingUp || !acceptedTerms || !captchaSolved" [class.siimple-btn--disabled]="signingUp || !acceptedTerms || !captchaSolved"
                             >
                             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="signingUp"></fa-icon>
-                            {{ signUpText }}
+                            <span *ngIf="signingUp" translate>
+                                Signing up...
+                            </span>
+                            <span *ngIf="!signingUp" translate>
+                                Sign up
+                            </span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+
+    <div class=" siimple--mt-4">
+        <app-language-selector></app-language-selector>
+    </div>
 </div>

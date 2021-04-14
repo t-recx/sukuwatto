@@ -9,7 +9,7 @@
       *ngFor="let series of progressData.series">
       <div class="chart-legend-swatch" [style.background-color]="colors[series.name]"></div>
       <small class="chart-legend-label siimple-small">
-        {{series.name}}
+        {{series.name | translate}}
       </small>
     </div>
   </div>

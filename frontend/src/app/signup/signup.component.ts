@@ -21,7 +21,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   user: UserRegistration;
   signingUp: boolean;
   triedToSignUp: boolean;
-  signUpText: string;
   validatePasswordSubscription: Subscription;
   passwordValidations: string[];
   units: Unit[];
@@ -47,7 +46,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.triedToSignUp = false;
     this.acceptedTerms = false;
     this.signingUp = false;
-    this.signUpText = "Sign up";
     this.usernameError = null;
     this.unitsService.getUnits().subscribe(u => this.units = u);
 
@@ -118,7 +116,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
 
     this.signingUp = true;
-    this.signUpText = "Signing up...";
 
     this.usernameError = null;
     this.emailError = null;
@@ -132,10 +129,10 @@ export class SignupComponent implements OnInit, OnDestroy {
         catchError(this.errorService.handleError<User>('create', (e: any) => 
         {
           if (e.error && e.error.username) {
-            this.usernameError = e.error.username;
+            this.usernameError = e.error.username.toString();
           }
           else if (e.error && e.error.email) {
-            this.emailError = e.error.email;
+            this.emailError = e.error.email.toString();
           }
           else {
             this.alertService.error('Unable to sign up, try again later');
@@ -152,7 +149,6 @@ export class SignupComponent implements OnInit, OnDestroy {
                     this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
 
                   this.signingUp = false;
-                  this.signUpText = "Sign up";
                   this.router.navigateByUrl(redirect);
                 }
               }, 125);
@@ -160,7 +156,6 @@ export class SignupComponent implements OnInit, OnDestroy {
         }
         else {
           this.signingUp = false;
-          this.signUpText = "Sign up";
         }
       });
   }

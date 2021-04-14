@@ -14,7 +14,7 @@
         <small class="siimple-small time">{{getTime(post.date)}}</small>
 
         <small class="siimple-small edited-time" *ngIf="post.edited_date">
-            (edited: {{getTime(post.edited_date)}})
+            (<span translate>edited</span>: {{getTime(post.edited_date)}})
         </small>
 
         <app-edit-delete-dropdown class="self-centered" (edited)="toggleEditing()" (deleted)="showDeleteModal()"
@@ -25,7 +25,8 @@
         <div *ngIf="editing" class="siimple-form post-form">
             <div class="siimple-form-field">
                 <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost"
-                    id="newPost" required [(ngModel)]="post.text" #newPost="ngModel" placeholder="What's on your mind?">
+                    id="newPost" required [(ngModel)]="post.text" #newPost="ngModel" 
+                    [placeholder]="'What\'s on your mind?' | translate">
                 </textarea>
                 <div *ngIf="newPost.invalid && (newPost.dirty || triedToSave)">
                     <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
@@ -48,7 +49,7 @@
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="updating">
                     </fa-icon>
                     <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
-                    Update
+                    <span translate>Update</span>
                 </button>
             </div>
         </div>
@@ -97,22 +98,26 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <header class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Delete Post?</div>
+            <div class="siimple-modal-header-title" translate>Delete post?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
         </header>
         <div class="siimple-modal-body modal-window-body">
-            <p class="siimple-p">
-                This will delete your post and associated data! Are you sure you want to proceed?
+            <p class="siimple-p" translate>
+                This will delete your post and associated data. Are you sure you want to proceed?
             </p>
         </div>
         <footer class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                Yes
+                <span translate>
+                    Yes
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>
+                    Cancel
+                </span>
             </button>
         </footer>
     </div>

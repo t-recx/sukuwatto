@@ -1,14 +1,8 @@
 <div *ngIf="visible">
     <div class="siimple-modal modal-window siimple-modal--small" id="workout-finish-modal">
         <div class="siimple-modal-content">
-            <!--
-            <div class="siimple-modal-header">
-                <div class="siimple-modal-header-title">Finish workout</div>
-                <div class="siimple-modal-header-close" id="modal-close" (click)="hideFinishWorkout()"></div>
-            </div>
-            -->
             <div class="siimple-modal-body modal-window-body">
-                <div class="siimple-h2" align="center">Good job!</div>
+                <div class="siimple-h2" align="center" translate>Good job!</div>
 
                 <div class="siimple-grid-row" *ngIf="endDateEditVisible">
                     <div
@@ -19,7 +13,7 @@
                                 #end="ngModel">
 
                             <div *ngIf="end.invalid && (end.dirty || triedToSave)">
-                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                             </div>
                         </div>
                     </div>
@@ -31,7 +25,7 @@
                                 (ngModelChange)="setWorkoutEndTime($event)" #end_time="ngModel">
 
                             <div *ngIf="end_time.invalid && (end_time.dirty || triedToSave)">
-                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                             </div>
                         </div>
                     </div>
@@ -74,10 +68,7 @@
             </div>
             <div class="siimple-modal-footer">
                 <div class="siimple--mb-4 progress-bar-level-container">
-                    <!-- <div class="level-tag-item level-tag-item--current siimple--mr-1" >
-                        {{currentLevel}} 
-                    </div> -->
-                    <div class="progress-label">
+                    <div class="progress-label" translate>
                         Progress
                     </div>
                     <div class="siimple-progress siimple--mb-0" style="background-color: white;"
@@ -105,11 +96,15 @@
                     [class.siimple-btn--disabled]="finishing">
                     <fa-icon [icon]="faCheck" class="siimple--mr-1" *ngIf="!finishing"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" class="  siimple--mr-1" [spin]=true *ngIf="finishing"></fa-icon>
-                    Confirm
+                    <span translate>
+                        Confirm
+                    </span>
                 </button>
                 <button class="siimple-btn siimple--ml-2" type="button" (click)="hideFinishWorkout()">
                     <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                    Cancel
+                    <span translate>
+                        Cancel
+                    </span>
                 </button>
                 <div class="xp-added">
                     {{deltaExperience >= 0 ? '+': ''}}{{deltaExperience | locale}} XP

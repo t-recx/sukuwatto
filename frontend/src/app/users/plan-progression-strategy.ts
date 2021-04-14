@@ -1,5 +1,4 @@
 import { Section, Modality, Force, Mechanics, Exercise } from './exercise';
-import { PlanProgressionStrategiesComponent } from './plan-progression-strategies/plan-progression-strategies.component';
 
 export enum ProgressionType {
     ByExercise = 'e',

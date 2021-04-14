@@ -1,11 +1,11 @@
-<div class="siimple-h1">Support</div>
+<div class="siimple-h1" translate>Support</div>
 
-<div class="siimple-h2 select-tier-header">Select a membership level</div>
+<div class="siimple-h2 select-tier-header" translate>Select a membership level</div>
 
 <div class="tier-list">
     <div class="siimple-card tier-card">
         <div class="siimple-card-header">
-            <div class="siimple-h5 siimple--mb-0 tier-header">
+            <div class="siimple-h5 siimple--mb-0 tier-header" translate>
                 Novice
             </div>
         </div>
@@ -13,7 +13,7 @@
             <div class="siimple--mt-1 siimple--mb-2">
 
                 <div class="tier-price-container-free">
-                    <div class="tier-price" > 
+                    <div class="tier-price"  translate> 
                         FREE
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="siimple-rule"></div>
 
                 <ul class="tier-ul">
-                    <li class="tier-li">All features of sukuwatto are available for free, supported by ads</li>
+                    <li class="tier-li" translate>All features of sukuwatto are available for free, supported by ads</li>
                 </ul>
             </div>
         </div>
@@ -29,7 +29,7 @@
 
     <div class="siimple-card tier-card">
         <div class="siimple-card-header">
-            <div class="siimple-h5 siimple--mb-0 tier-header">
+            <div class="siimple-h5 siimple--mb-0 tier-header" translate>
                 Intermediate
             </div>
         </div>
@@ -41,25 +41,25 @@
                         €1.99
                     </div>
 
-                    <div class="tier-period">
+                    <div class="tier-period" translate>
                         PER MONTH                    
                     </div>
 
-                    <div class="tier-period-taxes">
+                    <div class="tier-period-taxes" translate>
                         (+VAT)
                     </div>
 
                     <div>
                         <div *ngIf="currentTier == 'i'">
                             <button class="siimple-btn siimple-btn--error join-button" type="button"
-                                (click)="cancelSubscription()">
+                                (click)="cancelSubscription()" translate>
                                 Cancel subscription
                             </button>
                         </div>
                         <div *ngIf="currentTier != 'i'">
                             <button class="siimple-btn siimple-btn--success join-button  siimple-btn--disabled" type="button"
                                 disabled
-                                (click)="subscribe('i')">
+                                (click)="subscribe('i')" translate>
                                 Coming soon!
                             </button>
                         </div>
@@ -69,9 +69,9 @@
                 <div class="siimple-rule"></div>
 
                 <ul class="tier-ul">
-                    <li class="tier-li">Remove ad banners</li>
-                    <li class="tier-li">Steer development by interacting with features you'd like to see done. Features with more likes will be implemented sooner!</li>
-                    <li class="tier-li">Everything from the previous tier</li>
+                    <li class="tier-li" translate>Remove ad banners</li>
+                    <li class="tier-li" translate>Steer development by interacting with features you'd like to see done. Features with more likes will be implemented sooner!</li>
+                    <li class="tier-li" translate>Everything from the previous tier</li>
                 </ul>
             </div>
         </div>
@@ -79,7 +79,7 @@
 
     <div class="siimple-card tier-card">
         <div class="siimple-card-header">
-            <div class="siimple-h5 siimple--mb-0 tier-header">
+            <div class="siimple-h5 siimple--mb-0 tier-header" translate>
                 Advanced
             </div>
         </div>
@@ -91,25 +91,25 @@
                         €3.99
                     </div>
 
-                    <div class="tier-period">
+                    <div class="tier-period" translate>
                         PER MONTH                    
                     </div>
 
-                    <div class="tier-period-taxes">
+                    <div class="tier-period-taxes" translate>
                         (+VAT)
                     </div>
 
                     <div>
                         <div *ngIf="currentTier == 'a'">
                             <button class="siimple-btn siimple-btn--error join-button" type="button"
-                            (click)="cancelSubscription()">
+                            (click)="cancelSubscription()" translate>
                                 Cancel subscription
                             </button>
                         </div>
                         <div *ngIf="currentTier != 'a'">
                             <button class="siimple-btn siimple-btn--success join-button  siimple-btn--disabled" type="button"
                             disabled
-                            (click)="subscribe('a')">
+                            (click)="subscribe('a')" translate>
                                 Coming soon!
                             </button>
                         </div>
@@ -119,10 +119,10 @@
                 <div class="siimple-rule"></div>
 
                 <ul class="tier-ul">
-                    <li class="tier-li">Got an idea or a feature you'd like to see done? Users in this tier can request new features</li>
-                    <li class="tier-li">Impress your followers with a custom class!</li>
-                    <li class="tier-li">Your name on the credits</li>
-                    <li class="tier-li">Everything from the previous tiers</li>
+                    <li class="tier-li" translate>Got an idea or a feature you'd like to see done? Users in this tier can request new features</li>
+                    <li class="tier-li" translate>Impress your followers with a custom class!</li>
+                    <li class="tier-li" translate>Your name on the credits</li>
+                    <li class="tier-li" translate>Everything from the previous tiers</li>
                 </ul>
             </div>
         </div>
@@ -132,21 +132,21 @@
 <div class="siimple-rule"></div>
 
 <div class="support-about">
-    <p class="support-p">
+    <p class="support-p" translate>
         Sukuwatto is a labour of love and we've decided early on we'd want all our users to be able to enjoy it without restrictions.
     </p>
 
-    <p class="support-p">
+    <p class="support-p" translate>
         However, development and hosting costs do take a toll and to keep the lights on user contributions are extremely important for us.
     </p>
 
-    <p class="support-p">
+    <p class="support-p" translate>
         If you can please consider contributing to one of our tiers. We'll remove ad banners and allow you to influence future development by requesting new features or voting for features other users have requested.
     </p>
 
-    <p class="support-p">
+    <p class="support-p" translate>
         Thank you,
     </p>
 
-    <div class="siimple--text-bold">Sukuwatto team</div>
+    <div class="siimple--text-bold" translate>Sukuwatto team</div>
 </div>

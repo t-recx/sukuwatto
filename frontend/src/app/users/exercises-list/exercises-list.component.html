@@ -1,6 +1,6 @@
 <div class="search-box">
     <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
-        placeholder="Search..." [(ngModel)]=searchFilter #searchInput="ngModel">
+        [placeholder]="'Search...' | translate" [(ngModel)]=searchFilter #searchInput="ngModel">
     <div class="search-buttons">
         <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
             <fa-icon [icon]="faBackspace" class=""></fa-icon>
@@ -15,13 +15,13 @@
             <th (click)="toggleSort('name')"
                 [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Name</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Name</th>
         </tr>
     </thead>
     <tbody class="siimple-table-body">
         <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises; trackBy: exerciseTracker"
             (click)="select(exercise)">
-            <td class="siimple-table-cell">{{exercise.name}}</td>
+            <td class="siimple-table-cell" translate>{{exercise.name}}</td>
         </tr>
     </tbody>
 </table>
@@ -33,28 +33,28 @@
             <th (click)="toggleSort('name')"
                 [class.siimple-table-cell--asc]="columnOrder['name'] && columnOrder['name'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['name'] && columnOrder['name'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable">Name</th>
+                class="siimple-table-cell siimple-table-cell--sortable" translate>Name</th>
             <th (click)="toggleSort('section')"
                 [class.siimple-table-cell--asc]="columnOrder['section'] && columnOrder['section'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['section'] && columnOrder['section'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable ">Section</th>
+                class="siimple-table-cell siimple-table-cell--sortable " translate>Section</th>
             <th (click)="toggleSort('modality')"
                 [class.siimple-table-cell--asc]="columnOrder['modality'] && columnOrder['modality'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['modality'] && columnOrder['modality'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable ">Modality</th>
+                class="siimple-table-cell siimple-table-cell--sortable " translate>Modality</th>
             <th (click)="toggleSort('force')"
                 [class.siimple-table-cell--asc]="columnOrder['force'] && columnOrder['force'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['force'] && columnOrder['force'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable ">Force</th>
+                class="siimple-table-cell siimple-table-cell--sortable " translate>Force</th>
             <th (click)="toggleSort('mechanics')"
                 [class.siimple-table-cell--asc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0] != '-'"
                 [class.siimple-table-cell--desc]="columnOrder['mechanics'] && columnOrder['mechanics'][1][0]=='-'"
-                class="siimple-table-cell siimple-table-cell--sortable ">Mechanics</th>
+                class="siimple-table-cell siimple-table-cell--sortable " translate>Mechanics</th>
         </tr>
     </thead>
     <tbody class="siimple-table-body">
         <tr class="siimple-table-row link-row" *ngFor="let exercise of exercises; trackBy: exerciseTracker" (click)="select(exercise)">
-            <td class="siimple-table-cell">{{exercise.name}}</td>
+            <td class="siimple-table-cell" translate>{{exercise.name}}</td>
             <td class="siimple-table-cell ">{{exercise.sectionLabel}}</td>
             <td class="siimple-table-cell ">{{exercise.modalityLabel}}</td>
             <td class="siimple-table-cell ">{{exercise.forceLabel}}</td>

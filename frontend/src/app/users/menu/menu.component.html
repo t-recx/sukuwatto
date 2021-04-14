@@ -11,7 +11,7 @@
         <div class="menu-icon-image-container">
             <fa-icon [icon]="iconHome" class="menu-icon-image"></fa-icon>
         </div>
-        Home
+        <span translate>Home</span>
     </a>
 
     <!-- <div class="siimple-rule menu-rule siimple--display-sm-none siimple--display-md-none"></div> -->
@@ -21,14 +21,14 @@
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconWorkouts" class="menu-icon-image"></fa-icon>
         </div>
-        Workouts
+        <span translate>Workouts</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'exercises']">
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconExercises" class="menu-icon-image"></fa-icon>
         </div>
-        Exercises
+        <span translate>Exercises</span>
     </a>
     <a class="siimple-menu-item main-menu-item" 
     [class.siimple-menu-item--selected]="isRouterLinkPlans"
@@ -36,14 +36,14 @@
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconPlans" class="menu-icon-image"></fa-icon>
         </div>
-        Plans
+        <span translate>Plans</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'measurements']">
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconMeasurements" class="menu-icon-image"></fa-icon>
         </div>
-        Body
+        <span translate>Body</span>
     </a>
 
     <div class="siimple-rule menu-rule"></div>
@@ -53,14 +53,14 @@
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconProfile" class="menu-icon-image"></fa-icon>
         </div>
-        Profile
+        <span translate>Profile</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'messages']">
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconMessages" class="menu-icon-image"></fa-icon>
         </div>
-        <span class="menu-item-label">Messages</span>
+        <span class="menu-item-label" translate>Messages</span>
 
         <div class="menu-tag-item "
             *ngIf="unread_messages_count > 0">
@@ -73,14 +73,14 @@
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconUsers" class="menu-icon-image"></fa-icon>
         </div>
-        Users
+        <span translate>Users</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'leaderboards']">
         <div class="menu-icon-image-container">
         <fa-icon [icon]="iconLeaderboards" class="menu-icon-image"></fa-icon>
         </div>
-        Leaderboards
+        <span translate>Leaderboards</span>
     </a>
 
     <div *ngIf="showSupportSection">
@@ -91,21 +91,21 @@
             <div class="menu-icon-image-container">
             <fa-icon [icon]="iconDevelopment" class="menu-icon-image"></fa-icon>
             </div>
-            Features
+            <span translate>Features</span>
         </a>
         <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
             [routerLink]="['/users', authService.getUsername(), 'releases']">
             <div class="menu-icon-image-container">
             <fa-icon [icon]="iconReleases" class="menu-icon-image"></fa-icon>
             </div>
-            Releases
+            <span translate>Releases</span>
         </a>
         <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
             [routerLink]="['/users', authService.getUsername(), 'support']">
             <div class="menu-icon-image-container">
             <fa-icon [icon]="iconSupport" class="menu-icon-image"></fa-icon>
             </div>
-            Support
+            <span translate>Support</span>
         </a>
     </div>
 </div>

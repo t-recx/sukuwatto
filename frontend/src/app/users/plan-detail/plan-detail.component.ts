@@ -193,7 +193,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   addSession() {
     let newSession = new PlanSession();
-    newSession.name = "New Session";
+    newSession.name = "New session";
 
     this.plan.sessions.push(newSession);
     this.selectedSession = newSession;

@@ -1,5 +1,5 @@
-<app-delete-modal [(visible)]="deleteModalVisible" title='Delete feature?'
-    body='This will delete your feature and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+<app-delete-modal [(visible)]="deleteModalVisible" [title]="'Delete feature?' | translate"
+    [body]="'This will delete your feature and associated data. Are you sure you want to proceed?' | translate" (deleted)="delete()"
     (canceled)="hideDeleteModal()">
 </app-delete-modal>
 
@@ -16,23 +16,24 @@
 
     <div *ngIf="userIsOwner">
         <form class="siimple-card siimple-form siimple--mb-0" #exerciseForm="ngForm">
-            <div class="siimple-form-title form-title">New feature</div>
+            <div class="siimple-form-title form-title" translate>New feature</div>
 
             <div class="siimple-form-field">
                 <input type="text" class="siimple-input siimple-input--fluid" name="title"
                     id="title" [(ngModel)]="feature.title" #title="ngModel" required
-                    maxlength="200" placeholder="Title">
+                    maxlength="200" [placeholder]="'Title' | translate">
                 <div *ngIf="title.invalid && (title.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
             <div class="siimple-form-field">
                 <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newFeature"
-                    id="newFeature" required [(ngModel)]="feature.text" #newFeature="ngModel" placeholder="Description">
+                    id="newFeature" required [(ngModel)]="feature.text" #newFeature="ngModel" 
+                    [placeholder]="'Description' | translate">
                 </textarea>
                 <div *ngIf="newFeature.invalid && (newFeature.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
@@ -53,13 +54,17 @@
                     [class.siimple-btn--disabled]="saving" [disabled]="saving">
                     <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
-                    Save
+                    <span translate>
+                        Save
+                    </span>
                 </button>
                 <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error siimple--mt-2 siimple--ml-2"
                     [class.siimple-btn--disabled]="deleting" [disabled]="deleting" (click)="showDeleteModal()">
                     <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-                    Delete
+                    <span translate>
+                        Delete
+                    </span>
                 </button>
             </div>
 

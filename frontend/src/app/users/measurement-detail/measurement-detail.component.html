@@ -1,5 +1,6 @@
 <app-delete-modal [(visible)]="deleteModalVisible" title='Delete measurement?'
-    body='This will delete your measurement and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+    [body]="'This will delete your measurement and associated data. Are you sure you want to proceed?' | translate"
+    (deleted)="delete()"
     (canceled)="hideDeleteModal()">
 </app-delete-modal>
 
@@ -16,7 +17,7 @@
 
     <div *ngIf="userIsOwner">
         <form class="siimple-card siimple-form siimple--mb-0" #exerciseForm="ngForm">
-            <div class="siimple-form-title form-title">Measurement detail</div>
+            <div class="siimple-form-title form-title" translate>Measurement detail</div>
 
             <app-user-bio-data-skeleton [userBioData]="userBioData" [triedToSave]="triedToSave">
             </app-user-bio-data-skeleton>
@@ -28,13 +29,17 @@
                     [class.siimple-btn--disabled]="saving" [disabled]="saving">
                     <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
-                    Save
+                    <span translate>
+                        Save
+                    </span>
                 </button>
                 <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error body-operation-button"
                     [class.siimple-btn--disabled]="deleting" [disabled]="deleting" (click)="showDeleteModal()">
                     <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-                    Delete
+                    <span translate>
+                        Delete
+                    </span>
                 </button>
             </div>
         </form>

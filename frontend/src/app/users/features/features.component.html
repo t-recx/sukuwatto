@@ -1,11 +1,13 @@
 <div class="toolbar">
-    <div class="toolbar-title">Features</div>
+    <div class="toolbar-title" translate>Features</div>
 
     <div class="toolbar-buttons" *ngIf="isLoggedIn()">
         <button class="siimple-btn siimple-btn--primary toolbar-button" 
           [routerLink]="['/users', username, 'feature']">
             <fa-icon [icon]="faCode" class="siimple--mr-1" [fixedWidth]=true></fa-icon>
-            New
+            <span translate>
+                New
+            </span>
         </button>
     </div>
 </div>

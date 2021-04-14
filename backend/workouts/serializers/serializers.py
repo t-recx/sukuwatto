@@ -74,7 +74,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exercise
-        fields = ['id', 'exercise_type', 'short_name', 'name', 'description', 'mechanics', 'force', 'modality', 'section', 'level', 'creation', 'user', 'likes', 'comment_number', 'muscles']
+        fields = ['id', 'exercise_type', 'short_name', 'name', 'name_pt', 'description', 'mechanics', 'force', 'modality', 'section', 'level', 'creation', 'user', 'likes', 'comment_number', 'muscles']
         read_only_fields = ('likes','comment_number',)
         extra_kwargs = {'user': {'required': False}, 'creation': {'required': False}}
 
@@ -122,6 +122,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
         instance.exercise_type = validated_data.get('exercise_type', instance.exercise_type)
         instance.short_name = validated_data.get('short_name', instance.short_name)
         instance.name = validated_data.get('name', instance.name)
+        instance.name_pt = validated_data.get('name_pt', instance.name_pt)
         instance.description = validated_data.get('description', instance.description)
         instance.mechanics = validated_data.get('mechanics', instance.mechanics)
         instance.force = validated_data.get('force', instance.force)

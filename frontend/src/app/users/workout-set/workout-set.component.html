@@ -12,10 +12,10 @@ style="padding: 10px;"
     <fa-icon [icon]="faEdit" (click)="toggleEdit($event)" class="siimple--mr-1"></fa-icon>
     <span *ngIf="workoutActivity.exercise">
         <span class="phones-only">
-            {{workoutActivity.exercise.short_name}}
+            {{workoutActivity.exercise.short_name |translate}}
         </span>
         <span class="siimple--display-sm-none">
-            {{workoutActivity.exercise.name}}
+            {{workoutActivity.exercise.name |translate}}
         </span>
     </span>
 
@@ -24,7 +24,7 @@ style="padding: 10px;"
             workoutActivity.expected_speed || 
             (workoutActivity.speed_type && 
             workoutActivity.speed_type == speedType.AFAP)">
-            <span
+            <span translate
                 *ngIf="(workoutActivity.speed && !workoutActivity.tracking) || workoutActivity.expected_speed">
                 at
             </span>
@@ -49,7 +49,7 @@ style="padding: 10px;"
                         {{workoutActivity.expected_speed_up_to |locale}}
                     </span>
                 </span>
-                <span *ngIf="workoutActivity.speed_type==speedType.AFAP">
+                <span translate *ngIf="workoutActivity.speed_type==speedType.AFAP">
                     AFAP
                 </span>
             </span>
@@ -61,7 +61,7 @@ style="padding: 10px;"
 
         <span *ngIf="workoutActivity.distance ||
             workoutActivity.expected_distance">
-            <span *ngIf="!workoutActivity.tracking || workoutActivity.expected_distance">
+            <span translate *ngIf="!workoutActivity.tracking || workoutActivity.expected_distance">
                 for
             </span>
 
@@ -97,12 +97,12 @@ style="padding: 10px;"
                 <span *ngIf="workoutActivity.distance ||
                             (workoutActivity.distance_type && 
                             workoutActivity.distance_type != distanceType.None); else alternativeTimeIntroduction">
-                    <span>
+                    <span translate>
                         in
                     </span>
                 </span>
             
-                <ng-template #alternativeTimeIntroduction>
+                <ng-template #alternativeTimeIntroduction translate>
                     for
                 </ng-template>
             </span>
@@ -135,7 +135,7 @@ style="padding: 10px;"
         </span>
 
         <span *ngIf="workoutActivity.vo2max || workoutActivity.expected_vo2max">
-            <span>
+            <span translate>
                 with
             </span>
 
@@ -158,7 +158,7 @@ style="padding: 10px;"
                 </span>
             </span>
 
-            <span>
+            <span translate>
                 VO2 max
             </span>
         </span>
@@ -177,7 +177,7 @@ style="padding: 10px;"
                     {{getUnitCode(workoutActivity.weight_unit)}}
                 </span>
             </span>
-            <span *ngIf="!workoutActivity.weight">
+            <span *ngIf="!workoutActivity.weight" translate>
                 (bar)
             </span>
         </span>
@@ -197,10 +197,10 @@ style="padding: 10px;"
                     {{workoutActivity.expected_number_of_repetitions}} -
                     {{workoutActivity.expected_number_of_repetitions_up_to}}
                 </span>
-                <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure" translate>
                     F
                 </span>
-                <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP" translate>
                     AMRAP
                 </span>
             </span>
@@ -213,7 +213,9 @@ style="padding: 10px;"
         *ngIf="!workoutActivity.done && workoutActivity.exercise && workoutActivity.exercise.exercise_type == 'c' && workoutActivity.tracking != null && !workoutActivity.tracking" 
         type="button" (click)="track(); $event.stopPropagation()">
         <fa-icon [icon]="faMapMarkedAlt" class="siimple--mr-1"></fa-icon>
-        Track
+        <span translate>
+            Track
+        </span>
     </button>
 
 </div>

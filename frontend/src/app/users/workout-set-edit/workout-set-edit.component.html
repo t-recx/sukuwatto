@@ -1,7 +1,7 @@
 <div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Workout Activity</div>
+            <div class="siimple-modal-header-title" translate>Workout Activity</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
@@ -16,7 +16,7 @@
                                 id="exercise" required>
                             </exercises-input>
                             <div *ngIf="exercise.invalid && (exercise.dirty || triedToHide)">
-                                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                                <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                             </div>
                         </div>
                     </div>
@@ -28,14 +28,13 @@
                             <div class="siimple-grid-row">
                                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col-sm--12">
                                     <div class="siimple-form-field form-field">
-                                        <!-- <div class="siimple-form-field-label">Reps</div> -->
                                         <div class="input-container">
                                             <input type="number" class="siimple-input siimple-input--fluid" required
                                                 name="number_of_repetitions" id="number_of_repetitions"
                                                 [(ngModel)]="workoutActivity.number_of_repetitions"
-                                                #number_of_repetitions="ngModel" placeholder="Reps">
+                                                #number_of_repetitions="ngModel" [placeholder]="'Reps' | translate">
                                             <label class="input-aux-label" 
-                                             *ngIf="workoutActivity.number_of_repetitions"> 
+                                             *ngIf="workoutActivity.number_of_repetitions" translate> 
                                                 Reps
                                             </label>
                                         </div>
@@ -46,9 +45,9 @@
                                         <!-- <div class="siimple-form-field-label">Weight</div> -->
                                         <input type="number" class="siimple-input siimple-input--fluid" name="weight"
                                             id="weight" [(ngModel)]="workoutActivity.weight" #weight="ngModel"
-                                            placeholder="Weight">
+                                            [placeholder]="'Weight' | translate">
                                         <div *ngIf="weight.invalid && (weight.dirty || triedToHide)">
-                                            <div class="siimple-field-helper siimple--color-error">
+                                            <div class="siimple-field-helper siimple--color-error" translate>
                                                 This field can't be empty
                                             </div>
                                         </div>
@@ -65,7 +64,7 @@
                                             </option>
                                         </select>
                                         <div *ngIf="weight_unit.invalid && (weight_unit.dirty || triedToHide)">
-                                            <div class="siimple-field-helper siimple--color-error">
+                                            <div class="siimple-field-helper siimple--color-error" translate>
                                                 This field can't be empty
                                             </div>
                                         </div>
@@ -82,7 +81,7 @@
                                         <!-- <div class="siimple-form-field-label">Time</div> -->
                                         <input type="number" class="siimple-input siimple-input--fluid" name="time"
                                             required id="time" [(ngModel)]="workoutActivity.time" #time="ngModel"
-                                            placeholder="Time">
+                                            [placeholder]="'Time' | translate">
                                     </div>
                                 </div>
                                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
@@ -97,7 +96,7 @@
                                             </option>
                                         </select>
                                         <div *ngIf="time_unit.invalid && (time_unit.dirty || triedToHide)">
-                                            <div class="siimple-field-helper siimple--color-error">
+                                            <div class="siimple-field-helper siimple--color-error" translate>
                                                 This field can't be empty
                                             </div>
                                         </div>
@@ -108,7 +107,7 @@
                                         <!-- <div class="siimple-form-field-label">Distance</div> -->
                                         <input type="number" class="siimple-input siimple-input--fluid" name="distance"
                                             required id="distance" [(ngModel)]="workoutActivity.distance"
-                                            #distance="ngModel" placeholder="Distance">
+                                            #distance="ngModel" [placeholder]="'Distance' | translate">
                                     </div>
                                 </div>
                                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
@@ -123,7 +122,7 @@
                                             </option>
                                         </select>
                                         <div *ngIf="distance_unit.invalid && (distance_unit.dirty || triedToHide)">
-                                            <div class="siimple-field-helper siimple--color-error">
+                                            <div class="siimple-field-helper siimple--color-error" translate>
                                                 This field can't be empty
                                             </div>
                                         </div>
@@ -134,7 +133,7 @@
                                         <!-- <div class="siimple-form-field-label">Speed</div> -->
                                         <input type="number" class="siimple-input siimple-input--fluid" name="speed"
                                             required id="speed" [(ngModel)]="workoutActivity.speed" #speed="ngModel"
-                                            placeholder="Speed">
+                                            [placeholder]="'Speed' | translate">
                                     </div>
                                 </div>
                                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col-sm--6">
@@ -149,7 +148,7 @@
                                             </option>
                                         </select>
                                         <div *ngIf="speed_unit.invalid && (speed_unit.dirty || triedToHide)">
-                                            <div class="siimple-field-helper siimple--color-error">
+                                            <div class="siimple-field-helper siimple--color-error" translate>
                                                 This field can't be empty
                                             </div>
                                         </div>
@@ -161,9 +160,9 @@
                                         <div class="input-container">
                                             <input type="number" class="siimple-input siimple-input--fluid" name="vo2max"
                                                 required id="vo2max" [(ngModel)]="workoutActivity.vo2max" #vo2max="ngModel"
-                                                placeholder="VO2 max">
+                                                [placeholder]="'VO2 max' | translate">
                                             <label class="input-aux-label" 
-                                             *ngIf="workoutActivity.vo2max"> 
+                                             *ngIf="workoutActivity.vo2max" translate> 
                                                 VO2 max
                                             </label>
                                         </div>
@@ -178,7 +177,7 @@
                                 <label for="done-checkbox"></label>
                             </div>
                             <label class="siimple-label">
-                                <span class="clickable" (click)="workoutActivity.done = !workoutActivity.done">Mark as done</span>
+                                <span class="clickable" (click)="workoutActivity.done = !workoutActivity.done" translate>Mark as done</span>
                             </label>
                         </div>
                     </div>
@@ -189,16 +188,22 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button" (click)="hide()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>
+                    OK
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--error" type="button" (click)="remove()">
                 <fa-icon [icon]="faTrash" class="siimple--mr-1"></fa-icon>
-                Delete
+                <span translate>
+                    Delete
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--primary siimple--float-right" type="button"
                 (click)="showCloningModal()">
                 <fa-icon [icon]="faClone" class="siimple--mr-1"></fa-icon>
-                Copy
+                <span translate>
+                    Copy
+                </span>
             </button>
         </div>
     </div>
@@ -207,16 +212,16 @@
 <div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-modal" *ngIf="cloningModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Copy activity</div>
+            <div class="siimple-modal-header-title" translate>Copy activity</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideCloningModal()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
             <div class="siimple-form-field form-field">
-                <div class="siimple-form-field-label">Number of copies</div>
+                <div class="siimple-form-field-label" translate>Number of copies</div>
                 <input type="number" class="siimple-input siimple-input--fluid" required
                     name="number_of_cloned_activities_input" id="number_of_cloned_activities_input"
                     [(ngModel)]="number_of_cloned_activities" #number_of_cloned_activities_input="ngModel"
-                    placeholder="Number of activities">
+                    [placeholder]="'Number of activities' | translate">
             </div>
             <div class="siimple-form-field form-field siimple--mt-2" *ngIf="workoutActivity.positions && workoutActivity.positions.length > 0">
                 <div class="siimple-checkbox siimple-checkbox--primary siimple--ml-0">
@@ -226,7 +231,7 @@
                 </div>
                 <label class="siimple-label">
                     <span class="clickable" (click)="toggleClonePositions()">
-                        <span class="">Copy positions</span>
+                        <span class="" translate>Copy positions</span>
                     </span>
                 </label>
             </div>
@@ -235,11 +240,15 @@
             <button class="siimple-btn siimple-btn--success  siimple--mr-2" type="button"
                 (click)="hideAndIssueCloningOrder()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>
+                    OK
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--error" type="button" (click)="hideCloningModal()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>
+                    Cancel
+                </span>
             </button>
         </div>
     </div>

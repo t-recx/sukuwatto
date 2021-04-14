@@ -1,0 +1,18 @@
+.language-select-container {
+    display: flex;
+    align-items: center;
+}
+
+.language-modal-content {
+    max-width: 300px !important;
+}
+
+.flag {
+    max-height: 24px;
+    margin-right: 10px;
+}
+
+.translated-language-name {
+    font-weight: 400 !important;
+    font-size: 13px !important;
+}

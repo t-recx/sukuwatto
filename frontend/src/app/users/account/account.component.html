@@ -6,22 +6,22 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Delete Account?</div>
+            <div class="siimple-modal-header-title" translate>Delete account?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
-            <p class="siimple-p">
-                This will delete your account and associated data! Are you sure you want to proceed?
+            <p class="siimple-p" translate>
+                This will delete your account and associated data. Are you sure you want to proceed?
             </p>
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                Yes
+                <span translate>Yes</span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>Cancel</span>
             </button>
         </div>
     </div>
@@ -30,25 +30,25 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestConfirmationModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Personal data request</div>
+            <div class="siimple-modal-header-title" translate>Personal data request</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideRequestConfirmationModal()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
-            <p class="siimple-p">
+            <p class="siimple-p" translate>
                 This will collect and process your personal information and send you a copy to the e-mail account associated with your profile.
             </p>
-            <p class="siimple-p">
+            <p class="siimple-p" translate>
                 Would you like to proceed?
             </p>
         </div>
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="requestPersonalData()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                Yes
+                <span translate>Yes</span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideRequestConfirmationModal()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>Cancel</span>
             </button>
         </div>
     </div>
@@ -58,26 +58,25 @@
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">
-                Personal data request 
-                <span *ngIf="alreadyProcessingDataRequest">underway</span>
-                <span *ngIf="!alreadyProcessingDataRequest">sent</span>
+                <span *ngIf="alreadyProcessingDataRequest"  translate>Personal data request underway</span>
+                <span *ngIf="!alreadyProcessingDataRequest" translate>Personal data request sent</span>
             </div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideRequestDataModal()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
             <div *ngIf="alreadyProcessingDataRequest">
-                <p class="siimple-p">
+                <p class="siimple-p" translate>
                     We're still processing an earlier request made by you. You should get your data in your e-mail account soon.
                 </p>
-                <p class="siimple-p">
+                <p class="siimple-p" translate>
                     If that's not the case, please contact our support. Thank you.
                 </p>
             </div>
             <div *ngIf="!alreadyProcessingDataRequest">
-                <p class="siimple-p">
+                <p class="siimple-p" translate>
                     Thank you for your request.
                 </p>
-                <p class="siimple-p">
+                <p class="siimple-p" translate>
                     We'll be sending your personal data to the e-mail account associated with your profile as soon as we're done processing it.
                 </p>
             </div>
@@ -85,7 +84,7 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="hideRequestDataModal()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>OK</span>
             </button>
         </div>
     </div>
@@ -96,21 +95,21 @@
 
 <div *ngIf="allowed && user && !loading">
     <div class="toolbar">
-        <div class="toolbar-title">Account <span class="account-settings-label">settings</span></div>
+        <div class="toolbar-title" translate>Account settings</div>
     </div>
 
     <div class="siimple-tabs siimple--mt-2 siimple--mb-2">
         <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTabType==tabType.General"
-            (click)="selectTabType(tabType.General)">
+            (click)="selectTabType(tabType.General)" translate>
             General
         </div>
         <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTabType==tabType.Privacy"
-            (click)="selectTabType(tabType.Privacy)">
+            (click)="selectTabType(tabType.Privacy)" translate>
             Privacy
         </div>
         <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTabType==tabType.Perks"
             (click)="selectTabType(tabType.Perks)"
-            *ngIf="perksTabVisible">
+            *ngIf="perksTabVisible" translate>
             Perks
         </div>
     </div>
@@ -122,7 +121,7 @@
                     <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--md-12 siimple-grid-col--sm-12">
                         <div class="profile-picture-uploader">
                             <div class="siimple-form-field">
-                                <div class="siimple-form-field-label">Profile Picture</div>
+                                <div class="siimple-form-field-label" translate>Profile Picture</div>
                                 <app-image-upload [imageURL]=user.profile_filename
                                     [square]=true [maxSquareSize]=384 [aspectRatio]="1 / 1" [maintainAspectRatio]="true"
                                     (uploaded)="setProfilePicture($event)">
@@ -135,34 +134,34 @@
                             <div class="siimple-grid-row">
                                 <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-6 siimple--py-0">
                                     <div class="siimple-form-field">
-                                        <div class="siimple-form-field-label">First name</div>
+                                        <div class="siimple-form-field-label" translate>First name</div>
                                         <input type="text" class="siimple-input siimple-input--fluid" name="first_name"
                                             id="first_name" [(ngModel)]="user.first_name" #first_name="ngModel"
-                                            maxlength="30" placeholder="First name">
+                                            maxlength="30" [placeholder]="'First name' | translate">
                                     </div>
                                 </div>
                                 <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-6 siimple--py-0">
                                     <div class="siimple-form-field">
-                                        <div class="siimple-form-field-label">Last name</div>
+                                        <div class="siimple-form-field-label" translate>Last name</div>
                                         <input type="text" class="siimple-input siimple-input--fluid" name="last_name"
                                             id="last_name" [(ngModel)]="user.last_name" type="last_name"
-                                            #last_name="ngModel" maxlength="150" placeholder="Last name">
+                                            #last_name="ngModel" maxlength="150" [placeholder]="'Last name' | translate">
                                     </div>
                                 </div>
                             </div>
                             <div class="siimple-grid-row">
                                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                                     <div class="siimple-form-field">
-                                        <div class="siimple-form-field-label">Location</div>
+                                        <div class="siimple-form-field-label" translate>Location</div>
                                         <input type="text" class="siimple-input siimple-input--fluid" name="location"
                                             id="location" [(ngModel)]="user.location" #location="ngModel" maxlength="30"
-                                            placeholder="Location">
+                                            [placeholder]="'Location' | translate">
                                     </div>
                                     <div class="siimple-form-field">
-                                        <div class="siimple-form-field-label">Bio</div>
+                                        <div class="siimple-form-field-label" translate>Bio</div>
                                         <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="4"
                                             name="biography" id="biography" [(ngModel)]="user.biography"
-                                            #biography="ngModel" placeholder="Bio">
+                                            #biography="ngModel" [placeholder]="'Bio' | translate">
                                 </textarea>
                                     </div>
                                 </div>
@@ -173,69 +172,69 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Email address</div>
+                            <div class="siimple-form-field-label" translate>Email address</div>
                             <input type="email" class="siimple-input siimple-input--fluid" required name="email"
                                 id="email" [(ngModel)]="user.email" #email="ngModel"
                                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [ngModelOptions]="{updateOn: 'blur'}"
-                                placeholder="Your email address">
+                                [placeholder]="'Your email address' | translate">
 
-                            <div *ngIf="email.invalid && (email.dirty || triedToSave)">
-                                <div *ngIf="email.errors?.required" class="siimple-field-helper siimple--color-error">
+                            <div *ngIf="!(emailError && triedToSave) && email.invalid && (email.dirty || triedToSave)">
+                                <div *ngIf="email.errors?.required" class="siimple-field-helper siimple--color-error" translate>
                                     This field can't be empty
                                 </div>
-                                <div *ngIf="email.errors?.pattern" class="siimple-field-helper siimple--color-error">
-                                    Please insert a valid email
+                                <div *ngIf="email.errors?.pattern" class="siimple-field-helper siimple--color-error" translate>
+                                    Enter a valid email address.
                                 </div>
                             </div>
                             <div *ngIf="emailError && triedToSave">
-                                <div class="siimple-field-helper siimple--color-error error-label">{{emailError}}</div>
+                                <div class="siimple-field-helper siimple--color-error error-label">{{emailError | translate}}</div>
                             </div>
                         </div>
                         <div class="siimple-form-field">
-                            <div class="siimple-form-field-label">Gender</div>
+                            <div class="siimple-form-field-label" translate>Gender</div>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="m" id="male" [checked]="user.gender === 'm'"
                                     [(ngModel)]="user.gender">
                                 <label for="male"></label>
                             </div>
-                            <label class="siimple-label clickable" for="male">Male</label>
+                            <label class="siimple-label clickable" for="male" translate>Male</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="f" id="female" [checked]="user.gender === 'f'"
                                     [(ngModel)]="user.gender">
                                 <label for="female"></label>
                             </div>
-                            <label class="siimple-label clickable" for="female">Female</label>
+                            <label class="siimple-label clickable" for="female" translate>Female</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="gender" value="n" id="nonbinary"
                                     [checked]="user.gender === 'n'" [(ngModel)]="user.gender">
                                 <label for="nonbinary"></label>
                             </div>
-                            <label class="siimple-label clickable" for="nonbinary">Non-binary</label>
+                            <label class="siimple-label clickable" for="nonbinary" translate>Non-binary</label>
                         </div>
                     </div>
                 </div>
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--6">
-                        <div class="siimple-form-field-label">Month of birth</div>
+                        <div class="siimple-form-field-label" translate>Month of birth</div>
                         <select class="siimple-select siimple-select--fluid" [(ngModel)]="user.month_birth"
                             name="month_birth">
                             <option value="" selected></option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="1"  translate>January</option>
+                            <option value="2"  translate>February</option>
+                            <option value="3"  translate>March</option>
+                            <option value="4"  translate>April</option>
+                            <option value="5"  translate>May</option>
+                            <option value="6"  translate>June</option>
+                            <option value="7"  translate>July</option>
+                            <option value="8"  translate>August</option>
+                            <option value="9"  translate>September</option>
+                            <option value="10" translate>October</option>
+                            <option value="11" translate>November</option>
+                            <option value="12" translate>December</option>
                         </select>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6">
-                        <div class="siimple-form-field-label">Year of birth</div>
+                        <div class="siimple-form-field-label" translate>Year of birth</div>
                         <input type="number" class="siimple-input siimple-input--fluid" [(ngModel)]="user.year_birth"
                             name="year_birth">
                     </div>
@@ -243,22 +242,22 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <div class="siimple-form-field-label">Measurement units</div>
+                            <div class="siimple-form-field-label" translate>Measurement units</div>
                             <div class="siimple-radio">
                                 <input type="radio" name="system" value="m" id="metric" [checked]="user.system === 'm'"
                                     [(ngModel)]="user.system">
                                 <label for="metric"></label>
                             </div>
-                            <label class="siimple-label clickable" for="metric">Metric</label>
+                            <label class="siimple-label clickable" for="metric" translate>Metric</label>
                             <div class="siimple-radio">
                                 <input type="radio" name="system" value="i" id="imperial"
                                     [checked]="user.system === 'i'" [(ngModel)]="user.system">
                                 <label for="imperial"></label>
                             </div>
-                            <label class="siimple-label clickable" for="imperial">Imperial</label>
+                            <label class="siimple-label clickable" for="imperial" translate>Imperial</label>
 
                             <div *ngIf="!user.system && triedToSave">
-                                <div class="siimple-field-helper siimple--color-error siimple--mb-0">This field can't be
+                                <div class="siimple-field-helper siimple--color-error siimple--mb-0" translate>This field can't be
                                     empty</div>
                             </div>
                         </div>
@@ -267,7 +266,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <div class="siimple-form-field-label">Default energy unit</div>
+                            <div class="siimple-form-field-label" translate>Default energy unit</div>
                             <select class="siimple-select siimple-select--fluid" name="default_energy_unit"
                                 id="default_energy_unit" required [(ngModel)]="user.default_energy_unit"
                                 #default_energy_unit="ngModel">
@@ -287,7 +286,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <label class="siimple-label">Follow approval required</label>
+                            <label class="siimple-label" translate>Follow approval required</label>
                             <div class="siimple-switch">
                                 <input type="checkbox" name="follow_approval_required" id="follow_approval_required" [(ngModel)]="user.follow_approval_required" #follow_approval_required="ngModel">
                                 <label for="follow_approval_required"></label>
@@ -298,7 +297,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <div class="siimple-form-field-label">Profile visibility</div>
+                            <div class="siimple-form-field-label" translate>Profile visibility</div>
                             <select class="siimple-select siimple-select--fluid" name="profileVisibility"
                                 id="profileVisibility" [(ngModel)]="user.visibility"
                                 #profileVisibility="ngModel">
@@ -313,7 +312,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <div class="siimple-form-field-label">Default workout visibility</div>
+                            <div class="siimple-form-field-label" translate>Default workout visibility</div>
                             <select class="siimple-select siimple-select--fluid" name="defaultWorkoutVisibility"
                                 id="defaultWorkoutVisibility" [(ngModel)]="user.default_visibility_workouts"
                                 #defaultWorkoutVisibility="ngModel">
@@ -328,7 +327,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <div class="siimple-form-field-label">Default body measurement visibility</div>
+                            <div class="siimple-form-field-label" translate>Default body measurement visibility</div>
                             <select class="siimple-select siimple-select--fluid" name="defaultMeasurementVisibility"
                                 id="defaultMeasurementVisibility" [(ngModel)]="user.default_visibility_user_bio_datas"
                                 #defaultMeasurementVisibility="ngModel">
@@ -348,7 +347,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <label class="siimple-label">Use custom class</label>
+                            <label class="siimple-label" translate>Use custom class</label>
                             <div class="siimple-switch">
                                 <input type="checkbox" name="custom_class" id="custom_class" [(ngModel)]="user.custom_class" #custom_class="ngModel"
                                 (change)="customClassToggle()">
@@ -360,24 +359,24 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <label class="siimple-label">Primary class</label>
+                            <label class="siimple-label" translate>Primary class</label>
                             <input
                                 [class.siimple-input--disabled]="!user.custom_class"
                                 [disabled]="!user.custom_class"
                                 type="text" class="siimple-input siimple-input--fluid" name="primary_class"
                                 id="primary_class" [(ngModel)]="user.primary_class" #primary_class="ngModel" maxlength="200"
-                                placeholder="Primary class">
+                                [placeholder]="'Primary class' | translate">
                         </div>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col-md--12">
                         <div class="siimple-form-field siimple--my-0">
-                            <label class="siimple-label">Secondary class</label>
+                            <label class="siimple-label" translate>Secondary class</label>
                             <input 
                                 [class.siimple-input--disabled]="!user.custom_class"
                                 [disabled]="!user.custom_class"
                                 type="text" class="siimple-input siimple-input--fluid" name="secondary_class"
                                 id="secondary_class" [(ngModel)]="user.secondary_class" #secondary_class="ngModel" maxlength="200"
-                                placeholder="Secondary class">
+                                [placeholder]="'Secondary class' | translate">
                         </div>
                     </div>
                 </div>
@@ -393,27 +392,27 @@
             [disabled]="saving">
             <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
-            Save
+            <span translate>Save</span>
         </button>
         <button class="siimple-btn siimple-btn--operation operation-button" (click)="showPasswordModal()"
             type="button"
         >
             <fa-icon [icon]="faKey" class="  siimple--mr-1"></fa-icon>
-            Change password
+            <span translate>Change password</span>
         </button>
         <button class="siimple-btn siimple-btn--operation operation-button" (click)="confirmRequestPersonalData()"
             type="button"
             [class.siimple-btn--disabled]="requesting" [disabled]="requesting">
             <fa-icon [icon]="faFileArchive" class="  siimple--mr-1" *ngIf="!requesting"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="requesting"></fa-icon>
-            Request data
+            <span translate>Request data</span>
         </button>
         <button class="siimple-btn siimple-btn--error operation-button" (click)="showDeleteModal()"
             type="button"
             [class.siimple-btn--disabled]="deleting" [disabled]="deleting">
             <fa-icon [icon]="faDoorClosed" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
             <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-            Leave
+            <span translate>Leave</span>
         </button>
     </div>
 </div>
