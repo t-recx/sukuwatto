@@ -1,44 +1,28 @@
 <div class="site-body ">
-    <div class="siimple-navbar siimple-navbar--primary siimple-navbar--extra-large navbar">
-        <div class="logo-container">
-            <div class="logo clickable" routerLink="/"></div>
-            <a class="siimple-navbar-title navbar-small-phone-not-logged" routerLink="/">
-                sukuwatto
-            </a>
-
-            <div class="siimple--ml-auto">
-                <div class="siimple-btn-group">
-                    <button routerLink="/signup/" class="siimple-btn siimple-btn--success " type="button">
-                        <fa-icon [icon]="faUserPlus" class=""></fa-icon>
-                        <span class="siimple--ml-1 ">Sign up</span>
-                    </button>
-                    <button routerLink="/login/" class="siimple-btn " type="button">
-                        <fa-icon [icon]="faSignInAlt" class=""></fa-icon>
-                        <span class="siimple--ml-1 siimple--display-sm-none">Sign in</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-navbar-index></app-navbar-index>
 
     <main class="site-content siimple-content siimple-content--medium content-body with-inter-font">
         <div class="qr-code-container" *ngIf="!onAndroid">
             <picture>
                 <source type="image/webp" class="" srcset="../../assets/images/sukuwatto-android-qr-code.webp">
-                <img class="" src="../../assets/images/sukuwatto-android-qr-code.jpeg" alt="QR code for the android download URL">
+                <img class="" src="../../assets/images/sukuwatto-android-qr-code.jpeg" [alt]="'QR code for the android download URL' | translate">
             </picture>
 
             <h4 class="siimple-h4 siimple--mt-0">
-                To get started, go to <a class="siimple-link" href="https://www.sukuwatto.com/android-download">sukuwatto.com/android-download</a> on your android device or scan the image above.
+                <span translate>To get started, go to</span> 
+                <span>&nbsp;</span>
+                <a class="siimple-link" href="https://www.sukuwatto.com/android-download">sukuwatto.com/android-download</a> 
+                <span>&nbsp;</span>
+                <span translate>on your android device or scan the image above.</span>
             </h4>
         </div>
 
         <div *ngIf="onAndroid">
-            <h1 class="siimple-h1 thank-you-header">
+            <h1 class="siimple-h1 thank-you-header" translate>
                 Thank you!
             </h1>
 
-            <h2 class="siimple-h2">
+            <h2 class="siimple-h2" translate>
                 Instructions
             </h2>
 
@@ -50,10 +34,10 @@
                         1
                     </div>
                     <div>
-                        <h3 class="siimple-h3 step-title">
+                        <h3 class="siimple-h3 step-title" translate>
                             Download file
                         </h3>
-                        <p class="siimple-p">
+                        <p class="siimple-p" translate>
                             The download popup will appear shortly. Don't forget to press download.
                         </p>
                     </div>
@@ -64,10 +48,10 @@
                         2
                     </div>
                     <div>
-                        <h3 class="siimple-h3 step-title">
+                        <h3 class="siimple-h3 step-title" translate>
                             Open file
                         </h3>
-                        <p class="siimple-p">
+                        <p class="siimple-p" translate>
                             Locate the downloaded file on your device and open it to start the installation.
                         </p>
                     </div>
@@ -78,10 +62,10 @@
                         3
                     </div>
                     <div>
-                        <h3 class="siimple-h3 step-title">
+                        <h3 class="siimple-h3 step-title" translate>
                             Update settings
                         </h3>
-                        <p class="siimple-p">
+                        <p class="siimple-p" translate>
                             Update the browser settings to allow installs from this source.
                         </p>
                     </div>
@@ -92,10 +76,10 @@
                         4
                     </div>
                     <div>
-                        <h3 class="siimple-h3 step-title">
+                        <h3 class="siimple-h3 step-title" translate>
                             Install app
                         </h3>
-                        <p class="siimple-p">
+                        <p class="siimple-p" translate>
                             Press the install button on the bottom to start the installation.
                         </p>
                     </div>

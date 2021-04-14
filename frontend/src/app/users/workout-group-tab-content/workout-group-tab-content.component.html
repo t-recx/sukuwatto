@@ -25,12 +25,11 @@
     </div>
     <button class="siimple-btn siimple-btn--operation siimple--mt-2 new-activity-button" type="button" (click)="new()">
         <fa-icon [icon]="faDumbbell" class="siimple--mr-1"></fa-icon>
-        New
-        <span *ngIf="activityType==ActivityType.Exercise">
-            activity
+        <span *ngIf="activityType==ActivityType.Exercise" translate>
+            New activity
         </span>
-        <span *ngIf="activityType==ActivityType.WarmUp">
-            warmup
+        <span *ngIf="activityType==ActivityType.WarmUp" translate>
+            New warmup
         </span>
     </button>
 </div>

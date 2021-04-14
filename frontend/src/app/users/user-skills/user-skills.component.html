@@ -9,7 +9,7 @@
 
             <div class="siimple-rule"></div>
 
-            <div>
+            <div translate>
                 Skills
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <li class="siimple-list-item list-item" *ngFor="let userSkill of skills">
                         <div class="skill-progress-title siimple--mb-1">
                             <div class="skill-progress-label">
-                                {{userSkill.skill.name}}
+                                {{userSkill.skill.name | translate}}
                             </div>
                             <small class="skill-progress-points siimple-small">
                                 {{userSkill.experience | locale}} / {{userSkillExperienceNextLevel[userSkill.id] | locale}} XP

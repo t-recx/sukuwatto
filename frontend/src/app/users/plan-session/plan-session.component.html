@@ -2,22 +2,22 @@
     <div class="siimple-form-field">
         <div class="siimple-tabs">
             <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab=='session'"
-                (click)="selectTab('session')">
+                (click)="selectTab('session')" translate>
                 Session
             </div>
             <div class="siimple-tabs-item" [class.siimple-tabs-item--selected]="selectedTab=='progressions'"
-                (click)="selectTab('progressions')">
+                (click)="selectTab('progressions')" translate>
                 Progressions
             </div>
         </div>
 
         <div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab=='session'">
-                <div class="siimple-form-field-label">Session Name</div>
+                <div class="siimple-form-field-label" translate>Session Name</div>
                 <input type="text" class="siimple-input siimple--mb-2 siimple-input--fluid" required name="name"
                     id="name" [(ngModel)]="planSession.name" #name="ngModel">
                 <div *ngIf="name.invalid && (name.dirty || triedToSave)">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
 
                 <div class="siimple-grid">
@@ -33,12 +33,14 @@
 
                 <button class="siimple-btn siimple--mt-2 siimple-btn--operation new-group-button" type="button" (click)="newGroup()">
                     <fa-icon [icon]="faLayerGroup" class="siimple--mr-1"></fa-icon>
-                    New group
+                    <span translate>
+                        New group
+                    </span>
                 </button>
             </div>
 
             <div class="tab-content" [class.tab-content-selected]="selectedTab=='progressions'">
-                <app-plan-progression-strategies type_label="Session" [progressions]=planSession.progressions
+                <app-plan-progression-strategies [type_label]="'Session' | translate" [progressions]=planSession.progressions
                     [triedToSave]=triedToSave>
                 </app-plan-progression-strategies>
             </div>

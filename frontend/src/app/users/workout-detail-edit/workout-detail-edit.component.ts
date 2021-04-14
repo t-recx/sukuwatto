@@ -22,6 +22,7 @@ import { CordovaService } from 'src/app/cordova.service';
 import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 import { Visibility } from 'src/app/visibility';
 import { UnitsService } from '../units.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -175,6 +176,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   deleting: boolean = false;
 
   constructor(
+    private translateService: TranslateService,
     private unitsService: UnitsService,
     private route: ActivatedRoute,
     private service: WorkoutsService,
@@ -206,6 +208,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       }
 
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, planSession);
+
+      this.translateService.get(this.workout.name).subscribe(res => {
+        this.workout.name = res;
+      });
     }
   }
 
@@ -305,6 +311,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.workout.start = new Date();
       this.workout.energy_unit = this.unitsService.getUserEnergyUnit();
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
+
+      this.translateService.get(this.workout.name).subscribe(res => {
+        this.workout.name = res;
+      });
 
       this.loadAdoptedPlans();
       this.setWorkoutVisibility();
@@ -615,6 +625,10 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
 
     if (!this.workout.name || this.workout.name.trim().length == 0) {
       this.workout.name = this.workoutGeneratorService.getWorkoutName(this.workout.start, null);
+
+      this.translateService.get(this.workout.name).subscribe(res => {
+        this.workout.name = res;
+      });
     }
 
     saveWorkoutObservable = this.service.saveWorkout(this.workout);

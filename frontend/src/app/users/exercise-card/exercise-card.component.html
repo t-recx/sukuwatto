@@ -1,7 +1,7 @@
 <article class="siimple-card" *ngIf="exercise">
     <header class="siimple-card-header">
         <a class="siimple-link" [routerLink]="routerLink">
-            {{exercise.name}}
+            {{exercise.name | translate}}
         </a>
     </header>
     <div class="siimple-card-body">
@@ -22,13 +22,13 @@
                             <thead class="siimple-table-header">
                                 <tr class="siimple-table-row">
                                     <th colspan="2"
-                                        class="siimple-table-cell">Classification</th>
+                                        class="siimple-table-cell" translate>Classification</th>
                                 </tr>
                             </thead>
                             <tbody class="siimple-table-body">
                                 <tr class="siimple-table-row " *ngIf="exercise.exercise_type">
                                     <td class="siimple-table-cell cell">
-                                        <span class="siimple--text-bold">
+                                        <span class="siimple--text-bold" translate>
                                         Type
                                         </span>
                                     </td>
@@ -38,7 +38,7 @@
                                 </tr>
                                 <tr class="siimple-table-row " *ngIf="exercise.section">
                                     <td class="siimple-table-cell cell">
-                                        <span class="siimple--text-bold">
+                                        <span class="siimple--text-bold" translate>
                                         Section
                                         </span>
                                     </td>
@@ -48,7 +48,7 @@
                                 </tr>
                                 <tr class="siimple-table-row " *ngIf="exercise.force">
                                     <td class="siimple-table-cell cell">
-                                        <span class="siimple--text-bold">
+                                        <span class="siimple--text-bold" translate>
                                         Force
                                         </span>
                                     </td>
@@ -58,7 +58,7 @@
                                 </tr>
                                 <tr class="siimple-table-row " *ngIf="exercise.mechanics">
                                     <td class="siimple-table-cell cell">
-                                        <span class="siimple--text-bold">
+                                        <span class="siimple--text-bold" translate>
                                             Mechanics
                                         </span>
                                     </td>
@@ -68,7 +68,7 @@
                                 </tr>
                                 <tr class="siimple-table-row " *ngIf="exercise.modality">
                                     <td class="siimple-table-cell cell">
-                                        <span class="siimple--text-bold">
+                                        <span class="siimple--text-bold" translate>
                                         Modality
                                         </span>
                                     </td>
@@ -78,7 +78,7 @@
                                 </tr>
                                 <tr class="siimple-table-row " *ngIf="exercise.level">
                                     <td class="siimple-table-cell cell">
-                                        <span class="siimple--text-bold">
+                                        <span class="siimple--text-bold" translate>
                                         Level
                                         </span>
                                     </td>

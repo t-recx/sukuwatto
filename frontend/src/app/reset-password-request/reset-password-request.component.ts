@@ -12,7 +12,6 @@ export class ResetPasswordRequestComponent implements OnInit {
 
   triedToReset: boolean;
   resetting: boolean;
-  resetText: string;
 
   resetEmail: string = '';
 
@@ -30,7 +29,7 @@ export class ResetPasswordRequestComponent implements OnInit {
     this.triedToReset = false;
     this.resetting = false;
     this.resetEmail = '';
-    this.resetText = 'Send instructions';
+    
   }
 
   reset() {

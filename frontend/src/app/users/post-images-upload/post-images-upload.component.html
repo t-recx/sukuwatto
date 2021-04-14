@@ -19,7 +19,7 @@
 <div class="siimple-modal modal-window siimple-modal--large" id="modal" *ngIf="imageModalVisible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Posted image</div>
+            <div class="siimple-modal-header-title" translate>Posted image</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideImageModal()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body" align="center">
@@ -28,11 +28,15 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="hideImageModal()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>
+                    OK
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="deleteImageModal()">
                 <fa-icon [icon]="faTrash" class="siimple--mr-1"></fa-icon>
-                Delete
+                <span translate>
+                    Delete
+                </span>
             </button>
         </div>
     </div>

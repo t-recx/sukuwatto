@@ -246,7 +246,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
           this.saving = false;
 
           if (e && e.error && e.error.email) {
-            this.emailError = e.error.email;
+            this.emailError = e.error.email.toString();
           }
           else {
             this.alertService.error('Unable to update account, try again later');

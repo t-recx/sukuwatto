@@ -16,6 +16,7 @@ import { Plan } from './plan';
 import { UnitsService } from './units.service';
 import { Unit, MeasurementType } from './unit';
 import { ProgressionStrategyService } from './progression-strategy-service.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -215,10 +216,6 @@ export class WorkoutGeneratorService {
 
     if (start) {
       name += start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s";
-    }
-
-    if (planSession && planSession.name) {
-      name += " " + planSession.name;
     }
 
     name += " session";

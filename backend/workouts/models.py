@@ -118,6 +118,7 @@ class Exercise(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     comment_number = models.IntegerField(default=0)
+    name_pt = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return self.name

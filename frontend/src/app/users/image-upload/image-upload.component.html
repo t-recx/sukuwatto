@@ -10,7 +10,8 @@
                 [class.siimple-btn--disabled]="uploading" for="file">
                 <fa-icon [icon]="faFileImport" class="siimple--mr-1" *ngIf="!uploading"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="uploading"></fa-icon>
-                {{uploadText}}
+                <span *ngIf="uploading"  translate>Uploading...</span>
+                <span *ngIf="!uploading" translate>Browse...</span>
             </label>
             <button type="button" class="siimple-btn siimple-btn--error siimple--mt-2" [disabled]="uploading" (click)="clearImage()" *ngIf="imageMediaURL">
                 <fa-icon [icon]="faTimes" class=""></fa-icon>
@@ -22,7 +23,7 @@
 <div class="siimple-modal modal-window siimple-modal--large" *ngIf="showCropModal">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title ">
+            <div class="siimple-modal-header-title " translate>
                 Crop image
             </div>
             <div class="siimple-spinner siimple-spinner--primary siimple-spinner--large crop-spinner" *ngIf="loadingCropper"></div>
@@ -38,11 +39,11 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="ok()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                OK
+                <span translate>OK</span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="cancel()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>Cancel</span>
             </button>
         </div>
     </div>

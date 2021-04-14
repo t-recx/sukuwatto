@@ -6,18 +6,18 @@
         </button>
         <button class="siimple-btn" (click)="logout()" type="button" aria-label="Sign out">
             <fa-icon [icon]="faSignOutAlt" class="" aria-hidden="true"></fa-icon>
-            <span class="siimple--ml-1 siimple--display-sm-none">Sign out</span>
+            <span class="siimple--ml-1 siimple--display-sm-none" translate>Sign out</span>
         </button>
     </div>
     <ng-template #notLoggedBlock>
         <div class="siimple-btn-group" >
             <button routerLink="/signup/" class="siimple-btn siimple-btn--success" type="button" aria-label="Sign up">
                 <fa-icon [icon]="faUserPlus" class="" aria-hidden="true"></fa-icon>
-                <span class="siimple--ml-1 ">Sign up</span>
+                <span class="siimple--ml-1 " translate>Sign up</span>
             </button>
             <button routerLink="/login/" class="siimple-btn" type="button" aria-label="Sign in">
                 <fa-icon [icon]="faSignInAlt" class="" aria-hidden="true"></fa-icon>
-                <span class="siimple--ml-1 siimple--display-sm-none">Sign in</span>
+                <span class="siimple--ml-1 siimple--display-sm-none" translate>Sign in</span>
             </button>
         </div>
     </ng-template>

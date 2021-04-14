@@ -2,11 +2,11 @@
     <div *ngIf="editing" class="siimple-form">
         <div class="siimple-form-field">
             <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newComment"
-                id="newComment" required [(ngModel)]="comment.action_object_comment.text" #newComment="ngModel" placeholder="Write your comment here">
+                id="newComment" required [(ngModel)]="comment.action_object_comment.text" #newComment="ngModel" [placeholder]="'Write your comment here' | translate">
           </textarea>
 
           <div *ngIf="newComment.invalid && (newComment.dirty || triedToSave)">
-              <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+              <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
           </div>
         </div>
 
@@ -15,7 +15,7 @@
             <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="update()">
                 <fa-icon [icon]="faCircleNotch" [spin]=true  class="siimple--mr-1" [spin]=true *ngIf="updating"></fa-icon>
                 <fa-icon [icon]="faComment" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
-                Update
+                <span translate>Update</span>
             </button>
         </div>
     </div>
@@ -30,7 +30,7 @@
         </app-user-tag>
 
         <div class="comment-date">
-            <small class="siimple-small siimple--text-bold tooltip siimple--mr-1" *ngIf="comment.action_object_comment && comment.action_object_comment.edited_date">
+            <small class="siimple-small siimple--text-bold tooltip siimple--mr-1" *ngIf="comment.action_object_comment && comment.action_object_comment.edited_date" translate>
                 edited
             </small>
 
@@ -48,22 +48,22 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <header class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Delete comment?</div>
+            <div class="siimple-modal-header-title" translate>Delete comment?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
         </header>
         <div class="siimple-modal-body modal-window-body">
-            <p class="siimple-p">
-                This will delete your comment and associated data! Are you sure you want to proceed?
+            <p class="siimple-p" translate>
+                This will delete your comment and associated data. Are you sure you want to proceed?
             </p>
         </div>
         <footer class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                Yes
+                <span translate>Yes</span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>Cancel</span>
             </button>
         </footer>
     </div>

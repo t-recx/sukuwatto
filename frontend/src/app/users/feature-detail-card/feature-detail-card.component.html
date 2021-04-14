@@ -21,14 +21,14 @@
         </span>
 
         <span class="siimple-tag state-tag siimple-tag--warning"
-            *ngIf="feature.state == 'c'" >
+            *ngIf="feature.state == 'c'"  translate>
             closed
         </span>
 
         <small class="siimple-small time" *ngIf="feature.state != 'c'">{{getTime(feature.date)}}</small>
         
         <small class="siimple-small edited-time" *ngIf="feature.edited_date && feature.state != 'c'">
-            (edited: {{getTime(feature.edited_date)}})
+            (<span translate>edited</span>: {{getTime(feature.edited_date)}})
         </small>
 
         <div *ngIf="showCancelButton" (click)="cancel()" class="feature-remove" >
@@ -43,9 +43,9 @@
         <span class="user-profile" >
             <input type="text" class="siimple-input siimple-input--fluid feature-title-input" name="title"
                 id="title" [(ngModel)]="feature.title" #title="ngModel" required
-                maxlength="200" placeholder="Title">
+                maxlength="200" [placeholder]="'Title' | translate">
             <div *ngIf="title.invalid && triedToSave">
-                <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
             </div>
         </span>
 
@@ -57,10 +57,11 @@
         <div *ngIf="editing" class="siimple-form feature-form">
             <div class="siimple-form-field">
                 <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newFeature"
-                    id="newFeature" required [(ngModel)]="feature.text" #newFeature="ngModel" placeholder="Description">
+                    id="newFeature" required [(ngModel)]="feature.text" #newFeature="ngModel" 
+                    [placeholder]="'Description' | translate">
                 </textarea>
                 <div *ngIf="newFeature.invalid && triedToSave">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
 
@@ -79,7 +80,9 @@
                         <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="toggling">
                         </fa-icon>
                         <fa-icon [icon]="faLock" class="siimple--mr-1" *ngIf="!toggling"></fa-icon>
-                        Close
+                        <span translate>
+                            Close
+                        </span>
                     </button>
                 
                     <button class="siimple-btn siimple-btn--success toggle-button siimple--mr-1" [disabled]="toggling || imageUploading"
@@ -87,7 +90,9 @@
                         <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="toggling">
                         </fa-icon>
                         <fa-icon [icon]="faLockOpen" class="siimple--mr-1" *ngIf="!toggling"></fa-icon>
-                        Reopen
+                        <span translate>
+                            Reopen
+                        </span>
                     </button>
                 
                     <button class="siimple-btn siimple-btn--primary feature-button" [disabled]="updating || imageUploading"
@@ -95,7 +100,9 @@
                         <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="updating">
                         </fa-icon>
                         <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!updating"></fa-icon>
-                        Update
+                        <span translate>
+                            Update
+                        </span>
                     </button>
                 </div>
             </div>
@@ -159,22 +166,26 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
     <div class="siimple-modal-content">
         <header class="siimple-modal-header">
-            <div class="siimple-modal-header-title">Delete Feature?</div>
+            <div class="siimple-modal-header-title" translate>Delete feature?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
         </header>
         <div class="siimple-modal-body modal-window-body">
-            <p class="siimple-p">
-                This will delete your feature and associated data! Are you sure you want to proceed?
+            <p class="siimple-p" translate>
+                This will delete your feature and associated data. Are you sure you want to proceed?
             </p>
         </div>
         <footer class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="delete()">
                 <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
-                Yes
+                <span translate>
+                    Yes
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="hideDeleteModal()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>
+                    Cancel
+                </span>
             </button>
         </footer>
     </div>

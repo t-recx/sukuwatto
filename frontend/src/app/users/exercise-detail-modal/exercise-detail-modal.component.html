@@ -1,7 +1,7 @@
 <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="visible">
     <div class="siimple-modal-content">
         <div class="siimple-modal-header">
-            <div class="siimple-modal-header-title">
+            <div class="siimple-modal-header-title" translate>
                 New exercise
             </div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
@@ -17,11 +17,15 @@
         <div class="siimple-modal-footer">
             <button class="siimple-btn siimple-btn--success" type="button" (click)="save()">
                 <fa-icon [icon]="faSave" class="siimple--mr-1"></fa-icon>
-                Save
+                <span translate>
+                    Save
+                </span>
             </button>
             <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="close()">
                 <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
-                Cancel
+                <span translate>
+                    Cancel
+                </span>
             </button>
         </div>
     </div>

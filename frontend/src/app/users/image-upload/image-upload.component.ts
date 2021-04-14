@@ -31,8 +31,6 @@ export class ImageUploadComponent implements OnInit, OnChanges {
   file: any;
   imageMediaURL: string;
 
-  defaultUploadText: string = "Browse...";
-  uploadText: string = this.defaultUploadText;
   uploading: boolean = false;
 
   faFileImport = faFileImport;
@@ -143,7 +141,6 @@ export class ImageUploadComponent implements OnInit, OnChanges {
       formData.append('file', this.file);
 
       this.uploading = true;
-      this.uploadText = "Uploading...";
       this.uploadService.uploadFile(formData).subscribe(
         (response) => {
           if (response && response.file) {
@@ -156,7 +153,6 @@ export class ImageUploadComponent implements OnInit, OnChanges {
           }
 
           this.uploading = false;
-          this.uploadText = this.defaultUploadText;
         }
       );
     });

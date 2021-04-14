@@ -60,7 +60,9 @@
             <div class="siimple-grid-col siimple-grid-col--2 siimple--display-sm-none siimple--display-md-none">
                 <app-menu [unread_messages_count]=unread_messages_count></app-menu>
             </div>
-            <div class="siimple-grid-col siimple-grid-col--7 siimple-grid-col-sm--12 siimple-grid-col-md--12 siimple-grid-col-xl--10">
+            <div class="siimple-grid-col siimple-grid-col-sm--12 siimple-grid-col-md--12 siimple-grid-col-xl--10"
+                [class.siimple-grid-col--10]="!rightSideBarVisible"
+                [class.siimple-grid-col--7]="rightSideBarVisible">
                 <router-outlet></router-outlet>
             </div>
             <div class="siimple-grid-col siimple-grid-col--3" *ngIf="rightSideBarVisible">
@@ -99,8 +101,8 @@
 
 <app-snackbar 
     [visible]="updateSnackbarVisible"
-    messageText="New version available"
-    actionText="UPDATE"
+    [messageText]="'New version available' | translate"
+    [actionText]="'UPDATE' | translate"
     (actionInvoked)="updateApplication()"
     (actionDismissed)="dismissUpdateNotification()"
 >

@@ -8,13 +8,13 @@
 
             <div class="siimple-rule"></div>
 
-            <div>
+            <div translate>
                 Follower requests
             </div>
         </div>
 
     <app-users-follow-list [users]=requests [loading]=loadingRequests [showDeleteButton]=true [deleteIcon]=faTimes
-        (deletePressed)="rejectUser($event)" [showActionButton]=true [actionIcon]=faCheck actionText="Accept"
+        (deletePressed)="rejectUser($event)" [showActionButton]=true [actionIcon]=faCheck [actionText]="'Accept' | translate"
         (actionPressed)="acceptUser($event)">
     </app-users-follow-list>
 </div>

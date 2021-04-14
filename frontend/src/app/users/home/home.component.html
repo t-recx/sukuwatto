@@ -5,10 +5,10 @@
             <div class="siimple-form-field siimple--mb-2">
                 <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3" name="newPost"
                     id="newPost" required applyFocus [(ngModel)]="newPostText" #newPost="ngModel"
-                    placeholder="What's on your mind?">
+                    [placeholder]="'What\'s on your mind?' | translate">
                 </textarea>
                 <div *ngIf="newPost.invalid && triedToPost">
-                    <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                    <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                 </div>
             </div>
             <div class="post-buttons-container siimple--clearfix">
@@ -25,7 +25,7 @@
                     <fa-icon [icon]="faCircleNotch" [spin]=true class="siimple--mr-1" [spin]=true *ngIf="posting">
                     </fa-icon>
                     <fa-icon [icon]="faStickyNote" class="siimple--mr-1" *ngIf="!posting"></fa-icon>
-                    Post
+                    <span translate>Post</span>
                 </button>
             </div>
         </div>

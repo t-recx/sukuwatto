@@ -123,7 +123,7 @@ describe('WorkoutGeneratorService', () => {
                         planSession.name = "workout a";
 
                         serviceGenerate().subscribe(workout => {
-                                expect(workout.name).toEqual(start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s" + " " + planSession.name + " session");
+                                expect(workout.name).toEqual(start.toLocaleDateString('en-us', { weekday: 'long' }) + "'s session");
                         });
                 });
 

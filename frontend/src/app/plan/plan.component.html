@@ -3,10 +3,10 @@
 
     <main class="site-content siimple-content siimple-content--extra-large content-body with-inter-font ">
         <div class="siimple-content siimple-content--large siimple--pb-0">
-            <h1 class="feature-h1 ">
+            <h1 class="feature-h1 " translate>
                 Planning
             </h1>
-            <div class="siimple-h1 feature-description">
+            <div class="siimple-h1 feature-description" translate>
                 Set the groundwork for success.
             </div>
         </div>
@@ -17,10 +17,10 @@
             <div class="siimple-grid">
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-description-container">
-                        <h2 class="siimple-h2 hero-header  siimple--mt-0">
+                        <h2 class="siimple-h2 hero-header  siimple--mt-0" translate>
                             Choose
                         </h2>
-                        <p class="siimple-p hero-subtitle ">
+                        <p class="siimple-p hero-subtitle " translate>
                             In Sukuwatto you're not limited to one routine, or one type of activity. 
                             Select the ideal plan for you from our list, created by us and our users. 
                         </p>
@@ -45,10 +45,10 @@
                         </picture>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-description-container">
-                        <h2 class="siimple-h2 hero-header  siimple--mt-0">
+                        <h2 class="siimple-h2 hero-header  siimple--mt-0" translate>
                             Create
                         </h2>
-                        <p class="siimple-p hero-subtitle ">
+                        <p class="siimple-p hero-subtitle " translate>
                             Didn't find what you were looking for? Create your own plan or customize an existing one to your needs using our plan editor.
                         </p>
                     </div>
@@ -64,15 +64,14 @@
 
         <div class=" siimple-content siimple-content--large  siimple--bg-light">
             <div class="siimple--text-center">
-                <h2 class="siimple-h2 hero-header">
+                <h2 class="siimple-h2 hero-header" translate>
                     Progress
                 </h2>
-                <p class="siimple-p hero-subtitle siimple--mb-0">
+                <p class="siimple-p hero-subtitle siimple--mb-0" translate>
                     Manipulate parameters like weight, distance, time and more with plan progressions.
                 </p>
-                <p class="siimple-p hero-subtitle ">
-                    Don't worry about the math: they'll be
-                    automatically applied from workout to workout.
+                <p class="siimple-p hero-subtitle " translate>
+                    Don't worry about the math: they'll be automatically applied from workout to workout.
                 </p>
 
                 <picture>
@@ -82,7 +81,9 @@
             </div>
         </div>
 
-        <app-demo-navigation previousUrl="/" previousFragment="features" nextUrl="/track" previousText="Home" nextText="Track"></app-demo-navigation>
+        <app-demo-navigation previousUrl="/" previousFragment="features" nextUrl="/track" 
+            [previousText]="'Home' | translate" 
+            [nextText]="'Track it' | translate"></app-demo-navigation>
     </main>
 
     <app-footer></app-footer>

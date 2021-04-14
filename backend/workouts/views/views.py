@@ -32,12 +32,44 @@ class FilterByExerciseType(BaseFilterBackend):
 
         return queryset
 
+class SearchFilterByLanguage(SearchFilter):
+    def get_search_fields(self, view, request):
+        language = request.query_params.get('language', None)
+
+        if language and language == 'pt':
+            return ['name_pt', 'name']
+
+        return ['name']
+
+class OrderingFilterByLanguage(OrderingFilter):
+    def get_ordering(self, request, queryset, view):
+        params = request.query_params.get(self.ordering_param)
+        language = request.query_params.get('language', None)
+
+        if params:
+            fields = [param.strip() for param in params.split(',')]
+            ordering = self.remove_invalid_fields(queryset, fields, view, request)
+            if ordering:
+                if language and language == 'pt':
+                    if 'name' in ordering:
+                        ordering[ordering.index('name')] = 'name_pt'
+
+                    if '-name' in ordering:
+                        ordering[ordering.index('-name')] = '-name_pt'
+
+                return ordering
+
+        if language and language == 'pt':
+            return ['name_pt', 'mechanics', 'force', 'section', 'modality']
+
+        return ['name', 'mechanics', 'force', 'section', 'modality']
+
+
 class ExerciseViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     queryset = Exercise.objects.all().order_by('name')
     serializer_class = ExerciseSerializer
-    filter_backends = [SearchFilter, FilterByExerciseType, OrderingFilter]
+    filter_backends = [SearchFilterByLanguage, FilterByExerciseType, OrderingFilterByLanguage]
     pagination_class = StandardResultsSetPagination
-    search_fields = ['name']
     ordering_fields = ['name', 'mechanics', 'force', 'section', 'modality']
 
 class MuscleList(ListAPIView):

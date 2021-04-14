@@ -3,11 +3,15 @@
     <div class="dropdown-content" *ngIf="optionsVisible">
         <div class="dropdown-content-item" (click)="edit()">
             <fa-icon [icon]="faEdit" class="siimple--mr-1"></fa-icon>
-            Edit
+            <span translate>
+                Edit
+            </span>
         </div>
         <div class="dropdown-content-item" (click)="delete()">
             <fa-icon [icon]="faTrash" class="siimple--mr-1 trash-icon"></fa-icon>
-            Delete
+            <span translate>
+                Delete
+            </span>
         </div>
     </div>
 </div>

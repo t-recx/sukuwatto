@@ -9,14 +9,14 @@
 
             <div class="siimple-rule"></div>
 
-            <div>
+            <div translate>
                 Following
             </div>
         </div>
     </div>
 
     <app-users-follow-list [users]=following [showActionButton]=showUnfollowButtonOnFollowingList
-        [loading]=loadingFollowing [actionIcon]=faUserMinus actionText="Unfollow"
+        [loading]=loadingFollowing [actionIcon]=faUserMinus [actionText]="'Unfollow' | translate"
         (actionPressed)="unfollowUser($event)">
     </app-users-follow-list>
 </div>

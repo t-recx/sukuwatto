@@ -21,7 +21,7 @@
                 <div class="siimple-card-body" *ngFor="let group_order of getGroupOrders(session)">
                     <span *ngFor="let group of getGroups(session, group_order); let i = index;">
                         <span *ngIf="i > 0 && i < getGroups(session, group_order).length">
-                            <div class="siimple--text-bold" *ngIf="hasGroupsWithMoreThanOneExercise(session, group_order); else groupsWithJustOneExercise">
+                            <div  translate class="siimple--text-bold" *ngIf="hasGroupsWithMoreThanOneExercise(session, group_order); else groupsWithJustOneExercise">
                                 alternating with
                             </div>
                             <ng-template #groupsWithJustOneExercise>
@@ -48,7 +48,7 @@
 
                                 <span *ngIf="workoutActivity.exercise.exercise_type == 'c'">
                                     <span *ngIf="showParameterBlock(session, workoutActivity, parameterType.Speed)">
-                                        <span
+                                        <span translate
                                             *ngIf="workoutActivity.speed || workoutActivity.speed_type == speedType.Parameter">
                                             at
                                         </span>
@@ -70,7 +70,7 @@
                                                 </span>
                                             </span>
 
-                                            <span *ngIf="workoutActivity.speed_type==speedType.AFAP">
+                                            <span *ngIf="workoutActivity.speed_type==speedType.AFAP" translate>
                                                 AFAP
                                             </span>
                                         </span>
@@ -80,12 +80,12 @@
                                         </span>
 
                                         <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_speed_percentage)">
-                                            {{workoutActivity.working_speed_percentage | locale}}% working speed
+                                            {{workoutActivity.working_speed_percentage | locale}}%<span>&nbsp;</span> <span translate>working speed</span>
                                         </span>
                                     </span>
 
                                     <span *ngIf="showParameterBlock(session, workoutActivity, parameterType.Distance)">
-                                        <span>
+                                        <span translate>
                                             for
                                         </span>
 
@@ -111,7 +111,7 @@
                                         </span>
 
                                         <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_distance_percentage)">
-                                            {{workoutActivity.working_distance_percentage | locale}}% working distance
+                                            {{workoutActivity.working_distance_percentage | locale}}% <span>&nbsp;</span> <span translate>working distance</span>
                                         </span>
                                     </span>
 
@@ -119,12 +119,12 @@
                                         <span *ngIf="workoutActivity.distance ||
                                             (workoutActivity.distance_type && 
                                             workoutActivity.distance_type != distanceType.None); else alternativeTimeIntroduction">
-                                            <span>
+                                            <span translate>
                                                 in
                                             </span>
                                         </span>
 
-                                        <ng-template #alternativeTimeIntroduction>
+                                        <ng-template #alternativeTimeIntroduction translate>
                                             for
                                         </ng-template>
 
@@ -150,14 +150,14 @@
                                         </span>
 
                                         <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_time_percentage)">
-                                            {{workoutActivity.working_time_percentage | locale}}% working time
+                                            {{workoutActivity.working_time_percentage | locale}}%  <span>&nbsp;</span> <span translate>working time</span>
                                         </span>
                                     </span>
 
                                     <span *ngIf="workoutActivity.vo2max ||
                                         (workoutActivity.vo2max_type && 
                                         workoutActivity.vo2max_type != vo2MaxType.None)">
-                                        <span>
+                                        <span translate>
                                             with
                                         </span>
 
@@ -178,7 +178,7 @@
                                             </span>
                                         </span>
 
-                                        <span>
+                                        <span translate>
                                             VO2 max
                                         </span>
                                     </span>
@@ -195,10 +195,10 @@
                                         {{workoutActivity.number_of_repetitions}} -
                                         {{workoutActivity.number_of_repetitions_up_to}}
                                     </span>
-                                    <span *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
+                                    <span translate *ngIf="workoutActivity.repetition_type==repetitionType.ToFailure">
                                         F
                                     </span>
-                                    <span *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
+                                    <span translate *ngIf="workoutActivity.repetition_type==repetitionType.AMRAP">
                                         AMRAP
                                     </span>
                                     <span *ngIf="showWorkingPercentage(session, workoutActivity.exercise, workoutActivity.working_weight_percentage)">
@@ -225,14 +225,18 @@
                     [disabled]="adopting">
                     <fa-icon [icon]="faChild" class="siimple--mr-1" *ngIf="!adopting"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="adopting"></fa-icon>
-                    Adopt
+                    <span translate>
+                        Adopt
+                    </span>
                 </button>
         
                 <button *ngIf="showLeaveButton" class="siimple-btn adopt-plan-button siimple-btn--error" (click)="leave()"
                     [disabled]="leaving">
                     <fa-icon [icon]="faMinusCircle" class="siimple--mr-1" *ngIf="!leaving"></fa-icon>
                     <fa-icon [icon]="faCircleNotch" class=" siimple--mr-1" [spin]=true *ngIf="leaving"></fa-icon>
-                    Abandon
+                    <span translate>
+                        Abandon
+                    </span>
                 </button>
             </div>
         </div>
@@ -249,7 +253,7 @@
     </footer>
 </article>
 
-<app-delete-modal [(visible)]="deleteModalVisible" title='Delete plan?'
-    body='This will delete your plan and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+<app-delete-modal [(visible)]="deleteModalVisible" [title]="'Delete plan?' | translate"
+    [body]="'This will delete your plan and associated data. Are you sure you want to proceed?' | translate" (deleted)="delete()"
     (canceled)="toggleDeleteModal()">
 </app-delete-modal>

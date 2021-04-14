@@ -14,9 +14,10 @@ export class LoginComponent implements OnInit {
   user: User;
   loggingIn: boolean;
   triedToLogin: boolean;
-  signInText: string;
 
   environmentTypeLabel: string;
+
+  environment = environment;
 
   faCircleNotch = faCircleNotch;
 
@@ -28,9 +29,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.user = new User();
     this.loggingIn = false;
-    this.signInText = "Sign in"; 
-
-    this.environmentTypeLabel = environment.application ? 'app' : 'website';
   }
 
   login(): void {
@@ -41,7 +39,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.loggingIn = true;
-    this.signInText = "Signing in...";
 
     let username = null;
     let password = this.user.password;
@@ -64,7 +61,6 @@ export class LoginComponent implements OnInit {
         }
         else {
           this.loggingIn = false;
-          this.signInText = "Sign in";
         }
       });
   }

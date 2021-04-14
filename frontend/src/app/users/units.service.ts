@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Unit, MeasurementType } from './unit';
 import { AuthService } from '../auth.service';
 import { MeasurementSystem } from '../user';
@@ -9,21 +9,37 @@ import { UserBioData } from './user-bio-data';
 import { Plan } from './plan';
 import { ProgressionStrategy } from './plan-progression-strategy';
 import { UnitConversion } from './unit-conversion';
+import { LanguageService } from '../language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UnitsService {
+export class UnitsService implements OnDestroy {
   private units: Unit[];
   private unitConversions: UnitConversion[];
 
   public monthInMilliseconds: number = 2592000000;
 
+  languageChangedSubscription: Subscription;
+
   constructor(
     private authService: AuthService,
+    private languageService: LanguageService,
+    private translateService: TranslateService,
   ) {
     this.initUnits();
     this.initUnitConversions();
+
+    this.languageChangedSubscription = this.languageService.languageChanged.subscribe(language => {
+      this.translateUnits();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.languageChangedSubscription) {
+      this.languageChangedSubscription.unsubscribe();
+    }
   }
 
   initUnitConversions() {
@@ -261,6 +277,57 @@ export class UnitsService {
     ];
   }
 
+  translateUnits() {
+    this.translateService.get('Kilograms').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'kg')[0].name = res;
+    });
+    this.translateService.get('Pounds').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'lb')[0].name = res;
+    });
+    this.translateService.get('Centimeters').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'cm')[0].name = res;
+    });
+    this.translateService.get('Feet').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'ft')[0].name = res;
+    });
+    this.translateService.get('Kilometers').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'km')[0].name = res;
+    });
+    this.translateService.get('Miles').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'mi')[0].name = res;
+    });
+    this.translateService.get('Minutes').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'min')[0].name = res;
+    });
+    this.translateService.get('Meters').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'm')[0].name = res;
+    });
+    this.translateService.get('Seconds').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 's')[0].name = res;
+    });
+    this.translateService.get('Yards').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'yd')[0].name = res;
+    });
+    this.translateService.get('Km/hour').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'km/h')[0].name = res;
+    });
+    this.translateService.get('Miles/hour').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'mph')[0].name = res;
+    });
+    this.translateService.get('Milliseconds').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'ms')[0].name = res;
+    });
+    this.translateService.get('Hours').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'hr')[0].name = res;
+    });
+    this.translateService.get('Kilocalories').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'kcal')[0].name = res;
+    });
+    this.translateService.get('Kilojoules').subscribe((res: string) => {
+      this.units.filter(x => x.abbreviation == 'kJ')[0].name = res;
+    });
+  }
+
   initUnits() {
     this.units = [
       {
@@ -376,6 +443,8 @@ export class UnitsService {
         measurement_type: MeasurementType.Energy
       },
     ];
+
+    this.translateUnits();
   }
 
   getUnits(): Observable<Unit[]> {

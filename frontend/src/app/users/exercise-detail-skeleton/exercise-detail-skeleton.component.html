@@ -1,27 +1,27 @@
 <div *ngIf="exercise">
     <form class="siimple-card siimple-form siimple--mb-0" #exerciseForm="ngForm">
-        <div class="siimple-form-title form-title" *ngIf="showTitle">Exercise detail</div>
+        <div class="siimple-form-title form-title" *ngIf="showTitle" translate>Exercise detail</div>
         <div class="siimple-grid">
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--8 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Name</div>
+                        <div class="siimple-form-field-label" translate>Name</div>
                         <input type="text" class="siimple-input siimple-input--fluid" required name="name" id="name"
                             applyFocus [(ngModel)]="exercise.name" #name="ngModel">
 
                         <div *ngIf="name.invalid && (name.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
                 <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Short name</div>
+                        <div class="siimple-form-field-label" translate>Short name</div>
                         <input type="text" class="siimple-input siimple-input--fluid" required name="short_name"
                             id="short_name" [(ngModel)]="exercise.short_name" #short_name="ngModel">
 
                         <div *ngIf="short_name.invalid && (short_name.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -29,14 +29,14 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field">
-                        <div class="siimple-form-field-label">Description</div>
+                        <div class="siimple-form-field-label" translate>Description</div>
                         <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="3"
                             name="description" id="description" [(ngModel)]="exercise.description"
                             #description="ngModel">
                         </textarea>
 
                         <div *ngIf="description.invalid && (description.dirty || triedToSave)">
-                            <div class="siimple-field-helper siimple--color-error">This field can't be empty</div>
+                            <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field siimple-card-body">
-                        <div class="siimple-form-field-label">Type</div>
+                        <div class="siimple-form-field-label" translate>Type</div>
 
                         <div class="siimple--display-block">
                             <div class="siimple-radio">
@@ -52,7 +52,7 @@
                                     [(ngModel)]="exercise.exercise_type" #cardio="ngModel">
                                 <label for="cardio"></label>
                             </div>
-                            <label class="siimple-label clickable" for="cardio">Cardio</label>
+                            <label class="siimple-label clickable" for="cardio" translate>Cardio</label>
                         </div>
 
                         <div class="siimple--display-block">
@@ -61,11 +61,11 @@
                                     [(ngModel)]="exercise.exercise_type" #strength="ngModel">
                                 <label for="strength"></label>
                             </div>
-                            <label class="siimple-label clickable" for="strength">Strength</label>
+                            <label class="siimple-label clickable" for="strength" translate>Strength</label>
                         </div>
 
                         <div *ngIf="triedToSave && !exercise.exercise_type">
-                            <div class="siimple-field-helper siimple--color-error siimple--mb-0">This field is required
+                            <div class="siimple-field-helper siimple--color-error siimple--mb-0" translate>This field is required
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field siimple-card-body">
-                        <div class="siimple-form-field-label">Level</div>
+                        <div class="siimple-form-field-label" translate>Level</div>
 
                         <div class="siimple--display-block">
                             <div class="siimple-radio">
@@ -82,7 +82,7 @@
                                     #beginner="ngModel">
                                 <label for="beginner"></label>
                             </div>
-                            <label class="siimple-label clickable" for="beginner">Beginner</label>
+                            <label class="siimple-label clickable" for="beginner" translate>Beginner</label>
                         </div>
 
                         <div class="siimple--display-block">
@@ -91,7 +91,7 @@
                                     [(ngModel)]="exercise.level" #intermediate="ngModel">
                                 <label for="intermediate"></label>
                             </div>
-                            <label class="siimple-label clickable" for="intermediate">Intermediate</label>
+                            <label class="siimple-label clickable" for="intermediate" translate>Intermediate</label>
                         </div>
 
                         <div class="siimple--display-block">
@@ -100,7 +100,7 @@
                                     #advanced="ngModel">
                                 <label for="advanced"></label>
                             </div>
-                            <label class="siimple-label clickable" for="advanced">Advanced</label>
+                            <label class="siimple-label clickable" for="advanced" translate>Advanced</label>
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field siimple-card-body">
-                            <div class="siimple-form-field-label">Mechanics</div>
+                            <div class="siimple-form-field-label" translate>Mechanics</div>
 
                             <div class="siimple--display-block">
                                 <div class="siimple-radio">
@@ -117,7 +117,7 @@
                                         [(ngModel)]="exercise.mechanics" #compound="ngModel">
                                     <label for="compound"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="compound">Compound</label>
+                                <label class="siimple-label clickable" for="compound" translate>Compound</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -126,7 +126,7 @@
                                         [(ngModel)]="exercise.mechanics" #isolated="ngModel">
                                     <label for="isolated"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="isolated">Isolated</label>
+                                <label class="siimple-label clickable" for="isolated" translate>Isolated</label>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field siimple-card-body">
-                            <div class="siimple-form-field-label">Force</div>
+                            <div class="siimple-form-field-label" translate>Force</div>
 
                             <div class="siimple--display-block">
                                 <div class="siimple-radio">
@@ -142,7 +142,7 @@
                                         #pull="ngModel">
                                     <label for="pull"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="pull">Pull</label>
+                                <label class="siimple-label clickable" for="pull" translate>Pull</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -151,7 +151,7 @@
                                         #push="ngModel">
                                     <label for="push"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="push">Push</label>
+                                <label class="siimple-label clickable" for="push" translate>Push</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -160,7 +160,7 @@
                                         #static="ngModel">
                                     <label for="static"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="static">Static</label>
+                                <label class="siimple-label clickable" for="static" translate>Static</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -169,7 +169,7 @@
                                         [(ngModel)]="exercise.force" #pullpush="ngModel">
                                     <label for="pullpush"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="pullpush">Pull and push</label>
+                                <label class="siimple-label clickable" for="pullpush" translate>Pull and push</label>
                             </div>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field siimple-card-body">
-                            <div class="siimple-form-field-label">Modality</div>
+                            <div class="siimple-form-field-label" translate>Modality</div>
 
                             <div class="siimple--display-block">
                                 <div class="siimple-radio">
@@ -185,7 +185,7 @@
                                         [(ngModel)]="exercise.modality" #free_weights="ngModel">
                                     <label for="free_weights"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="free_weights">Free Weights</label>
+                                <label class="siimple-label clickable" for="free_weights" translate>Free weights</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -194,7 +194,7 @@
                                         [(ngModel)]="exercise.modality" #machine="ngModel">
                                     <label for="machine"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="machine">Machine</label>
+                                <label class="siimple-label clickable" for="machine" translate>Machine</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -203,7 +203,7 @@
                                         [(ngModel)]="exercise.modality" #cable="ngModel">
                                     <label for="cable"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="cable">Cable</label>
+                                <label class="siimple-label clickable" for="cable" translate>Cable</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -212,7 +212,7 @@
                                         [(ngModel)]="exercise.modality" #calisthenics="ngModel">
                                     <label for="calisthenics"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="calisthenics">Calisthenics</label>
+                                <label class="siimple-label clickable" for="calisthenics" translate>Calisthenics</label>
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                 <div class="siimple-grid-row">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                         <div class="siimple-form-field siimple-card-body ">
-                            <div class="siimple-form-field-label">Section</div>
+                            <div class="siimple-form-field-label" translate>Section</div>
 
                             <div class="siimple--display-block">
                                 <div class="siimple-radio">
@@ -228,7 +228,7 @@
                                         #upper="ngModel">
                                     <label for="upper"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="upper">Upper</label>
+                                <label class="siimple-label clickable" for="upper" translate>Upper</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -237,7 +237,7 @@
                                         #lower="ngModel">
                                     <label for="lower"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="lower">Lower</label>
+                                <label class="siimple-label clickable" for="lower" translate>Lower</label>
                             </div>
 
                             <div class="siimple--display-block">
@@ -246,7 +246,7 @@
                                         #core="ngModel">
                                     <label for="core"></label>
                                 </div>
-                                <label class="siimple-label clickable" for="core">Core</label>
+                                <label class="siimple-label clickable" for="core" translate>Core</label>
                             </div>
                         </div>
                     </div>
@@ -255,7 +255,7 @@
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple--py-0">
                     <div class="siimple-form-field siimple-card-body siimple--mb-0">
-                        <div class="siimple-form-field-label">Muscles</div>
+                        <div class="siimple-form-field-label" translate>Muscles</div>
 
                         <div class="siimple-grid">
                             <div class="siimple-grid-row" *ngFor="let muscle of exercise.muscles">
@@ -265,14 +265,17 @@
                                     <button class="siimple-btn siimple-btn--error siimple-btn--fluid" type="button"
                                         (click)="removeMuscle(muscle)">
                                         <fa-icon class="" [icon]="faTrash"></fa-icon> 
-                                        <span class="siimple--display-lg-none siimple--ml-1"> Remove</span>
+                                        <span class="siimple--display-lg-none siimple--ml-1" translate> Remove</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <button class="siimple-btn siimple-btn--operation siimple--mt-2 new-group-button" type="button" (click)="addMuscle()">
-                            <fa-icon class="siimple--mr-1" [icon]="faPlus"></fa-icon> Add muscle
+                            <fa-icon class="siimple--mr-1" [icon]="faPlus"></fa-icon> 
+                            <span translate>
+                                Add muscle
+                            </span>
                         </button>
                     </div>
                 </div>

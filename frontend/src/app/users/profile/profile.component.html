@@ -22,7 +22,7 @@
                         @{{user.username}}
                     </div>
                     <div class="clickable siimple-h6 user-level-field" [routerLink]="['/users', username, 'skills']">
-                        Level {{user.level}} {{user.primary_class}} <span *ngIf="user.secondary_class">/ {{user.secondary_class}}</span>
+                        <span translate>Level</span> {{user.level}} {{user.primary_class | translate}} <span *ngIf="user.secondary_class">/ {{user.secondary_class |translate}}</span>
                     </div>
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">
@@ -30,24 +30,24 @@
                         >
                         <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
-                        <span class="siimple--ml-1">Follow</span>
+                        <span class="siimple--ml-1" translate>Follow</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && hasFollowRequest" (click)="unfollow()"
                         >
                         <fa-icon [icon]="faClock" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
-                        <span class="siimple--ml-1">Requested</span>
+                        <span class="siimple--ml-1" translate>Requested</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()"
                         >
                         <fa-icon [icon]="faUserMinus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
-                        <span class="siimple--ml-1">Unfollow</span>
+                        <span class="siimple--ml-1" translate>Unfollow</span>
                     </button>
                     <button class="siimple-btn" *ngIf="canMessage"
                         [routerLink]="['/users', authService.getUsername(), 'message', username]">
                         <fa-icon [icon]="faEnvelope"></fa-icon>
-                        <span class="siimple--ml-1">Message</span>
+                        <span class="siimple--ml-1" translate>Message</span>
                     </button>
                 </div>
 
@@ -65,18 +65,18 @@
                 </div>
                 <div class="profile-field" *ngIf="!user.hidden">
                     <span class="clickable" [routerLink]="['/users', username, 'followers']"><span
-                            class="siimple--text-bold">{{user.followers_number | locale}}</span> followers</span>
+                            class="siimple--text-bold">{{user.followers_number | locale}}</span>&nbsp;<span translate>followers</span></span>
                     <span class="clickable siimple--ml-2" [routerLink]="['/users', username, 'following']"><span
-                            class="siimple--text-bold">{{user.followings_number | locale}}</span> following</span>
+                            class="siimple--text-bold">{{user.followings_number | locale}}</span>&nbsp;<span translate>following</span></span>
                     <span class="clickable siimple--ml-2" *ngIf="requests_number > 0"
                         [routerLink]="['/users', username, 'requests']"><span
-                            class="siimple--text-bold">{{requests_number | locale}}</span> requests</span>
+                            class="siimple--text-bold">{{requests_number | locale}}</span>&nbsp;<span translate>requests</span></span>
                 </div>
                 <div class="profile-field" *ngIf="user.hidden">
                     <span ><span
-                            class="siimple--text-bold">{{user.followers_number | locale}}</span> followers</span>
+                            class="siimple--text-bold">{{user.followers_number | locale}}</span>&nbsp;<span translate>followers</span></span>
                     <span class="siimple--ml-2" ><span
-                            class="siimple--text-bold">{{user.followings_number | locale}}</span> following</span>
+                            class="siimple--text-bold">{{user.followings_number | locale}}</span>&nbsp;<span translate>following</span></span>
                 </div>
                 <div class="profile-field keep-original-formatting">
                     {{user.biography}}
@@ -90,9 +90,6 @@
         </div>
 
         <div>
-            <!-- <app-user-progress-charts [username]=username>
-            </app-user-progress-charts> -->
-        
             <div class="siimple--mt-4" *ngIf="loading">
                 <app-loading-spinner></app-loading-spinner>
             </div>

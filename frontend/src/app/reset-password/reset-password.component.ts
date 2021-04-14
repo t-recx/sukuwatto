@@ -21,7 +21,6 @@ export class ResetPasswordComponent implements OnInit {
 
   triedToReset: boolean;
   resetting: boolean;
-  resetText: string;
 
   newPassword: string = '';
   confirmPassword: string = '';
@@ -38,7 +37,6 @@ export class ResetPasswordComponent implements OnInit {
     this.triedToReset = false;
     this.resetting = false;
     this.newPassword = '';
-    this.resetText = 'Reset password';
     this.token = '';
     this.tokenExpired = false;
 

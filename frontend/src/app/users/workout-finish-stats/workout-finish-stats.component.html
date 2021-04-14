@@ -4,11 +4,11 @@
             <div class="siimple-grid-row stats-item clickable"  *ngIf="ellapsedTime"
                 (click)="timeClick()"
             >
-                <div class="siimple-grid-col siimple-grid-col--4">Time</div>
+                <div class="siimple-grid-col siimple-grid-col--4" translate>Time</div>
                 <div class="siimple-grid-col siimple-grid-col--8" align="right">{{ellapsedTime}}</div>
             </div>
             <div class="siimple-grid-row stats-item" *ngIf="distance">
-                <div class="siimple-grid-col siimple-grid-col--6">Distance</div>
+                <div class="siimple-grid-col siimple-grid-col--6" translate>Distance</div>
                 <div class="siimple-grid-col siimple-grid-col--6" align="right"
                     *ngIf="(distanceUnit.abbreviation == 'km' || distanceUnit.abbreviation == 'mi') && distance < 1">
                     {{distanceInSmallerUnit |locale}}{{distanceSmallerUnit.abbreviation}}
@@ -19,13 +19,13 @@
                 </div>
             </div>
             <div class="siimple-grid-row stats-item" *ngIf="speed">
-                <div class="siimple-grid-col siimple-grid-col--5">Speed</div>
+                <div class="siimple-grid-col siimple-grid-col--5" translate>Speed</div>
                 <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="speedUnit">
                     {{speed |locale}}{{speedUnit.abbreviation}}
                 </div>
             </div>
             <div class="siimple-grid-row stats-item " *ngIf="calories">
-                <div class="siimple-grid-col siimple-grid-col--5">Energy</div>
+                <div class="siimple-grid-col siimple-grid-col--5" translate>Energy</div>
                 <div class="siimple-grid-col siimple-grid-col--7" align="right" *ngIf="energyUnit">
                     {{calories |locale}}{{energyUnit.abbreviation}}
                 </div>

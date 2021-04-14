@@ -1,5 +1,6 @@
 <app-delete-modal [(visible)]="deleteModalVisible" title='Delete exercise?'
-    body='This will delete your exercise and associated data. Are you sure you want to proceed?' (deleted)="delete()"
+    [body]="'This will delete your exercise and associated data. Are you sure you want to proceed?' | translate" 
+    (deleted)="delete()"
     (canceled)="hideDeleteModal()">
 </app-delete-modal>
 
@@ -28,7 +29,9 @@
             >
                 <fa-icon [icon]="faSave" class="  siimple--mr-1" *ngIf="!saving"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="saving"></fa-icon>
-                Save
+                <span translate>
+                    Save
+                </span>
             </button>
             <button *ngIf="showDeleteButton()" class="siimple-btn siimple-btn--error  exercises-operation-button"
                 [class.siimple-btn--disabled]="deleting"
@@ -36,7 +39,9 @@
                 (click)="showDeleteModal()">
                 <fa-icon [icon]="faTrash" class="  siimple--mr-1" *ngIf="!deleting"></fa-icon>
                 <fa-icon [icon]="faCircleNotch" [spin]=true class="  siimple--mr-1" *ngIf="deleting"></fa-icon>
-                Delete
+                <span translate>
+                    Delete
+                </span>
             </button>
         </div>
     </div>

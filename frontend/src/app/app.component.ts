@@ -4,6 +4,8 @@ import { CordovaService } from './cordova.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
+import { LanguageService } from './language.service';
+import { TranslationUpdatesService } from './translation-updates.service';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +18,14 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   pausedSubscription: Subscription;
 
   constructor(
+    private translationUpdatesService: TranslationUpdatesService,
     private renderer: Renderer2,
     private cordovaService: CordovaService,
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private languageService: LanguageService) {
+    this.languageService.startUp();
+
     if (environment.application) {
       const backgroundGeolocation = window['BackgroundGeolocation'];
       if (backgroundGeolocation) {

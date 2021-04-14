@@ -20,7 +20,7 @@
             <div class="conversation-container" (scroll)="scrolled($event)" (window:resize)="windowResized()"
               #scrollframe>
               <div class="older-messages-retriever-container" *ngIf="loadingOlderMessages">
-                <small class="siimple-small">Loading older messages...</small>
+                <small class="siimple-small" translate>Loading older messages...</small>
               </div>
 
               <div *ngFor="let message of messages; let i = index;">
@@ -56,15 +56,21 @@
                     <div class="dropdown-content">
                       <div class="dropdown-content-item" (click)="copyToClipboard(message)">
                         <fa-icon [icon]="faCopy" class="siimple--mr-1"></fa-icon>
-                        Copy
+                        <span translate>
+                          Copy
+                        </span>
                       </div>
                       <div class="dropdown-content-item" (click)="editMessage(message)">
                         <fa-icon [icon]="faEdit" class="siimple--mr-1"></fa-icon>
-                        Edit
+                        <span translate>
+                          Edit
+                        </span>
                       </div>
                       <div class="dropdown-content-item" (click)="deleteMessage(message)">
                         <fa-icon [icon]="faTrash" class="siimple--mr-1 trash-icon"></fa-icon>
-                        Delete
+                        <span translate>
+                          Delete
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -74,7 +80,7 @@
             <form class="conversation-compose">
               <input (keyup.enter)="sendMessage()"  [(ngModel)]="newMessage" applyFocus
                 #messageInput="ngModel" type="text" required class="input-msg siimple-input" name="messageInput"
-                placeholder="Type a message" autocomplete="off">
+                [placeholder]="'Type a message' | translate" autocomplete="off">
               <button type="button" class="send" (mousedown)="cancelEdit(); $event.preventDefault()"
               *ngIf="messageBeingEdited" >
                 <div class="circle siimple--bg-error">

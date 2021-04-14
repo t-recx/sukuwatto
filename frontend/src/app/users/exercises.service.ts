@@ -7,6 +7,7 @@ import { Exercise, ExerciseType } from './exercise';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
+import { LanguageService } from '../language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +24,14 @@ export class ExercisesService {
   constructor(
     private http: HttpClient,
     private errorService: ErrorService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private languageService: LanguageService,
   ) { }
 
   getExercises (page: number, page_size: number, search_filter: string, ordering: string, exercise_type: string): Observable<Paginated<Exercise>> {
     let options = {};
     let params = new HttpParams();
+    const language = this.languageService.getLanguage();
 
     if (page) {
       params = params.set('page', page.toString());
@@ -50,7 +53,11 @@ export class ExercisesService {
       params = params.set('exercise_type', exercise_type);
     }
 
-    if (page || page_size || search_filter || ordering || exercise_type) {
+    if (language) {
+      params = params.set('language', language);
+    }
+
+    if (page || page_size || search_filter || ordering || exercise_type || language) {
       options = {params: params};
     }
 

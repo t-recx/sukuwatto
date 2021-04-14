@@ -8,20 +8,20 @@
         </option>
     </select>
     <div *ngIf="muscle_control.invalid && (muscle_control.dirty || triedToSave)">
-        <div class="siimple-field-helper siimple--color-error">This field can't be empty
+        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty
         </div>
     </div>
 </div>
 <div class="siimple-grid-col siimple-grid-col--5">
     <select class="siimple-select siimple-select--fluid" name="role_type" id="role_type" required
         [(ngModel)]="muscle.role" #role_type="ngModel">
-        <option [ngValue]="null">Role...</option>
+        <option [ngValue]="null" translate>Role...</option>
         <option *ngFor="let role_typeModel of roleTypeLabel | keyvalue" value={{role_typeModel.key}}>
             {{role_typeModel.value}}
         </option>
     </select>
     <div *ngIf="role_type.invalid && (role_type.dirty || triedToSave)">
-        <div class="siimple-field-helper siimple--color-error">This field can't be empty
+        <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty
         </div>
     </div>
 </div>
