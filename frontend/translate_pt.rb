@@ -2,7 +2,7 @@
 
 require 'json'
 
-def translate_value k
+def _translate_value k
     changed = k.gsub('"hockey', '"hóquei')
     .gsub('"racing/not drafting or > 19 mph drafting', '"corrida/sem tração ou > 19 mph com tração')
     .gsub('"to work or for pleasure', '"para o trabalho ou por diversão')
@@ -1953,11 +1953,47 @@ def translate_value k
     return changed
 end
 
+def translate_value k
+    k.gsub('Unable to', 'Não foi possível')
+    .gsub('fetch', 'carregar')
+    .gsub('load', 'carregar')
+    .gsub('upload', 'carregar')
+    .gsub('create', 'criar')
+    .gsub('update', 'actualizar')
+    .gsub('delete', 'remover')
+    .gsub('file', 'ficheiro')
+    .gsub('follow', 'seguir')
+    .gsub('unfollow', 'deixar de seguir')
+    .gsub('try again later', 'tente mais tarde')
+    .gsub('last messages', 'últimas mensagens')
+    .gsub('messages', 'mensagens')
+    .gsub('message', 'mensagem')
+    .gsub('release', 'lançamento')
+    .gsub('workouts', 'treinos')
+    .gsub('userbiodatas', 'registos corporais')
+    .gsub('userbiodata', 'registos corporal')
+    .gsub('workout', 'treino')
+    .gsub('plans', 'planos')
+    .gsub('plan', 'plano')
+    .gsub('features', 'funcionalidades')
+    .gsub('feature', 'funcionalidade')
+    .gsub('exercises', 'exercícios')
+    .gsub('exercise', 'exercício')
+    .gsub('comments', 'comentários')
+    .gsub('comment', 'comentário')
+    .gsub('password', 'palavra-passe')
+    .gsub('obtain position', 'obter posição')
+    .gsub('skills', 'habilidades')
+    .gsub('users', 'utilizadores')
+    .gsub('no measurements', 'sem registos')
+    .gsub('measurements', 'registos')
+end
+
 def translate language
     json = JSON.parse(File.read("src/assets/i18n/#{language}.json"))
 
     json.filter { |k, v| k == v }.each do |_, k|
-        json[k] = translate_value('"' + k)[1..-1]
+        json[k] = translate_value(k)
     end
 
     opts = {
