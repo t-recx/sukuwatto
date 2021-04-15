@@ -133,7 +133,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
       this.file = new File([newBlob], fileName, { type });
 
       if (this.file.size > environment.maxFileSizeUpload) {
-        this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed of ${environment.maxFileSizeUpload / Math.pow(1000, 2)} MBs`)
+        this.alertService.error(`Unable to upload specified file, size exceeds maximum allowed`);
         this.errorUploading.emit();
         return;
       }
