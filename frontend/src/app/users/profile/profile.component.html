@@ -22,7 +22,7 @@
                         @{{user.username}}
                     </div>
                     <div class="clickable siimple-h6 user-level-field" [routerLink]="['/users', username, 'skills']">
-                        <span translate>Level</span> {{user.level}} {{user.primary_class | translate}} <span *ngIf="user.secondary_class">/ {{user.secondary_class |translate}}</span>
+                        <span translate>Level</span> {{user.level}} - {{user.primary_class | translate}} <span *ngIf="user.secondary_class">/ {{user.secondary_class |translate}}</span>
                     </div>
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">

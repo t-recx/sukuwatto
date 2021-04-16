@@ -53,6 +53,14 @@ export class TranslationUpdatesService implements OnDestroy {
     marker('Saturday\'s session');
     marker('Sunday\'s session');
 
+    marker('Monday\'s measurement');
+    marker('Tuesday\'s measurement');
+    marker('Wednesday\'s measurement');
+    marker('Thursday\'s measurement');
+    marker('Friday\'s measurement');
+    marker('Saturday\'s measurement');
+    marker('Sunday\'s measurement');
+
     marker('Sessão de segunda-feira');
     marker('Sessão de terça-feira');
     marker('Sessão de quarta-feira');
