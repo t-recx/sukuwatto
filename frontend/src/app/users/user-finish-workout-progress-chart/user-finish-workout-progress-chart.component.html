@@ -11,7 +11,7 @@
                 <div class="siimple-table-body">
                     <div class="siimple-table-row" *ngFor="let series of progressData.series">
                         <div class="siimple-table-cell siimple--text-bold" [style.color]="colors[series.name]">
-                            {{series.name}}
+                            {{series.name | translate}}
                         </div>
                         <div align="right" class="siimple-table-cell siimple--text-bold weight-table-cell"
                             [style.color]="colors[series.name]">

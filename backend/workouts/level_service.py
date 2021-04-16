@@ -38,9 +38,18 @@ class LevelService():
         raise ValueError
 
     def get_experience_strength(self, reps, weight_kg):
+        if reps is None or weight_kg is None:
+            return 0
+
+        if reps <= 0 or weight_kg <= 0:
+            return 0
+
         return floor((reps * weight_kg) / 5)
 
     def get_experience_cardio(self, calories_kcal):
+        if calories_kcal is None or calories_kcal <= 0:
+            return 0
+
         return floor(calories_kcal * Decimal(2.5))
 
     # When changing here, don't forget to update 

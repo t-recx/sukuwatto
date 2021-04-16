@@ -1,8 +1,11 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation, Input, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 import { UserProgressChartData, UserProgressChartDataPoint, UserProgressChartType, UserProgressChartSeries } from '../user-progress-chart-data';
 import { environment } from 'src/environments/environment';
 import { ChartCategory } from '../chart-category';
+import { LanguageService } from 'src/app/language.service';
+import { Subscription } from 'rxjs';
+import { timeFormatLocale, TimeLocaleObject } from 'd3';
 
 @Component({
     selector: 'app-user-progress-chart',
@@ -10,7 +13,7 @@ import { ChartCategory } from '../chart-category';
     templateUrl: './user-progress-chart.component.html',
     styleUrls: ['./user-progress-chart.component.css']
 })
-export class UserProgressChartComponent implements OnInit, OnChanges {
+export class UserProgressChartComponent implements OnInit, OnChanges, OnDestroy {
     @Input() progressData: UserProgressChartData;
     @Input() width: number;
 
@@ -19,16 +22,68 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
     hostElement; // Native element hosting the SVG container
     showLegend = true;
 
+    localeUS =  {
+        dateTime: '%x, %X',
+        date: '%-m/%-d/%Y',
+        time: '%-I:%M:%S %p',
+        periods: (['AM', 'PM'] as ([string, string])),
+        days: (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as [string, string, string, string, string, string, string]),
+        shortDays: (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as [string, string, string, string, string, string, string]),
+        months: (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as [string, string, string, string, string, string, string, string, string, string, string, string]),
+        shortMonths: (['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as [string, string, string, string, string, string, string, string, string, string, string, string])
+    };
+
+    localePT =
+    {
+        dateTime: '%A, %e de %B de %Y. %X',
+        date: '%d/%m/%Y',
+        time: '%H:%M:%S',
+        periods: (['AM', 'PM'] as ([string, string])),
+        days: (['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'] as [string, string, string, string, string, string, string]),
+        shortDays: (['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] as [string, string, string, string, string, string, string]),
+        months: (['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] as [string, string, string, string, string, string, string, string, string, string, string, string]),
+        shortMonths: (['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'] as [string, string, string, string, string, string, string, string, string, string, string, string])
+    };
+
+    locale: TimeLocaleObject;
+    languageChangedSubscription: Subscription;
+
     constructor(
         private elRef: ElementRef,
+        languageService: LanguageService,
     ) {
         this.hostElement = this.elRef.nativeElement;
+        this.setLocale(languageService.getLanguage());
+
+        this.languageChangedSubscription = languageService.languageChanged.subscribe((language) => {
+            this.setLocale(language);
+            this.recreateChart();
+        });
+    }
+
+    setLocale(language: string) {
+        if (language == 'pt') {
+            this.locale = d3.timeFormatLocale(this.localePT);
+        }
+        else {
+            this.locale = d3.timeFormatLocale(this.localeUS);
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.languageChangedSubscription) {
+            this.languageChangedSubscription.unsubscribe();
+        }
     }
 
     ngOnInit(): void {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        this.recreateChart();
+    }
+
+    recreateChart() {
         this.hiddenSeries = [];
         this.createChart();
     }
@@ -46,6 +101,26 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
 
     isHidden(series: UserProgressChartSeries): boolean {
         return this.hiddenSeries.filter(name => series.name == name).length > 0;
+    }
+
+    timeMultiFormat(date: Date): string {
+        console.log(this.locale);
+        const formatMillisecond = this.locale.format('.%L');
+        const formatSecond = this.locale.format(':%S');
+        const formatMinute = this.locale.format('%I:%M');
+        const formatHour = this.locale.format('%I %p');
+        const formatDay = this.locale.format('%a %d');
+        const formatWeek = this.locale.format('%b %d');
+        const formatMonth = this.locale.format('%B');
+        const formatYear = this.locale.format('%Y');
+
+        return (d3.timeSecond(date) < date ? formatMillisecond
+            : d3.timeMinute(date) < date ? formatSecond
+            : d3.timeHour(date) < date ? formatMinute
+            : d3.timeDay(date) < date ? formatHour
+            : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
+            : d3.timeYear(date) < date ? formatMonth
+            : formatYear)(date);
     }
 
     private createChart() {
@@ -117,7 +192,7 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 .ticks(nTicks)
                 //.ticks(width / 40)
                 .tickSizeOuter(0)
-                .tickFormat(d3.timeFormat("%-d"));
+                .tickFormat(d3.timeFormat('%-d'));
         }
         else {
             if (this.monthDiffFromArray(this.progressData.dates) > 4) {
@@ -128,9 +203,9 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                     .tickFormat((date) => {
                     if (date instanceof Date) {
                         if (d3.timeYear(date) < date) {
-                            return d3.timeFormat('%b')(date);
+                            return this.locale.format('%b')(date);
                         } else {
-                            return d3.timeFormat('%Y')(date);
+                            return this.locale.format('%Y')(date);
                         }
                     }
                 });
@@ -139,67 +214,68 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 ticksX =
                     d3.axisBottom(x)
                     .ticks(width / 80)
-                    .tickSizeOuter(0);
+                    .tickSizeOuter(0)
+                    .tickFormat((date) => this.timeMultiFormat(date as Date));
             }
         }
 
         let xAxis = g => g
-            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .attr('transform', `translate(0,${height - margin.bottom})`)
             .call(
                 ticksX
                 )
-            .call(g => g.selectAll(".tick text")
-                .attr("font-size", fontSize)
-                .attr('font-family', "'Roboto', 'sans-serif'")
+            .call(g => g.selectAll('.tick text')
+                .attr('font-size', fontSize)
+                .attr('font-family', '\'Roboto\', \'sans-serif\'')
                 );
 
         let yAxis = g => g
-            .attr("transform", `translate(${margin.left},0)`)
+            .attr('transform', `translate(${margin.left},0)`)
             .call(d3.axisRight(y)
                 .tickSize(width - margin.left - margin.right))
-            .call(g => g.select(".domain")
+            .call(g => g.select('.domain')
                 .remove())
-            .call(g => g.selectAll(".tick:not(:first-of-type) line")
-                .attr("stroke-opacity", 0.5)
-                .attr("stroke-dasharray", "2,2"))
-            .call(g => g.selectAll(".tick text").remove())
+            .call(g => g.selectAll('.tick:not(:first-of-type) line')
+                .attr('stroke-opacity', 0.5)
+                .attr('stroke-dasharray', '2,2'))
+            .call(g => g.selectAll('.tick text').remove())
             ;
 
         let yAxis2 = g => g
-        .attr("transform", `translate(${margin.left},0)`)
+        .attr('transform', `translate(${margin.left},0)`)
         .call(d3.axisLeft(y))
         // .call(d3.axisLeft(y).tickFormat((d, i) => d.toLocaleString())) // <- produces weird results on the pt locale (like 1 - 1,5 - 2 - 2,5 and it gets uneven)
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick text").attr("font-size", fontSize).attr('font-family', "'Roboto', 'sans-serif'"))
-        .call(g => g.selectAll(".tick line").attr("display", "none"))
-            .call(g => g.select(".tick:last-of-type")
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", -10)
-            .attr("width", 16)
-            .attr("height", 20)
-            .attr("fill", "white")
+        .call(g => g.select('.domain').remove())
+        .call(g => g.selectAll('.tick text').attr('font-size', fontSize).attr('font-family', '\'Roboto\', \'sans-serif\''))
+        .call(g => g.selectAll('.tick line').attr('display', 'none'))
+            .call(g => g.select('.tick:last-of-type')
+            .append('rect')
+            .attr('x', 0)
+            .attr('y', -10)
+            .attr('width', 16)
+            .attr('height', 20)
+            .attr('fill', 'white')
             .lower()
             )
-            .call(g => g.select(".tick:last-of-type text").clone()
-            .attr("x", 0)
-            .attr("font-size", fontSize)
-            .attr("text-anchor", "start")
-            .attr("font-weight", "bold")
-            .attr('font-family', "'Roboto', 'sans-serif'")
+            .call(g => g.select('.tick:last-of-type text').clone()
+            .attr('x', 0)
+            .attr('font-size', fontSize)
+            .attr('text-anchor', 'start')
+            .attr('font-weight', 'bold')
+            .attr('font-family', '\'Roboto\', \'sans-serif\'')
             .text(this.progressData.unitCode ?? '')
             )
         ;
 
-        svg.append("g")
+        svg.append('g')
         .call(xAxis);
 
         if (this.progressData.type == UserProgressChartType.Line) {
-            svg.append("g")
+            svg.append('g')
             .call(yAxis);
         }
 
-        svg.append("g")
+        svg.append('g')
         .call(yAxis2);
 
         let drawElement;
@@ -222,9 +298,9 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
         var divTooltip = d3.select(this.hostElement).select('.svg-chart')
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "chart-tooltip");
+        .append('div')
+        .style('opacity', 0)
+        .attr('class', 'chart-tooltip');
 
         this.progressData.series
             .forEach((series, index) => {
@@ -234,55 +310,55 @@ export class UserProgressChartComponent implements OnInit, OnChanges {
                 if (!this.isHidden(series)) {
                     if (this.progressData.type == UserProgressChartType.Area) {
                         svg
-                            .append("path")
+                            .append('path')
                             .datum(series.dataPoints)
-                            .attr("fill", this.progressData.type == UserProgressChartType.Area ? color : 'none')
-                            .attr("opacity", 0.5)
-                            .attr("d", drawElement);
+                            .attr('fill', this.progressData.type == UserProgressChartType.Area ? color : 'none')
+                            .attr('opacity', 0.5)
+                            .attr('d', drawElement);
                     }
                     else {
                         svg
-                            .append("path")
+                            .append('path')
                             .datum(series.dataPoints)
-                            .attr("fill", 'none')
-                            .attr("stroke", color)
-                            .attr("stroke-width", 1)
-                            .attr("stroke-linejoin", "round")
-                            .attr("stroke-linecap", "round")
-                            .attr("d", drawElement);
+                            .attr('fill', 'none')
+                            .attr('stroke', color)
+                            .attr('stroke-width', 1)
+                            .attr('stroke-linejoin', 'round')
+                            .attr('stroke-linecap', 'round')
+                            .attr('d', drawElement);
                     }
 
                     function onMouseOver(d) {
                         divTooltip.transition()
                             .duration(200)
-                            .style("opacity", .9);
+                            .style('opacity', .9);
 
                         divTooltip.html(series.name + ' - ' + d.value)
-                            .attr("text-anchor", "middle")
-                            .style("left", (d3.event.pageX) + "px")
-                            .style("top", (d3.event.pageY - 28) + "px");
+                            .attr('text-anchor', 'middle')
+                            .style('left', (d3.event.pageX) + 'px')
+                            .style('top', (d3.event.pageY - 28) + 'px');
                     }
 
                     function onMouseOut(d) {
                         divTooltip.transition()
                             .duration(250)
-                            .style("opacity", 0);
+                            .style('opacity', 0);
                     }
 
                     if (this.progressData.type == UserProgressChartType.Line) {
-                        let dotGroup = svg.selectAll(".dot")
+                        let dotGroup = svg.selectAll('.dot')
                             .data(series.dataPoints)
                             .enter()
-                            .append("g");
+                            .append('g');
                         dotGroup
-                            .append("circle") // Uses the enter().append() method
+                            .append('circle') // Uses the enter().append() method
                             .attr('fill', color)
                             .attr('stroke', color)
-                            .attr("cx", function (d, i) { return x(d.date) })
-                            .attr("cy", function (d) { return y(d.value) })
-                            .attr("r", 1.5)
-                            .on("mouseover", onMouseOver)
-                            .on("mouseout", onMouseOut)
+                            .attr('cx', function (d, i) { return x(d.date) })
+                            .attr('cy', function (d) { return y(d.value) })
+                            .attr('r', 1.5)
+                            .on('mouseover', onMouseOver)
+                            .on('mouseout', onMouseOut)
                             ;
                     }
                 }
