@@ -1,6 +1,8 @@
 <div *ngIf="visible">
-    <div class="siimple-modal modal-window siimple-modal--small" id="workout-finish-modal">
-        <div class="siimple-modal-content">
+    <div class="siimple-modal modal-window siimple-modal--small" id="workout-finish-modal" (click)="hideFinishWorkout()">
+        <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+        >
             <div class="siimple-modal-body modal-window-body">
                 <div class="siimple-h2" align="center" translate>Good job!</div>
 

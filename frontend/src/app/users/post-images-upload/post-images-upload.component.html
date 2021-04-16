@@ -16,8 +16,10 @@
     </div>
 </div>
 
-<div class="siimple-modal modal-window siimple-modal--large" id="modal" *ngIf="imageModalVisible">
-    <div class="siimple-modal-content">
+<div class="siimple-modal modal-window siimple-modal--large" id="modal" *ngIf="imageModalVisible" (click)="hideImageModal()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title" translate>Posted image</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideImageModal()"></div>
