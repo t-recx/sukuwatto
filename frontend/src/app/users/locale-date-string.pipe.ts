@@ -11,7 +11,7 @@ export class LocaleDateStringPipe implements PipeTransform {
       return null;
     }
 
-    return value.toLocaleDateString();
+    return new Date(value).toLocaleDateString();
   }
 
 }

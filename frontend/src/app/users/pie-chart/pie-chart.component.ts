@@ -1,32 +1,92 @@
-import { Component, OnInit, Input, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 import { PieChartSeries } from '../pie-chart-series';
 import { UserProgressChartData } from '../user-progress-chart-data';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/language.service';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.css']
 })
-export class PieChartComponent implements OnInit, OnChanges {
+export class PieChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() progressData: UserProgressChartData;
   @Input() width;
   data: PieChartSeries[];
 
   hostElement; // Native element hosting the SVG container
 
+  languageChangedSubscription: Subscription;
+
+  originalNames: string[] = [];
+
   constructor(
     private elRef: ElementRef,
+    private translate: TranslateService,
+    private languageService: LanguageService,
   ) {
     this.hostElement = this.elRef.nativeElement;
+
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(language => {
+      this.createChart();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.languageChangedSubscription) {
+      this.languageChangedSubscription.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.setOriginalNames();
     this.createChart();
+  }
+
+  setOriginalNames() {
+    this.originalNames = [];
+
+    if (this.progressData) {
+      this.originalNames.push(this.progressData.name);
+
+      if (this.progressData.series) {
+        this.progressData.series.forEach(series => {
+          series.dataPoints.forEach(dp => {
+            this.originalNames.push(dp.name);
+          });
+        });
+      }
+    }
+  }
+
+  createChart() {
+    const obs: Observable<string>[] = [];
+    if (this.originalNames) {
+      this.originalNames.forEach(n => {
+        obs.push(this.translate.get(n));
+      });
+
+      combineLatest(obs).subscribe(x => {
+        let counter = 0;
+        this.progressData.name = x[counter++];
+
+        if (this.progressData.series) {
+          this.progressData.series.forEach(series => {
+            series.dataPoints.forEach(dp => {
+              dp.name = x[counter++];
+            });
+          });
+        }
+
+        this._createChart();
+      });
+    }
   }
 
   private arcLabel(width, height) {
@@ -43,7 +103,7 @@ export class PieChartComponent implements OnInit, OnChanges {
     }
   }
 
-  private createChart() {
+  private _createChart() {
     if (!this.width || this.width <= 0) {
       return;
     }

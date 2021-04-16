@@ -23,11 +23,19 @@ export class LevelService {
   }
 
   getExperienceStrength(reps: number, weightKg: number) {
-    return Math.floor((reps * weightKg) / 5);
+    if (reps > 0 && weightKg > 0) {
+      return Math.floor((reps * weightKg) / 5);
+    }
+
+    return 0;
   }
 
   getExperienceCardio(caloriesKcal: number) {
-    return Math.floor(caloriesKcal * 2.5);
+    if (caloriesKcal > 0) {
+      return Math.floor(caloriesKcal * 2.5);
+    }
+
+    return 0;
   }
 
   getExperience(activity: WorkoutSet): number {

@@ -188,6 +188,12 @@ export class TranslationUpdatesService implements OnDestroy {
     marker('Workout saved successfully');
 
     marker('Please fill all required fields and try again');
+
+    marker('Body composition');
+    marker('Fat');
+    marker('Muscle');
+    marker('Water');
+    marker('Other');
   }
 
   ngOnDestroy(): void {
