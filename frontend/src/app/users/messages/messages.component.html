@@ -3,8 +3,10 @@
 </div>
 
 <div *ngIf="!forbidden">
-    <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="newMessageVisible">
-        <div class="siimple-modal-content">
+    <div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="newMessageVisible" (click)="hideNewMessageModal()">
+        <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+        >
             <div class="siimple-modal-header">
                 <div class="siimple-modal-header-title" translate>Contact list</div>
                 <div class="siimple-modal-header-close" id="modal-close" (click)="hideNewMessageModal()"></div>

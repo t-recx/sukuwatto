@@ -3,8 +3,11 @@
     <span>{{currentLanguage}}</span>
 </div>
 
-<div class="siimple-modal modal-window siimple-modal--small " *ngIf="languagePopupVisible">
-    <div class="siimple-modal-content language-modal-content">
+<div class="siimple-modal modal-window siimple-modal--small " *ngIf="languagePopupVisible" 
+(click)="toggleLanguagePopup()">
+    <div class="siimple-modal-content language-modal-content" 
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
         <div class="siimple-modal-body modal-window-body">
             <ul class="siimple-list" >
                 <li class="siimple-list-item siimple-link siimple--display-flex" (click)="changeLanguage('en')">

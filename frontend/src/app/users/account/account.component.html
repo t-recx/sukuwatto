@@ -3,8 +3,11 @@
     </app-forbidden>
 </div>
 
-<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible">
-    <div class="siimple-modal-content">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="deleteModalVisible"
+(click)="hideDeleteModal()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title" translate>Delete account?</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideDeleteModal()"></div>
@@ -27,8 +30,11 @@
     </div>
 </div>
 
-<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestConfirmationModalVisible">
-    <div class="siimple-modal-content">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestConfirmationModalVisible"
+(click)="hideRequestConfirmationModal();">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title" translate>Personal data request</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hideRequestConfirmationModal()"></div>
@@ -54,8 +60,11 @@
     </div>
 </div>
 
-<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestDataModalVisible">
-    <div class="siimple-modal-content">
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="requestDataModalVisible"
+(click)="hideRequestDataModal()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title">
                 <span *ngIf="alreadyProcessingDataRequest"  translate>Personal data request underway</span>

@@ -1,5 +1,7 @@
-<div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-repetitions-modal" *ngIf="visible">
-    <div class="siimple-modal-content">
+<div class="siimple-modal modal-window siimple-modal--small" id="workout-set-edit-repetitions-modal" *ngIf="visible" (click)="hide()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
         <div class="siimple-modal-header">
             <div class="siimple-modal-header-title" translate>Workout Activity</div>
             <div class="siimple-modal-header-close" id="modal-close" (click)="hide()"></div>
