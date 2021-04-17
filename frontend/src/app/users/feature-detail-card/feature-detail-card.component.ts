@@ -119,7 +119,7 @@ export class FeatureDetailCardComponent implements OnInit {
     this.featuresService.deleteFeature(this.feature).subscribe(x => { 
       this.deleteModalVisible = false;
 
-      if (x != null) {
+      if (x == null) {
         this.deleted.emit(this.feature);
       }
     });

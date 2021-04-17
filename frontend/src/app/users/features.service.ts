@@ -160,7 +160,7 @@ export class FeaturesService {
         else {
           this.alertService.error('Unable to delete feature, try again later');
         }
-      }, null))
+      }, new Feature()))
     );
   }
 
