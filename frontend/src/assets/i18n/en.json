@@ -114,7 +114,6 @@
 	"Keep up with your friends activities on your home feed or on their user profile page.": "Keep up with your friends activities on your home feed or on their user profile page.",
 	"Chat": "Chat",
 	"Chat with your buddies and make new ones using our instant messenger.": "Chat with your buddies and make new ones using our instant messenger.",
-	"Share": "Share",
 	"Share workouts, plans and exercises with the rest of the community. Feeling shy? No problem, you can limit the visibility of your activities.": "Share workouts, plans and exercises with the rest of the community. Feeling shy? No problem, you can limit the visibility of your activities.",
 	"Your username": "Your username",
 	"Your email address": "Your email address",
@@ -190,6 +189,7 @@
 	"Write your comment here": "Write your comment here",
 	"Likes": "Likes",
 	"No one liked this yet. Be the first!": "No one liked this yet. Be the first!",
+	"Share": "Share",
 	"Comment": "Comment",
 	"Update": "Update",
 	"edited": "edited",
@@ -1577,5 +1577,6 @@
 	"Milliseconds": "Milliseconds",
 	"Hours": "Hours",
 	"Kilocalories": "Kilocalories",
-	"Kilojoules": "Kilojoules"
+	"Kilojoules": "Kilojoules",
+	"Additional exercises": "Additional exercises"
 }

@@ -8,7 +8,8 @@
 }
 
 .flag {
-    max-height: 24px;
+    width: 32px;
+    height: 24px;
     margin-right: 10px;
 }
 

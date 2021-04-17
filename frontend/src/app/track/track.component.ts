@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrackComponent implements OnInit {
 
+  selectedImageIndex = 0;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  selectImage(index: number) {
+    this.selectedImageIndex = index;
+  }
 }

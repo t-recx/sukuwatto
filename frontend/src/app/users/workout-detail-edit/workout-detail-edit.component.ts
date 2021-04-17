@@ -582,10 +582,14 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     let newGroup = new WorkoutGroup();
 
     if (this.workout.plan_session && this.workout.groups.length > 0) {
-      newGroup.name = "Additional exercises";
+      this.translateService.get("Additional exercises").subscribe(res => {
+        newGroup.name = res;
+      });
     }
     else {
-      newGroup.name = "Exercises";
+      this.translateService.get("Exercises").subscribe(res => {
+        newGroup.name = res;
+      });
     }
 
     this.workout.groups.push(newGroup);
