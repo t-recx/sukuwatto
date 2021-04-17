@@ -37,11 +37,23 @@
         <div class="siimple-content siimple-content--large ">
             <div class="siimple-grid">
                 <div class="siimple-grid-row">
-                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-image-container siimple--display-sm-none">
-                        <picture>
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-image-container siimple--display-sm-none"
+                    >
+                        <picture [style.display]="selectedImageIndex == 0 ? 'initial' : 'none'" >
                             <source type="image/webp" class=" limit-to-max with-box-shadow" srcset="../../assets/images/track-cardio-training.webp" >
                             <img class=" limit-to-max with-box-shadow" src="../../assets/images/track-cardio-training.png" alt="Map with route traced">
                         </picture>
+                        <picture [style.display]="selectedImageIndex == 1 ? 'initial' : 'none'" >
+                            <source type="image/webp" class=" limit-to-max with-box-shadow" srcset="../../assets/images/track-cardio-training-stats.webp" >
+                            <img class=" limit-to-max with-box-shadow" src="../../assets/images/track-cardio-training-stats.png"  alt="Workout stats">
+                        </picture>
+
+                        <div class="dot-container" >
+                            <span class="dot" [class.active]="selectedImageIndex == 0" 
+                                (click)="selectImage(0)"></span>
+                            <span class="dot" [class.active]="selectedImageIndex == 1" 
+                                (click)="selectImage(1)"></span>
+                        </div>
                     </div>
                     <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-description-container">
                         <h2 class="siimple-h2 hero-header  siimple--mt-0" translate>
@@ -51,11 +63,23 @@
                             Bring our mobile app with you on your next run. We'll record your route and give you statistics on your distance, speed and calories burned.
                         </p>
                     </div>
-                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-image-container phones-only">
-                        <picture>
+                    <div class="siimple-grid-col siimple-grid-col--6 siimple-grid-col--sm-12 hero-image-container phones-only"
+                    >
+                        <picture [style.display]="selectedImageIndex == 0 ? 'initial' : 'none'" >
                             <source type="image/webp" class=" limit-to-max with-box-shadow" srcset="../../assets/images/track-cardio-training.webp" >
-                            <img class=" limit-to-max with-box-shadow" src="../../assets/images/track-cardio-training.png"  alt="Map with route traced">
+                            <img class=" limit-to-max with-box-shadow" src="../../assets/images/track-cardio-training.png" alt="Map with route traced">
                         </picture>
+                        <picture [style.display]="selectedImageIndex == 1 ? 'initial' : 'none'" >
+                            <source type="image/webp" class=" limit-to-max with-box-shadow" srcset="../../assets/images/track-cardio-training-stats.webp" >
+                            <img class=" limit-to-max with-box-shadow" src="../../assets/images/track-cardio-training-stats.png"  alt="Workout stats">
+                        </picture>
+
+                        <div class="dot-container" >
+                            <span class="dot" [class.active]="selectedImageIndex == 0" 
+                                (click)="selectImage(0)"></span>
+                            <span class="dot" [class.active]="selectedImageIndex == 1" 
+                                (click)="selectImage(1)"></span>
+                        </div>
                     </div>
                 </div>
             </div>

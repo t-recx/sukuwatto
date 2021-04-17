@@ -10,6 +10,12 @@
     padding: 0;
 }
 
+@media only screen and (max-width: 400px) {
+    .demo-navigation-item-text-back {
+        display: none;
+    }
+}
+
 .demo-navigation-item {
     display: flex;
     align-items: center;
