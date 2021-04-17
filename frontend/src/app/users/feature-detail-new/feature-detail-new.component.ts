@@ -183,7 +183,7 @@ export class FeatureDetailEditComponent implements OnInit, AfterViewInit, OnDest
 
     this.deleting = true;
     this.service.deleteFeature(this.feature).subscribe(e => {
-      if (e != null) {
+      if (e == null) {
         this.deleting = false;
         this.navigateToList();
       }
