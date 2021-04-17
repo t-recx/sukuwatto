@@ -1,4 +1,4 @@
 <div *ngFor="let alert of alertService.alerts" class="alert siimple-alert {{cssClass(alert)}}">
     <div class="siimple-alert-close" (click)="alertService.remove(alert)"></div>
-    {{alert.message}}
+    {{alert.message | translate}}
 </div>
