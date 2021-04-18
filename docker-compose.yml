@@ -32,6 +32,8 @@ services:
     build: 
       context: ./backend/
       dockerfile: ../docker/django/Dockerfile
+    volumes:
+      - media_volume:/home/app/web/media
     command: python manage.py run_huey
     env_file:
       - ./.env.prod

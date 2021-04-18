@@ -11,6 +11,7 @@ from development.models import Feature
 from development.serializers import FeatureSerializer
 from django.utils import timezone
 from workouts.utils import get_differences
+from users.tasks import delete_image_file
 
 class MessageReadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -92,11 +93,17 @@ class PostSerializer(serializers.ModelSerializer):
             self.update_post_images(updated_data)
 
             post_images_to_delete = PostImage.objects.filter(id__in=deleted_ids)
-            post_images_to_delete.delete()
+            self.delete_post_images(post_images_to_delete, instance.user)
         else:
-            post_images.delete()
+            self.delete_post_images(post_images, instance.user)
 
         return instance
+
+    def delete_post_images(self, post_images, user):
+        for post_image_data in post_images:
+            delete_image_file(post_image_data.url, user)
+
+        post_images.delete()
 
     def update_post_images(self, post_images_data):
         for post_image_data in post_images_data:

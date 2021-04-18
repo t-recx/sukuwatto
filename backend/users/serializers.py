@@ -10,6 +10,7 @@ from rest_framework_simplejwt.serializers import TokenObtainSerializer
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken, SlidingToken, UntypedToken
 from drf_recaptcha.fields import ReCaptchaV2Field
+from users.tasks import delete_image_file
 
 class ExpressInterestSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[UniqueValidator(queryset=UserInterest.objects.all())])
@@ -75,6 +76,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
+        if instance.profile_filename is not None and (validated_data.get('profile_filename', None) is None or validated_data.get('profile_filename', None) != instance.profile_filename):
+            delete_image_file(instance.profile_filename, instance)
+
         instance.email = validated_data.get('email', instance.email).lower()
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
