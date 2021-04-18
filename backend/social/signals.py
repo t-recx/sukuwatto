@@ -1,5 +1,5 @@
 from django.db.models.signals import post_save, pre_delete
-from social.models import Post, Comment, UserAction
+from social.models import Post, Comment, UserAction, PostImage
 from social.utils import get_user_actions_filtered_by_object
 from workouts.models import Workout, Plan, Exercise, UserBioData
 from development.models import Feature, Release
@@ -7,6 +7,7 @@ from pprint import pprint
 from users.models import CustomUser
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from users.tasks import delete_image_file
 
 def post_user_actions_handler(sender, instance, created, **kwargs):
     if created and instance.user:
@@ -79,6 +80,12 @@ def comment_update_comments_number_handler(sender, instance, created, **kwargs):
 
             model.save()
 
+def delete_post_images(sender, instance, **kwargs):
+    post_images = PostImage.objects.filter(post=instance)
+
+    for post_image_data in post_images:
+        delete_image_file(post_image_data.url, instance.user)
+
 def delete_comment_activity(sender, instance, **kwargs):
     model = None
 
@@ -109,3 +116,4 @@ post_save.connect(post_user_actions_handler, sender=Post)
 post_save.connect(comment_user_actions_handler, sender=Comment)
 post_save.connect(comment_update_comments_number_handler, sender=Comment)
 pre_delete.connect(delete_comment_activity, sender=Comment)
+pre_delete.connect(delete_post_images, sender=Post)

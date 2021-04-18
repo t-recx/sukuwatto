@@ -87,6 +87,7 @@ class CustomUser(AbstractUser):
 
 class File(models.Model):
     file = models.ImageField(blank=False, null=False)
+    user = models.ForeignKey(CustomUser, related_name='user_file', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.file.name

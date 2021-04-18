@@ -10,6 +10,7 @@ from .models import CustomUser
 from workouts.rank_service import RankService
 from users.tasks import email_reset_password_link
 from django.conf import settings
+from users.tasks import delete_image_file
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
@@ -20,6 +21,9 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     email_reset_password_link(reset_password_token.user.username, reset_password_token.user.email, link)
 
 def delete_user_account(sender, instance, **kwargs):
+    if instance.profile_filename is not None:
+        delete_image_file(instance.profile_filename, instance)
+
     users_with_follower = CustomUser.objects.filter(followers__id=instance.id)
     users_with_follower.update(followers_number=F('followers_number')-1)
     users_with_following = CustomUser.objects.filter(following__id=instance.id)

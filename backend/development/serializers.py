@@ -5,6 +5,7 @@ from users.serializers import UserSerializer, UserMinimalSerializer
 from django.utils import timezone
 from workouts.utils import get_differences
 from development.models import Feature, FeatureImage, Release
+from users.tasks import delete_image_file
 
 class FeatureImageSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=FeatureImage()._meta.get_field('id'), required=False)
@@ -65,11 +66,18 @@ class FeatureSerializer(serializers.ModelSerializer):
             self.update_feature_images(updated_data)
 
             feature_images_to_delete = FeatureImage.objects.filter(id__in=deleted_ids)
-            feature_images_to_delete.delete()
+            self.delete_feature_images(feature_images_to_delete, instance.user)
         else:
+            self.delete_feature_images(feature_images, instance.user)
             feature_images.delete()
 
         return instance
+
+    def delete_feature_images(self, feature_images, user):
+        for feature_image in feature_images:
+            delete_image_file(feature_image.url, user)
+
+        feature_images.delete()
 
     def update_feature_images(self, feature_images_data):
         for feature_image_data in feature_images_data:
