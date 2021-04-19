@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
-import { filter, map, debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
+import { filter, map, debounceTime, distinctUntilChanged, switchMap, catchError, first } from 'rxjs/operators';
 import { UnitsService } from '../users/units.service';
 import { Unit, MeasurementType } from '../users/unit';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -31,6 +31,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   captchaResponse: string = null;
 
   faCircleNotch = faCircleNotch;
+  userLoadedSubscription: Subscription;
 
   constructor(
     private errorService: ErrorService,
@@ -53,7 +54,13 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.validatePasswordSubscription.unsubscribe();
+    if (this.validatePasswordSubscription) {
+      this.validatePasswordSubscription.unsubscribe();
+    }
+
+    if (this.userLoadedSubscription) {
+      this.userLoadedSubscription.unsubscribe();
+    }
   }
 
   toggleAcceptTerms(): void {
@@ -124,6 +131,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.user.recaptcha = this.captchaResponse;
 
+    this.setupRedirectToAccount();
     this.userService.create(this.user)
       .pipe(
         catchError(this.errorService.handleError<User>('create', (e: any) => 
@@ -143,21 +151,40 @@ export class SignupComponent implements OnInit, OnDestroy {
         if (user) {
           this.authService.login(this.user.username, this.user.password)
             .subscribe(token => {
-              setTimeout(() => {
-                if (this.authService.isLoggedIn()) {
-                  let redirect = this.authService.redirectUrl ?
-                    this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
-
-                  this.signingUp = false;
-                  this.router.navigateByUrl(redirect);
+              if (token == null) {
+                if (this.userLoadedSubscription) {
+                  this.userLoadedSubscription.unsubscribe();
                 }
-              }, 125);
+
+                this.signingUp = false;
+                this.router.navigateByUrl('/login');
+                this.alertService.error('Unable to sign in, try again later');
+              }
             });
         }
         else {
           this.signingUp = false;
         }
       });
+  }
+
+  setupRedirectToAccount() {
+    if (this.userLoadedSubscription) {
+      this.userLoadedSubscription.unsubscribe();
+    }
+
+    this.userLoadedSubscription = this.authService.userLoaded.pipe(first())
+    .subscribe(user => {
+      if (this.signingUp) {
+        if (this.authService.isCurrentUserLoggedIn(this.user.username)) {
+          const redirect = this.authService.redirectUrl ?
+            this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
+
+          this.signingUp = false;
+          this.router.navigateByUrl(redirect);
+        }
+      }
+    });
   }
 
   resolvedCaptcha(response: string) {
