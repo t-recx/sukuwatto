@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from './token';
 import { User } from './user';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { catchError, tap} from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { AlertService } from './alert/alert.service';
@@ -16,6 +16,8 @@ import { LeaderboardTimespan } from './users/leaderboard-position';
 export class AuthService {
   redirectUrl: string = null;
   refreshExpired = new Subject();
+
+  userLoaded = new Subject<User>();
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -128,6 +130,8 @@ export class AuthService {
     this.setIsStaff(user.is_staff);
     this.setUserLevel(user.level.toString());
     this.setUserExperience(user.experience.toString());
+
+    this.userLoaded.next(user);
   }
 
   private getLocalStorageItem(key: string): string {
