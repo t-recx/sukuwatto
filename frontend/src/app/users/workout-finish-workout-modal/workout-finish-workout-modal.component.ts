@@ -86,14 +86,7 @@ export class WorkoutFinishWorkoutModalComponent implements OnInit, OnChanges {
 
     this.levelUpObjects.push(levelUpObject);
 
-    if (up) {
-      levelUpObject.text = "Level Up!";
-      levelUpObject.color = "#fbc850";
-    }
-    else {
-      levelUpObject.text = "Level Down!";
-      levelUpObject.color = "#ee675d";
-    }
+    levelUpObject.up = up;
 
     setTimeout(() => {
       levelUpObject.MarginBottom = 110;

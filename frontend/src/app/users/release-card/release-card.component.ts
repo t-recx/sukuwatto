@@ -1,6 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/language.service';
 import { Feature } from '../feature';
 import { Release, ReleaseStateLabel } from '../release';
 import { ReleasesService } from '../releases.service';
@@ -24,10 +26,13 @@ export class ReleaseCardComponent implements OnInit, OnDestroy {
   shareLink: string;
 
   paramChangedSubscription: Subscription;
+  languageChangedSubscription: Subscription;
   username: string;
 
   constructor(
     private releasesService: ReleasesService,
+    private translate: TranslateService,
+    private languageService: LanguageService,
     route: ActivatedRoute,
     private router: Router,
     private timeService: TimeService,
@@ -36,10 +41,15 @@ export class ReleaseCardComponent implements OnInit, OnDestroy {
       {
         this.username = val.get('username');
       });
+
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle(this.release);
+    });
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.languageChangedSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -65,7 +75,15 @@ export class ReleaseCardComponent implements OnInit, OnDestroy {
     }
 
     this.routerLink = ['/users', this.username, 'release', this.release.id];
-    this.shareTitle = 'sukuwatto: ' + e.version + ' release';
+    this.updateShareTitle(e);
     this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+  }
+
+  updateShareTitle(e: Release) {
+    if (e) {
+      this.translate.get('sukuwatto: {{version}} release', {version: e.version}).subscribe(res => {
+        this.shareTitle = res;
+      });
+    }
   }
 }

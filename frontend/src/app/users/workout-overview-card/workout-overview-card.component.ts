@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Workout } from '../workout';
 import { WorkoutsService } from '../workouts.service';
 import { WorkoutOverview } from '../workout-activity-resumed';
@@ -11,13 +11,16 @@ import { WorkoutSet } from '../workout-set';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { TimeService } from '../time.service';
+import { LanguageService } from 'src/app/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout-overview-card',
   templateUrl: './workout-overview-card.component.html',
   styleUrls: ['./workout-overview-card.component.css']
 })
-export class WorkoutOverviewCardComponent implements OnInit {
+export class WorkoutOverviewCardComponent implements OnInit, OnDestroy {
   @Input() workout: Workout;
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
@@ -47,12 +50,24 @@ export class WorkoutOverviewCardComponent implements OnInit {
   shareTitle: string;
   shareLink: string;
 
+  languageChangedSubscription: Subscription;
+
   constructor(
+    private languageService: LanguageService,
+    private translate: TranslateService,
     private unitsService: UnitsService,
     private workoutsService: WorkoutsService,
     private authService: AuthService,
     private router: Router,
-  ) { }
+  ) { 
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle(this.workout);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.languageChangedSubscription.unsubscribe();
+  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -94,10 +109,20 @@ export class WorkoutOverviewCardComponent implements OnInit {
     this.strengthWorkoutActivities = this.getResumedStrengthActivities(workout);
 
     this.routerLink = ['/users', workout.user.username, 'workout', workout.id];
-    this.shareTitle = 'sukuwatto: ' + workout.user.username + '\'s workout - ' + workout.name;
+    this.updateShareTitle(workout);
     this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
 
     this.loading = false;
+  }
+
+  updateShareTitle(workout: Workout) {
+    if (workout) {
+      this.translate.get(workout.name).subscribe(wname => {
+        this.translate.get('sukuwatto: {{username}}\'s workout - {{workout_name}}', {username: workout.user.username, workout_name: wname}).subscribe(res => {
+          this.shareTitle = res;
+        });
+      });
+    }
   }
 
   isTracked(s: WorkoutSet): boolean {

@@ -107,7 +107,7 @@
 	"Password and confirmation don't match": "A palavra-passe e a confirmação não correspondem",
 	"Sharing": "Partilhar",
 	"Connect with other athletes.": "Conecte com outros atletas",
-	"News feed": "Novidades",
+	"Discover": "Descubra",
 	"Keep up with your friends activities on your home feed or on their user profile page.": "Mantenha-se a par das actividades dos seus amigos no seu feed ou na página de perfil deles.",
 	"Chat": "Converse",
 	"Chat with your buddies and make new ones using our instant messenger.": "Converse com os seus companheiros ou faça novos amigos com o nosso messenger.",
@@ -450,6 +450,8 @@
 	"Energy": "Energia",
 	"Good job!": "Bom trabalho!",
 	"Progression": "Progressão",
+	"Level Up!": "Subiu de nível!",
+	"Level Down!": "Desceu de nível!",
 	"Confirm": "OK",
 	"New activity": "Nova actividade",
 	"Activities": "Actividades",
@@ -1559,6 +1561,12 @@
 	"Muscle": "Músculo",
 	"Water": "Água",
 	"Other": "Outros",
+	"sukuwatto: {{exercise_name}} exercise": "sukuwatto: exercício {{exercise_name}}",
+	"sukuwatto: {{username}}'s feature": "sukuwatto: pedido de funcionalidade de {{username}}",
+	"sukuwatto: {{username}}'s measurement ({{creation_date}})": "sukuwatto: registo corporal de {{username}} em {{creation_date}}",
+	"sukuwatto: {{plan_name}} workout plan": "sukuwatto: plano de treino {{plan_name}}",
+	"sukuwatto: {{username}}'s post": "sukuwatto: post de {{username}}",
+	"sukuwatto: {{version}} release": "sukuwatto: lançamento {{version}}",
 	"Kilograms": "Kilogramas",
 	"Pounds": "Libras",
 	"Centimeters": "Centímetros",
@@ -1575,5 +1583,6 @@
 	"Hours": "Horas",
 	"Kilocalories": "Kilocalorias",
 	"Kilojoules": "Kilojoules",
-	"Additional exercises": "Exercícios adicionais"
+	"Additional exercises": "Exercícios adicionais",
+	"sukuwatto: {{username}}'s workout - {{workout_name}}": "sukuwatto: treino de {{username}} - {{workout_name}}"
 }

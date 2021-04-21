@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/language.service';
 import { UnitsService } from '../units.service';
 import { UserBioData } from '../user-bio-data';
 import { UserProgressService } from '../user-progress.service';
@@ -9,7 +12,7 @@ import { UserProgressService } from '../user-progress.service';
   templateUrl: './measurement-card.component.html',
   styleUrls: ['./measurement-card.component.css']
 })
-export class MeasurementCardComponent implements OnInit {
+export class MeasurementCardComponent implements OnInit, OnDestroy {
   @Input() userBioData: UserBioData;
   @Input() detailView: boolean;
   @Input() commentsSectionOpen: boolean = false;
@@ -20,11 +23,23 @@ export class MeasurementCardComponent implements OnInit {
   shareTitle: string;
   shareLink: string;
 
+  languageChangedSubscription: Subscription;
+
   constructor(
     private router: Router,
+    private translate: TranslateService,
+    private languageService: LanguageService,
     private userProgressService: UserProgressService,
     private unitsService: UnitsService,
-  ) { }
+  ) { 
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle(this.userBioData);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.languageChangedSubscription.unsubscribe();
+  }
 
   getUnitCode(id: number): string {
     return this.unitsService.getUnitCode(id);
@@ -43,9 +58,17 @@ export class MeasurementCardComponent implements OnInit {
         }
       });
       this.routerLink = ['/users', measurement.user.username, 'measurement', measurement.id];
-      this.shareTitle = 'sukuwatto: ' + measurement.user.username + '\'s measurement (' + measurement.creation.toLocaleDateString() + ')';
+      this.updateShareTitle(measurement);
       this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
     }
   }
 
+  updateShareTitle(measurement: UserBioData) {
+    if (measurement) {
+      this.translate.get('sukuwatto: {{username}}\'s measurement ({{creation_date}})', {creation_date:measurement.creation.toLocaleDateString(), username: measurement.user.username})
+      .subscribe(res => {
+        this.shareTitle = res;
+      }) ;
+    }
+  }
 }

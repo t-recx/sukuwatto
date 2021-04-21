@@ -107,7 +107,7 @@
 	"Password and confirmation don't match": "Password and confirmation don't match",
 	"Sharing": "Sharing",
 	"Connect with other athletes.": "Connect with other athletes.",
-	"News feed": "News feed",
+	"Discover": "Discover",
 	"Keep up with your friends activities on your home feed or on their user profile page.": "Keep up with your friends activities on your home feed or on their user profile page.",
 	"Chat": "Chat",
 	"Chat with your buddies and make new ones using our instant messenger.": "Chat with your buddies and make new ones using our instant messenger.",
@@ -450,6 +450,8 @@
 	"Energy": "Energy",
 	"Good job!": "Good job!",
 	"Progression": "Progression",
+	"Level Up!": "Level Up!",
+	"Level Down!": "Level Down!",
 	"Confirm": "Confirm",
 	"New activity": "New activity",
 	"Activities": "Activities",
@@ -1559,6 +1561,12 @@
 	"Muscle": "Muscle",
 	"Water": "Water",
 	"Other": "Other",
+	"sukuwatto: {{exercise_name}} exercise": "sukuwatto: {{exercise_name}} exercise",
+	"sukuwatto: {{username}}'s feature": "sukuwatto: {{username}}'s feature",
+	"sukuwatto: {{username}}'s measurement ({{creation_date}})": "sukuwatto: {{username}}'s measurement ({{creation_date}})",
+	"sukuwatto: {{plan_name}} workout plan": "sukuwatto: {{plan_name}} workout plan",
+	"sukuwatto: {{username}}'s post": "sukuwatto: {{username}}'s post",
+	"sukuwatto: {{version}} release": "sukuwatto: {{version}} release",
 	"Kilograms": "Kilograms",
 	"Pounds": "Pounds",
 	"Centimeters": "Centimeters",
@@ -1575,5 +1583,6 @@
 	"Hours": "Hours",
 	"Kilocalories": "Kilocalories",
 	"Kilojoules": "Kilojoules",
-	"Additional exercises": "Additional exercises"
+	"Additional exercises": "Additional exercises",
+	"sukuwatto: {{username}}'s workout - {{workout_name}}": "sukuwatto: {{username}}'s workout - {{workout_name}}"
 }

@@ -79,6 +79,7 @@ export class Exercise {
     exercise_typeLabel: string;
     short_name: string;
     name: string;
+    name_pt: string;
     description: string;
     section: Section;
     sectionLabel: string;
