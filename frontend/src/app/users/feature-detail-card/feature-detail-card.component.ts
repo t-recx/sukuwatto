@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Feature, FeatureState } from '../feature';
 import { FeaturesService } from '../features.service';
 import { AuthService } from 'src/app/auth.service';
@@ -7,13 +7,16 @@ import { Router } from '@angular/router';
 import { TimeService } from '../time.service';
 import { environment } from 'src/environments/environment';
 import { FeatureImage } from '../feature-image';
+import { LanguageService } from 'src/app/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-feature-detail-card',
   templateUrl: './feature-detail-card.component.html',
   styleUrls: ['./feature-detail-card.component.css']
 })
-export class FeatureDetailCardComponent implements OnInit {
+export class FeatureDetailCardComponent implements OnInit, OnDestroy {
   @Input() id: number;
   @Input() feature: Feature = null;
   @Input() detailView: boolean = true;
@@ -57,13 +60,24 @@ export class FeatureDetailCardComponent implements OnInit {
   currentImageUrl = null;
   featureImageIndex = 0;
   featureImages: string[] = [];
+  languageChangedSubscription: Subscription;
 
   constructor(
     private featuresService: FeaturesService,
     private authService: AuthService,
+    private languageService: LanguageService,
+    private translate: TranslateService,
     private router: Router,
     private timeService: TimeService,
-    ) { }
+    ) { 
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle();
+    });
+    }
+
+  ngOnDestroy(): void {
+    this.languageChangedSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     if (!this.feature && this.id) {
@@ -83,8 +97,16 @@ export class FeatureDetailCardComponent implements OnInit {
       this.selectCurrentImage();
       this.checkOwner();
       this.routerLink = ['/users', this.feature.user.username, 'feature', this.feature.id];
-      this.shareTitle = 'sukuwatto: ' + this.feature.user.username + '\'s feature';
+      this.updateShareTitle();
       this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+    }
+  }
+
+  updateShareTitle() {
+    if (this.feature) {
+      this.translate.get('sukuwatto: {{username}}\'s feature', {username: this.feature.user.username}).subscribe(res => {
+        this.shareTitle = res;
+      });
     }
   }
 

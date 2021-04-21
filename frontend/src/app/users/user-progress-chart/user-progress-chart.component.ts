@@ -104,7 +104,6 @@ export class UserProgressChartComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     timeMultiFormat(date: Date): string {
-        console.log(this.locale);
         const formatMillisecond = this.locale.format('.%L');
         const formatSecond = this.locale.format(':%S');
         const formatMinute = this.locale.format('%I:%M');

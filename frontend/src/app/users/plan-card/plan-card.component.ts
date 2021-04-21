@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Plan } from '../plan';
 import { PlansService } from '../plans.service';
 import { AuthService } from 'src/app/auth.service';
@@ -11,13 +11,16 @@ import { UnitsService } from '../units.service';
 import { Unit } from '../unit';
 import { ParameterType } from '../plan-progression-strategy';
 import { Router } from '@angular/router';
+import { LanguageService } from 'src/app/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-plan-card',
   templateUrl: './plan-card.component.html',
   styleUrls: ['./plan-card.component.css']
 })
-export class PlanCardComponent implements OnInit {
+export class PlanCardComponent implements OnInit, OnDestroy {
   @Input() plan: Plan;
   @Input() id: number;
   @Input() showSaveDeleteButtons: boolean = false;
@@ -52,12 +55,24 @@ export class PlanCardComponent implements OnInit {
   deleting: boolean = false;
   units: Unit[];
 
+  languageChangedSubscription: Subscription;
+
   constructor(
+    private languageService: LanguageService,
+    private translate: TranslateService,
     private plansService: PlansService,
     private authService: AuthService,
     private unitsService: UnitsService,
     private router: Router,
-  ) { }
+  ) {
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle(this.plan);
+    });
+   }
+
+  ngOnDestroy(): void {
+    this.languageChangedSubscription.unsubscribe();
+  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -93,8 +108,16 @@ export class PlanCardComponent implements OnInit {
     this.routerLink = ['/users', p.user.username, 'plan', p.id];
     this.setAdoptButtonVisibility();
     this.unitsService.convertPlan(p);
-    this.shareTitle = 'sukuwatto: ' + p.name + ' workout plan';
+    this.updateShareTitle(p);
     this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+  }
+
+  updateShareTitle(p: Plan) {
+    if (p) {
+      this.translate.get('sukuwatto: {{plan_name}} workout plan', {plan_name: p.name}).subscribe(res => {
+        this.shareTitle = res;
+      });
+    }
   }
 
   delete() {

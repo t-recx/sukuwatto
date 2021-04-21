@@ -84,11 +84,11 @@
                     <div class="level-tag-item level-tag-item--next siimple--ml-1">
                         {{currentLevel+1}} 
                         <div *ngFor="let levelUp of levelUpObjects" [id]="levelUp.id" class="level-up" 
-                            [style.color]="levelUp.color"
                             [style.opacity]="levelUp.Opacity"
                             [style.margin-bottom.px]="levelUp.MarginBottom"
                             >
-                            {{levelUp.text}}
+                            <span class="level-up-text" *ngIf="levelUp.up" translate>Level Up!</span>
+                            <span class="level-down-text" *ngIf="!levelUp.up" translate>Level Down!</span>
                         </div>
                     </div>
                 </div>

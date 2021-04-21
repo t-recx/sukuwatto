@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth.service';
@@ -7,13 +7,16 @@ import { Router } from '@angular/router';
 import { TimeService } from '../time.service';
 import { environment } from 'src/environments/environment';
 import { PostImage } from '../post-image';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/language.service';
 
 @Component({
   selector: 'app-post-detail-card',
   templateUrl: './post-detail-card.component.html',
   styleUrls: ['./post-detail-card.component.css']
 })
-export class PostDetailCardComponent implements OnInit {
+export class PostDetailCardComponent implements OnInit, OnDestroy {
   @Input() id: number;
   @Input() post: Post = null;
   @Input() showHeader: boolean;
@@ -49,13 +52,24 @@ export class PostDetailCardComponent implements OnInit {
   currentImageUrl = null;
   postImageIndex = 0;
   postImages: string[] = [];
+  languageChangedSubscription: Subscription;
 
   constructor(
+    private languageService: LanguageService,
+    private translate: TranslateService,
     private postsService: PostsService,
     private authService: AuthService,
     private router: Router,
     private timeService: TimeService,
-    ) { }
+    ) { 
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle(this.post);
+    });
+    }
+
+  ngOnDestroy(): void {
+    this.languageChangedSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     if (!this.post && this.id) {
@@ -75,8 +89,16 @@ export class PostDetailCardComponent implements OnInit {
       this.selectCurrentImage();
       this.checkOwner();
       this.routerLink = ['/users', this.post.user.username, 'post', this.post.id];
-      this.shareTitle = 'sukuwatto: ' + this.post.user.username + '\'s post';
+      this.updateShareTitle(p);
       this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+    }
+  }
+
+  updateShareTitle(p: Post) {
+    if (p) {
+      this.translate.get('sukuwatto: {{username}}\'s post', {username:p.user.username}).subscribe(res => {
+        this.shareTitle = res;
+      });
     }
   }
 

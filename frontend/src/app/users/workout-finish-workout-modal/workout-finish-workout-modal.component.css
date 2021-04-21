@@ -54,3 +54,11 @@
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+.level-up-text {
+    color: #fbc850;
+}
+
+.level-down-text {
+    color: #ee675d;
+}

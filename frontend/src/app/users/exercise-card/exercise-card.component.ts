@@ -3,6 +3,9 @@ import { Exercise, SectionLabel, ForceLabel, MechanicsLabel, ModalityLabel, Leve
 import { ExercisesService } from '../exercises.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/auth.service';
+import { LanguageService } from 'src/app/language.service';
 
 @Component({
   selector: 'app-exercise-card',
@@ -20,6 +23,7 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
   shareLink: string;
 
   paramChangedSubscription: Subscription;
+  languageChangedSubscription: Subscription;
   username: string;
 
   ExerciseTypeLabel = ExerciseTypeLabel;
@@ -31,6 +35,8 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private exercisesService: ExercisesService,
+    private translate: TranslateService,
+    private languageService: LanguageService,
     route: ActivatedRoute,
     private router: Router,
   ) {
@@ -38,10 +44,15 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
       {
         this.username = val.get('username');
       });
+
+    this.languageChangedSubscription = languageService.languageChanged.subscribe(x => {
+      this.updateShareTitle(this.exercise);
+    });
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
+    this.languageChangedSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -63,8 +74,20 @@ export class ExerciseCardComponent implements OnInit, OnDestroy {
     }
 
     this.routerLink = ['/users', this.username, 'exercise', this.exercise.id];
-    this.shareTitle = 'sukuwatto: ' + e.name + ' exercise';
+
+    this.updateShareTitle(e);
+
     this.shareLink = window.location.origin.replace('android.', 'www.') + this.router.createUrlTree(this.routerLink);
+  }
+
+  updateShareTitle(e: Exercise) {
+    if (e) {
+      const name = this.languageService.getLanguage() == 'pt' ? e.name_pt : e.name;
+
+      this.translate.get('sukuwatto: {{exercise_name}} exercise', {exercise_name: name}).subscribe(res => {
+        this.shareTitle = res;
+      });
+    }
   }
 
   exerciseHasClassificationFields(): boolean {
