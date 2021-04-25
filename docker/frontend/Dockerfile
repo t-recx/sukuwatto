@@ -1,5 +1,5 @@
 FROM node:10
-ENV VERSION 78
+ENV VERSION 79
 
 WORKDIR /usr/src/app
 COPY package*.json ./
