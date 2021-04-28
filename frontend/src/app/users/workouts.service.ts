@@ -608,7 +608,7 @@ export class WorkoutsService {
     );
   }
 
-  deleteWorkout(workout: Workout): Observable<Workout> {
+  deleteWorkout(workout: Workout|number): Observable<Workout> {
     const id = typeof workout === 'number' ? workout : workout.id;
     const url = `${this.workoutsUrl}${id}/`;
 

@@ -4,45 +4,58 @@ import { AuthService } from './auth.service';
 import { Observable, throwError, BehaviorSubject, of, Subject } from 'rxjs';
 import { catchError, filter, take, switchMap, tap, finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AlertService } from './alert/alert.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
     constructor(
         public authService: AuthService,
+        private alertService: AlertService,
         private router: Router,
     ) { }
 
     isRefreshingToken: boolean = false;
     tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-    private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-        if (!this.isRefreshingToken) {
-            this.isRefreshingToken = true;
+    private handle401Error(request: HttpRequest<any>, next: HttpHandler, err: HttpErrorResponse) {
+        if (err && err.error && err.error.code && err.error.code == "user_inactive") {
+            this.authService.logout().subscribe(() =>
+            {
+                this.router.navigate(['/']);
+                this.alertService.error("Your account was found in violation of our terms and has been deactivated. If you think this was by mistake, please contact our support.");
+            });
 
-            // Reset here so that the following requests wait until the token
-            // comes back from the refreshToken call.
-            this.tokenSubject.next(null);
+            return new Observable<never>();
+        }
+        else {
+            if (!this.isRefreshingToken) {
+                this.isRefreshingToken = true;
 
-            return this.authService.refresh()
-                .pipe(
-                    switchMap((token) => {
-                        this.tokenSubject.next(token.access);
-                        return next.handle(request);
-                    }),
-                    finalize(() => {
-                        this.isRefreshingToken = false;
-                    })
-                );
-        } else {
-            this.isRefreshingToken = false;
+                // Reset here so that the following requests wait until the token
+                // comes back from the refreshToken call.
+                this.tokenSubject.next(null);
 
-            return this.tokenSubject
-                .pipe(filter(token => token != null),
-                    take(1),
-                    switchMap(token => {
-                        return next.handle(request);
-                    }));
+                return this.authService.refresh()
+                    .pipe(
+                        switchMap((token) => {
+                            this.tokenSubject.next(token.access);
+                            return next.handle(request);
+                        }),
+                        finalize(() => {
+                            this.isRefreshingToken = false;
+                        })
+                    );
+            } else {
+                this.isRefreshingToken = false;
+
+                return this.tokenSubject
+                    .pipe(filter(token => token != null),
+                        take(1),
+                        switchMap(token => {
+                            return next.handle(request);
+                        }));
+            }
         }
     }
 
@@ -84,7 +97,7 @@ export class TokenInterceptor implements HttpInterceptor {
                                     return throwError(err);
                                 }
                                 else {
-                                    return this.handle401Error(request, next);
+                                    return this.handle401Error(request, next, err);
                                 }
                             default:
                                 return throwError(err);

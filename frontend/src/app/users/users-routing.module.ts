@@ -33,6 +33,11 @@ import { ReleaseDetailComponent } from './release-detail/release-detail.componen
 import { SupportComponent } from './support/support.component';
 import { UserSkillsComponent } from './user-skills/user-skills.component';
 import { LeaderboardListComponent } from './leaderboard-list/leaderboard-list.component';
+import { ReportsComponent } from './reports/reports.component';
+import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { ReportsOpenComponent } from './reports-open/reports-open.component';
+import { ReportsClosedComponent } from './reports-closed/reports-closed.component';
+import { ReportsResolvedComponent } from './reports-resolved/reports-resolved.component';
 
 const routes: Routes = [
   { 
@@ -264,6 +269,41 @@ const routes: Routes = [
         path: 'support',
         canActivate: [AuthGuard],
         component: SupportComponent,
+      },
+      {
+        path: 'reports/:page',
+        canActivateChild: [AuthGuard],
+        component: ReportsOpenComponent,
+      },
+      {
+        path: 'reports',
+        canActivateChild: [AuthGuard],
+        component: ReportsOpenComponent,
+      },
+      {
+        path: 'closed-reports/:page',
+        canActivateChild: [AuthGuard],
+        component: ReportsClosedComponent,
+      },
+      {
+        path: 'closed-reports',
+        canActivateChild: [AuthGuard],
+        component: ReportsClosedComponent,
+      },
+      {
+        path: 'resolved-reports/:page',
+        canActivateChild: [AuthGuard],
+        component: ReportsResolvedComponent,
+      },
+      {
+        path: 'resolved-reports',
+        canActivateChild: [AuthGuard],
+        component: ReportsResolvedComponent,
+      },
+      {
+        path: 'report/:id',
+        canActivateChild: [AuthGuard],
+        component: ReportDetailComponent,
       },
     ]
   }, 

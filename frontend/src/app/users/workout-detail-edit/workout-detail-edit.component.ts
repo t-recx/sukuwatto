@@ -290,7 +290,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.service.getWorkout(id).subscribe(workout => {
         if (workout) {
           this.notFound = false;
-          if (workout.user.username == this.authService.getUsername()) {
+          if (workout.user.username == this.authService.getUsername() || this.authService.userIsStaff()) {
             this.workout = workout;
             this.loadAdoptedPlans();
           }

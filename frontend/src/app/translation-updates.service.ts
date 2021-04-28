@@ -194,6 +194,18 @@ export class TranslationUpdatesService implements OnDestroy {
     marker('Muscle');
     marker('Water');
     marker('Other');
+    marker("Your account was found in violation of our terms and has been deactivated. If you think this was by mistake, please contact our support.");
+
+    
+    marker('Open');
+    marker('Closed');
+    marker('Resolved');
+
+    marker('Unable to fetch reports');
+    marker('Unable to fetch report');
+    marker('Unable to create report, try again later');
+    marker('You don\'t have permission to update this report');
+    marker('Unable to update report, try again later');
   }
 
   ngOnDestroy(): void {

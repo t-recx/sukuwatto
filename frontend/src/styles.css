@@ -514,3 +514,17 @@ ul {
 .active, .dot:hover {
   background-color: #717171;
 }
+
+.report-button {
+    margin-left: 10px; 
+    float: right;
+    color: #879aab;
+}
+
+.button-link {
+    font-weight: 600;
+    text-decoration: none;
+    -webkit-transition: color .3s;
+    transition: color .3s;
+    cursor: pointer;
+}

@@ -28,6 +28,8 @@ export class UserService {
   private usersResetPasswordConfirmApiUrl = `${environment.apiUrl}/password-reset-confirm/`;
   private usersResetPasswordValidateTokenApiUrl = `${environment.apiUrl}/password-reset-validate-token/`;
   private expressInterestApiUrl = `${environment.apiUrl}/express-interest/`;
+  private banUserApiUrl = `${environment.apiUrl}/ban-user/`;
+  private reinstateUserApiUrl = `${environment.apiUrl}/reinstate-user/`;
 
   userUpdated = new Subject<User>();
 
@@ -113,6 +115,14 @@ export class UserService {
   update(user: User): Observable<User> {
     return this.http.put<User>(`${this.usersApiUrl}${user.id}/`, user, this.httpOptions)
       .pipe(tap((updated: User) => { this.userUpdated.next(updated); }));
+  }
+
+  banUser(username: string): Observable<any> {
+    return this.http.post<any>(this.banUserApiUrl, {username}, this.httpOptions);
+  }
+
+  reinstateUser(username: string): Observable<any> {
+    return this.http.post<any>(this.reinstateUserApiUrl, {username}, this.httpOptions);
   }
 
   delete(user: User): Observable<User> {

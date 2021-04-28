@@ -1,0 +1,7 @@
+<div *ngIf="notFound || !canView">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+
+<app-report-card [report]="report" *ngIf="canView && report">
+</app-report-card>

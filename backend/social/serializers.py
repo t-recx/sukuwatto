@@ -1,14 +1,14 @@
 from rest_framework import serializers
+from development.serializers import FeatureSerializer
 from sqtrex.exceptions import CustomAPIException
 from rest_framework import status
 from rest_framework.exceptions import APIException
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from datetime import datetime
-from social.models import Message, LastMessage, Post, Comment, PostImage, UserAction
+from social.models import Message, LastMessage, Post, Comment, PostImage, UserAction, Report
 from users.serializers import UserSerializer, UserMinimalSerializer
 from development.models import Feature
-from development.serializers import FeatureSerializer
 from django.utils import timezone
 from workouts.utils import get_differences
 from users.tasks import delete_image_file
@@ -155,3 +155,42 @@ class CommentMinimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'text', 'date', 'edited_date']
+
+class ReportSerializer(serializers.ModelSerializer):
+    user = UserMinimalSerializer(read_only=True)
+
+    target_username = serializers.SerializerMethodField()
+    target_comment_text = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Report
+        fields = "__all__"
+        extra_kwargs = {'user': {'required': False},'date': {'required': False}}
+
+    def get_target_username(self, obj):
+        if obj.target_user is None:
+            return None
+
+        return obj.target_user.username
+
+    def get_target_comment_text(self, obj):
+        if obj.target_comment is None:
+            return None
+
+        return obj.target_comment.text
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+
+        comment = Report.objects.create(user=request.user, date=timezone.now(), **validated_data)
+
+        return comment
+
+    def update(self, instance, validated_data):
+        instance.notes = validated_data.get('notes', instance.notes)
+        instance.state = validated_data.get('state', instance.state)
+        instance.edited_date = timezone.now()
+
+        instance.save()
+
+        return instance

@@ -18,6 +18,7 @@ export class AuthService {
   refreshExpired = new Subject();
 
   userLoaded = new Subject<User>();
+  userLoggedStatusChanged = new Subject();
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -37,6 +38,7 @@ export class AuthService {
         tap((newToken: Token) => {
           if (newToken) {
             this.setSession(newToken);
+            this.userLoggedStatusChanged.next();
           }
         }),
         catchError(this.errorService.handleError<Token>('login', (e: any) => {
@@ -75,6 +77,7 @@ export class AuthService {
     return this.http.post<any>(this.getLogoutUrl(), { }, this.httpOptions).pipe(
       tap(x => {
         this.clearUser();
+        this.userLoggedStatusChanged.next();
       }),
       catchError(this.errorService.handleError<any>('logout', (e: any) => {
         this.alertService.error('Unable to sign out, try again later');

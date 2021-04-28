@@ -6,14 +6,6 @@
     float: right;
 }
 
-.button-link {
-    font-weight: 600;
-    text-decoration: none;
-    -webkit-transition: color .3s;
-    transition: color .3s;
-    cursor: pointer;
-}
-
 .liked {
     color: #4e91e4;
 }

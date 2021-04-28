@@ -89,3 +89,30 @@ class UserAction(models.Model):
     action_object_user = models.ForeignKey(get_user_model(), related_name='action_object_user', on_delete=models.CASCADE, blank=True, null=True)
     action_object_feature = models.ForeignKey(Feature, related_name='action_object_feature', on_delete=models.CASCADE, blank= True, null=True)
     action_object_release = models.ForeignKey(Release, related_name='action_object_release', on_delete=models.CASCADE, blank= True, null=True)
+
+class Report(models.Model):
+    OPEN = 'o'
+    CLOSED = 'c'
+    RESOLVED = 'r'
+
+    REPORT_STATES = [
+        (OPEN, 'Open'),
+        (CLOSED, 'Closed'),
+        (RESOLVED, 'Resolved'),
+    ]
+
+    description = models.TextField()
+    notes = models.TextField(blank=True, null=True)
+    date = models.DateTimeField()
+    edited_date = models.DateTimeField(null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+    state = models.CharField(max_length=1, choices=REPORT_STATES, default=OPEN)
+
+    target_workout = models.ForeignKey(Workout, related_name='report_target_workout', on_delete=models.CASCADE, blank= True, null=True)
+    target_plan = models.ForeignKey(Plan, related_name='report_target_plan', on_delete=models.CASCADE, blank= True, null=True)
+    target_exercise = models.ForeignKey(Exercise, related_name='report_target_exercise', on_delete=models.CASCADE, blank= True, null=True)
+    target_post = models.ForeignKey(Post, related_name='report_target_post', on_delete=models.CASCADE, blank= True, null=True)
+    target_feature = models.ForeignKey(Feature, related_name='report_target_feature', on_delete=models.CASCADE, blank= True, null=True)
+    target_comment = models.ForeignKey(Comment, related_name='report_target_comment', on_delete=models.CASCADE, blank= True, null=True)
+    target_user = models.ForeignKey(get_user_model(), related_name='report_target_user', on_delete=models.CASCADE, blank= True, null=True)

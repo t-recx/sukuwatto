@@ -1,6 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from sqtrex.serializers import ContentTypeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response

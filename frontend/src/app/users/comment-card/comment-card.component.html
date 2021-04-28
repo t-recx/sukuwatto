@@ -42,6 +42,11 @@
             (deleted)="showDeleteModal()"
             *ngIf="authenticatedUserIsOwner">
         </app-edit-delete-dropdown>
+
+        <span role="button" class="report-button button-link no-select" (click)="toggleReportModal()" 
+            [title]="'Report' | translate" *ngIf="comment && comment.action_object_comment.id">
+            <fa-icon [icon]="faFlag" class="" aria-hidden="true"></fa-icon>
+        </span>
     </div>
 </article>
 
@@ -73,3 +78,13 @@
 </div>
 
 <app-support-tip-modal tier='i' [visible]="modalSupportVisible" (closed)="modalSupportVisible = false;"></app-support-tip-modal>
+
+<app-report-modal [visible]="reportModalVisible" (closed)="reportModalVisible = false;"
+    [target_plan]=      "comment.target_plan ? comment.target_plan.id : null "
+    [target_post]=      "comment.target_post ? comment.target_post.id : null"
+    [target_exercise]=  "comment.target_exercise ? comment.target_exercise.id : null"
+    [target_workout]=   "comment.target_workout ? comment.target_workout.id : null"
+    [target_feature]=   "comment.target_feature ? comment.target_feature.id : null"
+
+    [target_comment]="comment.action_object_comment.id" *ngIf="comment && comment.action_object_comment.id"
+></app-report-modal>

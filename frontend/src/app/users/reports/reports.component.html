@@ -1,0 +1,37 @@
+<div *ngIf="!canView">
+    <app-page-not-found>
+    </app-page-not-found>
+</div>
+
+<div *ngIf="canView">
+    <div class="toolbar">
+        <div class="toolbar-title" translate>Reports</div>
+    </div>
+
+    <div class="siimple-tabs siimple--mt-2 siimple--mb-2 siimple--mt-3" >
+        <a translate class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isOpen"
+            [routerLink]="['/users', username, 'reports']">
+            Open
+        </a>
+        <a translate class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isClosed"
+            [routerLink]="['/users', username, 'closed-reports']" >
+            Closed
+        </a>
+        <a translate class="siimple-tabs-item" [class.siimple-tabs-item--selected]="isResolved"
+            [routerLink]="['/users', username, 'resolved-reports']">
+            Resolved
+        </a>
+    </div>
+
+    <div class="" *ngIf="reports && reports.length > 0">
+        <ul class="">
+            <li *ngFor="let report of reports">
+                <app-report-card [report]="report" (stateChanged)="refresh()"></app-report-card>
+            </li>
+        </ul>
+
+        <app-pagination [paginatedRecords]="paginatedReports" [currentPage]="currentPage"
+            [link]=link>
+        </app-pagination>
+    </div>
+</div>

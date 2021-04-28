@@ -134,7 +134,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.plan = this.service.getProperlyTypedPlan(JSON.parse(state));
 
     if (this.plan.id && this.plan.id > 0) {
-      this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
+      this.checkOwnership();
     }
     else {
       this.userIsOwner = true;
@@ -154,6 +154,12 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     return true;
   }
 
+  checkOwnership() {
+    if (this.plan && this.plan.id) {
+      this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username) || this.authService.userIsStaff();
+    }
+  }
+
   private loadOrInitializePlan(id: string) {
     if (this.restore()) {
       return;
@@ -169,7 +175,7 @@ export class PlanDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.getPlan(id).subscribe(plan => {
         this.plan = plan;
         if (this.plan) {
-          this.userIsOwner = this.authService.isCurrentUserLoggedIn(this.plan.user.username);
+          this.checkOwnership();
           if (this.plan.sessions && this.plan.sessions.length > 0) {
             this.selectedSession = this.plan.sessions[0];
           }

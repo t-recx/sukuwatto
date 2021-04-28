@@ -143,7 +143,7 @@ def workout_editable(request):
 
     workout = get_object_or_404(Workout, pk=workout_id)
 
-    return Response(workout.user==request.user)
+    return Response(workout.user==request.user or request.user.is_staff)
 
 @api_view(['GET'])
 def get_last_workout(request):

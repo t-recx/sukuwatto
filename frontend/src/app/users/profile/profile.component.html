@@ -4,6 +4,10 @@
 </div>
 
 <div *ngIf="user">
+    <app-report-modal [visible]="reportModalVisible" (closed)="reportModalVisible = false;"
+        [target_user]="user.id"
+    ></app-report-modal>
+
     <div class="siimple-grid">
         <div class="siimple-grid-row">
             <div class="siimple-grid-col siimple-grid-col--4 siimple-grid-col--sm-12" align="center">
@@ -27,27 +31,39 @@
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed && !hasFollowRequest" (click)="follow()"
-                        >
+                        type="button" >
                         <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1" translate>Follow</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && hasFollowRequest" (click)="unfollow()"
+                        type="button"
                         >
                         <fa-icon [icon]="faClock" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1" translate>Requested</span>
                     </button>
                     <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()"
+                        type="button"
                         >
                         <fa-icon [icon]="faUserMinus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1" translate>Unfollow</span>
                     </button>
-                    <button class="siimple-btn" *ngIf="canMessage"
+                    <button class="siimple-btn siimple--mr-2" *ngIf="canMessage" type="button"
                         [routerLink]="['/users', authService.getUsername(), 'message', username]">
                         <fa-icon [icon]="faEnvelope"></fa-icon>
                         <span class="siimple--ml-1" translate>Message</span>
+                    </button>
+                    <button class="siimple-btn siimple-btn--error" *ngIf="userCanChangeState && user.is_active" type="button"
+                        (click)="banUser()">
+                        <fa-icon [icon]="faBan"></fa-icon>
+                        <span class="siimple--ml-1 " translate>Ban</span>
+                    </button>
+                    <button class="siimple-btn siimple-btn--success" *ngIf="userCanChangeState && !user.is_active" type="button"
+                        (click)="reinstateUser()">
+                        <fa-icon [icon]="faRedoAlt"></fa-icon>
+                        <span class="siimple--ml-1 " translate>Reinstate</span>
                     </button>
                 </div>
 
@@ -71,12 +87,22 @@
                     <span class="clickable siimple--ml-2" *ngIf="requests_number > 0"
                         [routerLink]="['/users', username, 'requests']"><span
                             class="siimple--text-bold">{{requests_number | locale}}</span>&nbsp;<span translate>requests</span></span>
+
+                    <span class="siimple--float-right report-button button-link no-select" 
+                        (click)="report()" *ngIf="canReport" [title]="'Report' | translate">
+                        <fa-icon [icon]="faFlag"></fa-icon>
+                    </span>
                 </div>
                 <div class="profile-field" *ngIf="user.hidden">
                     <span ><span
                             class="siimple--text-bold">{{user.followers_number | locale}}</span>&nbsp;<span translate>followers</span></span>
                     <span class="siimple--ml-2" ><span
                             class="siimple--text-bold">{{user.followings_number | locale}}</span>&nbsp;<span translate>following</span></span>
+
+                    <span class="siimple--float-right report-button button-link no-select" 
+                        (click)="report()" *ngIf="canReport" [title]="'Report' | translate">
+                        <fa-icon [icon]="faFlag"></fa-icon>
+                    </span>
                 </div>
                 <div class="profile-field keep-original-formatting">
                     {{user.biography}}

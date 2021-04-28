@@ -97,14 +97,18 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
     this.exercise = this.service.getProperlyTypedExercise(JSON.parse(stateExercise));
 
+    this.checkOwnership();
+
+    return true;
+  }
+
+  checkOwnership() {
     if (this.exercise.id && this.exercise.id > 0) {
-      this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
+      this.userIsOwner = (this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username)) || this.authService.userIsStaff();
     }
     else {
       this.userIsOwner = true;
     }
-
-    return true;
   }
 
   private loadOrInitializeExercise(id: string): void {
@@ -122,7 +126,7 @@ export class ExerciseDetailComponent implements OnInit, OnDestroy, AfterViewInit
       this.service.getExercise(id).subscribe(exercise => {
         this.exercise = exercise;
         if (this.exercise) {
-          this.userIsOwner = this.exercise.user && this.authService.isCurrentUserLoggedIn(this.exercise.user.username);
+          this.checkOwnership();
         }
         else {
           this.notFound = true;
