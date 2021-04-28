@@ -108,4 +108,17 @@
             <span translate>Support</span>
         </a>
     </div>
+
+    <div *ngIf="isStaff">
+        <div class="siimple-rule menu-rule"></div>
+
+        <a class="siimple-menu-item main-menu-item" 
+            [class.siimple-menu-item--selected]="isRouterLinkReports"
+            [routerLink]="['/users', authService.getUsername(), 'reports']">
+            <div class="menu-icon-image-container">
+            <fa-icon [icon]="iconReports" class="menu-icon-image"></fa-icon>
+            </div>
+            <span translate>Reports</span>
+        </a>
+    </div>
 </div>

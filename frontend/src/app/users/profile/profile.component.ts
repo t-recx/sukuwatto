@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { User } from 'src/app/user';
 import { UserService } from 'src/app/user.service';
 import { environment } from 'src/environments/environment';
-import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch, faClock, faCheck, faTimes, faPortrait } from '@fortawesome/free-solid-svg-icons';
+import { faBirthdayCake, faMapMarkerAlt, faUserCircle, faAt, faEnvelope, faUserPlus, faUserMinus, faCircleNotch, faClock, faCheck, faTimes, faPortrait, faFlag, faBan, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth.service';
 import { FollowService } from '../follow.service';
 import { ContentTypesService } from '../content-types.service';
@@ -13,6 +13,9 @@ import { Paginated } from '../paginated';
 import { StreamsService } from '../streams.service';
 import { LoadingService } from '../loading.service';
 import { PageSizeService } from '../page-size.service';
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from 'src/app/error.service';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +25,7 @@ import { PageSizeService } from '../page-size.service';
 export class ProfileComponent implements OnInit {
   hasFollowRequest: boolean;
   loadedIsFollowed = false;
+  userCanChangeState = false;
   actions: Action[];
   paginated: Paginated<Action>;
   streamPageSize = 10;
@@ -30,12 +34,16 @@ export class ProfileComponent implements OnInit {
   loading: boolean = false;
   loadingOlderActions: boolean = false;
 
+  reportModalVisible: boolean = false;
+
   imageHidden: boolean = false;
 
   user: User;
   username: string;
   profileImageURL: string;
   birthDate: Date;
+
+  canReport: boolean = false;
 
   canFollow: boolean;
   canMessage: boolean;
@@ -57,6 +65,9 @@ export class ProfileComponent implements OnInit {
   faClock = faClock;
   faCheck = faCheck;
   faTimes = faTimes;
+  faFlag = faFlag;
+  faBan = faBan;
+  faRedoAlt = faRedoAlt;
 
   messageModalVisible: boolean;
 
@@ -77,6 +88,8 @@ export class ProfileComponent implements OnInit {
     private streamsService: StreamsService,
     private loadingService: LoadingService,
     private pageSizeService: PageSizeService,
+    private errorService: ErrorService,
+    private alertService: AlertService,
   ) { }
 
   getPageSize(navBarHeight = 64, actionHeight = 69) {
@@ -136,10 +149,13 @@ export class ProfileComponent implements OnInit {
         this.hasFollowRequest = f.requested;
         this.loadedIsFollowed = true;
       });
+
+      this.canReport = true;
     }
     else {
       this.isFollowed = false;
       this.hasFollowRequest = false;
+      this.canReport = false;
       this.loadedIsFollowed = true;
     }
   }
@@ -173,6 +189,7 @@ export class ProfileComponent implements OnInit {
 
           this.followService.getCanFollow(this.username).subscribe(x => this.canFollow = x);
           this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
+          this.userCanChangeState = this.authService.userIsStaff() && !this.authService.isCurrentUserLoggedIn(this.user.username);
           this.loadIsFollowed(this.username);
 
           if (!this.user.hidden) {
@@ -269,6 +286,42 @@ export class ProfileComponent implements OnInit {
 
         this.isFollowed = false;
         this.hasFollowRequest = false;
+      }
+    });
+  }
+
+  report() {
+    this.reportModalVisible = true;
+  }
+
+  banUser() {
+    this.userService.banUser(this.user.username)
+      .pipe(
+        catchError(this.errorService.handleError<any>('banUser', (e: any) => 
+        {
+          this.alertService.error('Unable to ban user, try again later');
+        }, {error: true}))
+      )
+    .subscribe(x => {
+      if (!(x && x.error)) {
+        this.user.is_active = false;
+        this.alertService.success('User banned successfully');
+      }
+    });
+  }
+
+  reinstateUser() {
+    this.userService.reinstateUser(this.user.username)
+      .pipe(
+        catchError(this.errorService.handleError<any>('reinstateUser', (e: any) => 
+        {
+          this.alertService.error('Unable to reinstate user, try again later');
+        }, {error: true}))
+      )
+    .subscribe(x => {
+      if (!(x && x.error)) {
+        this.user.is_active = true;
+        this.alertService.success('User reinstated successfully');
       }
     });
   }

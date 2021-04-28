@@ -1,0 +1,40 @@
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="visible" (click)="close()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title" translate *ngIf="!target_user">Report content</div>
+            <div class="siimple-modal-header-title" translate *ngIf="target_user">Report user</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
+        </div>
+        <div class="siimple-modal-body modal-window-body">
+            <div class="siimple-form-field siimple--mb-0" >
+                <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="4" 
+                    name="reportDescription" id="reportDescription"
+                    required
+                    [(ngModel)]="description" #reportDescription="ngModel" [placeholder]="'Write the reasons for the report here' | translate">
+                    </textarea>
+
+                <div *ngIf="reportDescription.invalid && triedToReport">
+                    <div class="siimple-field-helper siimple--color-error siimple--mb-0" translate>This field can't be empty</div>
+                </div>
+            </div>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="report()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                <span translate>
+                    OK
+                </span>
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="close()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
+                <span translate>
+                    Cancel
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+

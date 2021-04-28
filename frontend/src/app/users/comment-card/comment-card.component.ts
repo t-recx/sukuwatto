@@ -3,7 +3,7 @@ import { Comment } from '../comment';
 import { CommentsService } from '../comments.service';
 import { AuthService } from 'src/app/auth.service';
 import { Action } from '../action';
-import { faCircleNotch, faComment, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faComment, faCheck, faTimes, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
@@ -21,6 +21,7 @@ export class CommentCardComponent implements OnInit {
   faComment = faComment;
   faCheck = faCheck;
   faTimes = faTimes;
+  faFlag = faFlag;
 
   newComment: string;
   authenticatedUserIsOwner: boolean = false;
@@ -31,6 +32,8 @@ export class CommentCardComponent implements OnInit {
 
   triedToSave: boolean = false;
   modalSupportVisible: boolean = false;
+
+  reportModalVisible: boolean = false;
 
   constructor(
     private commentsService: CommentsService,
@@ -45,7 +48,7 @@ export class CommentCardComponent implements OnInit {
 
   checkOwner() {
     if (this.comment) {
-      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.comment.user.username);
+      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.comment.user.username) || this.authService.userIsStaff();
     }
     else {
       this.authenticatedUserIsOwner = false;
@@ -121,5 +124,9 @@ export class CommentCardComponent implements OnInit {
 
   toggleEditing() {
     this.editing = !this.editing;
+  }
+
+  toggleReportModal() {
+    this.reportModalVisible = !this.reportModalVisible;
   }
 }

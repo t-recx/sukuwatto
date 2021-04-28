@@ -20,27 +20,39 @@
 </div>
 
 <app-support-tip-modal tier='i' [visible]="modalSupportVisible" (closed)="modalSupportVisible = false;"></app-support-tip-modal>
+<app-report-modal [visible]="reportModalVisible" (closed)="reportModalVisible = false;"
+    [target_plan]="target_plan"
+    [target_post]="target_post"
+    [target_exercise]="target_exercise"
+    [target_workout]="target_workout"
+    [target_feature]="target_feature"
+></app-report-modal>
 
 <div class="social-interaction-buttons">
-    <span class="like-button button-link no-select" [class.liked]="liked"
+    <span class="like-button button-link no-select" [class.liked]="liked" 
     >
-        <fa-icon [icon]="useArrowUp ? faArrowUp : faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" ></fa-icon>
+        <fa-icon [icon]="useArrowUp ? faArrowUp : faThumbsUp" class="siimple--mr-1" (click)="toggleLike()" aria-hidden="true"></fa-icon>
 
         <span class="likes" (click)="toggleUserLikesModal()">
             {{likeNumber}}
         </span>
     </span>
 
-    <span class="like-button button-link siimple--ml-2 no-select" (click)="toggleCommentView()">
-        <fa-icon [icon]="faComments" class="siimple--mr-1"></fa-icon>
+    <span class="like-button button-link siimple--ml-2 no-select" (click)="toggleCommentView()" >
+        <fa-icon [icon]="faComments" class="siimple--mr-1" aria-hidden="true"></fa-icon>
 
         <span class="comments-number">
             {{commentNumber}}
         </span>
     </span>
 
+    <span role="button" class="report-button button-link no-select" (click)="toggleReportModal()" 
+        [title]="'Report' | translate" *ngIf="!target_user_bio_data && !target_release">
+        <fa-icon [icon]="faFlag" class="" aria-hidden="true"></fa-icon>
+    </span>
+
     <span class="share-button button-link no-select" (click)="share()" *ngIf="canShare">
-        <fa-icon [icon]="faShareAlt" class="siimple--mr-1"></fa-icon>
+        <fa-icon [icon]="faShareAlt" class="siimple--mr-1" aria-hidden="true"></fa-icon>
         <span translate>Share</span>
     </span>
 </div>
@@ -62,7 +74,7 @@
     <div class="siimple--clearfix">
         <button class="siimple-btn siimple-btn--primary siimple--float-right" (click)="comment()"
         >
-            <fa-icon [icon]="faComment" class="siimple--mr-1" ></fa-icon>
+            <fa-icon [icon]="faComment" class="siimple--mr-1" aria-hidden="true"></fa-icon>
             <span translate>Comment</span>
         </button>
     </div>

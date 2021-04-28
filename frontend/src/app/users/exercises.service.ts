@@ -143,7 +143,7 @@ export class ExercisesService {
     );
   }
 
-  deleteExercise(exercise: Exercise): Observable<Exercise> {
+  deleteExercise(exercise: Exercise|number): Observable<Exercise> {
     const id = typeof exercise === 'number' ? exercise : exercise.id;
     const url = `${this.exercisesUrl}${id}/`;
 

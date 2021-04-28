@@ -55,6 +55,7 @@ export class User {
     followers_number: number;
     followings_number: number;
     tier: Tier;
+    is_active: boolean;
 
     experience: number;
     level: number;

@@ -328,7 +328,7 @@ export class PlansService {
     );
   }
 
-  deletePlan(plan: Plan): Observable<Plan> {
+  deletePlan(plan: Plan|number): Observable<Plan> {
     const id = typeof plan === 'number' ? plan : plan.id;
     const url = `${this.plansUrl}${id}/`;
 

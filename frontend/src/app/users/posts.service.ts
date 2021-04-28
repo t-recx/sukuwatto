@@ -121,7 +121,7 @@ export class PostsService {
     );
   }
 
-  deletePost(post: Post): Observable<Post> {
+  deletePost(post: Post|number): Observable<Post> {
     const id = typeof post === 'number' ? post : post.id;
     const url = `${this.postsUrl}${id}/`;
 

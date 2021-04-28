@@ -104,7 +104,7 @@ export class PostDetailCardComponent implements OnInit, OnDestroy {
 
   checkOwner() {
     if (this.post) {
-      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.post.user.username);
+      this.authenticatedUserIsOwner = this.authService.isCurrentUserLoggedIn(this.post.user.username) || this.authService.userIsStaff();
     }
     else {
       this.authenticatedUserIsOwner = false;

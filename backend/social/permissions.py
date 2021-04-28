@@ -33,3 +33,12 @@ class CommentPermissionsMixin():
             permission_classes = [IsAdminUser]
 
         return [permission() for permission in permission_classes]
+
+class ReportPermissionsMixin():
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]

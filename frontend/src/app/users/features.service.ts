@@ -142,7 +142,7 @@ export class FeaturesService {
     );
   }
 
-  deleteFeature(feature: Feature): Observable<Feature> {
+  deleteFeature(feature: Feature|number): Observable<Feature> {
     const id = typeof feature === 'number' ? feature : feature.id;
     const url = `${this.featuresUrl}${id}/`;
 
@@ -150,7 +150,7 @@ export class FeaturesService {
       catchError(this.errorService.handleError<Feature>('deleteFeature', (e: any) => 
       {
         if (e && e.status && e.status == 403) {
-          if (feature.release != null) {
+          if (!(typeof feature === 'number') && feature.release != null) {
             this.alertService.error('Unable to delete feature: it\'s already associated with a release');
           }
           else {

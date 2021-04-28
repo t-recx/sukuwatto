@@ -1,0 +1,141 @@
+<article class="siimple-card" *ngIf="report">
+    <header class="siimple-card-header">
+        <a class="siimple-link" [routerLink]="['/users', username, 'report', report.id]" >
+            #{{report.id}}
+        </a>
+
+        <span class="siimple--float-right">
+            <span class="siimple-tag state-tag" 
+                *ngIf="report.state != 'o'"
+                [class.siimple-tag--primary]="report.state=='c'"
+                [class.siimple-tag--success]="report.state=='r'"
+                >
+                {{stateLabel.get(report.state) | translate}}
+            </span>
+
+            <span class=" siimple-small" *ngIf="report.date">
+                {{report.date |localeDate}}
+            </span>
+        </span>
+    </header>
+    <div class="siimple-card-body">
+        <p class="keep-original-formatting siimple-p">
+            {{report.description}}
+        </p>
+
+        <div>
+            <span *ngIf="!report.target_comment">
+                <span translate *ngIf="!report.target_user">Reported resource:</span>
+                <span translate *ngIf="report.target_user">Reported user:</span>
+            </span>
+
+            <span *ngIf="report.target_comment" translate>
+                Reported comment on resource:
+            </span>
+
+            <app-user-link [username]=report.target_username *ngIf="report.target_user"></app-user-link>
+
+            <a translate class="siimple-link" [routerLink]="['/users', username, 'post', report.target_post]"
+                *ngIf="report.target_post">
+                post
+            </a>
+
+            <a translate class="siimple-link" [routerLink]="['/users', username, 'workout', report.target_workout]"
+                *ngIf="report.target_workout">
+                workout
+            </a>
+
+            <a translate class="siimple-link" *ngIf="report.target_plan"
+                [routerLink]="['/users', username, 'plan', report.target_plan]">
+                plan
+            </a>
+
+            <a translate class="siimple-link" *ngIf="report.target_exercise"
+                [routerLink]="['/users', username, 'exercise', report.target_exercise]">
+                exercise
+            </a>
+
+            <a translate class="siimple-link" *ngIf="report.target_feature"
+                [routerLink]="['/users', username, 'feature', report.target_feature]">
+                feature
+            </a>
+
+            <div *ngIf="report.target_comment">
+                <h6 class="siimple-h6" translate>Offending comment:</h6>
+                <p class="keep-original-formatting siimple-p">
+                    {{report.target_comment_text}}
+                </p>
+            </div>
+
+            <div class ="" *ngIf="report.notes && report.notes.length > 0">
+                <h6 class="siimple-h6" translate>Notes:</h6>
+                <p class="keep-original-formatting siimple-p">
+                    {{report.notes}}
+                </p>
+            </div>
+        </div>
+
+        <div class="siimple--mt-3">
+            <div class="siimple-rule"></div>
+
+            <div class="owner-user-container">
+                <app-user-tag [username]=report.user.username [profile_filename]=report.user.profile_filename>
+                </app-user-tag>
+
+                <small class="siimple-small siimple--ml-2">{{ report.date.toString() | timeAgo }}</small>
+            </div>
+        </div>
+    </div>
+
+    <footer class="siimple-card-footer">
+        <button type="button" class="siimple-btn siimple-btn--primary"
+            (click)="showCloseModal()" >
+            <span translate>Close</span>
+        </button>
+        <button type="button" class="siimple-btn siimple-btn--success  siimple--ml-2"
+            (click)="showResolvedModal()" >
+            <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+            <span translate>Resolve</span>
+        </button>
+
+        <button type="button" class="siimple-btn siimple--float-right siimple-btn--operation"
+            (click)="reOpen()" *ngIf="report.state != 'o'" >
+            <fa-icon [icon]="faFolderOpen" class=""></fa-icon>
+            <span class="siimple--ml-1 siimple--display-sm-none" translate>Reopen</span>
+        </button>
+    </footer>
+</article>
+
+<div class="siimple-modal modal-window siimple-modal--medium" id="modal" *ngIf="notesModalVisible" (click)="close()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title" translate *ngIf="closeModalVisible">Close report</div>
+            <div class="siimple-modal-header-title" translate *ngIf="!closeModalVisible" >Resolve report</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
+        </div>
+        <div class="siimple-modal-body modal-window-body">
+            <textarea type="text" class="siimple-textarea siimple-textarea--fluid" rows="2" 
+                name="reportNotes" id="reportNotes"
+                [(ngModel)]="notes" #reportDescription="ngModel" [placeholder]="'Notes' | translate">
+                </textarea>
+        </div>
+        <div class="siimple-modal-footer">
+            <button class="siimple-btn siimple-btn--success" type="button" (click)="doAction()">
+                <fa-icon [icon]="faCheck" class="siimple--mr-1"></fa-icon>
+                <span translate>
+                    OK
+                </span>
+            </button>
+            <button class="siimple-btn siimple-btn--error siimple--ml-2" type="button" (click)="close()">
+                <fa-icon [icon]="faTimes" class="siimple--mr-1"></fa-icon>
+                <span translate>
+                    Cancel
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+

@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { faThumbsUp, faComments, faComment, faCircleNotch, faShareAlt, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faComments, faComment, faCircleNotch, faShareAlt, faArrowUp, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { StreamsService } from '../streams.service';
 import { Action } from '../action';
 import { AuthService } from 'src/app/auth.service';
@@ -48,6 +48,7 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   faCircleNotch = faCircleNotch;
   faShareAlt = faShareAlt;
   faArrowUp = faArrowUp;
+  faFlag = faFlag;
 
   loading: boolean = false;
 
@@ -70,6 +71,8 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   canShare: boolean = false;
 
   socialSharing: any;
+
+  reportModalVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -286,5 +289,9 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     else {
       this.usersLikesModalVisible = !this.usersLikesModalVisible;
     }
+  }
+
+  toggleReportModal() {
+    this.reportModalVisible = !this.reportModalVisible;
   }
 }
