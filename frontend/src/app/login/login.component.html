@@ -1,5 +1,5 @@
 <div class="siimple-content siimple-content--extra-small ">
-    <div class="siimple--px-5 siimple--pt-5">
+    <div class="siimple--px-4 siimple--pt-5">
         <div class="siimple-h2 siimple--text-bold siimple--mb-4" align="center">
             <app-main-logo></app-main-logo>
         </div>
@@ -47,11 +47,13 @@
         </div>
     </div>
 
-    <div class="siimple--mt-4 siimple--px-5 siimple--display-flex" style="margin-left: 12px; margin-right: 12px;">
+    <div class="siimple--mt-4 siimple--px-4 siimple--display-flex" style="margin-left: 12px; margin-right: 12px;">
         <app-language-selector></app-language-selector>
         <a routerLink="/terms-and-conditions/" 
             class="siimple-footer-link siimple-footer-link--inline " 
             style="margin-left:auto;"
-            translate>Terms</a>
+            translate>
+            <fa-icon [icon]="faBalanceScale" class="siimple--mr-1" ></fa-icon>
+            Terms</a>
     </div>
 </div>

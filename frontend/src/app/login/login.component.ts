@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faBalanceScale, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   environment = environment;
 
   faCircleNotch = faCircleNotch;
+  faBalanceScale = faBalanceScale;
 
   constructor(
     private authService: AuthService,
