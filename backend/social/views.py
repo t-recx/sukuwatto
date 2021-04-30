@@ -25,9 +25,6 @@ class ActionObjectStreamList(generics.ListAPIView):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
 
-        ctype = get_object_or_404(ContentType, pk=content_type_id)
-        object_model = ctype.model
-
         queryset = get_user_actions_filtered_by_object(UserAction.objects.all(), content_type_id, object_id, False)
 
         queryset = queryset.order_by('-timestamp')
@@ -41,9 +38,6 @@ class TargetStreamList(generics.ListAPIView):
         content_type_id = request.query_params.get('content_type_id', None)
         object_id = request.query_params.get('object_id', None)
         verb = request.query_params.get('verb', None)
-
-        ctype = get_object_or_404(ContentType, pk=content_type_id)
-        object_model = ctype.model
 
         queryset = get_user_actions_filtered_by_object(UserAction.objects.all(), content_type_id, object_id, True)
 
@@ -90,7 +84,10 @@ class LastMessageList(generics.ListAPIView):
         if request and hasattr(request, "user"):
             user = request.user
 
-        queryset = LastMessage.objects.filter(user=user)
+        queryset = LastMessage.objects \
+        .exclude(correspondent__blocked_users__id=user.id) \
+        .exclude(correspondent__blocked_by__id=user.id) \
+        .filter(user=user)
 
         serializer = LastMessageSerializer(queryset, many=True)
 

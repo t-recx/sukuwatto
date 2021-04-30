@@ -206,6 +206,10 @@ export class TranslationUpdatesService implements OnDestroy {
     marker('Unable to create report, try again later');
     marker('You don\'t have permission to update this report');
     marker('Unable to update report, try again later');
+
+    marker('Unable to block, try again later');
+    marker('Unable to unblock, try again later');
+    marker('Unable to fetch is blocked');
   }
 
   ngOnDestroy(): void {

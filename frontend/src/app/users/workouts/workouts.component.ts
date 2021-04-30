@@ -12,6 +12,8 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from '
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { UserVisibleChartData } from '../user-available-chart-data';
+import { UserService } from 'src/app/user.service';
+import { User } from 'src/app/user';
 
 @Component({
   selector: 'app-workouts',
@@ -22,6 +24,10 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   searchSubscription: Subscription;
 
+  show404: boolean = false;
+  show403: boolean = false;
+  userIsCurrentUserLoggedIn: boolean = false;
+  user: User = null;
   toDate: Date;
   fromDate: Date;
   lastFromDateFilter: Date;
@@ -52,7 +58,8 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     show_compound_exercises: true,
     show_distance_exercises: true,
     show_distance_exercises_last_month: true,
-    show_isolation_exercises: true });
+    show_isolation_exercises: true
+  });
 
   chartsVisible = false;
 
@@ -68,20 +75,21 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   constructor(
     private workoutsService: WorkoutsService,
     private authService: AuthService,
-    public route: ActivatedRoute, 
+    public route: ActivatedRoute,
     private loadingService: LoadingService,
     private alertService: AlertService,
     private errorService: ErrorService,
     private router: Router,
-  ) { 
+    private usersService: UserService,
+  ) {
     this.paramChangedSubscription = combineLatest(this.route.paramMap, this.route.queryParamMap)
-    .pipe(map(results => ({params: results[0], query: results[1]})))
-    .subscribe(results => {
+      .pipe(map(results => ({ params: results[0], query: results[1] })))
+      .subscribe(results => {
         this.searchFilter = results.query.get('search');
         this.fromDate = results.query.get('from') ? new Date(results.query.get('from')) : null;
         this.toDate = results.query.get('to') ? new Date(results.query.get('to')) : null;
         this.loadParameterDependentData(results.params.get('username'), results.params.get('page'));
-    });
+      });
   }
 
   isLoggedIn() {
@@ -118,6 +126,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     this.username = username;
     this.page = page;
     this.workouts = [];
+    this.setChartVisibility();
     this.getWorkouts(username, page);
   }
 
@@ -126,42 +135,53 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
       pageParameter = 1;
     }
 
-    if (!username || username.length == 0) {
-      username = this.authService.getUsername();
-    }
-
     if (username) {
+      this.userIsCurrentUserLoggedIn = this.authService.isCurrentUserLoggedIn(username);
       this.loading = true;
       this.loadingService.load();
 
       this.queryParams = this.getQueryParams();
 
-      this.workoutsService
-      .getWorkoutsOverview(username, pageParameter, this.pageSize, this.searchFilter, this.fromDate, this.toDate)
-      .pipe(
-        catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => 
-        { 
-          if (e.status && e.status == 404 && pageParameter > 1)  {
-            if (reloadOn404) {
-              this.router.navigate(['/users', username, 'workouts', pageParameter-1]);
-            }
-          }
-          else {
-            this.alertService.error('Unable to fetch workouts');
-          }
-        }, new Paginated<Workout>()))
-      )
-        .subscribe(paginated => {
-          this.paginatedWorkouts = paginated;
-          this.workouts = paginated.results;
-          this.currentPage = Number(pageParameter);
-          this.loading = false;
+      this.usersService.getUser(username).subscribe(user => {
+        this.user = user;
+        this.show404 = !user;
+        this.show403 = user && user.hidden && !this.userIsCurrentUserLoggedIn;
 
-          this.lastSearchedFilter = this.searchFilter;
-          this.lastFromDateFilter = this.fromDate;
-          this.lastToDateFilter = this.toDate;
+        if (this.user != null && !this.user.hidden) {
+          this.workoutsService
+            .getWorkoutsOverview(username, pageParameter, this.pageSize, this.searchFilter, this.fromDate, this.toDate)
+            .pipe(
+              catchError(this.errorService.handleError<Paginated<Workout>>('getWorkouts', (e: any) => {
+                if (e.status && e.status == 404 && pageParameter > 1) {
+                  if (reloadOn404) {
+                    this.router.navigate(['/users', username, 'workouts', pageParameter - 1]);
+                  }
+                }
+                else {
+                  this.alertService.error('Unable to fetch workouts');
+                }
+              }, new Paginated<Workout>()))
+            )
+            .subscribe(paginated => {
+              this.paginatedWorkouts = paginated;
+              this.workouts = paginated.results;
+              this.currentPage = Number(pageParameter);
+              this.loading = false;
+
+              this.lastSearchedFilter = this.searchFilter;
+              this.lastFromDateFilter = this.fromDate;
+              this.lastToDateFilter = this.toDate;
+              this.loadingService.unload();
+            });
+        }
+        else {
+          this.loading = false;
           this.loadingService.unload();
-        });
+        }
+      });
+    }
+    else {
+      this.show404 = true;
     }
   }
 
@@ -213,17 +233,17 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   getQueryParams() {
     let queryParams = {}
-    
+
     if (this.searchFilter && this.searchFilter.length > 0) {
-      queryParams['search']= this.searchFilter;
+      queryParams['search'] = this.searchFilter;
     }
 
     if (this.fromDate) {
-      queryParams['from']= this.fromDate.toISOString();
+      queryParams['from'] = this.fromDate.toISOString();
     }
 
     if (this.toDate) {
-      queryParams['to']= this.toDate.toISOString();
+      queryParams['to'] = this.toDate.toISOString();
     }
 
     return queryParams;
@@ -231,7 +251,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   deleteWorkout(workout): void {
     this.workoutsService.deleteWorkout(workout)
-    .subscribe(_ => this.getWorkouts(this.username, this.page, true));
+      .subscribe(_ => this.getWorkouts(this.username, this.page, true));
   }
 
   isOwner(workout: Workout) {

@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenCookieDeleteView
 from django.urls import include, path
 from rest_framework import routers
-from users.views import UserViewSet, UserRegistrationView, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate, follow_request_number, CustomTokenObtainPairView, user_exists
+from users.views import UserViewSet, UserRegistrationView, UserListView, UserStreamList, ActorStreamList, FileUploadView, do_follow, do_unfollow, reject_follow_request, approve_follow_request, get_profile_filename, get_email, validate_password, change_password, get_user, FollowingList, FollowersList, FollowRequestsList, get_is_following, ExpressInterestCreate, follow_request_number, CustomTokenObtainPairView, user_exists, BlockedUsersList, get_is_blocked, block, unblock
 from social.views import MessageList, LastMessageList, update_last_message, PostViewSet, toggle_like, ActionObjectStreamList, TargetStreamList, CommentViewSet, user_liked, unread_conversations, get_date_last_unread_conversations, ReportViewSet, ban_user, reinstate_user
 from development.views import FeatureViewSet, ReleaseViewSet, toggle_feature
 from workouts.views.views import ExerciseViewSet, MetabolicEquivalentTaskList, get_mets, exercise_in_use, exercise_in_use_in_other_users_resources, get_available_chart_data, MuscleList, UserSkillsList
@@ -75,6 +75,10 @@ urlpatterns = [
     path('api/action-object-stream/', ActionObjectStreamList.as_view()),
     path('api/followers/', FollowersList.as_view(), name="followers"),
     path('api/following/', FollowingList.as_view(), name="following"),
+    path('api/is-blocked/', get_is_blocked, name='is-blocked'),
+    path('api/block/', block, name='block'),
+    path('api/unblock/', unblock, name='unblock'),
+    path('api/blocked-users/', BlockedUsersList.as_view(), name="blocked-users"),
     path('api/user-skills/', UserSkillsList.as_view(), name="user-skills"),
     path('api/follow-requests/', FollowRequestsList.as_view(), name="follow-requests"),
     path('api/follow-request-number/', follow_request_number, name="follow-request-number"),
