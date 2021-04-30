@@ -6,6 +6,8 @@ import { catchError, map } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
 import { AuthService } from 'src/app/auth.service';
 import { ErrorService } from 'src/app/error.service';
+import { User } from 'src/app/user';
+import { UserService } from 'src/app/user.service';
 import { LoadingService } from '../loading.service';
 import { Paginated } from '../paginated';
 import { UnitsService } from '../units.service';
@@ -25,6 +27,11 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
   paramChangedSubscription: Subscription;
   queryParamChangedSubscription: Subscription;
 
+  show404: boolean = false;
+  show403: boolean = false;
+  userIsCurrentUserLoggedIn: boolean = false;
+  user: User = null;
+  loading: boolean = false;
   username: string;
   page: number;
   pageSize: number = 10;
@@ -34,7 +41,8 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
 
   chartDataVisibility = new UserVisibleChartData({
     show_bio_data_records: true,
-    show_weight_records: true });
+    show_weight_records: true
+  });
 
   link: any;
 
@@ -67,12 +75,13 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private measurementsService: UserBioDataService,
     route: ActivatedRoute,
-  ) { 
+    private usersService: UserService,
+  ) {
     this.paramChangedSubscription = combineLatest(route.paramMap, route.queryParamMap)
-    .pipe(map(results => ({params: results[0], query: results[1]})))
-    .subscribe(results => {
-      this.loadParameterDependentData(results.params.get('username'), results.params.get('page'), results.query.get('ordering'));
-    });
+      .pipe(map(results => ({ params: results[0], query: results[1] })))
+      .subscribe(results => {
+        this.loadParameterDependentData(results.params.get('username'), results.params.get('page'), results.query.get('ordering'));
+      });
   }
 
   measurementTracker(index, item) {
@@ -120,15 +129,14 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
 
   orderingToColumnOrder() {
     if (this.ordering) {
-      this.ordering.split(',').forEach(o => 
-        {
-          let columnName = o;
-          if (o[0] == '-') {
-            columnName = o.substr(1);
-          }
-          this.columnOrder[columnName] = [this.sortIndex, o];
-          this.sortIndex++;
-        });
+      this.ordering.split(',').forEach(o => {
+        let columnName = o;
+        if (o[0] == '-') {
+          columnName = o.substr(1);
+        }
+        this.columnOrder[columnName] = [this.sortIndex, o];
+        this.sortIndex++;
+      });
     }
     else {
       this.columnOrder = {};
@@ -146,45 +154,62 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
     this.ordering = ordering;
     this.queryParams = this.getQueryParams();
     this.orderingToColumnOrder();
+    this.setChartVisibility();
 
     this.loadMeasurements();
   }
 
   loadMeasurements() {
+    this.loading = true;
+
     if (!this.page) {
       this.page = 1;
     }
 
     this.loadingService.load();
-    this.measurementsService.getUserBioDatas(this.username, this.page, this.pageSize, this.ordering)
-    .pipe(
-      catchError(this.errorService.handleError<Paginated<UserBioData>>('getMeasurements', (e: any) => {
-        if (e.status && e.status == 404 && this.page > 1) {
-          this.alertService.error('Unable to fetch measurements: no measurements on specified page');
-        }
-        else {
-          this.alertService.error('Unable to fetch measurements');
-        }
-      }, new Paginated<UserBioData>()))
-    )
-      .subscribe(paginated => {
-        this.paginatedMeasurements = paginated;
+    this.userIsCurrentUserLoggedIn = this.authService.isCurrentUserLoggedIn(this.username);
 
-        if (paginated.results) {
-          paginated.results.forEach(r => this.unitsService.convertUserBioData(r));
-        }
+    this.usersService.getUser(this.username).subscribe(user => {
+      this.user = user;
+      this.show404 = !user;
+      this.show403 = user && user.hidden && !this.userIsCurrentUserLoggedIn;
+      if (this.user != null && !this.user.hidden) {
+        this.measurementsService.getUserBioDatas(this.username, this.page, this.pageSize, this.ordering)
+          .pipe(
+            catchError(this.errorService.handleError<Paginated<UserBioData>>('getMeasurements', (e: any) => {
+              if (e.status && e.status == 404 && this.page > 1) {
+                this.alertService.error('Unable to fetch measurements: no measurements on specified page');
+              }
+              else {
+                this.alertService.error('Unable to fetch measurements');
+              }
+            }, new Paginated<UserBioData>()))
+          )
+          .subscribe(paginated => {
+            this.paginatedMeasurements = paginated;
 
-        this.measurements = paginated.results ? paginated.results : [];
+            if (paginated.results) {
+              paginated.results.forEach(r => this.unitsService.convertUserBioData(r));
+            }
 
+            this.measurements = paginated.results ? paginated.results : [];
+            
+            this.loading = false;
+            this.loadingService.unload();
+          });
+      }
+      else {
         this.loadingService.unload();
+        this.loading = false;
+      }
     });
   }
 
   getQueryParams() {
     let queryParams = {}
-    
+
     if (this.ordering) {
-      queryParams['ordering']= this.ordering;
+      queryParams['ordering'] = this.ordering;
     }
 
     return queryParams;

@@ -96,6 +96,24 @@ class FollowRequestsList(generics.ListAPIView):
 
         return Response(serializer.data)
 
+class BlockedUsersList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        queryset = request.user.blocked_users.all().order_by('username')
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = UserMinimalSerializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = UserMinimalSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
 class UserListView(generics.ListAPIView, VisibilityQuerysetMixin):
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAuthenticated]
@@ -212,7 +230,11 @@ class UserStreamList(StreamList):
     permission_classes = [IsAuthenticated]
 
     def get_stream_queryset(self, request):
-        return UserAction.objects.filter(Q(user__followers__id=request.user.id) | Q(user=request.user)).order_by('-timestamp').distinct()
+        return UserAction.objects \
+            .exclude(user__blocked_users__id=request.user.id) \
+            .exclude(user__blocked_by__id=request.user.id) \
+            .filter(Q(user__followers__id=request.user.id) | Q(user=request.user)) \
+            .order_by('-timestamp').distinct()
 
 class ActorStreamList(StreamList):
     permission_classes = [CanSeeUserPermission]
@@ -252,6 +274,19 @@ def get_is_following(request):
 
     return Response({ "following": request.user.following.filter(id=user.id).exists(), "requested": user.follower_requests.filter(id=request.user.id).exists() })
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_is_blocked(request):
+    user = None
+    blocked = False
+    username = request.query_params.get('username', None)
+
+    if username is not None:
+        user = get_object_or_404(get_user_model(), username=username)
+        blocked = request.user.blocked_users.filter(pk=user.id).exists()
+
+    return Response(blocked)
+
 @api_view(['POST'])
 def express_interest(request):
     email = request.data.get('email', None)
@@ -260,6 +295,38 @@ def express_interest(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     UserInterest.objects.create(email=email)
+
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def block(request):
+    user_id = request.data.get('user_id', None)
+    instance = get_object_or_404(get_user_model(), pk=user_id)
+
+    if request.user.blocked_users.filter(pk=user_id).exists():
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    request.user.blocked_users.add(instance)
+    instance.blocked_by.add(request.user)
+    request.user.save()
+    instance.save()
+
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def unblock(request):
+    user_id = request.data.get('user_id', None)
+    instance = get_object_or_404(get_user_model(), pk=user_id)
+
+    if not request.user.blocked_users.filter(pk=user_id).exists():
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    request.user.blocked_users.remove(instance)
+    instance.blocked_by.remove(request.user)
+    request.user.save()
+    instance.save()
 
     return Response(status=status.HTTP_201_CREATED)
 
@@ -317,6 +384,7 @@ def do_unfollow(request):
 
     if instance.follower_requests.filter(id=request.user.id).exists():
         instance.follower_requests.remove(request.user)
+        instance.save()
 
         return Response(status=status.HTTP_201_CREATED)
 

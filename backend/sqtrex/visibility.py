@@ -19,6 +19,8 @@ class VisibilityQuerysetMixin():
         if not user or not user.is_authenticated:
             queryset = queryset.filter(visibility=Visibility.EVERYONE)
         else:
+            queryset = queryset.exclude(user__blocked_users__id=user.id)
+
             queryset = queryset.exclude(Q(visibility=Visibility.OWN_USER), ~Q(user=user))
 
             queryset = queryset.exclude(Q(visibility=Visibility.FOLLOWERS), ~Q(user__followers__id=user.id), ~Q(user=user))

@@ -15,7 +15,7 @@
 
 .name-container {
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .action-button-group {
@@ -27,3 +27,7 @@
     color:#879aab;
 }
 
+.btn-operation-profile {
+    margin-right: 10px;
+    margin-top: 10px;
+}

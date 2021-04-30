@@ -4,14 +4,15 @@ from django.contrib.auth import get_user_model
 from sqtrex.visibility import Visibility
 
 def can_see_user(request_user, user):
-    if user.visibility == Visibility.OWN_USER and user != request_user:
-        return False
-    elif user.visibility == Visibility.REGISTERED_USERS and not request_user.is_authenticated:
-        return False
-    elif user.visibility == Visibility.FOLLOWERS and not user == request_user and not user.followers.filter(id=request_user.id):
-        return False
+    if request_user.is_authenticated:
+        if user.visibility == Visibility.OWN_USER and user != request_user:
+            return False
+        elif user.visibility == Visibility.FOLLOWERS and not user == request_user and not user.followers.filter(id=request_user.id):
+            return False
 
-    return True
+        return True
+    else:
+        return user.visibility == Visibility.EVERYONE
 
 class CanSeeUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):

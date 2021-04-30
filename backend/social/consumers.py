@@ -10,7 +10,13 @@ class ChatConsumer(WebsocketConsumer):
         super().__init__(*args, **kwargs)
         self.message_service = MessageService()
 
+    def conversation_blocked(self):
+        return self.scope["user"].blocked_users.filter(pk=self.correspondent.id).exists() or \
+            self.correspondent.blocked_users.filter(pk=self.scope["user"].id).exists()
+
     def connect(self):
+        self.room_name = None
+
         if self.scope["user"].is_anonymous:
             self.close()
 
@@ -31,7 +37,7 @@ class ChatConsumer(WebsocketConsumer):
 
         self.correspondent = get_user_model().objects.get(username=correspondent_username)
 
-        if self.correspondent is None:
+        if self.correspondent is None or self.conversation_blocked():
             self.close()
 
             return
@@ -49,6 +55,9 @@ class ChatConsumer(WebsocketConsumer):
         self.accept()
 
     def disconnect(self, close_code):
+        if self.room_name is None:
+            return
+
         # Leave room group
         async_to_sync(self.channel_layer.group_discard)(
             self.room_name,
@@ -57,6 +66,9 @@ class ChatConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
+        if self.conversation_blocked():
+            return
+
         text_data_json = json.loads(text_data)
         data_type = text_data_json['type']
         uuid = text_data_json['uuid']

@@ -186,9 +186,6 @@ class UserSkillsList(ListAPIView):
 
         user = get_object_or_404(get_user_model(), username=username)
 
-        if not can_see_user(request.user, user):
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
         queryset = UserSkill.objects.filter(user=user).order_by('-experience')
 
         page = self.paginate_queryset(queryset)

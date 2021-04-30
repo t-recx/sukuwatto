@@ -16,6 +16,7 @@ import { PageSizeService } from '../page-size.service';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { BlockService } from '../block.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +27,7 @@ export class ProfileComponent implements OnInit {
   hasFollowRequest: boolean;
   loadedIsFollowed = false;
   userCanChangeState = false;
+  userCanBlock = false;
   actions: Action[];
   paginated: Paginated<Action>;
   streamPageSize = 10;
@@ -48,6 +50,7 @@ export class ProfileComponent implements OnInit {
   canFollow: boolean;
   canMessage: boolean;
   isFollowed: boolean;
+  userIsBlocked: boolean = null;
 
   userContentTypeID: number;
 
@@ -90,6 +93,7 @@ export class ProfileComponent implements OnInit {
     private pageSizeService: PageSizeService,
     private errorService: ErrorService,
     private alertService: AlertService,
+    private blockService: BlockService,
   ) { }
 
   getPageSize(navBarHeight = 64, actionHeight = 69) {
@@ -173,6 +177,7 @@ export class ProfileComponent implements OnInit {
     this.username = username;
     this.currentPage = 1;
     this.requests_number = 0;
+    this.userIsBlocked = null;
     if (this.username) {
       this.userService
       .getUser(this.username)
@@ -191,6 +196,14 @@ export class ProfileComponent implements OnInit {
           this.messagesService.getCanMessage(this.username).subscribe(x => this.canMessage = x);
           this.userCanChangeState = this.authService.userIsStaff() && !this.authService.isCurrentUserLoggedIn(this.user.username);
           this.loadIsFollowed(this.username);
+
+          this.userCanBlock = this.authService.isLoggedIn() && this.user.username != this.authService.getUsername();
+          if (this.authService.isLoggedIn()) {
+            this.blockService.isBlocked(this.username).subscribe(blocked => this.userIsBlocked = blocked);
+          }
+          else {
+            this.userIsBlocked = false;
+          }
 
           if (!this.user.hidden) {
             this.loadFeed();
@@ -322,6 +335,22 @@ export class ProfileComponent implements OnInit {
       if (!(x && x.error)) {
         this.user.is_active = true;
         this.alertService.success('User reinstated successfully');
+      }
+    });
+  }
+
+  block() {
+    this.blockService.block(this.user.id).subscribe(x => {
+      if (!(x && x.error)) {
+        this.userIsBlocked = true;
+      }
+    });
+  }
+
+  unblock() {
+    this.blockService.unblock(this.user.id).subscribe(x => {
+      if (!(x && x.error)) {
+        this.userIsBlocked = false;
       }
     });
   }

@@ -25,42 +25,52 @@
                     <div *ngIf="!(user.first_name || user.last_name)" class="siimple-h5 name-field">
                         @{{user.username}}
                     </div>
-                    <div class="clickable siimple-h6 user-level-field" [routerLink]="['/users', username, 'skills']">
+                    <div class="clickable siimple-h6 user-level-field" [routerLink]="['/users', username, 'skills']" *ngIf="!user.hidden">
                         <span translate>Level</span> {{user.level}} - {{user.primary_class | translate}} <span *ngIf="user.secondary_class">/ {{user.secondary_class |translate}}</span>
                     </div>
                 </div>
                 <div class="action-button-group" *ngIf="loadedIsFollowed">
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && !isFollowed && !hasFollowRequest" (click)="follow()"
+                    <button class="siimple-btn  btn-operation-profile" *ngIf="canFollow && !isFollowed && !hasFollowRequest" (click)="follow()"
                         type="button" >
                         <fa-icon [icon]="faUserPlus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1" translate>Follow</span>
                     </button>
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && hasFollowRequest" (click)="unfollow()"
+                    <button class="siimple-btn  btn-operation-profile" *ngIf="canFollow && hasFollowRequest" (click)="unfollow()"
                         type="button"
                         >
                         <fa-icon [icon]="faClock" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1" translate>Requested</span>
                     </button>
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canFollow && isFollowed" (click)="unfollow()"
+                    <button class="siimple-btn  btn-operation-profile" *ngIf="canFollow && isFollowed" (click)="unfollow()"
                         type="button"
                         >
                         <fa-icon [icon]="faUserMinus" *ngIf="!operating"></fa-icon>
                         <fa-icon [icon]="faCircleNotch" [spin]=true *ngIf="operating"></fa-icon>
                         <span class="siimple--ml-1" translate>Unfollow</span>
                     </button>
-                    <button class="siimple-btn siimple--mr-2" *ngIf="canMessage" type="button"
+                    <button class="siimple-btn  btn-operation-profile" *ngIf="canMessage" type="button"
                         [routerLink]="['/users', authService.getUsername(), 'message', username]">
                         <fa-icon [icon]="faEnvelope"></fa-icon>
-                        <span class="siimple--ml-1" translate>Message</span>
+                        <span class="siimple--ml-1 " translate>Message</span>
                     </button>
-                    <button class="siimple-btn siimple-btn--error" *ngIf="userCanChangeState && user.is_active" type="button"
+                    <button class="siimple-btn   btn-operation-profile" *ngIf="userCanBlock && userIsBlocked == false" type="button"
+                        (click)="block()">
+                        <fa-icon [icon]="faBan"></fa-icon>
+                        <span class="siimple--ml-1 " translate>Block</span>
+                    </button>
+                    <button class="siimple-btn siimple--mr-2 btn-operation-profile " *ngIf="userCanBlock && userIsBlocked == true" type="button"
+                        (click)="unblock()">
+                        <fa-icon [icon]="faRedoAlt"></fa-icon>
+                        <span class="siimple--ml-1 " translate>Unblock</span>
+                    </button>
+                    <button class="siimple-btn siimple-btn--error btn-operation-profile" *ngIf="userCanChangeState && user.is_active" type="button"
                         (click)="banUser()">
                         <fa-icon [icon]="faBan"></fa-icon>
                         <span class="siimple--ml-1 " translate>Ban</span>
                     </button>
-                    <button class="siimple-btn siimple-btn--success" *ngIf="userCanChangeState && !user.is_active" type="button"
+                    <button class="siimple-btn siimple-btn--success btn-operation-profile" *ngIf="userCanChangeState && !user.is_active" type="button"
                         (click)="reinstateUser()">
                         <fa-icon [icon]="faRedoAlt"></fa-icon>
                         <span class="siimple--ml-1 " translate>Reinstate</span>
