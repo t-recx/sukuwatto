@@ -528,3 +528,9 @@ ul {
     transition: color .3s;
     cursor: pointer;
 }
+
+.terms-list {
+    list-style-type: disc;
+    padding-left: 40px;
+    line-height: 20px;
+}
