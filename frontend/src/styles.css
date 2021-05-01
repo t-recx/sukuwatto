@@ -474,6 +474,7 @@ ul {
 
 .limit-to-max {
   max-width: 100%;
+  height: auto;
 }
 
 .with-box-shadow {
