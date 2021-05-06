@@ -47,4 +47,4 @@ class WorkoutTestCase(VisibilityTestCaseMixin, APITestCase):
         wid = self.create_resource(self.user1, data)
         ctid = ContentType.objects.get(model='workout').id
 
-        self.assertEqual(UserAction.objects.count(), 1) 
+        self.assertEqual(UserAction.objects.filter(verb='trained').count(), 1) 
