@@ -3,7 +3,6 @@ from social.models import Post, Comment, UserAction, PostImage
 from social.utils import get_user_actions_filtered_by_object
 from workouts.models import Workout, Plan, Exercise, UserBioData
 from development.models import Feature, Release
-from pprint import pprint
 from users.models import CustomUser
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
@@ -112,8 +111,13 @@ def delete_comment_activity(sender, instance, **kwargs):
 
         model.save()
 
+def save_user_account(sender, instance, created, **kwargs):
+    if created:
+        UserAction.objects.create(user=instance, verb='joined', action_object_user=instance)
+
 post_save.connect(post_user_actions_handler, sender=Post)
 post_save.connect(comment_user_actions_handler, sender=Comment)
 post_save.connect(comment_update_comments_number_handler, sender=Comment)
+post_save.connect(save_user_account, sender=CustomUser)
 pre_delete.connect(delete_comment_activity, sender=Comment)
 pre_delete.connect(delete_post_images, sender=Post)
