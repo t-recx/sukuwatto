@@ -8,6 +8,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
 import { LanguageService } from '../language.service';
+import { TopExercise } from './top-exercise';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class ExercisesService {
   private exercisesUrl= `${environment.apiUrl}/exercises/`;
   private exerciseInUseApiUrl = `${environment.apiUrl}/exercise-in-use/`;
   private exerciseInUseOnOtherUsersResourcesApiUrl = `${environment.apiUrl}/exercise-in-use-on-other-users-resources/`;
+  private topExercisesUrl = `${environment.apiUrl}/top-exercises/`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,6 +29,13 @@ export class ExercisesService {
     private alertService: AlertService,
     private languageService: LanguageService,
   ) { }
+
+  getTopExercises(): Observable<TopExercise[]> {
+    return this.http.get<TopExercise[]>(this.topExercisesUrl)
+      .pipe(
+        map(response => this.getProperlyTypedTopExercises(response)),
+      );
+  }
 
   getExercises (page: number, page_size: number, search_filter: string, ordering: string, exercise_type: string): Observable<Paginated<Exercise>> {
     let options = {};
@@ -104,6 +113,16 @@ export class ExercisesService {
     }
 
     return exercise;
+  }
+
+  getProperlyTypedTopExercises(exercises: TopExercise[]): TopExercise[] {
+    if (exercises) {
+      for (let exercise of exercises) {
+        exercise.count = +exercise.count;
+      }
+    }
+
+    return exercises;
   }
 
   saveExercise(exercise: Exercise): Observable<Exercise> {

@@ -8,14 +8,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
-from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer
+from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer, TopExercisesSerializer
 from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet, Muscle, UserSkill, WeeklyLeaderboardPosition, MonthlyLeaderboardPosition, YearlyLeaderboardPosition, AllTimeLeaderboardPosition
 from sqtrex.pagination import StandardResultsSetPagination
 from sqtrex.permissions import StandardPermissionsMixin
 from workouts.exercise_service import ExerciseService
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Max, F, Q
+from django.db.models import Max, F, Q, Count
 from sqtrex.visibility import VisibilityQuerysetMixin, Visibility
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -327,6 +327,18 @@ def get_mets(request):
 
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_top_exercises(request):
+    queryset = (WorkoutSet.objects 
+        .filter(workout_group__workout__user=request.user)
+        .filter(done=True)
+        .values('exercise__name')
+        .annotate(count=Count('exercise'))
+        .order_by('-count'))
+
+    return Response(TopExercisesSerializer(queryset, many=True).data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

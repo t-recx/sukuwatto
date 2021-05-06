@@ -9,6 +9,7 @@ import { filter, debounceTime, distinctUntilChanged, switchMap, catchError, map 
 import { LoadingService } from '../loading.service';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
+import { TopExercise } from '../top-exercise';
 
 @Component({
   selector: 'app-exercises-list',
@@ -23,6 +24,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() link: any;
   @Input() queryParams: {};
   @Input() exerciseType: string;
+  @Input() selectModal: boolean;
 
   @Output() selected = new EventEmitter<Exercise>();
 
@@ -33,6 +35,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   columnOrder = {};
 
   exercises: Exercise[] = [];
+  topExercises: TopExercise[] = [];
 
   paramChangedSubscription: Subscription;
   paginatedExercises: Paginated<Exercise>;
@@ -53,6 +56,12 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.lastSearchedFilter = '';
     this.setupSearch();
+
+    if (this.selectModal) {
+      this.exercisesService.getTopExercises().subscribe(topExercises => {
+        this.topExercises = topExercises;
+      });
+    }
   }
 
   exerciseTracker(index, item) {
