@@ -99,27 +99,34 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setChartVisibility();
     this.lastSearchedFilter = '';
-    this.setupSearch();
   }
 
   ngOnDestroy(): void {
     this.paramChangedSubscription.unsubscribe();
-    this.searchSubscription.unsubscribe();
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
 
   setupSearch() {
     const searchBox = document.getElementById('search-input');
 
-    const typeahead = fromEvent(searchBox, 'input').pipe(
-      map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap(() => of(true))
-    );
+    if (searchBox) {
+      const typeahead = fromEvent(searchBox, 'input').pipe(
+        map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(() => of(true))
+      );
 
-    this.searchSubscription = typeahead.subscribe(() => {
-      this.search();
-    });
+      if (this.searchSubscription) {
+        this.searchSubscription.unsubscribe();
+      }
+
+      this.searchSubscription = typeahead.subscribe(() => {
+        this.search();
+      });
+    }
   }
 
   loadParameterDependentData(username: string, page: string): void {
@@ -171,6 +178,8 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
               this.lastSearchedFilter = this.searchFilter;
               this.lastFromDateFilter = this.fromDate;
               this.lastToDateFilter = this.toDate;
+
+              setTimeout(() => this.setupSearch());
               this.loadingService.unload();
             });
         }

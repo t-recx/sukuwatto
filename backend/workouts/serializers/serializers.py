@@ -209,3 +209,7 @@ class UserBioDataSerializer(serializers.ModelSerializer):
         existing_records.delete()
 
         return instance
+
+class TopExercisesSerializer(serializers.Serializer):
+   name = serializers.CharField(source='exercise__name')
+   count = serializers.IntegerField()

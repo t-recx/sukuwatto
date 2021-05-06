@@ -10,7 +10,7 @@
             <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
         </div>
         <div class="siimple-modal-body modal-window-body">
-            <app-exercises-list (selected)="select($event)" [page]=page [exerciseType]="exerciseType">
+            <app-exercises-list (selected)="select($event)" [page]=page [exerciseType]="exerciseType" [selectModal]="true">
             </app-exercises-list>
         </div>
         <div class="siimple-modal-footer">

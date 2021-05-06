@@ -8,7 +8,7 @@
   </app-forbidden>
 </div>
 
-<div *ngIf="!show404 && !show403 && !loading">
+<div *ngIf="!show404 && !show403">
   <div class="toolbar">
     <div class="toolbar-title" translate>Workouts</div>
 
@@ -27,7 +27,7 @@
     </app-user-progress-charts>
   </div>
 
-  <div class="search-box">
+  <div class="search-box" >
     <div class="siimple-grid">
       <div class="siimple-grid-row">
         <div class="siimple-grid-col siimple-grid-col--6 filter-date-col  siimple--pt-0 siimple--pb-3">
@@ -58,8 +58,8 @@
       </div>
     </div>
   </div>
-
-  <div class="" *ngIf="workouts && workouts.length > 0">
+  
+  <div class="" *ngIf="workouts && workouts.length > 0 && !loading">
     <ul class="">
       <li *ngFor="let workout of workouts">
         <app-workout-overview-card [detailView]=false [workout]=workout [showSaveDeleteButtons]="isOwner(workout)"

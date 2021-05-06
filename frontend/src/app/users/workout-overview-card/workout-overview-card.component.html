@@ -222,7 +222,7 @@
     </footer>
 </article>
 
-<app-delete-modal [(visible)]="deleteModalVisible" title="'Delete workout?' | translate"
+<app-delete-modal [(visible)]="deleteModalVisible" [title]="'Delete workout?' | translate"
     [body]="'This will delete your workout and associated data. Are you sure you want to proceed?' | translate" (deleted)="delete()"
     (canceled)="toggleDeleteModal()">
 </app-delete-modal>
