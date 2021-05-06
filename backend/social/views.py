@@ -53,7 +53,7 @@ class TargetStreamList(generics.ListAPIView):
 class PostViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
     """
     """
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-date')
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user__username']
@@ -62,13 +62,13 @@ class PostViewSet(StandardPermissionsMixin, viewsets.ModelViewSet):
 class CommentViewSet(CommentPermissionsMixin, viewsets.ModelViewSet):
     """
     """
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('date')
     serializer_class = CommentSerializer
     filter_backends = [DjangoFilterBackend]
     pagination_class = StandardResultsSetPagination
 
 class ReportViewSet(ReportPermissionsMixin, viewsets.ModelViewSet):
-    queryset = Report.objects.all()
+    queryset = Report.objects.all().order_by('date')
     serializer_class = ReportSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['state']

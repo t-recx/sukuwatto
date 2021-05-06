@@ -156,6 +156,13 @@ class CommentMinimalSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'text', 'date', 'edited_date']
 
+class ReportWithoutNotesSerializer(serializers.ModelSerializer):
+    user = UserMinimalSerializer(read_only=True)
+
+    class Meta:
+        model = Report
+        fields = ['id', 'description', 'date', 'user', 'state']
+
 class ReportSerializer(serializers.ModelSerializer):
     user = UserMinimalSerializer(read_only=True)
 
