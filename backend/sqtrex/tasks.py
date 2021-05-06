@@ -15,7 +15,7 @@ from users.models import UserDataRequest
 from development.models import Feature
 from development.serializers import FeatureSerializer
 from social.models import Post, Comment, Message, Report
-from social.serializers import PostSerializer, CommentSerializer, MessageSerializer, ReportSerializer
+from social.serializers import PostSerializer, CommentSerializer, MessageSerializer, ReportWithoutNotesSerializer
 from django.db.models import Q
 from workouts.models import UserBioData, Exercise, Plan, UserSkill, Workout, WeeklyLeaderboardPosition, MonthlyLeaderboardPosition, YearlyLeaderboardPosition, AllTimeLeaderboardPosition
 from workouts.serializers.serializers import UserBioDataSerializer, ExerciseSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer
@@ -64,13 +64,13 @@ def email_user_data(data_request_id):
 
         data['following'] = UserMinimalSerializer(user.following, many=True).data
 
-        data['blocked_users'] =  UserMinimalSerializer(user.blocked_users, many=True).data
+        data['blocked_users'] = UserMinimalSerializer(user.blocked_users, many=True).data
 
         features = Feature.objects.filter(user=user)
         data['features'] = FeatureSerializer(features, many=True).data
 
         reports = Report.objects.filter(user=user)
-        data['reports'] = ReportSerializer(reports, many=True).data
+        data['reports'] = ReportWithoutNotesSerializer(reports, many=True).data
 
         posts = Post.objects.filter(user=user)
         data['posts'] = PostSerializer(posts, many=True).data

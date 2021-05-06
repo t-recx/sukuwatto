@@ -56,7 +56,6 @@ export class ReportCardComponent implements OnInit, OnDestroy {
   close() {
     this.notesModalVisible = false;
     this.closeModalVisible = false;
-    this.report.notes = this.notes;
 
     this.stateChanged.emit(this.report);
   }
@@ -67,6 +66,7 @@ export class ReportCardComponent implements OnInit, OnDestroy {
 
   doAction() {
     this.report.state = ReportState.Resolved;
+    this.report.notes = this.notes;
 
     if (this.closeModalVisible) {
       this.report.state = ReportState.Closed;
