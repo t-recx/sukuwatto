@@ -230,11 +230,17 @@ class UserStreamList(StreamList):
     permission_classes = [IsAuthenticated]
 
     def get_stream_queryset(self, request):
-        return UserAction.objects \
-            .exclude(user__blocked_users__id=request.user.id) \
-            .exclude(user__blocked_by__id=request.user.id) \
-            .filter(Q(user__followers__id=request.user.id) | Q(user=request.user)) \
-            .order_by('-timestamp').distinct()
+        queryset = None
+
+        if request.user.is_staff:
+            queryset = UserAction.objects.all()
+        else:
+            queryset = UserAction.objects \
+                .exclude(user__blocked_users__id=request.user.id) \
+                .exclude(user__blocked_by__id=request.user.id) \
+                .filter(Q(user__followers__id=request.user.id) | Q(user=request.user)) 
+
+        return queryset.order_by('-timestamp').distinct()
 
 class ActorStreamList(StreamList):
     permission_classes = [CanSeeUserPermission]
