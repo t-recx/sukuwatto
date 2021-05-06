@@ -9,6 +9,11 @@
         </app-user-tag>
 
         <ng-container [ngSwitch]=action.verb>
+            <ng-template [ngSwitchCase]="'joined'">
+                <span translate *ngIf="environment.application">joined the app</span>
+                <span translate *ngIf="!environment.application">joined the website</span>
+            </ng-template>
+
             <ng-template [ngSwitchCase]="'started following'">
                 <span translate>started following</span>
                 <span *ngIf="action.target_user.username == username; else elseBlock" translate>
