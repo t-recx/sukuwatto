@@ -67,6 +67,18 @@ class MuscleExerciseSerializer(serializers.ModelSerializer):
         model = MuscleExercise
         fields = ['id', 'muscle', 'role']
 
+class TopExerciseSerializer(serializers.Serializer):
+    id = serializers.IntegerField(source='exercise__id')
+    name = serializers.CharField(source='exercise__name')
+    exercise_type = serializers.CharField(source='exercise__exercise_type')
+    description = serializers.CharField(source='exercise__description')
+    mechanics = serializers.CharField(source='exercise__mechanics')
+    force = serializers.CharField(source='exercise__force')
+    modality = serializers.CharField(source='exercise__modality')
+    section = serializers.CharField(source='exercise__section')
+    level = serializers.CharField(source='exercise__level')
+    count = serializers.IntegerField()
+
 class ExerciseSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Exercise()._meta.get_field('id'), required=False)
     user = UserMinimalSerializer(read_only=True)
@@ -209,7 +221,3 @@ class UserBioDataSerializer(serializers.ModelSerializer):
         existing_records.delete()
 
         return instance
-
-class TopExercisesSerializer(serializers.Serializer):
-   name = serializers.CharField(source='exercise__name')
-   count = serializers.IntegerField()

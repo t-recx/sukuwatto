@@ -9,7 +9,6 @@ import { filter, debounceTime, distinctUntilChanged, switchMap, catchError, map 
 import { LoadingService } from '../loading.service';
 import { ErrorService } from 'src/app/error.service';
 import { AlertService } from 'src/app/alert/alert.service';
-import { TopExercise } from '../top-exercise';
 
 @Component({
   selector: 'app-exercises-list',
@@ -35,7 +34,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   columnOrder = {};
 
   exercises: Exercise[] = [];
-  topExercises: TopExercise[] = [];
+  topExercises: Exercise[] = [];
 
   paramChangedSubscription: Subscription;
   paginatedExercises: Paginated<Exercise>;
@@ -56,12 +55,6 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.lastSearchedFilter = '';
     this.setupSearch();
-
-    if (this.selectModal) {
-      this.exercisesService.getTopExercises(this.exerciseType).subscribe(topExercises => {
-        this.topExercises = topExercises;
-      });
-    }
   }
 
   exerciseTracker(index, item) {
@@ -85,7 +78,29 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.orderingToColumnOrder();
-    this.loadExercises();
+
+    if (this.selectModal) {
+      this.loadTopExercises();
+    }
+    else {
+      this.loadExercises();
+    }
+  }
+
+  loadTopExercises() {
+    this.loadingService.load();
+
+    this.exercisesService.getTopExercises(this.exerciseType).subscribe(topExercises => {
+      if (topExercises && topExercises.length > 0) {
+        this.setDescriptions(topExercises);
+        this.exercises = topExercises;
+        this.loadingService.unload();
+      }
+      else {
+        this.loadingService.unload();
+        this.loadExercises();
+      }
+    });
   }
 
   loadExercises() {
@@ -110,8 +125,8 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
         this.paginatedExercises = paginated;
         this.exercises = paginated.results ? paginated.results : [];
 
-      this.lastSearchedFilter = this.searchFilter;
-      this.loadingService.unload();
+        this.lastSearchedFilter = this.searchFilter;
+        this.loadingService.unload();
     });
   }
 
