@@ -1,3 +1,17 @@
 .chat-box-shadow {
   box-shadow: 0 10px 15px -3px rgba(0,0,0,.1),0 0px 6px 4px rgba(0,0,0,.05);
 }
+
+@media screen and (max-width: 600px) {
+  .siimple-content--large {
+    width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .siimple-content--extra-large {
+    width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
