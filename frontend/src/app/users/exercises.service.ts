@@ -30,8 +30,17 @@ export class ExercisesService {
     private languageService: LanguageService,
   ) { }
 
-  getTopExercises(): Observable<TopExercise[]> {
-    return this.http.get<TopExercise[]>(this.topExercisesUrl)
+  getTopExercises(exercise_type: string): Observable<TopExercise[]> {
+    let options = {};
+    let params = new HttpParams();
+
+    if (exercise_type) {
+      params = params.set('exercise_type', exercise_type);
+
+      options = {params};
+    }
+
+    return this.http.get<TopExercise[]>(this.topExercisesUrl, options)
       .pipe(
         map(response => this.getProperlyTypedTopExercises(response)),
       );
