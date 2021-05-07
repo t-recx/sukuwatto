@@ -8,7 +8,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter, BaseFilterBackend
-from workouts.serializers.serializers import ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer, TopExercisesSerializer
+from workouts.serializers.serializers import TopExerciseSerializer, ExerciseSerializer, UserBioDataSerializer, MetabolicEquivalentTaskSerializer, MuscleSerializer, UserSkillSerializer, WeeklyLeaderboardSerializer, MonthlyLeaderboardSerializer, YearlyLeaderboardSerializer, AllTimeLeaderboardSerializer
 from workouts.models import Exercise, Unit, UserBioData, MetabolicEquivalentTask, WorkoutSet, Muscle, UserSkill, WeeklyLeaderboardPosition, MonthlyLeaderboardPosition, YearlyLeaderboardPosition, AllTimeLeaderboardPosition
 from sqtrex.pagination import StandardResultsSetPagination
 from sqtrex.permissions import StandardPermissionsMixin
@@ -341,11 +341,11 @@ def get_top_exercises(request):
         queryset = queryset.filter(exercise__exercise_type=exercise_type)
 
     queryset = (queryset 
-        .values('exercise__name')
+        .values('exercise__id', 'exercise__name', 'exercise__exercise_type', 'exercise__description', 'exercise__mechanics', 'exercise__force', 'exercise__modality', 'exercise__section', 'exercise__level')
         .annotate(count=Count('exercise'))
         .order_by('-count'))
 
-    return Response(TopExercisesSerializer(queryset, many=True).data)
+    return Response(TopExerciseSerializer(queryset, many=True).data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

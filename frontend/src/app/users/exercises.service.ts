@@ -8,7 +8,6 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Paginated } from './paginated';
 import { LanguageService } from '../language.service';
-import { TopExercise } from './top-exercise';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +29,7 @@ export class ExercisesService {
     private languageService: LanguageService,
   ) { }
 
-  getTopExercises(exercise_type: string): Observable<TopExercise[]> {
+  getTopExercises(exercise_type: string): Observable<Exercise[]> {
     let options = {};
     let params = new HttpParams();
 
@@ -40,9 +39,9 @@ export class ExercisesService {
       options = {params};
     }
 
-    return this.http.get<TopExercise[]>(this.topExercisesUrl, options)
+    return this.http.get<Exercise[]>(this.topExercisesUrl, options)
       .pipe(
-        map(response => this.getProperlyTypedTopExercises(response)),
+        map(response => this.getProperlyTypedExercises(response)),
       );
   }
 
@@ -122,16 +121,6 @@ export class ExercisesService {
     }
 
     return exercise;
-  }
-
-  getProperlyTypedTopExercises(exercises: TopExercise[]): TopExercise[] {
-    if (exercises) {
-      for (let exercise of exercises) {
-        exercise.count = +exercise.count;
-      }
-    }
-
-    return exercises;
   }
 
   saveExercise(exercise: Exercise): Observable<Exercise> {

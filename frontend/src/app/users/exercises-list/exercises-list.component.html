@@ -1,10 +1,6 @@
 <div class="search-box">
-    <input list="top-exercises" type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
+    <input type="text" class="siimple-input search-box-input" id="search-input" (keydown.enter)="search()" applyFocus
         [placeholder]="'Search...' | translate" [(ngModel)]=searchFilter #searchInput="ngModel">
-
-    <datalist id="top-exercises" *ngIf="topExercises">
-        <option *ngFor="let topExercise of topExercises" [value]="topExercise.name | translate" >
-    </datalist>
 
     <div class="search-buttons">
         <button type="button" class="siimple-btn siimple-btn--error siimple--ml-1" (click)="clearFilters()">
