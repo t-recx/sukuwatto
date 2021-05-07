@@ -58,7 +58,7 @@ export class ExercisesListComponent implements OnInit, OnChanges, OnDestroy {
     this.setupSearch();
 
     if (this.selectModal) {
-      this.exercisesService.getTopExercises().subscribe(topExercises => {
+      this.exercisesService.getTopExercises(this.exerciseType).subscribe(topExercises => {
         this.topExercises = topExercises;
       });
     }

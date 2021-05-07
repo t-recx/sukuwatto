@@ -331,9 +331,16 @@ def get_mets(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_top_exercises(request):
+    exercise_type = request.query_params.get('exercise_type', None)
+
     queryset = (WorkoutSet.objects 
         .filter(workout_group__workout__user=request.user)
-        .filter(done=True)
+        .filter(done=True))
+
+    if exercise_type:
+        queryset = queryset.filter(exercise__exercise_type=exercise_type)
+
+    queryset = (queryset 
         .values('exercise__name')
         .annotate(count=Count('exercise'))
         .order_by('-count'))
