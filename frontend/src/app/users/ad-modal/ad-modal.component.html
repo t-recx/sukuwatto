@@ -1,0 +1,31 @@
+<div class="siimple-modal modal-window siimple-modal--medium modal-ads" id="modal" *ngIf="visible" (click)="close()">
+    <div class="siimple-modal-content"
+    (click)="$event.preventDefault();$event.stopPropagation();"
+    >
+        <div class="siimple-modal-header">
+            <div class="siimple-modal-header-title" translate>Advertisement</div>
+            <div class="siimple-modal-header-close" id="modal-close" (click)="close()"></div>
+        </div>
+        <div class="siimple-modal-body modal-window-body">
+            <div class="ad-container">
+                <a href="https://www.khanacademy.org/">
+                <div class="ad">
+                    <img src="../../../assets/ads/khan_academy.png">
+                    <div class="siimple-h6">
+                        Learn for free about math, art, computer programming, economics, physics, chemistry, biology, medicine, finance, history, and more. 
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+        <div class="siimple-modal-footer">
+            <div class="siimple-link skip-ad-link" (click)="close()">
+                <span  translate>Skip ad</span>
+                <fa-icon [icon]="faSkipAd" class="siimple--ml-1" ></fa-icon>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
