@@ -23,6 +23,8 @@ import { SerializerUtilsService } from 'src/app/serializer-utils.service';
 import { Visibility } from 'src/app/visibility';
 import { UnitsService } from '../units.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AdService } from '../ad.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workout-detail-edit',
@@ -35,6 +37,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
   finishGeolocationActivities: Subscription;
   refreshExpiredSubscription: Subscription;
 
+  adModalVisible: boolean = false;
   notFound: boolean = false;
   refreshExpired: boolean = false;
 
@@ -190,6 +193,7 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
     private loadingService: LoadingService,
     private cordovaService: CordovaService,
     private serializerUtils: SerializerUtilsService,
+    private adService: AdService,
   ) { }
 
   setWorkoutStartDate(event: any) {
@@ -254,6 +258,8 @@ export class WorkoutDetailEditComponent implements OnInit, OnDestroy, AfterViewI
       this.serialize();
       this.refreshExpired = true;
     });
+
+    this.adModalVisible = environment.application && this.adService.adsVisible();
   }
 
   loadViewData(username: string, id: string) {

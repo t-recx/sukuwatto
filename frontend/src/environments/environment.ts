@@ -6,6 +6,7 @@ import { environmentDevHost, environmentDevPort } from 'src/environments/hosts';
 import { environmentDevRecaptchaKey } from './settings';
 
 export const environment = {
+  showAds: true,
   showSupportSection: true,
   production: false,
   application: false,

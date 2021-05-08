@@ -2,6 +2,7 @@ import { environmentProductionHost, environmentProductionPort } from 'src/enviro
 import { environmentProductionRecaptchaKey } from './settings';
 
 export const environment = {
+  showAds: true,
   showSupportSection: false,
   production: true,
   application: true,
