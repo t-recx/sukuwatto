@@ -19,4 +19,8 @@ export class AdModalComponent implements OnInit {
   close() {
     this.visible = false;
   }
+
+  openAd() {
+    window.open('https://www.khanacademy.org/', '_system');
+  }
 }
