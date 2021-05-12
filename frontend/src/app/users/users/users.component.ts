@@ -139,6 +139,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => this.dropDownHidden = false, this.transitionMenuMsDefault);
 
     this.routerNavigationSubscription = this.router.events.subscribe(e => {
+      if (e instanceof NavigationStart) {
+        this.loadingService.reset();
+      }
+
       if (e instanceof NavigationEnd) {
         if (this.menuDropDownVisible) {
           this.setDropDownVisible(false);
@@ -207,6 +211,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
+    }
+
     this.loadingSubscription = this.loadingService.state.subscribe(s => setTimeout(() => this.loading = s));
   }
 
@@ -229,6 +237,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.resetBodyOverflow();
+
     this.loadingSubscription.unsubscribe();
     this.routerNavigationSubscription.unsubscribe();
     this.pausedSubscription.unsubscribe();
