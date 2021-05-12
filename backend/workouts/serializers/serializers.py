@@ -70,6 +70,8 @@ class MuscleExerciseSerializer(serializers.ModelSerializer):
 class TopExerciseSerializer(serializers.Serializer):
     id = serializers.IntegerField(source='exercise__id')
     name = serializers.CharField(source='exercise__name')
+    name_pt = serializers.CharField(source='exercise__name_pt')
+    short_name = serializers.CharField(source='exercise__short_name')
     exercise_type = serializers.CharField(source='exercise__exercise_type')
     description = serializers.CharField(source='exercise__description')
     mechanics = serializers.CharField(source='exercise__mechanics')

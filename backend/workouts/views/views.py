@@ -341,7 +341,9 @@ def get_top_exercises(request):
         queryset = queryset.filter(exercise__exercise_type=exercise_type)
 
     queryset = (queryset 
-        .values('exercise__id', 'exercise__name', 'exercise__exercise_type', 'exercise__description', 'exercise__mechanics', 'exercise__force', 'exercise__modality', 'exercise__section', 'exercise__level')
+        .values('exercise__id', 'exercise__name', 'exercise__name_pt', 'exercise__short_name', 
+        'exercise__exercise_type', 'exercise__description', 'exercise__mechanics', 'exercise__force', 
+        'exercise__modality', 'exercise__section', 'exercise__level')
         .annotate(count=Count('exercise'))
         .order_by('-count'))
 
