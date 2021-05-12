@@ -94,7 +94,7 @@ export class UserService {
       catchError(this.errorService.handleError<any>('resetPassword', (e: any) => 
       {
         if (e.error && e.error.email) {
-          this.alertService.error(e.error.email);
+          this.alertService.error(e.error.email.toString());
         }
         else {
           this.alertService.error('Unable to reset password, try again later');
