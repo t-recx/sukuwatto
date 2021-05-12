@@ -28,4 +28,12 @@ export class LoadingService {
       this.state.next(this.underLoad);
     }
   }
+
+  reset() {
+    if (this.underLoad) {
+      this.counter = 0;
+      this.underLoad = false;
+      this.state.next(false);
+    }
+  }
 }
