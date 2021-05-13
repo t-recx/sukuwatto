@@ -4273,22 +4273,6 @@
     },
     {
         "model": "workouts.exercise",
-        "pk": 269,
-        "fields": {
-            "exercise_type": "s",
-            "creation": "2020-05-15T00:31:59.213Z",
-            "short_name": "Tricep Pushdown",
-            "name": "Tricep Pushdown",
-            "level": "b",
-            "section": "u",
-            "force": "q",
-            "modality": "c",
-            "mechanics": "i",
-            "name_pt": "Tricep Pushdown"
-        }
-    },
-    {
-        "model": "workouts.exercise",
         "pk": 270,
         "fields": {
             "exercise_type": "s",
