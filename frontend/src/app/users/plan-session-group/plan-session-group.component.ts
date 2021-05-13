@@ -80,6 +80,8 @@ export class PlanSessionGroupComponent implements OnInit {
   }
 
   adjustRemainingOrders(item: any, items: any) {
-    items.filter(x => x.order > item.order).forEach(x => x.order--);
+    if (items.filter(x => x.order == item.order && x != item).length == 0) {
+      items.filter(x => x.order > item.order).forEach(x => x.order--);
+    }
   }
 }
