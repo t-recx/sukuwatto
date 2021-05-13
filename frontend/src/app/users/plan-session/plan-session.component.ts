@@ -51,7 +51,9 @@ export class PlanSessionComponent implements OnInit {
     if (index > -1) {
       this.planSession.groups.splice(index, 1);
       
-      this.planSession.groups.filter(x => x.order > group.order).forEach(x => x.order--);
+      if (this.planSession.groups.filter(x => x.order == group.order && x != group).length == 0) {
+        this.planSession.groups.filter(x => x.order > group.order).forEach(x => x.order--);
+      }
     }
   }
 }

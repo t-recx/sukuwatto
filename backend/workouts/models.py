@@ -198,6 +198,9 @@ class PlanSessionGroup(models.Model):
     name = models.CharField(max_length=200)
     plan_session = models.ForeignKey(PlanSession, related_name="groups", on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['order']
+
     def __str__(self):
         return self.name
 
@@ -292,6 +295,7 @@ class AbstractGroupActivity(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['order']
 
     def __str__(self):
         description_str =  f'{self.number_of_sets}x{self.number_of_repetitions}'
@@ -436,6 +440,9 @@ class WorkoutGroup(models.Model):
     plan_session_group = models.ForeignKey(PlanSessionGroup, on_delete=models.SET_NULL, null=True)
     workout = models.ForeignKey(Workout, related_name="groups", on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['order']
+
 class AbstractWorkoutActivity(models.Model):
     order = models.PositiveIntegerField(default=1)
     start = models.DateTimeField(null=True)
@@ -488,6 +495,7 @@ class AbstractWorkoutActivity(models.Model):
     skill_exercise = models.ForeignKey(SkillExercise, on_delete=models.SET_NULL, null=True)
 
     class Meta:
+        ordering = ['order']
         abstract = True
 
 class WorkoutSet(AbstractWorkoutActivity):

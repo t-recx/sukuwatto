@@ -270,6 +270,8 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
   }
 
   updateSpeed(): void {
+    this.setDefaultTimeUnitIfEmpty();
+
     let hours = this.unitsService.convert(this.workoutActivity.time, this.workoutActivity.time_unit, 'hr');
     let speed = 0;
     let distance = 0;
@@ -891,11 +893,15 @@ export class WorkoutSetGeolocationComponent implements OnInit, OnDestroy, OnChan
     return this.timeService.toHumanReadable(this.unitsService.convert(this.workoutActivity.time, this.workoutActivity.time_unit, 'ms'));
   }
 
+  private setDefaultTimeUnitIfEmpty() {
+    if (!this.workoutActivity.time_unit) {
+      this.workoutActivity.time_unit = this.unitsService.getUnitList().filter(u => u.abbreviation == 'min')[0].id;
+    }
+  }
+
   private updateTime() {
     if (this.workoutActivity.segments) {
-      if (!this.workoutActivity.time_unit) {
-        this.workoutActivity.time_unit = this.unitsService.getUnitList().filter(u => u.abbreviation == 'min')[0].id;
-      }
+      this.setDefaultTimeUnitIfEmpty();
 
       this.workoutActivity.time =
         this.unitsService.convert(
