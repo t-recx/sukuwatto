@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
-import { faTimesCircle, faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faDumbbell, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { PlanActivityTab } from '../plan-session-group-activity';
 import { PlanSessionGroupWarmUp } from '../plan-session-group-warmup';
 
@@ -19,6 +19,8 @@ export class PlanSessionGroupComponent implements OnInit {
   selectedActivityType = PlanActivityTab.Exercise;
   faTimesCircle = faTimesCircle;
   faDumbbell = faDumbbell;
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
 
   constructor() { }
 
@@ -83,5 +85,9 @@ export class PlanSessionGroupComponent implements OnInit {
     if (items.filter(x => x.order == item.order && x != item).length == 0) {
       items.filter(x => x.order > item.order).forEach(x => x.order--);
     }
+  }
+
+  toggleCollapse(exercise: any) {
+    exercise.collapsed = !exercise.collapsed;
   }
 }

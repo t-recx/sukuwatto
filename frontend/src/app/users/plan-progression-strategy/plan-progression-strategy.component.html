@@ -2,12 +2,7 @@
     <div class="siimple-card-body" *ngIf="progression">
         <div class="siimple-grid">
             <div class="siimple-grid-row">
-                <div class="siimple-grid-col siimple-grid-col--12">
-                    <div class="siimple--display-block">
-                        <div class="siimple-form-field-label" translate>Progression Type</div>
-                    </div>
-
-
+                <div class="siimple-grid-col siimple-grid-col--12 siimple--pt-0">
                     <div class="siimple--display-inline-block">
                         <div class="siimple-radio">
                             <input type="radio" id="{{idExercise}}" value="e" name="{{idGroup}}"
@@ -35,12 +30,6 @@
                 </div>
             </div>
             <div class="siimple-grid-row" *ngIf="progression.progression_type">
-                <div class="siimple-grid-col siimple-grid-col--12">
-                    <div class="siimple--display-block">
-                        <div class="siimple-form-field-label" translate>Parameters</div>
-                    </div>
-                </div>
-
                 <div class="tab-content" [class.tab-content-selected]="progression.progression_type=='e'">
                     <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
                         <div class="siimple-form-field">
@@ -118,13 +107,8 @@
                         {{progression.validations['parameters']}}</div>
                 </div>
             </div>
-            <div class="siimple-grid-row" *ngIf="progression.progression_type">
-                <div class="siimple-grid-col siimple-grid-col--12">
-                    <div class="siimple--display-block">
-                        <div class="siimple-form-field-label" translate>Increase method</div>
-                    </div>
-                </div>
 
+            <div class="siimple-grid-row" *ngIf="progression.progression_type && !progression.collapsed">
                 <div class="siimple-grid-col siimple-grid-col--12 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">
                         <div class="siimple-form-field-label" translate>Parameter</div>

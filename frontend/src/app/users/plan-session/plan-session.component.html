@@ -13,8 +13,7 @@
 
         <div>
             <div class="tab-content" [class.tab-content-selected]="selectedTab=='session'">
-                <div class="siimple-form-field-label" translate>Session Name</div>
-                <input type="text" class="siimple-input siimple--mb-2 siimple-input--fluid" required name="name"
+                <input type="text" class="siimple-input siimple-input--fluid" required name="name"
                     id="name" [(ngModel)]="planSession.name" #name="ngModel">
                 <div *ngIf="name.invalid && (name.dirty || triedToSave)">
                     <div class="siimple-field-helper siimple--color-error" translate>This field can't be empty</div>
@@ -22,8 +21,10 @@
 
                 <div class="siimple-grid">
                     <div class="siimple-card siimple--mb-0" *ngFor="let group of planSession.groups">
-                        <div class="close-top-right" (click)="removeGroup(group)">
-                            <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+                        <div class="close-top-container">
+                            <fa-icon [icon]="faChevronUp" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(group)" *ngIf="!group.collapsed"></fa-icon>
+                            <fa-icon [icon]="faChevronDown" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(group)" *ngIf="group.collapsed"></fa-icon>
+                            <fa-icon [icon]="faTimesCircle" class="close-top-operation" (click)="removeGroup(group)" ></fa-icon>
                         </div>
 
                         <app-plan-session-group [planSessionGroup]=group [triedToSave]=triedToSave>

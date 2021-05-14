@@ -27,8 +27,8 @@
             </div>
         </div>
 
-        <div class="activity-groups siimple--mt-2 siimple--mb-2">
-            <div class="siimple-tabs">
+        <div class="activity-groups siimple--mt-2 siimple--mb-2" *ngIf="!planSessionGroup.collapsed">
+            <div class="siimple-tabs siimple--mb-0">
                 <div translate class="siimple-tabs-item"
                     [class.siimple-tabs-item--selected]="selectedActivityType==activityType.Exercise"
                     (click)="selectActivityType(activityType.Exercise)">
@@ -49,8 +49,10 @@
             <div>
                 <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
                     <div class="siimple-card siimple--mb-0" *ngFor="let exercise of planSessionGroup.exercises">
-                        <div class="close-top-right" (click)="removeExercise(exercise)">
-                            <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+                        <div class="close-top-container">
+                            <fa-icon [icon]="faChevronUp" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(exercise)" *ngIf="!exercise.collapsed"></fa-icon>
+                            <fa-icon [icon]="faChevronDown" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(exercise)" *ngIf="exercise.collapsed"></fa-icon>
+                            <fa-icon [icon]="faTimesCircle" class="close-top-operation" (click)="removeExercise(exercise)"></fa-icon>
                         </div>
 
                         <app-plan-session-group-activity [planSessionGroupExercise]=exercise
@@ -68,8 +70,10 @@
 
                 <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
                     <div class="siimple-card siimple--mb-0" *ngFor="let warmup of planSessionGroup.warmups">
-                        <div class="close-top-right" (click)="removeWarmUp(warmup)">
-                            <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+                        <div class="close-top-container">
+                            <fa-icon [icon]="faChevronUp" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(warmup)" *ngIf="!warmup.collapsed"></fa-icon>
+                            <fa-icon [icon]="faChevronDown" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(warmup)" *ngIf="warmup.collapsed"></fa-icon>
+                            <fa-icon [icon]="faTimesCircle" class="close-top-operation" (click)="removeWarmUp(warmup)"></fa-icon>
                         </div>
 
                         <app-plan-session-group-activity [planSessionGroupExercise]=warmup
@@ -85,7 +89,7 @@
                     </button>
                 </div>
 
-                <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Progressions">
+                <div class="tab-content siimple--mt-2" [class.tab-content-selected]="selectedActivityType==activityType.Progressions">
                     <app-plan-progression-strategies [type_label]="'Group' | translate" [progressions]=planSessionGroup.progressions [triedToSave]=triedToSave>
                     </app-plan-progression-strategies> 
                 </div>
