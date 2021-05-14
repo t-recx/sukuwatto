@@ -50,6 +50,7 @@
                 <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.Exercise">
                     <div class="siimple-card siimple--mb-0" *ngFor="let exercise of planSessionGroup.exercises">
                         <div class="close-top-container">
+                            <fa-icon [icon]="faClone" class="close-top-operation siimple--mr-1" (click)="cloneExercise(exercise)" ></fa-icon>
                             <fa-icon [icon]="faChevronUp" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(exercise)" *ngIf="!exercise.collapsed"></fa-icon>
                             <fa-icon [icon]="faChevronDown" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(exercise)" *ngIf="exercise.collapsed"></fa-icon>
                             <fa-icon [icon]="faTimesCircle" class="close-top-operation" (click)="removeExercise(exercise)"></fa-icon>
@@ -71,6 +72,7 @@
                 <div class="tab-content" [class.tab-content-selected]="selectedActivityType==activityType.WarmUp">
                     <div class="siimple-card siimple--mb-0" *ngFor="let warmup of planSessionGroup.warmups">
                         <div class="close-top-container">
+                            <fa-icon [icon]="faClone" class="close-top-operation siimple--mr-1" (click)="cloneWarmUp(warmup)" ></fa-icon>
                             <fa-icon [icon]="faChevronUp" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(warmup)" *ngIf="!warmup.collapsed"></fa-icon>
                             <fa-icon [icon]="faChevronDown" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(warmup)" *ngIf="warmup.collapsed"></fa-icon>
                             <fa-icon [icon]="faTimesCircle" class="close-top-operation" (click)="removeWarmUp(warmup)"></fa-icon>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PlanSessionGroup } from '../plan-session-group';
 import { PlanSessionGroupExercise } from '../plan-session-group-exercise';
-import { faTimesCircle, faDumbbell, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faDumbbell, faChevronUp, faChevronDown, faClone } from '@fortawesome/free-solid-svg-icons';
 import { PlanActivityTab } from '../plan-session-group-activity';
 import { PlanSessionGroupWarmUp } from '../plan-session-group-warmup';
 
@@ -21,6 +21,8 @@ export class PlanSessionGroupComponent implements OnInit {
   faDumbbell = faDumbbell;
   faChevronUp = faChevronUp;
   faChevronDown = faChevronDown;
+
+  faClone = faClone;
 
   constructor() { }
 
@@ -89,5 +91,21 @@ export class PlanSessionGroupComponent implements OnInit {
 
   toggleCollapse(exercise: any) {
     exercise.collapsed = !exercise.collapsed;
+  }
+
+  cloneExercise(exercise: any) {
+    this.planSessionGroup.exercises.filter(x => x != exercise && x.order > exercise.order).forEach(x => x.order++);
+    const newItem = new PlanSessionGroupExercise({...exercise, order: exercise.order + 1});
+    delete newItem.id;
+    this.planSessionGroup.exercises.push(newItem);
+    this.planSessionGroup.exercises = this.planSessionGroup.exercises.sort((a, b) => a.order - b.order);
+  }
+
+  cloneWarmUp(warmup: any) {
+    this.planSessionGroup.warmups.filter(x => x != warmup && x.order > warmup.order).forEach(x => x.order++);
+    const newItem = new PlanSessionGroupExercise({...warmup, order: warmup.order + 1});
+    delete newItem.id;
+    this.planSessionGroup.warmups.push(newItem);
+    this.planSessionGroup.warmups = this.planSessionGroup.warmups.sort((a, b) => a.order - b.order);
   }
 }
