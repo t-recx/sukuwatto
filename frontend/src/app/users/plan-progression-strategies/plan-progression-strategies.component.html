@@ -4,8 +4,10 @@
     </div>
     <div class="siimple-card-body">
         <div class="siimple-card siimple--mb-0" *ngFor="let progression of progressions">
-            <div class="close-top-right" (click)="removeProgression(progression)">
-                <fa-icon [icon]="faTimesCircle" class="siimple--mr-1"></fa-icon>
+            <div class="close-top-container" >
+                <fa-icon [icon]="faChevronUp" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(progression)" *ngIf="!progression.collapsed"></fa-icon>
+                <fa-icon [icon]="faChevronDown" class="close-top-operation siimple--mr-1" (click)="toggleCollapse(progression)" *ngIf="progression.collapsed"></fa-icon>
+                <fa-icon [icon]="faTimesCircle" class="close-top-operation" (click)="removeProgression(progression)"></fa-icon>
             </div>
 
             <div *ngIf="progressions">

@@ -8,3 +8,18 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
+
+.close-top-container {
+	display: block;
+	position: relative;
+	top: 24px;
+	left: calc(100% - 48px);
+	width: 48px;
+	height: 16px;
+}
+
+.close-top-operation {
+	cursor: pointer;
+	opacity: .6;
+	transition: opacity .3s;
+}

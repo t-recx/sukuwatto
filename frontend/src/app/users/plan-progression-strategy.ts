@@ -37,6 +37,7 @@ export class ProgressionStrategy {
     modality: Modality;
     force: Force;
     mechanics: Mechanics;
+    collapsed: boolean;
 
     validations: {};
 

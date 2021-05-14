@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="siimple-grid-row"
-            *ngIf="planSessionGroupExercise.exercise && planSessionGroupExercise.exercise.exercise_type == 's'">
+            *ngIf="planSessionGroupExercise.exercise && planSessionGroupExercise.exercise.exercise_type == 's' && !planSessionGroupExercise.collapsed">
             <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                 <div class="siimple-form-field">
                     <div class="siimple-form-field-label" translate>Repetition type</div>
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <div *ngIf="planSessionGroupExercise.exercise && planSessionGroupExercise.exercise.exercise_type == 'c'">
+        <div *ngIf="planSessionGroupExercise.exercise && planSessionGroupExercise.exercise.exercise_type == 'c' && !planSessionGroupExercise.collapsed">
             <div class="siimple-grid-row">
                 <div class="siimple-grid-col siimple-grid-col--3 siimple-grid-col--sm-12 siimple--py-0">
                     <div class="siimple-form-field">

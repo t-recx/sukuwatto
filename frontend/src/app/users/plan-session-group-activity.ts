@@ -117,6 +117,8 @@ export class PlanSessionGroupActivity {
     working_time_percentage: number;
     working_speed_percentage: number;
 
+    collapsed: boolean;
+
     constructor(init?: Partial<PlanSessionGroupActivity>) {
         Object.assign(this, init);
     }

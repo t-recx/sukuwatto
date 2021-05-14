@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProgressionStrategy } from '../plan-progression-strategy';
-import { faTimesCircle, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faChartLine, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-plan-progression-strategies',
@@ -14,6 +14,8 @@ export class PlanProgressionStrategiesComponent implements OnInit {
 
   faTimesCircle = faTimesCircle;
   faChartLine = faChartLine;
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
 
   constructor(
   ) { }
@@ -32,5 +34,9 @@ export class PlanProgressionStrategiesComponent implements OnInit {
     let newProgression = new ProgressionStrategy();
 
     this.progressions.push(newProgression);
+  }
+
+  toggleCollapse(progression) {
+    progression.collapsed = !progression.collapsed;
   }
 }
