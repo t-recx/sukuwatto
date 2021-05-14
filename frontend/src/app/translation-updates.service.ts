@@ -194,8 +194,7 @@ export class TranslationUpdatesService implements OnDestroy {
     marker('Muscle');
     marker('Water');
     marker('Other');
-    marker("Your account was found in violation of our terms and has been deactivated. If you think this was by mistake, please contact our support.");
-
+    marker('Your account was found in violation of our terms and has been deactivated. If you think this was by mistake, please contact our support.');
     
     marker('Open');
     marker('Closed');
@@ -210,6 +209,7 @@ export class TranslationUpdatesService implements OnDestroy {
     marker('Unable to block, try again later');
     marker('Unable to unblock, try again later');
     marker('Unable to fetch is blocked');
+    marker('There is no active user associated with this e-mail address or the password can not be changed');
   }
 
   ngOnDestroy(): void {
