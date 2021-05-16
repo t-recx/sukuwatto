@@ -178,9 +178,6 @@ def toggle_like(request):
 
     object_model = ctype.model
 
-    if object_model == 'feature' and request.user.tier == 'n' and not request.user.is_staff:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-
     queryset = get_queryset_like(user, content_type_id, object_id)
 
     deleted = False

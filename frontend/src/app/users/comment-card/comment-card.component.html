@@ -77,8 +77,6 @@
     </div>
 </div>
 
-<app-support-tip-modal tier='i' [visible]="modalSupportVisible" (closed)="modalSupportVisible = false;"></app-support-tip-modal>
-
 <app-report-modal [visible]="reportModalVisible" (closed)="reportModalVisible = false;"
     [target_plan]=      "comment.target_plan ? comment.target_plan.id : null "
     [target_post]=      "comment.target_post ? comment.target_post.id : null"

@@ -95,7 +95,7 @@ class CommentTestCase(CRUDTestCaseMixin, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assert_resource_not_updated()
 
-    def test_create_resource_when_target_feature_and_user_novice_should_return_unauthorized(self):
+    def test_create_resource_when_target_feature_and_user_novice_should_allow(self):
         self.authenticate(self.staff_user)
 
         response = self.client.post('/api/features/', { 'title': 'initial', 'text': 'test feature' }, format='json')
@@ -106,8 +106,8 @@ class CommentTestCase(CRUDTestCaseMixin, APITestCase):
 
         response = self.client.post(self.get_resource_endpoint(), self.get_resource_data_feature(feature_id), format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(self.get_resource_model().objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.get_resource_model().objects.count(), 1)
 
     def test_create_resource_when_target_feature_and_user_staff_should_allow(self):
         self.authenticate(self.staff_user)

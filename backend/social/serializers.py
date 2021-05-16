@@ -128,14 +128,6 @@ class CommentSerializer(serializers.ModelSerializer):
             'target_release']
         extra_kwargs = {'user': {'required': False},'date': {'required': False}}
 
-    def validate_target_feature(self, target_feature):
-        user = self.context['request'].user
-
-        if target_feature != None and not user.is_staff and user.tier == 'n':
-            raise CustomAPIException(detail='Tier doesn''t allow commenting of features', status_code=status.HTTP_403_FORBIDDEN)
-
-        return target_feature
-
     def create(self, validated_data):
         request = self.context.get("request")
 

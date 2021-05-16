@@ -11,8 +11,8 @@ class FeatureTestCase(CRUDTestCaseMixin, APITestCase):
         self.user1 = { 'username': 'test', 'password': 'test', 'email': 'test2@test.org'}
         self.user2 = { 'username': 'test2', 'password': 'test2', 'email': 'test3@test.org'}
         self.user_novice = { 'username': 'novice', 'password': 'novice', 'email': 'test4@test.org'}
-        self.create_user(self.user1, tier='a')
-        self.create_user(self.user2, tier='a')
+        self.create_user(self.user1, tier='n')
+        self.create_user(self.user2, tier='n')
         self.create_user(self.user_novice, tier='n')
         self.create_user(self.staff_user, True)
 
@@ -34,13 +34,13 @@ class FeatureTestCase(CRUDTestCaseMixin, APITestCase):
     def assert_resource_not_updated(self):
         self.assertEqual(Feature.objects.first().title, 'initial')
 
-    def test_create_resource_when_user_not_advanced_should_return_unauthorized(self):
+    def test_create_resource_when_user_not_advanced_should_return_ok(self):
         self.authenticate(self.user_novice)
 
         response = self.client.post(self.get_resource_endpoint(), self.get_resource_data(), format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(self.get_resource_model().objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.get_resource_model().objects.count(), 1)
 
     def test_update_resource_when_state_not_open_should_return_unauthorized(self):
         self.authenticate(self.user1)
