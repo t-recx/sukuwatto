@@ -128,7 +128,7 @@ export class FeatureDetailEditComponent implements OnInit, AfterViewInit, OnDest
     this.userIsOwner = false;
     this.refreshExpired = false;
 
-    this.userCanCreateFeatures = this.authService.userIsStaff() || this.authService.getUserTier() == Tier.Advanced;
+    this.userCanCreateFeatures = true;
 
     if (id) {
       this.loading = true;
