@@ -19,7 +19,7 @@ services:
     build: 
       context: ./backend/
       dockerfile: ../docker/django/Dockerfile
-    command: daphne --port 8001 --bind 0.0.0.0 sqtrex.asgi:application
+    command: daphne --proxy-headers --port 8001 --bind 0.0.0.0 sqtrex.asgi:application
     expose:
       - 8001
     env_file:
