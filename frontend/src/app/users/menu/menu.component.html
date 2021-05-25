@@ -5,7 +5,7 @@
 
     </div>
 
-    <a class="siimple-menu-item main-menu-item siimple--display-md-none siimple--display-sm-none" 
+    <a class="siimple-menu-item main-menu-item siimple--display-md-none siimple--display-sm-none"
         [class.siimple-menu-item--selected]="isRouterLinkHome"
         [routerLink]="['/users', authService.getUsername(), 'home']">
         <div class="menu-icon-image-container">
@@ -19,29 +19,28 @@
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'workouts']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconWorkouts" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconWorkouts" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Workouts</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'exercises']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconExercises" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconExercises" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Exercises</span>
     </a>
-    <a class="siimple-menu-item main-menu-item" 
-    [class.siimple-menu-item--selected]="isRouterLinkPlans"
+    <a class="siimple-menu-item main-menu-item" [class.siimple-menu-item--selected]="isRouterLinkPlans"
         [routerLink]="['/users', authService.getUsername(), 'plans']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconPlans" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconPlans" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Plans</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'measurements']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconMeasurements" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconMeasurements" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Body</span>
     </a>
@@ -51,19 +50,18 @@
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'profile']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconProfile" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconProfile" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Profile</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'messages']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconMessages" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconMessages" class="menu-icon-image"></fa-icon>
         </div>
         <span class="menu-item-label" translate>Messages</span>
 
-        <div class="menu-tag-item "
-            *ngIf="unread_messages_count > 0">
+        <div class="menu-tag-item " *ngIf="unread_messages_count > 0">
             <span *ngIf="unread_messages_count < 10">{{unread_messages_count}}</span>
             <span *ngIf="unread_messages_count >= 10">9+</span>
         </div>
@@ -71,52 +69,49 @@
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'search-users']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconUsers" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconUsers" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Users</span>
     </a>
     <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
         [routerLink]="['/users', authService.getUsername(), 'leaderboards']">
         <div class="menu-icon-image-container">
-        <fa-icon [icon]="iconLeaderboards" class="menu-icon-image"></fa-icon>
+            <fa-icon [icon]="iconLeaderboards" class="menu-icon-image"></fa-icon>
         </div>
         <span translate>Leaderboards</span>
     </a>
 
-    <div *ngIf="showSupportSection">
-        <div class="siimple-rule menu-rule"></div>
+    <div class="siimple-rule menu-rule"></div>
 
-        <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-            [routerLink]="['/users', authService.getUsername(), 'features']">
-            <div class="menu-icon-image-container">
+    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+        [routerLink]="['/users', authService.getUsername(), 'features']">
+        <div class="menu-icon-image-container">
             <fa-icon [icon]="iconDevelopment" class="menu-icon-image"></fa-icon>
-            </div>
-            <span translate>Features</span>
-        </a>
-        <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-            [routerLink]="['/users', authService.getUsername(), 'releases']">
-            <div class="menu-icon-image-container">
+        </div>
+        <span translate>Features</span>
+    </a>
+    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+        [routerLink]="['/users', authService.getUsername(), 'releases']">
+        <div class="menu-icon-image-container">
             <fa-icon [icon]="iconReleases" class="menu-icon-image"></fa-icon>
-            </div>
-            <span translate>Releases</span>
-        </a>
-        <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
-            [routerLink]="['/users', authService.getUsername(), 'support']">
-            <div class="menu-icon-image-container">
+        </div>
+        <span translate>Releases</span>
+    </a>
+    <a class="siimple-menu-item main-menu-item" routerLinkActive="siimple-menu-item--selected"
+        [routerLink]="['/users', authService.getUsername(), 'support']" *ngIf="showSupportSection">
+        <div class="menu-icon-image-container">
             <fa-icon [icon]="iconSupport" class="menu-icon-image"></fa-icon>
-            </div>
-            <span translate>Support</span>
-        </a>
-    </div>
+        </div>
+        <span translate>Support</span>
+    </a>
 
     <div *ngIf="isStaff">
         <div class="siimple-rule menu-rule"></div>
 
-        <a class="siimple-menu-item main-menu-item" 
-            [class.siimple-menu-item--selected]="isRouterLinkReports"
+        <a class="siimple-menu-item main-menu-item" [class.siimple-menu-item--selected]="isRouterLinkReports"
             [routerLink]="['/users', authService.getUsername(), 'reports']">
             <div class="menu-icon-image-container">
-            <fa-icon [icon]="iconReports" class="menu-icon-image"></fa-icon>
+                <fa-icon [icon]="iconReports" class="menu-icon-image"></fa-icon>
             </div>
             <span translate>Reports</span>
         </a>
