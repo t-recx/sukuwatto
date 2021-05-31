@@ -40,7 +40,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private unitsService: UnitsService,
     private router: Router,
-    ) { }
+    ) { 
+    }
 
   ngOnInit() {
     this.user = new UserRegistration();
@@ -145,6 +146,8 @@ export class SignupComponent implements OnInit, OnDestroy {
           else {
             this.alertService.error('Unable to sign up, try again later');
           }
+
+          grecaptcha.reset();
         }))
       )
       .subscribe(user => {
