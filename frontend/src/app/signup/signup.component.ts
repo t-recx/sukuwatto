@@ -177,8 +177,9 @@ export class SignupComponent implements OnInit, OnDestroy {
     .subscribe(user => {
       if (this.signingUp) {
         if (this.authService.isCurrentUserLoggedIn(this.user.username)) {
-          const redirect = this.authService.redirectUrl ?
-            this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
+          // const redirect = this.authService.redirectUrl ?
+          //   this.router.parseUrl(this.authService.redirectUrl) : `/users/${this.user.username}/account`;
+          const redirect = `/users/${this.user.username}/account`;
 
           this.signingUp = false;
           this.router.navigateByUrl(redirect);
