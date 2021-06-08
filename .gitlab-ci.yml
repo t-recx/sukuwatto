@@ -1,0 +1,26 @@
+image: python:latest
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: ci
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+cache:
+  paths:
+    - ~/.cache/pip/
+
+before_script:
+  - python -V
+  - source devsettings.ci
+  - cd backend
+  - pip install -r requirements.txt
+
+test:
+  script:
+    - python manage.py test --no-input
+  only: 
+    - master
+    - merge_requests
