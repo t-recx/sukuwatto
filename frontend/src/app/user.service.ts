@@ -79,13 +79,7 @@ export class UserService {
   }
 
   resetConfirmPassword(token: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.usersResetPasswordConfirmApiUrl}`, { token, password }, this.httpOptions)
-    .pipe(
-      catchError(this.errorService.handleError<any>('resetConfirmPassword', (e: any) => 
-      {
-        this.alertService.error('Unable to reset password, try again later');
-      }))
-    );
+    return this.http.post<any>(`${this.usersResetPasswordConfirmApiUrl}`, { token, password }, this.httpOptions);
   }
 
   resetPassword(email: string): Observable<any> {

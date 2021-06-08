@@ -6,6 +6,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { filter, map, debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
 import { ErrorService } from '../error.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-reset-password',
@@ -72,16 +73,30 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    this.userService.resetConfirmPassword(this.token, this.newPassword).subscribe(x => {
-      if (!x.error) { 
-        this.resetting = false;
-        this.triedToReset = false;
+    this.userService.resetConfirmPassword(this.token, this.newPassword)
+    .pipe(
+      catchError(
+        (error: HttpErrorResponse)  => {
+          this.resetting = false;
+          if (error.status == 400 && error.error && error.error.password && error.error.password.length > 0) {
+            this.passwordValidations = error.error.password;
+          }
+          else {
+            this.alertService.error('Unable to reset password, try again later');
+          }
 
-        this.router.navigateByUrl('/login');
+          throw error;
+        }
+       )
+    )
+    .subscribe(x => {
+      this.resetting = false;
+      this.triedToReset = false;
 
-        this.alertService.success('Password changed successfully');
-      }
-    })
+      this.router.navigateByUrl('/login');
+
+      this.alertService.success('Password changed successfully');
+    });
   }
 
   setupPasswordValidator() {
