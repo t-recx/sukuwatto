@@ -15,6 +15,7 @@ import { AndroidDownloadComponent } from './android-download/android-download.co
 import { PlanComponent } from './plan/plan.component';
 import { ShareComponent } from './share/share.component';
 import { TrackComponent } from './track/track.component';
+import { DownloadComponent } from './download/download.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LandingGuard] }, 
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'plan', component: PlanComponent },
   { path: 'track', component: TrackComponent },
   { path: 'share', component: ShareComponent },
+  { path: 'download', component: DownloadComponent },
   { path: 'android-download', component: AndroidDownloadComponent },
   { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
   { path: 'cookie-policy', component: CookiePolicyComponent },
