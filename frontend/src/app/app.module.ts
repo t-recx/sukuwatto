@@ -34,6 +34,7 @@ import { DemoNavigationComponent } from './demo-navigation/demo-navigation.compo
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DownloadComponent } from './download/download.component';
 
 const globalSettings: RecaptchaSettings = { siteKey: environment.recaptchaKey };
 
@@ -63,6 +64,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ShareComponent,
     NavbarIndexComponent,
     DemoNavigationComponent,
+    DownloadComponent,
   ],
   imports: [
     AlertModule,
