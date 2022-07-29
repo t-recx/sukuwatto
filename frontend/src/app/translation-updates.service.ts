@@ -4,11 +4,9 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from './language.service';
 import { TierLabel, Tier, MeasurementSystem, MeasurementSystemLabel } from './user';
 import { ExerciseTypeLabel, ExerciseType, Mechanics, MechanicsLabel, Force, ForceLabel, Modality, ModalityLabel, SectionLabel, Section, Level, LevelLabel } from './users/exercise';
-import { FeatureStateLabel, FeatureState } from './users/feature';
 import { MuscleRoleLabel, MuscleRole } from './users/muscle-exercise';
 import { ParameterType, ParameterTypeLabel, ProgressionType, ProgressionTypeLabel } from './users/plan-progression-strategy';
 import { RepetitionTypeLabel, RepetitionType, SpeedTypeLabel, SpeedType, Vo2MaxTypeLabel, Vo2MaxType, DistanceTypeLabel, DistanceType, TimeType, TimeTypeLabel } from './users/plan-session-group-activity';
-import { ReleaseStateLabel, ReleaseState } from './users/release';
 import { MeasurementTypeLabel, MeasurementType } from './users/unit';
 import { WorkoutStatusLabel, WorkoutStatus } from './users/workout';
 import { VisibilityLabel, Visibility } from './visibility';
@@ -329,19 +327,6 @@ export class TranslationUpdatesService implements OnDestroy {
       LevelLabel.set(Level.Intermediate, res);
     });
 
-    this.translateService.get('Open').subscribe((res: string) => {
-      FeatureStateLabel.set(FeatureState.Open, res);
-    });
-    this.translateService.get('In progress').subscribe((res: string) => {
-      FeatureStateLabel.set(FeatureState.InProgress, res);
-    });
-    this.translateService.get('Done').subscribe((res: string) => {
-      FeatureStateLabel.set(FeatureState.Done, res);
-    });
-    this.translateService.get('Closed').subscribe((res: string) => {
-      FeatureStateLabel.set(FeatureState.Closed, res);
-    });
-
     this.translateService.get('Agonist').subscribe((res: string) => {
       MuscleRoleLabel.set(MuscleRole.Agonist, res);
     });
@@ -430,13 +415,6 @@ export class TranslationUpdatesService implements OnDestroy {
     });
     this.translateService.get('Parameterized').subscribe((res: string) => {
       TimeTypeLabel.set(TimeType.Parameter, res);
-    });
-
-    this.translateService.get('Done').subscribe((res: string) => {
-      ReleaseStateLabel.set(ReleaseState.Done, res);
-    });
-    this.translateService.get('In progress').subscribe((res: string) => {
-      ReleaseStateLabel.set(ReleaseState.InProgress, res);
     });
 
     this.translateService.get('Weight').subscribe((res: string) => {
