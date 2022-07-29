@@ -11,6 +11,7 @@ from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken, SlidingToken, UntypedToken
 from drf_recaptcha.fields import ReCaptchaV2Field
 from users.tasks import delete_image_file
+from django.conf import settings
 
 class ExpressInterestSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[UniqueValidator(queryset=UserInterest.objects.all())])
@@ -32,10 +33,12 @@ class UserMinimalSerializer(serializers.ModelSerializer):
         fields = ['id', 'username','profile_filename']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    recaptcha = ReCaptchaV2Field()
+    if settings.USE_RECAPTCHA:
+        recaptcha = ReCaptchaV2Field()
 
     def validate(self, data):
-        data.pop("recaptcha")
+        if "recaptcha" in data:
+            data.pop("recaptcha")
 
         if "password" in data:
             errors = dict()
@@ -64,15 +67,18 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         'default_weight_unit', 'default_speed_unit', 'default_distance_unit',
         'default_energy_unit',
         'is_staff', 'default_visibility_workouts', 'visibility', 'default_visibility_user_bio_datas',
-        'followers_number', 'followings_number', 'tier', 'recaptcha']
+        'followers_number', 'followings_number', 'tier']
         extra_kwargs = {'password': {'write_only': True, 'required': False},
             'email': {'write_only': True, 'required': False},
             'tier': {'read_only': True, 'required': False},
             'is_staff': { 'read_only': True, 'required': False},
             'followers_number': {'read_only': True, 'required': False},
             'followings_number': {'read_only': True, 'required': False},
-            'recaptcha': {'write_only': True}
             }
+
+        if settings.USE_RECAPTCHA:
+            fields.push('recaptcha')
+            extra_kwargs['recaptcha'] = {'write_only': True, 'required': True }
 
 class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
