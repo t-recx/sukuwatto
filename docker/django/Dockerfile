@@ -1,5 +1,5 @@
 # builder - temporary image to build pip wheels
-FROM python:buster as builder
+FROM python:3.9-buster as builder
 LABEL mantainer="jnnlbruno@gmail.com"
 ENV VERSION 67 
 
@@ -21,7 +21,7 @@ COPY ./requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
 # final
-FROM python:buster
+FROM python:3.9-buster
 
 # by default containers run as root, so we'll add an app user
 RUN mkdir -p /home/app
