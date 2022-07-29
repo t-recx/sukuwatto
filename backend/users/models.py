@@ -48,13 +48,13 @@ class CustomUser(AbstractUser):
     gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
     year_birth = models.IntegerField(null=True)
     month_birth = models.IntegerField(null=True)
-    system = models.CharField(max_length=1, choices=SYSTEMS)
+    system = models.CharField(max_length=1, choices=SYSTEMS, default=METRIC)
     location = models.CharField(max_length=200, null=True, blank=True)
     biography = models.TextField(null=True, blank=True)
     profile_filename = models.CharField(max_length=1024, null=True)
-    default_weight_unit = models.IntegerField(null=True)
-    default_speed_unit = models.IntegerField(null=True)
-    default_distance_unit = models.IntegerField(null=True)
+    default_weight_unit = models.IntegerField(default=1)
+    default_speed_unit = models.IntegerField(default=11)
+    default_distance_unit = models.IntegerField(default=5)
     # KCAL = 15
     default_energy_unit = models.IntegerField(default=15)
 
