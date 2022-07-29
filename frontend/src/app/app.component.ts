@@ -25,28 +25,6 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     private router: Router,
     private languageService: LanguageService) {
     this.languageService.startUp();
-
-    if (environment.application) {
-      const backgroundGeolocation = window['BackgroundGeolocation'];
-      if (backgroundGeolocation) {
-        this.router.events.subscribe(e => {
-          if (e instanceof NavigationEnd &&
-            (
-              !this.urlIsWorkoutDetail(e.urlAfterRedirects) ||
-              !this.urlIsWorkoutDetail(this.getUrlState())
-            )) {
-            // we're navigating away from the workout detail
-            // so let's stop the background geolocation service
-            // if for some reason it's still running
-            backgroundGeolocation.checkStatus((status) => {
-              if (status.isRunning) {
-                backgroundGeolocation.stop();
-              }
-            });
-          }
-        });
-      }
-    }
   }
 
   ngOnInit(): void {
@@ -60,12 +38,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (environment.application) {
-      // if we're on mobile then I'm displaying a loader element that I'll remove 
-      // after the view initialized
-      const loader = this.renderer.selectRootElement('#loader');
-      this.renderer.setStyle(loader, 'display', 'none');
-    }
+
   }
 
   saveUrlState() {

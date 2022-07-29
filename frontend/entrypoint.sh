@@ -1,6 +1,7 @@
 #!/bin/sh
 
 rm -rf www/frontend/*
-rm -rf www/frontend-android/*
 
-cp -a dist/* www/
+mkdir -p www/frontend
+
+cp -a dist/frontend/* www/frontend/
