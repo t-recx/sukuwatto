@@ -164,12 +164,8 @@ export class WorkoutOverviewCardComponent implements OnInit, OnDestroy {
       this.showSpeedColumn = activities.filter(s => s.speed && s.speed > 0).length > 0;
       this.showVo2MaxColumn = activities.filter(s => s.vo2max && s.vo2max > 0 ).length > 0;
 
-      this.showSpeedColumn = this.showSpeedColumn && !(environment.application && this.showTimeColumn && this.showDistanceColumn);
-      this.showVo2MaxColumn = this.showVo2MaxColumn &&
-        !(environment.application &&
-          ((this.showTimeColumn && this.showDistanceColumn) ||
-          (this.showTimeColumn && this.showSpeedColumn) ||
-          (this.showDistanceColumn && this.showSpeedColumn)));
+      this.showSpeedColumn = this.showSpeedColumn;
+      this.showVo2MaxColumn = this.showVo2MaxColumn;
     }
     else {
       this.showDistanceColumn = false;

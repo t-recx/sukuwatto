@@ -111,7 +111,7 @@ export class WorkoutGroupComponent implements OnInit, OnDestroy {
 
     newSet.order = order;
     newSet.calories = 0;
-    newSet.tracking = environment.application;
+    newSet.tracking = false;
 
     return newSet;
   }

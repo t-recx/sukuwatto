@@ -19,11 +19,6 @@ export class LandingGuard implements CanActivate {
 
         return false;
       }
-      else if (environment.application && state.url == '/') {
-        this.router.navigate(['/login']);
-
-        return false;
-      }
 
       return true;
   }

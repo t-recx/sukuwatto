@@ -153,7 +153,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.checkRouterLinks(router);
-    this.checkForUpdatesProgramatically = swUpdate.isEnabled && environment.application;
+    this.checkForUpdatesProgramatically = false;
 
     if (this.checkForUpdatesProgramatically) {
       const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
@@ -484,12 +484,5 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   touchBodyEnd(event) {
-    if (!environment.application) {
-      return;
-    }
-
-    if (document.scrollingElement.scrollTop == 0 && this.touchBodyMovePageY > this.touchBodyStartPageY && !this.menuDropDownVisible) {
-      this.refreshService.refresh();
-    }
   }
 }

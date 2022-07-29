@@ -18,7 +18,6 @@ export class PostImagesUploadComponent implements OnInit {
 
   @ViewChild(ImageUploadComponent) imageUploadControl;
 
-  isApplication = environment.application;
   imageUploading: boolean = false;
 
   faImage = faImage;
