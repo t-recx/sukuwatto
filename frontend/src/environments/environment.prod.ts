@@ -1,14 +1,17 @@
-import { environmentProductionHost, environmentProductionPort } from 'src/environments/hosts';
-import { environmentProductionRecaptchaKey } from './settings';
+const useSSL = false;
+const recaptchaKey = null;
+const host = 'localhost';
+const port = null;
+
+const apiHost = (useSSL ? 'https://' : 'http://') + host;
+const webSocketsHost = (useSSL ? 'wss://' : 'ws://') + host;
 
 export const environment = {
-  showAds: false,
-  showSupportSection: true,
   production: true,
-  application: false,
-  mediaUrl: 'https://' + environmentProductionHost + (environmentProductionPort ? ':' + environmentProductionPort : ''),
-  apiUrl: 'https://' + environmentProductionHost + (environmentProductionPort ? ':' + environmentProductionPort : '') + '/api',
-  wsUrl: 'wss://' + environmentProductionHost + (environmentProductionPort ? ':' + environmentProductionPort : '') + '/ws',
-  recaptchaKey: environmentProductionRecaptchaKey,
+  mediaUrl: apiHost + (port ?? ''),
+  apiUrl: apiHost + (port ?? '') + '/api',
+  wsUrl: webSocketsHost + (port ?? '') + '/ws',
+  recaptchaKey: recaptchaKey,
+  useRecaptcha: recaptchaKey != null,
   maxFileSizeUpload: 1000000,
 };

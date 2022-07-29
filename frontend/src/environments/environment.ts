@@ -1,19 +1,21 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+const useSSL = false;
+const recaptchaKey = null;
+const host = 'localhost';
+const port = null;
 
-import { environmentDevHost, environmentDevPort } from 'src/environments/hosts';
-import { environmentDevRecaptchaKey } from './settings';
+const apiHost = (useSSL ? 'https://' : 'http://') + host;
+const webSocketsHost = (useSSL ? 'wss://' : 'ws://') + host;
 
 export const environment = {
-  showAds: false,
-  showSupportSection: true,
   production: false,
-  application: false,
-  mediaUrl: 'https://' + environmentDevHost + (environmentDevPort ? ':' + environmentDevPort : ''),
-  apiUrl: 'https://' + environmentDevHost + (environmentDevPort ? ':' + environmentDevPort : '') + '/api',
-  wsUrl: 'wss://' + environmentDevHost + (environmentDevPort ? ':' + environmentDevPort : '') + '/ws',
-  recaptchaKey: environmentDevRecaptchaKey,
+  mediaUrl: apiHost + (port ?? ''),
+  apiUrl: apiHost + (port ?? '') + '/api',
+  wsUrl: webSocketsHost + (port ?? '') + '/ws',
+  recaptchaKey: recaptchaKey,
+  useRecaptcha: recaptchaKey != null,
   maxFileSizeUpload: 1000000,
 };
 
