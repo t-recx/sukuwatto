@@ -20,10 +20,6 @@ def get_user_actions_filtered_by_object(queryset, content_type_id, object_id, is
             queryset = queryset.filter(target_user__id=object_id)
         elif object_model == 'userbiodata':
             queryset = queryset.filter(target_user_bio_data__id=object_id)
-        elif object_model == 'feature':
-            queryset = queryset.filter(target_feature__id=object_id)
-        elif object_model == 'release':
-            queryset = queryset.filter(target_release__id=object_id)
     else:
         if object_model == 'workout':
             queryset = queryset.filter(action_object_workout__id=object_id)
@@ -39,9 +35,5 @@ def get_user_actions_filtered_by_object(queryset, content_type_id, object_id, is
             queryset = queryset.filter(action_object_user__id=object_id)
         elif object_model == 'userbiodata':
             queryset = queryset.filter(action_object_user_bio_data__id=object_id)
-        elif object_model == 'feature':
-            queryset = queryset.filter(action_object_feature__id=object_id)
-        elif object_model == 'release':
-            queryset = queryset.filter(action_object_release__id=object_id)
 
     return queryset

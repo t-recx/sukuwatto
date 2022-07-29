@@ -12,8 +12,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMultiAlternatives
 from users.serializers import UserSerializer, UserMinimalSerializer
 from users.models import UserDataRequest
-from development.models import Feature
-from development.serializers import FeatureSerializer
 from social.models import Post, Comment, Message, Report
 from social.serializers import PostSerializer, CommentSerializer, MessageSerializer, ReportWithoutNotesSerializer
 from django.db.models import Q
@@ -65,9 +63,6 @@ def email_user_data(data_request_id):
         data['following'] = UserMinimalSerializer(user.following, many=True).data
 
         data['blocked_users'] = UserMinimalSerializer(user.blocked_users, many=True).data
-
-        features = Feature.objects.filter(user=user)
-        data['features'] = FeatureSerializer(features, many=True).data
 
         reports = Report.objects.filter(user=user)
         data['reports'] = ReportWithoutNotesSerializer(reports, many=True).data

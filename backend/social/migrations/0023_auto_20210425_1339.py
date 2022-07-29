@@ -13,10 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='report',
-            name='target_release',
-        ),
         migrations.AddField(
             model_name='report',
             name='target_user',

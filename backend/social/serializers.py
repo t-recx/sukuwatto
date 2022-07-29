@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from development.serializers import FeatureSerializer
 from sqtrex.exceptions import CustomAPIException
 from rest_framework import status
 from rest_framework.exceptions import APIException
@@ -8,7 +7,6 @@ from django.contrib.auth import get_user_model
 from datetime import datetime
 from social.models import Message, LastMessage, Post, Comment, PostImage, UserAction, Report
 from users.serializers import UserSerializer, UserMinimalSerializer
-from development.models import Feature
 from django.utils import timezone
 from workouts.utils import get_differences
 from users.tasks import delete_image_file
@@ -124,8 +122,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'text', 'date', 'edited_date', 'user', 'comment_target_object_id', 'comment_target_content_type',
-            'target_plan', 'target_workout', 'target_post', 'target_exercise', 'target_user_bio_data', 'target_feature',
-            'target_release']
+            'target_plan', 'target_workout', 'target_post', 'target_exercise', 'target_user_bio_data']
         extra_kwargs = {'user': {'required': False},'date': {'required': False}}
 
     def create(self, validated_data):

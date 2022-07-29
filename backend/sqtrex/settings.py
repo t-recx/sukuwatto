@@ -39,9 +39,7 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
 
 EMAIL_USE_SSL = bool(int(os.environ.get("EMAIL_USE_SSL", default=0)))
 
-ADMINS = [
-    ('João Bruno', 'jnnlbruno@gmail.com')
-]
+ADMINS = []
 
 if not DEBUG:
     LOGGING = {
@@ -107,10 +105,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'corsheaders',
     'users',
-    'tokens',
     'workouts',
     'social',
-    'development',
     'channels',
     'rest_framework',
     'django_rest_passwordreset',
@@ -118,7 +114,12 @@ INSTALLED_APPS = [
     'huey.contrib.djhuey',
 ]
 
-DRF_RECAPTCHA_SECRET_KEY = os.environ.get("DRF_RECAPTCHA_SECRET_KEY")
+DRF_RECAPTCHA_SECRET_KEY = os.environ.get("DRF_RECAPTCHA_SECRET_KEY", None)
+USE_RECAPTCHA = DRF_RECAPTCHA_SECRET_KEY is not None
+
+if not USE_RECAPTCHA:
+    DRF_RECAPTCHA_TESTING = True
+    DRF_RECAPTCHA_TESTING_PASS = True
 
 SITE_ID = 1
 
@@ -236,7 +237,7 @@ SIMPLE_JWT = {
     'AUTH_COOKIE_SECURE': bool(int(os.environ.get("AUTH_COOKIE_SECURE", default=1))),
     'AUTH_COOKIE_DOMAIN': os.environ.get("AUTH_COOKIE_DOMAIN"),
     'AUTH_COOKIE_PATH': '/',
-    'AUTH_COOKIE_SAMESITE': os.environ.get("AUTH_COOKIE_SAMESITE"),
+    'AUTH_COOKIE_SAMESITE': os.environ.get("AUTH_COOKIE_SAMESITE", None),
 }
 
 

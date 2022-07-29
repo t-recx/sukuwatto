@@ -8,7 +8,6 @@ from sqtrex.tests import CRUDTestCaseMixin, UserTestCaseMixin, AuthTestCaseMixin
 from users.models import CustomUser
 from social.message_service import MessageService
 from django.utils.timezone import now
-from development.models import Feature
 
 class PostTestCase(CRUDTestCaseMixin, APITestCase):
     def get_resource_model(self):
@@ -71,83 +70,6 @@ class CommentTestCase(CRUDTestCaseMixin, APITestCase):
 
     def assert_resource_not_updated(self):
         self.assertEqual(Comment.objects.first().text, 'initial')
-
-    def get_resource_data_feature(self, target_id):
-        content_type = ContentType.objects.get(model='feature')
-
-        return { 'text': 'initial', 
-            'comment_target_content_type': content_type.id,
-            'comment_target_object_id': target_id,
-            'target_feature': target_id }
-
-    def test_update_resource_with_target_feature_when_user_not_owner_should_return_forbidden(self):
-        self.authenticate(self.staff_user)
-
-        response = self.client.post('/api/features/', { 'title': 'initial', 'text': 'test feature' }, format='json')
-
-        feature_id = json.loads(response.content)['id']
-
-        resource_id = self.create_resource(self.user_intermediate, self.get_resource_data_feature(feature_id))
-        self.authenticate(self.user_advanced)
-
-        response = self.update_resource(resource_id, self.get_updated_resource_data(resource_id))
-
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assert_resource_not_updated()
-
-    def test_create_resource_when_target_feature_and_user_novice_should_allow(self):
-        self.authenticate(self.staff_user)
-
-        response = self.client.post('/api/features/', { 'title': 'initial', 'text': 'test feature' }, format='json')
-
-        feature_id = json.loads(response.content)['id']
-
-        self.authenticate(self.user_novice)
-
-        response = self.client.post(self.get_resource_endpoint(), self.get_resource_data_feature(feature_id), format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(self.get_resource_model().objects.count(), 1)
-
-    def test_create_resource_when_target_feature_and_user_staff_should_allow(self):
-        self.authenticate(self.staff_user)
-
-        response = self.client.post('/api/features/', { 'title': 'initial', 'text': 'test feature' }, format='json')
-
-        feature_id = json.loads(response.content)['id']
-
-        response = self.client.post(self.get_resource_endpoint(), self.get_resource_data_feature(feature_id), format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(self.get_resource_model().objects.count(), 1)
-
-    def test_create_resource_when_target_feature_and_user_intermediate_should_allow(self):
-        self.authenticate(self.staff_user)
-
-        response = self.client.post('/api/features/', { 'title': 'initial', 'text': 'test feature' }, format='json')
-
-        feature_id = json.loads(response.content)['id']
-
-        self.authenticate(self.user_intermediate)
-
-        response = self.client.post(self.get_resource_endpoint(), self.get_resource_data_feature(feature_id), format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(self.get_resource_model().objects.count(), 1)
-
-    def test_create_resource_when_target_feature_and_user_advanced_should_allow(self):
-        self.authenticate(self.staff_user)
-
-        response = self.client.post('/api/features/', { 'title': 'initial', 'text': 'test feature' }, format='json')
-
-        feature_id = json.loads(response.content)['id']
-
-        self.authenticate(self.user_advanced)
-
-        response = self.client.post(self.get_resource_endpoint(), self.get_resource_data_feature(feature_id), format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(self.get_resource_model().objects.count(), 1)
 
 class LikesTestCase(UserTestCaseMixin, AuthTestCaseMixin, APITestCase):
     def setUp(self):
