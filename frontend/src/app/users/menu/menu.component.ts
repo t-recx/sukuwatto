@@ -30,7 +30,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   isRouterLinkHome = false;
   isRouterLinkReports = false;
   routerSubscription: Subscription;
-  showSupportSection = false;
 
   userSubscription: Subscription;
   isStaff = false;
@@ -100,7 +99,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.showSupportSection = environment.showSupportSection;
   }
 
 }

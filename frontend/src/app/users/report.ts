@@ -21,7 +21,6 @@ export class Report {
     target_plan: number;
     target_exercise: number;
     target_post: number;
-    target_feature: number;
     target_user: number;
     target_comment: number;
 

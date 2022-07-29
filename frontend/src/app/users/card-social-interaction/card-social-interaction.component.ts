@@ -7,7 +7,6 @@ import { ContentTypesService } from '../content-types.service';
 import { CommentsService } from '../comments.service';
 import { Comment } from '../comment';
 import { User } from 'src/app/user';
-import { environment } from 'src/environments/environment';
 import { LoadingService } from '../loading.service';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,8 +33,6 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
   @Input() target_exercise: number;
   @Input() target_workout: number;
   @Input() target_user_bio_data: number;
-  @Input() target_feature: number;
-  @Input() target_release: number;
   @Input() useArrowUp = false;
 
   content_type_id: number;
@@ -83,11 +80,6 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     private errorService: ErrorService,
     private alertService: AlertService,
     ) {
-    const w: any = window;
-
-    if (environment.application && w && w.plugins && w.plugins.socialsharing) {
-      this.socialSharing = w.plugins.socialsharing;
-    }
   }
 
   ngOnInit() {
@@ -234,8 +226,6 @@ export class CardSocialInteractionComponent implements OnInit, OnChanges {
     comment.comment_target_object_id = this.id.toString();
     comment.target_plan = this.target_plan;
     comment.target_post = this.target_post;
-    comment.target_feature = this.target_feature;
-    comment.target_release = this.target_release;
     comment.target_workout = this.target_workout;
     comment.target_exercise = this.target_exercise;
     comment.target_user_bio_data = this.target_user_bio_data;

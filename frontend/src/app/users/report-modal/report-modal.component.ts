@@ -18,7 +18,6 @@ export class ReportModalComponent implements OnInit {
   @Input() target_post: number;
   @Input() target_exercise: number;
   @Input() target_workout: number;
-  @Input() target_feature: number;
   @Input() target_comment: number;
   @Input() target_user: number;
 
@@ -60,7 +59,6 @@ export class ReportModalComponent implements OnInit {
       target_exercise: this.target_exercise,
       target_workout: this.target_workout,
       target_post: this.target_post,
-      target_feature: this.target_feature,
       target_comment: this.target_comment,
       target_user: this.target_user,
     })).subscribe(x => {

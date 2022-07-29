@@ -10,8 +10,7 @@
 
         <ng-container [ngSwitch]=action.verb>
             <ng-template [ngSwitchCase]="'joined'">
-                <span translate *ngIf="environment.application">joined the app</span>
-                <span translate *ngIf="!environment.application">joined the website</span>
+                <span translate>joined the website</span>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'started following'">
@@ -43,19 +42,6 @@
                     <span>
                         <app-home-object-construct object_type='post' [username]='action.user.username'
                             [object_id]=action.action_object_post.id>
-                        </app-home-object-construct>
-                    </span>
-                </span>
-            </ng-template>
-
-            <ng-template [ngSwitchCase]="'requested'">
-                <span class="action-info">
-                    <span translate>
-                        requested a new
-                    </span>
-                    <span>
-                        <app-home-object-construct object_type='feature' [username]='action.user.username'
-                            [object_id]=action.action_object_feature.id>
                         </app-home-object-construct>
                     </span>
                 </span>
@@ -106,16 +92,6 @@
                         <span>
                             <app-home-object-construct object_type='plan' [username]=action.user.username
                                 [object_id]=action.action_object_plan.id>
-                            </app-home-object-construct>
-                        </span>
-                    </span>
-                    <span *ngIf="action.action_object_release">
-                        <span translate>
-                            created a
-                        </span>
-                        <span>
-                            <app-home-object-construct object_type='release' [username]=action.user.username
-                                [object_id]=action.action_object_release.id>
                             </app-home-object-construct>
                         </span>
                     </span>
@@ -178,28 +154,6 @@
                             </app-home-object-construct>
                         </span>
                     </span>
-
-                    <span *ngIf="action.target_feature">
-                        <span translate>
-                            liked a
-                        </span>
-                        <span>
-                            <app-home-object-construct object_type='feature' [username]=action.target_feature.user.username
-                                [object_id]=action.target_feature.id>
-                            </app-home-object-construct>
-                        </span>
-                    </span>
-
-                    <span *ngIf="action.target_release">
-                        <span translate>
-                            liked a
-                        </span>
-                        <span>
-                            <app-home-object-construct object_type='release' [username]=action.target_release.user.username
-                                [object_id]=action.target_release.id>
-                            </app-home-object-construct>
-                        </span>
-                    </span>
                 </span>
             </ng-template>
 
@@ -259,28 +213,6 @@
                             </app-home-object-construct>
                         </span>
                     </span>
-
-                    <span *ngIf="action.target_feature">
-                        <span translate>
-                            commented a
-                        </span>
-                        <span>
-                            <app-home-object-construct object_type='feature' [username]=action.target_feature.user.username
-                                [object_id]=action.target_feature.id>
-                            </app-home-object-construct>
-                        </span>
-                    </span>
-
-                    <span *ngIf="action.target_release">
-                        <span translate>
-                            commented a
-                        </span>
-                        <span>
-                            <app-home-object-construct object_type='release' [username]=action.target_release.user.username
-                                [object_id]=action.target_release.id>
-                            </app-home-object-construct>
-                        </span>
-                    </span>
                 </span>
             </ng-template>
 
@@ -290,13 +222,6 @@
                 <div class="card-container">
                     <app-post-detail-card [post]=action.action_object_post [showHeader]=false>
                     </app-post-detail-card>
-                </div>
-            </ng-template>
-
-            <ng-template [ngSwitchCase]="'requested'">
-                <div class="card-container">
-                    <app-feature-detail-card [feature]=action.action_object_feature [detailView]=false>
-                    </app-feature-detail-card>
                 </div>
             </ng-template>
 
@@ -327,11 +252,6 @@
                 <span *ngIf="action.action_object_plan">
                     <div class="card-container">
                         <app-plan-card [plan]=action.action_object_plan></app-plan-card>
-                    </div>
-                </span>
-                <span *ngIf="action.action_object_release">
-                    <div class="card-container">
-                        <app-release-card [release]=action.action_object_release></app-release-card>
                     </div>
                 </span>
             </ng-template>

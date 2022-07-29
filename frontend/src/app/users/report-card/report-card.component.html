@@ -55,11 +55,6 @@
                 exercise
             </a>
 
-            <a translate class="siimple-link" *ngIf="report.target_feature"
-                [routerLink]="['/users', username, 'feature', report.target_feature]">
-                feature
-            </a>
-
             <div *ngIf="report.target_comment">
                 <h6 class="siimple-h6" translate>Offending comment:</h6>
                 <p class="keep-original-formatting siimple-p">

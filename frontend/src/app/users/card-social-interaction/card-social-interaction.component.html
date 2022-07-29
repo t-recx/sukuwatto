@@ -24,7 +24,6 @@
     [target_post]="target_post"
     [target_exercise]="target_exercise"
     [target_workout]="target_workout"
-    [target_feature]="target_feature"
 ></app-report-modal>
 
 <div class="social-interaction-buttons">
@@ -46,7 +45,7 @@
     </span>
 
     <span role="button" class="report-button button-link no-select" (click)="toggleReportModal()" 
-        [title]="'Report' | translate" *ngIf="!target_user_bio_data && !target_release">
+        [title]="'Report' | translate" *ngIf="!target_user_bio_data">
         <fa-icon [icon]="faFlag" class="" aria-hidden="true"></fa-icon>
     </span>
 

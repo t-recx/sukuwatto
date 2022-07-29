@@ -13,8 +13,6 @@ import { PlansService } from './plans.service';
 import { ExercisesService } from './exercises.service';
 import { PostsService } from './posts.service';
 import { UserBioDataService } from './user-bio-data.service';
-import { ReleasesService } from './releases.service';
-import { FeaturesService } from './features.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +39,6 @@ export class StreamsService {
     private postsService: PostsService,
     private exercisesService: ExercisesService,
     private userBioDataService: UserBioDataService,
-    private releaseService: ReleasesService,
-    private featureService: FeaturesService,
   ) { }
 
   toggleLike(content_type_id: number|string, object_id: number|string): Observable<any> {
@@ -165,8 +161,6 @@ export class StreamsService {
         action.target_post = action.target_post ? this.postsService.getProperlyTypedPost(action.target_post): action.target_post;
         action.target_comment = action.target_comment ? this.commentsService.getProperlyTypedComment(action.target_comment): action.target_comment;
         action.target_user_bio_data = action.target_user_bio_data ? this.userBioDataService.getProperlyTypedUserBioData(action.target_user_bio_data): action.target_user_bio_data;
-        action.target_feature = action.target_feature ? this.featureService.getProperlyTypedFeature(action.target_feature): action.target_feature;
-        action.target_release = action.target_release ? this.releaseService.getProperlyTypedRelease(action.target_release): action.target_release;
 
         action.action_object_workout = action.action_object_workout ? this.workoutsService.getProperlyTypedWorkout(action.action_object_workout): action.action_object_workout;
         action.action_object_plan = action.action_object_plan ? this.plansService.getProperlyTypedPlan(action.action_object_plan): action.action_object_plan;
@@ -174,8 +168,6 @@ export class StreamsService {
         action.action_object_post = action.action_object_post ? this.postsService.getProperlyTypedPost(action.action_object_post): action.action_object_post;
         action.action_object_comment = action.action_object_comment ? this.commentsService.getProperlyTypedComment(action.action_object_comment): action.action_object_comment;
         action.action_object_user_bio_data = action.action_object_user_bio_data ? this.userBioDataService.getProperlyTypedUserBioData(action.action_object_user_bio_data): action.action_object_user_bio_data;
-        action.action_object_feature = action.action_object_feature ? this.featureService.getProperlyTypedFeature(action.action_object_feature): action.action_object_feature;
-        action.action_object_release = action.action_object_release ? this.releaseService.getProperlyTypedRelease(action.action_object_release): action.action_object_release;
       }
     }
 
