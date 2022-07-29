@@ -1,8 +1,8 @@
-version: '3.8'
+version: "3.8"
 
 services:
   wsgi:
-    build: 
+    build:
       context: ./backend/
       dockerfile: ../docker/django/Dockerfile
     command: gunicorn sqtrex.wsgi:application --log-file=- --bind 0.0.0.0:8000
@@ -11,32 +11,32 @@ services:
     volumes:
       - media_volume:/home/app/web/media
     env_file:
-      - ./.env.prod
+      - ./.env
     depends_on:
       - db
     restart: always
   asgi:
-    build: 
+    build:
       context: ./backend/
       dockerfile: ../docker/django/Dockerfile
     command: daphne --proxy-headers --port 8001 --bind 0.0.0.0 sqtrex.asgi:application
     expose:
       - 8001
     env_file:
-      - ./.env.prod
+      - ./.env
     depends_on:
       - db
       - redis
     restart: always
   huey:
-    build: 
+    build:
       context: ./backend/
       dockerfile: ../docker/django/Dockerfile
     volumes:
       - media_volume:/home/app/web/media
     command: python manage.py run_huey
     env_file:
-      - ./.env.prod
+      - ./.env
     depends_on:
       - redis
     restart: always
@@ -45,7 +45,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env.prod.db
+      - ./.env
     restart: always
   frontend:
     build:
@@ -53,40 +53,26 @@ services:
       dockerfile: ../docker/frontend/Dockerfile
     volumes:
       - frontend_data:/usr/src/app/www/frontend
-      - frontend-android_data:/usr/src/app/www/frontend-android
   nginx:
     build: ./docker/nginx
     volumes:
       - frontend_data:/usr/src/app/www/frontend
-      - frontend-android_data:/usr/src/app/www/frontend-android
       - media_volume:/home/app/web/media
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
     ports:
       - 80:80
-      - 443:443
     depends_on:
       - frontend
       - wsgi
       - asgi
-      - certbot
     restart: always
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-  certbot:
-    image: certbot/certbot
-    restart: unless-stopped
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
   redis:
     image: redis:6
-    expose: 
+    expose:
       - 6379
     restart: always
 
 volumes:
   postgres_data:
   frontend_data:
-  frontend-android_data:
   media_volume:
