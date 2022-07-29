@@ -102,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            <div class="siimple-grid-row">
+            <div class="siimple-grid-row" *ngIf="useRecaptcha">
                 <div class="siimple-grid-col siimple-grid-col--12">
                     <re-captcha
                         (resolved)="resolvedCaptcha($event)"

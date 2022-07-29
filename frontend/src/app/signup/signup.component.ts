@@ -11,6 +11,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { ErrorService } from '../error.service';
 import { AlertService } from '../alert/alert.service';
 import { UserRegistration } from '../users/user-registration';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -27,8 +28,9 @@ export class SignupComponent implements OnInit, OnDestroy {
   acceptedTerms: boolean = false;
   usernameError: string = null;
   emailError: string = null;
-  captchaSolved: boolean = false;
   captchaResponse: string = null;
+  useRecaptcha: boolean = environment.useRecaptcha;
+  captchaSolved: boolean = !this.useRecaptcha;
 
   faCircleNotch = faCircleNotch;
   userLoadedSubscription: Subscription;
@@ -130,7 +132,12 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.user.username = this.user.username.trim();
     this.user.email = this.user.email.trim();
 
-    this.user.recaptcha = this.captchaResponse;
+    if (this.useRecaptcha) {
+      this.user.recaptcha = this.captchaResponse;
+    }
+    else {
+      delete this.user.recaptcha;
+    }
 
     this.setupRedirectToAccount();
     this.userService.create(this.user)
@@ -147,7 +154,10 @@ export class SignupComponent implements OnInit, OnDestroy {
             this.alertService.error('Unable to sign up, try again later');
           }
 
-          grecaptcha.reset();
+          if (this.useRecaptcha) {
+            grecaptcha.reset();
+          }
+          this.signingUp = false;
         }))
       )
       .subscribe(user => {
